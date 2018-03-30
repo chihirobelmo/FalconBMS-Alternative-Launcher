@@ -1,0 +1,68 @@
+﻿<Controls:MetroWindow x:Class="FalconBMS_Alternative_Launcher_Cs.AxisAssignWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FalconBMS_Alternative_Launcher_Cs"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        mc:Ignorable="d" 
+        GlowBrush="Black" BorderThickness="0"
+        Title="Axis Assign" Height="236" Width="512" 
+        WindowStartupLocation="CenterScreen"
+        Loaded="AssignWindow_Loaded" Closed="AssignWindow_Closed" MouseDown="MetroWindow_MouseDown"
+        ResizeMode="NoResize" SizeToContent="Width" Topmost="True" 
+        AllowDrop="False" ShowTitleBar="False" IsWindowDraggable="False" WindowStyle="None" Background="#FFE1F1FF">
+    <Window.Resources>
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="#FF606060" />
+        </Style>
+        <Style TargetType="Controls:MetroProgressBar">
+            <Setter Property="Background" Value="#80F0F0F0" />
+            <Setter Property="Foreground" Value="#803878A8" />
+            <Setter Property="BorderBrush" Value="#FF606060" />
+            <Setter Property="BorderThickness" Value="1" />
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="Resources/BackgroundAxis.png" Stretch="UniformToFill">
+                <ImageBrush.RelativeTransform>
+                    <TransformGroup>
+                        <ScaleTransform CenterY="1" CenterX="1" ScaleX="2" ScaleY="2"/>
+                        <SkewTransform CenterY="1" CenterX="1"/>
+                        <RotateTransform CenterY="1" CenterX="1"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </ImageBrush.RelativeTransform>
+            </ImageBrush>
+        </Grid.Background>
+        <Controls:MetroProgressBar x:Name="AxisValueProgress" HorizontalAlignment="Center" Margin="124,60,124,0" VerticalAlignment="Top" Width="256" Height="10"/>
+        <Label x:Name="AxisName" Content="AxisName" HorizontalAlignment="Left" Margin="24,12,0,0" VerticalAlignment="Top" FontSize="16" FontStyle="Italic" FontWeight="Bold"/>
+        <Label x:Name="DirectionIncrease" Content="Direction" HorizontalAlignment="Left" Margin="381,52,0,0" VerticalAlignment="Top" Width="113" HorizontalContentAlignment="Left"/>
+        <Label x:Name="DirectionDecrease" Content="Direction" HorizontalAlignment="Left" Margin="10,52,0,0" VerticalAlignment="Top" Width="113" HorizontalContentAlignment="Right"/>
+        <Label x:Name="AssignedJoystick" HorizontalAlignment="Left" Margin="32,95,0,0" VerticalAlignment="Top" FontStyle="Italic" Height="28" Width="447"/>
+        <Border BorderBrush="#FF606060" BorderThickness="1" HorizontalAlignment="Center" Height="28" Margin="28,95,29,0" VerticalAlignment="Top" Width="447"/>
+
+        <Button x:Name="Retry" Content="Retry" HorizontalAlignment="Left" Margin="320,176,0,0" VerticalAlignment="Top" Width="75" Click="Retry_Click"/>
+        <Button x:Name="Save" Content="Save" HorizontalAlignment="Left" Margin="400,176,0,0" VerticalAlignment="Top" Width="75" Click="Save_Click"/>
+        <Button x:Name="SetAB" Content="Set AB" HorizontalAlignment="Left" Margin="320,144,0,0" VerticalAlignment="Top" Width="75" Click="SetAB_Click"/>
+        <Button x:Name="Idle" Content="Idle DETENT" HorizontalAlignment="Left" Margin="400,144,0,0" VerticalAlignment="Top" Width="75" Click="SetIDLE_Click"/>
+
+        <CheckBox x:Name="Invert" Content="INVERT" HorizontalAlignment="Left" Margin="28,148,0,0" VerticalAlignment="Top"/>
+        <Label Content="Saturation" HorizontalAlignment="Left" Margin="225,144,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="Saturation" HorizontalAlignment="Left" Margin="210,177,0,0" VerticalAlignment="Top" Width="100" SelectionChanged="Saturation_SelectionChanged">
+            <TextBlock Text=" None"/>
+            <TextBlock Text=" Small"/>
+            <TextBlock Text=" Medium"/>
+            <TextBlock Text=" Large"/>
+        </ComboBox>
+        <Label x:Name="Label_DeadZone" Content="DeadZone" HorizontalAlignment="Left" Margin="115,144,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="DeadZone" HorizontalAlignment="Left" Margin="99,177,0,0" VerticalAlignment="Top" Width="100" SelectionChanged="DeadZone_SelectionChanged">
+            <TextBlock Text=" None"/>
+            <TextBlock Text=" Small"/>
+            <TextBlock Text=" Medium"/>
+            <TextBlock Text=" Large"/>
+        </ComboBox>
+        <Label x:Name="check_ABIDLE" Content="AB" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="128,52,0,0" VerticalAlignment="Top" Foreground="#FF606060" FontSize="11" Width="256"/>
+    </Grid>
+</Controls:MetroWindow>

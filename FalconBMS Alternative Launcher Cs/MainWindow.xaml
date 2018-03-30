@@ -1,0 +1,446 @@
+﻿<Controls:MetroWindow x:Class="FalconBMS_Alternative_Launcher_Cs.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FalconBMS_Alternative_Launcher_Cs"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        mc:Ignorable="d"
+        Title="FalconBMS Alternative Launcher" Height="768" Width="1024" GlowBrush="#803878A8"
+        Loaded="Window_Loaded" Closed="MetroWindow_Closed" MouseDown="MetroWindow_MouseDown"
+        FontSize="12" WindowStartupLocation="CenterScreen" ShowTitleBar="False" WindowStyle="None" Background="#FFD4E1EE">
+    <Window.Resources>
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="#FF606060" />
+        </Style>
+        <Style TargetType="Controls:MetroProgressBar">
+            <Setter Property="Background" Value="#80F0F0F0" />
+            <Setter Property="Foreground" Value="#803878A8" />
+            <Setter Property="BorderBrush" Value="#FF606060" />
+            <Setter Property="BorderThickness" Value="1" />
+        </Style>
+        <Style TargetType="DataGridDetailsPresenter">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="DataGridRowHeader">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="DataGridCell">
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#80F0F0F0" />
+                    <Setter Property="Foreground" Value="#FFE0E0E0" />
+                    <Setter Property="BorderThickness" Value="0" />
+                </Trigger>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="Background" Value="#80F0F0F0" />
+                    <Setter Property="Foreground" Value="#FF00F8F8" />
+                    <Setter Property="BorderThickness" Value="0" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="MyDataGridStyle" TargetType="DataGridRow">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Visibility}" Value="Hidden">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Visibility}" Value="Blue">
+                    <Setter Property="Background" Value="#804080A8"/>
+                    <Setter Property="Foreground" Value="#FFE0E0E0"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Visibility}" Value="Green">
+                    <Setter Property="Background" Value="#00000000"/>
+                    <Setter Property="Foreground" Value="#FF00F800"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Visibility}" Value="White">
+                    <Setter Property="Background" Value="#00000000"/>
+                    <Setter Property="Foreground" Value="#FFE0E0E0"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="Resources/BackGround.png" Stretch="UniformToFill">
+                <ImageBrush.RelativeTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleX="1.25" ScaleY="1.25" CenterX="1"/>
+                        <SkewTransform CenterX="1"/>
+                        <RotateTransform CenterX="1"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </ImageBrush.RelativeTransform>
+            </ImageBrush>
+        </Grid.Background>
+        <TabControl x:Name="LargeTab" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="TabControl_SelectionChanged" Margin="0,64,0,0" Background="{x:Null}">
+            <TabItem Header="  Launcher">
+                <Grid>
+                    <Controls:ToggleSwitch x:Name="Misc_Platform" OnLabel="64bit" OffLabel="32bit" HorizontalAlignment="Left" Margin="160,30,0,0" VerticalAlignment="Top" Foreground="#FF606060"/>
+                    <Label Content="Platform :" HorizontalAlignment="Left" Margin="32,32,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="16" Foreground="#FF606060"/>
+                    <Label Content="Theater  :" HorizontalAlignment="Left" Margin="32,96,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="16" Foreground="#FF606060"/>
+                    <ComboBox x:Name="Dropdown_TheaterList" HorizontalAlignment="Left" Margin="160,100,0,0" VerticalAlignment="Top" Width="256" Background="{x:Null}" BorderBrush="Black" SelectionChanged="Dropdown_TheaterList_SelectionChanged"/>
+                    <Label Content="Command Line :" HorizontalAlignment="Left" Margin="32,160,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="16" Foreground="#FF606060"/>
+                    <Label Content="Launchers :" HorizontalAlignment="Left" Margin="32,331,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="16" Foreground="#FF606060"/>
+
+                    <ToggleButton x:Name="CMD_ACMI" Content="ACMI" HorizontalAlignment="Left" Margin="204,164,0,0" VerticalAlignment="Top" Width="64"/>
+                    <ToggleButton x:Name="CMD_WINDOW" Content="WINDOW" HorizontalAlignment="Left" Margin="286,164,0,0" VerticalAlignment="Top" Width="64"/>
+                    <ToggleButton x:Name="CMD_NOMOVIE" Content="NOMOVIE" HorizontalAlignment="Left" Margin="368,164,0,0" VerticalAlignment="Top" Width="64"/>
+                    <ToggleButton x:Name="CMD_EF" Content="EYEFLY" HorizontalAlignment="Left" Margin="204,209,0,0" VerticalAlignment="Top" Width="64"/>
+                    <Button x:Name="CMD_BW" Content="BANDWIDTH : 1024" HorizontalAlignment="Left" Margin="286,209,0,0" VerticalAlignment="Top" Width="146" Click="CMD_BW_Click"/>
+
+
+                    <Border BorderThickness="1" HorizontalAlignment="Left" Height="128" Margin="32,370,0,0" VerticalAlignment="Top" Width="688">
+                        <Border.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#7F151719" Offset="0"/>
+                                <GradientStop Color="#3F151718" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Grid HorizontalAlignment="Stretch" Height="auto" Margin="0,0,0,0" VerticalAlignment="Stretch" Width="auto">
+                            <Button x:Name="Launch_BMS" BorderThickness="10" BorderBrush="Black" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="32,0,0,56" Height="48" Width="48" Click="Launch_Click" MouseEnter="MouseEnterLauncher" MouseLeave="MouseLeaveLauncher">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Image Source="Resources/BMS.png"/>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                            <Button x:Name="Launch_CFG" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="128,0,0,56" Height="48" Width="48" Click="Launch_Click" MouseEnter="MouseEnterLauncher" MouseLeave="MouseLeaveLauncher">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Image Source="Resources/CFG.png"/>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                            <Button x:Name="Launch_DISX" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="224,0,0,56" Height="48" Width="48" Click="Launch_Click" MouseEnter="MouseEnterLauncher" MouseLeave="MouseLeaveLauncher">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Image Source="Resources/DISX.png"/>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                            <Button x:Name="Launch_IVCC" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="320,0,0,56" Height="48" Width="48" Click="Launch_Click" MouseEnter="MouseEnterLauncher" MouseLeave="MouseLeaveLauncher">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Image Source="Resources/IVCC.png"/>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                            <Button x:Name="Launch_IVCS" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="416,0,0,56" Height="48" Width="48" Click="Launch_Click" MouseEnter="MouseEnterLauncher" MouseLeave="MouseLeaveLauncher">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Image Source="Resources/IVCS.png"/>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                            <Button x:Name="Launch_AVC" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="512,0,0,56" Height="48" Width="48" Click="Launch_Click" MouseEnter="MouseEnterLauncher" MouseLeave="MouseLeaveLauncher">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Image Source="Resources/AVC.png"/>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                            <Button x:Name="Launch_EDIT" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="608,0,0,56" Height="48" Width="48" Click="Launch_Click" MouseEnter="MouseEnterLauncher" MouseLeave="MouseLeaveLauncher">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Image Source="Resources/EDIT.png"/>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                            <Label x:Name="Label_BMS" Content="Launch" HorizontalAlignment="Left" Margin="31,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
+                            <Label x:Name="Label_CFG" Content="Config" HorizontalAlignment="Left" Margin="128,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
+                            <Label x:Name="Label_DISX" Content="Cockpit Display&#10;   Extraction" HorizontalAlignment="Left" Margin="201,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
+                            <Label x:Name="Label_IVCC" Content="IVC Client" HorizontalAlignment="Left" Margin="312,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
+                            <Label x:Name="Label_IVCS" Content="IVC Server" HorizontalAlignment="Left" Margin="407,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
+                            <Label x:Name="Label_AVC" Content="   Avionics&#10;Configurator" HorizontalAlignment="Left" Margin="496,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
+                            <Label x:Name="Label_EDIT" Content="Editor" HorizontalAlignment="Left" Margin="610,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
+                        </Grid>
+                    </Border>
+                    <Label Content="Documentation and Manuals :" HorizontalAlignment="Left" Margin="32,268,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="16" Foreground="#FF606060"/>
+                    <Button x:Name="OpenDocs" Content="Open Docs Folder" Style="{StaticResource AccentedSquareButtonStyle}" HorizontalAlignment="Left" Margin="301,271,0,0" VerticalAlignment="Top" Width="115" Click="OpenDocs_Click"/>
+                    <CheckBox x:Name="ApplicationOverride" Content="Launch without any setup override." HorizontalAlignment="Left" Margin="140,339,0,0" VerticalAlignment="Top" Background="#FFECFF71" Foreground="#FF606060"/>
+
+                    <Border BorderThickness="1" HorizontalAlignment="Left" Height="128" Margin="32,503,0,0" VerticalAlignment="Top" Width="688">
+                        <Border.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#7F151719" Offset="0"/>
+                                <GradientStop Color="#3F151718" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Grid HorizontalAlignment="Stretch" Height="auto" Margin="0,0,0,0" VerticalAlignment="Stretch" Width="auto">
+                            <Button x:Name="Launch_WDP" BorderThickness="10" BorderBrush="Black" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="32,0,0,56" Height="48" Width="48" Click="Launch_Third" MouseEnter="MouseEnterLauncher" MouseLeave="MouseLeaveLauncher">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Image Source="Resources/WDP.png"/>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+
+                            <Button x:Name="Launch_MC" BorderThickness="10" BorderBrush="Black" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="128,0,0,56" Height="48" Width="48" Click="Launch_Third" MouseEnter="MouseEnterLauncher" MouseLeave="MouseLeaveLauncher">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Image Source="Resources/MC.png"/>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                            <Button x:Name="Launch_WC" BorderThickness="10" BorderBrush="Black" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="224,0,0,56" Height="48" Width="48" Click="Launch_Third" MouseEnter="MouseEnterLauncher" MouseLeave="MouseLeaveLauncher">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Image Source="Resources/WC.png"/>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                            <Button x:Name="Launch_F4WX" BorderThickness="10" BorderBrush="Black" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="320,0,0,56" Height="48" Width="48" Click="Launch_Third" MouseEnter="MouseEnterLauncher" MouseLeave="MouseLeaveLauncher">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Image Source="Resources/F4WX.png"/>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                            <Button x:Name="Launch_F4AWACS" BorderThickness="10" BorderBrush="Black" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="416,0,0,56" Height="48" Width="48" Click="Launch_Third" MouseEnter="MouseEnterLauncher" MouseLeave="MouseLeaveLauncher">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Image Source="Resources/F4AWACS.png"/>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                            <Label x:Name="Label_WDP" Content="Weapon Delivery&#10;        Planner" HorizontalAlignment="Left" Margin="4,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
+                            <Label x:Name="Label_MC" Content="    Mission&#xA;Commander" HorizontalAlignment="Left" Margin="114,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
+                            <Label x:Name="Label_WC" Content="   Weather&#xA;Commander" HorizontalAlignment="Left" Margin="210,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
+                            <Label x:Name="Label_F4WX" Content="       F4Wx Real&#xA;Weather Converter" HorizontalAlignment="Left" Margin="288,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
+                            <Label x:Name="Label_F4AWACS" Content="F4AWACS" HorizontalAlignment="Left" Margin="408,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </TabItem>
+            <TabItem Header=" AxisAssign">
+                <Grid>
+                    <TabControl HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Stretch" Width="auto" Margin="10,0" Background="{x:Null}">
+                        <TabItem Header=" FlightControl" Controls:ControlsHelper.HeaderFontSize="24">
+                            <Grid>
+                                <!-- Roll Axis -->
+                                <Grid HorizontalAlignment="Left" Height="180" VerticalAlignment="Top" Width="480">
+                                    <Label Content="SSC (Side Stick Controller)" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold" FontStyle="Oblique" Height="41" Width="349"/>
+
+                                    <Label x:Name="Label_Roll" Content="Roll : " HorizontalAlignment="Left" Margin="32,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Controls:MetroProgressBar x:Name="Axis_Roll" HorizontalAlignment="Left" Margin="32,85,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
+                                    <Button x:Name="Roll" Content="Assign" HorizontalAlignment="Left" Margin="320,77,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27" RenderTransformOrigin="0.216,1.519"/>
+
+                                    <Label x:Name="Label_Pitch" Content="Pitch :" HorizontalAlignment="Left" Margin="32,100,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Controls:MetroProgressBar x:Name="Axis_Pitch" HorizontalAlignment="Left" Margin="32,134,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
+                                    <Button x:Name="Pitch" Content="Assign" HorizontalAlignment="Left" Margin="320,126,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
+                                </Grid>
+                                <Grid HorizontalAlignment="Left" Height="180" Margin="0,180,0,0" VerticalAlignment="Top" Width="480">
+                                    <Label Content="TQS (Throttle Quadrant System)" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold" FontStyle="Oblique" Height="46" Width="458"/>
+
+                                    <Label x:Name="Label_Throttle" Content="Throttle :" HorizontalAlignment="Left" Margin="32,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Controls:MetroProgressBar x:Name="Axis_Throttle" HorizontalAlignment="Left" Margin="32,85,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
+                                    <Button x:Name="Throttle" Content="Assign" HorizontalAlignment="Left" Margin="320,77,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
+
+                                    <Label x:Name="Label_Throttle_Right" Content="Throttle Right :" HorizontalAlignment="Left" Margin="32,100,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Controls:MetroProgressBar x:Name="Axis_Throttle_Right" HorizontalAlignment="Left" Margin="32,134,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
+                                    <Button x:Name="Throttle_Right" Content="Assign" HorizontalAlignment="Left" Margin="320,126,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
+
+                                    <Label x:Name="AB_Throttle" Content="AB" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="32,77,0,0" VerticalAlignment="Top" Foreground="#FF606060" FontSize="11" Width="256"/>
+                                    <Label x:Name="AB_Throttle_Right" Content="AB" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="32,126,0,0" VerticalAlignment="Top" Foreground="#FF606060" FontSize="11" Width="256"/>
+                                </Grid>
+                                <Grid HorizontalAlignment="Left" Height="228" Margin="0,360,0,0" VerticalAlignment="Top" Width="480">
+                                    <Label Content="Rudder" HorizontalAlignment="Left" Margin="10,10,-18,177" FontSize="16" FontWeight="Bold" FontStyle="Oblique" Width="422"/>
+
+                                    <Label x:Name="Label_Yaw" Content="Yaw :" HorizontalAlignment="Left" Margin="32,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Controls:MetroProgressBar x:Name="Axis_Yaw" HorizontalAlignment="Left" Margin="32,85,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
+                                    <Button x:Name="Yaw" Content="Assign" HorizontalAlignment="Left" Margin="320,77,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
+
+                                    <Label x:Name="Label_Toe_Brake" Content="Toe Brake :" HorizontalAlignment="Left" Margin="32,100,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Controls:MetroProgressBar x:Name="Axis_Toe_Brake" HorizontalAlignment="Left" Margin="32,134,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
+                                    <Button x:Name="Toe_Brake" Content="Assign" HorizontalAlignment="Left" Margin="320,126,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
+
+                                    <Label x:Name="Label_Toe_Brake_Right" Content="Toe Brake Right :" HorizontalAlignment="Left" Margin="32,149,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Controls:MetroProgressBar x:Name="Axis_Toe_Brake_Right" HorizontalAlignment="Left" Margin="32,183,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
+                                    <Button x:Name="Toe_Brake_Right" Content="Assign" HorizontalAlignment="Left" Margin="320,175,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
+                                </Grid>
+                                <Grid HorizontalAlignment="Left" Height="228" Margin="480,0,0,0" VerticalAlignment="Top" Width="480">
+                                    <Label Content="TRIM Panel" HorizontalAlignment="Left" Margin="10,10,-18,177" FontSize="16" FontWeight="Bold" FontStyle="Oblique" Width="422"/>
+
+                                    <Label x:Name="Label_Trim_Roll" Content="Trim Roll :" HorizontalAlignment="Left" Margin="32,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Controls:MetroProgressBar x:Name="Axis_Trim_Roll" HorizontalAlignment="Left" Margin="32,85,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
+                                    <Button x:Name="Trim_Roll" Content="Assign" HorizontalAlignment="Left" Margin="320,77,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
+
+                                    <Label x:Name="Label_Trim_Pitch" Content="Trim Pitch :" HorizontalAlignment="Left" Margin="32,100,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Controls:MetroProgressBar x:Name="Axis_Trim_Pitch" HorizontalAlignment="Left" Margin="32,134,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
+                                    <Button x:Name="Trim_Pitch" Content="Assign" HorizontalAlignment="Left" Margin="320,126,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
+
+                                    <Label x:Name="Label_Trim_Yaw" Content="Trim Yaw :" HorizontalAlignment="Left" Margin="32,149,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Controls:MetroProgressBar x:Name="Axis_Trim_Yaw" HorizontalAlignment="Left" Margin="32,183,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
+                                    <Button x:Name="Trim_Yaw" Content="Assign" HorizontalAlignment="Left" Margin="320,175,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
+                                </Grid>
+                                <Grid HorizontalAlignment="Left" Height="349" Margin="480,233,0,0" VerticalAlignment="Top" Width="480">
+                                    <TextBlock HorizontalAlignment="Left" Margin="32,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="#FF606060">
+                                        <Bold>TIPS:</Bold><LineBreak /> 
+                                        <LineBreak /> 
+                                        "Throttle" or "Toe Brake" work as<LineBreak /> 
+                                        Both Throttle control or both Toe Brakes control<LineBreak />
+                                        As long as no axis are applied to "Throttle Right" or "Toe Brake Right"<LineBreak />
+                                        <LineBreak />
+                                        If any axis has been applied to "Throttle Right" or "Toe Brake Right"<LineBreak />
+                                        These two axis work as "Throttle Left" or "Toe Brake Left"
+                                    </TextBlock>
+                                    <Label Content="MISC:" HorizontalAlignment="Left" Margin="26,173,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                                    <CheckBox x:Name="Misc_RollLinkedNWS" Content="Use Roll Axis for Steering while on the Ground enabling NWS." HorizontalAlignment="Left" Margin="32,210,0,0" VerticalAlignment="Top" Foreground="#FF606060"/>
+                                    <Label Content="*Assigning any device to Yaw Axis disables this option." FontSize="11" Foreground="#FF606060" HorizontalAlignment="Left" Margin="51,228,0,0" VerticalAlignment="Top"/>
+                                </Grid>
+                            </Grid>
+                        </TabItem>
+                        <TabItem Header="  Avionics &amp; Radios" Controls:ControlsHelper.HeaderFontSize="24">
+                            <Grid>
+                                <Grid HorizontalAlignment="Left" Height="278" VerticalAlignment="Top" Width="480" Grid.ColumnSpan="2">
+                                    <Label Content="TQS (Throttle Quadrant System)" HorizontalAlignment="Left" Margin="10,10,-18,177" FontSize="16" FontWeight="Bold" FontStyle="Oblique" Width="422"/>
+
+                                    <Label x:Name="Label_Radar_Antenna_Elevation" Content="Radar Antenna Elevation :" HorizontalAlignment="Left" Margin="32,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Controls:MetroProgressBar x:Name="Axis_Radar_Antenna_Elevation" HorizontalAlignment="Left" Margin="32,85,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
+                                    <Button x:Name="Radar_Antenna_Elevation" Content="Assign" HorizontalAlignment="Left" Margin="320,77,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
+
+                                    <Label x:Name="Label_Cursor_X" Content="Curso X :" HorizontalAlignment="Left" Margin="32,100,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Controls:MetroProgressBar x:Name="Axis_Cursor_X" HorizontalAlignment="Left" Margin="32,134,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
+                                    <Button x:Name="Cursor_X" Content="Assign" HorizontalAlignment="Left" Margin="320,126,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
+
+                                    <Label x:Name="Label_Cursor_Y" Content="Cursor Y :" HorizontalAlignment="Left" Margin="32,149,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Controls:MetroProgressBar x:Name="Axis_Cursor_Y" HorizontalAlignment="Left" Margin="32,183,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
+                                    <Button x:Name="Cursor_Y" Content="Assign" HorizontalAlignment="Left" Margin="320,175,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
+
+                                    <Label x:Name="Label_Range_Knob" Content="Range Knob :" HorizontalAlignment="Left" Margin="32,198,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Controls:MetroProgressBar x:Name="Axis_Range_Knob" HorizontalAlignment="Left" Margin="32,232,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
+                                    <Button x:Name="Range_Knob" Content="Assign" HorizontalAlignment="Left" Margin="320,224,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
+                                </Grid>
+                                <Grid HorizontalAlignment="Left" Height="278" VerticalAlignment="Top" Width="480" Margin="0,278,0,0" Grid.ColumnSpan="2">
+                                    <Label Content="ICP (Integrated Control Panel)" HorizontalAlignment="Left" Margin="10,10,-18,177" FontSize="16" FontWeight="Bold" FontStyle="Oblique" Width="422"/>
+
+                                    <Label x:Name="Label_HUD_Brightness" Content="HUD Brightness :" HorizontalAlignment="Left" Margin="32,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Controls:MetroProgressBar x:Name="Axis_HUD_Brightness" HorizontalAlignment="Left" Margin="32,85,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
+                                    <Button x:Name="HUD_Brightness" Content="Assign" HorizontalAlignment="Left" Margin="320,77,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
+
+                                    <Label x:Name="Label_Reticle_Depression" Content="Reticle Depression :" HorizontalAlignment="Left" Margin="32,100,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Controls:MetroProgressBar x:Name="Axis_Reticle_Depression" HorizontalAlignment="Left" Margin="32,134,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
+                                    <Button x:Name="Reticle_Depression" Content="Assign" HorizontalAlignment="Left" Margin="320,126,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
+
+                                    <Label x:Name="Label_HMS_Brightness" Content="HMS Brightness :" HorizontalAlignment="Left" Margin="32,149,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Controls:MetroProgressBar x:Name="Axis_HMS_Brightness" HorizontalAlignment="Left" Margin="32,183,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
+                                    <Button x:Name="HMS_Brightness" Content="Assign" HorizontalAlignment="Left" Margin="320,175,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
+
+                                    <Label x:Name="Label_FLIR_Brightness" Content="FLIR Brightness :" HorizontalAlignment="Left" Margin="32,198,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Controls:MetroProgressBar x:Name="Axis_FLIR_Brightness" HorizontalAlignment="Left" Margin="32,232,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
+                                    <Button x:Name="FLIR_Brightness" Content="Assign" HorizontalAlignment="Left" Margin="320,224,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
+                                </Grid>
+                                <Grid HorizontalAlignment="Left" Height="400" VerticalAlignment="Top" Width="480" Margin="480,0,0,0">
+                                    <Label Content="AUDIO Panel" HorizontalAlignment="Left" Margin="10,10,-18,177" FontSize="16" FontWeight="Bold" FontStyle="Oblique" Width="422"/>
+
+                                    <Label x:Name="Label_Intercom" Content="Intercom :" HorizontalAlignment="Left" Margin="32,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Controls:MetroProgressBar x:Name="Axis_Intercom" HorizontalAlignment="Left" Margin="32,85,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
+                                    <Button x:Name="Intercom" Content="Assign" HorizontalAlignment="Left" Margin="320,77,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
+
+                                    <Label x:Name="Label_COMM_Channel_1" Content="COMM Channel 1 :" HorizontalAlignment="Left" Margin="32,100,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Controls:MetroProgressBar x:Name="Axis_COMM_Channel_1" HorizontalAlignment="Left" Margin="32,134,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
+                                    <Button x:Name="COMM_Channel_1" Content="Assign" HorizontalAlignment="Left" Margin="320,126,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
+
+                                    <Label x:Name="Label_COMM_Channel_2" Content="COMM Channel 2 :" HorizontalAlignment="Left" Margin="32,149,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Controls:MetroProgressBar x:Name="Axis_COMM_Channel_2" HorizontalAlignment="Left" Margin="32,183,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
+                                    <Button x:Name="COMM_Channel_2" Content="Assign" HorizontalAlignment="Left" Margin="320,175,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
+
+                                    <Label x:Name="Label_MSL_Volume" Content="MSL Volume :" HorizontalAlignment="Left" Margin="32,198,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Controls:MetroProgressBar x:Name="Axis_MSL_Volume" HorizontalAlignment="Left" Margin="32,232,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
+                                    <Button x:Name="MSL_Volume" Content="Assign" HorizontalAlignment="Left" Margin="320,224,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
+
+                                    <Label x:Name="Label_Threat_Volume" Content="Threat Volume :" HorizontalAlignment="Left" Margin="32,247,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Controls:MetroProgressBar x:Name="Axis_Threat_Volume" HorizontalAlignment="Left" Margin="32,281,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
+                                    <Button x:Name="Threat_Volume" Content="Assign" HorizontalAlignment="Left" Margin="320,273,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
+
+                                    <Label x:Name="Label_AI_vs_IVC" Content="AI vs IVC :" HorizontalAlignment="Left" Margin="32,296,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Controls:MetroProgressBar x:Name="Axis_AI_vs_IVC" HorizontalAlignment="Left" Margin="32,330,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
+                                    <Button x:Name="AI_vs_IVC" Content="Assign" HorizontalAlignment="Left" Margin="320,322,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
+                                </Grid>
+                                <Grid HorizontalAlignment="Left" Height="207" VerticalAlignment="Top" Width="480" Margin="480,376,0,0">
+                                    <Label Content="VIEWS" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold" FontStyle="Oblique" Height="41" Width="349"/>
+
+                                    <Label x:Name="Label_FOV" Content="FOV : " HorizontalAlignment="Left" Margin="32,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Controls:MetroProgressBar x:Name="Axis_FOV" HorizontalAlignment="Left" Margin="32,85,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
+                                    <Button x:Name="FOV" Content="Assign" HorizontalAlignment="Left" Margin="320,77,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27" RenderTransformOrigin="0.216,1.519"/>
+
+                                    <Label x:Name="Label_Camera_Distance" Content="Camera Distance :" HorizontalAlignment="Left" Margin="32,100,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Controls:MetroProgressBar x:Name="Axis_Camera_Distance" HorizontalAlignment="Left" Margin="32,134,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
+                                    <Button x:Name="Camera_Distance" Content="Assign" HorizontalAlignment="Left" Margin="320,126,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
+                                    <Controls:ToggleSwitch x:Name="Misc_TrackIRZ" OnLabel="TrackIR Zoom Fov" OffLabel="TrackIR Head Forward" HorizontalContentAlignment="Right" FontSize="11" HorizontalAlignment="Left" Margin="47,10,0,0" VerticalAlignment="Top" Foreground="#FF606060" Width="347"/>
+                                    <CheckBox x:Name="Misc_ExMouseLook" Content="External MouseLook" HorizontalAlignment="Left" Margin="32,167,0,0" VerticalAlignment="Top" Foreground="#FF606060"/>
+                                </Grid>
+                            </Grid>
+                        </TabItem>
+                    </TabControl>
+
+                </Grid>
+            </TabItem>
+            <TabItem Header=" KeyMapping">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="Category :" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="26" Width="64" HorizontalContentAlignment="Right"/>
+                    <ComboBox x:Name="Category" HorizontalAlignment="Left" Margin="87,12,0,0" VerticalAlignment="Top" Width="256" BorderBrush="Black" Background="#80F0F0F0" Foreground="#FF606060" SelectionChanged="Category_SelectionChanged" Height="26">
+                        <TextBlock Text=" TOP" FontWeight="Bold"/>
+                        <TextBlock Text=" UI &amp; 3RD PARTY SOFTWARE" Foreground="#FF00C001"/>
+                        <TextBlock Text=" LEFT CONSOLE"/>
+                        <TextBlock Text=" HOTAS: THROTTLE" Foreground="#FF40C0F0"/>
+                        <TextBlock Text=" LEFT AUX CONSOLE"/>
+                        <TextBlock Text=" CENTER CONSOLE"/>
+                        <TextBlock Text=" MFD: LEFT" Foreground="#FF40C0F0"/>
+                        <TextBlock Text=" MFD: RIGHT" Foreground="#FF40C0F0"/>
+                        <TextBlock Text=" RIGHT CONSOLE"/>
+                        <TextBlock Text=" HOTAS: STICK" Foreground="#FF40C0F0"/>
+                        <TextBlock Text=" MISCELLANEOUS"/>
+                        <TextBlock Text=" VIEWS"/>
+                        <TextBlock Text=" RADIO COMMS"/>
+                    </ComboBox>
+                    <DataGrid x:Name="KeyMappingGrid" HorizontalAlignment="Stretch" Height="auto" Margin="10,94,10,64" 
+                              EnableColumnVirtualization="True" EnableRowVirtualization="True" VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+                              RowStyle="{StaticResource MyDataGridStyle}"
+                              AutoGenerateColumns="True" 
+                              AutoGeneratingColumn="DataGrid_AutoGeneratingColumn"
+                              VerticalAlignment="Stretch" Width="auto" 
+                              ItemsSource="{Binding}"
+                              IsReadOnly="True" 
+                              CanUserSortColumns="False" 
+                              CanUserReorderColumns="False" 
+                              FrozenColumnCount="1"
+                              SelectionMode="Single"
+                              GridLinesVisibility="Vertical"
+                              VerticalGridLinesBrush="LightGray" Background="#7F202020"
+                              MouseDoubleClick="DataGrid_MouseButtonDoubleClick"
+                              MouseRightButtonDown="KeyMappingGrid_MouseRightButtonDown"
+                              DataGridCell.GotFocus="DataGrid_GotFocus">
+                        <!-- Below column is needed to refresh datagrid because of the following BUG: 
+                        https://connect.microsoft.com/VisualStudio/feedback/details/778456/click-on-datagridrowheader-raise-an-argumentoutofrange-exception-when-there-is-no-columns -->
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Visibility="Hidden" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Label Content="ASSIGNMENT " VerticalContentAlignment="Top" HorizontalAlignment="Left" Margin="10,0,0,32" VerticalAlignment="Bottom" RenderTransformOrigin="-4.878,1.143" FontWeight="Bold" Height="26" Width="89"/>
+                    <Label x:Name="Label_AssgnStatus" Content="KEYSEARCH MODE" VerticalContentAlignment="Top" HorizontalAlignment="Left" Margin="114,0,0,32" VerticalAlignment="Bottom" RenderTransformOrigin="-4.878,1.143" FontStyle="Italic" Height="26" Width="886"/>
+
+                    <ToggleButton x:Name="Select_PinkyShift" Content="KEYCOMBO / PINKYSHIFT" HorizontalAlignment="Right" Margin="0,12,253,0" VerticalAlignment="Top" Width="160" Height="27"/>
+                    <ToggleButton x:Name="Select_DX_Release" Content="RELEASE" HorizontalAlignment="Right" Margin="0,12,164,0" VerticalAlignment="Top" Width="64" Height="27"/>
+                    <Button x:Name="Select_Invoke" Content="Invoke Both" HorizontalAlignment="Right" Margin="0,12,10,0" VerticalAlignment="Top" Width="129" Click="Select_Invoke_Click" Height="27"/>
+                    <CheckBox x:Name="Misc_OverrideSelfCancel" Content="Use 3-Way ON-OFF-ON Switch for TQS: DOGFIGHT" FontSize="11" HorizontalAlignment="Left" Margin="10,0,0,9" VerticalAlignment="Bottom" Foreground="#FF606060" Height="18" Width="272"/>
+                    <CheckBox x:Name="Misc_MouseCursorAnchor" Content="Anchor the Mouse Cursor to Clickable Switches or Dials." HorizontalAlignment="Left" Margin="300,0,0,9" VerticalAlignment="Bottom" Foreground="#FF606060" Height="18" Width="318"/>
+
+                    <Label Content="*Click a row and press a joy key to Assign. Double Click a cell to Unassign" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Margin="0,69,10,0" VerticalAlignment="Top" Width="596" Height="24"/>
+                    <TextBox x:Name="SearchBox" HorizontalAlignment="Left" Height="23" Margin="87,43,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="384" Background="#80F0F0F0" Foreground="#FF606060" />
+                    <Button Content="Search" HorizontalAlignment="Left" Margin="476,43,0,0" VerticalAlignment="Top" Width="75" Click="Search_Click"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <Image HorizontalAlignment="Left" Height="54" Margin="10,10,0,0" VerticalAlignment="Top" Width="522" Source="Resources/Logo.png" Stretch="None"/>
+        <Label Content="FalconBMS Alternative Launcher v1.04" HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontWeight="Bold" Margin="0,0,10,0"/>
+
+    </Grid>
+</Controls:MetroWindow>
