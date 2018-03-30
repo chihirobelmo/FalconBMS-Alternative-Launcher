@@ -402,9 +402,9 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     break;
                 case "Launch_CFG":
                     process = System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Config.exe");
+                    process.Exited += new EventHandler(window_Normal);
+                    process.EnableRaisingEvents = true;
                     this.WindowState = WindowState.Minimized;
-                    process.WaitForExit();
-                    this.WindowState = WindowState.Normal;
                     break;
                 case "Launch_DISX":
                     System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Bin/x86/Display Extraction.exe");
