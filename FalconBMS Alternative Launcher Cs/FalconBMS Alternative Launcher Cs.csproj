@@ -148,9 +148,6 @@
     <Resource Include="Resources\CFG.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\BackGround.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\FalconBMSLogo.png" />
   </ItemGroup>
   <ItemGroup>
@@ -173,6 +170,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\F4AWACS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\BackGround.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

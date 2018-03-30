@@ -65,7 +65,7 @@
     </Window.Resources>
     <Grid>
         <Grid.Background>
-            <ImageBrush ImageSource="Resources/BackGround.png" Stretch="UniformToFill">
+            <ImageBrush ImageSource="Resources/BackGround.jpg" Stretch="UniformToFill">
                 <ImageBrush.RelativeTransform>
                     <TransformGroup>
                         <ScaleTransform ScaleX="1.25" ScaleY="1.25" CenterX="1"/>
