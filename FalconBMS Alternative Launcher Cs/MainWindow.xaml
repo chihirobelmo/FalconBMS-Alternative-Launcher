@@ -68,7 +68,7 @@
             <ImageBrush ImageSource="Resources/BackGround.jpg" Stretch="UniformToFill">
                 <ImageBrush.RelativeTransform>
                     <TransformGroup>
-                        <ScaleTransform ScaleX="1.25" ScaleY="1.25" CenterX="1"/>
+                        <ScaleTransform CenterX="1"/>
                         <SkewTransform CenterX="1"/>
                         <RotateTransform CenterX="1"/>
                         <TranslateTransform/>
@@ -84,7 +84,7 @@
                     <Label Content="Theater  :" HorizontalAlignment="Left" Margin="32,96,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="16" Foreground="#FF606060"/>
                     <ComboBox x:Name="Dropdown_TheaterList" HorizontalAlignment="Left" Margin="160,100,0,0" VerticalAlignment="Top" Width="256" Background="{x:Null}" BorderBrush="Black" SelectionChanged="Dropdown_TheaterList_SelectionChanged"/>
 
-                    <Button x:Name="Launch_TheaterConfig" BorderThickness="10" BorderBrush="Black" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="437,100,0,0" Height="24" Width="24" Click="Launch_Third" MouseEnter="MouseEnterLauncher" MouseLeave="MouseLeaveLauncher" Background="White">
+                    <Button x:Name="Launch_TheaterConfig" Visibility="Hidden" BorderThickness="10" BorderBrush="Black" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="437,100,0,0" Height="24" Width="24" Click="Launch_TheaterConfig_Click">
                         <Button.Template>
                             <ControlTemplate>
                                 <Image Name="Wrench_Theater" Source="Resources/WRENCH.png"/>
@@ -217,11 +217,27 @@
                                     </ControlTemplate>
                                 </Button.Template>
                             </Button>
+                            <Button Visibility="Visible" x:Name="Launch_TIR" BorderThickness="10" BorderBrush="Black" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="512,0,0,56" Height="48" Width="48" Click="Launch_Third" MouseEnter="MouseEnterLauncher" MouseLeave="MouseLeaveLauncher">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Image Source="Resources/TIR.png"/>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                            <Button Visibility="Visible" x:Name="Launch_VA" BorderThickness="10" BorderBrush="Black" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="608,0,0,56" Height="48" Width="48" Click="Launch_Third" MouseEnter="MouseEnterLauncher" MouseLeave="MouseLeaveLauncher">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Image Source="Resources/VA.png"/>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
                             <Label x:Name="Label_WDP" Content="Weapon Delivery&#10;        Planner" HorizontalAlignment="Left" Margin="4,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
                             <Label x:Name="Label_MC" Content="    Mission&#xA;Commander" HorizontalAlignment="Left" Margin="114,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
                             <Label x:Name="Label_WC" Content="   Weather&#xA;Commander" HorizontalAlignment="Left" Margin="210,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
                             <Label x:Name="Label_F4WX" Content="       F4Wx Real&#xA;Weather Converter" HorizontalAlignment="Left" Margin="288,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
                             <Label x:Name="Label_F4AWACS" Content="F4AWACS" HorizontalAlignment="Left" Margin="408,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
+                            <Label x:Name="Label_TIR" Visibility="Visible" Content="TrackIR 5" HorizontalAlignment="Left" Margin="506,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
+                            <Label x:Name="Label_VA" Visibility="Visible" Content="Voice Attack" HorizontalAlignment="Left" Margin="594,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
                         </Grid>
                     </Border>
                 </Grid>
@@ -230,27 +246,31 @@
                 <Grid>
                     <TabControl HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Stretch" Width="auto" Margin="10,0" Background="{x:Null}">
                         <TabItem Header=" FlightControl" Controls:ControlsHelper.HeaderFontSize="24">
-                            <Grid>
+                            <Grid Margin="0,0,0,24" Background="#33808080">
                                 <!-- Roll Axis -->
                                 <Grid HorizontalAlignment="Left" Height="180" VerticalAlignment="Top" Width="480">
                                     <Label Content="SSC (Side Stick Controller)" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold" FontStyle="Oblique" Height="41" Width="349"/>
 
-                                    <Label x:Name="Label_Roll" Content="Roll : " HorizontalAlignment="Left" Margin="32,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Label Content="Roll : " HorizontalAlignment="Left" Margin="32,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="60" FontWeight="Bold"/>
+                                    <Label x:Name="Label_Roll" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="188,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100"/>
                                     <Controls:MetroProgressBar x:Name="Axis_Roll" HorizontalAlignment="Left" Margin="32,85,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
                                     <Button x:Name="Roll" Content="Assign" HorizontalAlignment="Left" Margin="320,77,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27" RenderTransformOrigin="0.216,1.519"/>
 
-                                    <Label x:Name="Label_Pitch" Content="Pitch :" HorizontalAlignment="Left" Margin="32,100,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Label Content="Pitch :" HorizontalAlignment="Left" Margin="32,100,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="60" FontWeight="Bold"/>
+                                    <Label x:Name="Label_Pitch" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="188,100,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100"/>
                                     <Controls:MetroProgressBar x:Name="Axis_Pitch" HorizontalAlignment="Left" Margin="32,134,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
                                     <Button x:Name="Pitch" Content="Assign" HorizontalAlignment="Left" Margin="320,126,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
                                 </Grid>
                                 <Grid HorizontalAlignment="Left" Height="180" Margin="0,180,0,0" VerticalAlignment="Top" Width="480">
                                     <Label Content="TQS (Throttle Quadrant System)" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold" FontStyle="Oblique" Height="46" Width="458"/>
 
-                                    <Label x:Name="Label_Throttle" Content="Throttle :" HorizontalAlignment="Left" Margin="32,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Label Content="Throttle :" HorizontalAlignment="Left" Margin="32,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="80" FontWeight="Bold"/>
+                                    <Label x:Name="Label_Throttle" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="188,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100"/>
                                     <Controls:MetroProgressBar x:Name="Axis_Throttle" HorizontalAlignment="Left" Margin="32,85,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
                                     <Button x:Name="Throttle" Content="Assign" HorizontalAlignment="Left" Margin="320,77,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
 
-                                    <Label x:Name="Label_Throttle_Right" Content="Throttle Right :" HorizontalAlignment="Left" Margin="32,100,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Label Content="Throttle Right :" HorizontalAlignment="Left" Margin="32,100,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="128" FontWeight="Bold"/>
+                                    <Label x:Name="Label_Throttle_Right" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="188,100,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100"/>
                                     <Controls:MetroProgressBar x:Name="Axis_Throttle_Right" HorizontalAlignment="Left" Margin="32,134,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
                                     <Button x:Name="Throttle_Right" Content="Assign" HorizontalAlignment="Left" Margin="320,126,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
 
@@ -260,30 +280,36 @@
                                 <Grid HorizontalAlignment="Left" Height="228" Margin="0,360,0,0" VerticalAlignment="Top" Width="480">
                                     <Label Content="Rudder" HorizontalAlignment="Left" Margin="10,10,-18,177" FontSize="16" FontWeight="Bold" FontStyle="Oblique" Width="422"/>
 
-                                    <Label x:Name="Label_Yaw" Content="Yaw :" HorizontalAlignment="Left" Margin="32,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Label Content="Yaw :" HorizontalAlignment="Left" Margin="32,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="60" FontWeight="Bold"/>
+                                    <Label x:Name="Label_Yaw" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="188,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100"/>
                                     <Controls:MetroProgressBar x:Name="Axis_Yaw" HorizontalAlignment="Left" Margin="32,85,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
                                     <Button x:Name="Yaw" Content="Assign" HorizontalAlignment="Left" Margin="320,77,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
 
-                                    <Label x:Name="Label_Toe_Brake" Content="Toe Brake :" HorizontalAlignment="Left" Margin="32,100,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Label Content="Toe Brake :" HorizontalAlignment="Left" Margin="32,100,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100" FontWeight="Bold"/>
+                                    <Label x:Name="Label_Toe_Brake" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="188,100,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100"/>
                                     <Controls:MetroProgressBar x:Name="Axis_Toe_Brake" HorizontalAlignment="Left" Margin="32,134,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
                                     <Button x:Name="Toe_Brake" Content="Assign" HorizontalAlignment="Left" Margin="320,126,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
 
-                                    <Label x:Name="Label_Toe_Brake_Right" Content="Toe Brake Right :" HorizontalAlignment="Left" Margin="32,149,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Label Content="Toe Brake Right :" HorizontalAlignment="Left" Margin="32,149,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="132" FontWeight="Bold"/>
+                                    <Label x:Name="Label_Toe_Brake_Right" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="188,149,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100"/>
                                     <Controls:MetroProgressBar x:Name="Axis_Toe_Brake_Right" HorizontalAlignment="Left" Margin="32,183,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
                                     <Button x:Name="Toe_Brake_Right" Content="Assign" HorizontalAlignment="Left" Margin="320,175,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
                                 </Grid>
                                 <Grid HorizontalAlignment="Left" Height="228" Margin="480,0,0,0" VerticalAlignment="Top" Width="480">
                                     <Label Content="TRIM Panel" HorizontalAlignment="Left" Margin="10,10,-18,177" FontSize="16" FontWeight="Bold" FontStyle="Oblique" Width="422"/>
 
-                                    <Label x:Name="Label_Trim_Roll" Content="Trim Roll :" HorizontalAlignment="Left" Margin="32,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Label Content="Trim Roll :" HorizontalAlignment="Left" Margin="32,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100" FontWeight="Bold"/>
+                                    <Label x:Name="Label_Trim_Roll" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="188,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100"/>
                                     <Controls:MetroProgressBar x:Name="Axis_Trim_Roll" HorizontalAlignment="Left" Margin="32,85,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
                                     <Button x:Name="Trim_Roll" Content="Assign" HorizontalAlignment="Left" Margin="320,77,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
 
-                                    <Label x:Name="Label_Trim_Pitch" Content="Trim Pitch :" HorizontalAlignment="Left" Margin="32,100,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Label Content="Trim Pitch :" HorizontalAlignment="Left" Margin="32,100,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100" FontWeight="Bold"/>
+                                    <Label x:Name="Label_Trim_Pitch" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="188,100,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100"/>
                                     <Controls:MetroProgressBar x:Name="Axis_Trim_Pitch" HorizontalAlignment="Left" Margin="32,134,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
                                     <Button x:Name="Trim_Pitch" Content="Assign" HorizontalAlignment="Left" Margin="320,126,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
 
-                                    <Label x:Name="Label_Trim_Yaw" Content="Trim Yaw :" HorizontalAlignment="Left" Margin="32,149,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Label Content="Trim Yaw :" HorizontalAlignment="Left" Margin="32,149,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100" FontWeight="Bold"/>
+                                    <Label x:Name="Label_Trim_Yaw" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="188,149,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100"/>
                                     <Controls:MetroProgressBar x:Name="Axis_Trim_Yaw" HorizontalAlignment="Left" Margin="32,183,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
                                     <Button x:Name="Trim_Yaw" Content="Assign" HorizontalAlignment="Left" Margin="320,175,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
                                 </Grid>
@@ -305,80 +331,96 @@
                             </Grid>
                         </TabItem>
                         <TabItem Header="  Avionics &amp; Radios" Controls:ControlsHelper.HeaderFontSize="24">
-                            <Grid>
+                            <Grid Background="#33808080" Margin="0,0,0,24">
                                 <Grid HorizontalAlignment="Left" Height="278" VerticalAlignment="Top" Width="480" Grid.ColumnSpan="2">
                                     <Label Content="TQS (Throttle Quadrant System)" HorizontalAlignment="Left" Margin="10,10,-18,177" FontSize="16" FontWeight="Bold" FontStyle="Oblique" Width="422"/>
 
-                                    <Label x:Name="Label_Radar_Antenna_Elevation" Content="Radar Antenna Elevation :" HorizontalAlignment="Left" Margin="32,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Label Content="Antenna Elev :" HorizontalAlignment="Left" Margin="32,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="128" FontWeight="Bold"/>
+                                    <Label x:Name="Label_Radar_Antenna_Elevation" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="188,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100"/>
                                     <Controls:MetroProgressBar x:Name="Axis_Radar_Antenna_Elevation" HorizontalAlignment="Left" Margin="32,85,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
                                     <Button x:Name="Radar_Antenna_Elevation" Content="Assign" HorizontalAlignment="Left" Margin="320,77,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
 
-                                    <Label x:Name="Label_Cursor_X" Content="Curso X :" HorizontalAlignment="Left" Margin="32,100,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Label Content="Cursor X :" HorizontalAlignment="Left" Margin="32,100,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="128" FontWeight="Bold"/>
+                                    <Label x:Name="Label_Cursor_X" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="188,100,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100"/>
                                     <Controls:MetroProgressBar x:Name="Axis_Cursor_X" HorizontalAlignment="Left" Margin="32,134,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
                                     <Button x:Name="Cursor_X" Content="Assign" HorizontalAlignment="Left" Margin="320,126,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
 
-                                    <Label x:Name="Label_Cursor_Y" Content="Cursor Y :" HorizontalAlignment="Left" Margin="32,149,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Label Content="Cursor Y :" HorizontalAlignment="Left" Margin="32,149,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="128" FontWeight="Bold"/>
+                                    <Label x:Name="Label_Cursor_Y" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="188,149,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100"/>
                                     <Controls:MetroProgressBar x:Name="Axis_Cursor_Y" HorizontalAlignment="Left" Margin="32,183,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
                                     <Button x:Name="Cursor_Y" Content="Assign" HorizontalAlignment="Left" Margin="320,175,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
 
-                                    <Label x:Name="Label_Range_Knob" Content="Range Knob :" HorizontalAlignment="Left" Margin="32,198,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Label Content="Range Knob :" HorizontalAlignment="Left" Margin="32,198,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="128" FontWeight="Bold"/>
+                                    <Label x:Name="Label_Range_Knob" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="188,198,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100"/>
                                     <Controls:MetroProgressBar x:Name="Axis_Range_Knob" HorizontalAlignment="Left" Margin="32,232,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
                                     <Button x:Name="Range_Knob" Content="Assign" HorizontalAlignment="Left" Margin="320,224,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
                                 </Grid>
                                 <Grid HorizontalAlignment="Left" Height="278" VerticalAlignment="Top" Width="480" Margin="0,278,0,0" Grid.ColumnSpan="2">
                                     <Label Content="ICP (Integrated Control Panel)" HorizontalAlignment="Left" Margin="10,10,-18,177" FontSize="16" FontWeight="Bold" FontStyle="Oblique" Width="422"/>
 
-                                    <Label x:Name="Label_HUD_Brightness" Content="HUD Brightness :" HorizontalAlignment="Left" Margin="32,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Label Content="HUD Bright :" HorizontalAlignment="Left" Margin="32,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="128" FontWeight="Bold"/>
+                                    <Label x:Name="Label_HUD_Brightness" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="188,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100"/>
                                     <Controls:MetroProgressBar x:Name="Axis_HUD_Brightness" HorizontalAlignment="Left" Margin="32,85,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
                                     <Button x:Name="HUD_Brightness" Content="Assign" HorizontalAlignment="Left" Margin="320,77,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
 
-                                    <Label x:Name="Label_Reticle_Depression" Content="Reticle Depression :" HorizontalAlignment="Left" Margin="32,100,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Label Content="Reticle Depr :" HorizontalAlignment="Left" Margin="32,100,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="128" FontWeight="Bold"/>
+                                    <Label x:Name="Label_Reticle_Depression" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="188,100,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100"/>
                                     <Controls:MetroProgressBar x:Name="Axis_Reticle_Depression" HorizontalAlignment="Left" Margin="32,134,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
                                     <Button x:Name="Reticle_Depression" Content="Assign" HorizontalAlignment="Left" Margin="320,126,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
 
-                                    <Label x:Name="Label_HMS_Brightness" Content="HMS Brightness :" HorizontalAlignment="Left" Margin="32,149,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Label Content="HMS Bright :" HorizontalAlignment="Left" Margin="32,149,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="128" FontWeight="Bold"/>
+                                    <Label x:Name="Label_HMS_Brightness" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="188,149,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100"/>
                                     <Controls:MetroProgressBar x:Name="Axis_HMS_Brightness" HorizontalAlignment="Left" Margin="32,183,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
                                     <Button x:Name="HMS_Brightness" Content="Assign" HorizontalAlignment="Left" Margin="320,175,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
 
-                                    <Label x:Name="Label_FLIR_Brightness" Content="FLIR Brightness :" HorizontalAlignment="Left" Margin="32,198,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Label Content="FLIR Bright :" HorizontalAlignment="Left" Margin="32,198,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="128" FontWeight="Bold"/>
+                                    <Label x:Name="Label_FLIR_Brightness" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="188,198,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100"/>
                                     <Controls:MetroProgressBar x:Name="Axis_FLIR_Brightness" HorizontalAlignment="Left" Margin="32,232,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
                                     <Button x:Name="FLIR_Brightness" Content="Assign" HorizontalAlignment="Left" Margin="320,224,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
                                 </Grid>
                                 <Grid HorizontalAlignment="Left" Height="400" VerticalAlignment="Top" Width="480" Margin="480,0,0,0">
                                     <Label Content="AUDIO Panel" HorizontalAlignment="Left" Margin="10,10,-18,177" FontSize="16" FontWeight="Bold" FontStyle="Oblique" Width="422"/>
 
-                                    <Label x:Name="Label_Intercom" Content="Intercom :" HorizontalAlignment="Left" Margin="32,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Label Content="Intercom :" HorizontalAlignment="Left" Margin="32,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="128" FontWeight="Bold"/>
+                                    <Label x:Name="Label_Intercom" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="188,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100"/>
                                     <Controls:MetroProgressBar x:Name="Axis_Intercom" HorizontalAlignment="Left" Margin="32,85,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
                                     <Button x:Name="Intercom" Content="Assign" HorizontalAlignment="Left" Margin="320,77,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
 
-                                    <Label x:Name="Label_COMM_Channel_1" Content="COMM Channel 1 :" HorizontalAlignment="Left" Margin="32,100,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Label Content="COMM Ch 1 :" HorizontalAlignment="Left" Margin="32,100,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="128" FontWeight="Bold"/>
+                                    <Label x:Name="Label_COMM_Channel_1" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="188,100,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100"/>
                                     <Controls:MetroProgressBar x:Name="Axis_COMM_Channel_1" HorizontalAlignment="Left" Margin="32,134,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
                                     <Button x:Name="COMM_Channel_1" Content="Assign" HorizontalAlignment="Left" Margin="320,126,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
 
-                                    <Label x:Name="Label_COMM_Channel_2" Content="COMM Channel 2 :" HorizontalAlignment="Left" Margin="32,149,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Label Content="COMM Ch 2 :" HorizontalAlignment="Left" Margin="32,149,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="128" FontWeight="Bold"/>
+                                    <Label x:Name="Label_COMM_Channel_2" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="188,149,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100"/>
                                     <Controls:MetroProgressBar x:Name="Axis_COMM_Channel_2" HorizontalAlignment="Left" Margin="32,183,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
                                     <Button x:Name="COMM_Channel_2" Content="Assign" HorizontalAlignment="Left" Margin="320,175,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
 
-                                    <Label x:Name="Label_MSL_Volume" Content="MSL Volume :" HorizontalAlignment="Left" Margin="32,198,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Label Content="MSL Vol :" HorizontalAlignment="Left" Margin="32,198,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="128" FontWeight="Bold"/>
+                                    <Label x:Name="Label_MSL_Volume" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="188,198,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100"/>
                                     <Controls:MetroProgressBar x:Name="Axis_MSL_Volume" HorizontalAlignment="Left" Margin="32,232,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
                                     <Button x:Name="MSL_Volume" Content="Assign" HorizontalAlignment="Left" Margin="320,224,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
 
-                                    <Label x:Name="Label_Threat_Volume" Content="Threat Volume :" HorizontalAlignment="Left" Margin="32,247,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Label Content="Threat Vol :" HorizontalAlignment="Left" Margin="32,247,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="128" FontWeight="Bold"/>
+                                    <Label x:Name="Label_Threat_Volume" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="188,247,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100"/>
                                     <Controls:MetroProgressBar x:Name="Axis_Threat_Volume" HorizontalAlignment="Left" Margin="32,281,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
                                     <Button x:Name="Threat_Volume" Content="Assign" HorizontalAlignment="Left" Margin="320,273,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
 
-                                    <Label x:Name="Label_AI_vs_IVC" Content="AI vs IVC :" HorizontalAlignment="Left" Margin="32,296,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Label Content="AI vs IVC :" HorizontalAlignment="Left" Margin="32,296,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="128" FontWeight="Bold"/>
+                                    <Label x:Name="Label_AI_vs_IVC" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="188,296,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100"/>
                                     <Controls:MetroProgressBar x:Name="Axis_AI_vs_IVC" HorizontalAlignment="Left" Margin="32,330,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
                                     <Button x:Name="AI_vs_IVC" Content="Assign" HorizontalAlignment="Left" Margin="320,322,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
                                 </Grid>
                                 <Grid HorizontalAlignment="Left" Height="207" VerticalAlignment="Top" Width="480" Margin="480,376,0,0">
                                     <Label Content="VIEWS" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold" FontStyle="Oblique" Height="41" Width="349"/>
 
-                                    <Label x:Name="Label_FOV" Content="FOV : " HorizontalAlignment="Left" Margin="32,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Label Content="FOV : " HorizontalAlignment="Left" Margin="32,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="128" FontWeight="Bold"/>
+                                    <Label x:Name="Label_FOV" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="188,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100"/>
                                     <Controls:MetroProgressBar x:Name="Axis_FOV" HorizontalAlignment="Left" Margin="32,85,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
                                     <Button x:Name="FOV" Content="Assign" HorizontalAlignment="Left" Margin="320,77,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27" RenderTransformOrigin="0.216,1.519"/>
 
-                                    <Label x:Name="Label_Camera_Distance" Content="Camera Distance :" HorizontalAlignment="Left" Margin="32,100,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="256"/>
+                                    <Label Content="Distance :" HorizontalAlignment="Left" Margin="32,100,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="128" FontWeight="Bold"/>
+                                    <Label x:Name="Label_Camera_Distance" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="188,100,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100"/>
                                     <Controls:MetroProgressBar x:Name="Axis_Camera_Distance" HorizontalAlignment="Left" Margin="32,134,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
                                     <Button x:Name="Camera_Distance" Content="Assign" HorizontalAlignment="Left" Margin="320,126,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
                                     <Controls:ToggleSwitch x:Name="Misc_TrackIRZ" OnLabel="TrackIR Zoom Fov" OffLabel="TrackIR Head Forward" HorizontalContentAlignment="Right" FontSize="11" HorizontalAlignment="Left" Margin="47,10,0,0" VerticalAlignment="Top" Foreground="#FF606060" Width="347"/>

@@ -175,8 +175,16 @@
     <Resource Include="Resources\BackGround.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\WRENCH.png" />
     <Resource Include="Resources\WRENCH_ON.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\WRENCH.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\TIR.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\VA.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -156,7 +156,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     continue;
                 tblabel = this.FindName("Label_" + nme) as Label;
                 tbprogressbar = this.FindName("Axis_" + nme) as ProgressBar;
-                
+
                 switch (nme)
                 {
                     case "Throttle":
@@ -195,7 +195,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 if (((InGameAxAssgn)inGameAxis[nme]).GetDeviceNumber() == -2)
                 {
                     tbprogressbar.Value = (MAXIN / 2 + (wheelValue * 1024 / 120)) * invertNum;
-                    tblabel.Content = nme.Replace("_", " ") + " : " + "MouseWheel";
+                    tblabel.Content = "Wheel";
                     continue;
                 }
 
@@ -206,10 +206,66 @@ namespace FalconBMS_Alternative_Launcher_Cs
                         ((InGameAxAssgn)inGameAxis[nme]).GetSaturation()
                     );
                 tbprogressbar.Value = output * invertNum;
-                tblabel.Content = 
+                /* tblabel.Content = 
                     nme.Replace("_", " ") + " : " + 
                     axisNum2Name[((InGameAxAssgn)inGameAxis[nme]).GetPhysicalNumber()] + " | " + 
-                    joyStick[((InGameAxAssgn)inGameAxis[nme]).GetDeviceNumber()].DeviceInformation.InstanceName;
+                    joyStick[((InGameAxAssgn)inGameAxis[nme]).GetDeviceNumber()].DeviceInformation.InstanceName; */
+
+                string joyActualName = joyStick[((InGameAxAssgn)inGameAxis[nme]).GetDeviceNumber()].DeviceInformation.InstanceName;
+                string joyName = "JOY  " + ((InGameAxAssgn)inGameAxis[nme]).GetDeviceNumber();
+
+                if (joyActualName.Contains("Thrustmaster HOTAS Cougar"))
+                    joyName = "HOTAS";
+                if (joyActualName.Contains("Thrustmaster Combined - HOTAS Warthog"))
+                    joyName = "TMWHC";
+                if (joyActualName.Contains("Joystick - HOTAS Warthog"))
+                    joyName = "TMWHJ";
+                if (joyActualName.Contains("Throttle - HOTAS Warthog"))
+                    joyName = "TMWHT";
+                if (joyActualName.ToLower().Contains("t.16000m"))
+                    joyName = "T16KM";
+                if (joyActualName.ToLower().Contains("t.flight hotas x"))
+                    joyName = "TMTHX";
+                if (joyActualName.ToLower().Contains("t - rudder"))
+                    joyName = "TTFRP";
+                if (joyActualName.ToLower().Contains("fssb"))
+                    joyName = "FSSBR";
+                if (joyActualName.ToLower().Contains("tusba"))
+                    joyName = "TUSBA";
+                if (joyActualName.ToLower().Contains("rusba"))
+                    joyName = "RUSBA";
+                if (joyActualName.ToLower().Contains("fusba"))
+                    joyName = "FUSBA";
+                if (joyActualName.ToLower().Contains("crosswind"))
+                    joyName = "MFGCW";
+                if (joyActualName.ToLower().Contains("x36"))
+                    joyName = "STX36";
+                if (joyActualName.ToLower().Contains("x45"))
+                    joyName = "STX45";
+                if (joyActualName.ToLower().Contains("x52"))
+                    joyName = "STX52";
+                if (joyActualName.ToLower().Contains("x52 pro"))
+                    joyName = "SX52P";
+                if (joyActualName.ToLower().Contains("x55"))
+                    joyName = "STX55";
+                if (joyActualName.ToLower().Contains("x56"))
+                    joyName = "STX56";
+                if (joyActualName.ToLower().Contains("x65"))
+                    joyName = "SX65F";
+                if (joyActualName.ToLower().Contains("ch fighter"))
+                    joyName = "CHPFS";
+                if (joyActualName.ToLower().Contains("ch combat"))
+                    joyName = "CHPCS";
+                if (joyActualName.ToLower().Contains("ch ") && joyActualName.ToLower().Contains("throttle"))
+                    joyName = "CHPPT";
+                if (joyActualName.ToLower().Contains("ch ") && joyActualName.ToLower().Contains("pedals"))
+                    joyName = "CHPPP";
+
+                tblabel.Content = joyName + " : " + axisNum2Name[((InGameAxAssgn)inGameAxis[nme]).GetPhysicalNumber()];
+                tblabel.Content = ((string)tblabel.Content).Replace("Axis ", "  ");
+                tblabel.Content = ((string)tblabel.Content).Replace("Rotation ", "R");
+                tblabel.Content = ((string)tblabel.Content).Replace("Slider 0", "S1");
+                tblabel.Content = ((string)tblabel.Content).Replace("Slider 1", "S2");
 
                 if (nme != "Throttle" & nme != "Throttle_Right")
                     continue;
@@ -382,6 +438,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 ProgressBar tbprogressbar = this.FindName("Axis_" + nme) as ProgressBar;
 
                 tblabel.Content = nme.Replace("_", " ") + " :";
+                tblabel.Content = "";
 
                 tbprogressbar.Value = 0;
                 tbprogressbar.Minimum = 0;
