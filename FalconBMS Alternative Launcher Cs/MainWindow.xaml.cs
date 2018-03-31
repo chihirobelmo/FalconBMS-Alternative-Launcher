@@ -253,6 +253,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 this.CMD_WINDOW.IsChecked = Properties.Settings.Default.CMD_WINDOW;
                 this.CMD_NOMOVIE.IsChecked = Properties.Settings.Default.CMD_NOMOVIE;
                 this.CMD_EF.IsChecked = Properties.Settings.Default.CMD_EF;
+                this.CMD_MONO.IsChecked = Properties.Settings.Default.CMD_MONO;
                 this.bandWidthDefault = Properties.Settings.Default.CMD_BW;
                 this.ApplicationOverride.IsChecked = Properties.Settings.Default.NoOverride;
                 this.Misc_RollLinkedNWS.IsChecked = Properties.Settings.Default.Misc_RLNWS;
@@ -264,7 +265,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 // Button Status Default
                 Select_DX_Release.IsChecked = true;
                 Select_PinkyShift.IsChecked = true;
-                CMD_BW.Content = "BANDWIDTH : " + bandWidthDefault.ToString();
+                CMD_BW.Content = "BW : " + bandWidthDefault.ToString();
                 AB_Throttle.Visibility = Visibility.Hidden;
                 AB_Throttle_Right.Visibility = Visibility.Hidden;
 
@@ -287,6 +288,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             Properties.Settings.Default.CMD_WINDOW = (bool)this.CMD_WINDOW.IsChecked;
             Properties.Settings.Default.CMD_NOMOVIE = (bool)this.CMD_NOMOVIE.IsChecked;
             Properties.Settings.Default.CMD_EF = (bool)this.CMD_EF.IsChecked;
+            Properties.Settings.Default.CMD_MONO = (bool)this.CMD_MONO.IsChecked;
             Properties.Settings.Default.CMD_BW = this.bandWidthDefault;
             Properties.Settings.Default.NoOverride = (bool)this.ApplicationOverride.IsChecked;
             Properties.Settings.Default.Misc_RLNWS = (bool)this.Misc_RollLinkedNWS.IsChecked;
@@ -344,7 +346,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             bandWidthDefault *= 2;
             if (bandWidthDefault > 10000)
                 bandWidthDefault = 512;
-            CMD_BW.Content = "BANDWIDTH : " + bandWidthDefault.ToString();
+            CMD_BW.Content = "BW : " + bandWidthDefault.ToString();
         }
 
         private void OpenDocs_Click(object sender, RoutedEventArgs e)
@@ -367,6 +369,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
                         strCmdText += "-nomovie ";
                     if (CMD_EF.IsChecked == false)
                         strCmdText += "-ef ";
+                    if (CMD_MONO.IsChecked == false)
+                        strCmdText += "-mono ";
                     strCmdText += "-bw " + bandWidthDefault;
 
                     if (this.ApplicationOverride.IsChecked == false)
@@ -567,6 +571,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
             if (nme.Contains("Launch_"))
             {
+                if (nme.Contains("Launch_TheaterConfig"))
+                    return;
                 System.Windows.Controls.Button tbButton = this.FindName(nme) as System.Windows.Controls.Button;
                 if (tbButton == null)
                     return;
@@ -587,6 +593,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
             if (nme.Contains("Launch_"))
             {
+                if (nme.Contains("Launch_TheaterConfig"))
+                    return;
                 System.Windows.Controls.Button tbButton = this.FindName(nme) as System.Windows.Controls.Button;
                 if (tbButton == null)
                     return;

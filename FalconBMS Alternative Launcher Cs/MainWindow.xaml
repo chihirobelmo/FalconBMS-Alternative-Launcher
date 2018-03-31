@@ -83,6 +83,15 @@
                     <Label Content="Platform :" HorizontalAlignment="Left" Margin="32,32,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="16" Foreground="#FF606060"/>
                     <Label Content="Theater  :" HorizontalAlignment="Left" Margin="32,96,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="16" Foreground="#FF606060"/>
                     <ComboBox x:Name="Dropdown_TheaterList" HorizontalAlignment="Left" Margin="160,100,0,0" VerticalAlignment="Top" Width="256" Background="{x:Null}" BorderBrush="Black" SelectionChanged="Dropdown_TheaterList_SelectionChanged"/>
+
+                    <Button x:Name="Launch_TheaterConfig" BorderThickness="10" BorderBrush="Black" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="437,100,0,0" Height="24" Width="24" Click="Launch_Third" MouseEnter="MouseEnterLauncher" MouseLeave="MouseLeaveLauncher" Background="White">
+                        <Button.Template>
+                            <ControlTemplate>
+                                <Image Name="Wrench_Theater" Source="Resources/WRENCH.png"/>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+
                     <Label Content="Command Line :" HorizontalAlignment="Left" Margin="32,160,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="16" Foreground="#FF606060"/>
                     <Label Content="Launchers :" HorizontalAlignment="Left" Margin="32,331,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="16" Foreground="#FF606060"/>
 
@@ -90,7 +99,8 @@
                     <ToggleButton x:Name="CMD_WINDOW" Content="WINDOW" HorizontalAlignment="Left" Margin="286,164,0,0" VerticalAlignment="Top" Width="64"/>
                     <ToggleButton x:Name="CMD_NOMOVIE" Content="NOMOVIE" HorizontalAlignment="Left" Margin="368,164,0,0" VerticalAlignment="Top" Width="64"/>
                     <ToggleButton x:Name="CMD_EF" Content="EYEFLY" HorizontalAlignment="Left" Margin="204,209,0,0" VerticalAlignment="Top" Width="64"/>
-                    <Button x:Name="CMD_BW" Content="BANDWIDTH : 1024" HorizontalAlignment="Left" Margin="286,209,0,0" VerticalAlignment="Top" Width="146" Click="CMD_BW_Click"/>
+                    <ToggleButton x:Name="CMD_MONO" Content="MONO" HorizontalAlignment="Left" Margin="286,209,0,0" VerticalAlignment="Top" Width="64"/>
+                    <Button x:Name="CMD_BW" Content="BW : 1024" HorizontalAlignment="Left" Margin="368,209,0,0" VerticalAlignment="Top" Width="64" Click="CMD_BW_Click"/>
 
 
                     <Border BorderThickness="1" HorizontalAlignment="Left" Height="128" Margin="32,370,0,0" VerticalAlignment="Top" Width="688">
@@ -440,7 +450,7 @@
             </TabItem>
         </TabControl>
         <Image HorizontalAlignment="Left" Height="54" Margin="10,10,0,0" VerticalAlignment="Top" Width="522" Source="Resources/Logo.png" Stretch="None"/>
-        <Label Content="FalconBMS Alternative Launcher v1.04" HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontWeight="Bold" Margin="0,0,10,0"/>
+        <Label Content="FalconBMS Alternative Launcher v1.05" HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontWeight="Bold" Margin="0,0,10,0"/>
 
     </Grid>
 </Controls:MetroWindow>
