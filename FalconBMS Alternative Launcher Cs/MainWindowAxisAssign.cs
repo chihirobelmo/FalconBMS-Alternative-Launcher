@@ -195,7 +195,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 if (((InGameAxAssgn)inGameAxis[nme]).GetDeviceNumber() == -2)
                 {
                     tbprogressbar.Value = (MAXIN / 2 + (wheelValue * 1024 / 120)) * invertNum;
-                    tblabel.Content = "Wheel";
+                    tblabel.Content = "MOUSE : WH";
                     continue;
                 }
 
