@@ -141,19 +141,19 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 public int[] SoundID { get { return this.soundID; } set { this.soundID = value; } }
 
                 // Constructor
-                public DirAssgn(string callback, Pinky pinky, int soundID)
-                {
-                    this.callback[(int)pinky] = callback;
-                    this.soundID[(int)pinky] = soundID;
-                }
-
                 public DirAssgn() { }
 
                 // Method
                 public string GetCallback(Pinky pinky) { return this.callback[(int)pinky]; }
                 public int GetSoundID(Pinky pinky) { return this.soundID[(int)pinky]; }
 
-                public void UnAssgin(Pinky pinky)
+                public void Assign(string callback, Pinky pinky, int soundID)
+                {
+                    this.callback[(int)pinky] = callback;
+                    this.soundID[(int)pinky] = soundID;
+                }
+
+                public void UnAssign(Pinky pinky)
                 {
                     this.callback[(int)pinky] = "SimDoNothing";
                     this.soundID[(int)pinky] = 0;
@@ -164,7 +164,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             {
                 if (GetPointofView > 7)
                     GetPointofView = GetPointofView / 4500;
-                this.direction[GetPointofView] = new DirAssgn(callback, pinky, soundID);
+                this.direction[GetPointofView].Assign(callback, pinky, soundID);
             }
 
             public string GetDirection(int GetPointOfView)
@@ -248,9 +248,9 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 for (int ii = 0; ii < this.pov[i].direction.Length; ii++)
                 {
                     if (this.pov[i].direction[ii].GetCallback(Pinky.UnShift) == callbackname)
-                        this.pov[i].direction[ii].UnAssgin(Pinky.UnShift);
+                        this.pov[i].direction[ii].UnAssign(Pinky.UnShift);
                     if (this.pov[i].direction[ii].GetCallback(Pinky.Shift) == callbackname)
-                        this.pov[i].direction[ii].UnAssgin(Pinky.Shift);
+                        this.pov[i].direction[ii].UnAssign(Pinky.Shift);
                 }
             }
 
