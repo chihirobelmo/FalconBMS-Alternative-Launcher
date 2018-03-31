@@ -250,5 +250,29 @@ namespace FalconBMS_Alternative_Launcher_Cs.Properties {
                 this["CMD_MONO"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\")]
+        public string Third_TIR {
+            get {
+                return ((string)(this["Third_TIR"]));
+            }
+            set {
+                this["Third_TIR"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\")]
+        public string Third_VA {
+            get {
+                return ((string)(this["Third_VA"]));
+            }
+            set {
+                this["Third_VA"] = value;
+            }
+        }
     }
 }

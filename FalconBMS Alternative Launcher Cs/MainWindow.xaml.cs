@@ -333,12 +333,34 @@ namespace FalconBMS_Alternative_Launcher_Cs
         private void Dropdown_TheaterList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             appReg.ChangeTheater(this.Dropdown_TheaterList);
+
+            switch ((String)Dropdown_TheaterList.SelectedItem)
+            {
+                case "Israel":
+                    Launch_TheaterConfig.Visibility = Visibility.Visible;
+                    theaterOwnConfig = appReg.GetInstallDir() + "\\Data\\Add-On Israel\\Israeli Theater Settings.exe";
+                    break;
+                case "Ikaros":
+                    Launch_TheaterConfig.Visibility = Visibility.Visible;
+                    theaterOwnConfig = appReg.GetInstallDir() + "\\Data\\Add-On Ikaros\\Ikaros Settings.exe";
+                    break;
+                default:
+                    Launch_TheaterConfig.Visibility = Visibility.Collapsed;
+                    break;
+            }
+        }
+
+        public string theaterOwnConfig = "";
+        
+        private void Launch_TheaterConfig_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(theaterOwnConfig);
         }
 
 
 
 
-        
+
         private int bandWidthDefault = 1024;
 
         private void CMD_BW_Click(object sender, RoutedEventArgs e)
@@ -443,6 +465,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
             switch (((System.Windows.Controls.Button)sender).Name)
             {
                 case "Launch_WDP":
+                    target = @"C:\Weapon Delivery Planner\WeaponDeliveryPlanner.exe";
+                    if (File.Exists(target) == true)
+                    {
+                        System.Diagnostics.Process.Start(target);
+                        break;
+                    }
                     target = "\\WeaponDeliveryPlanner.exe";
                     downloadlink = "http://www.weapondeliveryplanner.nl/";
                     installexe = Properties.Settings.Default.Third_WDP + target;
@@ -554,6 +582,72 @@ namespace FalconBMS_Alternative_Launcher_Cs
                         installexe = fbd.SelectedPath + target;
                         if (File.Exists(installexe))
                             Properties.Settings.Default.Third_F4AWACS = fbd.SelectedPath;
+                        else
+                        {
+                            System.Diagnostics.Process.Start(downloadlink);
+                            return;
+                        }
+                    }
+                    System.Diagnostics.Process.Start(installexe);
+                    break;
+                case "Launch_TIR":
+                    target = @"C:\Program Files (x86)\NaturalPoint\TrackIR5\TrackIR5.exe";
+                    if (File.Exists(target) == true)
+                    {
+                        System.Diagnostics.Process.Start(target);
+                        break;
+                    }
+                    target = "\\TrackIR5.exe";
+                    downloadlink = "https://www.naturalpoint.com/trackir/";
+                    installexe = Properties.Settings.Default.Third_TIR + target;
+                    if (File.Exists(installexe) == false)
+                    {
+                        System.Windows.Forms.FolderBrowserDialog fbd = new System.Windows.Forms.FolderBrowserDialog();
+
+                        fbd.Description = "Select Install Directory";
+                        fbd.RootFolder = Environment.SpecialFolder.MyComputer;
+                        fbd.ShowNewFolderButton = false;
+                        System.Windows.Forms.DialogResult dirResult = fbd.ShowDialog();
+
+                        installexe = fbd.SelectedPath + target;
+                        if (File.Exists(installexe))
+                            Properties.Settings.Default.Third_TIR = fbd.SelectedPath;
+                        else
+                        {
+                            System.Diagnostics.Process.Start(downloadlink);
+                            return;
+                        }
+                    }
+                    System.Diagnostics.Process.Start(installexe);
+                    break;
+                case "Launch_VA":
+                    target = @"C:\Program Files (x86)\VoiceAttack\VoiceAttack.exe";
+                    if (File.Exists(target) == true)
+                    {
+                        System.Diagnostics.Process.Start(target);
+                        break;
+                    }
+                    target = @"C:\Program Files (x86)\Steam\steamapps\common\VoiceAttack\VoiceAttack.exe";
+                    if (File.Exists(target) == true)
+                    {
+                        System.Diagnostics.Process.Start(target);
+                        break;
+                    }
+                    target = "\\VoiceAttack.exe";
+                    downloadlink = "https://voiceattack.com/";
+                    installexe = Properties.Settings.Default.Third_VA + target;
+                    if (File.Exists(installexe) == false)
+                    {
+                        System.Windows.Forms.FolderBrowserDialog fbd = new System.Windows.Forms.FolderBrowserDialog();
+
+                        fbd.Description = "Select Install Directory";
+                        fbd.RootFolder = Environment.SpecialFolder.MyComputer;
+                        fbd.ShowNewFolderButton = false;
+                        System.Windows.Forms.DialogResult dirResult = fbd.ShowDialog();
+
+                        installexe = fbd.SelectedPath + target;
+                        if (File.Exists(installexe))
+                            Properties.Settings.Default.Third_VA = fbd.SelectedPath;
                         else
                         {
                             System.Diagnostics.Process.Start(downloadlink);
