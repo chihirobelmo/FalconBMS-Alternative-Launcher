@@ -227,7 +227,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             statusSearch = Search.Assign;
             Label_AssgnStatus.Content = "AWAITING INPUTS";
         }
-        
+
         private void KeyMappingGrid_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             KeyMappingGrid.UnselectAllCells();
@@ -383,8 +383,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         private void KeyMappingGrid_KeyDown()
         {
-            KeyMappingGrid.ScrollIntoView(KeyMappingGrid.Items[currentIndex]);
-            KeyMappingGrid.SelectedIndex = currentIndex;
+            if (currentIndex < 0)
+            {
+                currentIndex = 1;
+                statusSearch = Search.Search;
+                return;
+            }
             if (SearchBox.IsSelectionActive == true)
                 return;
             if (SearchBox.IsFocused == true)
@@ -399,9 +403,6 @@ namespace FalconBMS_Alternative_Launcher_Cs
             int catchedScanCode = 0;
 
             directInputDevice.GetCurrentKeyboardState();
-
-            //if (directInputDevice.KeyboardState[(Microsoft.DirectX.DirectInput.Key)211])
-            //    Console.WriteLine("delete!");
 
             for (int i = 1; i < 238; i++)
             {
@@ -457,6 +458,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
             if (Select_PinkyShift.IsChecked == false)
                 pinkyStatus = Pinky.Shift;
 
+            KeyMappingGrid.ScrollIntoView(KeyMappingGrid.Items[currentIndex]);
+            KeyMappingGrid.SelectedIndex = currentIndex;
             if (pinkyStatus == Pinky.UnShift)
                 keyAssign[currentIndex].SetKeyboard(catchedScanCode, Shift, Ctrl, Alt);
             if (pinkyStatus == Pinky.Shift)
