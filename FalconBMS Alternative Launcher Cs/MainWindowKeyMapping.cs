@@ -171,13 +171,15 @@ namespace FalconBMS_Alternative_Launcher_Cs
             int Rows = KeyMappingGrid.SelectedIndex;
             int Columns = KeyMappingGrid.CurrentColumn.DisplayIndex;
 
-            if (Columns == 2)
+            if (Columns == 1)
             {
                 if (Rows < 0)
                     return;
+                if (keyAssign[Rows].Visibility != "White")
+                    return;
                 keyAssign[Rows].UnassignKeyboard();
             }
-            if (Columns > 2)
+            if (Columns > 1)
             {
                 if (Rows < 0)
                     return;
@@ -378,6 +380,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         private void KeyMappingGrid_KeyDown()
         {
+            KeyMappingGrid.ScrollIntoView(KeyMappingGrid.Items[currentIndex]);
+            KeyMappingGrid.SelectedIndex = currentIndex;
             if (SearchBox.IsSelectionActive == true)
                 return;
             if (SearchBox.IsFocused == true)
@@ -393,9 +397,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
             directInputDevice.GetCurrentKeyboardState();
 
-            if (directInputDevice.KeyboardState[(Microsoft.DirectX.DirectInput.Key)211])
-                Console.WriteLine("delete!");
-            return;
+            //if (directInputDevice.KeyboardState[(Microsoft.DirectX.DirectInput.Key)211])
+            //    Console.WriteLine("delete!");
 
             for (int i = 1; i < 238; i++)
             {
@@ -453,15 +456,6 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
             Console.WriteLine(KeyMappingGrid.SelectedIndex);
             Console.WriteLine(keyAssign.Length);
-
-            if (catchedScanCode == 28)   // Return
-                KeyMappingGrid.SelectedIndex -= 1;
-            if (catchedScanCode == 156)   // NumPadEnter
-                KeyMappingGrid.SelectedIndex -= 1;
-            if (catchedScanCode == 208)   // DownArrow
-                KeyMappingGrid.SelectedIndex -= 1;
-            if (catchedScanCode == 200)   // UpArrow
-                KeyMappingGrid.SelectedIndex += 1;
 
             if (pinkyStatus == Pinky.UnShift)
                 keyAssign[KeyMappingGrid.SelectedIndex].SetKeyboard(catchedScanCode, Shift, Ctrl, Alt);
@@ -642,6 +636,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 }
                 i += 1;
             }
+        }
+
+        private int currentIndex;
+        private void KeyMappingGrid_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            currentIndex = KeyMappingGrid.SelectedIndex;
         }
     }
 }

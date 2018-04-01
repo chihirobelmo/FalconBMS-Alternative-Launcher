@@ -467,6 +467,7 @@
                               SelectionMode="Single"
                               GridLinesVisibility="Vertical"
                               VerticalGridLinesBrush="LightGray" Background="#7F202020"
+                              MouseUp="KeyMappingGrid_MouseUp"
                               MouseDoubleClick="DataGrid_MouseButtonDoubleClick"
                               MouseRightButtonDown="KeyMappingGrid_MouseRightButtonDown"
                               DataGridCell.GotFocus="DataGrid_GotFocus">
@@ -492,7 +493,7 @@
             </TabItem>
         </TabControl>
         <Image HorizontalAlignment="Left" Height="54" Margin="10,10,0,0" VerticalAlignment="Top" Width="522" Source="Resources/Logo.png" Stretch="None"/>
-        <Label Content="FalconBMS Alternative Launcher v1.05" HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontWeight="Bold" Margin="0,0,10,0"/>
+        <Label Content="FalconBMS Alternative Launcher v1.07" HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontWeight="Bold" Margin="0,0,10,0"/>
 
     </Grid>
 </Controls:MetroWindow>
