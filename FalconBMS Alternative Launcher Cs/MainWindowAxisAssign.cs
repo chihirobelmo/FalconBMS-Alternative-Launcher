@@ -238,6 +238,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     joyName = "FUSBA";
                 if (joyActualName.ToLower().Contains("crosswind"))
                     joyName = "MFGCW";
+                if (joyActualName.ToLower().Contains("g940"))
+                    joyName = "LG940";
                 if (joyActualName.ToLower().Contains("x36"))
                     joyName = "STX36";
                 if (joyActualName.ToLower().Contains("x45"))
