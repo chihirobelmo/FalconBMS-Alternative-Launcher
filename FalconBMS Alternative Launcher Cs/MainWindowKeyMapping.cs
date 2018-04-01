@@ -166,6 +166,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         private void DataGrid_MouseButtonDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            KeyMappingGrid.ScrollIntoView(KeyMappingGrid.Items[currentIndex]);
+            KeyMappingGrid.SelectedIndex = currentIndex;
             if (KeyMappingGrid.CurrentColumn == null)
                 return;
             int Rows = KeyMappingGrid.SelectedIndex;
@@ -175,15 +177,15 @@ namespace FalconBMS_Alternative_Launcher_Cs
             {
                 if (Rows < 0)
                     return;
-                if (keyAssign[Rows].Visibility != "White")
+                if (keyAssign[currentIndex].Visibility != "White")
                     return;
-                keyAssign[Rows].UnassignKeyboard();
+                keyAssign[currentIndex].UnassignKeyboard();
             }
             if (Columns > 1)
             {
                 if (Rows < 0)
                     return;
-                string target = keyAssign[Rows].GetCallback();
+                string target = keyAssign[currentIndex].GetCallback();
                 joyAssign[Columns - 3].UnassigntargetCallback(target);
             }
             KeyMappingGrid.Items.Refresh();
@@ -447,26 +449,23 @@ namespace FalconBMS_Alternative_Launcher_Cs
             }
             if (KeyMappingGrid.SelectedIndex == -1)
                 return;
-            if (keyAssign[KeyMappingGrid.SelectedIndex].GetVisibility() != "White")
+            if (keyAssign[currentIndex].GetVisibility() != "White")
                 return;
 
             Pinky pinkyStatus = Pinky.UnShift;
             if (Select_PinkyShift.IsChecked == false)
                 pinkyStatus = Pinky.Shift;
 
-            Console.WriteLine(KeyMappingGrid.SelectedIndex);
-            Console.WriteLine(keyAssign.Length);
-
             if (pinkyStatus == Pinky.UnShift)
-                keyAssign[KeyMappingGrid.SelectedIndex].SetKeyboard(catchedScanCode, Shift, Ctrl, Alt);
+                keyAssign[currentIndex].SetKeyboard(catchedScanCode, Shift, Ctrl, Alt);
             if (pinkyStatus == Pinky.Shift)
-                keyAssign[KeyMappingGrid.SelectedIndex].Setkeycombo(catchedScanCode, Shift, Ctrl, Alt);
+                keyAssign[currentIndex].Setkeycombo(catchedScanCode, Shift, Ctrl, Alt);
 
             for (int i = 0; i < keyAssign.Length; i++)
             {
-                if (keyAssign[i].GetKeyAssignmentStatus() != keyAssign[KeyMappingGrid.SelectedIndex].GetKeyAssignmentStatus())
+                if (keyAssign[i].GetKeyAssignmentStatus() != keyAssign[currentIndex].GetKeyAssignmentStatus())
                     continue;
-                if (i == KeyMappingGrid.SelectedIndex)
+                if (i == currentIndex)
                     continue;
                 if (keyAssign[i].GetVisibility() != "White")
                     continue;
