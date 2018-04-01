@@ -190,6 +190,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             }
             KeyMappingGrid.Items.Refresh();
             KeyMappingGrid.UnselectAllCells();
+            statusSearch = Search.Search;
         }
         
         private byte[] buttons;

@@ -395,6 +395,11 @@ namespace FalconBMS_Alternative_Launcher_Cs
                         strCmdText += "-mono ";
                     strCmdText += "-bw " + bandWidthDefault;
 
+                    if (this.ApplicationOverride.IsChecked == true)
+                    {
+                        if (MessageBox.Show("You are going to launch BMS without any setup override from AxisAssign and KeyMapping section. Will you continue?", "WARNING", MessageBoxButton.OKCancel, MessageBoxImage.Information) == MessageBoxResult.Cancel)
+                            return;
+                    }
                     if (this.ApplicationOverride.IsChecked == false)
                     {
                         if (!System.IO.Directory.Exists(appReg.GetInstallDir() + "/User/Config/Backup/"))
@@ -408,6 +413,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
                         SaveJoyAssignStatus();
                     }
+
 
                     appReg.ChangeTheater(this.Dropdown_TheaterList);
 

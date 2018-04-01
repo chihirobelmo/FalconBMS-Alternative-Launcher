@@ -131,20 +131,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             }
             sw.Close();
 
-
-
-            System.Windows.Forms.MessageBox.Show(
-                keyAssign[1075].GetKeyLine()
-                + "\n" + keyAssign[1076].GetKeyLine()
-                + "\n" + keyAssign[1077].GetKeyLine()
-                + "\n" + keyAssign[1078].GetKeyLine());
-
-            System.Diagnostics.Process.Start(filename);
-
-
-
             filename = appReg.GetInstallDir() + "/User/Config/" + appReg.GetPilotCallsign().ToString() + ".pop";
-            //filename = filename.Replace("\0","");
             if (!System.IO.File.Exists(filename))
             {
                 byte[] nbs = {
