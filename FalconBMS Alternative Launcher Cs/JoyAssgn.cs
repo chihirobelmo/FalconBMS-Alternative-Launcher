@@ -293,7 +293,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                             if (i == 0 | i == 1)
                                 this.pov[i].direction[Int32.Parse(stArrayData[4])].Assign((string)stArrayData[0], Pinky.UnShift, 0);
                             if (i == 2 | i == 3)
-                                this.pov[i - 2].direction[Int32.Parse(stArrayData[4])].Assign((string)stArrayData[0], Pinky.UnShift, 0);
+                                this.pov[i - 2].direction[Int32.Parse(stArrayData[4])].Assign((string)stArrayData[0], Pinky.Shift, 0);
                             continue;
                         }
                         this.pov[i].direction[Int32.Parse(stArrayData[4])].Assign((string)stArrayData[0], Pinky.UnShift, 0);
