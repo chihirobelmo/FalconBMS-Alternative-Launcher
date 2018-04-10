@@ -112,6 +112,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             /// </summary>
             public GetDevice(AppRegInfo appReg)
             {
+                // Make Joystick Instances.
                 devList = Manager.GetDevices(DeviceClass.GameControl, EnumDevicesFlags.AttachedOnly);
                 joyStick = new Device[devList.Count];
                 joyAssign = new JoyAssgn[devList.Count];
@@ -127,11 +128,14 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     joyAssign[i] = new JoyAssgn();
 
                     joyAssign[i].SetDeviceInstance(dev);
+                    int povnum = joyStick[i].Caps.NumberPointOfViews;
+                    joyStick.Count();
 
                     fileName = appReg.GetInstallDir() + "/User/Config/Setup.v100." + joyAssign[i].GetProductName().Replace("/", "-")
                     + " {" + joyAssign[i].GetInstanceGUID().ToString().ToUpper() + "}.xml";
-                    
-                    if (File.Exists(fileName))
+
+                    // Load exsisting .xml files.
+                    if (File.Exists(fileName)) 
                     {
                         serializer = new System.Xml.Serialization.XmlSerializer(typeof(JoyAssgn));
                         sr = new System.IO.StreamReader(fileName, new System.Text.UTF8Encoding(false));
@@ -142,6 +146,28 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     i += 1;
                 }
 
+                // Import stock BMS Setup if .xml save file for the joystick does not exist. 
+                try
+                {
+                    for (int ii = 0; ii < joyAssign.Count(); ii++)
+                    {
+                        fileName = appReg.GetInstallDir() + "/User/Config/Setup.v100." + joyAssign[ii].GetProductName().Replace("/", "-")
+                           + " {" + joyAssign[ii].GetInstanceGUID().ToString().ToUpper() + "}.xml";
+                        if (File.Exists(fileName) == false)
+                            joyAssign[ii].ImportStockSetup(appReg, joyStick.Count(), joyStick[ii].Caps.NumberPointOfViews, ii);
+                    }
+                }
+                catch (System.IO.FileNotFoundException ex)
+                {
+                    System.Console.WriteLine(ex.Message);
+
+                    System.IO.StreamWriter sw = new System.IO.StreamWriter(appReg.GetInstallDir() + "\\Error.txt", false, System.Text.Encoding.GetEncoding("shift_jis"));
+                    sw.Write(ex.Message);
+                    sw.Close();
+                }
+
+
+                // Load MouseWheel .xml file.
                 serializer = new System.Xml.Serialization.XmlSerializer(typeof(JoyAssgn.AxAssgn));
                 fileName = appReg.GetInstallDir() + "/User/Config/Setup.v100.Mousewheel.xml";
                 if (File.Exists(fileName))
@@ -151,6 +177,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     sr.Close();
                 }
 
+                // Load ThrottlePosition .xml file.
                 serializer = new System.Xml.Serialization.XmlSerializer(typeof(ThrottlePosition));
                 fileName = appReg.GetInstallDir() + "/User/Config/Setup.v100.throttlePosition.xml";
                 if (File.Exists(fileName))

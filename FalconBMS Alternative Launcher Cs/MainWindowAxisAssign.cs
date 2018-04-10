@@ -67,6 +67,64 @@ namespace FalconBMS_Alternative_Launcher_Cs
             "Camera_Distance"
         };
 
+        public static string[] axisMappingList = {
+            "Pitch",
+            "Roll",
+            "Yaw",
+            "Throttle",
+            "Throttle_Right",
+            "Toe_Brake",
+            "Toe_Brake_Right",
+            "FOV",
+            "Trim_Pitch",
+            "Trim_Yaw",
+            "Trim_Roll",
+            "Radar_Antenna_Elevation",
+            "Range_Knob",
+            "Cursor_X",
+            "Cursor_Y",
+            "COMM_Channel_1",
+            "COMM_Channel_2",
+            "MSL_Volume",
+            "Threat_Volume",
+            "Intercom",
+            "AI_vs_IVC",
+            "HUD_Brightness",
+            "FLIR_Brightness",
+            "HMS_Brightness",
+            "Reticle_Depression",
+            "Camera_Distance"
+        };
+
+        public static string[] JoystickCalList = {
+            "Pitch",
+            "Roll",
+            "Yaw",
+            "Throttle",
+            "Throttle_Right",
+            "Trim_Pitch",
+            "Trim_Yaw",
+            "Trim_Roll",
+            "Toe_Brake",
+            "Toe_Brake_Right",
+            "FOV",
+            "Radar_Antenna_Elevation",
+            "Cursor_X",
+            "Cursor_Y",
+            "Range_Knob",
+            "COMM_Channel_1",
+            "COMM_Channel_2",
+            "MSL_Volume",
+            "Threat_Volume",
+            "HUD_Brightness",
+            "Reticle_Depression",
+            "Camera_Distance",
+            "Intercom",
+            "HMS_Brightness",
+            "AI_vs_IVC",
+            "FLIR_Brightness"
+        };
+
         public static JoyAssgn[] joyAssign;
 
         public static JoyAssgn.AxAssgn mouseWheelAssign = new JoyAssgn.AxAssgn();

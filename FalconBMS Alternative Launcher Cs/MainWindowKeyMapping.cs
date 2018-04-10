@@ -280,6 +280,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                             if (Select_DX_Release.IsChecked == false)
                                 behaviourStatus = Behaviour.Release;
 
+                            // Construct DX button instance.
                             joyAssign[i].dx[ii].Assign(keyAssign[Rows].GetCallback(), pinkyStatus, behaviourStatus, invokeStatus, 0);
 
                             KeyMappingGrid.Items.Refresh();
@@ -298,6 +299,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                             if (Select_PinkyShift.IsChecked == false)
                                 pinkyStatus = Pinky.Shift;
 
+                            // Construct POV button instance.
                             joyAssign[i].pov[ii].Assign(povs[ii], keyAssign[Rows].GetCallback(), pinkyStatus, 0);
 
                             KeyMappingGrid.Items.Refresh();
