@@ -120,8 +120,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 System.IO.File.Copy(filename, fbackupname, true);
             System.IO.StreamWriter sw = new System.IO.StreamWriter
                 (filename, false, System.Text.Encoding.GetEncoding("utf-8"));
-            for (int i = 0; i < keyAssign.Length; i++)
-                sw.Write(keyAssign[i].GetKeyLine());
+            for (int i = 0; i < keyFile.keyAssign.Length; i++)
+                sw.Write(keyFile.keyAssign[i].GetKeyLine());
             for (int i = 0; i < getDevice.devList.Count; i++)
             {
                 sw.Write(getDevice.joyAssign[i].GetKeyLineDX(i, getDevice.devList.Count));

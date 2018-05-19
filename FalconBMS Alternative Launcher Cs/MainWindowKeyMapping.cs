@@ -25,92 +25,17 @@ namespace FalconBMS_Alternative_Launcher_Cs
     /// </summary>
     public partial class MainWindow
     {
-        private KeyAssgn[] keyAssign;
-
-        public void ReadKeyFile(string Filename)
-        {
-            string stParentName = System.IO.Path.GetDirectoryName(Filename);
-
-            if (File.Exists(Filename) == false)
-            {
-                MessageBoxResult result = System.Windows.MessageBox.Show
-                    ("App could not find " + Filename, "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                if (result == MessageBoxResult.OK)
-                    System.Windows.Application.Current.Shutdown();
-                return;
-            }
-
-            string[] lines = File.ReadAllLines(Filename,Encoding.UTF8);
-
-            keyAssign = new KeyAssgn[lines.Length];
-
-            int i = 0;
-            foreach (string stBuffer in lines)
-            {
-                string[] stArrayData = stBuffer.Split(' ');
-
-                if (stArrayData.Length < 7)
-                    continue;
-                if (stBuffer.Substring(0, 1) == "#")
-                    continue;
-                if (stArrayData[3] == "-2" | stArrayData[3] == "-3")
-                    continue;
-
-                keyAssign[i] = new KeyAssgn(stBuffer);
-
-                if (keyAssign[i].CheckFileCollapsing() == true)
-                {
-                    MessageBoxResult result = System.Windows.MessageBox.Show
-                        ("App found BMS - FULL.key broken\nWould you like to restore it to the default?", "Error", MessageBoxButton.OKCancel, MessageBoxImage.Exclamation);
-                    if (result == MessageBoxResult.OK)
-                    {
-                        string fnamestock = appReg.GetInstallDir() + "\\Docs\\Key Files & Input\\BMS - Full.key";
-                        string fname = appReg.GetInstallDir() + "\\User\\Config\\BMS - Full.key";
-                        if (File.Exists(fnamestock) == true)
-                        {
-                            System.IO.File.Copy(fnamestock, fname, true);
-                            Application.Current.Shutdown();
-                            System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
-                            Array.Resize(ref keyAssign, i);
-                            return;
-                        }
-                        else
-                        {
-                            MessageBoxResult result2 = System.Windows.MessageBox.Show
-                                ("App could not find BMS - FULL.key at\nDocs\\Key Files & Input\\BMS - Full.key", "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                            if (result == MessageBoxResult.OK)
-                            {
-                                System.Windows.Application.Current.Shutdown();
-                                Array.Resize(ref keyAssign, i);
-                                return;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        System.Windows.Application.Current.Shutdown();
-                        Array.Resize(ref keyAssign, i);
-                        return;
-                    }
-                }
-
-                i += 1;
-            }
-            Array.Resize(ref keyAssign, i);
-        }
-        
-
-
-
-
+        /// <summary>
+        /// Let's write DataGrid cells at KeyMapping page a keyfile informarion.
+        /// </summary>
         public void WriteDataGrid()
         {
-            foreach (KeyAssgn Assgn in keyAssign)
+            foreach (KeyAssgn Assgn in keyFile.keyAssign)
                 Assgn.Visibility = Assgn.GetVisibility();
 
             //string target = "MFD";
 
-            //foreach (KeyAssgn Assgn in keyAssign)
+            //foreach (KeyAssgn Assgn in keyFile.keyAssign)
             //{
             //    if (Assgn.Mapping.Trim().Contains(target))
             //        Assgn.Visibility = Assgn.GetVisibility();
@@ -120,13 +45,14 @@ namespace FalconBMS_Alternative_Launcher_Cs
             //    }
             //}
 
-            this.KeyMappingGrid.ItemsSource = keyAssign;
+            this.KeyMappingGrid.ItemsSource = keyFile.keyAssign;
         }
 
-
-
-
-
+        /// <summary>
+        /// Initialize Datagrid Columns.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DataGrid_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {
             switch (e.PropertyName)
@@ -158,12 +84,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
             e.Column.Width = 128;
             e.Column.DisplayIndex = 3 + target;
         }
-
-
-
-
-
-
+        
+        /// <summary>
+        /// Unassign keyboard key or joystick button when double clicked a Datagrid cell.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DataGrid_MouseButtonDoubleClick(object sender, MouseButtonEventArgs e)
         {
             KeyMappingGrid.ScrollIntoView(KeyMappingGrid.Items[currentIndex]);
@@ -177,15 +103,15 @@ namespace FalconBMS_Alternative_Launcher_Cs
             {
                 if (Rows < 0)
                     return;
-                if (keyAssign[currentIndex].Visibility != "White")
+                if (keyFile.keyAssign[currentIndex].Visibility != "White")
                     return;
-                keyAssign[currentIndex].UnassignKeyboard();
+                keyFile.keyAssign[currentIndex].UnassignKeyboard();
             }
             if (Columns > 1)
             {
                 if (Rows < 0)
                     return;
-                string target = keyAssign[currentIndex].GetCallback();
+                string target = keyFile.keyAssign[currentIndex].GetCallback();
                 getDevice.joyAssign[Columns - 3].UnassigntargetCallback(target);
             }
             KeyMappingGrid.Items.Refresh();
@@ -197,6 +123,9 @@ namespace FalconBMS_Alternative_Launcher_Cs
         private int[] povs;
         private NeutralButtons[] neutralButtons;
 
+        /// <summary>
+        /// What was your joystick buttons were like when you clicked somewhere? Are they pressed or released?
+        /// </summary>
         public class NeutralButtons
         {
             public byte[] buttons { get; set; }
@@ -209,12 +138,19 @@ namespace FalconBMS_Alternative_Launcher_Cs
             }
         }
         
+        /// <summary>
+        /// Is KeyMapping page currently trying to get neutral button positions? or waiting for your input?
+        /// </summary>
         private Status statusAssign = Status.GetNeutralPos;
         private enum Status
         {
             GetNeutralPos = 0,
             WaitingforInput = 1
         }
+
+        /// <summary>
+        /// Is keyMapping page going to assign your button when it is pressed? or going to search which callback is it assigned to?
+        /// </summary>
         private Search statusSearch = Search.Search;
         private enum Search
         {
@@ -222,12 +158,22 @@ namespace FalconBMS_Alternative_Launcher_Cs
             Search = 1
         }
 
+        /// <summary>
+        /// When a DataGrid cell has been clicked once and highlighted.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DataGrid_GotFocus(object sender, RoutedEventArgs e)
         {
             statusSearch = Search.Assign;
             Label_AssgnStatus.Content = "AWAITING INPUTS";
         }
 
+        /// <summary>
+        /// Unfocus a Datagrid cell and KeyMapping page backs to search mode.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void KeyMappingGrid_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             KeyMappingGrid.UnselectAllCells();
@@ -235,6 +181,11 @@ namespace FalconBMS_Alternative_Launcher_Cs
             Label_AssgnStatus.Content = "KEYSEARCH MODE";
         }
 
+        /// <summary>
+        /// Check your keyboard/joysticks button behaviour every 60 frames per seconds.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void KeyMappingTimer_Tick(object sender, EventArgs e)
         {
             directInputDevice.GetCurrentKeyboardState();
@@ -250,7 +201,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             }
             if (KeyMappingGrid.CurrentColumn == null)
                 return;
-            if (keyAssign[Rows].GetVisibility() != "White")
+            if (keyFile.keyAssign[Rows].GetVisibility() != "White")
                 return;
 
 
@@ -281,7 +232,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                                 behaviourStatus = Behaviour.Release;
 
                             // Construct DX button instance.
-                            getDevice.joyAssign[i].dx[ii].Assign(keyAssign[Rows].GetCallback(), pinkyStatus, behaviourStatus, invokeStatus, 0);
+                            getDevice.joyAssign[i].dx[ii].Assign(keyFile.keyAssign[Rows].GetCallback(), pinkyStatus, behaviourStatus, invokeStatus, 0);
 
                             KeyMappingGrid.Items.Refresh();
                             KeyMappingGrid.UnselectAllCells();
@@ -300,7 +251,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                                 pinkyStatus = Pinky.Shift;
 
                             // Construct POV button instance.
-                            getDevice.joyAssign[i].pov[ii].Assign(povs[ii], keyAssign[Rows].GetCallback(), pinkyStatus, 0);
+                            getDevice.joyAssign[i].pov[ii].Assign(povs[ii], keyFile.keyAssign[Rows].GetCallback(), pinkyStatus, 0);
 
                             KeyMappingGrid.Items.Refresh();
                             KeyMappingGrid.UnselectAllCells();
@@ -310,6 +261,9 @@ namespace FalconBMS_Alternative_Launcher_Cs
             }
         }
 
+        /// <summary>
+        /// You pressed a joystick button to search which callback is it assigned to? OK let's go there.
+        /// </summary>
         public void JumptoAssignedKey()
         {
             string target = "";
@@ -369,11 +323,11 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 return;
             if (target == "SimDoNothing")
                 return;
-            for (int i = 0; i < keyAssign.Length; i++)
+            for (int i = 0; i < keyFile.keyAssign.Length; i++)
             {
-                if (keyAssign[i].GetCallback() == target)
+                if (keyFile.keyAssign[i].GetCallback() == target)
                 {
-                    Label_AssgnStatus.Content += "   / " + keyAssign[i].Mapping;
+                    Label_AssgnStatus.Content += "   / " + keyFile.keyAssign[i].Mapping;
 
                     KeyMappingGrid.UpdateLayout();
                     KeyMappingGrid.ScrollIntoView(KeyMappingGrid.Items[i]);
@@ -383,6 +337,9 @@ namespace FalconBMS_Alternative_Launcher_Cs
             }
         }
 
+        /// <summary>
+        /// You pressed keyboard keys? I will check which key was pressed with Shift/Ctrl/Alt.
+        /// </summary>
         private void KeyMappingGrid_KeyDown()
         {
             if (currentIndex < 0)
@@ -438,12 +395,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 KeyAssgn keytmp = new KeyAssgn("SimDoNothing - 1 0 0XFFFFFFFF 0 0 0 - 1 \"nothing\"");
                 keytmp.SetKeyboard(catchedScanCode, Shift, Ctrl, Alt);
                 Label_AssgnStatus.Content = "INPUT " + keytmp.GetKeyAssignmentStatus();
-                for (int i = 0; i < keyAssign.Length; i++)
+                for (int i = 0; i < keyFile.keyAssign.Length; i++)
                 {
-                    if (keytmp.GetKeyAssignmentStatus() != keyAssign[i].GetKeyAssignmentStatus())
+                    if (keytmp.GetKeyAssignmentStatus() != keyFile.keyAssign[i].GetKeyAssignmentStatus())
                         continue;
 
-                    Label_AssgnStatus.Content += "\t/" + keyAssign[i].Mapping;
+                    Label_AssgnStatus.Content += "\t/" + keyFile.keyAssign[i].Mapping;
 
                     KeyMappingGrid.UpdateLayout();
                     KeyMappingGrid.ScrollIntoView(KeyMappingGrid.Items[i]);
@@ -453,7 +410,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             }
             if (KeyMappingGrid.SelectedIndex == -1)
                 return;
-            if (keyAssign[currentIndex].GetVisibility() != "White")
+            if (keyFile.keyAssign[currentIndex].GetVisibility() != "White")
                 return;
 
             Pinky pinkyStatus = Pinky.UnShift;
@@ -463,19 +420,19 @@ namespace FalconBMS_Alternative_Launcher_Cs
             KeyMappingGrid.ScrollIntoView(KeyMappingGrid.Items[currentIndex]);
             KeyMappingGrid.SelectedIndex = currentIndex;
             if (pinkyStatus == Pinky.UnShift)
-                keyAssign[currentIndex].SetKeyboard(catchedScanCode, Shift, Ctrl, Alt);
+                keyFile.keyAssign[currentIndex].SetKeyboard(catchedScanCode, Shift, Ctrl, Alt);
             if (pinkyStatus == Pinky.Shift)
-                keyAssign[currentIndex].Setkeycombo(catchedScanCode, Shift, Ctrl, Alt);
+                keyFile.keyAssign[currentIndex].Setkeycombo(catchedScanCode, Shift, Ctrl, Alt);
 
-            for (int i = 0; i < keyAssign.Length; i++)
+            for (int i = 0; i < keyFile.keyAssign.Length; i++)
             {
-                if (keyAssign[i].GetKeyAssignmentStatus() != keyAssign[currentIndex].GetKeyAssignmentStatus())
+                if (keyFile.keyAssign[i].GetKeyAssignmentStatus() != keyFile.keyAssign[currentIndex].GetKeyAssignmentStatus())
                     continue;
                 if (i == currentIndex)
                     continue;
-                if (keyAssign[i].GetVisibility() != "White")
+                if (keyFile.keyAssign[i].GetVisibility() != "White")
                     continue;
-                keyAssign[i].UnassignKeyboard();
+                keyFile.keyAssign[i].UnassignKeyboard();
             }
 
             KeyMappingGrid.Items.Refresh();
@@ -483,8 +440,10 @@ namespace FalconBMS_Alternative_Launcher_Cs
             statusSearch = Search.Search;
         }
 
+        /// <summary>
+        /// So this was... keyboard, I suppose.
+        /// </summary>
         DirectInputKeyboard directInputDevice = new DirectInputKeyboard();
-
         class DirectInputKeyboard
         {
             Microsoft.DirectX.DirectInput.Device device;
@@ -504,8 +463,10 @@ namespace FalconBMS_Alternative_Launcher_Cs
             }
         }
 
+        /// <summary>
+        /// Invoke Status.
+        /// </summary>
         private Invoke invokeStatus = Invoke.Default;
-
         private void Select_Invoke_Click(object sender, RoutedEventArgs e)
         {
             switch (invokeStatus)
@@ -528,9 +489,11 @@ namespace FalconBMS_Alternative_Launcher_Cs
             }
         }
 
-
-
-
+        /// <summary>
+        /// Let's jump to a category you have selected.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Category_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             string target = "";
@@ -578,7 +541,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             }
 
             int i = 0;
-            foreach (KeyAssgn keys in keyAssign)
+            foreach (KeyAssgn keys in keyFile.keyAssign)
             {
                 if (keys.Mapping.Trim() == target)
                 {
@@ -590,10 +553,11 @@ namespace FalconBMS_Alternative_Launcher_Cs
             }
         }
 
-
-
-        
-        
+        /// <summary>
+        /// Something has been entered to a search box.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Search_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Input.Keyboard.ClearFocus();
@@ -606,7 +570,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
             //if (SearchBox.Text == "")
             //{
-            //    foreach (KeyAssgn Assgn in keyAssign)
+            //    foreach (KeyAssgn Assgn in keyFile.keyAssign)
             //        Assgn.Visibility = Assgn.GetVisibility();
             //    KeyMappingGrid.Items.Refresh();
             //    KeyMappingGrid.UnselectAllCells();
@@ -615,7 +579,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
             string target = SearchBox.Text;
 
-            //foreach (KeyAssgn Assgn in keyAssign)
+            //foreach (KeyAssgn Assgn in keyFile.keyAssign)
             //{
             //    if (Assgn.Mapping.Trim().Contains(target))
             //        Assgn.Visibility = Assgn.GetVisibility();
@@ -625,11 +589,11 @@ namespace FalconBMS_Alternative_Launcher_Cs
             //    }
             //}
             
-            this.KeyMappingGrid.ItemsSource = keyAssign;
+            this.KeyMappingGrid.ItemsSource = keyFile.keyAssign;
             KeyMappingGrid.Items.Refresh();
 
             int i = 0;
-            foreach (KeyAssgn keys in keyAssign)
+            foreach (KeyAssgn keys in keyFile.keyAssign)
             {
                 if (keys.Mapping.Trim().Contains(target))
                 {
@@ -643,6 +607,9 @@ namespace FalconBMS_Alternative_Launcher_Cs
             }
         }
 
+        /// <summary>
+        /// Cullent selected row number.
+        /// </summary>
         private int currentIndex;
         private void KeyMappingGrid_MouseUp(object sender, MouseButtonEventArgs e)
         {

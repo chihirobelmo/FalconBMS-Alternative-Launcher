@@ -80,6 +80,7 @@
     <Compile Include="AxisName.cs" />
     <Compile Include="GetDevice.cs" />
     <Compile Include="InGameAxAssgn.cs" />
+    <Compile Include="KeyFile.cs" />
     <Compile Include="SaveSetup.cs" />
     <Compile Include="TheaterList.cs" />
     <Compile Include="ThrottlePosition.cs" />

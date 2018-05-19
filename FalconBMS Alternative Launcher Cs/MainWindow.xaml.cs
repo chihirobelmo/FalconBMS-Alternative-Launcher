@@ -33,8 +33,19 @@ namespace FalconBMS_Alternative_Launcher_Cs
             this.MouseWheel += Detect_MouseWheel;
         }
         
+        /// <summary>
+        /// This is BMS installation information.
+        /// </summary>
         private AppRegInfo appReg;
+
+        /// <summary>
+        /// This is whole device connected.
+        /// </summary>
         public static GetDevice getDevice = new GetDevice();
+        /// <summary>
+        /// This is BMS - FULL.key file
+        /// </summary>
+        private KeyFile keyFile;
 
         private int bandWidthDefault = 1024;
         public string theaterOwnConfig = "";
@@ -99,7 +110,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
                 // Read BMS-FULL.key
                 string fname = appReg.GetInstallDir() + "\\User\\Config\\BMS - Full.key";
-                ReadKeyFile(fname);
+                keyFile = new KeyFile(fname, appReg);
 
                 // Write Data Grid
                 WriteDataGrid();
@@ -151,7 +162,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         }
         
         /// <summary>
-        /// Execute/Stop timer event when changing top TAB menu (Launcher/AxisAssign/KeyConfig).
+        /// Execute/Stop timer event when changing top TAB menu (Launcher/AxisAssign/KeyMapping).
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -176,6 +187,11 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 KeyMappingTimer.Stop();
         }
         
+        /// <summary>
+        /// Rewrite Theater setting in the registry and Show/Hide Theater own config icon.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Dropdown_TheaterList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             appReg.ChangeTheater(this.Dropdown_TheaterList);
@@ -196,6 +212,11 @@ namespace FalconBMS_Alternative_Launcher_Cs
             }
         }
         
+        /// <summary>
+        /// Launch Theater own config.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Launch_TheaterConfig_Click(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Process.Start(theaterOwnConfig);
