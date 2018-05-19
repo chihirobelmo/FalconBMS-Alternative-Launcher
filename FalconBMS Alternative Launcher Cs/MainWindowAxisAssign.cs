@@ -25,215 +25,165 @@ namespace FalconBMS_Alternative_Launcher_Cs
     /// </summary>
     public partial class MainWindow
     {
-        public static string[] axisNum2Name = {
-            "Axis X",
-            "Axis Y",
-            "Axis Z",
-            "Rotation X",
-            "Rotation Y",
-            "Rotation Z",
-            "Slider 0",
-            "Slider 1"
-        };
         /// <summary>
         /// Have same names and relations to Assign Buttons.
         /// </summary>
-        public static string[] axisNameList = {
-            "Roll",
-            "Pitch",
-            "Yaw",
-            "Throttle",
-            "Throttle_Right",
-            "Toe_Brake",
-            "Toe_Brake_Right",
-            "Trim_Roll",
-            "Trim_Pitch",
-            "Trim_Yaw",
-            "Radar_Antenna_Elevation",
-            "Cursor_X",
-            "Cursor_Y",
-            "Range_Knob",
-            "HUD_Brightness",
-            "Reticle_Depression",
-            "HMS_Brightness",
-            "FLIR_Brightness",
-            "Intercom",
-            "COMM_Channel_1",
-            "COMM_Channel_2",
-            "MSL_Volume",
-            "Threat_Volume",
-            "AI_vs_IVC",
-            "FOV",
-            "Camera_Distance"
+        public static AxisName[] axisNameList = {
+            AxisName.Roll,
+            AxisName.Pitch,
+            AxisName.Yaw,
+            AxisName.Throttle,
+            AxisName.Throttle_Right,
+            AxisName.Toe_Brake,
+            AxisName.Toe_Brake_Right,
+            AxisName.Trim_Roll,
+            AxisName.Trim_Pitch,
+            AxisName.Trim_Yaw,
+            AxisName.Radar_Antenna_Elevation,
+            AxisName.Cursor_X,
+            AxisName.Cursor_Y,
+            AxisName.Range_Knob,
+            AxisName.HUD_Brightness,
+            AxisName.Reticle_Depression,
+            AxisName.HMS_Brightness,
+            AxisName.FLIR_Brightness,
+            AxisName.Intercom,
+            AxisName.COMM_Channel_1,
+            AxisName.COMM_Channel_2,
+            AxisName.MSL_Volume,
+            AxisName.Threat_Volume,
+            AxisName.AI_vs_IVC,
+            AxisName.FOV,
+            AxisName.Camera_Distance
         };
 
-        public static string[] axisMappingList = {
-            "Pitch",
-            "Roll",
-            "Yaw",
-            "Throttle",
-            "Throttle_Right",
-            "Toe_Brake",
-            "Toe_Brake_Right",
-            "FOV",
-            "Trim_Pitch",
-            "Trim_Yaw",
-            "Trim_Roll",
-            "Radar_Antenna_Elevation",
-            "Range_Knob",
-            "Cursor_X",
-            "Cursor_Y",
-            "COMM_Channel_1",
-            "COMM_Channel_2",
-            "MSL_Volume",
-            "Threat_Volume",
-            "Intercom",
-            "AI_vs_IVC",
-            "HUD_Brightness",
-            "FLIR_Brightness",
-            "HMS_Brightness",
-            "Reticle_Depression",
-            "Camera_Distance"
+        /// <summary>
+        /// Axis information order for AxisMapping.dat
+        /// </summary>
+        public static AxisName[] axisMappingList = {
+            AxisName.Pitch,
+            AxisName.Roll,
+            AxisName.Yaw,
+            AxisName.Throttle,
+            AxisName.Throttle_Right,
+            AxisName.Toe_Brake,
+            AxisName.Toe_Brake_Right,
+            AxisName.FOV,
+            AxisName.Trim_Pitch,
+            AxisName.Trim_Yaw,
+            AxisName.Trim_Roll,
+            AxisName.Radar_Antenna_Elevation,
+            AxisName.Range_Knob,
+            AxisName.Cursor_X,
+            AxisName.Cursor_Y,
+            AxisName.COMM_Channel_1,
+            AxisName.COMM_Channel_2,
+            AxisName.MSL_Volume,
+            AxisName.Threat_Volume,
+            AxisName.Intercom,
+            AxisName.AI_vs_IVC,
+            AxisName.HUD_Brightness,
+            AxisName.FLIR_Brightness,
+            AxisName.HMS_Brightness,
+            AxisName.Reticle_Depression,
+            AxisName.Camera_Distance
         };
 
-        public static string[] JoystickCalList = {
-            "Pitch",
-            "Roll",
-            "Yaw",
-            "Throttle",
-            "Throttle_Right",
-            "Trim_Pitch",
-            "Trim_Yaw",
-            "Trim_Roll",
-            "Toe_Brake",
-            "Toe_Brake_Right",
-            "FOV",
-            "Radar_Antenna_Elevation",
-            "Cursor_X",
-            "Cursor_Y",
-            "Range_Knob",
-            "COMM_Channel_1",
-            "COMM_Channel_2",
-            "MSL_Volume",
-            "Threat_Volume",
-            "HUD_Brightness",
-            "Reticle_Depression",
-            "Camera_Distance",
-            "Intercom",
-            "HMS_Brightness",
-            "AI_vs_IVC",
-            "FLIR_Brightness"
+        /// <summary>
+        /// Axis information order for JoyStick.cal
+        /// </summary>
+        public static AxisName[] JoystickCalList = {
+            AxisName.Pitch,
+            AxisName.Roll,
+            AxisName.Yaw,
+            AxisName.Throttle,
+            AxisName.Throttle_Right,
+            AxisName.Trim_Pitch,
+            AxisName.Trim_Yaw,
+            AxisName.Trim_Roll,
+            AxisName.Toe_Brake,
+            AxisName.Toe_Brake_Right,
+            AxisName.FOV,
+            AxisName.Radar_Antenna_Elevation,
+            AxisName.Cursor_X,
+            AxisName.Cursor_Y,
+            AxisName.Range_Knob,
+            AxisName.COMM_Channel_1,
+            AxisName.COMM_Channel_2,
+            AxisName.MSL_Volume,
+            AxisName.Threat_Volume,
+            AxisName.HUD_Brightness,
+            AxisName.Reticle_Depression,
+            AxisName.Camera_Distance,
+            AxisName.Intercom,
+            AxisName.HMS_Brightness,
+            AxisName.AI_vs_IVC,
+            AxisName.FLIR_Brightness
         };
-
-        public static JoyAssgn[] joyAssign;
-
-        public static JoyAssgn.AxAssgn mouseWheelAssign = new JoyAssgn.AxAssgn();
-        private int wheelValue;
-
+        
         /// <summary>
         /// Has each axisNameList as Index. Shows In-Game axis assignment state.
         /// </summary>
         public static Hashtable inGameAxis = new Hashtable();
-        public class InGameAxAssgn
-        {
-            protected int devNum = -1;      // DeviceNumber(-2=MouseWheel)
-            protected int phyAxNum = -1;    // PhysicalAxisNumber
-                                            // 0=X 1=Y 2=Z 3=Rx 4=Ry 5=Rz 6=Slider0 7=Slider1
-            protected bool invert = false;
-            protected AxCurve saturation = AxCurve.None;
-            protected AxCurve deadzone = AxCurve.None;
-            protected System.DateTime assgnDate = DateTime.Parse("12/12/1998 12:00:00");
 
-            public InGameAxAssgn() { }
+        /// <summary>
+        /// Mouse Wheel Input Value
+        /// </summary>
+        private int wheelValue;
 
-            public InGameAxAssgn(int devNum, int phyAxNum, JoyAssgn.AxAssgn axis)
-            {
-                this.devNum = devNum;
-                this.phyAxNum = phyAxNum;
-                this.invert = axis.GetInvert();
-                this.saturation = axis.GetSaturation();
-                this.deadzone = axis.GetDeadZone();
-                this.assgnDate = axis.GetAssignDate();
-            }
-
-            public InGameAxAssgn(int devNum, int phyAxNum, bool invert, AxCurve deadzone, AxCurve saturation)
-            {
-                this.devNum = devNum;
-                this.phyAxNum = phyAxNum;
-                this.invert = invert;
-                this.deadzone = deadzone;
-                this.saturation = saturation;
-            }
-
-            public int GetDeviceNumber() { return this.devNum; }
-            public int GetPhysicalNumber() { return this.phyAxNum; }
-            public bool GetInvert() { return this.invert; }
-            public AxCurve GetDeadzone() { return this.deadzone; }
-            public AxCurve GetSaturation() { return this.saturation; }
-            public DateTime getDate() { return this.assgnDate; }
-        }
-
-        public static ThrottlePosition throttlePos = new ThrottlePosition();
-        public class ThrottlePosition
-        {
-            // Member
-            protected int aB = MAXIN;
-            protected int iDLE = 0;
-
-            // Property for XML
-            public int AB { get { return this.aB; } set { this.aB = value; } }
-            public int IDLE { get { return this.iDLE; } set { this.iDLE = value; } }
-
-            // Constructor
-            public ThrottlePosition(int aB, int iDLE) { this.aB = aB; this.iDLE = iDLE; }
-            public ThrottlePosition() { }
-
-            // Method
-            public int GetAB() { return this.aB; }
-            public int GetIDLE() { return this.iDLE; }
-        }
-
-
-
-
+        /// <summary>
+        /// invert TRUE or FALSE (TODO: This has to be Boolean)
+        /// </summary>
         private int invertNum = 0;
+
+        /// <summary>
+        /// I forgot what was these...
+        /// </summary>
         private Label tblabel;
         private Label tblabelab;
         private ProgressBar tbprogressbar;
-        
-        const int MAXIN = 65536;
 
+        /// <summary>
+        /// MAX INPUT = 16bit
+        /// </summary>
+        public const int MAXIN = 65536;
+
+        /// <summary>
+        /// Checks and shows each device each axis inputs 60 times per seconds.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void AxisMovingTimer_Tick(object sender, EventArgs e)
         {
             if (inGameAxis.Count == 0)
                 return;
             invertNum = 0;
-            foreach (String nme in axisNameList)
+            foreach (AxisName nme in axisNameList)
             {
-                if (((InGameAxAssgn)inGameAxis[nme]).GetDeviceNumber() == -1)
+                if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() == -1)
                     continue;
-                tblabel = this.FindName("Label_" + nme) as Label;
-                tbprogressbar = this.FindName("Axis_" + nme) as ProgressBar;
+                tblabel = this.FindName("Label_" + nme.ToString()) as Label;
+                tbprogressbar = this.FindName("Axis_" + nme.ToString()) as ProgressBar;
 
                 switch (nme)
                 {
-                    case "Throttle":
-                    case "Throttle_Right":
-                    case "Toe_Brake":
-                    case "Toe_Brake_Right":
-                    case "Intercom":
-                    case "COMM_Channel_1":
-                    case "COMM_Channel_2":
-                    case "MSL_Volume":
-                    case "Threat_Volume":
-                    case "AI_vs_IVC":
-                        if (!((InGameAxAssgn)inGameAxis[nme]).GetInvert())
+                    case AxisName.Throttle:
+                    case AxisName.Throttle_Right:
+                    case AxisName.Toe_Brake:
+                    case AxisName.Toe_Brake_Right:
+                    case AxisName.Intercom:
+                    case AxisName.COMM_Channel_1:
+                    case AxisName.COMM_Channel_2:
+                    case AxisName.MSL_Volume:
+                    case AxisName.Threat_Volume:
+                    case AxisName.AI_vs_IVC:
+                        if (!((InGameAxAssgn)inGameAxis[nme.ToString()]).GetInvert())
                             invertNum = -1;
                         else
                             invertNum = 1;
                         break;
                     default:
-                        if (!((InGameAxAssgn)inGameAxis[nme]).GetInvert())
+                        if (!((InGameAxAssgn)inGameAxis[nme.ToString()]).GetInvert())
                             invertNum = 1;
                         else
                             invertNum = -1;
@@ -250,7 +200,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     tbprogressbar.Maximum = 0;
                 }
 
-                if (((InGameAxAssgn)inGameAxis[nme]).GetDeviceNumber() == -2)
+                if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() == -2)
                 {
                     tbprogressbar.Value = (MAXIN / 2 + (wheelValue * 1024 / 120)) * invertNum;
                     tblabel.Content = "MOUSE : WH";
@@ -259,18 +209,14 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
                 int output = ApplyDeadZone
                     (
-                        JoyAxisState(((InGameAxAssgn)inGameAxis[nme]).GetDeviceNumber(), ((InGameAxAssgn)inGameAxis[nme]).GetPhysicalNumber()),
-                        ((InGameAxAssgn)inGameAxis[nme]).GetDeadzone(),
-                        ((InGameAxAssgn)inGameAxis[nme]).GetSaturation()
+                        getDevice.JoyAxisState(((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber(), ((InGameAxAssgn)inGameAxis[nme.ToString()]).GetPhysicalNumber()),
+                        ((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeadzone(),
+                        ((InGameAxAssgn)inGameAxis[nme.ToString()]).GetSaturation()
                     );
                 tbprogressbar.Value = output * invertNum;
-                /* tblabel.Content = 
-                    nme.Replace("_", " ") + " : " + 
-                    axisNum2Name[((InGameAxAssgn)inGameAxis[nme]).GetPhysicalNumber()] + " | " + 
-                    joyStick[((InGameAxAssgn)inGameAxis[nme]).GetDeviceNumber()].DeviceInformation.InstanceName; */
 
-                string joyActualName = joyStick[((InGameAxAssgn)inGameAxis[nme]).GetDeviceNumber()].DeviceInformation.InstanceName;
-                string joyName = "JOY  " + ((InGameAxAssgn)inGameAxis[nme]).GetDeviceNumber();
+                string joyActualName = getDevice.joyStick[((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber()].DeviceInformation.InstanceName;
+                string joyName = "JOY  " + ((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber();
 
                 if (joyActualName.Contains("Thrustmaster HOTAS Cougar"))
                     joyName = "HOTAS";
@@ -321,26 +267,27 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 if (joyActualName.ToLower().Contains("ch ") && joyActualName.ToLower().Contains("pedals"))
                     joyName = "CHPPP";
 
-                tblabel.Content = joyName + " : " + axisNum2Name[((InGameAxAssgn)inGameAxis[nme]).GetPhysicalNumber()];
+                int axisNumber = ((InGameAxAssgn)inGameAxis[nme.ToString()]).GetPhysicalNumber();
+                tblabel.Content = joyName + " : " + ((AxisNumName)axisNumber).ToString().Replace('_', ' ');
                 tblabel.Content = ((string)tblabel.Content).Replace("Axis ", "  ");
                 tblabel.Content = ((string)tblabel.Content).Replace("Rotation ", "R");
                 tblabel.Content = ((string)tblabel.Content).Replace("Slider 0", "S1");
                 tblabel.Content = ((string)tblabel.Content).Replace("Slider 1", "S2");
 
-                if (nme != "Throttle" & nme != "Throttle_Right")
+                if (nme != AxisName.Throttle & nme != AxisName.Throttle_Right)
                     continue;
 
-                tblabelab = this.FindName("AB_" + nme) as Label;
+                tblabelab = this.FindName("AB_" + nme.ToString()) as Label;
                 tblabelab.Visibility = Visibility.Hidden;
 
                 tbprogressbar.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 0x38, 0x78, 0xA8));
-                if (MAXIN + tbprogressbar.Value < throttlePos.GetIDLE())
+                if (MAXIN + tbprogressbar.Value < getDevice.throttlePos.GetIDLE())
                 {
                     tbprogressbar.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 240, 0, 0));
                     tblabelab.Visibility = Visibility.Visible;
                     tblabelab.Content = "IDLE CUTOFF";
                 }
-                if (MAXIN + tbprogressbar.Value > throttlePos.GetAB())
+                if (MAXIN + tbprogressbar.Value > getDevice.throttlePos.GetAB())
                 {
                     tbprogressbar.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 0, 240, 0));
                     tblabelab.Visibility = Visibility.Visible;
@@ -348,11 +295,14 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 }
             }
         }
-
-
-
-
-
+        
+        /// <summary>
+        /// Shows axis output with DEADZONE and SATURATION enabled in BMS
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="deadzone"></param>
+        /// <param name="saturation"></param>
+        /// <returns></returns>
         public static int ApplyDeadZone(int input, AxCurve deadzone, AxCurve saturation)
         {
             double x = (double)input, y = 0;
@@ -422,11 +372,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
             int output = (int)y;
             return output;
         }
-
-
-
-
-
+        
+        /// <summary>
+        /// Callback When clicked "Assign" Button. Opens AxisAssignWindow.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Assign_Click(object sender, RoutedEventArgs e)
         {
             AxisMovingTimer.Stop();
@@ -439,19 +390,19 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
             // Reset PhysicalAxis previously assigned to same axis
             // In case of axis has been unassigned and saved.
-            for (int i = 0; i < devList.Count; i++)
-                joyAssign[i].ResetPreviousAxis(whocalledwindow);
-            if (mouseWheelAssign.GetAxisName() == whocalledwindow)
-                mouseWheelAssign = new JoyAssgn.AxAssgn();
+            for (int i = 0; i < getDevice.devList.Count; i++)
+                getDevice.joyAssign[i].ResetPreviousAxis(whocalledwindow);
+            if (getDevice.mouseWheelAssign.GetAxisName() == whocalledwindow)
+                getDevice.mouseWheelAssign = new JoyAssgn.AxAssgn();
 
             // When axis has been assigned.
             if (axisAssign.GetDeviceNumber() > -1)
-                joyAssign[axisAssign.GetDeviceNumber()].axis[axisAssign.GetPhysicalNumber()]
+                getDevice.joyAssign[axisAssign.GetDeviceNumber()].axis[axisAssign.GetPhysicalNumber()]
                     = new JoyAssgn.AxAssgn(whocalledwindow, axisAssign);
             if (axisAssign.GetDeviceNumber() == -2)
             {
                 wheelValue = 0;
-                mouseWheelAssign = new JoyAssgn.AxAssgn(whocalledwindow, axisAssign);
+                getDevice.mouseWheelAssign = new JoyAssgn.AxAssgn(whocalledwindow, axisAssign);
             }
 
             joyAssign_2_inGameAxis();
@@ -459,45 +410,43 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
             AxisMovingTimer.Start();
         }
-
-
-
-
-
+        
+        /// <summary>
+        /// Ah what was this...
+        /// </summary>
         public void joyAssign_2_inGameAxis()
         {
-            foreach (String nme in axisNameList)
-                inGameAxis[nme] = new InGameAxAssgn();
-            for (int i = 0; i <= joyAssign.Length - 1; i++)
+            foreach (AxisName nme in axisNameList)
+                inGameAxis[nme.ToString()] = new InGameAxAssgn();
+            for (int i = 0; i <= getDevice.joyAssign.Length - 1; i++)
             {
                 for (int ii = 0; ii <= 7; ii++)
                 {
-                    if (object.ReferenceEquals(joyAssign[i].axis[ii].GetAxisName(), ""))
+                    if (object.ReferenceEquals(getDevice.joyAssign[i].axis[ii].GetAxisName(), ""))
                         continue;
-                    if (((InGameAxAssgn)inGameAxis[joyAssign[i].axis[ii].GetAxisName()]).getDate() > joyAssign[i].axis[ii].GetAssignDate())
+                    if (((InGameAxAssgn)inGameAxis[getDevice.joyAssign[i].axis[ii].GetAxisName()]).getDate() > getDevice.joyAssign[i].axis[ii].GetAssignDate())
                         continue;
-                    inGameAxis[joyAssign[i].axis[ii].GetAxisName()] = new InGameAxAssgn(i, ii, joyAssign[i].axis[ii]);
+                    inGameAxis[getDevice.joyAssign[i].axis[ii].GetAxisName()] = new InGameAxAssgn(i, ii, getDevice.joyAssign[i].axis[ii]);
                 }
             }
-            if (object.ReferenceEquals(mouseWheelAssign.GetAxisName(), ""))
+            if (object.ReferenceEquals(getDevice.mouseWheelAssign.GetAxisName(), ""))
                 return;
-            if (((InGameAxAssgn)inGameAxis[mouseWheelAssign.GetAxisName()]).getDate() > mouseWheelAssign.GetAssignDate())
+            if (((InGameAxAssgn)inGameAxis[getDevice.mouseWheelAssign.GetAxisName()]).getDate() > getDevice.mouseWheelAssign.GetAssignDate())
                 return;
-            inGameAxis[mouseWheelAssign.GetAxisName()] = new InGameAxAssgn(-2, -1, mouseWheelAssign);
+            inGameAxis[getDevice.mouseWheelAssign.GetAxisName()] = new InGameAxAssgn(-2, -1, getDevice.mouseWheelAssign);
         }
-
-
-
-
-
+        
+        /// <summary>
+        /// Reset Axis Assign Window. No Input No assign.
+        /// </summary>
         public void ResetAssgnWindow()
         {
-            foreach (String nme in axisNameList)
+            foreach (AxisName nme in axisNameList)
             {
-                Label tblabel = this.FindName("Label_" + nme) as Label;
-                ProgressBar tbprogressbar = this.FindName("Axis_" + nme) as ProgressBar;
+                Label tblabel = this.FindName("Label_" + nme.ToString()) as Label;
+                ProgressBar tbprogressbar = this.FindName("Axis_" + nme.ToString()) as ProgressBar;
 
-                tblabel.Content = nme.Replace("_", " ") + " :";
+                tblabel.Content = nme.ToString().Replace("_", " ") + " :";
                 tblabel.Content = "";
 
                 tbprogressbar.Value = 0;
@@ -505,34 +454,35 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 tbprogressbar.Maximum = MAXIN;
             }
         }
-
-
-
-
-
+        
+        /// <summary>
+        /// Aquire/Unaquire all devices
+        /// </summary>
+        /// <param name="FLG"></param>
         public static void AquireAll(bool FLG)
         {
             if (FLG)
             {
-                for (int i = 0; i < MainWindow.devList.Count; i++)
+                for (int i = 0; i < MainWindow.getDevice.devList.Count; i++)
                 {
-                    MainWindow.joyStick[i].Acquire();
+                    MainWindow.getDevice.joyStick[i].Acquire();
                 }
                 return;
             }
-            for (int i = 0; i < MainWindow.devList.Count; i++)
+            for (int i = 0; i < MainWindow.getDevice.devList.Count; i++)
             {
-                MainWindow.joyStick[i].Unacquire();
+                MainWindow.getDevice.joyStick[i].Unacquire();
             }
         }
         
-
-
-
-
+        /// <summary>
+        /// Detect mouse Wheel as the name is.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Detect_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            if (mouseWheelAssign.GetAxisName() != "")
+            if (getDevice.mouseWheelAssign.GetAxisName() != "")
             {
                 wheelValue += e.Delta;
                 // (32768 * 120 / 1240 ) = 3840 
@@ -542,10 +492,6 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     wheelValue = 3840;
             }
         }
-
-
-
-
-
+        
     }
 }

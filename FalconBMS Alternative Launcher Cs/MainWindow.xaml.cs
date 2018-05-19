@@ -34,199 +34,14 @@ namespace FalconBMS_Alternative_Launcher_Cs
         }
         
         private AppRegInfo appReg;
-        public class AppRegInfo
-        {
-            // Member
-            private string installDir;
-            private string currentTheater;
-            private string pilotCallsign;
+        public static GetDevice getDevice = new GetDevice();
 
-            // Method
-            public string GetInstallDir() { return this.installDir; }
-            public string GetCurrentTheater() { return this.currentTheater; }
-            public string GetPilotCallsign() { return this.pilotCallsign; }
-
-            public AppRegInfo(Microsoft.Win32.RegistryKey regkey)
-            {
-                this.installDir = (string)regkey.GetValue("baseDir");
-                this.currentTheater = (string)regkey.GetValue("curTheater");
-                this.pilotCallsign = (Encoding.UTF8.GetString((byte[])regkey.GetValue("PilotCallsign"))).Replace("\0", "");
-            }
-
-            public void ChangeTheater(ComboBox combobox)
-            {
-                Microsoft.Win32.RegistryKey regkey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.33 U1", true);
-                if (regkey == null)
-                    regkey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\Benchmark Sims\\Falcon BMS 4.33 U1", true);
-                if (regkey == null)
-                    return;
-                regkey.SetValue("curTheater", combobox.Items[combobox.SelectedIndex].ToString());
-                regkey.Close();
-            }
-        }
-        
-        public class TheaterList
-        {
-            /// <summary>
-            /// Read theater.lst and apply the list to Combobox.
-            /// </summary>
-            public TheaterList(AppRegInfo appReg, ComboBox Combo)
-            {
-                String filename = appReg.GetInstallDir() + "/Data/Terrdata/theaterdefinition/theater.lst";
-                if (File.Exists(filename) == false)
-                    return;
-                string[] definitionfile = File.ReadAllLines(filename, Encoding.UTF8);
-                
-                var list = new List<string>();
-                foreach (string tdf in definitionfile)
-                {
-                    if (File.Exists(appReg.GetInstallDir() + "\\Data\\" +  tdf) == false)
-                        continue;
-                    string[] line = File.ReadAllLines(appReg.GetInstallDir() + "\\Data\\" + tdf, Encoding.UTF8);
-                    string theatername = "";
-                    foreach (string str in line)
-                    {
-                        if (!str.Contains("name "))
-                            continue;
-                        theatername = str.Replace("name ", "").Trim();
-                        break;
-                    }
-                    list.Add(theatername);
-                }
-                for (int ii = 0; ii < list.Count; ii++)
-                {
-                    Combo.Items.Add(list[ii]);
-                    if (list[ii] == appReg.GetCurrentTheater())
-                        Combo.SelectedIndex = ii;
-                }
-            }
-        }
-        
-        public static DeviceList devList;
-        public static Device[] joyStick;
-
-        public class GetDevice
-        {
-            /// <summary>
-            /// Get Devices.
-            /// </summary>
-            public GetDevice(AppRegInfo appReg)
-            {
-                // Make Joystick Instances.
-                devList = Manager.GetDevices(DeviceClass.GameControl, EnumDevicesFlags.AttachedOnly);
-                joyStick = new Device[devList.Count];
-                joyAssign = new JoyAssgn[devList.Count];
-                
-                System.Xml.Serialization.XmlSerializer serializer;
-                System.IO.StreamReader sr;
-                string fileName = "";
-                int i = 0;
-
-                foreach (DeviceInstance dev in devList)
-                {
-                    joyStick[i] = new Device(dev.InstanceGuid);
-                    joyAssign[i] = new JoyAssgn();
-
-                    joyAssign[i].SetDeviceInstance(dev);
-                    int povnum = joyStick[i].Caps.NumberPointOfViews;
-                    joyStick.Count();
-
-                    fileName = appReg.GetInstallDir() + "/User/Config/Setup.v100." + joyAssign[i].GetProductName().Replace("/", "-")
-                    + " {" + joyAssign[i].GetInstanceGUID().ToString().ToUpper() + "}.xml";
-
-                    // Load exsisting .xml files.
-                    if (File.Exists(fileName)) 
-                    {
-                        serializer = new System.Xml.Serialization.XmlSerializer(typeof(JoyAssgn));
-                        sr = new System.IO.StreamReader(fileName, new System.Text.UTF8Encoding(false));
-                        joyAssign[i] = (JoyAssgn)serializer.Deserialize(sr);
-                        sr.Close();
-                    }
-                    joyAssign[i].SetDeviceInstance(dev);
-                    i += 1;
-                }
-
-                // Import stock BMS Setup if .xml save file for the joystick does not exist. 
-                try
-                {
-                    for (int ii = 0; ii < joyAssign.Count(); ii++)
-                    {
-                        fileName = appReg.GetInstallDir() + "/User/Config/Setup.v100." + joyAssign[ii].GetProductName().Replace("/", "-")
-                           + " {" + joyAssign[ii].GetInstanceGUID().ToString().ToUpper() + "}.xml";
-                        if (File.Exists(fileName) == false)
-                            joyAssign[ii].ImportStockSetup(appReg, joyStick.Count(), joyStick[ii].Caps.NumberPointOfViews, ii);
-                    }
-                }
-                catch (System.IO.FileNotFoundException ex)
-                {
-                    System.Console.WriteLine(ex.Message);
-
-                    System.IO.StreamWriter sw = new System.IO.StreamWriter(appReg.GetInstallDir() + "\\Error.txt", false, System.Text.Encoding.GetEncoding("shift_jis"));
-                    sw.Write(ex.Message);
-                    sw.Close();
-                }
-
-
-                // Load MouseWheel .xml file.
-                serializer = new System.Xml.Serialization.XmlSerializer(typeof(JoyAssgn.AxAssgn));
-                fileName = appReg.GetInstallDir() + "/User/Config/Setup.v100.Mousewheel.xml";
-                if (File.Exists(fileName))
-                {
-                    sr = new System.IO.StreamReader(fileName, new System.Text.UTF8Encoding(false));
-                    mouseWheelAssign = (JoyAssgn.AxAssgn)serializer.Deserialize(sr);
-                    sr.Close();
-                }
-
-                // Load ThrottlePosition .xml file.
-                serializer = new System.Xml.Serialization.XmlSerializer(typeof(ThrottlePosition));
-                fileName = appReg.GetInstallDir() + "/User/Config/Setup.v100.throttlePosition.xml";
-                if (File.Exists(fileName))
-                {
-                    sr = new System.IO.StreamReader(fileName, new System.Text.UTF8Encoding(false));
-                    throttlePos = (ThrottlePosition)serializer.Deserialize(sr);
-                    sr.Close();
-                }
-            }
-        }
-
-        public static int JoyAxisState(int joyNumber, int joyAxisNumber)
-        {
-            int input = 0;
-            switch(joyAxisNumber)
-            {
-                case 0:
-                    input = joyStick[joyNumber].CurrentJoystickState.X;
-                    break;
-                case 1:
-                    input = joyStick[joyNumber].CurrentJoystickState.Y;
-                    break;
-                case 2:
-                    input = joyStick[joyNumber].CurrentJoystickState.Z;
-                    break;
-                case 3:
-                    input = joyStick[joyNumber].CurrentJoystickState.Rx;
-                    break;
-                case 4:
-                    input = joyStick[joyNumber].CurrentJoystickState.Ry;
-                    break;
-                case 5:
-                    input = joyStick[joyNumber].CurrentJoystickState.Rz;
-                    break;
-                case 6:
-                    input = joyStick[joyNumber].CurrentJoystickState.GetSlider()[0];
-                    break;
-                case 7:
-                    input = joyStick[joyNumber].CurrentJoystickState.GetSlider()[1];
-                    break;
-            }
-            return input;
-        }
+        private int bandWidthDefault = 1024;
+        public string theaterOwnConfig = "";
 
         private DispatcherTimer AxisMovingTimer = new DispatcherTimer();
         private DispatcherTimer KeyMappingTimer = new DispatcherTimer();
-
-
-
+        
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             // Read Registry
@@ -248,15 +63,15 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 TheaterList theaterlist = new TheaterList(appReg, this.Dropdown_TheaterList);
 
                 // Get Devices
-                GetDevice getDevice = new GetDevice(appReg);
-                neutralButtons = new NeutralButtons[devList.Count];
+                getDevice = new GetDevice(appReg);
+                neutralButtons = new NeutralButtons[getDevice.devList.Count];
 
                 // Aquire joySticks
                 AquireAll(true);
 
                 // Reset All Axis Settings
-                foreach (String nme in axisNameList)
-                    inGameAxis[nme] = new InGameAxAssgn();
+                foreach (AxisName nme in axisNameList)
+                    inGameAxis[nme.ToString()] = new InGameAxAssgn();
                 joyAssign_2_inGameAxis();
                 ResetAssgnWindow();
 
@@ -308,7 +123,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             }
         }
         
-        private void MetroWindow_Closed(object sender, EventArgs e)
+        private void Window_Closed(object sender, EventArgs e)
         {
             Properties.Settings.Default.Platform = (bool)this.Misc_Platform.IsChecked;
             Properties.Settings.Default.CMD_ACMI = (bool)this.CMD_ACMI.IsChecked;
@@ -327,11 +142,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
             SaveJoyAssignStatus();
         }
-
-
-
-
-
+        
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!e.Source.Equals(this.LargeTab))
@@ -352,11 +163,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             else
                 KeyMappingTimer.Stop();
         }
-
-
-
-
-
+        
         private void Dropdown_TheaterList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             appReg.ChangeTheater(this.Dropdown_TheaterList);
@@ -376,20 +183,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     break;
             }
         }
-
-        public string theaterOwnConfig = "";
         
         private void Launch_TheaterConfig_Click(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Process.Start(theaterOwnConfig);
         }
-
-
-
-
-
-        private int bandWidthDefault = 1024;
-
+        
         private void CMD_BW_Click(object sender, RoutedEventArgs e)
         {
             bandWidthDefault *= 2;
@@ -734,11 +533,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 tblabel.Foreground = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
             }
         }
-
-
-
-
-
+        
         private void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)

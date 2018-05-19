@@ -34,14 +34,14 @@ namespace FalconBMS_Alternative_Launcher_Cs
             System.Xml.Serialization.XmlSerializer serializer;
             System.IO.StreamWriter sw;
 
-            for (int i = 0; i < devList.Count; i++)
+            for (int i = 0; i < getDevice.devList.Count; i++)
             {
-                fileName = appReg.GetInstallDir() + "/User/Config/Setup.v100." + joyAssign[i].GetProductName().Replace("/", "-")
-                + " {" + joyAssign[i].GetInstanceGUID().ToString().ToUpper() + "}.xml";
+                fileName = appReg.GetInstallDir() + "/User/Config/Setup.v100." + getDevice.joyAssign[i].GetProductName().Replace("/", "-")
+                + " {" + getDevice.joyAssign[i].GetInstanceGUID().ToString().ToUpper() + "}.xml";
 
                 serializer = new System.Xml.Serialization.XmlSerializer(typeof(JoyAssgn));
                 sw = new System.IO.StreamWriter(fileName, false, new System.Text.UTF8Encoding(false));
-                serializer.Serialize(sw, joyAssign[i]);
+                serializer.Serialize(sw, getDevice.joyAssign[i]);
 
                 sw.Close();
             }
@@ -49,7 +49,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
             serializer = new System.Xml.Serialization.XmlSerializer(typeof(JoyAssgn.AxAssgn));
             sw = new System.IO.StreamWriter(fileName, false, new System.Text.UTF8Encoding(false));
-            serializer.Serialize(sw, mouseWheelAssign);
+            serializer.Serialize(sw, getDevice.mouseWheelAssign);
 
             sw.Close();
             
@@ -57,7 +57,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
             serializer = new System.Xml.Serialization.XmlSerializer(typeof(ThrottlePosition));
             sw = new System.IO.StreamWriter(fileName, false, new System.Text.UTF8Encoding(false));
-            serializer.Serialize(sw, throttlePos);
+            serializer.Serialize(sw, getDevice.throttlePos);
 
             sw.Close();
         }
@@ -86,7 +86,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             System.IO.StreamWriter cfg = new System.IO.StreamWriter
                 (filename, false, System.Text.Encoding.GetEncoding("shift_jis"));
             cfg.Write(stResult);
-            cfg.Write("set g_nHotasPinkyShiftMagnitude " + (devList.Count*32).ToString()
+            cfg.Write("set g_nHotasPinkyShiftMagnitude " + (getDevice.devList.Count*32).ToString()
                 + "                   // SETUP OVERRIDE\r\n");
             cfg.Write("set g_bHotasDgftSelfCancel " + Convert.ToInt32(this.Misc_OverrideSelfCancel.IsChecked)
                 + "                         // SETUP OVERRIDE\r\n");
@@ -98,8 +98,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
         public void SaveDeviceSorting()
         {
             string deviceSort = "";
-            for (int i = 0; i < devList.Count; i++)
-                deviceSort += joyAssign[i].GetDeviceSortingLine();
+            for (int i = 0; i < getDevice.devList.Count; i++)
+                deviceSort += getDevice.joyAssign[i].GetDeviceSortingLine();
 
             // BMS overwrites DeviceSorting.txt if was written in UTF-8.
             string filename = appReg.GetInstallDir() + "/User/Config/DeviceSorting.txt";
@@ -122,12 +122,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 (filename, false, System.Text.Encoding.GetEncoding("utf-8"));
             for (int i = 0; i < keyAssign.Length; i++)
                 sw.Write(keyAssign[i].GetKeyLine());
-            for (int i = 0; i < devList.Count; i++)
+            for (int i = 0; i < getDevice.devList.Count; i++)
             {
-                sw.Write(joyAssign[i].GetKeyLineDX(i, devList.Count));
+                sw.Write(getDevice.joyAssign[i].GetKeyLineDX(i, getDevice.devList.Count));
                 // PRIMARY DEVICE POV
                 if (((InGameAxAssgn)inGameAxis["Roll"]).GetDeviceNumber() == i) 
-                    sw.Write(joyAssign[i].GetKeyLinePOV());
+                    sw.Write(getDevice.joyAssign[i].GetKeyLinePOV());
             }
             sw.Close();
 
@@ -231,11 +231,11 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 };
                 fs.Write(bs, 0, bs.Length);
 
-                bs = joyAssign[(byte)((InGameAxAssgn)inGameAxis["Pitch"]).GetDeviceNumber()]
+                bs = getDevice.joyAssign[(byte)((InGameAxAssgn)inGameAxis["Pitch"]).GetDeviceNumber()]
                     .GetInstanceGUID().ToByteArray();
                 fs.Write(bs, 0, bs.Length);
 
-                bs = new byte[] { (byte)devList.Count, 0x00, 0x00, 0x00 };
+                bs = new byte[] { (byte)getDevice.devList.Count, 0x00, 0x00, 0x00 };
                 fs.Write(bs, 0, bs.Length);
             }
             else
@@ -246,13 +246,13 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
                 };
-                bs[20] = (byte)devList.Count;
+                bs[20] = (byte)getDevice.devList.Count;
                 fs.Write(bs, 0, bs.Length);
             }
 
-            foreach (string nme in axisMappingList)
+            foreach (AxisName nme in axisMappingList)
             {
-                if (((InGameAxAssgn)inGameAxis[nme]).GetDeviceNumber() == -1)
+                if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() == -1)
                 {
                     bs = new byte[] 
                     {
@@ -264,27 +264,27 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     fs.Write(bs, 0, bs.Length);
                     continue;
                 }
-                if (((InGameAxAssgn)inGameAxis[nme]).GetDeviceNumber() > -1)
+                if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() > -1)
                 {
                     bs = new byte[] 
                     {
-                        (byte)(((InGameAxAssgn)inGameAxis[nme]).GetDeviceNumber()+2),
+                        (byte)(((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber()+2),
                         0x00, 0x00, 0x00
                     };
                     fs.Write(bs, 0, bs.Length);
                     bs = new byte[] 
                     {
-                        (byte)((InGameAxAssgn)inGameAxis[nme]).GetPhysicalNumber(),
+                        (byte)((InGameAxAssgn)inGameAxis[nme.ToString()]).GetPhysicalNumber(),
                         0x00, 0x00, 0x00
                     };
                     fs.Write(bs, 0, bs.Length);
                 }
-                if (((InGameAxAssgn)inGameAxis[nme]).GetDeviceNumber() == -2)
+                if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() == -2)
                 {
                     bs = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
                     fs.Write(bs, 0, bs.Length);
                 }
-                switch (((InGameAxAssgn)inGameAxis[nme]).GetDeadzone())
+                switch (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeadzone())
                 {
                     case AxCurve.None:
                         bs = new byte[] { 0x00, 0x00, 0x00, 0x00 };
@@ -300,7 +300,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                         break;
                 }
                 fs.Write(bs, 0, bs.Length);
-                switch (((InGameAxAssgn)inGameAxis[nme]).GetSaturation())
+                switch (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetSaturation())
                 {
                     case AxCurve.None:
                         bs = new byte[] { 0xFF, 0xFF, 0xFF, 0xFF };
@@ -331,7 +331,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
             byte[] bs;
 
-            foreach (string nme in JoystickCalList)
+            foreach (AxisName nme in JoystickCalList)
             {
                 bs = new byte[] 
                 {
@@ -340,14 +340,14 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
                     0x00, 0x00, 0x00, 0x00
                 };
-                if (((InGameAxAssgn)inGameAxis[nme]).GetDeviceNumber() != -1)
+                if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() != -1)
                 {
                     bs[12] = 0x01;
 
-                    if (nme == "Throttle")
+                    if (nme == AxisName.Throttle)
                     {
-                        double iAB = (double)throttlePos.GetAB();
-                        double iIdle = (double)throttlePos.GetIDLE();
+                        double iAB = (double)getDevice.throttlePos.GetAB();
+                        double iIdle = (double)getDevice.throttlePos.GetIDLE();
 
                         const double MAXIN = 65536;
                         const double MAXOUT = 14848;
@@ -361,13 +361,13 @@ namespace FalconBMS_Alternative_Launcher_Cs
                         bs[1] = ab[1];
                         bs[5] = idle[1];
 
-                        if (throttlePos.GetAB() > (65536 - 256))
+                        if (getDevice.throttlePos.GetAB() > (65536 - 256))
                             bs[1] = 0x00;
-                        if (throttlePos.GetIDLE() < 256)
+                        if (getDevice.throttlePos.GetIDLE() < 256)
                             bs[5] = 0x3A;
                     }
                 }
-                if (((InGameAxAssgn)inGameAxis[nme]).GetInvert())
+                if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetInvert())
                 {
                     bs[20] = 0x01;
                 }

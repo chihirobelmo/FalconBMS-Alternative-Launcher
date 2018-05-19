@@ -76,7 +76,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AppRegInfo.cs" />
+    <Compile Include="AxisName.cs" />
+    <Compile Include="GetDevice.cs" />
+    <Compile Include="InGameAxAssgn.cs" />
     <Compile Include="SaveSetup.cs" />
+    <Compile Include="TheaterList.cs" />
+    <Compile Include="ThrottlePosition.cs" />
     <Page Include="AxisAssignWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

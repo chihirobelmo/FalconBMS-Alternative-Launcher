@@ -35,6 +35,10 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// </summary>
         public string GetVisibility() { return this.visibility; }
 
+        /// <summary>
+        /// Returns each line to write to BMS - FULL.key file.
+        /// </summary>
+        /// <returns></returns>
         public string GetKeyLine()
         {
             string line = "";
@@ -61,6 +65,13 @@ namespace FalconBMS_Alternative_Launcher_Cs
             return line;
         }
 
+        /// <summary>
+        /// Convert keyboard input to KEY file line format.
+        /// </summary>
+        /// <param name="scancode10"></param>
+        /// <param name="shift"></param>
+        /// <param name="ctrl"></param>
+        /// <param name="alt"></param>
         public void SetKeyboard(int scancode10, bool shift, bool ctrl, bool alt)
         {
             int code = 0;
@@ -75,6 +86,13 @@ namespace FalconBMS_Alternative_Launcher_Cs
             this.keyboard = "0x" + scancode10.ToString("X");
         }
 
+        /// <summary>
+        /// Convert Shift/Ctrl/Alt key combination to KEY file line format.
+        /// </summary>
+        /// <param name="scancode10"></param>
+        /// <param name="shift"></param>
+        /// <param name="ctrl"></param>
+        /// <param name="alt"></param>
         public void Setkeycombo(int scancode10, bool shift, bool ctrl, bool alt)
         {
             //if (this.keyboard == "0xFFFFFFFF")
@@ -92,6 +110,9 @@ namespace FalconBMS_Alternative_Launcher_Cs
             this.keycombo = "0x" + scancode10.ToString("X");
         }
 
+        /// <summary>
+        /// Unassign the line.
+        /// </summary>
         public void UnassignKeyboard()
         {
             this.keyboard = "0xFFFFFFFF";
@@ -100,6 +121,10 @@ namespace FalconBMS_Alternative_Launcher_Cs
             this.keycomboMod = "0";
         }
 
+        /// <summary>
+        /// Return TRUE is the line has been broken.
+        /// </summary>
+        /// <returns></returns>
         public bool CheckFileCollapsing()
         {
             bool shutdown = false;
@@ -107,9 +132,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 shutdown = true;
             return shutdown;
         }
-
-
-
+        
         /// <summary>
         /// Save given key file code line in "BMS - FULL.key" and split them to parts.
         /// </summary>
@@ -265,13 +288,13 @@ namespace FalconBMS_Alternative_Launcher_Cs
         public string ReadJoyAssignment(int joynum)
         {
             string ans = "";
-            if (MainWindow.devList.Count <= joynum)
+            if (MainWindow.getDevice.devList.Count <= joynum)
                 return "";
-            ans = MainWindow.joyAssign[joynum].KeyMappingPreviewDX(this);
+            ans = MainWindow.getDevice.joyAssign[joynum].KeyMappingPreviewDX(this);
             // PRIMARY DEVICE POV
-            if (((MainWindow.InGameAxAssgn)MainWindow.inGameAxis["Roll"]).GetDeviceNumber() == joynum)
+            if (((InGameAxAssgn)MainWindow.inGameAxis["Roll"]).GetDeviceNumber() == joynum)
             {
-                string tmp = MainWindow.joyAssign[joynum].KeyMappingPreviewPOV(this);
+                string tmp = MainWindow.getDevice.joyAssign[joynum].KeyMappingPreviewPOV(this);
                 if (ans != "" & tmp != "")
                     ans += "\n";
                 ans += tmp;

@@ -7,7 +7,7 @@
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
         Title="FalconBMS Alternative Launcher" Height="768" Width="1024" GlowBrush="#803878A8"
-        Loaded="Window_Loaded" Closed="MetroWindow_Closed" MouseDown="MetroWindow_MouseDown"
+        Loaded="Window_Loaded" Closed="Window_Closed" MouseDown="MetroWindow_MouseDown"
         FontSize="12" WindowStartupLocation="CenterScreen" ShowTitleBar="False" WindowStyle="None" Background="#FFD4E1EE">
     <Window.Resources>
         <Style TargetType="Label">

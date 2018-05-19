@@ -19,36 +19,46 @@ namespace FalconBMS_Alternative_Launcher_Cs
         public Guid GetProductGUID() { return this.productGUID; }
         public Guid GetInstanceGUID() { return this.instanceGUID; }
 
+        /// <summary>
+        /// [0]=X
+        /// [1]=Y
+        /// [2]=Z
+        /// [3]=Rx
+        /// [4]=Ry
+        /// [5]=Rz
+        /// [6]=Slider0
+        /// [7]=Slider1
+        /// </summary>
         public AxAssgn[] axis = new AxAssgn[8];
-        // [0]=X
-        // [1]=Y
-        // [2]=Z
-        // [3]=Rx
-        // [4]=Ry
-        // [5]=Rz
-        // [6]=Slider0
-        // [7]=Slider1
+
+        /// <summary>
+        /// [0]=POV1
+        /// [1]=POV2
+        /// [2]=POV3
+        /// [3]=POV4
+        /// </summary>
         public PovAssgn[] pov = new PovAssgn[4];
-        // [0]=POV1
-        // [1]=POV2
-        // [2]=POV3
-        // [3]=POV4
-        public DxAssgn[] dx = new DxAssgn[32];
+
+        /// <summary>
+        /// [N] = DX[N]
+        /// </summary>
         // CallBack:      
         // Dx:              The DX button ID (0-31 for 1st Device) Or 
         //                  POV Hat Number (0-1:Unshifted 2-3:Shifted)
-
         // Invoke:          -1=Default -2=Key Down only -4=Key Up Only 8=UI Or
         //                  -1=If POV
-
         // Definition:      -2=DX -3=POV
-
         // Press:           0=PRESS 0x42=RELEASE Or 
         //                  (0-7 CW)=Panning direction for POV
-
         // None:            Not used: 0x0 ALWAYS
         // SoundID:         Sound ID: -1 Or 0
         // Description:     The description
+        public DxAssgn[] dx = new DxAssgn[32];
+
+
+        /// <summary>
+        /// Means each physical axis on a joystick.
+        /// </summary>
         public class AxAssgn
         {
             // Member
@@ -66,7 +76,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             public AxCurve Deadzone { get { return this.deadzone; } set { this.deadzone = value; } }
 
             // Constructor
-            public AxAssgn(String axisName, MainWindow.InGameAxAssgn axisassign)
+            public AxAssgn(String axisName, InGameAxAssgn axisassign)
             {
                 this.axisName = axisName;
                 this.assgnDate = DateTime.Now;
@@ -84,13 +94,24 @@ namespace FalconBMS_Alternative_Launcher_Cs
             public AxCurve GetDeadZone() { return this.deadzone; }
             public AxCurve GetSaturation() { return this.saturation; }
         }
+
+        /// <summary>
+        /// Means each actual dx buttons on a joystick.
+        /// </summary>
         public class DxAssgn
         {
+            /// <summary>
+            /// [0]=PRESS
+            /// [1]=PRESS + SHIFT
+            /// [2]=RELEASE
+            /// [3]=RELEASE + SHIFT
+            /// </summary>
             public Assgn[] assign = new Assgn[4];
-            // [0]=PRESS
-            // [1]=PRESS + SHIFT
-            // [2]=RELEASE
-            // [3]=RELEASE + SHIFT
+
+            /// <summary>
+            /// MEans each behaviour for a button. 
+            /// Press / Pinky+Press / Release / Pinky+Release
+            /// </summary>
             public class Assgn
             {
                 // Member
@@ -125,9 +146,20 @@ namespace FalconBMS_Alternative_Launcher_Cs
             }
 
         }
+
+        /// <summary>
+        /// Means each actual POV switches on a joystick.
+        /// </summary>
         public class PovAssgn
         {
+            /// <summary>
+            /// One POV switch has 8 directions.
+            /// </summary>
             public DirAssgn[] direction = new DirAssgn[8];
+
+            /// <summary>
+            /// MEans each direction on a POV switch,
+            /// </summary>
             public class DirAssgn
             {
                 // Member
@@ -227,7 +259,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <summary>
         /// Make new instance.
         /// </summary>
-        public void ImportStockSetup(MainWindow.AppRegInfo appReg, int devcount, int povnum, int joynum)
+        public void ImportStockSetup(AppRegInfo appReg, int devcount, int povnum, int joynum)
         {
             Invoke invokeStatus = Invoke.UI;
             Behaviour behaviourStatus = Behaviour.Press;
@@ -349,8 +381,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
                                     invert = true;
                             }
 
-                            MainWindow.InGameAxAssgn inGameAxAssgn = new MainWindow.InGameAxAssgn(currentID, axisNum, invert, deadzone, saturation);
-                            this.axis[axisNum] = new AxAssgn(MainWindow.axisMappingList[i], inGameAxAssgn);
+                            InGameAxAssgn inGameAxAssgn = new InGameAxAssgn(currentID, axisNum, invert, deadzone, saturation);
+                            this.axis[axisNum] = new AxAssgn(MainWindow.axisMappingList[i].ToString(), inGameAxAssgn);
                         }
                     }
                 }
