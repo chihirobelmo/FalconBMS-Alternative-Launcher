@@ -24,9 +24,37 @@ namespace FalconBMS_Alternative_Launcher_Cs
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow
+    public class OverrideSetting
     {
-        public void SaveJoyAssignStatus()
+        private MainWindow mainWindow;
+        private AppRegInfo appReg;
+        private Hashtable inGameAxis;
+        private GetDevice getDevice;
+        private KeyFile keyFile;
+
+        public OverrideSetting(MainWindow mainWindow, AppRegInfo appReg, Hashtable inGameAxis, GetDevice getDevice, KeyFile keyFile)
+        {
+            this.mainWindow = mainWindow;
+            this.appReg = appReg;
+            this.inGameAxis = inGameAxis;
+            this.getDevice = getDevice;
+            this.keyFile = keyFile;
+
+            if (!System.IO.Directory.Exists(appReg.GetInstallDir() + "/User/Config/Backup/"))
+                System.IO.Directory.CreateDirectory(appReg.GetInstallDir() + "/User/Config/Backup/");
+
+            SaveAxisMapping();
+            SaveJoystickCal();
+            SaveDeviceSorting();
+            SaveConfigfile();
+            SaveKeyMapping();
+            SaveJoyAssignStatus();
+        }
+
+        /// <summary>
+        /// As the name inplies...
+        /// </summary>
+        protected void SaveJoyAssignStatus()
         {
             //保存先のファイル名
             string fileName = "";
@@ -62,7 +90,10 @@ namespace FalconBMS_Alternative_Launcher_Cs
             sw.Close();
         }
 
-        public void SaveConfigfile()
+        /// <summary>
+        /// As the name inplies...
+        /// </summary>
+        protected void SaveConfigfile()
         {
             string filename = appReg.GetInstallDir() + "/User/Config/falcon bms.cfg";
             if (!System.IO.File.Exists(filename))
@@ -88,14 +119,17 @@ namespace FalconBMS_Alternative_Launcher_Cs
             cfg.Write(stResult);
             cfg.Write("set g_nHotasPinkyShiftMagnitude " + (getDevice.devList.Count*32).ToString()
                 + "                   // SETUP OVERRIDE\r\n");
-            cfg.Write("set g_bHotasDgftSelfCancel " + Convert.ToInt32(this.Misc_OverrideSelfCancel.IsChecked)
+            cfg.Write("set g_bHotasDgftSelfCancel " + Convert.ToInt32(mainWindow.Misc_OverrideSelfCancel.IsChecked)
                 + "                         // SETUP OVERRIDE\r\n");
-            cfg.Write("set g_b3DClickableCursorAnchored " + Convert.ToInt32(this.Misc_MouseCursorAnchor.IsChecked)
+            cfg.Write("set g_b3DClickableCursorAnchored " + Convert.ToInt32(mainWindow.Misc_MouseCursorAnchor.IsChecked)
                 + "                   // SETUP OVERRIDE\r\n");
             cfg.Close();
         }
 
-        public void SaveDeviceSorting()
+        /// <summary>
+        /// As the name inplies...
+        /// </summary>
+        protected void SaveDeviceSorting()
         {
             string deviceSort = "";
             for (int i = 0; i < getDevice.devList.Count; i++)
@@ -112,7 +146,10 @@ namespace FalconBMS_Alternative_Launcher_Cs
             ds.Close();
         }
 
-        public void SaveKeyMapping()
+        /// <summary>
+        /// As the name inplies...
+        /// </summary>
+        protected void SaveKeyMapping()
         {
             string filename = appReg.GetInstallDir() + "/User/Config/BMS - Full.key";
             string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/BMS - Full.key";
@@ -194,15 +231,15 @@ namespace FalconBMS_Alternative_Launcher_Cs
             bs[288 + 15] = 0x00;
 
             bs[336] = 0x00; // TrackIR Z-Axis(0:Z-axis 1:FOV)
-            if (this.Misc_TrackIRZ.IsChecked == true)
+            if (mainWindow.Misc_TrackIRZ.IsChecked == true)
                 bs[336] = 0x01;
 
             bs[341] = 0x00; // External Mouselook
-            if (this.Misc_ExMouseLook.IsChecked == true)
+            if (mainWindow.Misc_ExMouseLook.IsChecked == true)
                 bs[341] = 0x01;
 
             bs[362] = 0x00; // Roll-linked NWS
-            if (this.Misc_RollLinkedNWS.IsChecked == true)
+            if (mainWindow.Misc_RollLinkedNWS.IsChecked == true)
                 bs[362] = 0x01;
 
             fs = new System.IO.FileStream
@@ -211,7 +248,10 @@ namespace FalconBMS_Alternative_Launcher_Cs
             fs.Close();
         }
 
-        public void SaveAxisMapping()
+        /// <summary>
+        /// As the name inplies...
+        /// </summary>
+        protected void SaveAxisMapping()
         {
             string filename = appReg.GetInstallDir() + "/User/Config/axismapping.dat";
             string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/axismapping.dat";
@@ -320,7 +360,10 @@ namespace FalconBMS_Alternative_Launcher_Cs
             fs.Close();
         }
 
-        public void SaveJoystickCal()
+        /// <summary>
+        /// As the name inplies...
+        /// </summary>
+        protected void SaveJoystickCal()
         {
             string filename = appReg.GetInstallDir() + "/User/Config/joystick.cal";
             string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/joystick.cal";
@@ -375,5 +418,69 @@ namespace FalconBMS_Alternative_Launcher_Cs
             }
             fs.Close();
         }
+
+        /// <summary>
+        /// Axis information order for AxisMapping.dat
+        /// </summary>
+        public static AxisName[] axisMappingList = {
+            AxisName.Pitch,
+            AxisName.Roll,
+            AxisName.Yaw,
+            AxisName.Throttle,
+            AxisName.Throttle_Right,
+            AxisName.Toe_Brake,
+            AxisName.Toe_Brake_Right,
+            AxisName.FOV,
+            AxisName.Trim_Pitch,
+            AxisName.Trim_Yaw,
+            AxisName.Trim_Roll,
+            AxisName.Radar_Antenna_Elevation,
+            AxisName.Range_Knob,
+            AxisName.Cursor_X,
+            AxisName.Cursor_Y,
+            AxisName.COMM_Channel_1,
+            AxisName.COMM_Channel_2,
+            AxisName.MSL_Volume,
+            AxisName.Threat_Volume,
+            AxisName.Intercom,
+            AxisName.AI_vs_IVC,
+            AxisName.HUD_Brightness,
+            AxisName.FLIR_Brightness,
+            AxisName.HMS_Brightness,
+            AxisName.Reticle_Depression,
+            AxisName.Camera_Distance
+        };
+
+        /// <summary>
+        /// Axis information order for JoyStick.cal
+        /// </summary>
+        public static AxisName[] JoystickCalList = {
+            AxisName.Pitch,
+            AxisName.Roll,
+            AxisName.Yaw,
+            AxisName.Throttle,
+            AxisName.Throttle_Right,
+            AxisName.Trim_Pitch,
+            AxisName.Trim_Yaw,
+            AxisName.Trim_Roll,
+            AxisName.Toe_Brake,
+            AxisName.Toe_Brake_Right,
+            AxisName.FOV,
+            AxisName.Radar_Antenna_Elevation,
+            AxisName.Cursor_X,
+            AxisName.Cursor_Y,
+            AxisName.Range_Knob,
+            AxisName.COMM_Channel_1,
+            AxisName.COMM_Channel_2,
+            AxisName.MSL_Volume,
+            AxisName.Threat_Volume,
+            AxisName.HUD_Brightness,
+            AxisName.Reticle_Depression,
+            AxisName.Camera_Distance,
+            AxisName.Intercom,
+            AxisName.HMS_Brightness,
+            AxisName.AI_vs_IVC,
+            AxisName.FLIR_Brightness
+        };
     }
 }

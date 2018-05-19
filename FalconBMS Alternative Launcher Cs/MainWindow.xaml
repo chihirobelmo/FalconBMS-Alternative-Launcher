@@ -492,7 +492,11 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <Image HorizontalAlignment="Left" Height="54" Margin="10,10,0,0" VerticalAlignment="Top" Width="522" Source="Resources/Logo.png" Stretch="None"/>
+
+        <Image x:Name="LOGO432" Visibility="Hidden" HorizontalAlignment="Left" VerticalAlignment="Top" Height="64" Source="Resources/LOGO432.png" Stretch="Uniform" Margin="0,0,-350,0"/>
+        <Image x:Name="LOGO433" Visibility="Hidden" HorizontalAlignment="Left" VerticalAlignment="Top" Height="64" Source="Resources/LOGO433.png" Stretch="Uniform" Margin="0,0,-350,0"/>
+        <Image x:Name="LOGO434" Visibility="Hidden" HorizontalAlignment="Left" VerticalAlignment="Top" Height="64" Source="Resources/LOGO434.png" Stretch="Uniform" Margin="0,0,-350,0"/>
+        <Image x:Name="LOGO435" Visibility="Hidden"  HorizontalAlignment="Left" VerticalAlignment="Top" Height="64" Source="Resources/LOGO435.png" Stretch="Uniform" Margin="0,0,-350,0"/>
         <Label Content="FalconBMS Alternative Launcher v1.08.1" HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontWeight="Bold" Margin="0,0,10,0"/>
 
     </Grid>

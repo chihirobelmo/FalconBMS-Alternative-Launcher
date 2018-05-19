@@ -35,30 +35,42 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 this.platform = Platform.OS_32bit;
                 mainWindow.Misc_Platform.IsChecked = false;
                 mainWindow.Misc_Platform.IsEnabled = false;
+                mainWindow.LOGO432.Visibility = System.Windows.Visibility.Visible;
             }
             else if (stCurrentDir.Contains("Falcon BMS 4.33") && !stCurrentDir.Contains("Falcon BMS 4.33 U1"))
             {
                 this.regName = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.33";
                 this.bms_Version = BMS_Version.BMS433;
                 this.platform = Platform.OS_64bit;
+                mainWindow.LOGO433.Visibility = System.Windows.Visibility.Visible;
             }
             else if (stCurrentDir.Contains("Falcon BMS 4.33 U1"))
             {
                 this.regName = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.33 U1";
                 this.bms_Version = BMS_Version.BMS433U1;
                 this.platform = Platform.OS_64bit;
+                mainWindow.LOGO433.Visibility = System.Windows.Visibility.Visible;
             }
             else if (stCurrentDir.Contains("Falcon BMS 4.34"))
             {
                 this.regName = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.34";
                 this.bms_Version = BMS_Version.BMS434;
                 this.platform = Platform.OS_64bit;
+                mainWindow.LOGO434.Visibility = System.Windows.Visibility.Visible;
+            }
+            else if (stCurrentDir.Contains("Falcon BMS 4.35"))
+            {
+                this.regName = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.35";
+                this.bms_Version = BMS_Version.BMS435;
+                this.platform = Platform.OS_64bit;
+                mainWindow.LOGO435.Visibility = System.Windows.Visibility.Visible;
             }
             else
             {
                 this.regName = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.33 U1";
                 this.bms_Version = BMS_Version.BMS433U1;
                 this.platform = Platform.OS_64bit;
+                mainWindow.LOGO433.Visibility = System.Windows.Visibility.Visible;
             }
 
             // Read Registry
@@ -109,6 +121,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         BMS432,
         BMS433,
         BMS433U1,
-        BMS434
+        BMS434,
+        BMS435
     }
 }

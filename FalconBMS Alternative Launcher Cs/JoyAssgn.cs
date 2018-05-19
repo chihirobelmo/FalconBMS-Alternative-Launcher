@@ -348,7 +348,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 fs.Read(jc, 0, jc.Length);
                 fs.Close();
 
-                for (int i = 0; i < MainWindow.axisMappingList.Count(); i++)
+                for (int i = 0; i < OverrideSetting.axisMappingList.Count(); i++)
                 {
                     for (int ii = 0; ii < devcount; ii++)
                     {
@@ -371,10 +371,10 @@ namespace FalconBMS_Alternative_Launcher_Cs
                                 saturation = AxCurve.Large;
                             bool invert = false;
 
-                            for (int iii = 0; iii < MainWindow.JoystickCalList.Count(); iii++)
+                            for (int iii = 0; iii < OverrideSetting.JoystickCalList.Count(); iii++)
                             {
                                 // read joystick.cal
-                                if (MainWindow.axisMappingList[i] != MainWindow.JoystickCalList[iii])
+                                if (OverrideSetting.axisMappingList[i] != OverrideSetting.JoystickCalList[iii])
                                     continue;
                                 int invertnum = (int)jc[iii * 28 + 20];
                                 if (invertnum == 1)
@@ -382,7 +382,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                             }
 
                             InGameAxAssgn inGameAxAssgn = new InGameAxAssgn(currentID, axisNum, invert, deadzone, saturation);
-                            this.axis[axisNum] = new AxAssgn(MainWindow.axisMappingList[i].ToString(), inGameAxAssgn);
+                            this.axis[axisNum] = new AxAssgn(OverrideSetting.axisMappingList[i].ToString(), inGameAxAssgn);
                         }
                     }
                 }

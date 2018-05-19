@@ -158,7 +158,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             Properties.Settings.Default.Misc_OverrideSelfCancel = (bool)this.Misc_OverrideSelfCancel.IsChecked;
             Properties.Settings.Default.Save();
 
-            SaveJoyAssignStatus();
+            new OverrideSetting(this, appReg, inGameAxis, getDevice, keyFile);
         }
         
         /// <summary>
@@ -274,18 +274,11 @@ namespace FalconBMS_Alternative_Launcher_Cs
                         if (MessageBox.Show("You are going to launch BMS without any setup override from AxisAssign and KeyMapping section. Will you continue?", "WARNING", MessageBoxButton.OKCancel, MessageBoxImage.Information) == MessageBoxResult.Cancel)
                             return;
                     }
+
+                    // OVERRIDE SETTINGS.
                     if (this.ApplicationOverride.IsChecked == false)
                     {
-                        if (!System.IO.Directory.Exists(appReg.GetInstallDir() + "/User/Config/Backup/"))
-                            System.IO.Directory.CreateDirectory(appReg.GetInstallDir() + "/User/Config/Backup/");
-
-                        SaveAxisMapping();
-                        SaveJoystickCal();
-                        SaveDeviceSorting();
-                        SaveConfigfile();
-                        SaveKeyMapping();
-
-                        SaveJoyAssignStatus();
+                        new OverrideSetting(this, appReg, inGameAxis, getDevice, keyFile);
                     }
 
 
@@ -352,6 +345,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             string target = "";
             string downloadlink = "";
             string installexe = "";
+
             switch (((System.Windows.Controls.Button)sender).Name)
             {
                 case "Launch_WDP":
