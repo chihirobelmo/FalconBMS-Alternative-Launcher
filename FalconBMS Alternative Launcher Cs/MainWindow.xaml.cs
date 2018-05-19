@@ -42,23 +42,45 @@ namespace FalconBMS_Alternative_Launcher_Cs
         private DispatcherTimer AxisMovingTimer = new DispatcherTimer();
         private DispatcherTimer KeyMappingTimer = new DispatcherTimer();
         
+        /// <summary>
+        /// Execute when launching this app.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            // Read Registry
-            Microsoft.Win32.RegistryKey regkey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.33 U1", false);
-            if (regkey == null)
-                regkey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\Benchmark Sims\\Falcon BMS 4.33 U1", false);
-            if (regkey == null)
-            {
-                System.Windows.MessageBox.Show("There is no FalconBMS 4.33 U1 Installed.");
-                this.Close();
-                return;
-            }
-            appReg = new AppRegInfo(regkey);
-            regkey.Close();
-
             try
             {
+                // Load UI settings
+                SetUIDefault();
+                void SetUIDefault()
+                {
+                    // Load Buttons
+                    this.Misc_Platform.IsChecked = Properties.Settings.Default.Platform;
+                    this.CMD_ACMI.IsChecked = Properties.Settings.Default.CMD_ACMI;
+                    this.CMD_WINDOW.IsChecked = Properties.Settings.Default.CMD_WINDOW;
+                    this.CMD_NOMOVIE.IsChecked = Properties.Settings.Default.CMD_NOMOVIE;
+                    this.CMD_EF.IsChecked = Properties.Settings.Default.CMD_EF;
+                    this.CMD_MONO.IsChecked = Properties.Settings.Default.CMD_MONO;
+                    this.bandWidthDefault = Properties.Settings.Default.CMD_BW;
+                    this.ApplicationOverride.IsChecked = Properties.Settings.Default.NoOverride;
+                    this.Misc_RollLinkedNWS.IsChecked = Properties.Settings.Default.Misc_RLNWS;
+                    this.Misc_MouseCursorAnchor.IsChecked = Properties.Settings.Default.Misc_MouseCursorAnchor;
+                    this.Misc_TrackIRZ.IsChecked = Properties.Settings.Default.Misc_TrackIRZ;
+                    this.Misc_ExMouseLook.IsChecked = Properties.Settings.Default.Misc_ExMouseLook;
+                    this.Misc_OverrideSelfCancel.IsChecked = Properties.Settings.Default.Misc_OverrideSelfCancel;
+
+                    // Button Status Default
+                    Select_DX_Release.IsChecked = true;
+                    Select_PinkyShift.IsChecked = true;
+                    CMD_BW.Content = "BW : " + bandWidthDefault.ToString();
+                    AB_Throttle.Visibility = Visibility.Hidden;
+                    AB_Throttle_Right.Visibility = Visibility.Hidden;
+                }
+
+                // Read Registry
+                appReg = new AppRegInfo(this);
+
                 // Read Theater List
                 TheaterList theaterlist = new TheaterList(appReg, this.Dropdown_TheaterList);
 
@@ -89,28 +111,6 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 KeyMappingTimer.Tick += KeyMappingTimer_Tick;
                 KeyMappingTimer.Interval = new TimeSpan(0, 0, 0, 0, 16);
 
-                // Load Buttons
-                this.Misc_Platform.IsChecked = Properties.Settings.Default.Platform;
-                this.CMD_ACMI.IsChecked = Properties.Settings.Default.CMD_ACMI;
-                this.CMD_WINDOW.IsChecked = Properties.Settings.Default.CMD_WINDOW;
-                this.CMD_NOMOVIE.IsChecked = Properties.Settings.Default.CMD_NOMOVIE;
-                this.CMD_EF.IsChecked = Properties.Settings.Default.CMD_EF;
-                this.CMD_MONO.IsChecked = Properties.Settings.Default.CMD_MONO;
-                this.bandWidthDefault = Properties.Settings.Default.CMD_BW;
-                this.ApplicationOverride.IsChecked = Properties.Settings.Default.NoOverride;
-                this.Misc_RollLinkedNWS.IsChecked = Properties.Settings.Default.Misc_RLNWS;
-                this.Misc_MouseCursorAnchor.IsChecked = Properties.Settings.Default.Misc_MouseCursorAnchor;
-                this.Misc_TrackIRZ.IsChecked = Properties.Settings.Default.Misc_TrackIRZ;
-                this.Misc_ExMouseLook.IsChecked = Properties.Settings.Default.Misc_ExMouseLook;
-                this.Misc_OverrideSelfCancel.IsChecked = Properties.Settings.Default.Misc_OverrideSelfCancel;
-
-                // Button Status Default
-                Select_DX_Release.IsChecked = true;
-                Select_PinkyShift.IsChecked = true;
-                CMD_BW.Content = "BW : " + bandWidthDefault.ToString();
-                AB_Throttle.Visibility = Visibility.Hidden;
-                AB_Throttle_Right.Visibility = Visibility.Hidden;
-
                 //System.Diagnostics.PresentationTraceSources.DataBindingSource.Switch.Level = System.Diagnostics.SourceLevels.Critical;
             }
             catch (System.IO.FileNotFoundException ex)
@@ -120,9 +120,16 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 System.IO.StreamWriter sw = new System.IO.StreamWriter(appReg.GetInstallDir() + "\\Error.txt", false, System.Text.Encoding.GetEncoding("shift_jis"));
                 sw.Write(ex.Message);
                 sw.Close();
+
+                this.Close();
             }
         }
         
+        /// <summary>
+        /// Execute when quiting this app.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Window_Closed(object sender, EventArgs e)
         {
             Properties.Settings.Default.Platform = (bool)this.Misc_Platform.IsChecked;
@@ -143,6 +150,11 @@ namespace FalconBMS_Alternative_Launcher_Cs
             SaveJoyAssignStatus();
         }
         
+        /// <summary>
+        /// Execute/Stop timer event when changing top TAB menu (Launcher/AxisAssign/KeyConfig).
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!e.Source.Equals(this.LargeTab))
@@ -189,6 +201,11 @@ namespace FalconBMS_Alternative_Launcher_Cs
             System.Diagnostics.Process.Start(theaterOwnConfig);
         }
         
+        /// <summary>
+        /// When clicked BW button, changes BW value.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CMD_BW_Click(object sender, RoutedEventArgs e)
         {
             bandWidthDefault *= 2;
@@ -197,11 +214,21 @@ namespace FalconBMS_Alternative_Launcher_Cs
             CMD_BW.Content = "BW : " + bandWidthDefault.ToString();
         }
 
+        /// <summary>
+        /// Open BMS Docs and Manuals.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OpenDocs_Click(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Docs");
         }
 
+        /// <summary>
+        ///  Launch BMS utilities.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Launch_Click(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Process process;
@@ -284,11 +311,21 @@ namespace FalconBMS_Alternative_Launcher_Cs
             }
         }
 
+        /// <summary>
+        /// Something I need to launch BMS.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void window_Normal(object sender, System.EventArgs e)
         {
             this.Invoke(new System.Action(() => { this.WindowState = WindowState.Normal; }));
         }
 
+        /// <summary>
+        /// Launch third party utilities.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Launch_Third(object sender, RoutedEventArgs e)
         {
             string target = "";
@@ -491,6 +528,11 @@ namespace FalconBMS_Alternative_Launcher_Cs
             }
         }
 
+        /// <summary>
+        /// Change label color when mouse enters one of launcher icons.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MouseEnterLauncher(object sender, EventArgs e)
         {
             string nme = ((System.Windows.Controls.Button)sender).Name;
@@ -513,6 +555,11 @@ namespace FalconBMS_Alternative_Launcher_Cs
             }
         }
 
+        /// <summary>
+        /// Reset label color when mouse leaves a launcher icon.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MouseLeaveLauncher(object sender, EventArgs e)
         {
             string nme = ((System.Windows.Controls.Button)sender).Name;
@@ -534,6 +581,11 @@ namespace FalconBMS_Alternative_Launcher_Cs
             }
         }
         
+        /// <summary>
+        /// Allow user to drag the window.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)

@@ -329,17 +329,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 }
             }
         }
-
-
-
-
-
         
-
-
-
-
-
         private void Retry_Click(object sender, RoutedEventArgs e)
         {
             status = Status.GetNeutralPosition;
@@ -452,11 +442,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 IDLEposition = 0;
             this.IDLE = IDLEposition;
         }
-
-
-
-
-
+        
         private void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
