@@ -21,6 +21,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         private string pilotCallsign;
 
         private MainWindow mainWindow;
+        public string keyFileName;
         public string theaterOwnConfig = "";
 
         // Method
@@ -39,6 +40,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 this.regName = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.32";
                 this.bms_Version = BMS_Version.BMS432;
                 this.platform = Platform.OS_32bit;
+                this.keyFileName = "BMS.key";
                 mainWindow.Misc_Platform.IsChecked = false;
                 mainWindow.Misc_Platform.IsEnabled = false;
                 mainWindow.LOGO432.Visibility = System.Windows.Visibility.Visible;
@@ -48,6 +50,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 this.regName = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.33";
                 this.bms_Version = BMS_Version.BMS433;
                 this.platform = Platform.OS_64bit;
+                this.keyFileName = "BMS - FULL.key";
                 mainWindow.LOGO433.Visibility = System.Windows.Visibility.Visible;
             }
             else if (stCurrentDir.Contains("Falcon BMS 4.33 U1"))
@@ -55,6 +58,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 this.regName = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.33 U1";
                 this.bms_Version = BMS_Version.BMS433U1;
                 this.platform = Platform.OS_64bit;
+                this.keyFileName = "BMS - FULL.key";
                 mainWindow.LOGO433.Visibility = System.Windows.Visibility.Visible;
             }
             else if (stCurrentDir.Contains("Falcon BMS 4.34"))
@@ -62,6 +66,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 this.regName = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.34";
                 this.bms_Version = BMS_Version.BMS434;
                 this.platform = Platform.OS_64bit;
+                this.keyFileName = "BMS - FULL.key";
                 mainWindow.LOGO434.Visibility = System.Windows.Visibility.Visible;
             }
             else if (stCurrentDir.Contains("Falcon BMS 4.35"))
@@ -69,6 +74,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 this.regName = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.35";
                 this.bms_Version = BMS_Version.BMS435;
                 this.platform = Platform.OS_64bit;
+                this.keyFileName = "BMS - FULL.key";
                 mainWindow.LOGO435.Visibility = System.Windows.Visibility.Visible;
             }
             else
@@ -76,6 +82,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 this.regName = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.33 U1";
                 this.bms_Version = BMS_Version.BMS433U1;
                 this.platform = Platform.OS_64bit;
+                this.keyFileName = "BMS - FULL.key";
                 mainWindow.LOGO433.Visibility = System.Windows.Visibility.Visible;
             }
 

@@ -557,5 +557,26 @@ namespace FalconBMS_Alternative_Launcher_Cs
             if (e.ChangedButton == MouseButton.Left)
                 this.DragMove();
         }
+
+        /// <summary>
+        /// Hey Don't input any charcters on me.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TextBox_hFOV_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !new System.Text.RegularExpressions.Regex("[0-9]").IsMatch(e.Text);
+        }
+
+        /// <summary>
+        /// Hey Don't Copy+Paste on me.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TextBox_hFOV_PreviewExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (e.Command == ApplicationCommands.Paste)
+                e.Handled = true;
+        }
     }
 }

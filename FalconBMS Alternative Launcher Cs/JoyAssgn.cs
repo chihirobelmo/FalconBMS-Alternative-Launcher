@@ -88,7 +88,11 @@ namespace FalconBMS_Alternative_Launcher_Cs
             public AxAssgn() { }
 
             // Method
-            public string GetAxisName() { return this.axisName; }
+            public string GetAxisName()
+            {
+                //this.axisName = (string)Enum.Parse(typeof(AxisName), this.axisName);
+                return this.axisName;
+            }
             public DateTime GetAssignDate() { return this.assgnDate; }
             public bool GetInvert() { return this.invert; }
             public AxCurve GetDeadZone() { return this.deadzone; }

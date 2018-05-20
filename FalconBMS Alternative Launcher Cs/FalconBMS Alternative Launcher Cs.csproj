@@ -54,8 +54,11 @@
     <ApplicationIcon>MAINICON.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MahApps.Metro, Version=1.5.0.23, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.1.5.0\lib\net45\MahApps.Metro.dll</HintPath>
+    <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro, Version=1.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.1.6.4\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.DirectX, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
       <SpecificVersion>False</SpecificVersion>
@@ -88,8 +91,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.1.5.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -113,7 +115,7 @@
     <Compile Include="AppProperties.cs" />
     <Compile Include="AppRegInfo.cs" />
     <Compile Include="AxisName.cs" />
-    <Compile Include="GetDevice.cs" />
+    <Compile Include="DeviceControl.cs" />
     <Compile Include="InGameAxAssgn.cs" />
     <Compile Include="KeyFile.cs" />
     <Compile Include="OverrideSetting.cs" />
@@ -212,12 +214,6 @@
     <Resource Include="Resources\BackGround.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\WRENCH_ON.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\WRENCH.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\TIR.png" />
   </ItemGroup>
   <ItemGroup>
@@ -246,6 +242,13 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Noise.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\LOGO_BACK.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\TabControl_1_BackGround.png" />
+    <Resource Include="Resources\TabControl_2_BackGround.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

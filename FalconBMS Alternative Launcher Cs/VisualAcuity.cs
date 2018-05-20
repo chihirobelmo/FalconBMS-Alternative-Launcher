@@ -10,9 +10,26 @@ namespace FalconBMS_Alternative_Launcher_Cs
 {
     public class VisualAcuity
     {
+        public MainWindow mainwindow;
         public int horizontalFOV_Ideal_deg;
 
         public VisualAcuity(MainWindow mainwindow)
+        {
+            this.mainwindow = mainwindow;
+
+            // Calculate Smart Scaling Factor.
+            int width_px = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
+            int height_px = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height;
+            this.horizontalFOV_Ideal_deg = width_px / 30;
+
+            this.SetGraph(width_px);
+
+            mainwindow.Label_SystemResolution.Content = width_px + " * " + height_px + " pixels";
+            mainwindow.Label_DesiredFOV.Content = this.horizontalFOV_Ideal_deg + " hFOV Degrees";
+            mainwindow.Label_DesiredFOV_NoScaling.Content = "with Smart Scaling ON, " + this.horizontalFOV_Ideal_deg/2 + " hFOV if OFF.";
+        }
+
+        public void SetGraph(int width_px)
         {
             var windowsFormsHost = (System.Windows.Forms.Integration.WindowsFormsHost)mainwindow.grid1.Children[0];
 
@@ -20,6 +37,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             ChartArea chartArea = new ChartArea();
 
             // Chart settings.
+            chart.ChartAreas.Clear();
             chart.ChartAreas.Add("SerfossGraph");
             chart.BorderlineColor = System.Drawing.Color.Gray;
             chart.BackColor = System.Drawing.ColorTranslator.FromHtml("#D4E1EE");
@@ -69,11 +87,6 @@ namespace FalconBMS_Alternative_Launcher_Cs
             leg.Alignment = System.Drawing.StringAlignment.Near;
             leg.BackColor = System.Drawing.ColorTranslator.FromHtml("#D4E1EE");
 
-            // Calculate Smart Scaling Factor.
-            int width_px = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
-            int height_px = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height;
-            this.horizontalFOV_Ideal_deg = width_px / 30;
-
             for (double distance_NM = 0.1; distance_NM < 5.0; distance_NM = distance_NM + 0.1)
             {
                 double F16length_meter = 15.06;
@@ -102,10 +115,6 @@ namespace FalconBMS_Alternative_Launcher_Cs
             chart.Series.Add(noSmartScaling);
             chart.Series.Add(smartScaling);
             chart.Legends.Add(leg);
-            //chart.ChartAreas.Clear();
-
-            mainwindow.Label_SystemResolution.Content = width_px + " * " + height_px + " pixels";
-            mainwindow.Label_DesiredFOV.Content = this.horizontalFOV_Ideal_deg + " hFOV Degrees";
         }
     }
 }
