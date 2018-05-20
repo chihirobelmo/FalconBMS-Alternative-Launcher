@@ -288,13 +288,13 @@ namespace FalconBMS_Alternative_Launcher_Cs
         public string ReadJoyAssignment(int joynum)
         {
             string ans = "";
-            if (MainWindow.getDevice.devList.Count <= joynum)
+            if (MainWindow.deviceControl.devList.Count <= joynum)
                 return "";
-            ans = MainWindow.getDevice.joyAssign[joynum].KeyMappingPreviewDX(this);
+            ans = MainWindow.deviceControl.joyAssign[joynum].KeyMappingPreviewDX(this);
             // PRIMARY DEVICE POV
             if (((InGameAxAssgn)MainWindow.inGameAxis["Roll"]).GetDeviceNumber() == joynum)
             {
-                string tmp = MainWindow.getDevice.joyAssign[joynum].KeyMappingPreviewPOV(this);
+                string tmp = MainWindow.deviceControl.joyAssign[joynum].KeyMappingPreviewPOV(this);
                 if (ans != "" & tmp != "")
                     ans += "\n";
                 ans += tmp;

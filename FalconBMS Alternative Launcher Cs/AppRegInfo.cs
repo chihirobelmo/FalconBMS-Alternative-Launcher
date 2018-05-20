@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace FalconBMS_Alternative_Launcher_Cs
@@ -19,6 +20,9 @@ namespace FalconBMS_Alternative_Launcher_Cs
         private string currentTheater;
         private string pilotCallsign;
 
+        private MainWindow mainWindow;
+        public string theaterOwnConfig = "";
+
         // Method
         public string GetInstallDir() { return this.installDir; }
         public string GetCurrentTheater() { return this.currentTheater; }
@@ -26,6 +30,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         public AppRegInfo(MainWindow mainWindow)
         {
+            this.mainWindow = mainWindow;
+
             // Read Current Directry
             string stCurrentDir = System.IO.Directory.GetCurrentDirectory();
             if (stCurrentDir.Contains("Falcon BMS 4.32"))
@@ -107,6 +113,21 @@ namespace FalconBMS_Alternative_Launcher_Cs
             this.regkey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(this.regName, true);
             this.regkey.SetValue("curTheater", combobox.Items[combobox.SelectedIndex].ToString());
             this.regkey.Close();
+
+            switch ((String)mainWindow.Dropdown_TheaterList.SelectedItem)
+            {
+                case "Israel":
+                    mainWindow.Launch_TheaterConfig.Visibility = Visibility.Visible;
+                    theaterOwnConfig = this.GetInstallDir() + "\\Data\\Add-On Israel\\Israeli Theater Settings.exe";
+                    break;
+                case "Ikaros":
+                    mainWindow.Launch_TheaterConfig.Visibility = Visibility.Visible;
+                    theaterOwnConfig = this.GetInstallDir() + "\\Data\\Add-On Ikaros\\Ikaros Settings.exe";
+                    break;
+                default:
+                    mainWindow.Launch_TheaterConfig.Visibility = Visibility.Collapsed;
+                    break;
+            }
         }
     }
 

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FalconBMS_Alternative_Launcher_Cs
 {
-    public class GetDevice
+    public class DeviceControl
     {
         // Member
         public DeviceList devList;
@@ -20,13 +20,13 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <summary>
         /// Get Devices.
         /// </summary>
-        public GetDevice()
+        public DeviceControl()
         { }
 
         /// <summary>
         /// Get Devices.
         /// </summary>
-        public GetDevice(AppRegInfo appReg)
+        public DeviceControl(AppRegInfo appReg)
         {
             // Make Joystick Instances.
             this.devList = Manager.GetDevices(DeviceClass.GameControl, EnumDevicesFlags.AttachedOnly);

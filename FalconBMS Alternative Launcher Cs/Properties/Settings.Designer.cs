@@ -274,5 +274,17 @@ namespace FalconBMS_Alternative_Launcher_Cs.Properties {
                 this["Third_VA"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool Misc_SmartScalingOverride {
+            get {
+                return ((bool)(this["Misc_SmartScalingOverride"]));
+            }
+            set {
+                this["Misc_SmartScalingOverride"] = value;
+            }
+        }
     }
 }

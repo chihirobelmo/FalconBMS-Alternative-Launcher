@@ -29,16 +29,18 @@ namespace FalconBMS_Alternative_Launcher_Cs
         private MainWindow mainWindow;
         private AppRegInfo appReg;
         private Hashtable inGameAxis;
-        private GetDevice getDevice;
+        private DeviceControl deviceControl;
         private KeyFile keyFile;
+        private VisualAcuity visualAcuity;
 
-        public OverrideSetting(MainWindow mainWindow, AppRegInfo appReg, Hashtable inGameAxis, GetDevice getDevice, KeyFile keyFile)
+        public OverrideSetting(MainWindow mainWindow, AppRegInfo appReg, Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile, VisualAcuity visualAcuity)
         {
             this.mainWindow = mainWindow;
             this.appReg = appReg;
             this.inGameAxis = inGameAxis;
-            this.getDevice = getDevice;
+            this.deviceControl = deviceControl;
             this.keyFile = keyFile;
+            this.visualAcuity = visualAcuity;
 
             if (!System.IO.Directory.Exists(appReg.GetInstallDir() + "/User/Config/Backup/"))
                 System.IO.Directory.CreateDirectory(appReg.GetInstallDir() + "/User/Config/Backup/");
@@ -62,14 +64,14 @@ namespace FalconBMS_Alternative_Launcher_Cs
             System.Xml.Serialization.XmlSerializer serializer;
             System.IO.StreamWriter sw;
 
-            for (int i = 0; i < getDevice.devList.Count; i++)
+            for (int i = 0; i < deviceControl.devList.Count; i++)
             {
-                fileName = appReg.GetInstallDir() + "/User/Config/Setup.v100." + getDevice.joyAssign[i].GetProductName().Replace("/", "-")
-                + " {" + getDevice.joyAssign[i].GetInstanceGUID().ToString().ToUpper() + "}.xml";
+                fileName = appReg.GetInstallDir() + "/User/Config/Setup.v100." + deviceControl.joyAssign[i].GetProductName().Replace("/", "-")
+                + " {" + deviceControl.joyAssign[i].GetInstanceGUID().ToString().ToUpper() + "}.xml";
 
                 serializer = new System.Xml.Serialization.XmlSerializer(typeof(JoyAssgn));
                 sw = new System.IO.StreamWriter(fileName, false, new System.Text.UTF8Encoding(false));
-                serializer.Serialize(sw, getDevice.joyAssign[i]);
+                serializer.Serialize(sw, deviceControl.joyAssign[i]);
 
                 sw.Close();
             }
@@ -77,7 +79,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
             serializer = new System.Xml.Serialization.XmlSerializer(typeof(JoyAssgn.AxAssgn));
             sw = new System.IO.StreamWriter(fileName, false, new System.Text.UTF8Encoding(false));
-            serializer.Serialize(sw, getDevice.mouseWheelAssign);
+            serializer.Serialize(sw, deviceControl.mouseWheelAssign);
 
             sw.Close();
             
@@ -85,7 +87,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
             serializer = new System.Xml.Serialization.XmlSerializer(typeof(ThrottlePosition));
             sw = new System.IO.StreamWriter(fileName, false, new System.Text.UTF8Encoding(false));
-            serializer.Serialize(sw, getDevice.throttlePos);
+            serializer.Serialize(sw, deviceControl.throttlePos);
 
             sw.Close();
         }
@@ -117,12 +119,18 @@ namespace FalconBMS_Alternative_Launcher_Cs
             System.IO.StreamWriter cfg = new System.IO.StreamWriter
                 (filename, false, System.Text.Encoding.GetEncoding("shift_jis"));
             cfg.Write(stResult);
-            cfg.Write("set g_nHotasPinkyShiftMagnitude " + (getDevice.devList.Count*32).ToString()
-                + "                   // SETUP OVERRIDE\r\n");
+            cfg.Write("set g_nHotasPinkyShiftMagnitude " + (deviceControl.devList.Count*32).ToString()
+                + "          // SETUP OVERRIDE\r\n");
             cfg.Write("set g_bHotasDgftSelfCancel " + Convert.ToInt32(mainWindow.Misc_OverrideSelfCancel.IsChecked)
-                + "                         // SETUP OVERRIDE\r\n");
+                + "          // SETUP OVERRIDE\r\n");
             cfg.Write("set g_b3DClickableCursorAnchored " + Convert.ToInt32(mainWindow.Misc_MouseCursorAnchor.IsChecked)
-                + "                   // SETUP OVERRIDE\r\n");
+                + "          // SETUP OVERRIDE\r\n");
+
+            if (mainWindow.Misc_SmartScalingOverride.IsChecked == true) // Smart Scaling
+            {
+                cfg.Write("set g_fDefaultFOV " + this.visualAcuity.horizontalFOV_Ideal_deg
+                    + "          // SETUP OVERRIDE\r\n");
+            }
             cfg.Close();
         }
 
@@ -132,8 +140,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
         protected void SaveDeviceSorting()
         {
             string deviceSort = "";
-            for (int i = 0; i < getDevice.devList.Count; i++)
-                deviceSort += getDevice.joyAssign[i].GetDeviceSortingLine();
+            for (int i = 0; i < deviceControl.devList.Count; i++)
+                deviceSort += deviceControl.joyAssign[i].GetDeviceSortingLine();
 
             // BMS overwrites DeviceSorting.txt if was written in UTF-8.
             string filename = appReg.GetInstallDir() + "/User/Config/DeviceSorting.txt";
@@ -159,12 +167,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 (filename, false, System.Text.Encoding.GetEncoding("utf-8"));
             for (int i = 0; i < keyFile.keyAssign.Length; i++)
                 sw.Write(keyFile.keyAssign[i].GetKeyLine());
-            for (int i = 0; i < getDevice.devList.Count; i++)
+            for (int i = 0; i < deviceControl.devList.Count; i++)
             {
-                sw.Write(getDevice.joyAssign[i].GetKeyLineDX(i, getDevice.devList.Count));
+                sw.Write(deviceControl.joyAssign[i].GetKeyLineDX(i, deviceControl.devList.Count));
                 // PRIMARY DEVICE POV
                 if (((InGameAxAssgn)inGameAxis["Roll"]).GetDeviceNumber() == i) 
-                    sw.Write(getDevice.joyAssign[i].GetKeyLinePOV());
+                    sw.Write(deviceControl.joyAssign[i].GetKeyLinePOV());
             }
             sw.Close();
 
@@ -242,6 +250,10 @@ namespace FalconBMS_Alternative_Launcher_Cs
             if (mainWindow.Misc_RollLinkedNWS.IsChecked == true)
                 bs[362] = 0x01;
 
+            // Smart Scaling
+            if (mainWindow.Misc_SmartScalingOverride.IsChecked == true)
+                bs[12] = 0x05;   // Enabled
+
             fs = new System.IO.FileStream
                 (filename, System.IO.FileMode.Create, System.IO.FileAccess.Write);
             fs.Write(bs, 0, bs.Length);
@@ -271,11 +283,11 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 };
                 fs.Write(bs, 0, bs.Length);
 
-                bs = getDevice.joyAssign[(byte)((InGameAxAssgn)inGameAxis["Pitch"]).GetDeviceNumber()]
+                bs = deviceControl.joyAssign[(byte)((InGameAxAssgn)inGameAxis["Pitch"]).GetDeviceNumber()]
                     .GetInstanceGUID().ToByteArray();
                 fs.Write(bs, 0, bs.Length);
 
-                bs = new byte[] { (byte)getDevice.devList.Count, 0x00, 0x00, 0x00 };
+                bs = new byte[] { (byte)deviceControl.devList.Count, 0x00, 0x00, 0x00 };
                 fs.Write(bs, 0, bs.Length);
             }
             else
@@ -286,7 +298,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
                 };
-                bs[20] = (byte)getDevice.devList.Count;
+                bs[20] = (byte)deviceControl.devList.Count;
                 fs.Write(bs, 0, bs.Length);
             }
 
@@ -389,8 +401,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
                     if (nme == AxisName.Throttle)
                     {
-                        double iAB = (double)getDevice.throttlePos.GetAB();
-                        double iIdle = (double)getDevice.throttlePos.GetIDLE();
+                        double iAB = (double)deviceControl.throttlePos.GetAB();
+                        double iIdle = (double)deviceControl.throttlePos.GetIDLE();
 
                         const double MAXIN = 65536;
                         const double MAXOUT = 14848;
@@ -404,9 +416,9 @@ namespace FalconBMS_Alternative_Launcher_Cs
                         bs[1] = ab[1];
                         bs[5] = idle[1];
 
-                        if (getDevice.throttlePos.GetAB() > (65536 - 256))
+                        if (deviceControl.throttlePos.GetAB() > (65536 - 256))
                             bs[1] = 0x00;
-                        if (getDevice.throttlePos.GetIDLE() < 256)
+                        if (deviceControl.throttlePos.GetIDLE() < 256)
                             bs[5] = 0x3A;
                     }
                 }

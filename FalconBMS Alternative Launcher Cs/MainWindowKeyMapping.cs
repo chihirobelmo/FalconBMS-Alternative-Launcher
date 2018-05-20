@@ -75,12 +75,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
             if (!e.PropertyName.Contains("Z_Joy_"))
                 return;
             int target = int.Parse(e.PropertyName.Replace("Z_Joy_", ""));
-            if (target >= getDevice.devList.Count)
+            if (target >= deviceControl.devList.Count)
             {
                 e.Cancel = true;
                 return;
             }
-            e.Column.Header = getDevice.joyAssign[target].GetProductName();
+            e.Column.Header = deviceControl.joyAssign[target].GetProductName();
             e.Column.Width = 128;
             e.Column.DisplayIndex = 3 + target;
         }
@@ -112,7 +112,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 if (Rows < 0)
                     return;
                 string target = keyFile.keyAssign[currentIndex].GetCallback();
-                getDevice.joyAssign[Columns - 3].UnassigntargetCallback(target);
+                deviceControl.joyAssign[Columns - 3].UnassigntargetCallback(target);
             }
             KeyMappingGrid.Items.Refresh();
             KeyMappingGrid.UnselectAllCells();
@@ -208,14 +208,14 @@ namespace FalconBMS_Alternative_Launcher_Cs
             switch (statusAssign)
             {
                 case Status.GetNeutralPos:
-                    for (int i = 0; i < getDevice.devList.Count; i++)
-                        neutralButtons[i] = new NeutralButtons(getDevice.joyStick[i]);
+                    for (int i = 0; i < deviceControl.devList.Count; i++)
+                        neutralButtons[i] = new NeutralButtons(deviceControl.joyStick[i]);
                     statusAssign = Status.WaitingforInput;
                     break;
                 case Status.WaitingforInput:
-                    for (int i = 0; i < getDevice.devList.Count; i++)
+                    for (int i = 0; i < deviceControl.devList.Count; i++)
                     {
-                        buttons = getDevice.joyStick[i].CurrentJoystickState.GetButtons();
+                        buttons = deviceControl.joyStick[i].CurrentJoystickState.GetButtons();
                         for (int ii = 0; ii < 32; ii++)
                         {
                             if (buttons[ii] == neutralButtons[i].buttons[ii])
@@ -232,12 +232,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
                                 behaviourStatus = Behaviour.Release;
 
                             // Construct DX button instance.
-                            getDevice.joyAssign[i].dx[ii].Assign(keyFile.keyAssign[Rows].GetCallback(), pinkyStatus, behaviourStatus, invokeStatus, 0);
+                            deviceControl.joyAssign[i].dx[ii].Assign(keyFile.keyAssign[Rows].GetCallback(), pinkyStatus, behaviourStatus, invokeStatus, 0);
 
                             KeyMappingGrid.Items.Refresh();
                             KeyMappingGrid.UnselectAllCells();
                         }
-                        povs = getDevice.joyStick[i].CurrentJoystickState.GetPointOfView();
+                        povs = deviceControl.joyStick[i].CurrentJoystickState.GetPointOfView();
                         for (int ii = 0; ii < 4; ii++)
                         {
                             if (povs[ii] == neutralButtons[i].povs[ii])
@@ -251,7 +251,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                                 pinkyStatus = Pinky.Shift;
 
                             // Construct POV button instance.
-                            getDevice.joyAssign[i].pov[ii].Assign(povs[ii], keyFile.keyAssign[Rows].GetCallback(), pinkyStatus, 0);
+                            deviceControl.joyAssign[i].pov[ii].Assign(povs[ii], keyFile.keyAssign[Rows].GetCallback(), pinkyStatus, 0);
 
                             KeyMappingGrid.Items.Refresh();
                             KeyMappingGrid.UnselectAllCells();
@@ -270,14 +270,14 @@ namespace FalconBMS_Alternative_Launcher_Cs
             switch (statusAssign)
             {
                 case Status.GetNeutralPos:
-                    for (int i = 0; i < getDevice.devList.Count; i++)
-                        neutralButtons[i] = new NeutralButtons(getDevice.joyStick[i]);
+                    for (int i = 0; i < deviceControl.devList.Count; i++)
+                        neutralButtons[i] = new NeutralButtons(deviceControl.joyStick[i]);
                     statusAssign = Status.WaitingforInput;
                     break;
                 case Status.WaitingforInput:
-                    for (int i = 0; i < getDevice.devList.Count; i++)
+                    for (int i = 0; i < deviceControl.devList.Count; i++)
                     {
-                        buttons = getDevice.joyStick[i].CurrentJoystickState.GetButtons(); //Microsoft.DirectX.DirectInput.InputLostException: 'アプリケーションでエラーが発生しました。'
+                        buttons = deviceControl.joyStick[i].CurrentJoystickState.GetButtons(); //Microsoft.DirectX.DirectInput.InputLostException: 'アプリケーションでエラーが発生しました。'
                         for (int ii = 0; ii < 32; ii++)
                         {
                             if (buttons[ii] == neutralButtons[i].buttons[ii])
@@ -293,11 +293,11 @@ namespace FalconBMS_Alternative_Launcher_Cs
                             if (Select_DX_Release.IsChecked == false)
                                 behaviourStatus = Behaviour.Release;
 
-                            target = getDevice.joyAssign[i].dx[ii].assign[(int)pinkyStatus + (int)behaviourStatus].GetCallback();
+                            target = deviceControl.joyAssign[i].dx[ii].assign[(int)pinkyStatus + (int)behaviourStatus].GetCallback();
 
-                            Label_AssgnStatus.Content = "DX" + (ii+1) + "\t: " + getDevice.joyAssign[i].GetProductName();
+                            Label_AssgnStatus.Content = "DX" + (ii+1) + "\t: " + deviceControl.joyAssign[i].GetProductName();
                         }
-                        povs = getDevice.joyStick[i].CurrentJoystickState.GetPointOfView();
+                        povs = deviceControl.joyStick[i].CurrentJoystickState.GetPointOfView();
                         for (int ii = 0; ii < 4; ii++)
                         {
                             if (povs[ii] == neutralButtons[i].povs[ii])
@@ -310,10 +310,10 @@ namespace FalconBMS_Alternative_Launcher_Cs
                             if (Select_PinkyShift.IsChecked == false)
                                 pinkyStatus = Pinky.Shift;
 
-                            target = getDevice.joyAssign[i].pov[ii].direction[povs[ii] / 4500].GetCallback(pinkyStatus);
+                            target = deviceControl.joyAssign[i].pov[ii].direction[povs[ii] / 4500].GetCallback(pinkyStatus);
 
-                            string direction = getDevice.joyAssign[i].pov[ii].GetDirection(povs[ii]);
-                            Label_AssgnStatus.Content = "POV" + (ii + 1) + "." + direction + "\t: " + getDevice.joyAssign[i].GetProductName();
+                            string direction = deviceControl.joyAssign[i].pov[ii].GetDirection(povs[ii]);
+                            Label_AssgnStatus.Content = "POV" + (ii + 1) + "." + direction + "\t: " + deviceControl.joyAssign[i].GetProductName();
                         }
                     }
                     break;

@@ -193,13 +193,13 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 {
                     SetAB.Visibility = Visibility.Visible;
                     Idle.Visibility = Visibility.Visible;
-                    AB = MainWindow.getDevice.throttlePos.GetAB();
-                    IDLE = MainWindow.getDevice.throttlePos.GetIDLE();
+                    AB = MainWindow.deviceControl.throttlePos.GetAB();
+                    IDLE = MainWindow.deviceControl.throttlePos.GetIDLE();
                 }
             }
 
-            Joynum = new JoyAxisNeutralValue[MainWindow.getDevice.devList.Count];
-            for (int i = 0; i < MainWindow.getDevice.devList.Count; i++)
+            Joynum = new JoyAxisNeutralValue[MainWindow.deviceControl.devList.Count];
+            for (int i = 0; i < MainWindow.deviceControl.devList.Count; i++)
             {
                 Joynum[i] = new JoyAxisNeutralValue();
             }
@@ -214,21 +214,21 @@ namespace FalconBMS_Alternative_Launcher_Cs
         {
             if (status == Status.GetNeutralPosition)
             {
-                for (int i = 0; i <= MainWindow.getDevice.devList.Count - 1; i++)
+                for (int i = 0; i <= MainWindow.deviceControl.devList.Count - 1; i++)
                     for (int ii = 0; ii < 8; ii++)
-                        Joynum[i].NeutralValue[ii] = MainWindow.getDevice.JoyAxisState(i, ii);
+                        Joynum[i].NeutralValue[ii] = MainWindow.deviceControl.JoyAxisState(i, ii);
                 status = Status.WaitInput;
                 AssignedJoystick.Content = "   AWAITING INPUTS";
                 sw.Start();
             }
             else if (status == Status.WaitInput)
             {
-                for (int i = 0; i <= MainWindow.getDevice.devList.Count - 1; i++)
+                for (int i = 0; i <= MainWindow.deviceControl.devList.Count - 1; i++)
                 {
                     for (int ii = 0; ii < 8; ii++)
                     {
-                        if (MainWindow.getDevice.JoyAxisState(i, ii) < (Joynum[i].NeutralValue[ii] + MAXIN / 4) &
-                            MainWindow.getDevice.JoyAxisState(i, ii) > (Joynum[i].NeutralValue[ii] - MAXIN / 4))
+                        if (MainWindow.deviceControl.JoyAxisState(i, ii) < (Joynum[i].NeutralValue[ii] + MAXIN / 4) &
+                            MainWindow.deviceControl.JoyAxisState(i, ii) > (Joynum[i].NeutralValue[ii] - MAXIN / 4))
                             continue;
                         devNumTmp = i;
                         phyAxNumTmp = ii;
@@ -241,8 +241,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
                             continue;
                         SetAB.Visibility = Visibility.Visible;
                         Idle.Visibility = Visibility.Visible;
-                        AB = MainWindow.getDevice.throttlePos.GetAB();
-                        IDLE = MainWindow.getDevice.throttlePos.GetIDLE();
+                        AB = MainWindow.deviceControl.throttlePos.GetAB();
+                        IDLE = MainWindow.deviceControl.throttlePos.GetIDLE();
                     }
                 }
                 if (sw.ElapsedMilliseconds > 1000)
@@ -302,14 +302,14 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
                 int output = MainWindow.ApplyDeadZone
                     (
-                        MainWindow.getDevice.JoyAxisState(devNumTmp, phyAxNumTmp), 
+                        MainWindow.deviceControl.JoyAxisState(devNumTmp, phyAxNumTmp), 
                         (AxCurve)DeadZone.SelectedIndex, 
                         (AxCurve)Saturation.SelectedIndex
                     );
                 AxisValueProgress.Value = output * invertNum;
                 AssignedJoystick.Content = "   "
                     + ((AxisNumName)phyAxNumTmp).ToString().Replace('_',' ') + " : "
-                    + MainWindow.getDevice.joyStick[devNumTmp].DeviceInformation.ProductName;
+                    + MainWindow.deviceControl.joyStick[devNumTmp].DeviceInformation.ProductName;
 
                 if (whoCalledWindow != "Throttle" & whoCalledWindow != "Throttle_Right")
                     return;
@@ -353,7 +353,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 JoyAssgn.AxAssgn axisInfo = new JoyAssgn.AxAssgn();
                 axisAssign = new InGameAxAssgn(-1, -1, axisInfo);
                 if (whoCalledWindow == "Throttle" | whoCalledWindow == "Throttle_Right")
-                    MainWindow.getDevice.throttlePos = new ThrottlePosition();
+                    MainWindow.deviceControl.throttlePos = new ThrottlePosition();
             }
             if (status == Status.ShowAxisStatus)
             {
@@ -366,7 +366,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     (AxCurve)Saturation.SelectedIndex
                     );
                 if (whoCalledWindow == "Throttle" | whoCalledWindow == "Throttle_Right")
-                    MainWindow.getDevice.throttlePos = new ThrottlePosition(AB,IDLE);
+                    MainWindow.deviceControl.throttlePos = new ThrottlePosition(AB,IDLE);
             }
             AxisDetectionTimer.Stop();
             sw.Stop();
@@ -424,9 +424,9 @@ namespace FalconBMS_Alternative_Launcher_Cs
             if (status != Status.ShowAxisStatus)
                 return;
             int ABposition;
-            ABposition = MAXIN - MainWindow.getDevice.JoyAxisState(devNumTmp, phyAxNumTmp);
+            ABposition = MAXIN - MainWindow.deviceControl.JoyAxisState(devNumTmp, phyAxNumTmp);
             ABposition += 256;
-            if (MainWindow.getDevice.JoyAxisState(devNumTmp, phyAxNumTmp) > MAXIN)
+            if (MainWindow.deviceControl.JoyAxisState(devNumTmp, phyAxNumTmp) > MAXIN)
                 ABposition = MAXIN;
             this.AB = ABposition;
         }
@@ -436,9 +436,9 @@ namespace FalconBMS_Alternative_Launcher_Cs
             if (status != Status.ShowAxisStatus)
                 return;
             int IDLEposition;
-            IDLEposition = MAXIN - MainWindow.getDevice.JoyAxisState(devNumTmp, phyAxNumTmp);
+            IDLEposition = MAXIN - MainWindow.deviceControl.JoyAxisState(devNumTmp, phyAxNumTmp);
             IDLEposition -= 256;
-            if (MainWindow.getDevice.JoyAxisState(devNumTmp, phyAxNumTmp) < 0)
+            if (MainWindow.deviceControl.JoyAxisState(devNumTmp, phyAxNumTmp) < 0)
                 IDLEposition = 0;
             this.IDLE = IDLEposition;
         }

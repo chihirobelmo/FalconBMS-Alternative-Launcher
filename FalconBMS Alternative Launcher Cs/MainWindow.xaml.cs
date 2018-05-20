@@ -37,18 +37,23 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// This is BMS installation information.
         /// </summary>
         private AppRegInfo appReg;
+        /// <summary>
+        /// UI Properties(Like Button Status).
+        /// </summary>
+        private AppProperties appProperties;
 
         /// <summary>
         /// This is whole device connected.
         /// </summary>
-        public static GetDevice getDevice = new GetDevice();
+        public static DeviceControl deviceControl = new DeviceControl();
         /// <summary>
         /// This is BMS - FULL.key file
         /// </summary>
         private KeyFile keyFile;
-
-        private int bandWidthDefault = 1024;
-        public string theaterOwnConfig = "";
+        /// <summary>
+        /// Visual Acuity page setting.
+        /// </summary>
+        private VisualAcuity visualAcuity;
 
         private DispatcherTimer AxisMovingTimer = new DispatcherTimer();
         private DispatcherTimer KeyMappingTimer = new DispatcherTimer();
@@ -62,32 +67,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
         {
             try
             {
-                // Load UI settings
-                SetUIDefault();
-                void SetUIDefault()
-                {
-                    // Load Buttons
-                    this.Misc_Platform.IsChecked = Properties.Settings.Default.Platform;
-                    this.CMD_ACMI.IsChecked = Properties.Settings.Default.CMD_ACMI;
-                    this.CMD_WINDOW.IsChecked = Properties.Settings.Default.CMD_WINDOW;
-                    this.CMD_NOMOVIE.IsChecked = Properties.Settings.Default.CMD_NOMOVIE;
-                    this.CMD_EF.IsChecked = Properties.Settings.Default.CMD_EF;
-                    this.CMD_MONO.IsChecked = Properties.Settings.Default.CMD_MONO;
-                    this.bandWidthDefault = Properties.Settings.Default.CMD_BW;
-                    this.ApplicationOverride.IsChecked = Properties.Settings.Default.NoOverride;
-                    this.Misc_RollLinkedNWS.IsChecked = Properties.Settings.Default.Misc_RLNWS;
-                    this.Misc_MouseCursorAnchor.IsChecked = Properties.Settings.Default.Misc_MouseCursorAnchor;
-                    this.Misc_TrackIRZ.IsChecked = Properties.Settings.Default.Misc_TrackIRZ;
-                    this.Misc_ExMouseLook.IsChecked = Properties.Settings.Default.Misc_ExMouseLook;
-                    this.Misc_OverrideSelfCancel.IsChecked = Properties.Settings.Default.Misc_OverrideSelfCancel;
-
-                    // Button Status Default
-                    Select_DX_Release.IsChecked = true;
-                    Select_PinkyShift.IsChecked = true;
-                    CMD_BW.Content = "BW : " + bandWidthDefault.ToString();
-                    AB_Throttle.Visibility = Visibility.Hidden;
-                    AB_Throttle_Right.Visibility = Visibility.Hidden;
-                }
+                // Load UI Properties(Like Button Status).
+                this.appProperties = new AppProperties(this);
 
                 // Read Registry
                 appReg = new AppRegInfo(this);
@@ -96,8 +77,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 TheaterList theaterlist = new TheaterList(appReg, this.Dropdown_TheaterList);
 
                 // Get Devices
-                getDevice = new GetDevice(appReg);
-                neutralButtons = new NeutralButtons[getDevice.devList.Count];
+                deviceControl = new DeviceControl(appReg);
+                neutralButtons = new NeutralButtons[deviceControl.devList.Count];
 
                 // Aquire joySticks
                 AquireAll(true);
@@ -122,6 +103,9 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 KeyMappingTimer.Tick += KeyMappingTimer_Tick;
                 KeyMappingTimer.Interval = new TimeSpan(0, 0, 0, 0, 16);
 
+                // Set VisualAcuity page graph and results.
+                this.visualAcuity = new VisualAcuity(this);
+
                 //System.Diagnostics.PresentationTraceSources.DataBindingSource.Switch.Level = System.Diagnostics.SourceLevels.Critical;
             }
             catch (System.IO.FileNotFoundException ex)
@@ -143,22 +127,10 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <param name="e"></param>
         private void Window_Closed(object sender, EventArgs e)
         {
-            Properties.Settings.Default.Platform = (bool)this.Misc_Platform.IsChecked;
-            Properties.Settings.Default.CMD_ACMI = (bool)this.CMD_ACMI.IsChecked;
-            Properties.Settings.Default.CMD_WINDOW = (bool)this.CMD_WINDOW.IsChecked;
-            Properties.Settings.Default.CMD_NOMOVIE = (bool)this.CMD_NOMOVIE.IsChecked;
-            Properties.Settings.Default.CMD_EF = (bool)this.CMD_EF.IsChecked;
-            Properties.Settings.Default.CMD_MONO = (bool)this.CMD_MONO.IsChecked;
-            Properties.Settings.Default.CMD_BW = this.bandWidthDefault;
-            Properties.Settings.Default.NoOverride = (bool)this.ApplicationOverride.IsChecked;
-            Properties.Settings.Default.Misc_RLNWS = (bool)this.Misc_RollLinkedNWS.IsChecked;
-            Properties.Settings.Default.Misc_MouseCursorAnchor = (bool)this.Misc_MouseCursorAnchor.IsChecked;
-            Properties.Settings.Default.Misc_TrackIRZ = (bool)this.Misc_TrackIRZ.IsChecked;
-            Properties.Settings.Default.Misc_ExMouseLook = (bool)this.Misc_ExMouseLook.IsChecked;
-            Properties.Settings.Default.Misc_OverrideSelfCancel = (bool)this.Misc_OverrideSelfCancel.IsChecked;
-            Properties.Settings.Default.Save();
+            // Save UI Properties(Like Button Status).
+            appProperties.SaveUISetup();
 
-            new OverrideSetting(this, appReg, inGameAxis, getDevice, keyFile);
+            new OverrideSetting(this, appReg, inGameAxis, deviceControl, keyFile, visualAcuity);
         }
         
         /// <summary>
@@ -195,21 +167,6 @@ namespace FalconBMS_Alternative_Launcher_Cs
         private void Dropdown_TheaterList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             appReg.ChangeTheater(this.Dropdown_TheaterList);
-
-            switch ((String)Dropdown_TheaterList.SelectedItem)
-            {
-                case "Israel":
-                    Launch_TheaterConfig.Visibility = Visibility.Visible;
-                    theaterOwnConfig = appReg.GetInstallDir() + "\\Data\\Add-On Israel\\Israeli Theater Settings.exe";
-                    break;
-                case "Ikaros":
-                    Launch_TheaterConfig.Visibility = Visibility.Visible;
-                    theaterOwnConfig = appReg.GetInstallDir() + "\\Data\\Add-On Ikaros\\Ikaros Settings.exe";
-                    break;
-                default:
-                    Launch_TheaterConfig.Visibility = Visibility.Collapsed;
-                    break;
-            }
         }
         
         /// <summary>
@@ -219,7 +176,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <param name="e"></param>
         private void Launch_TheaterConfig_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start(theaterOwnConfig);
+            System.Diagnostics.Process.Start(appReg.theaterOwnConfig);
         }
         
         /// <summary>
@@ -229,10 +186,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <param name="e"></param>
         private void CMD_BW_Click(object sender, RoutedEventArgs e)
         {
-            bandWidthDefault *= 2;
-            if (bandWidthDefault > 10000)
-                bandWidthDefault = 512;
-            CMD_BW.Content = "BW : " + bandWidthDefault.ToString();
+            appProperties.CMD_BW_Click();
         }
 
         /// <summary>
@@ -267,22 +221,19 @@ namespace FalconBMS_Alternative_Launcher_Cs
                         strCmdText += "-ef ";
                     if (CMD_MONO.IsChecked == false)
                         strCmdText += "-mono ";
-                    strCmdText += "-bw " + bandWidthDefault;
-
-                    if (this.ApplicationOverride.IsChecked == true)
-                    {
-                        if (MessageBox.Show("You are going to launch BMS without any setup override from AxisAssign and KeyMapping section. Will you continue?", "WARNING", MessageBoxButton.OKCancel, MessageBoxImage.Information) == MessageBoxResult.Cancel)
-                            return;
-                    }
+                    strCmdText += "-bw " + appProperties.bandWidthDefault;
 
                     // OVERRIDE SETTINGS.
-                    if (this.ApplicationOverride.IsChecked == false)
+                    if (this.ApplicationOverride.IsChecked == true)
                     {
-                        new OverrideSetting(this, appReg, inGameAxis, getDevice, keyFile);
+                        string textMessage = "You are going to launch BMS without any setup override from AxisAssign and KeyMapping section. Will you continue?";
+                        if (MessageBox.Show(textMessage, "WARNING", MessageBoxButton.OKCancel, MessageBoxImage.Information) == MessageBoxResult.Cancel)
+                            return;
                     }
-
-
-                    appReg.ChangeTheater(this.Dropdown_TheaterList);
+                    else
+                    {
+                        new OverrideSetting(this, appReg, inGameAxis, deviceControl, keyFile, visualAcuity);
+                    }
 
                     String appPlatform = appReg.GetInstallDir() + "/Bin/x86/Falcon BMS.exe";
                     if (this.Misc_Platform.IsChecked == true)
