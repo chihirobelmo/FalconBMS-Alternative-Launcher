@@ -12,6 +12,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
     {
         public MainWindow mainwindow;
         public int horizontalFOV_Ideal_deg;
+        public int userSettingFOV_deg;
 
         public VisualAcuity(MainWindow mainwindow)
         {
@@ -22,14 +23,41 @@ namespace FalconBMS_Alternative_Launcher_Cs
             int height_px = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height;
             this.horizontalFOV_Ideal_deg = width_px / 30;
 
-            this.SetGraph(width_px);
+            this.SetGraph(width_px, horizontalFOV_Ideal_deg);
 
             mainwindow.Label_SystemResolution.Content = width_px + " * " + height_px + " pixels";
             mainwindow.Label_DesiredFOV.Content = this.horizontalFOV_Ideal_deg + " hFOV Degrees";
             mainwindow.Label_DesiredFOV_NoScaling.Content = "with Smart Scaling ON, " + this.horizontalFOV_Ideal_deg/2 + " hFOV if OFF.";
+
+            this.mainwindow.TextBox_hFOV.Text = this.horizontalFOV_Ideal_deg.ToString();
+            this.mainwindow.TextBox_widthpx.Text = width_px.ToString();
+
+            this.userSettingFOV_deg = this.horizontalFOV_Ideal_deg;
         }
 
-        public void SetGraph(int width_px)
+        public void SeeArbitraryFOVResult()
+        {
+            int hFOV = Int32.Parse(this.mainwindow.TextBox_hFOV.Text);
+            int width_px = Int32.Parse(this.mainwindow.TextBox_widthpx.Text);
+
+            if (width_px < 1)
+            {
+                width_px = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
+                this.mainwindow.TextBox_widthpx.Text = width_px.ToString();
+            }
+            if (hFOV < 1)
+            {
+                hFOV = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / 30;
+                this.mainwindow.TextBox_hFOV.Text = hFOV.ToString();
+            }
+
+
+            this.SetGraph(width_px, hFOV);
+
+            this.userSettingFOV_deg = hFOV;
+        }
+
+        public void SetGraph(int width_px, int hFOV)
         {
             var windowsFormsHost = (System.Windows.Forms.Integration.WindowsFormsHost)mainwindow.grid1.Children[0];
 
@@ -97,7 +125,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 double angularSize_mil = F16length_meter / distance_km;
                 double angularSize_minutes = angularSize_mil * 3.375;     // Real Life
 
-                double angularSize_noSmartScaling_minutes = width_px * angularSize_minutes / (horizontalFOV_Ideal_deg * 60);     // BMS Disable Smart Scaling
+                double angularSize_noSmartScaling_minutes = width_px * angularSize_minutes / (hFOV * 60);     // BMS Disable Smart Scaling
                 double smartScalingFactor = 1 + 0.09226 * (distance_ft / 1000) - 0.00148 * (distance_ft / 1000) * (distance_ft / 1000);
                 if (smartScalingFactor < 1)
                     smartScalingFactor = 1;
@@ -110,6 +138,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 magnificationFactor.Points.AddXY(distance_NM, smartScalingFactor);
             }
 
+            chart.Series.Clear();
             chart.Series.Add(magnificationFactor);
             chart.Series.Add(realLife);
             chart.Series.Add(noSmartScaling);

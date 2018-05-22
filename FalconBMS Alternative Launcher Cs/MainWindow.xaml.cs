@@ -578,5 +578,11 @@ namespace FalconBMS_Alternative_Launcher_Cs
             if (e.Command == ApplicationCommands.Paste)
                 e.Handled = true;
         }
+        
+        private void TextBox_hFOV_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.Return)
+                this.visualAcuity.SeeArbitraryFOVResult();
+        }
     }
 }

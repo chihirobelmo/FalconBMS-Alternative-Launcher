@@ -14,6 +14,9 @@
         <Style TargetType="Label">
             <Setter Property="Foreground" Value="#FF606060" />
         </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#FF606060" />
+        </Style>
         <Style TargetType="Controls:MetroProgressBar">
             <Setter Property="Background" Value="#80F0F0F0" />
             <Setter Property="Foreground" Value="#803878A8" />
@@ -498,11 +501,11 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <WindowsFormsHost Margin="10,10,10,10" VerticalAlignment="Center" HorizontalAlignment="Right" Height="485" Width="485">
+                    <WindowsFormsHost Margin="0,65,10,101" VerticalAlignment="Center" HorizontalAlignment="Right" Height="485" Width="485">
                         <wfc:Chart Name="Chart1"/>
                     </WindowsFormsHost>
-                    <Grid Grid.Column="1" HorizontalAlignment="Left" Height="485" Margin="10,83,0,83" VerticalAlignment="Center" Width="485" Background="#7FD4E1EE" >
-                        <Label Content="Smart Scaling" HorizontalAlignment="Stretch" Margin="10,10,10,418" Width="Auto" Height="48" FontSize="24"/>
+                    <Grid Grid.Column="1" HorizontalAlignment="Left" Height="535" Margin="10,65,0,51" VerticalAlignment="Center" Width="485" Background="#7FD4E1EE" >
+                        <Label Content="Smart Scaling" HorizontalAlignment="Stretch" Margin="10,10,10,477" Width="Auto" Height="48" FontSize="24"/>
                         <TextBlock HorizontalAlignment="Left" Margin="32,63,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="#FF606060" Height="Auto" Width="409">
                             <Bold>Improving Target Orientation Discrimination Performance</Bold>
                             <LineBreak /> 
@@ -521,15 +524,25 @@
                             FalconBMS Alternative Launcher detected your system resolution as follows:
                         </TextBlock>
                         <Label x:Name="Label_SystemResolution" Content="1920 * 1080 pixels"  HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="32,291,0,0" VerticalAlignment="Top" Width="166" FontSize="18" FontWeight="Bold"/>
-                        <Label Content="If you fly BMS in the same internal resolution, desired horizontal FOV is:" HorizontalAlignment="Left" Margin="32,325,0,0" VerticalAlignment="Top" Width="443"/>
+                        <TextBlock HorizontalAlignment="Left" Margin="32,330,0,0" VerticalAlignment="Top" Width="443">
+                            If you fly BMS in the same internal resolution, the ideal horizontal FOV is:
+                        </TextBlock>
                         <Label x:Name="Label_DesiredFOV" Content="64 hFOV Degrees" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="32,351,0,0" VerticalAlignment="Top" Width="166" FontSize="18" FontWeight="Bold"/>
                         <Label x:Name="Label_DesiredFOV_NoScaling" Content="with Smart Scaling ON, 32 hFOV if OFF." HorizontalAlignment="Left" Margin="198,357,0,0" VerticalAlignment="Top" Width="229" FontWeight="Bold"/>
-                        <Label Content="You can see how Smart Scaling brings visual acuity fix on the left chart.&#xa;Enabling following checkbox overwrites default FOV and apply Smart Scaling." HorizontalAlignment="Left" Margin="32,385,0,0" VerticalAlignment="Top" Width="443"/>
-                        <CheckBox x:Name="Misc_SmartScalingOverride" Content="Set horizontal FOV to desired value." Foreground="#FF606060" HorizontalAlignment="Left" Margin="64,436,0,0" VerticalAlignment="Top"/>
+                        <TextBlock HorizontalAlignment="Left" Margin="32,390,0,0" VerticalAlignment="Top" Width="443">
+                            You can see how Smart Scaling brings visual acuity fix on the left chart.<LineBreak />
+                            Enabling following checkbox overwrites default FOV and apply Smart Scaling.<LineBreak />
+                            If you use multiple monitors and BMS resolution does not much above result,<LineBreak />
+                            input BMS internal resolution to the left box and adjust FOV manually to find<LineBreak />
+                            suitable spot where Smart Scaling works just fine.
+                        </TextBlock>
+                        <CheckBox x:Name="Misc_SmartScalingOverride" Content="Set horizontal FOV to desired value." Foreground="#FF606060" HorizontalAlignment="Left" Margin="64,491,0,0" VerticalAlignment="Top"/>
                     </Grid>
-                    <TextBox x:Name="TextBox_hFOV" PreviewTextInput="TextBox_hFOV_PreviewTextInput" CommandManager.PreviewExecuted="TextBox_hFOV_PreviewExecuted" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Height="24" Margin="0,568,45,57" TextWrapping="Wrap" Text="64" VerticalAlignment="Center" Width="38" Background="#FFDFDFDF" FontWeight="Bold"/>
-                    <Label Content="Calcurate Magnification result with" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Margin="0,567,83,58" VerticalAlignment="Center" Width="212" FontWeight="Bold"/>
-                    <Label Content="hFOV" HorizontalContentAlignment="Left" HorizontalAlignment="Right" Margin="0,567,0,58" VerticalAlignment="Center" Width="45" FontWeight="Bold"/>
+                    <TextBox x:Name="TextBox_hFOV" KeyDown="TextBox_hFOV_KeyDown"  PreviewTextInput="TextBox_hFOV_PreviewTextInput" CommandManager.PreviewExecuted="TextBox_hFOV_PreviewExecuted" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Height="24" Margin="0,550,45,75" TextWrapping="Wrap" Text="64" VerticalAlignment="Center" Width="38" Background="#FFDFDFDF" FontWeight="Bold"/>
+                    <Label Content="Calcurate Magnification result with" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Margin="0,549,233,76" VerticalAlignment="Center" Width="212" FontWeight="Bold"/>
+                    <Label Content="hFOV" HorizontalContentAlignment="Left" HorizontalAlignment="Right" Margin="0,549,0,76" VerticalAlignment="Center" Width="45" FontWeight="Bold"/>
+                    <TextBox x:Name="TextBox_widthpx" KeyDown="TextBox_hFOV_KeyDown" PreviewTextInput="TextBox_hFOV_PreviewTextInput" CommandManager.PreviewExecuted="TextBox_hFOV_PreviewExecuted" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Height="24" Margin="0,550,183,75" TextWrapping="Wrap" Text="1920" VerticalAlignment="Center" Width="50" Background="#FFDFDFDF" FontWeight="Bold"/>
+                    <Label Content="width pixels and" HorizontalContentAlignment="Left" HorizontalAlignment="Right" Margin="0,549,83,76" VerticalAlignment="Center" Width="100" FontWeight="Bold"/>
                 </Grid>
             </TabItem>
         </TabControl>
