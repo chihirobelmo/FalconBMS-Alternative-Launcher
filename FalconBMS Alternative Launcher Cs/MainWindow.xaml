@@ -543,6 +543,7 @@
                     <Label Content="hFOV" HorizontalContentAlignment="Left" HorizontalAlignment="Right" Margin="0,549,0,76" VerticalAlignment="Center" Width="45" FontWeight="Bold"/>
                     <TextBox x:Name="TextBox_widthpx" KeyDown="TextBox_hFOV_KeyDown" PreviewTextInput="TextBox_hFOV_PreviewTextInput" CommandManager.PreviewExecuted="TextBox_hFOV_PreviewExecuted" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Height="24" Margin="0,550,183,75" TextWrapping="Wrap" Text="1920" VerticalAlignment="Center" Width="50" Background="#FFDFDFDF" FontWeight="Bold"/>
                     <Label Content="width pixels and" HorizontalContentAlignment="Left" HorizontalAlignment="Right" Margin="0,549,83,76" VerticalAlignment="Center" Width="100" FontWeight="Bold"/>
+                    <Label Content="Desired Value ^" HorizontalContentAlignment="Left" HorizontalAlignment="Right" Margin="0,576,38,49" VerticalAlignment="Center" Width="102" FontWeight="Bold"/>
                 </Grid>
             </TabItem>
         </TabControl>
