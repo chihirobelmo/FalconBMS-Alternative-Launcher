@@ -32,32 +32,20 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
             this.MouseWheel += Detect_MouseWheel;
         }
-        
-        /// <summary>
-        /// This is BMS installation information.
-        /// </summary>
-        private AppRegInfo appReg;
-        /// <summary>
-        /// UI Properties(Like Button Status).
-        /// </summary>
-        private AppProperties appProperties;
 
-        /// <summary>
-        /// This is whole device connected.
-        /// </summary>
         public static DeviceControl deviceControl = new DeviceControl();
-        /// <summary>
-        /// This is BMS - FULL.key file
-        /// </summary>
+
+        private AppRegInfo appReg;
         private KeyFile keyFile;
-        /// <summary>
-        /// Visual Acuity page setting.
-        /// </summary>
         private VisualAcuity visualAcuity;
+
+        private AppProperties appProperties;
 
         private DispatcherTimer AxisMovingTimer = new DispatcherTimer();
         private DispatcherTimer KeyMappingTimer = new DispatcherTimer();
         
+        static bool FLG_YAME64 = false;
+
         /// <summary>
         /// Execute when launching this app.
         /// </summary>
@@ -117,6 +105,19 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 sw.Close();
 
                 this.Close();
+            }
+
+            // YAME 64 VERSION
+            if (FLG_YAME64 == true)
+            {
+                LargeTab.SelectedIndex = 1;
+                Tab_Launcher.Visibility = Visibility.Collapsed;
+                Tab_VisualAcuity.Visibility = Visibility.Collapsed;
+                Misc_SmartScalingOverride.IsChecked = false;
+            }
+            else
+            {
+                Button_Apply_YAME64.Visibility = Visibility.Hidden;
             }
         }
         
@@ -583,6 +584,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
         {
             if (e.Key == System.Windows.Input.Key.Return)
                 this.visualAcuity.SeeArbitraryFOVResult();
+        }
+
+        private void Apply_YAME64(object sender, RoutedEventArgs e)
+        {
+            new OverrideSetting(this, appReg, inGameAxis, deviceControl, keyFile, visualAcuity);
+            this.Close();
         }
     }
 }

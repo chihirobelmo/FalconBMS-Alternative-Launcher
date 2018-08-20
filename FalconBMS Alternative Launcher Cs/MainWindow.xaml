@@ -82,7 +82,7 @@
         </Grid.Background>
         <Image Visibility="Visible" HorizontalAlignment="Left" VerticalAlignment="Top" Height="42" Source="Resources/TabControl_1_BackGround.png" Stretch="None" Margin="-214,64,-350,0" Width="1580"/>
         <TabControl x:Name="LargeTab" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="TabControl_SelectionChanged" Margin="0,64,0,0" Background="{x:Null}">
-            <TabItem Header="  Launcher">
+            <TabItem Header="  Launcher" x:Name="Tab_Launcher">
                 <Grid>
                     <Controls:ToggleSwitch x:Name="Misc_Platform" OnLabel="64bit" OffLabel="32bit" HorizontalAlignment="Left" Margin="160,30,0,0" VerticalAlignment="Top" Foreground="#FF606060"/>
                     <Label Content="Platform :" HorizontalAlignment="Left" Margin="32,32,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="16" Foreground="#FF606060"/>
@@ -495,7 +495,7 @@
                     <Button Content="Search" HorizontalAlignment="Left" Margin="476,43,0,0" VerticalAlignment="Top" Width="75" Click="Search_Click"/>
                 </Grid>
             </TabItem>
-            <TabItem Header=" VisualAcuity">
+            <TabItem Header=" VisualAcuity" x:Name="Tab_VisualAcuity">
                 <Grid Name="grid1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -553,7 +553,9 @@
         <Image x:Name="LOGO433" Visibility="Hidden" HorizontalAlignment="Left" VerticalAlignment="Top" Height="64" Source="Resources/LOGO433.png" Stretch="Uniform" Margin="0,0,-350,0"/>
         <Image x:Name="LOGO434" Visibility="Hidden" HorizontalAlignment="Left" VerticalAlignment="Top" Height="64" Source="Resources/LOGO434.png" Stretch="Uniform" Margin="0,0,-350,0"/>
         <Image x:Name="LOGO435" Visibility="Hidden"  HorizontalAlignment="Left" VerticalAlignment="Top" Height="64" Source="Resources/LOGO435.png" Stretch="Uniform" Margin="0,0,-350,0"/>
-        <Label Content="FalconBMS Alternative Launcher v1.10" HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontWeight="Bold" Margin="0,0,10,0"/>
+        <Label Content="FalconBMS Alternative Launcher v1.09 for YAME64" HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontWeight="Bold" Margin="0,0,10,0"/>
+
+        <Button x:Name="Button_Apply_YAME64" Content="Apply" HorizontalAlignment="Right" Margin="0,31,10,0" VerticalAlignment="top" Width="128" Style="{StaticResource AccentedSquareButtonStyle}" Controls:ControlsHelper.ContentCharacterCasing="Normal" Click="Apply_YAME64"/>
 
 
     </Grid>

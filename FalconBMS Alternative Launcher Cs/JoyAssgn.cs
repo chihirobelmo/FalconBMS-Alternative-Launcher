@@ -313,7 +313,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     {
                         if (Int32.Parse(stArrayData[1]) == i + currentID * 32)
                             this.dx[i].Assign((string)stArrayData[0], Pinky.UnShift, behaviourStatus, invokeStatus, 0);
-                        if (Int32.Parse(stArrayData[1]) == i + currentID * 32 + devcount * 32)
+                        if (Int32.Parse(stArrayData[1]) == i + currentID * 32 + devcount * 32) // Okay This has to be the problem. I have to read FalconBMS.cfg for
                             this.dx[i].Assign((string)stArrayData[0], Pinky.Shift, behaviourStatus, invokeStatus, 0);
                     }
                 }
