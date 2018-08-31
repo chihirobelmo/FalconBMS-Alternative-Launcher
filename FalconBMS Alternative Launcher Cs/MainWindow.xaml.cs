@@ -44,7 +44,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         private DispatcherTimer AxisMovingTimer = new DispatcherTimer();
         private DispatcherTimer KeyMappingTimer = new DispatcherTimer();
         
-        static bool FLG_YAME64 = false;
+        public static bool FLG_YAME64 = true;
 
         /// <summary>
         /// Execute when launching this app.
@@ -114,6 +114,11 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 Tab_Launcher.Visibility = Visibility.Collapsed;
                 Tab_VisualAcuity.Visibility = Visibility.Collapsed;
                 Misc_SmartScalingOverride.IsChecked = false;
+
+                this.Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
+                BackGroundBox1.Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
+                BackGroundBox2.Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
+                BackGroundImage.Opacity = 0;
             }
             else
             {

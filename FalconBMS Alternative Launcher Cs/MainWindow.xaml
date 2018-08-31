@@ -69,7 +69,7 @@
     </Window.Resources>
     <Grid>
         <Grid.Background>
-            <ImageBrush ImageSource="Resources/BackGround.jpg" Stretch="UniformToFill">
+            <ImageBrush ImageSource="Resources/BackGround.jpg" Stretch="UniformToFill" x:Name="BackGroundImage">
                 <ImageBrush.RelativeTransform>
                     <TransformGroup>
                         <ScaleTransform CenterX="1"/>
@@ -246,7 +246,7 @@
                     <Image Visibility="Visible" HorizontalAlignment="Left" VerticalAlignment="Top" Height="39" Source="Resources/TabControl_1_BackGround.png" Stretch="None" Margin="-430,0,-140,0" Width="1580"/>
                     <TabControl HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Stretch" Width="auto" Margin="10,0" Background="{x:Null}">
                         <TabItem Header=" FlightControl" Controls:ControlsHelper.HeaderFontSize="24">
-                            <Grid Margin="0,0,0,24" Background="#7FD4E1EE">
+                            <Grid Margin="0,0,0,24" Background="#7FD4E1EE" x:Name="BackGroundBox1">
                                 <!-- Roll Axis -->
                                 <Grid HorizontalAlignment="Left" Height="180" VerticalAlignment="Top" Width="480">
                                     <Label Content="SSC (Side Stick Controller)" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold" FontStyle="Oblique" Height="41" Width="349"/>
@@ -335,7 +335,7 @@
                             </Grid>
                         </TabItem>
                         <TabItem Header="  Avionics &amp; Radios" Controls:ControlsHelper.HeaderFontSize="24">
-                            <Grid Background="#7FD4E1EE" Margin="0,0,0,24">
+                            <Grid Background="#7FD4E1EE" Margin="0,0,0,24" x:Name="BackGroundBox2">
                                 <Grid HorizontalAlignment="Left" Height="278" VerticalAlignment="Top" Width="480" Grid.ColumnSpan="2">
                                     <Label Content="TQS (Throttle Quadrant System)" HorizontalAlignment="Left" Margin="10,10,-18,177" FontSize="16" FontWeight="Bold" FontStyle="Oblique" Width="422"/>
 

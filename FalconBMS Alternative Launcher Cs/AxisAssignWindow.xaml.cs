@@ -77,6 +77,13 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         private void AssignWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            // YAME 64 VERSION
+            if (MainWindow.FLG_YAME64 == true)
+            {
+                this.Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
+                BackGroundImage.Opacity = 0;
+            }
+
             Retry.Visibility = Visibility.Hidden;
             SetAB.Visibility = Visibility.Hidden;
             Idle.Visibility = Visibility.Hidden;

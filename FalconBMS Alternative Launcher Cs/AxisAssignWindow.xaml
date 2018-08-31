@@ -25,7 +25,7 @@
     </Window.Resources>
     <Grid>
         <Grid.Background>
-            <ImageBrush ImageSource="Resources/BackgroundAxis.png" Stretch="UniformToFill">
+            <ImageBrush ImageSource="Resources/BackgroundAxis.png" Stretch="UniformToFill" x:Name="BackGroundImage">
                 <ImageBrush.RelativeTransform>
                     <TransformGroup>
                         <ScaleTransform CenterY="1" CenterX="1" ScaleX="2" ScaleY="2"/>
