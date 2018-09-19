@@ -44,7 +44,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         private DispatcherTimer AxisMovingTimer = new DispatcherTimer();
         private DispatcherTimer KeyMappingTimer = new DispatcherTimer();
         
-        public static bool FLG_YAME64 = true;
+        public static bool FLG_YAME64 = false;
 
         /// <summary>
         /// Execute when launching this app.

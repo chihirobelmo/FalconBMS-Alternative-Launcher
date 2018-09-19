@@ -88,7 +88,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             if (File.Exists(fileName))
             {
                 sr = new System.IO.StreamReader(fileName, new System.Text.UTF8Encoding(false));
-                JoyAssgn.AxAssgn mouseWheelAssign = (JoyAssgn.AxAssgn)serializer.Deserialize(sr);
+                mouseWheelAssign = (JoyAssgn.AxAssgn)serializer.Deserialize(sr);
                 sr.Close();
             }
 
@@ -98,7 +98,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             if (File.Exists(fileName))
             {
                 sr = new System.IO.StreamReader(fileName, new System.Text.UTF8Encoding(false));
-                ThrottlePosition throttlePos = (ThrottlePosition)serializer.Deserialize(sr);
+                throttlePos = (ThrottlePosition)serializer.Deserialize(sr);
                 sr.Close();
             }
         }
