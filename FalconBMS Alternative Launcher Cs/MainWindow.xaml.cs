@@ -53,6 +53,41 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <param name="e"></param>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            // load command line.
+            string[] args = Environment.GetCommandLineArgs();
+            var option = new Dictionary<string, string>();
+            for (int index = 1; index < args.Length; index += 2)
+            {
+                option.Add(args[index], args[index + 1]);
+            }
+            if (option.ContainsKey("/yame") == true)
+            {
+                if (option["/yame"] == "true")
+                {
+                    FLG_YAME64 = true;
+
+                    LargeTab.SelectedIndex = 1;
+                    Tab_Launcher.Visibility = Visibility.Collapsed;
+                    Tab_VisualAcuity.Visibility = Visibility.Collapsed;
+                    Misc_SmartScalingOverride.IsChecked = false;
+
+                    this.Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
+                    BackGroundBox1.Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
+                    BackGroundBox2.Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
+                    BackGroundImage.Opacity = 0;
+
+                    Button_Apply_YAME64.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    Button_Apply_YAME64.Visibility = Visibility.Hidden;
+                }
+            }
+            else
+            {
+                Button_Apply_YAME64.Visibility = Visibility.Hidden;
+            }
+
             try
             {
                 // Load UI Properties(Like Button Status).
@@ -78,7 +113,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 ResetAssgnWindow();
 
                 // Read BMS-FULL.key
-                string fname = appReg.GetInstallDir() + "\\User\\Config\\BMS - Full.key";
+                string fname = appReg.GetInstallDir() + "\\User\\Config\\" + appReg.getKeyFileName();
                 keyFile = new KeyFile(fname, appReg);
 
                 // Write Data Grid
@@ -105,24 +140,6 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 sw.Close();
 
                 this.Close();
-            }
-
-            // YAME 64 VERSION
-            if (FLG_YAME64 == true)
-            {
-                LargeTab.SelectedIndex = 1;
-                Tab_Launcher.Visibility = Visibility.Collapsed;
-                Tab_VisualAcuity.Visibility = Visibility.Collapsed;
-                Misc_SmartScalingOverride.IsChecked = false;
-
-                this.Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
-                BackGroundBox1.Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
-                BackGroundBox2.Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
-                BackGroundImage.Opacity = 0;
-            }
-            else
-            {
-                Button_Apply_YAME64.Visibility = Visibility.Hidden;
             }
         }
         

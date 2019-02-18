@@ -159,8 +159,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// </summary>
         protected void SaveKeyMapping()
         {
-            string filename = appReg.GetInstallDir() + "/User/Config/BMS - Full.key";
-            string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/BMS - Full.key";
+            string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.getKeyFileName();
+            string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/" + appReg.getKeyFileName();
             if (!System.IO.File.Exists(fbackupname))
                 System.IO.File.Copy(filename, fbackupname, true);
             System.IO.StreamWriter sw = new System.IO.StreamWriter
@@ -220,23 +220,34 @@ namespace FalconBMS_Alternative_Launcher_Cs
             byte[] bs = new byte[fs.Length];
             fs.Read(bs, 0, bs.Length);
             fs.Close();
+
+            byte[] keyFileName = System.Text.Encoding.ASCII.GetBytes(appReg.getKeyFileName().Replace(".key",""));
             // 42 4D 53 20 2D 20 46 75 6C 6C 00 00 00 00 00 00 // BMS - FULL
-            bs[288 + 0] = 0x42;
-            bs[288 + 1] = 0x4D;
-            bs[288 + 2] = 0x53;
-            bs[288 + 3] = 0x20;
-            bs[288 + 4] = 0x2D;
-            bs[288 + 5] = 0x20;
-            bs[288 + 6] = 0x46;
-            bs[288 + 7] = 0x75;
-            bs[288 + 8] = 0x6C;
-            bs[288 + 9] = 0x6C;
-            bs[288 + 10] = 0x00;
-            bs[288 + 11] = 0x00;
-            bs[288 + 12] = 0x00;
-            bs[288 + 13] = 0x00;
-            bs[288 + 14] = 0x00;
-            bs[288 + 15] = 0x00;
+            for (int i = 0; i <= 15; i++)
+            {
+                if (i >= keyFileName.Length)
+                {
+                    bs[288 + i] = 0x00;
+                    continue;
+                }
+                bs[288 + i] = keyFileName[i];
+            }
+            //bs[288 + 0] = 0x42;
+            //bs[288 + 1] = 0x4D;
+            //bs[288 + 2] = 0x53;
+            //bs[288 + 3] = 0x20;
+            //bs[288 + 4] = 0x2D;
+            //bs[288 + 5] = 0x20;
+            //bs[288 + 6] = 0x46;
+            //bs[288 + 7] = 0x75;
+            //bs[288 + 8] = 0x6C;
+            //bs[288 + 9] = 0x6C;
+            //bs[288 + 10] = 0x00;
+            //bs[288 + 11] = 0x00;
+            //bs[288 + 12] = 0x00;
+            //bs[288 + 13] = 0x00;
+            //bs[288 + 14] = 0x00;
+            //bs[288 + 15] = 0x00;
 
             bs[336] = 0x00; // TrackIR Z-Axis(0:Z-axis 1:FOV)
             if (mainWindow.Misc_TrackIRZ.IsChecked == true)

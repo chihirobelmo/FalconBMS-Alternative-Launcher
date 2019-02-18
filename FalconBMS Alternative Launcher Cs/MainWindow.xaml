@@ -549,6 +549,7 @@
         </TabControl>
 
         <Image Visibility="Visible" HorizontalAlignment="Left" VerticalAlignment="Top" Height="64" Source="Resources/LOGO_BACK.png" Stretch="Uniform" Margin="0,0,-350,0"/>
+        <Image x:Name="LOGO000" Visibility="Hidden" HorizontalAlignment="Left" VerticalAlignment="Top" Height="64" Source="Resources/LOGO000.png" Stretch="Uniform" Margin="0,0,-350,0"/>
         <Image x:Name="LOGO432" Visibility="Hidden" HorizontalAlignment="Left" VerticalAlignment="Top" Height="64" Source="Resources/LOGO432.png" Stretch="Uniform" Margin="0,0,-350,0"/>
         <Image x:Name="LOGO433" Visibility="Hidden" HorizontalAlignment="Left" VerticalAlignment="Top" Height="64" Source="Resources/LOGO433.png" Stretch="Uniform" Margin="0,0,-350,0"/>
         <Image x:Name="LOGO434" Visibility="Hidden" HorizontalAlignment="Left" VerticalAlignment="Top" Height="64" Source="Resources/LOGO434.png" Stretch="Uniform" Margin="0,0,-350,0"/>

@@ -250,6 +250,9 @@
     <Resource Include="Resources\TabControl_1_BackGround.png" />
     <Resource Include="Resources\TabControl_2_BackGround.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\LOGO000.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

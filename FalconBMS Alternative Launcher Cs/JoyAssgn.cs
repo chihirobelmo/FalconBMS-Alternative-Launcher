@@ -282,7 +282,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             }
             if (currentID == -1)
                 return;
-            string keyfile = appReg.GetInstallDir() + "/User/Config/BMS - FULL.key";
+            string keyfile = appReg.GetInstallDir() + "/User/Config/" + appReg.getKeyFileName();
             string[] Klines = System.IO.File.ReadAllLines(keyfile, Encoding.UTF8);
             foreach (string stBuffer in Klines)
             {

@@ -53,11 +53,11 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     continue;
 
                 MessageBoxResult result = System.Windows.MessageBox.Show
-                    ("App found BMS - FULL.key broken\nWould you like to restore it to the default?", "Error", MessageBoxButton.OKCancel, MessageBoxImage.Exclamation);
+                    ("App found " + appReg.getKeyFileName() + " broken\nWould you like to restore it to the default?", "Error", MessageBoxButton.OKCancel, MessageBoxImage.Exclamation);
                 if (result == MessageBoxResult.OK)
                 {
-                    string fnamestock = appReg.GetInstallDir() + "\\Docs\\Key Files & Input\\BMS - Full.key";
-                    string fname = appReg.GetInstallDir() + "\\User\\Config\\BMS - Full.key";
+                    string fnamestock = appReg.GetInstallDir() + "\\Docs\\Key Files & Input\\" + appReg.getKeyFileName();
+                    string fname = appReg.GetInstallDir() + "\\User\\Config\\" + appReg.getKeyFileName(); ;
                     if (File.Exists(fnamestock) == true)
                     {
                         System.IO.File.Copy(fnamestock, fname, true);
@@ -65,7 +65,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                         System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
                         return;
                     }
-                    System.Windows.MessageBox.Show("App could not find BMS - FULL.key at\nDocs\\Key Files & Input\\BMS - Full.key", "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    System.Windows.MessageBox.Show("App could not find " + appReg.getKeyFileName() + " at\nDocs\\Key Files & Input\\", "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                     System.Windows.Application.Current.Shutdown();
                     return;
                 }

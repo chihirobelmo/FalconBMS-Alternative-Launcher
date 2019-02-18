@@ -157,7 +157,7 @@ namespace FalconBMS_Alternative_Launcher_Cs.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool Misc_MouseCursorAnchor {
             get {
                 return ((bool)(this["Misc_MouseCursorAnchor"]));
@@ -241,7 +241,7 @@ namespace FalconBMS_Alternative_Launcher_Cs.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool CMD_MONO {
             get {
                 return ((bool)(this["CMD_MONO"]));

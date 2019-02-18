@@ -243,8 +243,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                         Retry.Content = "RETRY";
                         Retry.Visibility = Visibility.Visible;
 
-                        if (whoCalledWindow != "Throttle" &
-                            whoCalledWindow != "Throttle_Right")
+                        if (whoCalledWindow != "Throttle" & whoCalledWindow != "Throttle_Right")
                             continue;
                         SetAB.Visibility = Visibility.Visible;
                         Idle.Visibility = Visibility.Visible;
@@ -366,11 +365,11 @@ namespace FalconBMS_Alternative_Launcher_Cs
             {
                 JoyAssgn.AxAssgn axisInfo = new JoyAssgn.AxAssgn();
                 axisAssign = new InGameAxAssgn(
-                    devNumTmp, 
-                    phyAxNumTmp, 
-                    (bool)Invert.IsChecked, 
-                    (AxCurve)DeadZone.SelectedIndex, 
-                    (AxCurve)Saturation.SelectedIndex
+                        devNumTmp, 
+                        phyAxNumTmp, 
+                        (bool)Invert.IsChecked, 
+                        (AxCurve)DeadZone.SelectedIndex, 
+                        (AxCurve)Saturation.SelectedIndex
                     );
                 if (whoCalledWindow == "Throttle" | whoCalledWindow == "Throttle_Right")
                     MainWindow.deviceControl.throttlePos = new ThrottlePosition(AB,IDLE);
