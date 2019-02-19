@@ -22,41 +22,48 @@ using System.Windows.Threading;
 namespace FalconBMS_Alternative_Launcher_Cs
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Writer for setting Override
     /// </summary>
     public class OverrideSetting
     {
         private MainWindow mainWindow;
         private AppRegInfo appReg;
-        private Hashtable inGameAxis;
-        private DeviceControl deviceControl;
-        private KeyFile keyFile;
-        private VisualAcuity visualAcuity;
 
-        public OverrideSetting(MainWindow mainWindow, AppRegInfo appReg, Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile, VisualAcuity visualAcuity)
+        /// <summary>
+        /// Writer for setting Override
+        /// </summary>
+        /// <param name="mainWindow"></param>
+        /// <param name="appReg"></param>
+        public OverrideSetting(MainWindow mainWindow, AppRegInfo appReg)
         {
             this.mainWindow = mainWindow;
             this.appReg = appReg;
-            this.inGameAxis = inGameAxis;
-            this.deviceControl = deviceControl;
-            this.keyFile = keyFile;
-            this.visualAcuity = visualAcuity;
 
             if (!System.IO.Directory.Exists(appReg.GetInstallDir() + "/User/Config/Backup/"))
                 System.IO.Directory.CreateDirectory(appReg.GetInstallDir() + "/User/Config/Backup/");
+        }
 
-            SaveAxisMapping();
-            SaveJoystickCal();
-            SaveDeviceSorting();
-            SaveConfigfile();
-            SaveKeyMapping();
-            SaveJoyAssignStatus();
+        /// <summary>
+        /// Execute setting override.
+        /// </summary>
+        /// <param name="inGameAxis"></param>
+        /// <param name="deviceControl"></param>
+        /// <param name="keyFile"></param>
+        /// <param name="visualAcuity"></param>
+        public void Execute(Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile, VisualAcuity visualAcuity)
+        {
+            SaveAxisMapping(inGameAxis, deviceControl);
+            SaveJoystickCal(inGameAxis, deviceControl);
+            SaveDeviceSorting(deviceControl);
+            SaveConfigfile(deviceControl, visualAcuity);
+            SaveKeyMapping(inGameAxis, deviceControl, keyFile);
+            SaveJoyAssignStatus(deviceControl);
         }
 
         /// <summary>
         /// As the name inplies...
         /// </summary>
-        protected void SaveJoyAssignStatus()
+        protected void SaveJoyAssignStatus(DeviceControl deviceControl)
         {
             //保存先のファイル名
             string fileName = "";
@@ -95,7 +102,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <summary>
         /// As the name inplies...
         /// </summary>
-        protected void SaveConfigfile()
+        protected void SaveConfigfile(DeviceControl deviceControl, VisualAcuity visualAcuity)
         {
             string filename = appReg.GetInstallDir() + "/User/Config/falcon bms.cfg";
             if (!System.IO.File.Exists(filename))
@@ -128,7 +135,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
             if (mainWindow.Misc_SmartScalingOverride.IsChecked == true) // Smart Scaling
             {
-                cfg.Write("set g_fDefaultFOV " + this.visualAcuity.horizontalFOV_Ideal_deg
+                cfg.Write("set g_fDefaultFOV " + visualAcuity.horizontalFOV_Ideal_deg
                     + "          // SETUP OVERRIDE\r\n");
             }
             cfg.Close();
@@ -137,7 +144,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <summary>
         /// As the name inplies...
         /// </summary>
-        protected void SaveDeviceSorting()
+        protected void SaveDeviceSorting(DeviceControl deviceControl)
         {
             string deviceSort = "";
             for (int i = 0; i < deviceControl.devList.Count; i++)
@@ -157,7 +164,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <summary>
         /// As the name inplies...
         /// </summary>
-        protected void SaveKeyMapping()
+        protected void SaveKeyMapping(Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile)
         {
             string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.getKeyFileName();
             string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/" + appReg.getKeyFileName();
@@ -274,7 +281,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <summary>
         /// As the name inplies...
         /// </summary>
-        protected void SaveAxisMapping()
+        protected void SaveAxisMapping(Hashtable inGameAxis, DeviceControl deviceControl)
         {
             string filename = appReg.GetInstallDir() + "/User/Config/axismapping.dat";
             string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/axismapping.dat";
@@ -386,7 +393,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <summary>
         /// As the name inplies...
         /// </summary>
-        protected void SaveJoystickCal()
+        protected void SaveJoystickCal(Hashtable inGameAxis, DeviceControl deviceControl)
         {
             string filename = appReg.GetInstallDir() + "/User/Config/joystick.cal";
             string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/joystick.cal";
@@ -505,5 +512,35 @@ namespace FalconBMS_Alternative_Launcher_Cs
             AxisName.AI_vs_IVC,
             AxisName.FLIR_Brightness
         };
+    }
+
+    /// <summary>
+    /// Writer for BMS4.32 setting Override
+    /// </summary>
+    public class OverrideSettingFor432 : OverrideSetting
+    {
+        /// <summary>
+        /// Writer for BMS4.32 setting Override
+        /// </summary>
+        /// <param name="mainWindow"></param>
+        /// <param name="appReg"></param>
+        public OverrideSettingFor432(MainWindow mainWindow, AppRegInfo appReg) : base(mainWindow, appReg)
+        {
+        }
+    }
+
+    /// <summary>
+    /// Writer for BMS4.33 setting Override
+    /// </summary>
+    public class OverrideSettingFor433 : OverrideSetting
+    {
+        /// <summary>
+        /// Writer for BMS4.33 setting Override
+        /// </summary>
+        /// <param name="mainWindow"></param>
+        /// <param name="appReg"></param>
+        public OverrideSettingFor433(MainWindow mainWindow, AppRegInfo appReg) : base(mainWindow, appReg)
+        {
+        }
     }
 }

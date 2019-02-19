@@ -33,7 +33,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             this.MouseWheel += Detect_MouseWheel;
         }
 
-        public static DeviceControl deviceControl = new DeviceControl();
+        public static DeviceControl deviceControl;
 
         private AppRegInfo appReg;
         private KeyFile keyFile;
@@ -61,27 +61,22 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 option.Add(args[index], args[index + 1]);
             }
             if (option.ContainsKey("/yame") == true)
-            {
                 if (option["/yame"] == "true")
-                {
                     FLG_YAME64 = true;
 
-                    LargeTab.SelectedIndex = 1;
-                    Tab_Launcher.Visibility = Visibility.Collapsed;
-                    Tab_VisualAcuity.Visibility = Visibility.Collapsed;
-                    Misc_SmartScalingOverride.IsChecked = false;
+            if (FLG_YAME64)
+            {
+                LargeTab.SelectedIndex = 1;
+                Tab_Launcher.Visibility = Visibility.Collapsed;
+                Tab_VisualAcuity.Visibility = Visibility.Collapsed;
+                Misc_SmartScalingOverride.IsChecked = false;
 
-                    this.Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
-                    BackGroundBox1.Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
-                    BackGroundBox2.Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
-                    BackGroundImage.Opacity = 0;
+                this.Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
+                BackGroundBox1.Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
+                BackGroundBox2.Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
+                BackGroundImage.Opacity = 0;
 
-                    Button_Apply_YAME64.Visibility = Visibility.Visible;
-                }
-                else
-                {
-                    Button_Apply_YAME64.Visibility = Visibility.Hidden;
-                }
+                Button_Apply_YAME64.Visibility = Visibility.Visible;
             }
             else
             {
@@ -94,14 +89,14 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 this.appProperties = new AppProperties(this);
 
                 // Read Registry
-                appReg = new AppRegInfo(this);
+                this.appReg = new AppRegInfo(this);
 
                 // Read Theater List
                 TheaterList theaterlist = new TheaterList(appReg, this.Dropdown_TheaterList);
 
                 // Get Devices
                 deviceControl = new DeviceControl(appReg);
-                neutralButtons = new NeutralButtons[deviceControl.devList.Count];
+                this.neutralButtons = new NeutralButtons[deviceControl.devList.Count];
 
                 // Aquire joySticks
                 AquireAll(true);
@@ -114,17 +109,17 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
                 // Read BMS-FULL.key
                 string fname = appReg.GetInstallDir() + "\\User\\Config\\" + appReg.getKeyFileName();
-                keyFile = new KeyFile(fname, appReg);
+                this.keyFile = new KeyFile(fname, appReg);
 
                 // Write Data Grid
                 WriteDataGrid();
 
                 // Set Timer
-                AxisMovingTimer.Tick += AxisMovingTimer_Tick;
-                AxisMovingTimer.Interval = new TimeSpan(0, 0, 0, 0, 16);
+                this.AxisMovingTimer.Tick += this.AxisMovingTimer_Tick;
+                this.AxisMovingTimer.Interval = new TimeSpan(0, 0, 0, 0, 16);
 
-                KeyMappingTimer.Tick += KeyMappingTimer_Tick;
-                KeyMappingTimer.Interval = new TimeSpan(0, 0, 0, 0, 16);
+                this.KeyMappingTimer.Tick += this.KeyMappingTimer_Tick;
+                this.KeyMappingTimer.Interval = new TimeSpan(0, 0, 0, 0, 16);
 
                 // Set VisualAcuity page graph and results.
                 this.visualAcuity = new VisualAcuity(this);
@@ -151,9 +146,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
         private void Window_Closed(object sender, EventArgs e)
         {
             // Save UI Properties(Like Button Status).
-            appProperties.SaveUISetup();
-
-            new OverrideSetting(this, appReg, inGameAxis, deviceControl, keyFile, visualAcuity);
+            this.appProperties.SaveUISetup();
+            this.appReg.getOverrideWriter().Execute(inGameAxis, deviceControl, keyFile, visualAcuity);
         }
         
         /// <summary>
@@ -169,17 +163,17 @@ namespace FalconBMS_Alternative_Launcher_Cs
             int value = LargeTab.SelectedIndex;
 
             if (value == 1)
-                AxisMovingTimer.Start();
+                this.AxisMovingTimer.Start();
             else
-                AxisMovingTimer.Stop();
+                this.AxisMovingTimer.Stop();
 
             if (value == 2)
             {
-                KeyMappingTimer.Start();
-                KeyMappingGrid.Items.Refresh();
+                this.KeyMappingTimer.Start();
+                this.KeyMappingGrid.Items.Refresh();
             }
             else
-                KeyMappingTimer.Stop();
+                this.KeyMappingTimer.Stop();
         }
         
         /// <summary>
@@ -189,7 +183,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <param name="e"></param>
         private void Dropdown_TheaterList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            appReg.ChangeTheater(this.Dropdown_TheaterList);
+            this.appReg.ChangeTheater(this.Dropdown_TheaterList);
         }
         
         /// <summary>
@@ -209,7 +203,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <param name="e"></param>
         private void CMD_BW_Click(object sender, RoutedEventArgs e)
         {
-            appProperties.CMD_BW_Click();
+            this.appProperties.CMD_BW_Click();
         }
 
         /// <summary>
@@ -255,7 +249,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     }
                     else
                     {
-                        new OverrideSetting(this, appReg, inGameAxis, deviceControl, keyFile, visualAcuity);
+                        appReg.getOverrideWriter().Execute(inGameAxis, deviceControl, keyFile, visualAcuity);
                     }
 
                     String appPlatform = appReg.GetInstallDir() + "/Bin/x86/Falcon BMS.exe";
@@ -610,7 +604,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         private void Apply_YAME64(object sender, RoutedEventArgs e)
         {
-            new OverrideSetting(this, appReg, inGameAxis, deviceControl, keyFile, visualAcuity);
+            this.appReg.getOverrideWriter().Execute(inGameAxis, deviceControl, keyFile, visualAcuity);
             this.Close();
         }
     }
