@@ -85,7 +85,7 @@
             <TabItem Header="  Launcher" x:Name="Tab_Launcher">
                 <Grid>
                     <Controls:ToggleSwitch x:Name="Misc_Platform" OnLabel="64bit" OffLabel="32bit" HorizontalAlignment="Left" Margin="160,30,0,0" VerticalAlignment="Top" Foreground="#FF606060"/>
-                    <Label Content="Platform :" HorizontalAlignment="Left" Margin="32,32,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="16" Foreground="#FF606060"/>
+                    <Label x:Name="Label_Platform" Content="Platform :" HorizontalAlignment="Left" Margin="32,32,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="16" Foreground="#FF606060"/>
                     <Label Content="Theater  :" HorizontalAlignment="Left" Margin="32,96,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="16" Foreground="#FF606060"/>
                     <ComboBox x:Name="Dropdown_TheaterList" HorizontalAlignment="Left" Margin="160,100,0,0" VerticalAlignment="Top" Width="256" Background="{x:Null}" BorderBrush="Black" SelectionChanged="Dropdown_TheaterList_SelectionChanged"/>
 

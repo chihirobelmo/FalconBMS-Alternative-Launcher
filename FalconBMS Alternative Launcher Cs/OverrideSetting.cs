@@ -26,8 +26,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
     /// </summary>
     public class OverrideSetting
     {
-        private MainWindow mainWindow;
-        private AppRegInfo appReg;
+        protected MainWindow mainWindow;
+        protected AppRegInfo appReg;
 
         /// <summary>
         /// Writer for setting Override
@@ -57,6 +57,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             SaveDeviceSorting(deviceControl);
             SaveConfigfile(deviceControl, visualAcuity);
             SaveKeyMapping(inGameAxis, deviceControl, keyFile);
+            SavePop();
             SaveJoyAssignStatus(deviceControl);
         }
 
@@ -182,100 +183,13 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     sw.Write(deviceControl.joyAssign[i].GetKeyLinePOV());
             }
             sw.Close();
+        }
 
-            filename = appReg.GetInstallDir() + "/User/Config/" + appReg.GetPilotCallsign().ToString() + ".pop";
-            if (!System.IO.File.Exists(filename))
-            {
-                byte[] nbs = {
-                    0x1B, 0x00, 0x00, 0x00, 0x00, 0x00, 0xA0, 0x42, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00,
-                    0x00, 0x00, 0x00, 0x40, 0x00, 0x00, 0x80, 0x3F, 0x63, 0x00, 0x00, 0x00, 0x05, 0x00, 0x00, 0x00,
-                    0x14, 0x00, 0x00, 0x00, 0x00, 0x00, 0xA0, 0x40, 0x00, 0x00, 0x80, 0x3F, 0x1E, 0x1E, 0x7E, 0x3F,
-                    0x1E, 0x1E, 0xFE, 0x3F, 0xD3, 0xD2, 0x9E, 0x41, 0x6A, 0x69, 0xB3, 0x42, 0x01, 0x00, 0x00, 0x00,
-                    0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x03, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00,
-                    0x03, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00,
-                    0x02, 0x00, 0x00, 0x00, 0x20, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00,
-                    0x02, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                    0x64, 0x00, 0x00, 0x00, 0x64, 0x00, 0x00, 0x00, 0x04, 0xFD, 0xFF, 0xFF, 0x04, 0xFD, 0xFF, 0xFF,
-                    0x6C, 0xFE, 0xFF, 0xFF, 0xB6, 0xFF, 0xFF, 0xFF, 0xB6, 0xFF, 0xFF, 0xFF, 0x6A, 0xF6, 0xFF, 0xFF,
-                    0x50, 0xFB, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x6A, 0xF6, 0xFF, 0xFF, 0xA4, 0xED, 0xFF, 0xFF,
-                    0x47, 0xF3, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x04, 0xFD, 0xFF, 0xFF,
-                    0x6C, 0xFE, 0xFF, 0xFF, 0xB6, 0xFF, 0xFF, 0xFF, 0xB6, 0xFF, 0xFF, 0xFF, 0x01, 0x00, 0x00, 0x00,
-                    0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00,
-                    0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x04, 0xFD, 0xFF, 0xFF, 0x04, 0xFD, 0xFF, 0xFF,
-                    0x6C, 0xFE, 0xFF, 0xFF, 0xB6, 0xFF, 0xFF, 0xFF, 0xB6, 0xFF, 0xFF, 0xFF, 0x6A, 0xF6, 0xFF, 0xFF,
-                    0x50, 0xFB, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x6A, 0xF6, 0xFF, 0xFF, 0xA4, 0xED, 0xFF, 0xFF,
-                    0x47, 0xF3, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x3F,
-                    0x42, 0x4D, 0x53, 0x20, 0x2D, 0x20, 0x46, 0x75, 0x6C, 0x6C, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                    0x00, 0x00, 0x00, 0x00, 0x14, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x01, 0x01,
-                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x3F, 0x05, 0x00, 0x00, 0x00,
-                    0x28, 0x00, 0x00, 0x00, 0x0A, 0x00, 0x00, 0x00, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00,
-                    0x01, 0x42, 0x4D, 0x53, 0x20, 0x34, 0x2E, 0x33, 0x33, 0x2E, 0x32, 0x00, 0x00, 0x00, 0x00, 0x00,
-                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                    0x00, 0x00, 0x00, 0x00, 0x03, 0x00, 0x00, 0x00, 0xF0, 0xD8, 0xFF, 0xFF
-                };
-                System.IO.FileStream nfs = new System.IO.FileStream
-                    (filename, System.IO.FileMode.Create, System.IO.FileAccess.Write);
-                nfs.Write(nbs, 0, nbs.Length);
-                nfs.Close();
-            }
-            fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/" + appReg.GetPilotCallsign().ToString() + ".pop";
-            if (!System.IO.File.Exists(fbackupname))
-                System.IO.File.Copy(filename, fbackupname, true);
-            System.IO.FileStream fs = new System.IO.FileStream
-                (filename, System.IO.FileMode.Open, System.IO.FileAccess.Read);
-            byte[] bs = new byte[fs.Length];
-            fs.Read(bs, 0, bs.Length);
-            fs.Close();
-
-            byte[] keyFileName = System.Text.Encoding.ASCII.GetBytes(appReg.getKeyFileName().Replace(".key",""));
-            // 42 4D 53 20 2D 20 46 75 6C 6C 00 00 00 00 00 00 // BMS - FULL
-            for (int i = 0; i <= 15; i++)
-            {
-                if (i >= keyFileName.Length)
-                {
-                    bs[288 + i] = 0x00;
-                    continue;
-                }
-                bs[288 + i] = keyFileName[i];
-            }
-            //bs[288 + 0] = 0x42;
-            //bs[288 + 1] = 0x4D;
-            //bs[288 + 2] = 0x53;
-            //bs[288 + 3] = 0x20;
-            //bs[288 + 4] = 0x2D;
-            //bs[288 + 5] = 0x20;
-            //bs[288 + 6] = 0x46;
-            //bs[288 + 7] = 0x75;
-            //bs[288 + 8] = 0x6C;
-            //bs[288 + 9] = 0x6C;
-            //bs[288 + 10] = 0x00;
-            //bs[288 + 11] = 0x00;
-            //bs[288 + 12] = 0x00;
-            //bs[288 + 13] = 0x00;
-            //bs[288 + 14] = 0x00;
-            //bs[288 + 15] = 0x00;
-
-            bs[336] = 0x00; // TrackIR Z-Axis(0:Z-axis 1:FOV)
-            if (mainWindow.Misc_TrackIRZ.IsChecked == true)
-                bs[336] = 0x01;
-
-            bs[341] = 0x00; // External Mouselook
-            if (mainWindow.Misc_ExMouseLook.IsChecked == true)
-                bs[341] = 0x01;
-
-            bs[362] = 0x00; // Roll-linked NWS
-            if (mainWindow.Misc_RollLinkedNWS.IsChecked == true)
-                bs[362] = 0x01;
-
-            // Smart Scaling
-            if (mainWindow.Misc_SmartScalingOverride.IsChecked == true)
-                bs[12] = 0x05;   // Enabled
-
-            fs = new System.IO.FileStream
-                (filename, System.IO.FileMode.Create, System.IO.FileAccess.Write);
-            fs.Write(bs, 0, bs.Length);
-            fs.Close();
+        /// <summary>
+        /// Overwrite callsign.pop file.
+        /// </summary>
+        protected virtual void SavePop()
+        {
         }
 
         /// <summary>
@@ -320,7 +234,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 fs.Write(bs, 0, bs.Length);
             }
 
-            foreach (AxisName nme in axisMappingList)
+            AxisName[] localAxisMappingList = this.getAxisMappingList();
+            foreach (AxisName nme in localAxisMappingList)
             {
                 if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() == -1)
                 {
@@ -404,7 +319,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
             byte[] bs;
 
-            foreach (AxisName nme in JoystickCalList)
+            AxisName[] localJoystickCalList = appReg.getOverrideWriter().getJoystickCalList();
+            foreach (AxisName nme in localJoystickCalList)
             {
                 bs = new byte[] 
                 {
@@ -449,10 +365,13 @@ namespace FalconBMS_Alternative_Launcher_Cs
             fs.Close();
         }
 
+        public virtual AxisName[] getAxisMappingList() { return this.axisMappingList; }
+        public virtual AxisName[] getJoystickCalList() { return this.joystickCalList; }
+
         /// <summary>
         /// Axis information order for AxisMapping.dat
         /// </summary>
-        public static AxisName[] axisMappingList = {
+        private AxisName[] axisMappingList = {
             AxisName.Pitch,
             AxisName.Roll,
             AxisName.Yaw,
@@ -484,7 +403,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <summary>
         /// Axis information order for JoyStick.cal
         /// </summary>
-        public static AxisName[] JoystickCalList = {
+        private AxisName[] joystickCalList = {
             AxisName.Pitch,
             AxisName.Roll,
             AxisName.Yaw,
@@ -526,7 +445,157 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <param name="appReg"></param>
         public OverrideSettingFor432(MainWindow mainWindow, AppRegInfo appReg) : base(mainWindow, appReg)
         {
+            mainWindow.Misc_Platform.IsChecked = false;
+            mainWindow.Misc_Platform.Visibility = Visibility.Hidden;
+            mainWindow.Label_Platform.Content = "Platform : BMS 4.32 is 32-bit apprecation.";
+
+            mainWindow.Launch_AVC.Visibility = Visibility.Hidden;
+            mainWindow.Label_AVC.Visibility = Visibility.Hidden;
         }
+
+        protected override void SavePop()
+        {
+            string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.GetPilotCallsign().ToString() + ".pop";
+            if (!System.IO.File.Exists(filename))
+            {
+                byte[] nbs = {
+                     0x1B, 0x00, 0x00, 0x00, 0x00, 0x00, 0xA0, 0x42, 0x00, 0x00, 0x00, 0x00, 0x05, 0x00, 0x00, 0x00,
+                     0x00, 0x00, 0x00, 0x40, 0x00, 0x00, 0x80, 0x3F, 0x64, 0x00, 0x00, 0x00, 0x05, 0x00, 0x00, 0x00,
+                     0x14, 0x00, 0x00, 0x00, 0x00, 0x00, 0xA0, 0x40, 0x00, 0x00, 0x80, 0x3F, 0x00, 0x00, 0x80, 0x3F,
+                     0x00, 0x00, 0x00, 0x40, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00,
+                     0x03, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x03, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00,
+                     0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x20, 0x00, 0x00, 0x00,
+                     0x02, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00,
+                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x64, 0x00, 0x00, 0x00, 0x64, 0x00, 0x00, 0x00,
+                     0x12, 0xFD, 0xFF, 0xFF, 0x12, 0xFD, 0xFF, 0xFF, 0x57, 0xFE, 0xFF, 0xFF, 0xBA, 0xFF, 0xFF, 0xFF,
+                     0xBA, 0xFF, 0xFF, 0xFF, 0x8C, 0xFB, 0xFF, 0xFF, 0x50, 0xFB, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00,
+                     0x50, 0xFB, 0xFF, 0xFF, 0xA4, 0xED, 0xFF, 0xFF, 0xDF, 0xF8, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00,
+                     0x01, 0x00, 0x00, 0x00, 0x12, 0xFD, 0xFF, 0xFF, 0x57, 0xFE, 0xFF, 0xFF, 0xBA, 0xFF, 0xFF, 0xFF,
+                     0xBA, 0xFF, 0xFF, 0xFF, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00,
+                     0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x3E, 0x42, 0x4D, 0x53, 0x00, 0x00, 0x00, 0x00, 0x00,
+                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01,
+                     0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x3F,
+                     0x05, 0x00, 0x00, 0x00, 0x28, 0x00, 0x00, 0x00, 0x0A, 0x00, 0x00, 0x00, 0x01, 0x00, 0x01, 0x00,
+                     0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x42, 0x4D, 0x53, 0x20, 0x34, 0x2E, 0x33, 0x32, 0x2E, 0x30,
+                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x03, 0x00, 0x00, 0x00, 0xF0, 0xD8, 0xFF, 0xFF
+                };
+                System.IO.FileStream nfs = new System.IO.FileStream
+                    (filename, System.IO.FileMode.Create, System.IO.FileAccess.Write);
+                nfs.Write(nbs, 0, nbs.Length);
+                nfs.Close();
+            }
+            string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/" + appReg.GetPilotCallsign().ToString() + ".pop";
+            if (!System.IO.File.Exists(fbackupname))
+                System.IO.File.Copy(filename, fbackupname, true);
+            System.IO.FileStream fs = new System.IO.FileStream
+                (filename, System.IO.FileMode.Open, System.IO.FileAccess.Read);
+            byte[] bs = new byte[fs.Length];
+            fs.Read(bs, 0, bs.Length);
+            fs.Close();
+
+            // Set Keyfile selected.
+            byte[] keyFileName = System.Text.Encoding.ASCII.GetBytes(appReg.getKeyFileName().Replace(".key", ""));
+            for (int i = 0; i <= 15; i++)
+            {
+                if (i >= keyFileName.Length)
+                {
+                    bs[232 + i] = 0x00;
+                    continue;
+                }
+                bs[232 + i] = keyFileName[i];
+            }
+
+            // TrackIR Z-Axis(0:Z-axis 1:FOV)
+            bs[276] = 0x00;
+            if (mainWindow.Misc_TrackIRZ.IsChecked == true)
+                bs[276] = 0x01;
+
+            // External Mouselook
+            bs[281] = 0x00;
+            if (mainWindow.Misc_ExMouseLook.IsChecked == true)
+                bs[281] = 0x01;
+
+            // Roll-linked NWS
+            bs[302] = 0x00;
+            if (mainWindow.Misc_RollLinkedNWS.IsChecked == true)
+                bs[302] = 0x01;
+
+            // Smart Scaling
+            bs[12] = 0x01;
+            if (mainWindow.Misc_SmartScalingOverride.IsChecked == true)
+                bs[12] = 0x05;
+
+            fs = new System.IO.FileStream
+                (filename, System.IO.FileMode.Create, System.IO.FileAccess.Write);
+            fs.Write(bs, 0, bs.Length);
+            fs.Close();
+        }
+
+        public override AxisName[] getAxisMappingList() { return this.axisMappingList; }
+        public override AxisName[] getJoystickCalList() { return this.joystickCalList; }
+
+        /// <summary>
+        /// Axis information order for AxisMapping.dat
+        /// </summary>
+        private AxisName[] axisMappingList = {
+            AxisName.Pitch,
+            AxisName.Roll,
+            AxisName.Yaw,
+            AxisName.Throttle,
+            AxisName.Throttle_Right,
+            AxisName.Toe_Brake,
+            AxisName.Toe_Brake_Right,
+            AxisName.FOV,
+            AxisName.Trim_Pitch,
+            AxisName.Trim_Yaw,
+            AxisName.Trim_Roll,
+            AxisName.Radar_Antenna_Elevation,
+            AxisName.Range_Knob,
+            AxisName.Cursor_X,
+            AxisName.Cursor_Y,
+            AxisName.COMM_Channel_1,
+            AxisName.COMM_Channel_2,
+            AxisName.MSL_Volume,
+            AxisName.Threat_Volume,
+            AxisName.Intercom,
+            AxisName.HUD_Brightness,
+            AxisName.HMS_Brightness,
+            AxisName.Reticle_Depression,
+            AxisName.Camera_Distance
+        };
+
+        /// <summary>
+        /// Axis information order for JoyStick.cal
+        /// </summary>
+        private AxisName[] joystickCalList = {
+            AxisName.Pitch,
+            AxisName.Roll,
+            AxisName.Yaw,
+            AxisName.Throttle,
+            AxisName.Throttle_Right,
+            AxisName.Trim_Pitch,
+            AxisName.Trim_Yaw,
+            AxisName.Trim_Roll,
+            AxisName.Toe_Brake,
+            AxisName.Toe_Brake_Right,
+            AxisName.FOV,
+            AxisName.Radar_Antenna_Elevation,
+            AxisName.Cursor_X,
+            AxisName.Cursor_Y,
+            AxisName.Range_Knob,
+            AxisName.COMM_Channel_1,
+            AxisName.COMM_Channel_2,
+            AxisName.MSL_Volume,
+            AxisName.Threat_Volume,
+            AxisName.HUD_Brightness,
+            AxisName.Reticle_Depression,
+            AxisName.Camera_Distance,
+            AxisName.Intercom,
+            AxisName.HMS_Brightness,
+        };
     }
 
     /// <summary>
@@ -540,6 +609,181 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <param name="mainWindow"></param>
         /// <param name="appReg"></param>
         public OverrideSettingFor433(MainWindow mainWindow, AppRegInfo appReg) : base(mainWindow, appReg)
+        {
+        }
+
+        protected override void SavePop()
+        {
+            string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.GetPilotCallsign().ToString() + ".pop";
+            if (!System.IO.File.Exists(filename))
+            {
+                byte[] nbs = {
+                    0x1B, 0x00, 0x00, 0x00, 0x00, 0x00, 0xA0, 0x42, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00,
+                    0x00, 0x00, 0x00, 0x40, 0x00, 0x00, 0x80, 0x3F, 0x63, 0x00, 0x00, 0x00, 0x05, 0x00, 0x00, 0x00,
+                    0x14, 0x00, 0x00, 0x00, 0x00, 0x00, 0xA0, 0x40, 0x00, 0x00, 0x80, 0x3F, 0x1E, 0x1E, 0x7E, 0x3F,
+                    0x1E, 0x1E, 0xFE, 0x3F, 0xD3, 0xD2, 0x9E, 0x41, 0x6A, 0x69, 0xB3, 0x42, 0x01, 0x00, 0x00, 0x00,
+                    0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x03, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00,
+                    0x03, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00,
+                    0x02, 0x00, 0x00, 0x00, 0x20, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00,
+                    0x02, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                    0x64, 0x00, 0x00, 0x00, 0x64, 0x00, 0x00, 0x00, 0x04, 0xFD, 0xFF, 0xFF, 0x04, 0xFD, 0xFF, 0xFF,
+                    0x6C, 0xFE, 0xFF, 0xFF, 0xB6, 0xFF, 0xFF, 0xFF, 0xB6, 0xFF, 0xFF, 0xFF, 0x6A, 0xF6, 0xFF, 0xFF,
+                    0x50, 0xFB, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x6A, 0xF6, 0xFF, 0xFF, 0xA4, 0xED, 0xFF, 0xFF,
+                    0x47, 0xF3, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x04, 0xFD, 0xFF, 0xFF,
+                    0x6C, 0xFE, 0xFF, 0xFF, 0xB6, 0xFF, 0xFF, 0xFF, 0xB6, 0xFF, 0xFF, 0xFF, 0x01, 0x00, 0x00, 0x00,
+                    0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00,
+                    0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x04, 0xFD, 0xFF, 0xFF, 0x04, 0xFD, 0xFF, 0xFF,
+                    0x6C, 0xFE, 0xFF, 0xFF, 0xB6, 0xFF, 0xFF, 0xFF, 0xB6, 0xFF, 0xFF, 0xFF, 0x6A, 0xF6, 0xFF, 0xFF,
+                    0x50, 0xFB, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x6A, 0xF6, 0xFF, 0xFF, 0xA4, 0xED, 0xFF, 0xFF,
+                    0x47, 0xF3, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x3F,
+                    0x42, 0x4D, 0x53, 0x20, 0x2D, 0x20, 0x46, 0x75, 0x6C, 0x6C, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                    0x00, 0x00, 0x00, 0x00, 0x14, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x01, 0x01,
+                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x3F, 0x05, 0x00, 0x00, 0x00,
+                    0x28, 0x00, 0x00, 0x00, 0x0A, 0x00, 0x00, 0x00, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00,
+                    0x01, 0x42, 0x4D, 0x53, 0x20, 0x34, 0x2E, 0x33, 0x33, 0x2E, 0x32, 0x00, 0x00, 0x00, 0x00, 0x00,
+                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                    0x00, 0x00, 0x00, 0x00, 0x03, 0x00, 0x00, 0x00, 0xF0, 0xD8, 0xFF, 0xFF
+                };
+                System.IO.FileStream nfs = new System.IO.FileStream
+                    (filename, System.IO.FileMode.Create, System.IO.FileAccess.Write);
+                nfs.Write(nbs, 0, nbs.Length);
+                nfs.Close();
+            }
+            string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/" + appReg.GetPilotCallsign().ToString() + ".pop";
+            if (!System.IO.File.Exists(fbackupname))
+                System.IO.File.Copy(filename, fbackupname, true);
+            System.IO.FileStream fs = new System.IO.FileStream
+                (filename, System.IO.FileMode.Open, System.IO.FileAccess.Read);
+            byte[] bs = new byte[fs.Length];
+            fs.Read(bs, 0, bs.Length);
+            fs.Close();
+
+            // Set Keyfile selected.
+            byte[] keyFileName = System.Text.Encoding.ASCII.GetBytes(appReg.getKeyFileName().Replace(".key", ""));
+            for (int i = 0; i <= 15; i++)
+            {
+                if (i >= keyFileName.Length)
+                {
+                    bs[288 + i] = 0x00;
+                    continue;
+                }
+                bs[288 + i] = keyFileName[i];
+            }
+
+            // TrackIR Z-Axis(0:Z-axis 1:FOV)
+            bs[336] = 0x00; 
+            if (mainWindow.Misc_TrackIRZ.IsChecked == true)
+                bs[336] = 0x01;
+
+            // External Mouselook
+            bs[341] = 0x00; 
+            if (mainWindow.Misc_ExMouseLook.IsChecked == true)
+                bs[341] = 0x01;
+
+            // Roll-linked NWS
+            bs[362] = 0x00; 
+            if (mainWindow.Misc_RollLinkedNWS.IsChecked == true)
+                bs[362] = 0x01;
+
+            // Smart Scaling
+            //bs[12] = 0x01;
+            if (mainWindow.Misc_SmartScalingOverride.IsChecked == true)
+                bs[12] = 0x05;
+
+            fs = new System.IO.FileStream
+                (filename, System.IO.FileMode.Create, System.IO.FileAccess.Write);
+            fs.Write(bs, 0, bs.Length);
+            fs.Close();
+        }
+    }
+
+    /// <summary>
+    /// Writer for BMS4.34 setting Override
+    /// </summary>
+    public class OverrideSettingFor434 : OverrideSetting
+    {
+        /// <summary>
+        /// Writer for BMS4.34 setting Override
+        /// </summary>
+        /// <param name="mainWindow"></param>
+        /// <param name="appReg"></param>
+        public OverrideSettingFor434(MainWindow mainWindow, AppRegInfo appReg) : base(mainWindow, appReg)
+        {
+            mainWindow.Misc_TrackIRZ.IsChecked = false;
+            mainWindow.Misc_TrackIRZ.Visibility = Visibility.Hidden;
+
+            mainWindow.Misc_ExMouseLook.IsChecked = false;
+            mainWindow.Misc_ExMouseLook.Visibility = Visibility.Hidden;
+
+            mainWindow.Misc_RollLinkedNWS.IsChecked = false;
+            mainWindow.Misc_RollLinkedNWS.Visibility = Visibility.Hidden;
+
+            mainWindow.Misc_SmartScalingOverride.IsChecked = false;
+            mainWindow.Misc_SmartScalingOverride.Visibility = Visibility.Hidden;
+        }
+
+        protected override void SavePop()
+        {
+        }
+    }
+
+    /// <summary>
+    /// Writer for BMS4.35 setting Override
+    /// </summary>
+    public class OverrideSettingFor435 : OverrideSetting
+    {
+        /// <summary>
+        /// Writer for BMS4.35 setting Override
+        /// </summary>
+        /// <param name="mainWindow"></param>
+        /// <param name="appReg"></param>
+        public OverrideSettingFor435(MainWindow mainWindow, AppRegInfo appReg) : base(mainWindow, appReg)
+        {
+            mainWindow.Misc_TrackIRZ.IsChecked = false;
+            mainWindow.Misc_TrackIRZ.Visibility = Visibility.Hidden;
+
+            mainWindow.Misc_ExMouseLook.IsChecked = false;
+            mainWindow.Misc_ExMouseLook.Visibility = Visibility.Hidden;
+
+            mainWindow.Misc_RollLinkedNWS.IsChecked = false;
+            mainWindow.Misc_RollLinkedNWS.Visibility = Visibility.Hidden;
+
+            mainWindow.Misc_SmartScalingOverride.IsChecked = false;
+            mainWindow.Misc_SmartScalingOverride.Visibility = Visibility.Hidden;
+        }
+
+        protected override void SavePop()
+        {
+        }
+    }
+
+    /// <summary>
+    /// Writer for BMS4.35 setting Override
+    /// </summary>
+    public class OverrideSettingForUNDEFINED : OverrideSetting
+    {
+        /// <summary>
+        /// Writer for UNDEFINED BMS VERSION setting Override
+        /// </summary>
+        /// <param name="mainWindow"></param>
+        /// <param name="appReg"></param>
+        public OverrideSettingForUNDEFINED(MainWindow mainWindow, AppRegInfo appReg) : base(mainWindow, appReg)
+        {
+            mainWindow.Misc_TrackIRZ.IsChecked = false;
+            mainWindow.Misc_TrackIRZ.Visibility = Visibility.Hidden;
+
+            mainWindow.Misc_ExMouseLook.IsChecked = false;
+            mainWindow.Misc_ExMouseLook.Visibility = Visibility.Hidden;
+
+            mainWindow.Misc_RollLinkedNWS.IsChecked = false;
+            mainWindow.Misc_RollLinkedNWS.Visibility = Visibility.Hidden;
+
+            mainWindow.Misc_SmartScalingOverride.IsChecked = false;
+            mainWindow.Misc_SmartScalingOverride.Visibility = Visibility.Hidden;
+        }
+
+        protected override void SavePop()
         {
         }
     }
