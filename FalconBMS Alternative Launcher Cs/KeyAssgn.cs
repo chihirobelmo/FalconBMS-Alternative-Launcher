@@ -128,8 +128,6 @@ namespace FalconBMS_Alternative_Launcher_Cs
         public bool CheckFileCollapsing()
         {
             bool shutdown = false;
-            if (this.visibility == "Broken")
-                shutdown = true;
             return shutdown;
         }
         
@@ -157,7 +155,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             else if (this.visibility == "1")
                 this.visibility = "White";
             else
-                this.visibility = "Broken";
+                this.visibility = "White";
             this.description = "";
 
             if (stArrayData.Length >= 9)
