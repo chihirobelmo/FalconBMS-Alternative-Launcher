@@ -168,6 +168,25 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 return;
             }
 
+            byte[] bs;
+            if (regkey.GetValue("PilotName") == null)
+            {
+                this.regkey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(regName, true);
+                bs = new byte[] { 0x4a, 0x6f, 0x65, 0x20, 0x50, 0x69, 0x6c, 0x6f, 0x74, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+                regkey.SetValue("PilotName", bs);
+            }
+            if (regkey.GetValue("PilotCallsign") == null)
+            {
+                this.regkey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(regName, true);
+                bs = new byte[] { 0x56, 0x69, 0x70, 0x65, 0x72, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+                regkey.SetValue("PilotCallsign", bs);
+            }
+            if (regkey.GetValue("curTheater") == null)
+            {
+                this.regkey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(regName, true);
+                regkey.SetValue("curTheater", "Korea KTO");
+            }
+
             this.installDir     = (string)regkey.GetValue("baseDir");
             this.currentTheater = (string)regkey.GetValue("curTheater");
             this.pilotCallsign  = (Encoding.UTF8.GetString((byte[])regkey.GetValue("PilotCallsign"))).Replace("\0", "");

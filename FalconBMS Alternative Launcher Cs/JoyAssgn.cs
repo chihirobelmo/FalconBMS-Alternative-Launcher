@@ -451,6 +451,28 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 {
                     if (this.dx[i].assign[ii].GetCallback() == "SimDoNothing")
                         continue;
+                    if (this.dx[i].assign[ii].GetCallback() == "SimHotasPinkyShift")
+                    {
+                        if (ii != 0)
+                            continue;
+                        assign += this.dx[i].assign[ii].GetCallback();
+                        assign += " " + (joynum * 32 + i).ToString();
+                        assign += " " + ((int)Invoke.Default).ToString();
+                        assign += " " + "-2";
+                        assign += " " + "0";
+                        assign += " " + "0x0";
+                        assign += " " + this.dx[i].assign[ii].GetSoundID();
+                        assign += "\n";
+                        assign += this.dx[i].assign[ii].GetCallback();
+                        assign += " " + (numOfDevices * 32 + joynum * 32 + i).ToString();
+                        assign += " " + ((int)Invoke.Default).ToString();
+                        assign += " " + "-2";
+                        assign += " " + "0";
+                        assign += " " + "0x0";
+                        assign += " " + this.dx[i].assign[ii].GetSoundID();
+                        assign += "\n";
+                        continue;
+                    }
                     assign += this.dx[i].assign[ii].GetCallback();
                     if (ii == 0 | ii == 2)
                         assign += " " + (joynum * 32 + i).ToString();

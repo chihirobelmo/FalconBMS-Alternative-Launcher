@@ -36,6 +36,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             System.Xml.Serialization.XmlSerializer serializer;
             System.IO.StreamReader sr;
             string fileName = "";
+            string stockFileName = "";
             int i = 0;
 
             foreach (DeviceInstance dev in devList)
@@ -57,6 +58,20 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     sr = new System.IO.StreamReader(fileName, new System.Text.UTF8Encoding(false));
                     joyAssign[i] = (JoyAssgn)serializer.Deserialize(sr);
                     sr.Close();
+                }
+                else
+                {
+                    stockFileName = appReg.GetInstallDir() + "/User/Config/Setup.v100." + joyAssign[i].GetProductName().Replace("/", "-")
+                    + " {Stock}.xml";
+                    if (File.Exists(stockFileName))
+                    {
+                        File.Copy(stockFileName, fileName);
+
+                        serializer = new System.Xml.Serialization.XmlSerializer(typeof(JoyAssgn));
+                        sr = new System.IO.StreamReader(fileName, new System.Text.UTF8Encoding(false));
+                        joyAssign[i] = (JoyAssgn)serializer.Deserialize(sr);
+                        sr.Close();
+                    }
                 }
                 joyAssign[i].SetDeviceInstance(dev);
                 i += 1;

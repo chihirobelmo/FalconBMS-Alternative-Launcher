@@ -38,9 +38,6 @@ namespace FalconBMS_Alternative_Launcher_Cs
         {
             this.mainWindow = mainWindow;
             this.appReg = appReg;
-
-            if (!System.IO.Directory.Exists(appReg.GetInstallDir() + "/User/Config/Backup/"))
-                System.IO.Directory.CreateDirectory(appReg.GetInstallDir() + "/User/Config/Backup/");
         }
 
         /// <summary>
@@ -52,6 +49,9 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <param name="visualAcuity"></param>
         public void Execute(Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile, VisualAcuity visualAcuity)
         {
+            if (!System.IO.Directory.Exists(appReg.GetInstallDir() + "/User/Config/Backup/"))
+                System.IO.Directory.CreateDirectory(appReg.GetInstallDir() + "/User/Config/Backup/");
+
             SaveAxisMapping(inGameAxis, deviceControl);
             SaveJoystickCal(inGameAxis, deviceControl);
             SaveDeviceSorting(deviceControl);
@@ -112,6 +112,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
             if (!System.IO.File.Exists(fbackupname))
                 System.IO.File.Copy(filename, fbackupname, true);
 
+            System.IO.File.SetAttributes(filename, System.IO.File.GetAttributes(filename) & (~System.IO.FileAttributes.ReadOnly));
+
             System.IO.StreamReader cReader = new System.IO.StreamReader
                 (filename, System.Text.Encoding.Default);
             string stResult = "";
@@ -156,6 +158,9 @@ namespace FalconBMS_Alternative_Launcher_Cs
             string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/DeviceSorting.txt";
             if ((!System.IO.File.Exists(fbackupname)) & (System.IO.File.Exists(filename)))
                 System.IO.File.Copy(filename, fbackupname, true);
+
+            System.IO.File.SetAttributes(filename, System.IO.File.GetAttributes(filename) & (~System.IO.FileAttributes.ReadOnly));
+
             System.IO.StreamWriter ds = new System.IO.StreamWriter
                 (filename, false, System.Text.Encoding.GetEncoding("shift_jis"));
             ds.Write(deviceSort);
@@ -171,6 +176,9 @@ namespace FalconBMS_Alternative_Launcher_Cs
             string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/" + appReg.getKeyFileName();
             if (!System.IO.File.Exists(fbackupname))
                 System.IO.File.Copy(filename, fbackupname, true);
+
+            System.IO.File.SetAttributes(filename, System.IO.File.GetAttributes(filename) & (~System.IO.FileAttributes.ReadOnly));
+
             System.IO.StreamWriter sw = new System.IO.StreamWriter
                 (filename, false, System.Text.Encoding.GetEncoding("utf-8"));
             for (int i = 0; i < keyFile.keyAssign.Length; i++)
@@ -201,6 +209,9 @@ namespace FalconBMS_Alternative_Launcher_Cs
             string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/axismapping.dat";
             if ((!System.IO.File.Exists(fbackupname)) & (System.IO.File.Exists(filename)))
                 System.IO.File.Copy(filename, fbackupname, true);
+
+            System.IO.File.SetAttributes(filename, System.IO.File.GetAttributes(filename) & (~System.IO.FileAttributes.ReadOnly));
+
             System.IO.FileStream fs = new System.IO.FileStream
                 (filename, System.IO.FileMode.Create, System.IO.FileAccess.Write);
 
@@ -314,6 +325,9 @@ namespace FalconBMS_Alternative_Launcher_Cs
             string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/joystick.cal";
             if ((!System.IO.File.Exists(fbackupname)) & (System.IO.File.Exists(filename)))
                 System.IO.File.Copy(filename, fbackupname, true);
+
+            System.IO.File.SetAttributes(filename, System.IO.File.GetAttributes(filename) & (~System.IO.FileAttributes.ReadOnly));
+
             System.IO.FileStream fs = new System.IO.FileStream
                 (filename, System.IO.FileMode.Create, System.IO.FileAccess.Write);
 
@@ -490,6 +504,9 @@ namespace FalconBMS_Alternative_Launcher_Cs
             string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/" + appReg.GetPilotCallsign().ToString() + ".pop";
             if (!System.IO.File.Exists(fbackupname))
                 System.IO.File.Copy(filename, fbackupname, true);
+
+            System.IO.File.SetAttributes(filename, System.IO.File.GetAttributes(filename) & (~System.IO.FileAttributes.ReadOnly));
+
             System.IO.FileStream fs = new System.IO.FileStream
                 (filename, System.IO.FileMode.Open, System.IO.FileAccess.Read);
             byte[] bs = new byte[fs.Length];
@@ -653,6 +670,9 @@ namespace FalconBMS_Alternative_Launcher_Cs
             string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/" + appReg.GetPilotCallsign().ToString() + ".pop";
             if (!System.IO.File.Exists(fbackupname))
                 System.IO.File.Copy(filename, fbackupname, true);
+
+            System.IO.File.SetAttributes(filename, System.IO.File.GetAttributes(filename) & (~System.IO.FileAttributes.ReadOnly));
+
             System.IO.FileStream fs = new System.IO.FileStream
                 (filename, System.IO.FileMode.Open, System.IO.FileAccess.Read);
             byte[] bs = new byte[fs.Length];

@@ -188,76 +188,100 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <param name="e"></param>
         public void KeyMappingTimer_Tick(object sender, EventArgs e)
         {
-            directInputDevice.GetCurrentKeyboardState();
-            for (int i = 1; i < 238; i++)
-                if (directInputDevice.KeyboardState[(Microsoft.DirectX.DirectInput.Key)i])
-                    KeyMappingGrid_KeyDown();
-
-            int Rows = KeyMappingGrid.SelectedIndex;
-            if (Rows == -1 | statusSearch == Search.Search)
+            try
             {
-                JumptoAssignedKey();
-                return;
+
+                directInputDevice.GetCurrentKeyboardState();
+                for (int i = 1; i < 238; i++)
+                    if (directInputDevice.KeyboardState[(Microsoft.DirectX.DirectInput.Key)i])
+                        KeyMappingGrid_KeyDown();
+
+                int Rows = KeyMappingGrid.SelectedIndex;
+                if (Rows == -1 | statusSearch == Search.Search)
+                {
+                    JumptoAssignedKey();
+                    return;
+                }
+                if (KeyMappingGrid.CurrentColumn == null)
+                    return;
+                if (keyFile.keyAssign[Rows].GetVisibility() != "White")
+                    return;
+
+
+                switch (statusAssign)
+                {
+                    case Status.GetNeutralPos:
+                        for (int i = 0; i < deviceControl.devList.Count; i++)
+                            neutralButtons[i] = new NeutralButtons(deviceControl.joyStick[i]);
+                        statusAssign = Status.WaitingforInput;
+                        break;
+                    case Status.WaitingforInput:
+                        for (int i = 0; i < deviceControl.devList.Count; i++)
+                        {
+                            buttons = deviceControl.joyStick[i].CurrentJoystickState.GetButtons();
+                            for (int ii = 0; ii < 32; ii++)
+                            {
+                                if (buttons[ii] == neutralButtons[i].buttons[ii])
+                                    continue;
+                                statusAssign = Status.GetNeutralPos;
+                                if (buttons[ii] == 0)
+                                    continue;
+
+                                Pinky pinkyStatus = Pinky.UnShift;
+                                Behaviour behaviourStatus = Behaviour.Press;
+                                if (Select_PinkyShift.IsChecked == false)
+                                    pinkyStatus = Pinky.Shift;
+                                if (Select_DX_Release.IsChecked == false)
+                                    behaviourStatus = Behaviour.Release;
+
+                                // Construct DX button instance.
+                                if (keyFile.keyAssign[Rows].GetCallback() == "SimHotasPinkyShift")
+                                {
+                                    deviceControl.joyAssign[i].dx[ii].Assign(keyFile.keyAssign[Rows].GetCallback(), Pinky.UnShift, Behaviour.Press, Invoke.Default, 0);
+                                    deviceControl.joyAssign[i].dx[ii].Assign(keyFile.keyAssign[Rows].GetCallback(), Pinky.Shift,   Behaviour.Press, Invoke.Default, 0);
+                                }
+                                else
+                                {
+                                    deviceControl.joyAssign[i].dx[ii].Assign(keyFile.keyAssign[Rows].GetCallback(), pinkyStatus, behaviourStatus, invokeStatus, 0);
+                                }
+
+                                KeyMappingGrid.Items.Refresh();
+                                KeyMappingGrid.UnselectAllCells();
+                            }
+                            povs = deviceControl.joyStick[i].CurrentJoystickState.GetPointOfView();
+                            for (int ii = 0; ii < 4; ii++)
+                            {
+                                if (povs[ii] == neutralButtons[i].povs[ii])
+                                    continue;
+                                statusAssign = Status.GetNeutralPos;
+                                if (povs[ii] == -1)
+                                    continue;
+
+                                Pinky pinkyStatus = Pinky.UnShift;
+                                if (Select_PinkyShift.IsChecked == false)
+                                    pinkyStatus = Pinky.Shift;
+
+                                // Construct POV button instance.
+                                deviceControl.joyAssign[i].pov[ii].Assign(povs[ii], keyFile.keyAssign[Rows].GetCallback(), pinkyStatus, 0);
+
+                                KeyMappingGrid.Items.Refresh();
+                                KeyMappingGrid.UnselectAllCells();
+                            }
+                        }
+                        break;
+                }
             }
-            if (KeyMappingGrid.CurrentColumn == null)
-                return;
-            if (keyFile.keyAssign[Rows].GetVisibility() != "White")
-                return;
-
-
-            switch (statusAssign)
+            catch (System.IO.FileNotFoundException ex)
             {
-                case Status.GetNeutralPos:
-                    for (int i = 0; i < deviceControl.devList.Count; i++)
-                        neutralButtons[i] = new NeutralButtons(deviceControl.joyStick[i]);
-                    statusAssign = Status.WaitingforInput;
-                    break;
-                case Status.WaitingforInput:
-                    for (int i = 0; i < deviceControl.devList.Count; i++)
-                    {
-                        buttons = deviceControl.joyStick[i].CurrentJoystickState.GetButtons();
-                        for (int ii = 0; ii < 32; ii++)
-                        {
-                            if (buttons[ii] == neutralButtons[i].buttons[ii])
-                                continue;
-                            statusAssign = Status.GetNeutralPos;
-                            if (buttons[ii] == 0)
-                                continue;
-                            
-                            Pinky pinkyStatus = Pinky.UnShift;
-                            Behaviour behaviourStatus = Behaviour.Press;
-                            if (Select_PinkyShift.IsChecked == false)
-                                pinkyStatus = Pinky.Shift;
-                            if (Select_DX_Release.IsChecked == false)
-                                behaviourStatus = Behaviour.Release;
+                System.Console.WriteLine(ex.Message);
 
-                            // Construct DX button instance.
-                            deviceControl.joyAssign[i].dx[ii].Assign(keyFile.keyAssign[Rows].GetCallback(), pinkyStatus, behaviourStatus, invokeStatus, 0);
+                System.IO.StreamWriter sw = new System.IO.StreamWriter(appReg.GetInstallDir() + "\\Error.txt", false, System.Text.Encoding.GetEncoding("shift_jis"));
+                sw.Write(ex.Message);
+                sw.Close();
 
-                            KeyMappingGrid.Items.Refresh();
-                            KeyMappingGrid.UnselectAllCells();
-                        }
-                        povs = deviceControl.joyStick[i].CurrentJoystickState.GetPointOfView();
-                        for (int ii = 0; ii < 4; ii++)
-                        {
-                            if (povs[ii] == neutralButtons[i].povs[ii])
-                                continue;
-                            statusAssign = Status.GetNeutralPos;
-                            if (povs[ii] == -1)
-                                continue;
+                MessageBox.Show("Error Log Saved To " + appReg.GetInstallDir() + "\\Error.txt", "WARNING", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                            Pinky pinkyStatus = Pinky.UnShift;
-                            if (Select_PinkyShift.IsChecked == false)
-                                pinkyStatus = Pinky.Shift;
-
-                            // Construct POV button instance.
-                            deviceControl.joyAssign[i].pov[ii].Assign(povs[ii], keyFile.keyAssign[Rows].GetCallback(), pinkyStatus, 0);
-
-                            KeyMappingGrid.Items.Refresh();
-                            KeyMappingGrid.UnselectAllCells();
-                        }
-                    }
-                    break;
+                this.Close();
             }
         }
 

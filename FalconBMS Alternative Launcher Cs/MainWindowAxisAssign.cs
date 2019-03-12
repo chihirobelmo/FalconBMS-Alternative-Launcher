@@ -91,144 +91,159 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <param name="e"></param>
         public void AxisMovingTimer_Tick(object sender, EventArgs e)
         {
-            if (inGameAxis.Count == 0)
-                return;
-            invertNum = 0;
-            foreach (AxisName nme in axisNameList)
+            try
             {
-                if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() == -1)
-                    continue;
-                tblabel = this.FindName("Label_" + nme.ToString()) as Label;
-                tbprogressbar = this.FindName("Axis_" + nme.ToString()) as ProgressBar;
-
-                switch (nme)
+                if (inGameAxis.Count == 0)
+                    return;
+                invertNum = 0;
+                foreach (AxisName nme in axisNameList)
                 {
-                    case AxisName.Throttle:
-                    case AxisName.Throttle_Right:
-                    case AxisName.Toe_Brake:
-                    case AxisName.Toe_Brake_Right:
-                    case AxisName.Intercom:
-                    case AxisName.COMM_Channel_1:
-                    case AxisName.COMM_Channel_2:
-                    case AxisName.MSL_Volume:
-                    case AxisName.Threat_Volume:
-                    case AxisName.AI_vs_IVC:
-                        if (!((InGameAxAssgn)inGameAxis[nme.ToString()]).GetInvert())
-                            invertNum = -1;
-                        else
-                            invertNum = 1;
-                        break;
-                    default:
-                        if (!((InGameAxAssgn)inGameAxis[nme.ToString()]).GetInvert())
-                            invertNum = 1;
-                        else
-                            invertNum = -1;
-                        break;
+                    if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() == -1)
+                        continue;
+                    tblabel = this.FindName("Label_" + nme.ToString()) as Label;
+                    tbprogressbar = this.FindName("Axis_" + nme.ToString()) as ProgressBar;
+
+                    switch (nme)
+                    {
+                        case AxisName.Throttle:
+                        case AxisName.Throttle_Right:
+                        case AxisName.Toe_Brake:
+                        case AxisName.Toe_Brake_Right:
+                        case AxisName.Intercom:
+                        case AxisName.COMM_Channel_1:
+                        case AxisName.COMM_Channel_2:
+                        case AxisName.MSL_Volume:
+                        case AxisName.Threat_Volume:
+                        case AxisName.AI_vs_IVC:
+                            if (!((InGameAxAssgn)inGameAxis[nme.ToString()]).GetInvert())
+                                invertNum = -1;
+                            else
+                                invertNum = 1;
+                            break;
+                        default:
+                            if (!((InGameAxAssgn)inGameAxis[nme.ToString()]).GetInvert())
+                                invertNum = 1;
+                            else
+                                invertNum = -1;
+                            break;
+                    }
+                    if (invertNum == 1)
+                    {
+                        tbprogressbar.Minimum = 0;
+                        tbprogressbar.Maximum = MAXIN;
+                    }
+                    else
+                    {
+                        tbprogressbar.Minimum = -MAXIN;
+                        tbprogressbar.Maximum = 0;
+                    }
+
+                    if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() == -2)
+                    {
+                        tbprogressbar.Value = (MAXIN / 2 + (wheelValue * 1024 / 120)) * invertNum;
+                        tblabel.Content = "MOUSE : WH";
+                        continue;
+                    }
+
+                    int output = ApplyDeadZone
+                        (
+                            deviceControl.JoyAxisState(((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber(), ((InGameAxAssgn)inGameAxis[nme.ToString()]).GetPhysicalNumber()),
+                            ((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeadzone(),
+                            ((InGameAxAssgn)inGameAxis[nme.ToString()]).GetSaturation()
+                        );
+                    tbprogressbar.Value = output * invertNum;
+
+                    string joyActualName = deviceControl.joyStick[((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber()].DeviceInformation.InstanceName;
+                    string joyName = "JOY  " + ((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber();
+
+                    if (joyActualName.Contains("Thrustmaster HOTAS Cougar"))
+                        joyName = "HOTAS";
+                    if (joyActualName.Contains("Thrustmaster Combined - HOTAS Warthog"))
+                        joyName = "TMWHC";
+                    if (joyActualName.Contains("Joystick - HOTAS Warthog"))
+                        joyName = "TMWHJ";
+                    if (joyActualName.Contains("Throttle - HOTAS Warthog"))
+                        joyName = "TMWHT";
+                    if (joyActualName.ToLower().Contains("t.16000m"))
+                        joyName = "T16KM";
+                    if (joyActualName.ToLower().Contains("t.flight hotas x"))
+                        joyName = "TMTHX";
+                    if (joyActualName.ToLower().Contains("t - rudder"))
+                        joyName = "TTFRP";
+                    if (joyActualName.ToLower().Contains("fssb"))
+                        joyName = "FSSBR";
+                    if (joyActualName.ToLower().Contains("tusba"))
+                        joyName = "TUSBA";
+                    if (joyActualName.ToLower().Contains("rusba"))
+                        joyName = "RUSBA";
+                    if (joyActualName.ToLower().Contains("fusba"))
+                        joyName = "FUSBA";
+                    if (joyActualName.ToLower().Contains("crosswind"))
+                        joyName = "MFGCW";
+                    if (joyActualName.ToLower().Contains("g940"))
+                        joyName = "LG940";
+                    if (joyActualName.ToLower().Contains("x36"))
+                        joyName = "STX36";
+                    if (joyActualName.ToLower().Contains("x45"))
+                        joyName = "STX45";
+                    if (joyActualName.ToLower().Contains("x52"))
+                        joyName = "STX52";
+                    if (joyActualName.ToLower().Contains("x52 pro"))
+                        joyName = "SX52P";
+                    if (joyActualName.ToLower().Contains("x55"))
+                        joyName = "STX55";
+                    if (joyActualName.ToLower().Contains("x56"))
+                        joyName = "STX56";
+                    if (joyActualName.ToLower().Contains("x65"))
+                        joyName = "SX65F";
+                    if (joyActualName.ToLower().Contains("ch fighter"))
+                        joyName = "CHPFS";
+                    if (joyActualName.ToLower().Contains("ch combat"))
+                        joyName = "CHPCS";
+                    if (joyActualName.ToLower().Contains("ch ") && joyActualName.ToLower().Contains("throttle"))
+                        joyName = "CHPPT";
+                    if (joyActualName.ToLower().Contains("ch ") && joyActualName.ToLower().Contains("pedals"))
+                        joyName = "CHPPP";
+
+                    int axisNumber = ((InGameAxAssgn)inGameAxis[nme.ToString()]).GetPhysicalNumber();
+                    tblabel.Content = joyName + " : " + ((AxisNumName)axisNumber).ToString().Replace('_', ' ');
+                    tblabel.Content = ((string)tblabel.Content).Replace("Axis ", "  ");
+                    tblabel.Content = ((string)tblabel.Content).Replace("Rotation ", "R");
+                    tblabel.Content = ((string)tblabel.Content).Replace("Slider 0", "S1");
+                    tblabel.Content = ((string)tblabel.Content).Replace("Slider 1", "S2");
+
+                    if (nme != AxisName.Throttle & nme != AxisName.Throttle_Right)
+                        continue;
+
+                    tblabelab = this.FindName("AB_" + nme.ToString()) as Label;
+                    tblabelab.Visibility = Visibility.Hidden;
+
+                    tbprogressbar.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 0x38, 0x78, 0xA8));
+                    if (MAXIN + tbprogressbar.Value < deviceControl.throttlePos.GetIDLE())
+                    {
+                        tbprogressbar.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 240, 0, 0));
+                        tblabelab.Visibility = Visibility.Visible;
+                        tblabelab.Content = "IDLE CUTOFF";
+                    }
+                    if (MAXIN + tbprogressbar.Value > deviceControl.throttlePos.GetAB())
+                    {
+                        tbprogressbar.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 0, 240, 0));
+                        tblabelab.Visibility = Visibility.Visible;
+                        tblabelab.Content = "AB";
+                    }
                 }
-                if (invertNum == 1)
-                {
-                    tbprogressbar.Minimum = 0;
-                    tbprogressbar.Maximum = MAXIN;
-                }
-                else
-                {
-                    tbprogressbar.Minimum = -MAXIN;
-                    tbprogressbar.Maximum = 0;
-                }
+            }
+            catch (System.IO.FileNotFoundException ex)
+            {
+                System.Console.WriteLine(ex.Message);
 
-                if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() == -2)
-                {
-                    tbprogressbar.Value = (MAXIN / 2 + (wheelValue * 1024 / 120)) * invertNum;
-                    tblabel.Content = "MOUSE : WH";
-                    continue;
-                }
+                System.IO.StreamWriter sw = new System.IO.StreamWriter(appReg.GetInstallDir() + "\\Error.txt", false, System.Text.Encoding.GetEncoding("shift_jis"));
+                sw.Write(ex.Message);
+                sw.Close();
 
-                int output = ApplyDeadZone
-                    (
-                        deviceControl.JoyAxisState(((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber(), ((InGameAxAssgn)inGameAxis[nme.ToString()]).GetPhysicalNumber()),
-                        ((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeadzone(),
-                        ((InGameAxAssgn)inGameAxis[nme.ToString()]).GetSaturation()
-                    );
-                tbprogressbar.Value = output * invertNum;
+                MessageBox.Show("Error Log Saved To " + appReg.GetInstallDir() + "\\Error.txt", "WARNING", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                string joyActualName = deviceControl.joyStick[((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber()].DeviceInformation.InstanceName;
-                string joyName = "JOY  " + ((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber();
-
-                if (joyActualName.Contains("Thrustmaster HOTAS Cougar"))
-                    joyName = "HOTAS";
-                if (joyActualName.Contains("Thrustmaster Combined - HOTAS Warthog"))
-                    joyName = "TMWHC";
-                if (joyActualName.Contains("Joystick - HOTAS Warthog"))
-                    joyName = "TMWHJ";
-                if (joyActualName.Contains("Throttle - HOTAS Warthog"))
-                    joyName = "TMWHT";
-                if (joyActualName.ToLower().Contains("t.16000m"))
-                    joyName = "T16KM";
-                if (joyActualName.ToLower().Contains("t.flight hotas x"))
-                    joyName = "TMTHX";
-                if (joyActualName.ToLower().Contains("t - rudder"))
-                    joyName = "TTFRP";
-                if (joyActualName.ToLower().Contains("fssb"))
-                    joyName = "FSSBR";
-                if (joyActualName.ToLower().Contains("tusba"))
-                    joyName = "TUSBA";
-                if (joyActualName.ToLower().Contains("rusba"))
-                    joyName = "RUSBA";
-                if (joyActualName.ToLower().Contains("fusba"))
-                    joyName = "FUSBA";
-                if (joyActualName.ToLower().Contains("crosswind"))
-                    joyName = "MFGCW";
-                if (joyActualName.ToLower().Contains("g940"))
-                    joyName = "LG940";
-                if (joyActualName.ToLower().Contains("x36"))
-                    joyName = "STX36";
-                if (joyActualName.ToLower().Contains("x45"))
-                    joyName = "STX45";
-                if (joyActualName.ToLower().Contains("x52"))
-                    joyName = "STX52";
-                if (joyActualName.ToLower().Contains("x52 pro"))
-                    joyName = "SX52P";
-                if (joyActualName.ToLower().Contains("x55"))
-                    joyName = "STX55";
-                if (joyActualName.ToLower().Contains("x56"))
-                    joyName = "STX56";
-                if (joyActualName.ToLower().Contains("x65"))
-                    joyName = "SX65F";
-                if (joyActualName.ToLower().Contains("ch fighter"))
-                    joyName = "CHPFS";
-                if (joyActualName.ToLower().Contains("ch combat"))
-                    joyName = "CHPCS";
-                if (joyActualName.ToLower().Contains("ch ") && joyActualName.ToLower().Contains("throttle"))
-                    joyName = "CHPPT";
-                if (joyActualName.ToLower().Contains("ch ") && joyActualName.ToLower().Contains("pedals"))
-                    joyName = "CHPPP";
-
-                int axisNumber = ((InGameAxAssgn)inGameAxis[nme.ToString()]).GetPhysicalNumber();
-                tblabel.Content = joyName + " : " + ((AxisNumName)axisNumber).ToString().Replace('_', ' ');
-                tblabel.Content = ((string)tblabel.Content).Replace("Axis ", "  ");
-                tblabel.Content = ((string)tblabel.Content).Replace("Rotation ", "R");
-                tblabel.Content = ((string)tblabel.Content).Replace("Slider 0", "S1");
-                tblabel.Content = ((string)tblabel.Content).Replace("Slider 1", "S2");
-
-                if (nme != AxisName.Throttle & nme != AxisName.Throttle_Right)
-                    continue;
-
-                tblabelab = this.FindName("AB_" + nme.ToString()) as Label;
-                tblabelab.Visibility = Visibility.Hidden;
-
-                tbprogressbar.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 0x38, 0x78, 0xA8));
-                if (MAXIN + tbprogressbar.Value < deviceControl.throttlePos.GetIDLE())
-                {
-                    tbprogressbar.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 240, 0, 0));
-                    tblabelab.Visibility = Visibility.Visible;
-                    tblabelab.Content = "IDLE CUTOFF";
-                }
-                if (MAXIN + tbprogressbar.Value > deviceControl.throttlePos.GetAB())
-                {
-                    tbprogressbar.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 0, 240, 0));
-                    tblabelab.Visibility = Visibility.Visible;
-                    tblabelab.Content = "AB";
-                }
+                this.Close();
             }
         }
         
