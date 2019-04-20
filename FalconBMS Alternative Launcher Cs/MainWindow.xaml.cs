@@ -28,6 +28,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
     {
         public MainWindow()
         {
+            RenderOptions.ProcessRenderMode = System.Windows.Interop.RenderMode.SoftwareOnly;
             InitializeComponent();
 
             this.MouseWheel += Detect_MouseWheel;
