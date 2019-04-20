@@ -441,7 +441,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Label Content="Category :" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="26" Width="64" HorizontalContentAlignment="Right"/>
+                    <Label Content="Category:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="26" Width="64" HorizontalContentAlignment="Right"/>
                     <ComboBox x:Name="Category" HorizontalAlignment="Left" Margin="87,12,0,0" VerticalAlignment="Top" Width="256" BorderBrush="Black" Background="#80F0F0F0" Foreground="#FF606060" SelectionChanged="Category_SelectionChanged" Height="26">
                         <TextBlock Text=" TOP" FontWeight="Bold"/>
                         <TextBlock Text=" UI &amp; 3RD PARTY SOFTWARE" Foreground="#FF00C001"/>
@@ -490,9 +490,10 @@
                     <CheckBox x:Name="Misc_OverrideSelfCancel" Content="Use 3-Way ON-OFF-ON Switch for TQS: DOGFIGHT" FontSize="11" HorizontalAlignment="Left" Margin="10,0,0,9" VerticalAlignment="Bottom" Foreground="#FF606060" Height="18" Width="272"/>
                     <CheckBox x:Name="Misc_MouseCursorAnchor" Content="Anchor the Mouse Cursor to Clickable Switches or Dials." HorizontalAlignment="Left" Margin="300,0,0,9" VerticalAlignment="Bottom" Foreground="#FF606060" Height="18" Width="318"/>
 
-                    <Label Content="*Click a row and press a joy key to Assign. Double Click a cell to Unassign" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Margin="0,69,10,0" VerticalAlignment="Top" Width="596" Height="24"/>
-                    <TextBox x:Name="SearchBox" HorizontalAlignment="Left" Height="23" Margin="87,43,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="384" Background="#80F0F0F0" Foreground="#FF606060" />
-                    <Button Content="Search" HorizontalAlignment="Left" Margin="476,43,0,0" VerticalAlignment="Top" Width="75" Click="Search_Click"/>
+                    <Label Content="Filter:" HorizontalAlignment="Left" Margin="10,43,0,0" VerticalAlignment="Top" Width="64" HorizontalContentAlignment="Right"/>
+                    <TextBox x:Name="SearchBox" HorizontalAlignment="Left" Height="23" Margin="87,43,0,0" VerticalAlignment="Top" Width="384" Background="#80F0F0F0" Foreground="#FF606060" Controls:TextBoxHelper.ClearTextButton="True" TextChanged="SearchBox_TextChanged"/>
+
+                    <Label Content="*Click a row and press a joy key to Assign. Double Click a cell to Unassign" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Margin="0,69,10,0" VerticalAlignment="Top" Width="596" Height="26"/>
                 </Grid>
             </TabItem>
             <TabItem Header=" VisualAcuity" x:Name="Tab_VisualAcuity">

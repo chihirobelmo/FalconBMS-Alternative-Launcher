@@ -92,8 +92,9 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <param name="e"></param>
         private void DataGrid_MouseButtonDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            KeyMappingGrid.ScrollIntoView(KeyMappingGrid.Items[currentIndex]);
-            KeyMappingGrid.SelectedIndex = currentIndex;
+            var selectedItem = (KeyAssgn) KeyMappingGrid.SelectedItem;
+            KeyMappingGrid.ScrollIntoView(selectedItem);
+
             if (KeyMappingGrid.CurrentColumn == null)
                 return;
             int Rows = KeyMappingGrid.SelectedIndex;
@@ -103,15 +104,16 @@ namespace FalconBMS_Alternative_Launcher_Cs
             {
                 if (Rows < 0)
                     return;
-                if (keyFile.keyAssign[currentIndex].Visibility != "White")
+                if (selectedItem.Visibility != "White")
                     return;
-                keyFile.keyAssign[currentIndex].UnassignKeyboard();
+
+                selectedItem.UnassignKeyboard();
             }
             if (Columns > 1)
             {
                 if (Rows < 0)
                     return;
-                string target = keyFile.keyAssign[currentIndex].GetCallback();
+                string target = selectedItem.GetCallback();
                 deviceControl.joyAssign[Columns - 3].UnassigntargetCallback(target);
             }
             KeyMappingGrid.Items.Refresh();
@@ -197,14 +199,16 @@ namespace FalconBMS_Alternative_Launcher_Cs
                         KeyMappingGrid_KeyDown();
 
                 int Rows = KeyMappingGrid.SelectedIndex;
-                if (Rows == -1 | statusSearch == Search.Search)
+                var selectedItem = (KeyAssgn) KeyMappingGrid.SelectedItem;
+
+                if (Rows == -1 || statusSearch == Search.Search)
                 {
                     JumptoAssignedKey();
                     return;
                 }
                 if (KeyMappingGrid.CurrentColumn == null)
                     return;
-                if (keyFile.keyAssign[Rows].GetVisibility() != "White")
+                if (selectedItem.GetVisibility() != "White")
                     return;
 
 
@@ -237,12 +241,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
                                 // Construct DX button instance.
                                 if (keyFile.keyAssign[Rows].GetCallback() == "SimHotasPinkyShift")
                                 {
-                                    deviceControl.joyAssign[i].dx[ii].Assign(keyFile.keyAssign[Rows].GetCallback(), Pinky.UnShift, Behaviour.Press, Invoke.Default, 0);
-                                    deviceControl.joyAssign[i].dx[ii].Assign(keyFile.keyAssign[Rows].GetCallback(), Pinky.Shift,   Behaviour.Press, Invoke.Default, 0);
+                                    deviceControl.joyAssign[i].dx[ii].Assign(selectedItem.GetCallback(), Pinky.UnShift, Behaviour.Press, Invoke.Default, 0);
+                                    deviceControl.joyAssign[i].dx[ii].Assign(selectedItem.GetCallback(), Pinky.Shift,   Behaviour.Press, Invoke.Default, 0);
                                 }
                                 else
                                 {
-                                    deviceControl.joyAssign[i].dx[ii].Assign(keyFile.keyAssign[Rows].GetCallback(), pinkyStatus, behaviourStatus, invokeStatus, 0);
+                                    deviceControl.joyAssign[i].dx[ii].Assign(selectedItem.GetCallback(), pinkyStatus, behaviourStatus, invokeStatus, 0);
                                 }
 
                                 KeyMappingGrid.Items.Refresh();
@@ -347,17 +351,16 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 return;
             if (target == "SimDoNothing")
                 return;
-            for (int i = 0; i < keyFile.keyAssign.Length; i++)
-            {
-                if (keyFile.keyAssign[i].GetCallback() == target)
-                {
-                    Label_AssgnStatus.Content += "   / " + keyFile.keyAssign[i].Mapping;
 
-                    KeyMappingGrid.UpdateLayout();
-                    KeyMappingGrid.ScrollIntoView(KeyMappingGrid.Items[i]);
-                    KeyMappingGrid.SelectedIndex = i;
-                    statusSearch = Search.Search;
-                }
+            // If the key assignment was found, jump to the mapping for it and highlight it.
+            var key = keyFile.keyAssign.FirstOrDefault(x => x.GetCallback() == target);
+            if (key != null)
+            {
+                Label_AssgnStatus.Content += "   / " + key.Mapping;
+
+                KeyMappingGrid.ScrollIntoView(key);
+                KeyMappingGrid.SelectedIndex = KeyMappingGrid.Items.IndexOf(key);
+                statusSearch = Search.Search;
             }
         }
 
@@ -419,44 +422,44 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 KeyAssgn keytmp = new KeyAssgn("SimDoNothing - 1 0 0XFFFFFFFF 0 0 0 - 1 \"nothing\"");
                 keytmp.SetKeyboard(catchedScanCode, Shift, Ctrl, Alt);
                 Label_AssgnStatus.Content = "INPUT " + keytmp.GetKeyAssignmentStatus();
-                for (int i = 0; i < keyFile.keyAssign.Length; i++)
-                {
-                    if (keytmp.GetKeyAssignmentStatus() != keyFile.keyAssign[i].GetKeyAssignmentStatus())
-                        continue;
 
-                    Label_AssgnStatus.Content += "\t/" + keyFile.keyAssign[i].Mapping;
+                // If the key assignment was found, jump to the mapping for it and highlight it.
+                var key = keyFile.keyAssign.First(x => x.GetKeyAssignmentStatus() == keytmp.GetKeyAssignmentStatus());
+                if (key != null)
+                {
+                    Label_AssgnStatus.Content += "\t/" + key.Mapping;
 
                     KeyMappingGrid.UpdateLayout();
-                    KeyMappingGrid.ScrollIntoView(KeyMappingGrid.Items[i]);
-                    KeyMappingGrid.SelectedIndex = i;
+                    KeyMappingGrid.ScrollIntoView(key);
+                    KeyMappingGrid.SelectedIndex = KeyMappingGrid.Items.IndexOf(key);
                 }
+
                 return;
             }
             if (KeyMappingGrid.SelectedIndex == -1)
                 return;
-            if (keyFile.keyAssign[currentIndex].GetVisibility() != "White")
+
+            var selectedItem = (KeyAssgn) KeyMappingGrid.SelectedItem;
+            if (selectedItem.Visibility != "White")
                 return;
 
             Pinky pinkyStatus = Pinky.UnShift;
             if (Select_PinkyShift.IsChecked == false)
                 pinkyStatus = Pinky.Shift;
 
-            KeyMappingGrid.ScrollIntoView(KeyMappingGrid.Items[currentIndex]);
+            KeyMappingGrid.ScrollIntoView(selectedItem);
             KeyMappingGrid.SelectedIndex = currentIndex;
-            if (pinkyStatus == Pinky.UnShift)
-                keyFile.keyAssign[currentIndex].SetKeyboard(catchedScanCode, Shift, Ctrl, Alt);
-            if (pinkyStatus == Pinky.Shift)
-                keyFile.keyAssign[currentIndex].Setkeycombo(catchedScanCode, Shift, Ctrl, Alt);
 
-            for (int i = 0; i < keyFile.keyAssign.Length; i++)
+            if (pinkyStatus == Pinky.UnShift)
+                selectedItem.SetKeyboard(catchedScanCode, Shift, Ctrl, Alt);
+            if (pinkyStatus == Pinky.Shift)
+                selectedItem.Setkeycombo(catchedScanCode, Shift, Ctrl, Alt);
+
+            // Unassign the previous mapping that was assigned to this key/key combo.
+            var oldKey = keyFile.keyAssign.FirstOrDefault(x => (x != selectedItem) && x.GetKeyAssignmentStatus() == selectedItem.GetKeyAssignmentStatus());
+            if (oldKey != null)
             {
-                if (keyFile.keyAssign[i].GetKeyAssignmentStatus() != keyFile.keyAssign[currentIndex].GetKeyAssignmentStatus())
-                    continue;
-                if (i == currentIndex)
-                    continue;
-                if (keyFile.keyAssign[i].GetVisibility() != "White")
-                    continue;
-                keyFile.keyAssign[i].UnassignKeyboard();
+                oldKey.UnassignKeyboard();
             }
 
             KeyMappingGrid.Items.Refresh();
@@ -578,61 +581,20 @@ namespace FalconBMS_Alternative_Launcher_Cs
         }
 
         /// <summary>
-        /// Something has been entered to a search box.
+        /// User has changed the text in the search box.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Search_Click(object sender, RoutedEventArgs e)
+        private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            System.Windows.Input.Keyboard.ClearFocus();
-
-            if (SearchBox.Text == "")
-                return;
-
             KeyMappingGrid.UnselectAllCells();
-            KeyMappingGrid.ItemsSource = null;
+            string filter = SearchBox.Text.Trim().ToLower();
 
-            //if (SearchBox.Text == "")
-            //{
-            //    foreach (KeyAssgn Assgn in keyFile.keyAssign)
-            //        Assgn.Visibility = Assgn.GetVisibility();
-            //    KeyMappingGrid.Items.Refresh();
-            //    KeyMappingGrid.UnselectAllCells();
-            //    return;
-            //}
-
-            string target = SearchBox.Text;
-
-            //foreach (KeyAssgn Assgn in keyFile.keyAssign)
-            //{
-            //    if (Assgn.Mapping.Trim().Contains(target))
-            //        Assgn.Visibility = Assgn.GetVisibility();
-            //    else
-            //    {
-            //        Assgn.Visibility = "Hidden";
-            //    }
-            //}
-            
-            this.KeyMappingGrid.ItemsSource = keyFile.keyAssign;
-            KeyMappingGrid.Items.Refresh();
-
-            int i = 0;
-            foreach (KeyAssgn keys in keyFile.keyAssign)
-            {
-                if (keys.Mapping.Trim().Contains(target))
-                {
-                    KeyMappingGrid.ScrollIntoView(KeyMappingGrid.Items[KeyMappingGrid.Items.Count - 1]);
-                    KeyMappingGrid.UpdateLayout();
-                    KeyMappingGrid.ScrollIntoView(KeyMappingGrid.Items[i]);
-
-                    return;
-                }
-                i += 1;
-            }
+            KeyMappingGrid.Items.Filter = x => String.IsNullOrWhiteSpace(filter) || ((KeyAssgn) x).Mapping.Trim().ToLower().Contains(filter);
         }
 
         /// <summary>
-        /// Cullent selected row number.
+        /// Current selected row number.
         /// </summary>
         private int currentIndex;
         private void KeyMappingGrid_MouseUp(object sender, MouseButtonEventArgs e)
