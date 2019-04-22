@@ -54,7 +54,10 @@ namespace FalconBMS_Alternative_Launcher_Cs
             AxisName.Threat_Volume,
             AxisName.AI_vs_IVC,
             AxisName.FOV,
-            AxisName.Camera_Distance
+            AxisName.Camera_Distance,
+            AxisName.HSI_Course_knob,
+            AxisName.HSI_Heading_knob,
+            AxisName.Altimeter_knob
         };
         
         /// <summary>

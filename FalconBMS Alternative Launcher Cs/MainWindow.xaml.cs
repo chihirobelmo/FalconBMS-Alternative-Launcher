@@ -38,7 +38,6 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         private AppRegInfo appReg;
         private KeyFile keyFile;
-        private VisualAcuity visualAcuity;
 
         private AppProperties appProperties;
 
@@ -67,23 +66,6 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 if (option.ContainsKey("/yame") == true)
                     if (option["/yame"] == "true")
                         FLG_YAME64 = true;
-                if (option.ContainsKey("/visibility") == true)
-                {
-                    if (option["/visibility"] == "true")
-                    {
-                        Tab_VisualAcuity.Visibility = Visibility.Visible;
-                    }
-                    else
-                    {
-                        Tab_VisualAcuity.Visibility = Visibility.Collapsed;
-                        Misc_SmartScalingOverride.IsChecked = false;
-                    }
-                }
-                else
-                {
-                    Tab_VisualAcuity.Visibility = Visibility.Collapsed;
-                    Misc_SmartScalingOverride.IsChecked = false;
-                }
 
                 if (FLG_YAME64)
                 {
@@ -153,9 +135,6 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 this.KeyMappingTimer.Tick += this.KeyMappingTimer_Tick;
                 this.KeyMappingTimer.Interval = new TimeSpan(0, 0, 0, 0, 16);
 
-                // Set VisualAcuity page graph and results.
-                this.visualAcuity = new VisualAcuity(this);
-
                 //System.Diagnostics.PresentationTraceSources.DataBindingSource.Switch.Level = System.Diagnostics.SourceLevels.Critical;
             }
             catch (System.IO.FileNotFoundException ex)
@@ -183,7 +162,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             {
                 // Save UI Properties(Like Button Status).
                 this.appProperties.SaveUISetup();
-                this.appReg.getOverrideWriter().Execute(inGameAxis, deviceControl, keyFile, visualAcuity);
+                this.appReg.getOverrideWriter().Execute(inGameAxis, deviceControl, keyFile);
             }
             catch (System.IO.FileNotFoundException ex)
             {
@@ -301,7 +280,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                         }
                         else
                         {
-                            appReg.getOverrideWriter().Execute(inGameAxis, deviceControl, keyFile, visualAcuity);
+                            appReg.getOverrideWriter().Execute(inGameAxis, deviceControl, keyFile);
                         }
 
                         String appPlatform = appReg.GetInstallDir() + "/Bin/x86/Falcon BMS.exe";
@@ -676,16 +655,10 @@ namespace FalconBMS_Alternative_Launcher_Cs
             if (e.Command == ApplicationCommands.Paste)
                 e.Handled = true;
         }
-        
-        private void TextBox_hFOV_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == System.Windows.Input.Key.Return)
-                this.visualAcuity.SeeArbitraryFOVResult();
-        }
 
         private void Apply_YAME64(object sender, RoutedEventArgs e)
         {
-            this.appReg.getOverrideWriter().Execute(inGameAxis, deviceControl, keyFile, visualAcuity);
+            this.appReg.getOverrideWriter().Execute(inGameAxis, deviceControl, keyFile);
             this.Close();
         }
     }

@@ -121,7 +121,6 @@
     <Compile Include="OverrideSetting.cs" />
     <Compile Include="TheaterList.cs" />
     <Compile Include="ThrottlePosition.cs" />
-    <Compile Include="VisualAcuity.cs" />
     <Page Include="AxisAssignWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

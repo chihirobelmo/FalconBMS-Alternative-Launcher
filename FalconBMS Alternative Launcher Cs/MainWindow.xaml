@@ -152,7 +152,7 @@
                                     </ControlTemplate>
                                 </Button.Template>
                             </Button>
-                            <Button x:Name="Launch_EDIT" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="608,0,0,56" Height="48" Width="48" Click="Launch_Click" MouseEnter="MouseEnterLauncher" MouseLeave="MouseLeaveLauncher">
+                            <Button x:Name="Launch_EDIT" VerticalAlignment="Bottom" Margin="608,0,30,56" Height="48" Click="Launch_Click" MouseEnter="MouseEnterLauncher" MouseLeave="MouseLeaveLauncher">
                                 <Button.Template>
                                     <ControlTemplate>
                                         <Image Source="Resources/EDIT.png"/>
@@ -243,7 +243,7 @@
             </TabItem>
             <TabItem Header=" AxisAssign">
                 <Grid>
-                    <Image Visibility="Visible" HorizontalAlignment="Left" VerticalAlignment="Top" Height="39" Source="Resources/TabControl_1_BackGround.png" Stretch="None" Margin="-430,0,-140,0" Width="1580"/>
+                    <Image Visibility="Visible" HorizontalAlignment="Left" VerticalAlignment="Top" Height="39" Source="Resources/TabControl_1_BackGround.png" Stretch="None" Margin="-5,0,-565,0" Width="1580"/>
                     <TabControl HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Stretch" Width="auto" Margin="10,0" Background="{x:Null}">
                         <TabItem Header=" FlightControl" Controls:ControlsHelper.HeaderFontSize="24">
                             <Grid Margin="0,0,0,24" Background="#7FD4E1EE" x:Name="BackGroundBox1">
@@ -377,7 +377,7 @@
                                     <Controls:MetroProgressBar x:Name="Axis_HMS_Brightness" HorizontalAlignment="Left" Margin="32,183,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
                                     <Button x:Name="HMS_Brightness" Content="Assign" HorizontalAlignment="Left" Margin="320,175,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
 
-                                    <Label Content="FLIR Bright :" HorizontalAlignment="Left" Margin="32,198,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="128" FontWeight="Bold"/>
+                                    <Label x:Name="Name_FLIR_Brightness"  Content="FLIR Bright :" HorizontalAlignment="Left" Margin="32,198,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="128" FontWeight="Bold"/>
                                     <Label x:Name="Label_FLIR_Brightness" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="188,198,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100"/>
                                     <Controls:MetroProgressBar x:Name="Axis_FLIR_Brightness" HorizontalAlignment="Left" Margin="32,232,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
                                     <Button x:Name="FLIR_Brightness" Content="Assign" HorizontalAlignment="Left" Margin="320,224,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
@@ -410,12 +410,45 @@
                                     <Controls:MetroProgressBar x:Name="Axis_Threat_Volume" HorizontalAlignment="Left" Margin="32,281,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
                                     <Button x:Name="Threat_Volume" Content="Assign" HorizontalAlignment="Left" Margin="320,273,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
 
-                                    <Label Content="AI vs IVC :" HorizontalAlignment="Left" Margin="32,296,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="128" FontWeight="Bold"/>
+                                    <Label x:Name="Name_AI_vs_IVC" Content="AI vs IVC :" HorizontalAlignment="Left" Margin="32,296,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="128" FontWeight="Bold"/>
                                     <Label x:Name="Label_AI_vs_IVC" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="188,296,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100"/>
                                     <Controls:MetroProgressBar x:Name="Axis_AI_vs_IVC" HorizontalAlignment="Left" Margin="32,330,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
                                     <Button x:Name="AI_vs_IVC" Content="Assign" HorizontalAlignment="Left" Margin="320,322,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
                                 </Grid>
-                                <Grid HorizontalAlignment="Left" Height="207" VerticalAlignment="Top" Width="480" Margin="480,376,0,0">
+                            </Grid>
+                        </TabItem>
+                        <TabItem x:Name="Tab_HSI_and_Altimeter" Header="  HSI &amp; Altimeter" Controls:ControlsHelper.HeaderFontSize="24">
+                            <Grid Margin="0,0,0,24" Background="#7FD4E1EE" x:Name="BackGroundBox1_Copy">
+                                <!-- Roll Axis -->
+                                <Grid HorizontalAlignment="Left" Height="180" VerticalAlignment="Top" Width="480">
+                                    <Label Content="HSI (Horizontal Situation Indicator)" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold" FontStyle="Oblique" Height="41" Width="349"/>
+
+                                    <Label Content="Course : " HorizontalAlignment="Left" Margin="32,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="90" FontWeight="Bold"/>
+                                    <Label x:Name="Label_HSI_Course_knob" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="188,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100"/>
+                                    <Controls:MetroProgressBar x:Name="Axis_HSI_Course_knob" HorizontalAlignment="Left" Margin="32,85,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
+                                    <Button x:Name="HSI_Course_knob" Content="Assign" HorizontalAlignment="Left" Margin="320,77,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27" RenderTransformOrigin="0.216,1.519"/>
+
+                                    <Label Content="Heading :" HorizontalAlignment="Left" Margin="32,100,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="90" FontWeight="Bold"/>
+                                    <Label x:Name="Label_HSI_Heading_knob" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="188,100,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100"/>
+                                    <Controls:MetroProgressBar x:Name="Axis_HSI_Heading_knob" HorizontalAlignment="Left" Margin="32,134,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
+                                    <Button x:Name="HSI_Heading_knob" Content="Assign" HorizontalAlignment="Left" Margin="320,126,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
+                                </Grid>
+                                <Grid HorizontalAlignment="Left" Height="180" Margin="0,180,0,0" VerticalAlignment="Top" Width="480">
+                                    <Label Content="Altimeter" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold" FontStyle="Oblique" Height="46" Width="458"/>
+
+                                    <Label Content="Setting :" HorizontalAlignment="Left" Margin="32,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="80" FontWeight="Bold"/>
+                                    <Label x:Name="Label_Altimeter_knob" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="188,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100"/>
+                                    <Controls:MetroProgressBar x:Name="Axis_Altimeter_knob" HorizontalAlignment="Left" Margin="32,85,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
+                                    <Button x:Name="Altimeter_knob" Content="Assign" HorizontalAlignment="Left" Margin="320,77,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
+
+                                </Grid>
+                                <Grid HorizontalAlignment="Left" Height="148" Margin="480,427,0,0" VerticalAlignment="Top" Width="475"/>
+                            </Grid>
+                        </TabItem>
+                        <TabItem Header="  Views" Controls:ControlsHelper.HeaderFontSize="24">
+                            <Grid Background="#7FD4E1EE" Margin="0,0,0,24">
+                                <Grid HorizontalAlignment="Left" Height="278" VerticalAlignment="Top" Width="480" Grid.ColumnSpan="2"/>
+                                <Grid HorizontalAlignment="Left" Height="278" VerticalAlignment="Top" Width="480">
                                     <Label Content="VIEWS" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold" FontStyle="Oblique" Height="41" Width="349"/>
 
                                     <Label Content="FOV : " HorizontalAlignment="Left" Margin="32,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="128" FontWeight="Bold"/>
@@ -429,6 +462,11 @@
                                     <Button x:Name="Camera_Distance" Content="Assign" HorizontalAlignment="Left" Margin="320,126,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
                                     <Controls:ToggleSwitch x:Name="Misc_TrackIRZ" OnLabel="TrackIR Zoom Fov" OffLabel="TrackIR Head Forward" HorizontalContentAlignment="Right" FontSize="11" HorizontalAlignment="Left" Margin="47,10,0,0" VerticalAlignment="Top" Foreground="#FF606060" Width="347"/>
                                     <CheckBox x:Name="Misc_ExMouseLook" Content="External MouseLook" HorizontalAlignment="Left" Margin="32,167,0,0" VerticalAlignment="Top" Foreground="#FF606060"/>
+                                </Grid>
+                                <Grid HorizontalAlignment="Left" Height="278" Margin="499,0,0,307" VerticalAlignment="Center" Width="485" Background="#7FD4E1EE" >
+                                    <Label Content="Smart Scaling" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10,10,10,0" Width="Auto" Height="48" FontSize="24"/>
+                                    <TextBlock HorizontalAlignment="Left" Margin="32,63,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="#FF606060" Height="Auto" Width="409"><Bold><Run Text="Improving Target Orientation Discrimination Performance"/></Bold><LineBreak /><LineBreak /><Run Text="When performing air-to-air combat within visual range of the target aircraft, even the modern monitors are unable to provide the necessary resolution to accurately represent enemy aircraft at realistic ranges. The fine details of an aircraft seen flying in the real world typically are not visible in the simulator at the same simulated distances. Pilots use these details to help determine things like the pitch, bank and heading of the target aircraft."/><LineBreak /><LineBreak /><Bold><Run Text="Smart Scaling"/></Bold><Run Text=" based on the research paper "/><Italic><Run Text="Serfoss 2003"/></Italic><Run Text=" " /><Run Text=" achieves desired cue visibility by magnifying target only minimally at close ranges yet magnifies significantly (2X) at a 2.3-mile distance."/></TextBlock>
+                                    <CheckBox x:Name="Misc_SmartScalingOverride" Content="Enable" Foreground="#FF606060" HorizontalAlignment="Left" Margin="236,27,0,0" VerticalAlignment="Top"/>
                                 </Grid>
                             </Grid>
                         </TabItem>
@@ -494,57 +532,6 @@
                     <TextBox x:Name="SearchBox" HorizontalAlignment="Left" Height="23" Margin="87,43,0,0" VerticalAlignment="Top" Width="384" Background="#80F0F0F0" Foreground="#FF606060" Controls:TextBoxHelper.ClearTextButton="True" TextChanged="SearchBox_TextChanged"/>
 
                     <Label Content="*Click a row and press a joy key to Assign. Double Click a cell to Unassign" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Margin="0,69,10,0" VerticalAlignment="Top" Width="596" Height="26"/>
-                </Grid>
-            </TabItem>
-            <TabItem Header=" VisualAcuity" x:Name="Tab_VisualAcuity">
-                <Grid Name="grid1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <WindowsFormsHost Margin="0,65,10,101" VerticalAlignment="Center" HorizontalAlignment="Right" Height="485" Width="485">
-                        <wfc:Chart Name="Chart1"/>
-                    </WindowsFormsHost>
-                    <Grid Grid.Column="1" HorizontalAlignment="Left" Height="535" Margin="10,65,0,51" VerticalAlignment="Center" Width="485" Background="#7FD4E1EE" >
-                        <Label Content="Smart Scaling" HorizontalAlignment="Stretch" Margin="10,10,10,477" Width="Auto" Height="48" FontSize="24"/>
-                        <TextBlock HorizontalAlignment="Left" Margin="32,63,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="#FF606060" Height="Auto" Width="409">
-                            <Bold>Improving Target Orientation Discrimination Performance</Bold>
-                            <LineBreak /> 
-                            <LineBreak /> 
-                            When performing air-to-air combat within visual range of the target aircraft,
-                            even the modern monitors are unable to provide the necessary resolution to accurately represent enemy aircraft at realistic ranges.
-                            The fine details of an aircraft seen flying in the real world typically are not visible in the simulator
-                            at the same simulated distances. Pilots use these details to help determine things like the
-                            pitch, bank and heading of the target aircraft. 
-                            <LineBreak />
-                            <LineBreak />
-                            <Bold>Smart Scaling</Bold> based on the research paper <Italic>Serfoss 2003</Italic><Run Text=" " /> achieves desired cue visibility by magnifying target only minimally at
-                            close ranges yet magnifies significantly (2X) at a 2.3-mile distance.
-                            <LineBreak />
-                            <LineBreak />
-                            FalconBMS Alternative Launcher detected your system resolution as follows:
-                        </TextBlock>
-                        <Label x:Name="Label_SystemResolution" Content="1920 * 1080 pixels"  HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="32,291,0,0" VerticalAlignment="Top" Width="166" FontSize="18" FontWeight="Bold"/>
-                        <TextBlock HorizontalAlignment="Left" Margin="32,330,0,0" VerticalAlignment="Top" Width="443">
-                            If you fly BMS in the same internal resolution, the ideal horizontal FOV is:
-                        </TextBlock>
-                        <Label x:Name="Label_DesiredFOV" Content="64 hFOV Degrees" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="32,351,0,0" VerticalAlignment="Top" Width="166" FontSize="18" FontWeight="Bold"/>
-                        <Label x:Name="Label_DesiredFOV_NoScaling" Content="with Smart Scaling ON, 32 hFOV if OFF." HorizontalAlignment="Left" Margin="198,357,0,0" VerticalAlignment="Top" Width="229" FontWeight="Bold"/>
-                        <TextBlock HorizontalAlignment="Left" Margin="32,390,0,0" VerticalAlignment="Top" Width="443">
-                            You can see how Smart Scaling brings visual acuity fix on the left chart.<LineBreak />
-                            Enabling following checkbox overwrites default FOV and apply Smart Scaling.<LineBreak />
-                            If you use multiple monitors and BMS resolution does not much above result,<LineBreak />
-                            input BMS internal resolution to the left box and adjust FOV manually to find<LineBreak />
-                            suitable spot where Smart Scaling works just fine.
-                        </TextBlock>
-                        <CheckBox x:Name="Misc_SmartScalingOverride" Content="Set horizontal FOV to desired value." Foreground="#FF606060" HorizontalAlignment="Left" Margin="64,491,0,0" VerticalAlignment="Top"/>
-                    </Grid>
-                    <TextBox x:Name="TextBox_hFOV" KeyDown="TextBox_hFOV_KeyDown"  PreviewTextInput="TextBox_hFOV_PreviewTextInput" CommandManager.PreviewExecuted="TextBox_hFOV_PreviewExecuted" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Height="24" Margin="0,550,45,75" TextWrapping="Wrap" Text="64" VerticalAlignment="Center" Width="38" Background="#FFDFDFDF" FontWeight="Bold"/>
-                    <Label Content="Calcurate Magnification result with" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Margin="0,549,233,76" VerticalAlignment="Center" Width="212" FontWeight="Bold"/>
-                    <Label Content="hFOV" HorizontalContentAlignment="Left" HorizontalAlignment="Right" Margin="0,549,0,76" VerticalAlignment="Center" Width="45" FontWeight="Bold"/>
-                    <TextBox x:Name="TextBox_widthpx" KeyDown="TextBox_hFOV_KeyDown" PreviewTextInput="TextBox_hFOV_PreviewTextInput" CommandManager.PreviewExecuted="TextBox_hFOV_PreviewExecuted" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Height="24" Margin="0,550,183,75" TextWrapping="Wrap" Text="1920" VerticalAlignment="Center" Width="50" Background="#FFDFDFDF" FontWeight="Bold"/>
-                    <Label Content="width pixels and" HorizontalContentAlignment="Left" HorizontalAlignment="Right" Margin="0,549,83,76" VerticalAlignment="Center" Width="100" FontWeight="Bold"/>
-                    <Label Content="Desired Value ^" HorizontalContentAlignment="Left" HorizontalAlignment="Right" Margin="0,576,38,49" VerticalAlignment="Center" Width="102" FontWeight="Bold"/>
                 </Grid>
             </TabItem>
         </TabControl>

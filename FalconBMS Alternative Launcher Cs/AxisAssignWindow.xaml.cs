@@ -180,6 +180,14 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     DeadZone.Visibility = Visibility.Collapsed;
                     Label_DeadZone.Visibility = Visibility.Collapsed;
                     break;
+                case "HSI_Course_knob":
+                case "HSI_Heading_knob":
+                case "Altimeter_knob":
+                    DirectionDecrease.Content = "Decrease";
+                    DirectionIncrease.Content = "Increase";
+                    DeadZone.Visibility = Visibility.Collapsed;
+                    Label_DeadZone.Visibility = Visibility.Collapsed;
+                    break;
             }
 
             AxisValueProgress.Value = 0;
