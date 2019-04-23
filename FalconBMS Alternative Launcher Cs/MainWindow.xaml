@@ -98,7 +98,7 @@
                     <ToggleButton x:Name="CMD_WINDOW" Content="WINDOW" HorizontalAlignment="Left" Margin="286,164,0,0" VerticalAlignment="Top" Width="64"/>
                     <ToggleButton x:Name="CMD_NOMOVIE" Content="NOMOVIE" HorizontalAlignment="Left" Margin="368,164,0,0" VerticalAlignment="Top" Width="64"/>
                     <ToggleButton x:Name="CMD_EF" Content="EYEFLY" HorizontalAlignment="Left" Margin="204,209,0,0" VerticalAlignment="Top" Width="64"/>
-                    <ToggleButton x:Name="CMD_MONO" Content="MONO" HorizontalAlignment="Left" Margin="286,209,0,0" VerticalAlignment="Top" Width="64"/>
+                    <ToggleButton x:Name="CMD_MONO" Content="DEBUG" HorizontalAlignment="Left" Margin="286,209,0,0" VerticalAlignment="Top" Width="64"/>
                     <Button x:Name="CMD_BW" Content="BW : 1024" HorizontalAlignment="Left" Margin="368,209,0,0" VerticalAlignment="Top" Width="64" Click="CMD_BW_Click"/>
 
 
@@ -542,7 +542,7 @@
         <Image x:Name="LOGO433" Visibility="Hidden" HorizontalAlignment="Left" VerticalAlignment="Top" Height="64" Source="Resources/LOGO433.png" Stretch="Uniform" Margin="0,0,-350,0"/>
         <Image x:Name="LOGO434" Visibility="Hidden" HorizontalAlignment="Left" VerticalAlignment="Top" Height="64" Source="Resources/LOGO434.png" Stretch="Uniform" Margin="0,0,-350,0"/>
         <Image x:Name="LOGO435" Visibility="Hidden"  HorizontalAlignment="Left" VerticalAlignment="Top" Height="64" Source="Resources/LOGO435.png" Stretch="Uniform" Margin="0,0,-350,0"/>
-        <Label Content="FalconBMS Alternative Launcher v1.20" HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontWeight="Bold" Margin="0,0,10,0"/>
+        <Label Content="FalconBMS Alternative Launcher v1.30" HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontWeight="Bold" Margin="0,0,10,0"/>
 
         <Button x:Name="Button_Apply_YAME64" Content="Apply" HorizontalAlignment="Right" Margin="0,31,10,0" VerticalAlignment="top" Width="128" Style="{StaticResource AccentedSquareButtonStyle}" Controls:ControlsHelper.ContentCharacterCasing="Normal" Click="Apply_YAME64"/>
 

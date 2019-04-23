@@ -21,8 +21,6 @@ namespace FalconBMS_Alternative_Launcher_Cs
             {
                 MessageBoxResult result = System.Windows.MessageBox.Show
                     ("App could not find " + Filename, "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                if (result == MessageBoxResult.OK)
-                    System.Windows.Application.Current.Shutdown();
                 return;
             }
 

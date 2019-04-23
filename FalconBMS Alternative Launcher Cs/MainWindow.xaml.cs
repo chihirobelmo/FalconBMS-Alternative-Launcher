@@ -103,6 +103,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 this.Close();
             }
 
+            if (this.appReg.getBMSVersion() == BMS_Version.UNDEFINED)
+            {
+                this.Close();
+                return;
+            }
+
             try
             {
                 // Read Theater List
@@ -160,6 +166,9 @@ namespace FalconBMS_Alternative_Launcher_Cs
         {
             try
             {
+                if (this.appReg == null)
+                    return;
+
                 // Save UI Properties(Like Button Status).
                 this.appProperties.SaveUISetup();
                 this.appReg.getOverrideWriter().Execute(inGameAxis, deviceControl, keyFile);

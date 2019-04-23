@@ -737,6 +737,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <param name="appReg"></param>
         public OverrideSettingFor434(MainWindow mainWindow, AppRegInfo appReg) : base(mainWindow, appReg)
         {
+            mainWindow.Misc_Platform.IsChecked = true;
+            mainWindow.Misc_Platform.Visibility = Visibility.Hidden;
+            mainWindow.Label_Platform.Content = "Platform : BMS 4.34 is 64-bit apprecation.";
+
+            mainWindow.CMD_BW.Visibility = Visibility.Hidden;
+
             mainWindow.Launch_EDIT.Visibility = Visibility.Hidden;
             mainWindow.Label_EDIT.Visibility = Visibility.Hidden;
         }
@@ -933,13 +939,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <param name="appReg"></param>
         public OverrideSettingForUNDEFINED(MainWindow mainWindow, AppRegInfo appReg) : base(mainWindow, appReg)
         {
-            mainWindow.Misc_TrackIRZ.IsChecked = false;
             mainWindow.Misc_TrackIRZ.Visibility = Visibility.Hidden;
-
-            mainWindow.Misc_ExMouseLook.IsChecked = false;
             mainWindow.Misc_ExMouseLook.Visibility = Visibility.Hidden;
-
-            mainWindow.Misc_RollLinkedNWS.IsChecked = false;
             mainWindow.Misc_RollLinkedNWS.Visibility = Visibility.Hidden;
         }
 

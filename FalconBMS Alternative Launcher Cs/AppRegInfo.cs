@@ -12,9 +12,9 @@ namespace FalconBMS_Alternative_Launcher_Cs
     {
         // Member
         private Microsoft.Win32.RegistryKey regkey;
-        private string regName = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.33 U1";
+        private string regName = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.34";
         private Platform platform = Platform.OS_64bit;
-        private BMS_Version bms_Version = BMS_Version.BMS433U1;
+        private BMS_Version bms_Version = BMS_Version.BMS434;
         private OverrideSetting overRideSetting;
 
         private string installDir;
@@ -32,36 +32,48 @@ namespace FalconBMS_Alternative_Launcher_Cs
         public string GetPilotCallsign() { return this.pilotCallsign; }
         public string getKeyFileName() { return this.keyFileName; }
         public OverrideSetting getOverrideWriter() { return this.overRideSetting; }
+        public BMS_Version getBMSVersion() { return this.bms_Version; }
 
         public AppRegInfo(MainWindow mainWindow)
         {
             this.mainWindow = mainWindow;
 
             // Read Current Directry
-            string stCurrentDir = System.IO.Directory.GetCurrentDirectory();
-            if (stCurrentDir.Contains("Falcon BMS 4.32"))
+            int versionNum = 0;
+            int updateNum = 0;
+            string exeName = System.IO.Directory.GetCurrentDirectory() + "/Falcon BMS.exe";
+            if (!System.IO.File.Exists(exeName))
+                exeName = System.IO.Directory.GetCurrentDirectory() + "/../x64/Falcon BMS.exe";
+            if (System.IO.File.Exists(exeName))
+            {
+                System.Diagnostics.FileVersionInfo exeVersion = System.Diagnostics.FileVersionInfo.GetVersionInfo(exeName);
+                versionNum = exeVersion.ProductMinorPart;
+                updateNum  = exeVersion.ProductBuildPart;
+            }
+
+            if (versionNum == 32)
             {
                 this.bms_Version = BMS_Version.BMS432;
             }
-            else if (stCurrentDir.Contains("Falcon BMS 4.33") && !stCurrentDir.Contains("Falcon BMS 4.33 U1"))
+            else if (versionNum == 33 && updateNum == 0)
             {
                 this.bms_Version = BMS_Version.BMS433;
             }
-            else if (stCurrentDir.Contains("Falcon BMS 4.33 U1"))
+            else if (versionNum == 33 && updateNum > 0)
             {
                 this.bms_Version = BMS_Version.BMS433U1;
             }
-            else if (stCurrentDir.Contains("Falcon BMS 4.34"))
+            else if (versionNum == 34)
             {
                 this.bms_Version = BMS_Version.BMS434;
             }
-            else if (stCurrentDir.Contains("Falcon BMS 4.35"))
+            else if (versionNum == 35)
             {
                 this.bms_Version = BMS_Version.BMS435;
             }
             else
             {
-                this.bms_Version = BMS_Version.UNDEFINED;
+                this.bms_Version = BMS_Version.BMS434;
             }
 
             // load command line.
@@ -93,7 +105,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                         this.bms_Version = BMS_Version.BMS435;
                         break;
                     default:
-                        this.bms_Version = BMS_Version.UNDEFINED;
+                        this.bms_Version = BMS_Version.BMS434;
                         break;
                 }
             }
