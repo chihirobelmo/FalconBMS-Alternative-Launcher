@@ -328,7 +328,13 @@ namespace FalconBMS_Alternative_Launcher_Cs
                         System.Diagnostics.Process.Start("Avionics Configurator.exe");
                         break;
                     case "Launch_EDIT":
-                        System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Bin/x86/Editor.exe");
+                        if (System.IO.File.Exists(appReg.GetInstallDir() + "/Bin/x86/Editor.exe"))
+                            System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Bin/x86/Editor.exe");
+                        else
+                        {
+                            if (System.IO.File.Exists(appReg.GetInstallDir() + "/Bin/x64/Editor.exe"))
+                                System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Bin/x64/Editor.exe");
+                        }
                         break;
                 }
             }

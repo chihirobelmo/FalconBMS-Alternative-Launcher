@@ -106,13 +106,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
         protected void SaveConfigfile(DeviceControl deviceControl)
         {
             string filename = appReg.GetInstallDir() + "/User/Config/falcon bms.cfg";
-            if (!System.IO.File.Exists(filename))
-                return;
             string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/falcon bms.cfg";
-            if (!System.IO.File.Exists(fbackupname))
+            if (!System.IO.File.Exists(fbackupname) & (System.IO.File.Exists(filename)))
                 System.IO.File.Copy(filename, fbackupname, true);
 
-            System.IO.File.SetAttributes(filename, System.IO.File.GetAttributes(filename) & (~System.IO.FileAttributes.ReadOnly));
+            if (System.IO.File.Exists(filename))
+                System.IO.File.SetAttributes(filename, System.IO.File.GetAttributes(filename) & (~System.IO.FileAttributes.ReadOnly));
 
             System.IO.StreamReader cReader = new System.IO.StreamReader
                 (filename, System.Text.Encoding.Default);
@@ -153,7 +152,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
             if ((!System.IO.File.Exists(fbackupname)) & (System.IO.File.Exists(filename)))
                 System.IO.File.Copy(filename, fbackupname, true);
 
-            System.IO.File.SetAttributes(filename, System.IO.File.GetAttributes(filename) & (~System.IO.FileAttributes.ReadOnly));
+            if (System.IO.File.Exists(filename))
+                System.IO.File.SetAttributes(filename, System.IO.File.GetAttributes(filename) & (~System.IO.FileAttributes.ReadOnly));
 
             System.IO.StreamWriter ds = new System.IO.StreamWriter
                 (filename, false, System.Text.Encoding.GetEncoding("shift_jis"));
@@ -168,10 +168,11 @@ namespace FalconBMS_Alternative_Launcher_Cs
         {
             string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.getKeyFileName();
             string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/" + appReg.getKeyFileName();
-            if (!System.IO.File.Exists(fbackupname))
+            if (!System.IO.File.Exists(fbackupname) & (System.IO.File.Exists(filename)))
                 System.IO.File.Copy(filename, fbackupname, true);
 
-            System.IO.File.SetAttributes(filename, System.IO.File.GetAttributes(filename) & (~System.IO.FileAttributes.ReadOnly));
+            if (System.IO.File.Exists(filename))
+                System.IO.File.SetAttributes(filename, System.IO.File.GetAttributes(filename) & (~System.IO.FileAttributes.ReadOnly));
 
             System.IO.StreamWriter sw = new System.IO.StreamWriter
                 (filename, false, System.Text.Encoding.GetEncoding("utf-8"));
@@ -204,7 +205,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
             if ((!System.IO.File.Exists(fbackupname)) & (System.IO.File.Exists(filename)))
                 System.IO.File.Copy(filename, fbackupname, true);
 
-            System.IO.File.SetAttributes(filename, System.IO.File.GetAttributes(filename) & (~System.IO.FileAttributes.ReadOnly));
+            if (System.IO.File.Exists(filename))
+                System.IO.File.SetAttributes(filename, System.IO.File.GetAttributes(filename) & (~System.IO.FileAttributes.ReadOnly));
 
             System.IO.FileStream fs = new System.IO.FileStream
                 (filename, System.IO.FileMode.Create, System.IO.FileAccess.Write);
@@ -320,7 +322,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
             if ((!System.IO.File.Exists(fbackupname)) & (System.IO.File.Exists(filename)))
                 System.IO.File.Copy(filename, fbackupname, true);
 
-            System.IO.File.SetAttributes(filename, System.IO.File.GetAttributes(filename) & (~System.IO.FileAttributes.ReadOnly));
+            if (System.IO.File.Exists(filename))
+                System.IO.File.SetAttributes(filename, System.IO.File.GetAttributes(filename) & (~System.IO.FileAttributes.ReadOnly));
 
             System.IO.FileStream fs = new System.IO.FileStream
                 (filename, System.IO.FileMode.Create, System.IO.FileAccess.Write);
@@ -742,9 +745,6 @@ namespace FalconBMS_Alternative_Launcher_Cs
             mainWindow.Label_Platform.Content = "Platform : BMS 4.34 is 64-bit apprecation.";
 
             mainWindow.CMD_BW.Visibility = Visibility.Hidden;
-
-            mainWindow.Launch_EDIT.Visibility = Visibility.Hidden;
-            mainWindow.Label_EDIT.Visibility = Visibility.Hidden;
         }
 
         protected override void SavePop()
