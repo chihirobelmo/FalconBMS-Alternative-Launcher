@@ -315,7 +315,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <summary>
         /// As the name inplies...
         /// </summary>
-        protected void SaveJoystickCal(Hashtable inGameAxis, DeviceControl deviceControl)
+        protected virtual void SaveJoystickCal(Hashtable inGameAxis, DeviceControl deviceControl)
         {
             string filename = appReg.GetInstallDir() + "/User/Config/joystick.cal";
             string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/joystick.cal";
@@ -747,6 +747,70 @@ namespace FalconBMS_Alternative_Launcher_Cs
             mainWindow.CMD_BW.Visibility = Visibility.Hidden;
         }
 
+        /// <summary>
+        /// As the name inplies...
+        /// </summary>
+        protected override void SaveJoystickCal(Hashtable inGameAxis, DeviceControl deviceControl)
+        {
+            string filename = appReg.GetInstallDir() + "/User/Config/joystick.cal";
+            string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/joystick.cal";
+            if ((!System.IO.File.Exists(fbackupname)) & (System.IO.File.Exists(filename)))
+                System.IO.File.Copy(filename, fbackupname, true);
+
+            if (System.IO.File.Exists(filename))
+                System.IO.File.SetAttributes(filename, System.IO.File.GetAttributes(filename) & (~System.IO.FileAttributes.ReadOnly));
+
+            System.IO.FileStream fs = new System.IO.FileStream
+                (filename, System.IO.FileMode.Create, System.IO.FileAccess.Write);
+
+            byte[] bs;
+
+            AxisName[] localJoystickCalList = appReg.getOverrideWriter().getJoystickCalList();
+            foreach (AxisName nme in localJoystickCalList)
+            {
+                bs = new byte[]
+                {
+                    0x00, 0x00, 0x00, 0x00, 0x98, 0x3A, 0x00, 0x00,
+                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+                };
+                if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() != -1)
+                {
+                    bs[12] = 0x01;
+
+                    if (nme == AxisName.Throttle)
+                    {
+                        double iAB = (double)deviceControl.throttlePos.GetAB();
+                        double iIdle = (double)deviceControl.throttlePos.GetIDLE();
+
+                        const double MAXIN = 65536;
+                        const double MAXOUT = 14848;
+
+                        iAB = -iAB * (MAXOUT / MAXIN) + MAXOUT;
+                        iIdle = -iIdle * (MAXOUT / MAXIN) + MAXOUT;
+
+                        byte[] ab = BitConverter.GetBytes((int)iAB);
+                        byte[] idle = BitConverter.GetBytes((int)iIdle);
+
+                        bs[1] = ab[1];
+                        bs[5] = idle[1];
+
+                        if (deviceControl.throttlePos.GetAB() > (65536 - 256))
+                            bs[1] = 0x00;
+                        if (deviceControl.throttlePos.GetIDLE() < 256)
+                            bs[5] = 0x3A;
+                    }
+                }
+                if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetInvert())
+                {
+                    bs[20] = 0x01;
+                    bs[21] = 0x01;
+                }
+                fs.Write(bs, 0, bs.Length);
+            }
+            fs.Close();
+        }
+
         protected override void SavePop()
         {
             string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.GetPilotCallsign().ToString() + ".pop";
@@ -869,7 +933,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             AxisName.Reticle_Depression,
             AxisName.Camera_Distance,
             AxisName.HSI_Course_knob,
-            AxisName.HSI_Course_knob,
+            AxisName.HSI_Heading_knob,
             AxisName.Altimeter_knob
         };
 
@@ -904,7 +968,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             AxisName.AI_vs_IVC,
             AxisName.FLIR_Brightness,
             AxisName.HSI_Course_knob,
-            AxisName.HSI_Course_knob,
+            AxisName.HSI_Heading_knob,
             AxisName.Altimeter_knob
         };
     }

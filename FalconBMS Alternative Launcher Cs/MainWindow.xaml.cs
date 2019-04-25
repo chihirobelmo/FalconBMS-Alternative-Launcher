@@ -302,10 +302,11 @@ namespace FalconBMS_Alternative_Launcher_Cs
                             return;
                         }
                         process = System.Diagnostics.Process.Start(appPlatform, strCmdText);
-                        this.WindowState = WindowState.Minimized;
-                        process.Exited += new EventHandler(window_Normal);
-                        process.EnableRaisingEvents = true;
-                        this.WindowState = WindowState.Minimized;
+                        this.Close();
+                        //this.WindowState = WindowState.Minimized;
+                        //process.Exited += new EventHandler(window_Normal);
+                        //process.EnableRaisingEvents = true;
+                        //this.WindowState = WindowState.Minimized;
                         break;
                     case "Launch_CFG":
                         process = System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Config.exe");
