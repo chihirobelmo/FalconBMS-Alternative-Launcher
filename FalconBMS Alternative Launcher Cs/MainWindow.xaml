@@ -87,7 +87,7 @@
                     <Controls:ToggleSwitch x:Name="Misc_Platform" OnLabel="64bit" OffLabel="32bit" HorizontalAlignment="Left" Margin="160,30,0,0" VerticalAlignment="Top" Foreground="#FF606060"/>
                     <Label x:Name="Label_Platform" Content="Platform :" HorizontalAlignment="Left" Margin="32,32,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="16" Foreground="#FF606060"/>
                     <Label Content="Theater  :" HorizontalAlignment="Left" Margin="32,96,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="16" Foreground="#FF606060"/>
-                    <ComboBox x:Name="Dropdown_TheaterList" HorizontalAlignment="Left" Margin="160,100,0,0" VerticalAlignment="Top" Width="256" Background="{x:Null}" BorderBrush="Black" SelectionChanged="Dropdown_TheaterList_SelectionChanged"/>
+                    <ComboBox x:Name="Dropdown_TheaterList" HorizontalAlignment="Left" Margin="160,100,0,0" VerticalAlignment="Top" Width="256" Background="#80F0F0F0" BorderBrush="Black" SelectionChanged="Dropdown_TheaterList_SelectionChanged"/>
 
                     <Button x:Name="Launch_TheaterConfig" Content="Theater Config" Style="{StaticResource AccentedSquareButtonStyle}" Controls:ControlsHelper.ContentCharacterCasing="Normal" HorizontalAlignment="Left" Margin="437,99,0,0" VerticalAlignment="Top" Width="114" Click="Launch_TheaterConfig_Click"/>
 

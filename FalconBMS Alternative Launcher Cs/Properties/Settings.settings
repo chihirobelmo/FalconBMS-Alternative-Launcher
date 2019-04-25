@@ -6,16 +6,16 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="CMD_ACMI" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="CMD_WINDOW" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="CMD_NOMOVIE" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="CMD_EF" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="CMD_BW" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1024</Value>
@@ -57,7 +57,7 @@
       <Value Profile="(Default)">C:\</Value>
     </Setting>
     <Setting Name="CMD_MONO" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="Third_TIR" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:\</Value>
