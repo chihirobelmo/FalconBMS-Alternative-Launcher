@@ -459,7 +459,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                         break;
                     case "Launch_F4WX":
                         target = "\\F4Wx.exe";
-                        downloadlink = "https://www.bmsforum.org/forum/showthread.php?29203";
+                        downloadlink = "https://www.benchmarksims.org/forum/showthread.php?29203-F4Wx-Real-Weather-Converter";
                         installexe = Properties.Settings.Default.Third_F4WX + target;
                         if (File.Exists(installexe) == false)
                         {
