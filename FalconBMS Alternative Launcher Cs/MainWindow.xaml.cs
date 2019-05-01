@@ -264,82 +264,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         {
             try
             {
-
-                System.Diagnostics.Process process;
-                switch (((System.Windows.Controls.Button)sender).Name)
-                {
-                    case "Launch_BMS":
-                        string strCmdText = "";
-                        if (CMD_ACMI.IsChecked == false)
-                            strCmdText += "-acmi ";
-                        if (CMD_WINDOW.IsChecked == false)
-                            strCmdText += "-window ";
-                        if (CMD_NOMOVIE.IsChecked == false)
-                            strCmdText += "-nomovie ";
-                        if (CMD_EF.IsChecked == false)
-                            strCmdText += "-ef ";
-                        if (CMD_MONO.IsChecked == false)
-                            strCmdText += "-mono ";
-                        strCmdText += "-bw " + appProperties.bandWidthDefault;
-
-                        // OVERRIDE SETTINGS.
-                        if (this.ApplicationOverride.IsChecked == true)
-                        {
-                            string textMessage = "You are going to launch BMS without any setup override from AxisAssign and KeyMapping section. Will you continue?";
-                            if (MessageBox.Show(textMessage, "WARNING", MessageBoxButton.OKCancel, MessageBoxImage.Information) == MessageBoxResult.Cancel)
-                                return;
-                        }
-                        else
-                        {
-                            appReg.getOverrideWriter().Execute(inGameAxis, deviceControl, keyFile);
-                        }
-
-                        String appPlatform = appReg.GetInstallDir() + "/Bin/x86/Falcon BMS.exe";
-                        if (this.Misc_Platform.IsChecked == true)
-                            appPlatform = appReg.GetInstallDir() + "/Bin/x64/Falcon BMS.exe";
-                        if (File.Exists(appPlatform) == false)
-                        {
-                            this.Misc_Platform.IsChecked = false;
-                            appPlatform = appReg.GetInstallDir() + "/Bin/x86/Falcon BMS.exe";
-                            return;
-                        }
-                        process = System.Diagnostics.Process.Start(appPlatform, strCmdText);
-                        this.Close();
-                        //this.WindowState = WindowState.Minimized;
-                        //process.Exited += new EventHandler(window_Normal);
-                        //process.EnableRaisingEvents = true;
-                        //this.WindowState = WindowState.Minimized;
-                        break;
-                    case "Launch_CFG":
-                        process = System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Config.exe");
-                        process.Exited += new EventHandler(window_Normal);
-                        process.EnableRaisingEvents = true;
-                        this.WindowState = WindowState.Minimized;
-                        break;
-                    case "Launch_DISX":
-                        System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Bin/x86/Display Extraction.exe");
-                        break;
-                    case "Launch_IVCC":
-                        System.IO.Directory.SetCurrentDirectory(appReg.GetInstallDir() + "/Bin/x86/IVC/");
-                        System.Diagnostics.Process.Start("IVC Client.exe");
-                        break;
-                    case "Launch_IVCS":
-                        System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Bin/x86/IVC/IVC Server.exe");
-                        break;
-                    case "Launch_AVC":
-                        System.IO.Directory.SetCurrentDirectory(appReg.GetInstallDir() + "/Bin/x86/");
-                        System.Diagnostics.Process.Start("Avionics Configurator.exe");
-                        break;
-                    case "Launch_EDIT":
-                        if (System.IO.File.Exists(appReg.GetInstallDir() + "/Bin/x86/Editor.exe"))
-                            System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Bin/x86/Editor.exe");
-                        else
-                        {
-                            if (System.IO.File.Exists(appReg.GetInstallDir() + "/Bin/x64/Editor.exe"))
-                                System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Bin/x64/Editor.exe");
-                        }
-                        break;
-                }
+                this.appReg.getLauncher().execute(sender);
             }
             catch (System.IO.FileNotFoundException ex)
             {
@@ -353,6 +278,43 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
                 this.Close();
             }
+        }
+
+        /// <summary>
+        /// As the name implies.
+        /// </summary>
+        /// <returns></returns>
+        public int getBWValue()
+        {
+            return this.appProperties.bandWidthDefault;
+        }
+
+        /// <summary>
+        /// OverrideSettings.
+        /// </summary>
+        public void executeOverride()
+        {
+            if (this.ApplicationOverride.IsChecked == true)
+            {
+                string textMessage = "You are going to launch BMS without any setup override from AxisAssign and KeyMapping section. Will you continue?";
+                if (MessageBox.Show(textMessage, "WARNING", MessageBoxButton.OKCancel, MessageBoxImage.Information) == MessageBoxResult.Cancel)
+                    return;
+            }
+            else
+            {
+                this.appReg.getOverrideWriter().Execute(inGameAxis, deviceControl, keyFile);
+            }
+        }
+
+        /// <summary>
+        /// As the name implies.
+        /// </summary>
+        /// <param name="process"></param>
+        public void minimizeWindowUntilProcessEnds(System.Diagnostics.Process process)
+        {
+            process.Exited += new EventHandler(window_Normal);
+            process.EnableRaisingEvents = true;
+            this.WindowState = WindowState.Minimized;
         }
 
         /// <summary>

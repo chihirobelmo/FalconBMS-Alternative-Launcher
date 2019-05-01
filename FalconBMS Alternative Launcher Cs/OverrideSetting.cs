@@ -57,6 +57,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             SaveDeviceSorting(deviceControl);
             SaveConfigfile(deviceControl);
             SaveKeyMapping(inGameAxis, deviceControl, keyFile);
+            SavePlcLbk();
             SavePop();
             SaveJoyAssignStatus(deviceControl);
         }
@@ -436,66 +437,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <summary>
         /// Axis information order for AxisMapping.dat
         /// </summary>
-        private AxisName[] axisMappingList = {
-            AxisName.Pitch,
-            AxisName.Roll,
-            AxisName.Yaw,
-            AxisName.Throttle,
-            AxisName.Throttle_Right,
-            AxisName.Toe_Brake,
-            AxisName.Toe_Brake_Right,
-            AxisName.FOV,
-            AxisName.Trim_Pitch,
-            AxisName.Trim_Yaw,
-            AxisName.Trim_Roll,
-            AxisName.Radar_Antenna_Elevation,
-            AxisName.Range_Knob,
-            AxisName.Cursor_X,
-            AxisName.Cursor_Y,
-            AxisName.COMM_Channel_1,
-            AxisName.COMM_Channel_2,
-            AxisName.MSL_Volume,
-            AxisName.Threat_Volume,
-            AxisName.Intercom,
-            AxisName.AI_vs_IVC,
-            AxisName.HUD_Brightness,
-            AxisName.FLIR_Brightness,
-            AxisName.HMS_Brightness,
-            AxisName.Reticle_Depression,
-            AxisName.Camera_Distance
-        };
+        private AxisName[] axisMappingList;
 
         /// <summary>
         /// Axis information order for JoyStick.cal
         /// </summary>
-        private AxisName[] joystickCalList = {
-            AxisName.Pitch,
-            AxisName.Roll,
-            AxisName.Yaw,
-            AxisName.Throttle,
-            AxisName.Throttle_Right,
-            AxisName.Trim_Pitch,
-            AxisName.Trim_Yaw,
-            AxisName.Trim_Roll,
-            AxisName.Toe_Brake,
-            AxisName.Toe_Brake_Right,
-            AxisName.FOV,
-            AxisName.Radar_Antenna_Elevation,
-            AxisName.Cursor_X,
-            AxisName.Cursor_Y,
-            AxisName.Range_Knob,
-            AxisName.COMM_Channel_1,
-            AxisName.COMM_Channel_2,
-            AxisName.MSL_Volume,
-            AxisName.Threat_Volume,
-            AxisName.HUD_Brightness,
-            AxisName.Reticle_Depression,
-            AxisName.Camera_Distance,
-            AxisName.Intercom,
-            AxisName.HMS_Brightness,
-            AxisName.AI_vs_IVC,
-            AxisName.FLIR_Brightness
-        };
+        private AxisName[] joystickCalList;
     }
 
     /// <summary>
@@ -510,31 +457,10 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <param name="appReg"></param>
         public OverrideSettingFor432(MainWindow mainWindow, AppRegInfo appReg) : base(mainWindow, appReg)
         {
-            mainWindow.Misc_Platform.IsChecked = false;
-            mainWindow.Misc_Platform.Visibility = Visibility.Hidden;
-            mainWindow.Label_Platform.Content = "Platform : BMS 4.32 is 32-bit apprecation.";
-
-            mainWindow.Launch_AVC.Visibility = Visibility.Hidden;
-            mainWindow.Label_AVC.Visibility = Visibility.Hidden;
-
-            mainWindow.Name_FLIR_Brightness.Visibility = Visibility.Hidden;
-            mainWindow.Label_FLIR_Brightness.Visibility = Visibility.Hidden;
-            mainWindow.Axis_FLIR_Brightness.Visibility = Visibility.Hidden;
-            mainWindow.FLIR_Brightness.Visibility = Visibility.Hidden;
-
-            mainWindow.Name_AI_vs_IVC.Visibility = Visibility.Hidden;
-            mainWindow.Label_AI_vs_IVC.Visibility = Visibility.Hidden;
-            mainWindow.Axis_AI_vs_IVC.Visibility = Visibility.Hidden;
-            mainWindow.AI_vs_IVC.Visibility = Visibility.Hidden;
-
-            mainWindow.Tab_HSI_and_Altimeter.Visibility = Visibility.Collapsed;
-            mainWindow.Misc_NaturalHeadMovement.Visibility = Visibility.Collapsed;
         }
 
         protected override void SavePop()
         {
-            SavePlcLbk();
-
             string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.GetPilotCallsign().ToString() + ".pop";
             if (!System.IO.File.Exists(filename))
             {
@@ -693,14 +619,10 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <param name="appReg"></param>
         public OverrideSettingFor433(MainWindow mainWindow, AppRegInfo appReg) : base(mainWindow, appReg)
         {
-            mainWindow.Tab_HSI_and_Altimeter.Visibility = Visibility.Collapsed;
-            mainWindow.Misc_NaturalHeadMovement.Visibility = Visibility.Collapsed;
         }
 
         protected override void SavePop()
         {
-            SavePlcLbk();
-
             string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.GetPilotCallsign().ToString() + ".pop";
             if (!System.IO.File.Exists(filename))
             {
@@ -786,6 +708,73 @@ namespace FalconBMS_Alternative_Launcher_Cs
             fs.Write(bs, 0, bs.Length);
             fs.Close();
         }
+
+        public override AxisName[] getAxisMappingList() { return this.axisMappingList; }
+        public override AxisName[] getJoystickCalList() { return this.joystickCalList; }
+
+        /// <summary>
+        /// Axis information order for AxisMapping.dat
+        /// </summary>
+        private AxisName[] axisMappingList = {
+            AxisName.Pitch,
+            AxisName.Roll,
+            AxisName.Yaw,
+            AxisName.Throttle,
+            AxisName.Throttle_Right,
+            AxisName.Toe_Brake,
+            AxisName.Toe_Brake_Right,
+            AxisName.FOV,
+            AxisName.Trim_Pitch,
+            AxisName.Trim_Yaw,
+            AxisName.Trim_Roll,
+            AxisName.Radar_Antenna_Elevation,
+            AxisName.Range_Knob,
+            AxisName.Cursor_X,
+            AxisName.Cursor_Y,
+            AxisName.COMM_Channel_1,
+            AxisName.COMM_Channel_2,
+            AxisName.MSL_Volume,
+            AxisName.Threat_Volume,
+            AxisName.Intercom,
+            AxisName.AI_vs_IVC,
+            AxisName.HUD_Brightness,
+            AxisName.FLIR_Brightness,
+            AxisName.HMS_Brightness,
+            AxisName.Reticle_Depression,
+            AxisName.Camera_Distance
+        };
+
+        /// <summary>
+        /// Axis information order for JoyStick.cal
+        /// </summary>
+        private AxisName[] joystickCalList = {
+            AxisName.Pitch,
+            AxisName.Roll,
+            AxisName.Yaw,
+            AxisName.Throttle,
+            AxisName.Throttle_Right,
+            AxisName.Trim_Pitch,
+            AxisName.Trim_Yaw,
+            AxisName.Trim_Roll,
+            AxisName.Toe_Brake,
+            AxisName.Toe_Brake_Right,
+            AxisName.FOV,
+            AxisName.Radar_Antenna_Elevation,
+            AxisName.Cursor_X,
+            AxisName.Cursor_Y,
+            AxisName.Range_Knob,
+            AxisName.COMM_Channel_1,
+            AxisName.COMM_Channel_2,
+            AxisName.MSL_Volume,
+            AxisName.Threat_Volume,
+            AxisName.HUD_Brightness,
+            AxisName.Reticle_Depression,
+            AxisName.Camera_Distance,
+            AxisName.Intercom,
+            AxisName.HMS_Brightness,
+            AxisName.AI_vs_IVC,
+            AxisName.FLIR_Brightness
+        };
     }
 
     /// <summary>
@@ -800,11 +789,6 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <param name="appReg"></param>
         public OverrideSettingFor434(MainWindow mainWindow, AppRegInfo appReg) : base(mainWindow, appReg)
         {
-            mainWindow.Misc_Platform.IsChecked = true;
-            mainWindow.Misc_Platform.Visibility = Visibility.Hidden;
-            mainWindow.Label_Platform.Content = "Platform : BMS 4.34 is 64-bit apprecation.";
-
-            mainWindow.CMD_BW.Visibility = Visibility.Hidden;
         }
 
         /// <summary>
@@ -873,8 +857,6 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         protected override void SavePop()
         {
-            SavePlcLbk();
-
             string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.GetPilotCallsign().ToString() + ".pop";
             if (!System.IO.File.Exists(filename))
             {
@@ -1056,27 +1038,5 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         protected override void SavePop()
         { }
-    }
-
-    /// <summary>
-    /// Writer for BMS4.35 setting Override
-    /// </summary>
-    public class OverrideSettingForUNDEFINED : OverrideSetting
-    {
-        /// <summary>
-        /// Writer for UNDEFINED BMS VERSION setting Override
-        /// </summary>
-        /// <param name="mainWindow"></param>
-        /// <param name="appReg"></param>
-        public OverrideSettingForUNDEFINED(MainWindow mainWindow, AppRegInfo appReg) : base(mainWindow, appReg)
-        {
-            mainWindow.Misc_TrackIRZ.Visibility = Visibility.Hidden;
-            mainWindow.Misc_ExMouseLook.Visibility = Visibility.Hidden;
-            mainWindow.Misc_RollLinkedNWS.Visibility = Visibility.Hidden;
-        }
-
-        protected override void SavePop()
-        {
-        }
     }
 }

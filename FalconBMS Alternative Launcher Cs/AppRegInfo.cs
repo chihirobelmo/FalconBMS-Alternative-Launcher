@@ -16,6 +16,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         private Platform platform = Platform.OS_64bit;
         private BMS_Version bms_Version = BMS_Version.BMS434;
         private OverrideSetting overRideSetting;
+        private Launcher launcher;
 
         private string installDir;
         private string currentTheater;
@@ -33,6 +34,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         public string getKeyFileName() { return this.keyFileName; }
         public OverrideSetting getOverrideWriter() { return this.overRideSetting; }
         public BMS_Version getBMSVersion() { return this.bms_Version; }
+        public Launcher getLauncher() { return this.launcher; }
 
         public AppRegInfo(MainWindow mainWindow)
         {
@@ -117,35 +119,36 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     this.regName = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.32";
                     this.keyFileName = "BMS.key";
                     this.overRideSetting = new OverrideSettingFor432(this.mainWindow, this);
+                    this.launcher = new Launcher432(this, this.mainWindow);
                     mainWindow.LOGO432.Visibility = System.Windows.Visibility.Visible;
                     break;
                 case BMS_Version.BMS433:
                     this.regName = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.33";
                     this.keyFileName = "BMS - Full.key";
                     this.overRideSetting = new OverrideSettingFor433(this.mainWindow, this);
+                    this.launcher = new Launcher433(this, this.mainWindow);
                     mainWindow.LOGO433.Visibility = System.Windows.Visibility.Visible;
                     break;
                 case BMS_Version.BMS433U1:
                     this.regName = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.33 U1";
                     this.keyFileName = "BMS - Full.key";
                     this.overRideSetting = new OverrideSettingFor433(this.mainWindow, this);
+                    this.launcher = new Launcher433(this, this.mainWindow);
                     mainWindow.LOGO433.Visibility = System.Windows.Visibility.Visible;
                     break;
                 case BMS_Version.BMS434:
                     this.regName = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.34";
                     this.keyFileName = "BMS - Full.key";
                     this.overRideSetting = new OverrideSettingFor434(this.mainWindow, this);
+                    this.launcher = new Launcher434(this, this.mainWindow);
                     mainWindow.LOGO434.Visibility = System.Windows.Visibility.Visible;
                     break;
                 case BMS_Version.BMS435:
                     this.regName = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.35";
                     this.keyFileName = "BMS - Full.key";
                     this.overRideSetting = new OverrideSettingFor435(this.mainWindow, this);
+                    this.launcher = new Launcher435(this, this.mainWindow);
                     mainWindow.LOGO435.Visibility = System.Windows.Visibility.Visible;
-                    break;
-                case BMS_Version.UNDEFINED:
-                    this.overRideSetting = new OverrideSettingForUNDEFINED(this.mainWindow, this);
-                    mainWindow.LOGO000.Visibility = System.Windows.Visibility.Visible;
                     break;
                 default:
                     break;

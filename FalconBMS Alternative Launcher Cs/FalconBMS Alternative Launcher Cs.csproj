@@ -108,6 +108,7 @@
     <Compile Include="KeyFile.cs" />
     <Compile Include="OverrideSetting.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Launcher.cs" />
     <Compile Include="TheaterList.cs" />
     <Compile Include="ThrottlePosition.cs" />
     <Page Include="AxisAssignWindow.xaml">
