@@ -239,7 +239,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                                     behaviourStatus = Behaviour.Release;
 
                                 // Construct DX button instance.
-                                if (keyFile.keyAssign[Rows].GetCallback() == "SimHotasPinkyShift")
+                                if (selectedItem.GetCallback() == "SimHotasPinkyShift")
                                 {
                                     deviceControl.joyAssign[i].dx[ii].Assign(selectedItem.GetCallback(), Pinky.UnShift, Behaviour.Press, Invoke.Default, 0);
                                     deviceControl.joyAssign[i].dx[ii].Assign(selectedItem.GetCallback(), Pinky.Shift,   Behaviour.Press, Invoke.Default, 0);
@@ -266,7 +266,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                                     pinkyStatus = Pinky.Shift;
 
                                 // Construct POV button instance.
-                                deviceControl.joyAssign[i].pov[ii].Assign(povs[ii], keyFile.keyAssign[Rows].GetCallback(), pinkyStatus, 0);
+                                deviceControl.joyAssign[i].pov[ii].Assign(povs[ii], selectedItem.GetCallback(), pinkyStatus, 0);
 
                                 KeyMappingGrid.Items.Refresh();
                                 KeyMappingGrid.UnselectAllCells();

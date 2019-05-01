@@ -286,5 +286,17 @@ namespace FalconBMS_Alternative_Launcher_Cs.Properties {
                 this["Misc_SmartScalingOverride"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool Misc_NaturalHeadMovement {
+            get {
+                return ((bool)(this["Misc_NaturalHeadMovement"]));
+            }
+            set {
+                this["Misc_NaturalHeadMovement"] = value;
+            }
+        }
     }
 }

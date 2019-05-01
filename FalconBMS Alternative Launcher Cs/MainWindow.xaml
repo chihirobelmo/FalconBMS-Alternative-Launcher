@@ -462,6 +462,7 @@
                                     <Button x:Name="Camera_Distance" Content="Assign" HorizontalAlignment="Left" Margin="320,126,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
                                     <Controls:ToggleSwitch x:Name="Misc_TrackIRZ" OnLabel="TrackIR Zoom Fov" OffLabel="TrackIR Head Forward" HorizontalContentAlignment="Right" FontSize="11" HorizontalAlignment="Left" Margin="47,10,0,0" VerticalAlignment="Top" Foreground="#FF606060" Width="347"/>
                                     <CheckBox x:Name="Misc_ExMouseLook" Content="External MouseLook" HorizontalAlignment="Left" Margin="32,167,0,0" VerticalAlignment="Top" Foreground="#FF606060"/>
+                                    <CheckBox x:Name="Misc_NaturalHeadMovement" Content="Natural Head Movement" HorizontalAlignment="Left" Margin="32,196,0,0" VerticalAlignment="Top" Foreground="#FF606060"/>
                                 </Grid>
                                 <Grid HorizontalAlignment="Left" Height="278" Margin="499,0,0,307" VerticalAlignment="Center" Width="485">
                                     <Label Content="Smart Scaling" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10,10,10,0" Width="Auto" Height="48" FontSize="24"/>

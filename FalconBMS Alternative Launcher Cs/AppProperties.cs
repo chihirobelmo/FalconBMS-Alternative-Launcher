@@ -31,6 +31,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             mainWindow.Misc_ExMouseLook.IsChecked          = Properties.Settings.Default.Misc_ExMouseLook;
             mainWindow.Misc_OverrideSelfCancel.IsChecked   = Properties.Settings.Default.Misc_OverrideSelfCancel;
             mainWindow.Misc_SmartScalingOverride.IsChecked = Properties.Settings.Default.Misc_SmartScalingOverride;
+            mainWindow.Misc_NaturalHeadMovement.IsChecked  = Properties.Settings.Default.Misc_NaturalHeadMovement;
 
             // Button Status Default
             mainWindow.Select_DX_Release.IsChecked  = true;
@@ -56,6 +57,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             Properties.Settings.Default.Misc_ExMouseLook          = (bool)mainWindow.Misc_ExMouseLook.IsChecked;
             Properties.Settings.Default.Misc_OverrideSelfCancel   = (bool)mainWindow.Misc_OverrideSelfCancel.IsChecked;
             Properties.Settings.Default.Misc_SmartScalingOverride = (bool)mainWindow.Misc_SmartScalingOverride.IsChecked;
+            Properties.Settings.Default.Misc_NaturalHeadMovement  = (bool)mainWindow.Misc_NaturalHeadMovement.IsChecked;
             Properties.Settings.Default.Save();
         }
 

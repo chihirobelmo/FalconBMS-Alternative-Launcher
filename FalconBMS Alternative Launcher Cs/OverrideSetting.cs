@@ -474,6 +474,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             mainWindow.AI_vs_IVC.Visibility = Visibility.Hidden;
 
             mainWindow.Tab_HSI_and_Altimeter.Visibility = Visibility.Collapsed;
+            mainWindow.Misc_NaturalHeadMovement.Visibility = Visibility.Collapsed;
         }
 
         protected override void SavePop()
@@ -637,6 +638,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         public OverrideSettingFor433(MainWindow mainWindow, AppRegInfo appReg) : base(mainWindow, appReg)
         {
             mainWindow.Tab_HSI_and_Altimeter.Visibility = Visibility.Collapsed;
+            mainWindow.Misc_NaturalHeadMovement.Visibility = Visibility.Collapsed;
         }
 
         protected override void SavePop()
@@ -882,6 +884,11 @@ namespace FalconBMS_Alternative_Launcher_Cs
             bs[341] = 0x00;
             if (mainWindow.Misc_ExMouseLook.IsChecked == true)
                 bs[341] = 0x01;
+
+            // Natural Head Movement
+            bs[342] = 0x00;
+            if (mainWindow.Misc_NaturalHeadMovement.IsChecked == true)
+                bs[342] = 0x01;
 
             // Roll-linked NWS
             bs[362] = 0x00;
