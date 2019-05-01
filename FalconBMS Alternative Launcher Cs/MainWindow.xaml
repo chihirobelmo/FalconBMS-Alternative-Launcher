@@ -418,7 +418,7 @@
                             </Grid>
                         </TabItem>
                         <TabItem x:Name="Tab_HSI_and_Altimeter" Header="  HSI &amp; Altimeter" Controls:ControlsHelper.HeaderFontSize="24">
-                            <Grid Margin="0,0,0,24" Background="#7FD4E1EE" x:Name="BackGroundBox1_Copy">
+                            <Grid Margin="0,0,0,24" Background="#7FD4E1EE" x:Name="BackGroundBox3">
                                 <!-- Roll Axis -->
                                 <Grid HorizontalAlignment="Left" Height="180" VerticalAlignment="Top" Width="480">
                                     <Label Content="HSI (Horizontal Situation Indicator)" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold" FontStyle="Oblique" Height="41" Width="349"/>
@@ -446,7 +446,7 @@
                             </Grid>
                         </TabItem>
                         <TabItem Header="  Views" Controls:ControlsHelper.HeaderFontSize="24">
-                            <Grid Background="#7FD4E1EE" Margin="0,0,0,24">
+                            <Grid Background="#7FD4E1EE" Margin="0,0,0,24" x:Name="BackGroundBox4">
                                 <Grid HorizontalAlignment="Left" Height="278" VerticalAlignment="Top" Width="480" Grid.ColumnSpan="2"/>
                                 <Grid HorizontalAlignment="Left" Height="278" VerticalAlignment="Top" Width="480">
                                     <Label Content="VIEWS" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold" FontStyle="Oblique" Height="41" Width="349"/>
@@ -463,7 +463,7 @@
                                     <Controls:ToggleSwitch x:Name="Misc_TrackIRZ" OnLabel="TrackIR Zoom Fov" OffLabel="TrackIR Head Forward" HorizontalContentAlignment="Right" FontSize="11" HorizontalAlignment="Left" Margin="47,10,0,0" VerticalAlignment="Top" Foreground="#FF606060" Width="347"/>
                                     <CheckBox x:Name="Misc_ExMouseLook" Content="External MouseLook" HorizontalAlignment="Left" Margin="32,167,0,0" VerticalAlignment="Top" Foreground="#FF606060"/>
                                 </Grid>
-                                <Grid HorizontalAlignment="Left" Height="278" Margin="499,0,0,307" VerticalAlignment="Center" Width="485" Background="#7FD4E1EE" >
+                                <Grid HorizontalAlignment="Left" Height="278" Margin="499,0,0,307" VerticalAlignment="Center" Width="485">
                                     <Label Content="Smart Scaling" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10,10,10,0" Width="Auto" Height="48" FontSize="24"/>
                                     <TextBlock HorizontalAlignment="Left" Margin="32,63,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="#FF606060" Height="Auto" Width="409"><Bold><Run Text="Improving Target Orientation Discrimination Performance"/></Bold><LineBreak /><LineBreak /><Run Text="When performing air-to-air combat within visual range of the target aircraft, even the modern monitors are unable to provide the necessary resolution to accurately represent enemy aircraft at realistic ranges. The fine details of an aircraft seen flying in the real world typically are not visible in the simulator at the same simulated distances. Pilots use these details to help determine things like the pitch, bank and heading of the target aircraft."/><LineBreak /><LineBreak /><Bold><Run Text="Smart Scaling"/></Bold><Run Text=" based on the research paper "/><Italic><Run Text="Serfoss 2003"/></Italic><Run Text=" " /><Run Text=" achieves desired cue visibility by magnifying target only minimally at close ranges yet magnifies significantly (2X) at a 2.3-mile distance."/></TextBlock>
                                     <CheckBox x:Name="Misc_SmartScalingOverride" Content="Enable" Foreground="#FF606060" HorizontalAlignment="Left" Margin="236,27,0,0" VerticalAlignment="Top"/>
