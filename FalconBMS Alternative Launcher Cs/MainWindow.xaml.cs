@@ -344,12 +344,6 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 switch (((System.Windows.Controls.Button)sender).Name)
                 {
                     case "Launch_WDP":
-                        target = @"C:\Weapon Delivery Planner\WeaponDeliveryPlanner.exe";
-                        if (File.Exists(target) == true)
-                        {
-                            System.Diagnostics.Process.Start(target);
-                            break;
-                        }
                         target = "\\WeaponDeliveryPlanner.exe";
                         downloadlink = "http://www.weapondeliveryplanner.nl/";
                         installexe = Properties.Settings.Default.Third_WDP + target;
