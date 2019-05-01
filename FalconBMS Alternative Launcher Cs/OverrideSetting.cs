@@ -932,9 +932,9 @@ namespace FalconBMS_Alternative_Launcher_Cs
             AxisName.HMS_Brightness,
             AxisName.Reticle_Depression,
             AxisName.Camera_Distance,
-            AxisName.HSI_Course_knob,
-            AxisName.HSI_Heading_knob,
-            AxisName.Altimeter_knob
+            AxisName.HSI_Course_Knob,
+            AxisName.HSI_Heading_Knob,
+            AxisName.Altimeter_Knob
         };
 
         /// <summary>
@@ -967,9 +967,9 @@ namespace FalconBMS_Alternative_Launcher_Cs
             AxisName.HMS_Brightness,
             AxisName.AI_vs_IVC,
             AxisName.FLIR_Brightness,
-            AxisName.HSI_Course_knob,
-            AxisName.HSI_Heading_knob,
-            AxisName.Altimeter_knob
+            AxisName.HSI_Course_Knob,
+            AxisName.HSI_Heading_Knob,
+            AxisName.Altimeter_Knob
         };
     }
 

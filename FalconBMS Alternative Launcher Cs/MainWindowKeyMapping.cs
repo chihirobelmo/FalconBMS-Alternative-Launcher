@@ -419,12 +419,15 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 return;
             if (statusSearch == Search.Search)
             {
+                if (Select_PinkyShift.IsChecked == false)
+                    return;
+
                 KeyAssgn keytmp = new KeyAssgn("SimDoNothing - 1 0 0XFFFFFFFF 0 0 0 - 1 \"nothing\"");
                 keytmp.SetKeyboard(catchedScanCode, Shift, Ctrl, Alt);
                 Label_AssgnStatus.Content = "INPUT " + keytmp.GetKeyAssignmentStatus();
 
                 // If the key assignment was found, jump to the mapping for it and highlight it.
-                var key = keyFile.keyAssign.First(x => x.GetKeyAssignmentStatus() == keytmp.GetKeyAssignmentStatus());
+                var key = keyFile.keyAssign.FirstOrDefault(x => x.GetKeyAssignmentStatus() == keytmp.GetKeyAssignmentStatus());
                 if (key != null)
                 {
                     Label_AssgnStatus.Content += "\t/" + key.Mapping;

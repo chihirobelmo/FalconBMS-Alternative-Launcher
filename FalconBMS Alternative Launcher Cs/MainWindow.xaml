@@ -424,22 +424,22 @@
                                     <Label Content="HSI (Horizontal Situation Indicator)" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold" FontStyle="Oblique" Height="41" Width="349"/>
 
                                     <Label Content="Course : " HorizontalAlignment="Left" Margin="32,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="90" FontWeight="Bold"/>
-                                    <Label x:Name="Label_HSI_Course_knob" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="188,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100"/>
-                                    <Controls:MetroProgressBar x:Name="Axis_HSI_Course_knob" HorizontalAlignment="Left" Margin="32,85,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
-                                    <Button x:Name="HSI_Course_knob" Content="Assign" HorizontalAlignment="Left" Margin="320,77,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27" RenderTransformOrigin="0.216,1.519"/>
+                                    <Label x:Name="Label_HSI_Course_Knob" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="188,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100"/>
+                                    <Controls:MetroProgressBar x:Name="Axis_HSI_Course_Knob" HorizontalAlignment="Left" Margin="32,85,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
+                                    <Button x:Name="HSI_Course_Knob" Content="Assign" HorizontalAlignment="Left" Margin="320,77,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27" RenderTransformOrigin="0.216,1.519"/>
 
                                     <Label Content="Heading :" HorizontalAlignment="Left" Margin="32,100,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="90" FontWeight="Bold"/>
-                                    <Label x:Name="Label_HSI_Heading_knob" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="188,100,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100"/>
-                                    <Controls:MetroProgressBar x:Name="Axis_HSI_Heading_knob" HorizontalAlignment="Left" Margin="32,134,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
-                                    <Button x:Name="HSI_Heading_knob" Content="Assign" HorizontalAlignment="Left" Margin="320,126,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
+                                    <Label x:Name="Label_HSI_Heading_Knob" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="188,100,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100"/>
+                                    <Controls:MetroProgressBar x:Name="Axis_HSI_Heading_Knob" HorizontalAlignment="Left" Margin="32,134,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
+                                    <Button x:Name="HSI_Heading_Knob" Content="Assign" HorizontalAlignment="Left" Margin="320,126,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
                                 </Grid>
                                 <Grid HorizontalAlignment="Left" Height="180" Margin="0,180,0,0" VerticalAlignment="Top" Width="480">
                                     <Label Content="Altimeter" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold" FontStyle="Oblique" Height="46" Width="458"/>
 
                                     <Label Content="Setting :" HorizontalAlignment="Left" Margin="32,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="80" FontWeight="Bold"/>
-                                    <Label x:Name="Label_Altimeter_knob" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="188,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100"/>
-                                    <Controls:MetroProgressBar x:Name="Axis_Altimeter_knob" HorizontalAlignment="Left" Margin="32,85,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
-                                    <Button x:Name="Altimeter_knob" Content="Assign" HorizontalAlignment="Left" Margin="320,77,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
+                                    <Label x:Name="Label_Altimeter_Knob" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="188,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100"/>
+                                    <Controls:MetroProgressBar x:Name="Axis_Altimeter_Knob" HorizontalAlignment="Left" Margin="32,85,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
+                                    <Button x:Name="Altimeter_Knob" Content="Assign" HorizontalAlignment="Left" Margin="320,77,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
 
                                 </Grid>
                                 <Grid HorizontalAlignment="Left" Height="148" Margin="480,427,0,0" VerticalAlignment="Top" Width="475"/>

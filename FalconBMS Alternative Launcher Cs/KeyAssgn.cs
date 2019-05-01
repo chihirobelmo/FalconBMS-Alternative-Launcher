@@ -179,38 +179,38 @@ namespace FalconBMS_Alternative_Launcher_Cs
         {
             string assignmentStatus = "";
 
-            // keycomboMod //
-            switch (this.keycomboMod)
-            {
-                case "0":
-                    assignmentStatus += "";
-                    break;
-                case "1":
-                    assignmentStatus += "Shift ";
-                    break;
-                case "2":
-                    assignmentStatus += "Ctrl ";
-                    break;
-                case "3":
-                    assignmentStatus += "Ctrl+Shift ";
-                    break;
-                case "4":
-                    assignmentStatus += "Alt ";
-                    break;
-                case "5":
-                    assignmentStatus += "Alt+Shift ";
-                    break;
-                case "6":
-                    assignmentStatus += "Ctrl+Alt ";
-                    break;
-                case "7":
-                    assignmentStatus += "Ctrl+Shift+Alt ";
-                    break;
-            }
-
             // keycombo //
             if (this.keycombo != "0")
             {
+                // keycomboMod //
+                switch (this.keycomboMod)
+                {
+                    case "0":
+                        assignmentStatus += "";
+                        break;
+                    case "1":
+                        assignmentStatus += "Shift ";
+                        break;
+                    case "2":
+                        assignmentStatus += "Ctrl ";
+                        break;
+                    case "3":
+                        assignmentStatus += "Ctrl+Shift ";
+                        break;
+                    case "4":
+                        assignmentStatus += "Alt ";
+                        break;
+                    case "5":
+                        assignmentStatus += "Alt+Shift ";
+                        break;
+                    case "6":
+                        assignmentStatus += "Ctrl+Alt ";
+                        break;
+                    case "7":
+                        assignmentStatus += "Ctrl+Shift+Alt ";
+                        break;
+                }
+
                 string scancodestr = this.keycombo.Remove(0, 2);
                 int scancode10 = Convert.ToInt32(scancodestr, 16);
 
@@ -220,38 +220,37 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 assignmentStatus += int2enum.ToString() + "\t: ";
             }
 
-            // modifier //
-            switch (this.modifier)
-            {
-                case "0":
-                    assignmentStatus += "";
-                    break;
-                case "1":
-                    assignmentStatus += "Shift ";
-                    break;
-                case "2":
-                    assignmentStatus += "Ctrl ";
-                    break;
-                case "3":
-                    assignmentStatus += "Ctrl+Shift ";
-                    break;
-                case "4":
-                    assignmentStatus += "Alt ";
-                    break;
-                case "5":
-                    assignmentStatus += "Alt+Shift ";
-                    break;
-                case "6":
-                    assignmentStatus += "Ctrl+Alt ";
-                    break;
-                case "7":
-                    assignmentStatus += "Ctrl+Shift+Alt ";
-                    break;
-            }
-
-            // keyboard //
             if (this.keyboard.Remove(0, 2) != "FFFFFFFF")
             {
+                // modifier //
+                switch (this.modifier)
+                {
+                    case "0":
+                        assignmentStatus += "";
+                        break;
+                    case "1":
+                        assignmentStatus += "Shift ";
+                        break;
+                    case "2":
+                        assignmentStatus += "Ctrl ";
+                        break;
+                    case "3":
+                        assignmentStatus += "Ctrl+Shift ";
+                        break;
+                    case "4":
+                        assignmentStatus += "Alt ";
+                        break;
+                    case "5":
+                        assignmentStatus += "Alt+Shift ";
+                        break;
+                    case "6":
+                        assignmentStatus += "Ctrl+Alt ";
+                        break;
+                    case "7":
+                        assignmentStatus += "Ctrl+Shift+Alt ";
+                        break;
+                }
+
                 string scancodestr = this.keyboard.Remove(0, 2);
                 int scancode10 = Convert.ToInt32(scancodestr, 16);
 
@@ -259,10 +258,9 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 var int2enum = (Microsoft.DirectX.DirectInput.Key)scancode10;
 
                 assignmentStatus += int2enum.ToString();
-                return assignmentStatus;
             }
 
-            return "";
+            return assignmentStatus;
         }
 
         // Z_Joy_<asssigned joystick number> = "DX1 DX16 POV1UP" //

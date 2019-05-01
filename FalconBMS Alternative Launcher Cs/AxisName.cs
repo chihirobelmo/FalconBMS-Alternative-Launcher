@@ -34,9 +34,9 @@ namespace FalconBMS_Alternative_Launcher_Cs
         AI_vs_IVC,
         FOV,
         Camera_Distance,
-        HSI_Course_knob,
-        HSI_Heading_knob,
-        Altimeter_knob
+        HSI_Course_Knob,
+        HSI_Heading_Knob,
+        Altimeter_Knob
     }
 
     public enum AxisNumName

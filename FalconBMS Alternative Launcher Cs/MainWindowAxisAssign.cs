@@ -55,9 +55,9 @@ namespace FalconBMS_Alternative_Launcher_Cs
             AxisName.AI_vs_IVC,
             AxisName.FOV,
             AxisName.Camera_Distance,
-            AxisName.HSI_Course_knob,
-            AxisName.HSI_Heading_knob,
-            AxisName.Altimeter_knob
+            AxisName.HSI_Course_Knob,
+            AxisName.HSI_Heading_Knob,
+            AxisName.Altimeter_Knob
         };
         
         /// <summary>
@@ -376,6 +376,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
             {
                 for (int ii = 0; ii <= 7; ii++)
                 {
+                    if (inGameAxis[deviceControl.joyAssign[i].axis[ii].GetAxisName()] == null)
+                        continue;
                     if (object.ReferenceEquals(deviceControl.joyAssign[i].axis[ii].GetAxisName(), ""))
                         continue;
                     if (((InGameAxAssgn)inGameAxis[deviceControl.joyAssign[i].axis[ii].GetAxisName()]).getDate() > deviceControl.joyAssign[i].axis[ii].GetAssignDate())
