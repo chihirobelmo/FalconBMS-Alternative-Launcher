@@ -70,7 +70,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 System.Windows.Application.Current.Shutdown();
                 return;
             }
-            Array.Resize(ref keyAssign, i);
+            Array.Resize(ref keyAssign, i+1);
         }
     }
 }
