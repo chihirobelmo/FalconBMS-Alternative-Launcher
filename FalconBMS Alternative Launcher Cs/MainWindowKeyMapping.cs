@@ -592,8 +592,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
         {
             KeyMappingGrid.UnselectAllCells();
             string filter = SearchBox.Text.Trim().ToLower();
+            var isFilterEmpty = String.IsNullOrWhiteSpace(filter);
 
-            KeyMappingGrid.Items.Filter = x => String.IsNullOrWhiteSpace(filter) || ((KeyAssgn) x).Mapping.Trim().ToLower().Contains(filter);
+            // Enable the category selector only if there's no search filter active.
+            Category.IsEnabled = isFilterEmpty;
+
+            KeyMappingGrid.Items.Filter = x => isFilterEmpty || ((KeyAssgn) x).Mapping.Trim().ToLower().Contains(filter);
         }
 
         /// <summary>
