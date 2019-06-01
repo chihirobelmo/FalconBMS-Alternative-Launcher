@@ -512,10 +512,7 @@
                               SelectionMode="Single"
                               GridLinesVisibility="Vertical"
                               VerticalGridLinesBrush="LightGray" Background="#7F202020"
-                              MouseUp="KeyMappingGrid_MouseUp"
-                              MouseDoubleClick="DataGrid_MouseButtonDoubleClick"
-                              MouseRightButtonDown="KeyMappingGrid_MouseRightButtonDown"
-                              DataGridCell.GotFocus="DataGrid_GotFocus">
+                              MouseDoubleClick="DataGrid_MouseButtonDoubleClick">
                         <!-- Below column is needed to refresh datagrid because of the following BUG: 
                         https://connect.microsoft.com/VisualStudio/feedback/details/778456/click-on-datagridrowheader-raise-an-argumentoutofrange-exception-when-there-is-no-columns -->
                         <DataGrid.Columns>
@@ -534,7 +531,7 @@
                     <Label Content="Filter:" HorizontalAlignment="Left" Margin="10,43,0,0" VerticalAlignment="Top" Width="64" HorizontalContentAlignment="Right"/>
                     <TextBox x:Name="SearchBox" HorizontalAlignment="Left" Height="23" Margin="87,43,0,0" VerticalAlignment="Top" Width="384" Background="#80F0F0F0" Foreground="#FF606060" Controls:TextBoxHelper.ClearTextButton="True" TextChanged="SearchBox_TextChanged"/>
 
-                    <Label Content="*Click a row and press a joy key to Assign. Double Click a cell to Unassign" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Margin="0,69,10,0" VerticalAlignment="Top" Width="596" Height="26"/>
+                    <Label Content="* Double Click a cell to Assign keys." HorizontalContentAlignment="Right" HorizontalAlignment="Right" Margin="0,69,10,0" VerticalAlignment="Top" Width="596" Height="26"/>
                 </Grid>
             </TabItem>
         </TabControl>

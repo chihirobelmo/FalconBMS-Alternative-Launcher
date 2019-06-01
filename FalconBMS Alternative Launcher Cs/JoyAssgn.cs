@@ -598,6 +598,11 @@ namespace FalconBMS_Alternative_Launcher_Cs
             }
             return result;
         }
+
+        public JoyAssgn Clone()
+        {
+            return (JoyAssgn)MemberwiseClone();
+        }
     }
 
     public enum AxCurve

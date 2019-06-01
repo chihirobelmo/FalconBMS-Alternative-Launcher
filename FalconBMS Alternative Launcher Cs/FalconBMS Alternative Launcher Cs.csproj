@@ -106,12 +106,19 @@
     <Compile Include="DeviceControl.cs" />
     <Compile Include="InGameAxAssgn.cs" />
     <Compile Include="KeyFile.cs" />
+    <Compile Include="KeyMappingWindow.xaml.cs">
+      <DependentUpon>KeyMappingWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="OverrideSetting.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Launcher.cs" />
     <Compile Include="TheaterList.cs" />
     <Compile Include="ThrottlePosition.cs" />
     <Page Include="AxisAssignWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="KeyMappingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

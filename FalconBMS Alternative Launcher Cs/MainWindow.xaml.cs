@@ -55,7 +55,6 @@ namespace FalconBMS_Alternative_Launcher_Cs
         {
             try
             {
-
                 // load command line.
                 string[] args = Environment.GetCommandLineArgs();
                 var option = new Dictionary<string, string>();
@@ -605,8 +604,15 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <param name="e"></param>
         private void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.ChangedButton == MouseButton.Left)
-                this.DragMove();
+            try
+            {
+                if (e.ChangedButton == MouseButton.Left)
+                    this.DragMove();
+            }
+            catch
+            {
+
+            }
         }
 
         private void Apply_YAME64(object sender, RoutedEventArgs e)

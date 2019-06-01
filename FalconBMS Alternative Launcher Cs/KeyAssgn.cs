@@ -8,15 +8,15 @@ namespace FalconBMS_Alternative_Launcher_Cs
 {
     public class KeyAssgn
     {
-        protected string callback;          // 1st: callback(ex: "SimDoNothing")
-        protected string soundID;           // 2nd: -1
-        protected string none;              // 3rd: 0 
-        protected string keyboard;          // 4th: Scancode(ex: 0x1E => 30 => A).
-        protected string modifier;          // 5th: Modification keys(ex: Shift,Ctrl,Alt).
-        protected string keycombo;          // 6th: (Same as keyboard)
-        protected string keycomboMod;       // 7th: (Same as modifier but for keycombo)
-        protected string visibility;        // 8th: 1=Visible -1=Headline -0=Locked -2=hidden
-        protected string description;       // 9th: The description
+        protected string callback = "SimDoNothing";            // 1st: callback(ex: "SimDoNothing")
+        protected string soundID = "-1";                       // 2nd: -1
+        protected string none = "0";                           // 3rd: 0 
+        protected string keyboard = "0xFFFFFFFF";              // 4th: Scancode(ex: 0x1E => 30 => A).
+        protected string modifier = "0";                       // 5th: Modification keys(ex: Shift,Ctrl,Alt).
+        protected string keycombo = "0";                       // 6th: (Same as keyboard)
+        protected string keycomboMod = "0";                    // 7th: (Same as modifier but for keycombo)
+        protected string visibility = "-0";                    // 8th: 1=Visible -1=Headline -0=Locked -2=hidden
+        protected string description = "!Alt Launcher ERROR!"; // 9th: The description
 
         // for Datagrid Display //
         public string Visibility { get; set; }
@@ -29,6 +29,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         public string GetCallback() { return this.callback; }
         public string GetKeycombo() { return this.keycombo; }
         public string GetKeycomboMod() { return this.keycomboMod; }
+        public string GetKeyDescription() { return this.description; }
 
         /// <summary>
         /// Get Visibility information (1=Visible -1=Headline -0=Locked -2=hidden)
@@ -59,6 +60,14 @@ namespace FalconBMS_Alternative_Launcher_Cs
             if (this.visibility == "Green")
                 line += " -0";
             if (this.visibility == "White")
+                line += " 1";
+            if (this.visibility == "-2")
+                line += " -2";
+            if (this.visibility == "-1")
+                line += " -1";
+            if (this.visibility == "-0")
+                line += " -0";
+            if (this.visibility == "1")
                 line += " 1";
             line += " " + this.description;
             line += "\n";
@@ -155,7 +164,10 @@ namespace FalconBMS_Alternative_Launcher_Cs
             else if (this.visibility == "1")
                 this.visibility = "White";
             else
-                this.visibility = "White";
+            {
+                this.visibility = "Green";
+                this.description += "!Alt Launcher ERROR!";
+            }
             this.description = "";
 
             if (stArrayData.Length >= 9)
@@ -296,6 +308,11 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 ans += tmp;
             }
             return ans;
+        }
+
+        public KeyAssgn Clone()
+        {
+            return (KeyAssgn)MemberwiseClone();
         }
     }
 }

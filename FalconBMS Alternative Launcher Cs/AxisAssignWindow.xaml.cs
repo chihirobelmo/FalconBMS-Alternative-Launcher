@@ -19,7 +19,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
     /// <summary>
     /// Interaction logic for AxisAssignWindow.xaml
     /// </summary>
-    public partial class AxisAssignWindow : MetroWindow
+    public partial class AxisAssignWindow
     {
         public AxisAssignWindow(InGameAxAssgn axisAssign, object sender)
         {
@@ -34,7 +34,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             this.MouseWheel += Detect_MouseWheel;
         }
 
-        static public InGameAxAssgn ShowMiniWindow(InGameAxAssgn axisAssign, object sender)
+        static public InGameAxAssgn ShowAxisAssignWindow(InGameAxAssgn axisAssign, object sender)
         {
             AxisAssignWindow ownWindow = new AxisAssignWindow(axisAssign, sender);
             ownWindow.ShowDialog();
@@ -56,15 +56,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         private int devNumTmp = -1;
         private int phyAxNumTmp = -1;
-        
         private int invertNum = 0;
         private int wheelValue;
 
         const int MAXIN = 65536;
-
         private int AB = MAXIN;
         private int IDLE = 0;
-
 
         private Status status = Status.GetNeutralPosition;
 

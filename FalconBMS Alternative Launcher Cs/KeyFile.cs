@@ -72,5 +72,10 @@ namespace FalconBMS_Alternative_Launcher_Cs
             }
             Array.Resize(ref keyAssign, i+1);
         }
+
+        public KeyFile Clone()
+        {
+            return (KeyFile)MemberwiseClone();
+        }
     }
 }

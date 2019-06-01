@@ -92,33 +92,21 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <param name="e"></param>
         private void DataGrid_MouseButtonDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            var selectedItem = (KeyAssgn) KeyMappingGrid.SelectedItem;
-            KeyMappingGrid.ScrollIntoView(selectedItem);
+            this.KeyMappingTimer.Stop();
 
+            var selectedItem = (KeyAssgn)KeyMappingGrid.SelectedItem;
             if (KeyMappingGrid.CurrentColumn == null)
                 return;
-            int Rows = KeyMappingGrid.SelectedIndex;
-            int Columns = KeyMappingGrid.CurrentColumn.DisplayIndex;
+            if (selectedItem.GetVisibility() != "White")
+                return;
+            if (selectedItem.GetCallback() == "SimDoNothing")
+                return;
 
-            if (Columns == 1)
-            {
-                if (Rows < 0)
-                    return;
-                if (selectedItem.Visibility != "White")
-                    return;
-
-                selectedItem.UnassignKeyboard();
-            }
-            if (Columns > 1)
-            {
-                if (Rows < 0)
-                    return;
-                string target = selectedItem.GetCallback();
-                deviceControl.joyAssign[Columns - 3].UnassigntargetCallback(target);
-            }
+            KeyMappingWindow.ShowKeyMappingWindow(selectedItem, keyFile, deviceControl, sender);
             KeyMappingGrid.Items.Refresh();
             KeyMappingGrid.UnselectAllCells();
-            statusSearch = Search.Search;
+
+            this.KeyMappingTimer.Start();
         }
         
         private byte[] buttons;
@@ -151,39 +139,6 @@ namespace FalconBMS_Alternative_Launcher_Cs
         }
 
         /// <summary>
-        /// Is keyMapping page going to assign your button when it is pressed? or going to search which callback is it assigned to?
-        /// </summary>
-        private Search statusSearch = Search.Search;
-        private enum Search
-        {
-            Assign = 0,
-            Search = 1
-        }
-
-        /// <summary>
-        /// When a DataGrid cell has been clicked once and highlighted.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DataGrid_GotFocus(object sender, RoutedEventArgs e)
-        {
-            statusSearch = Search.Assign;
-            Label_AssgnStatus.Content = "AWAITING INPUTS";
-        }
-
-        /// <summary>
-        /// Unfocus a Datagrid cell and KeyMapping page backs to search mode.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void KeyMappingGrid_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            KeyMappingGrid.UnselectAllCells();
-            statusSearch = Search.Search;
-            Label_AssgnStatus.Content = "KEYSEARCH MODE";
-        }
-
-        /// <summary>
         /// Check your keyboard/joysticks button behaviour every 60 frames per seconds.
         /// </summary>
         /// <param name="sender"></param>
@@ -192,88 +147,11 @@ namespace FalconBMS_Alternative_Launcher_Cs
         {
             try
             {
-
                 directInputDevice.GetCurrentKeyboardState();
                 for (int i = 1; i < 238; i++)
                     if (directInputDevice.KeyboardState[(Microsoft.DirectX.DirectInput.Key)i])
                         KeyMappingGrid_KeyDown();
-
-                int Rows = KeyMappingGrid.SelectedIndex;
-                var selectedItem = (KeyAssgn) KeyMappingGrid.SelectedItem;
-
-                if (Rows == -1 || statusSearch == Search.Search)
-                {
-                    JumptoAssignedKey();
-                    return;
-                }
-                if (KeyMappingGrid.CurrentColumn == null)
-                    return;
-                if (selectedItem.GetVisibility() != "White")
-                    return;
-
-
-                switch (statusAssign)
-                {
-                    case Status.GetNeutralPos:
-                        for (int i = 0; i < deviceControl.devList.Count; i++)
-                            neutralButtons[i] = new NeutralButtons(deviceControl.joyStick[i]);
-                        statusAssign = Status.WaitingforInput;
-                        break;
-                    case Status.WaitingforInput:
-                        for (int i = 0; i < deviceControl.devList.Count; i++)
-                        {
-                            buttons = deviceControl.joyStick[i].CurrentJoystickState.GetButtons();
-                            for (int ii = 0; ii < 32; ii++)
-                            {
-                                if (buttons[ii] == neutralButtons[i].buttons[ii])
-                                    continue;
-                                statusAssign = Status.GetNeutralPos;
-                                if (buttons[ii] == 0)
-                                    continue;
-
-                                Pinky pinkyStatus = Pinky.UnShift;
-                                Behaviour behaviourStatus = Behaviour.Press;
-                                if (Select_PinkyShift.IsChecked == false)
-                                    pinkyStatus = Pinky.Shift;
-                                if (Select_DX_Release.IsChecked == false)
-                                    behaviourStatus = Behaviour.Release;
-
-                                // Construct DX button instance.
-                                if (selectedItem.GetCallback() == "SimHotasPinkyShift")
-                                {
-                                    deviceControl.joyAssign[i].dx[ii].Assign(selectedItem.GetCallback(), Pinky.UnShift, Behaviour.Press, Invoke.Default, 0);
-                                    deviceControl.joyAssign[i].dx[ii].Assign(selectedItem.GetCallback(), Pinky.Shift,   Behaviour.Press, Invoke.Default, 0);
-                                }
-                                else
-                                {
-                                    deviceControl.joyAssign[i].dx[ii].Assign(selectedItem.GetCallback(), pinkyStatus, behaviourStatus, invokeStatus, 0);
-                                }
-
-                                KeyMappingGrid.Items.Refresh();
-                                KeyMappingGrid.UnselectAllCells();
-                            }
-                            povs = deviceControl.joyStick[i].CurrentJoystickState.GetPointOfView();
-                            for (int ii = 0; ii < 4; ii++)
-                            {
-                                if (povs[ii] == neutralButtons[i].povs[ii])
-                                    continue;
-                                statusAssign = Status.GetNeutralPos;
-                                if (povs[ii] == -1)
-                                    continue;
-
-                                Pinky pinkyStatus = Pinky.UnShift;
-                                if (Select_PinkyShift.IsChecked == false)
-                                    pinkyStatus = Pinky.Shift;
-
-                                // Construct POV button instance.
-                                deviceControl.joyAssign[i].pov[ii].Assign(povs[ii], selectedItem.GetCallback(), pinkyStatus, 0);
-
-                                KeyMappingGrid.Items.Refresh();
-                                KeyMappingGrid.UnselectAllCells();
-                            }
-                        }
-                        break;
-                }
+                JumptoAssignedKey();
             }
             catch (System.IO.FileNotFoundException ex)
             {
@@ -305,7 +183,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 case Status.WaitingforInput:
                     for (int i = 0; i < deviceControl.devList.Count; i++)
                     {
-                        buttons = deviceControl.joyStick[i].CurrentJoystickState.GetButtons(); //Microsoft.DirectX.DirectInput.InputLostException: 'アプリケーションでエラーが発生しました。'
+                        buttons = deviceControl.joyStick[i].CurrentJoystickState.GetButtons();
                         for (int ii = 0; ii < 32; ii++)
                         {
                             if (buttons[ii] == neutralButtons[i].buttons[ii])
@@ -322,7 +200,6 @@ namespace FalconBMS_Alternative_Launcher_Cs
                                 behaviourStatus = Behaviour.Release;
 
                             target = deviceControl.joyAssign[i].dx[ii].assign[(int)pinkyStatus + (int)behaviourStatus].GetCallback();
-
                             Label_AssgnStatus.Content = "DX" + (ii+1) + "\t: " + deviceControl.joyAssign[i].GetProductName();
                         }
                         povs = deviceControl.joyStick[i].CurrentJoystickState.GetPointOfView();
@@ -346,12 +223,10 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     }
                     break;
             }
-            
             if (target == "")
                 return;
             if (target == "SimDoNothing")
                 return;
-
             // If the key assignment was found, jump to the mapping for it and highlight it.
             var key = keyFile.keyAssign.FirstOrDefault(x => x.GetCallback() == target);
             if (key != null)
@@ -360,7 +235,6 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
                 KeyMappingGrid.ScrollIntoView(key);
                 KeyMappingGrid.SelectedIndex = KeyMappingGrid.Items.IndexOf(key);
-                statusSearch = Search.Search;
             }
         }
 
@@ -369,12 +243,6 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// </summary>
         private void KeyMappingGrid_KeyDown()
         {
-            if (currentIndex < 0)
-            {
-                currentIndex = 1;
-                statusSearch = Search.Search;
-                return;
-            }
             if (SearchBox.IsSelectionActive == true)
                 return;
             if (SearchBox.IsFocused == true)
@@ -417,57 +285,23 @@ namespace FalconBMS_Alternative_Launcher_Cs
             }
             if (catchedScanCode == 0)
                 return;
-            if (statusSearch == Search.Search)
-            {
-                if (Select_PinkyShift.IsChecked == false)
-                    return;
-
-                KeyAssgn keytmp = new KeyAssgn("SimDoNothing - 1 0 0XFFFFFFFF 0 0 0 - 1 \"nothing\"");
-                keytmp.SetKeyboard(catchedScanCode, Shift, Ctrl, Alt);
-                Label_AssgnStatus.Content = "INPUT " + keytmp.GetKeyAssignmentStatus();
-
-                // If the key assignment was found, jump to the mapping for it and highlight it.
-                var key = keyFile.keyAssign.FirstOrDefault(x => x.GetKeyAssignmentStatus() == keytmp.GetKeyAssignmentStatus());
-                if (key != null)
-                {
-                    Label_AssgnStatus.Content += "\t/" + key.Mapping;
-
-                    KeyMappingGrid.UpdateLayout();
-                    KeyMappingGrid.ScrollIntoView(key);
-                    KeyMappingGrid.SelectedIndex = KeyMappingGrid.Items.IndexOf(key);
-                }
-
-                return;
-            }
-            if (KeyMappingGrid.SelectedIndex == -1)
-                return;
-
-            var selectedItem = (KeyAssgn) KeyMappingGrid.SelectedItem;
-            if (selectedItem.Visibility != "White")
-                return;
-
-            Pinky pinkyStatus = Pinky.UnShift;
             if (Select_PinkyShift.IsChecked == false)
-                pinkyStatus = Pinky.Shift;
+                return;
 
-            KeyMappingGrid.ScrollIntoView(selectedItem);
-            KeyMappingGrid.SelectedIndex = currentIndex;
+            KeyAssgn keytmp = new KeyAssgn("SimDoNothing - 1 0 0XFFFFFFFF 0 0 0 - 1 \"nothing\"");
+            keytmp.SetKeyboard(catchedScanCode, Shift, Ctrl, Alt);
+            Label_AssgnStatus.Content = "INPUT " + keytmp.GetKeyAssignmentStatus();
 
-            if (pinkyStatus == Pinky.UnShift)
-                selectedItem.SetKeyboard(catchedScanCode, Shift, Ctrl, Alt);
-            if (pinkyStatus == Pinky.Shift)
-                selectedItem.Setkeycombo(catchedScanCode, Shift, Ctrl, Alt);
-
-            // Unassign the previous mapping that was assigned to this key/key combo.
-            var oldKey = keyFile.keyAssign.FirstOrDefault(x => (x != selectedItem) && x.GetKeyAssignmentStatus() == selectedItem.GetKeyAssignmentStatus());
-            if (oldKey != null)
+            // If the key assignment was found, jump to the mapping for it and highlight it.
+            var key = keyFile.keyAssign.FirstOrDefault(x => x.GetKeyAssignmentStatus() == keytmp.GetKeyAssignmentStatus());
+            if (key != null)
             {
-                oldKey.UnassignKeyboard();
-            }
+                Label_AssgnStatus.Content += "\t/" + key.Mapping;
 
-            KeyMappingGrid.Items.Refresh();
-            KeyMappingGrid.UnselectAllCells();
-            statusSearch = Search.Search;
+                KeyMappingGrid.UpdateLayout();
+                KeyMappingGrid.ScrollIntoView(key);
+                KeyMappingGrid.SelectedIndex = KeyMappingGrid.Items.IndexOf(key);
+            }
         }
 
         /// <summary>
@@ -598,15 +432,6 @@ namespace FalconBMS_Alternative_Launcher_Cs
             Category.IsEnabled = isFilterEmpty;
 
             KeyMappingGrid.Items.Filter = x => isFilterEmpty || ((KeyAssgn) x).Mapping.Trim().ToLower().Contains(filter);
-        }
-
-        /// <summary>
-        /// Current selected row number.
-        /// </summary>
-        private int currentIndex;
-        private void KeyMappingGrid_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            currentIndex = KeyMappingGrid.SelectedIndex;
         }
     }
 }

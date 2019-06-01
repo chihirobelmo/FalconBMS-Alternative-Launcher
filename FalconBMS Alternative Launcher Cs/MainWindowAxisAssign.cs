@@ -340,7 +340,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
             InGameAxAssgn axisAssign = new InGameAxAssgn();
 
-            axisAssign = AxisAssignWindow.ShowMiniWindow((InGameAxAssgn)inGameAxis[whocalledwindow], sender);
+            axisAssign = AxisAssignWindow.ShowAxisAssignWindow((InGameAxAssgn)inGameAxis[whocalledwindow], sender);
 
             // Reset PhysicalAxis previously assigned to same axis
             // In case of axis has been unassigned and saved.
