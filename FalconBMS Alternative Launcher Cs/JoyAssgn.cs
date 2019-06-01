@@ -76,27 +76,35 @@ namespace FalconBMS_Alternative_Launcher_Cs
             public AxCurve Deadzone { get { return this.deadzone; } set { this.deadzone = value; } }
 
             // Constructor
+            public AxAssgn() { }
             public AxAssgn(String axisName, InGameAxAssgn axisassign)
             {
-                this.axisName = axisName;
+                this.axisName  = axisName;
                 this.assgnDate = DateTime.Now;
                 this.invert = axisassign.GetInvert();
                 this.saturation = axisassign.GetSaturation();
                 this.deadzone = axisassign.GetDeadzone();
             }
-
-            public AxAssgn() { }
+            public AxAssgn(String axisName, DateTime assgnDate, bool invert, AxCurve saturation, AxCurve deadzone)
+            {
+                this.axisName = axisName;
+                this.assgnDate = assgnDate;
+                this.invert = invert;
+                this.saturation = saturation;
+                this.deadzone = deadzone;
+            }
 
             // Method
-            public string GetAxisName()
-            {
-                //this.axisName = (string)Enum.Parse(typeof(AxisName), this.axisName);
-                return this.axisName;
-            }
+            public string GetAxisName()     { return this.axisName; }
             public DateTime GetAssignDate() { return this.assgnDate; }
-            public bool GetInvert() { return this.invert; }
-            public AxCurve GetDeadZone() { return this.deadzone; }
-            public AxCurve GetSaturation() { return this.saturation; }
+            public bool GetInvert()         { return this.invert; }
+            public AxCurve GetDeadZone()    { return this.deadzone; }
+            public AxCurve GetSaturation()  { return this.saturation; }
+
+            public AxAssgn Clone()
+            {
+                return new AxAssgn(this.axisName, this.assgnDate, this.invert, this.saturation, this.deadzone);
+            }
         }
 
         /// <summary>
@@ -111,6 +119,27 @@ namespace FalconBMS_Alternative_Launcher_Cs
             /// [3]=RELEASE + SHIFT
             /// </summary>
             public Assgn[] assign = new Assgn[4];
+
+            // Constructor
+            public DxAssgn() { }
+            public DxAssgn(Assgn[] assign)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    this.assign[i] = assign[i].Clone();
+                }
+            }
+
+            // Method
+            public void Assign(string callback, Pinky pinky, Behaviour behaviour, Invoke invoke, int soundID)
+            {
+                this.assign[(int)pinky + (int)behaviour] = new Assgn(callback, invoke, soundID);
+            }
+
+            public DxAssgn Clone()
+            {
+                return new DxAssgn(this.assign);
+            }
 
             /// <summary>
             /// MEans each behaviour for a button. 
@@ -129,6 +158,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 public int SoundID { get { return this.soundID; } set { this.soundID = value; } }
 
                 // Constructor
+                public Assgn() { }
                 public Assgn(string callback, Invoke invoke, int soundID)
                 {
                     this.callback = callback;
@@ -136,19 +166,16 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     this.soundID = soundID;
                 }
 
-                public Assgn() { }
-
                 // Method
                 public string GetCallback() { return this.callback; }
                 public Invoke GetInvoke() { return this.invoke; }
                 public int GetSoundID() { return this.soundID; }
-            }
 
-            public void Assign(string callback, Pinky pinky, Behaviour behaviour, Invoke invoke, int soundID)
-            {
-                this.assign[(int)pinky + (int)behaviour] = new Assgn(callback, invoke, soundID);
+                public Assgn Clone()
+                {
+                    return new Assgn(this.callback, this.invoke, this.soundID);
+                }
             }
-
         }
 
         /// <summary>
@@ -161,41 +188,17 @@ namespace FalconBMS_Alternative_Launcher_Cs
             /// </summary>
             public DirAssgn[] direction = new DirAssgn[8];
 
-            /// <summary>
-            /// MEans each direction on a POV switch,
-            /// </summary>
-            public class DirAssgn
+            // Constructor
+            public PovAssgn() { }
+            public PovAssgn(DirAssgn[] direction)
             {
-                // Member
-                protected string[] callback = new string[2] { "SimDoNothing", "SimDoNothing" };
-                protected int[] soundID = new int[2] { 0, 0 };
-                // [0]=PRESS
-                // [1]=PRESS + SHIFT
-
-                // Property for XML
-                public string[] Callback { get { return this.callback; } set { this.callback = value; } }
-                public int[] SoundID { get { return this.soundID; } set { this.soundID = value; } }
-
-                // Constructor
-                public DirAssgn() { }
-
-                // Method
-                public string GetCallback(Pinky pinky) { return this.callback[(int)pinky]; }
-                public int GetSoundID(Pinky pinky) { return this.soundID[(int)pinky]; }
-
-                public void Assign(string callback, Pinky pinky, int soundID)
+                for (int i = 0; i < 8; i++)
                 {
-                    this.callback[(int)pinky] = callback;
-                    this.soundID[(int)pinky] = soundID;
-                }
-
-                public void UnAssign(Pinky pinky)
-                {
-                    this.callback[(int)pinky] = "SimDoNothing";
-                    this.soundID[(int)pinky] = 0;
+                    this.direction[i] = direction[i].Clone();
                 }
             }
 
+            // Method
             public void Assign(int GetPointofView, string callback, Pinky pinky, int soundID)
             {
                 if (GetPointofView > 7)
@@ -237,26 +240,75 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 }
                 return direction;
             }
+
+            public PovAssgn Clone()
+            {
+                return new PovAssgn(this.direction);
+            }
+
+            /// <summary>
+            /// Means each direction on a POV switch,
+            /// </summary>
+            public class DirAssgn
+            {
+                // Member
+                protected string[] callback = new string[2] { "SimDoNothing", "SimDoNothing" };
+                protected int[] soundID = new int[2] { 0, 0 };
+                // [0]=PRESS
+                // [1]=PRESS + SHIFT
+
+                // Property for XML
+                public string[] Callback { get { return this.callback; } set { this.callback = value; } }
+                public int[] SoundID { get { return this.soundID; } set { this.soundID = value; } }
+
+                // Constructor
+                public DirAssgn() { }
+                public DirAssgn(string[] callback, int[] soundID)
+                {
+                    this.callback = callback;
+                    this.soundID  = soundID;
+                }
+
+                // Method
+                public string GetCallback(Pinky pinky) { return this.callback[(int)pinky]; }
+                public int GetSoundID(Pinky pinky) { return this.soundID[(int)pinky]; }
+
+                public void Assign(string callback, Pinky pinky, int soundID)
+                {
+                    this.callback[(int)pinky] = callback;
+                    this.soundID[(int)pinky] = soundID;
+                }
+
+                public void UnAssign(Pinky pinky)
+                {
+                    this.callback[(int)pinky] = "SimDoNothing";
+                    this.soundID[(int)pinky] = 0;
+                }
+
+                public DirAssgn Clone()
+                {
+                    return new DirAssgn(this.callback, this.soundID);
+                }
+            }
         }
 
         /// <summary>
         /// Make new instance.
         /// </summary>
-        public JoyAssgn()
+        public JoyAssgn() {}
+        public JoyAssgn(JoyAssgn.AxAssgn[] axis, JoyAssgn.PovAssgn[] pov, JoyAssgn.DxAssgn[] dx)
         {
             for (int i = 0; i < this.axis.Length; i++)
-                this.axis[i] = new JoyAssgn.AxAssgn();
+            {
+                this.axis[i] = axis[i].Clone();
+            }
             for (int i = 0; i < this.pov.Length; i++)
             {
-                this.pov[i] = new JoyAssgn.PovAssgn();
-                for (int ii = 0; ii < this.pov[i].direction.Length; ii++)
-                    this.pov[i].direction[ii] = new JoyAssgn.PovAssgn.DirAssgn();
+                this.pov[i] = pov[i].Clone();
             }
             for (int i = 0; i < this.dx.Length; i++)
             {
-                this.dx[i] = new JoyAssgn.DxAssgn();
-                for (int ii = 0; ii < this.dx[i].assign.Length; ii++)
-                    this.dx[i].assign[ii] = new JoyAssgn.DxAssgn.Assgn();
+                this.dx[i] = dx[i].Clone();
             }
         }
 
@@ -601,7 +653,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         public JoyAssgn Clone()
         {
-            return (JoyAssgn)MemberwiseClone();
+            return new JoyAssgn(this.axis, this.pov, this.dx);
         }
     }
 

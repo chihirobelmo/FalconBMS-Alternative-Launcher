@@ -24,6 +24,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
     public partial class KeyMappingWindow
     {
         private DeviceControl deviceControl;
+        private JoyAssgn[] tmpJoyStick;
         private KeyFile keyFile;
         private KeyAssgn SelectedCallback;
         private DirectInputKeyboard directInputDevice = new DirectInputKeyboard();
@@ -42,6 +43,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
             this.keyFile = keyFile;
             this.deviceControl = deviceControl;
             this.neutralButtons = new NeutralButtons[deviceControl.devList.Count];
+
+            tmpJoyStick = new JoyAssgn[deviceControl.devList.Count];
+            for (int i = 0; i < deviceControl.devList.Count; i++)
+            {
+                tmpJoyStick[i] = deviceControl.joyAssign[i].Clone();
+            }
         }
 
         static public void ShowKeyMappingWindow(KeyAssgn SelectedCallback, KeyFile keyFile, DeviceControl deviceControl, object sender)
@@ -73,9 +80,10 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         private void ShowAssignedStatus()
         {
-            //this.MappedButton.Content = this.SelectedCallback.GetKeyAssignmentStatus().Replace("\t: ", "") + "; ";
-            //for (int i = 0; i < deviceControl.devList.Count; i++)
-            //    this.MappedButton.Content += this.SelectedCallback.ReadJoyAssignment(i).Replace("\n", "; ");
+            this.MappedButton.Content = this.SelectedCallback.GetKeyAssignmentStatus().Replace("\t: ", "") + "; ";
+            for (int i = 0; i < deviceControl.devList.Count; i++)
+                this.MappedButton.Content += this.SelectedCallback.ReadJoyAssignment(i, tmpJoyStick).Replace("\n", "; ");
+            return;
             if (sw.ElapsedMilliseconds > 1000)
             {
                 MappedButton.Content = "";
@@ -113,16 +121,15 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     // Construct DX button instance.
                     if (this.SelectedCallback.GetCallback() == "SimHotasPinkyShift")
                     {
-                        deviceControl.joyAssign[i].dx[ii].Assign(this.SelectedCallback.GetCallback(), Pinky.UnShift, Behaviour.Press, Invoke.Default, 0);
-                        deviceControl.joyAssign[i].dx[ii].Assign(this.SelectedCallback.GetCallback(), Pinky.Shift, Behaviour.Press, Invoke.Default, 0);
+                        tmpJoyStick[i].dx[ii].Assign(this.SelectedCallback.GetCallback(), Pinky.UnShift, Behaviour.Press, Invoke.Default, 0);
+                        tmpJoyStick[i].dx[ii].Assign(this.SelectedCallback.GetCallback(), Pinky.Shift, Behaviour.Press, Invoke.Default, 0);
                     }
                     else
                     {
-                        deviceControl.joyAssign[i].dx[ii].Assign(this.SelectedCallback.GetCallback(), pinkyStatus, behaviourStatus, this.invokeStatus, 0);
-                        Console.WriteLine("Assigned");
+                        tmpJoyStick[i].dx[ii].Assign(this.SelectedCallback.GetCallback(), pinkyStatus, behaviourStatus, this.invokeStatus, 0);
                     }
                     getNeutralPosition();
-                    this.Close();
+                    //this.Close();
                 }
                 povs = deviceControl.joyStick[i].CurrentJoystickState.GetPointOfView();
                 for (int ii = 0; ii < 4; ii++)
@@ -137,9 +144,9 @@ namespace FalconBMS_Alternative_Launcher_Cs
                         pinkyStatus = Pinky.Shift;
 
                     // Construct POV button instance.
-                    deviceControl.joyAssign[i].pov[ii].Assign(povs[ii], this.SelectedCallback.GetCallback(), pinkyStatus, 0);
+                    tmpJoyStick[i].pov[ii].Assign(povs[ii], this.SelectedCallback.GetCallback(), pinkyStatus, 0);
                     getNeutralPosition();
-                    this.Close();
+                    //this.Close();
                 }
             }
         }
@@ -202,7 +209,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             {
                 oldKey.UnassignKeyboard();
             }
-            this.Close();
+            //this.Close();
         }
 
         private class NeutralButtons
@@ -230,15 +237,15 @@ namespace FalconBMS_Alternative_Launcher_Cs
         private void ClearDX_Click(object sender, RoutedEventArgs e)
         {
             string target = this.SelectedCallback.GetCallback();
-            foreach (JoyAssgn joy in this.deviceControl.joyAssign)
+            foreach (JoyAssgn joy in this.tmpJoyStick)
                 joy.UnassigntargetCallback(target);
-            this.Close();
+            //this.Close();
         }
 
         private void ClearKey_Click(object sender, RoutedEventArgs e)
         {
             this.SelectedCallback.UnassignKeyboard();
-            this.Close();
+            //this.Close();
         }
 
         private void Select_Invoke_Click(object sender, RoutedEventArgs e)
@@ -280,6 +287,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
             {
                 keyState = device.GetCurrentKeyboardState();
             }
+        }
+
+        private void Save_Click(object sender, RoutedEventArgs e)
+        {
+            deviceControl.joyAssign = tmpJoyStick;
+            this.Close();
         }
     }
 }
