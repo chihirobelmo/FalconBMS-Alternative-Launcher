@@ -32,6 +32,58 @@ namespace FalconBMS_Alternative_Launcher_Cs
         public string GetKeyDescription() { return this.description; }
 
         /// <summary>
+        /// Save given key file code line in "BMS - FULL.key" and split them to parts.
+        /// </summary>
+        public KeyAssgn(string stBuffer)
+        {
+            string[] stArrayData = stBuffer.Split(' ');
+
+            this.callback = (string)stArrayData[0];
+            this.soundID = (string)stArrayData[1];
+            this.none = (string)stArrayData[2];
+            this.keyboard = (string)stArrayData[3];
+            this.modifier = (string)stArrayData[4];
+            this.keycombo = (string)stArrayData[5];
+            this.keycomboMod = (string)stArrayData[6];
+            this.visibility = (string)stArrayData[7];
+            if (this.visibility == "-2")
+                this.visibility = "Hidden";
+            else if (this.visibility == "-1")
+                this.visibility = "Blue";
+            else if (this.visibility == "-0")
+                this.visibility = "Green";
+            else if (this.visibility == "1")
+                this.visibility = "White";
+            else
+            {
+                this.visibility = "Green";
+                this.description += "!Alt Launcher ERROR!";
+            }
+            this.description = "";
+
+            if (stArrayData.Length >= 9)
+                this.description = (string)stArrayData[8];
+            if (stArrayData.Length > 9)
+                for (int i = 9; i < stArrayData.Length; i++)
+                    this.description += " " + (string)stArrayData[i];
+        }
+
+        public KeyAssgn() { }
+
+        public void getOtherKeyInstance(KeyAssgn otherInstance)
+        {
+            this.callback    = otherInstance.callback;
+            this.soundID     = otherInstance.soundID;
+            this.none        = otherInstance.none;
+            this.keyboard    = otherInstance.keyboard;
+            this.modifier    = otherInstance.modifier;
+            this.keycombo    = otherInstance.keycombo;
+            this.keycomboMod = otherInstance.keycomboMod;
+            this.visibility  = otherInstance.visibility;
+            this.description = otherInstance.description;
+        }
+
+        /// <summary>
         /// Get Visibility information (1=Visible -1=Headline -0=Locked -2=hidden)
         /// </summary>
         public string GetVisibility() { return this.visibility; }
@@ -138,50 +190,6 @@ namespace FalconBMS_Alternative_Launcher_Cs
         {
             bool shutdown = false;
             return shutdown;
-        }
-        
-        /// <summary>
-        /// Save given key file code line in "BMS - FULL.key" and split them to parts.
-        /// </summary>
-        public KeyAssgn(string stBuffer)
-        {
-            string[] stArrayData = stBuffer.Split(' ');
-
-            this.callback = (string)stArrayData[0];
-            this.soundID = (string)stArrayData[1];
-            this.none = (string)stArrayData[2];
-            this.keyboard = (string)stArrayData[3];
-            this.modifier = (string)stArrayData[4];
-            this.keycombo = (string)stArrayData[5];
-            this.keycomboMod = (string)stArrayData[6];
-            this.visibility = (string)stArrayData[7];
-            if (this.visibility == "-2")
-                this.visibility = "Hidden";
-            else if (this.visibility == "-1")
-                this.visibility = "Blue";
-            else if (this.visibility == "-0")
-                this.visibility = "Green";
-            else if (this.visibility == "1")
-                this.visibility = "White";
-            else
-            {
-                this.visibility = "Green";
-                this.description += "!Alt Launcher ERROR!";
-            }
-            this.description = "";
-
-            if (stArrayData.Length >= 9)
-                this.description = (string)stArrayData[8];
-            if (stArrayData.Length > 9)
-                for (int i = 9; i < stArrayData.Length; i++)
-                    this.description += " " + (string)stArrayData[i];
-        }
-        
-        /// <summary>
-        /// Make new instance.
-        /// </summary>
-        public KeyAssgn()
-        {
         }
 
         /// <summary>

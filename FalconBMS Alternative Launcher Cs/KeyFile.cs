@@ -73,9 +73,18 @@ namespace FalconBMS_Alternative_Launcher_Cs
             Array.Resize(ref keyAssign, i+1);
         }
 
+        public KeyFile(KeyAssgn[] keyAssign)
+        {
+            this.keyAssign = new KeyAssgn[keyAssign.Length];
+            for (int i = 0; i < keyAssign.Length; i++)
+            {
+                this.keyAssign[i] = keyAssign[i].Clone();
+            }
+        }
+
         public KeyFile Clone()
         {
-            return (KeyFile)MemberwiseClone();
+            return new KeyFile(this.keyAssign);
         }
     }
 }

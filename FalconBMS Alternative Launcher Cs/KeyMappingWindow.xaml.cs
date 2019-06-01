@@ -25,8 +25,13 @@ namespace FalconBMS_Alternative_Launcher_Cs
     {
         private DeviceControl deviceControl;
         private JoyAssgn[] tmpJoyStick;
+
         private KeyFile keyFile;
         private KeyAssgn SelectedCallback;
+
+        private KeyFile tmpKeyFile;
+        private KeyAssgn tmpCallback;
+
         private DirectInputKeyboard directInputDevice = new DirectInputKeyboard();
         private DispatcherTimer KeyMappingTimer = new DispatcherTimer();
         private Stopwatch sw = Stopwatch.StartNew();
@@ -49,6 +54,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
             {
                 tmpJoyStick[i] = deviceControl.joyAssign[i].Clone();
             }
+            this.tmpKeyFile = this.keyFile.Clone();
+            this.tmpCallback = this.SelectedCallback.Clone();
         }
 
         static public void ShowKeyMappingWindow(KeyAssgn SelectedCallback, KeyFile keyFile, DeviceControl deviceControl, object sender)
@@ -80,9 +87,9 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         private void ShowAssignedStatus()
         {
-            this.MappedButton.Content = this.SelectedCallback.GetKeyAssignmentStatus().Replace("\t: ", "") + "; ";
+            this.MappedButton.Content = this.tmpCallback.GetKeyAssignmentStatus().Replace("\t: ", "") + "; ";
             for (int i = 0; i < deviceControl.devList.Count; i++)
-                this.MappedButton.Content += this.SelectedCallback.ReadJoyAssignment(i, tmpJoyStick).Replace("\n", "; ");
+                this.MappedButton.Content += this.tmpCallback.ReadJoyAssignment(i, tmpJoyStick).Replace("\n", "; ");
             return;
             if (sw.ElapsedMilliseconds > 1000)
             {
@@ -119,14 +126,14 @@ namespace FalconBMS_Alternative_Launcher_Cs
                         behaviourStatus = Behaviour.Release;
 
                     // Construct DX button instance.
-                    if (this.SelectedCallback.GetCallback() == "SimHotasPinkyShift")
+                    if (this.tmpCallback.GetCallback() == "SimHotasPinkyShift")
                     {
-                        tmpJoyStick[i].dx[ii].Assign(this.SelectedCallback.GetCallback(), Pinky.UnShift, Behaviour.Press, Invoke.Default, 0);
-                        tmpJoyStick[i].dx[ii].Assign(this.SelectedCallback.GetCallback(), Pinky.Shift, Behaviour.Press, Invoke.Default, 0);
+                        tmpJoyStick[i].dx[ii].Assign(this.tmpCallback.GetCallback(), Pinky.UnShift, Behaviour.Press, Invoke.Default, 0);
+                        tmpJoyStick[i].dx[ii].Assign(this.tmpCallback.GetCallback(), Pinky.Shift, Behaviour.Press, Invoke.Default, 0);
                     }
                     else
                     {
-                        tmpJoyStick[i].dx[ii].Assign(this.SelectedCallback.GetCallback(), pinkyStatus, behaviourStatus, this.invokeStatus, 0);
+                        tmpJoyStick[i].dx[ii].Assign(this.tmpCallback.GetCallback(), pinkyStatus, behaviourStatus, this.invokeStatus, 0);
                     }
                     getNeutralPosition();
                     //this.Close();
@@ -144,7 +151,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                         pinkyStatus = Pinky.Shift;
 
                     // Construct POV button instance.
-                    tmpJoyStick[i].pov[ii].Assign(povs[ii], this.SelectedCallback.GetCallback(), pinkyStatus, 0);
+                    tmpJoyStick[i].pov[ii].Assign(povs[ii], this.tmpCallback.GetCallback(), pinkyStatus, 0);
                     getNeutralPosition();
                     //this.Close();
                 }
@@ -199,16 +206,9 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 pinkyStatus = Pinky.Shift;
 
             if (pinkyStatus == Pinky.UnShift)
-                this.SelectedCallback.SetKeyboard(catchedScanCode, Shift, Ctrl, Alt);
+                this.tmpCallback.SetKeyboard(catchedScanCode, Shift, Ctrl, Alt);
             if (pinkyStatus == Pinky.Shift)
-                this.SelectedCallback.Setkeycombo(catchedScanCode, Shift, Ctrl, Alt);
-
-            // Unassign the previous mapping that was assigned to this key/key combo.
-            var oldKey = this.keyFile.keyAssign.FirstOrDefault(x => (x != this.SelectedCallback) && x.GetKeyAssignmentStatus() == this.SelectedCallback.GetKeyAssignmentStatus());
-            if (oldKey != null)
-            {
-                oldKey.UnassignKeyboard();
-            }
+                this.tmpCallback.Setkeycombo(catchedScanCode, Shift, Ctrl, Alt);
             //this.Close();
         }
 
@@ -236,7 +236,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         private void ClearDX_Click(object sender, RoutedEventArgs e)
         {
-            string target = this.SelectedCallback.GetCallback();
+            string target = this.tmpCallback.GetCallback();
             foreach (JoyAssgn joy in this.tmpJoyStick)
                 joy.UnassigntargetCallback(target);
             //this.Close();
@@ -244,7 +244,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         private void ClearKey_Click(object sender, RoutedEventArgs e)
         {
-            this.SelectedCallback.UnassignKeyboard();
+            this.tmpCallback.UnassignKeyboard();
             //this.Close();
         }
 
@@ -291,7 +291,16 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            deviceControl.joyAssign = tmpJoyStick;
+            this.deviceControl.joyAssign = this.tmpJoyStick;
+            this.SelectedCallback.getOtherKeyInstance(this.tmpCallback);
+
+            // Unassign the previous mapping that was assigned to this key/key combo.
+            var oldKey = this.keyFile.keyAssign.FirstOrDefault(x => (x != this.SelectedCallback) && x.GetKeyAssignmentStatus() == this.SelectedCallback.GetKeyAssignmentStatus());
+            if (oldKey != null)
+            {
+                oldKey.UnassignKeyboard();
+            }
+
             this.Close();
         }
     }
