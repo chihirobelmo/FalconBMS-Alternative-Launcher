@@ -21,13 +21,15 @@ namespace FalconBMS_Alternative_Launcher_Cs
         public Assgn[] assign = new Assgn[4];
 
         // Constructor
-        public DxAssgn() { }
+        public DxAssgn()
+        {
+            for (int i = 0; i < this.assign.Length; i++)
+                this.assign[i] = new Assgn();
+        }
         public DxAssgn(DxAssgn otherInstance)
         {
             for (int i = 0; i < this.assign.Length; i++)
-            {
                 this.assign[i] = otherInstance.assign[i].Clone();
-            }
         }
 
         // Method

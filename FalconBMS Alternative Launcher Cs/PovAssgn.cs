@@ -17,13 +17,15 @@ namespace FalconBMS_Alternative_Launcher_Cs
         public DirAssgn[] direction = new DirAssgn[8];
 
         // Constructor
-        public PovAssgn() { }
+        public PovAssgn()
+        {
+            for (int i = 0; i < this.direction.Length; i++)
+                this.direction[i] = new DirAssgn();
+        }
         public PovAssgn(PovAssgn otherInstance)
         {
             for (int i = 0; i < this.direction.Length; i++)
-            {
                 this.direction[i] = otherInstance.direction[i].Clone();
-            }
         }
 
         // Method
