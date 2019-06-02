@@ -261,6 +261,10 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         private void ClearDX_Click(object sender, RoutedEventArgs e)
         {
+            for (int i = 0; i < deviceControl.devList.Count; i++)
+            {
+                tmpJoyStick[i] = deviceControl.joyAssign[i].Clone();
+            }
             string target = this.tmpCallback.GetCallback();
             foreach (JoyAssgn joy in this.tmpJoyStick)
                 joy.UnassigntargetCallback(target);
