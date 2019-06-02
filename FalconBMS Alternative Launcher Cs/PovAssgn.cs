@@ -18,11 +18,11 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         // Constructor
         public PovAssgn() { }
-        public PovAssgn(DirAssgn[] direction)
+        public PovAssgn(PovAssgn otherInstance)
         {
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < this.direction.Length; i++)
             {
-                this.direction[i] = direction[i].Clone();
+                this.direction[i] = otherInstance.direction[i].Clone();
             }
         }
 
@@ -71,7 +71,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         public PovAssgn Clone()
         {
-            return new PovAssgn(this.direction);
+            return new PovAssgn(this);
         }
     }
 
@@ -92,10 +92,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         // Constructor
         public DirAssgn() { }
-        public DirAssgn(string[] callback, int[] soundID)
+        public DirAssgn(DirAssgn otherInstance)
         {
-            this.callback = callback;
-            this.soundID = soundID;
+            this.callback[0] = otherInstance.callback[0];
+            this.callback[1] = otherInstance.callback[1];
+            this.soundID[0] = otherInstance.soundID[0];
+            this.soundID[1] = otherInstance.soundID[1];
         }
 
         // Method
@@ -116,7 +118,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         public DirAssgn Clone()
         {
-            return new DirAssgn(this.callback, this.soundID);
+            return new DirAssgn(this);
         }
     }
 }

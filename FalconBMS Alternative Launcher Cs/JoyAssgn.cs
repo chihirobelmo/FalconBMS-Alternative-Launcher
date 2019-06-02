@@ -59,20 +59,14 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// Make new instance.
         /// </summary>
         public JoyAssgn() {}
-        public JoyAssgn(AxAssgn[] axis, PovAssgn[] pov, DxAssgn[] dx)
+        public JoyAssgn(JoyAssgn otherInstance)
         {
             for (int i = 0; i < this.axis.Length; i++)
-            {
-                this.axis[i] = axis[i].Clone();
-            }
+                this.axis[i] = otherInstance.axis[i].Clone();
             for (int i = 0; i < this.pov.Length; i++)
-            {
-                this.pov[i] = pov[i].Clone();
-            }
+                this.pov[i] = otherInstance.pov[i].Clone();
             for (int i = 0; i < this.dx.Length; i++)
-            {
-                this.dx[i] = dx[i].Clone();
-            }
+                this.dx[i] = otherInstance.dx[i].Clone();
         }
 
         /// <summary>
@@ -415,7 +409,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         public JoyAssgn Clone()
         {
-            return new JoyAssgn(this.axis, this.pov, this.dx);
+            return new JoyAssgn(this);
         }
     }
 }

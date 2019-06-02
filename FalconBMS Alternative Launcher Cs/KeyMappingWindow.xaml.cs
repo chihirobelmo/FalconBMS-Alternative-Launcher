@@ -24,12 +24,10 @@ namespace FalconBMS_Alternative_Launcher_Cs
     public partial class KeyMappingWindow
     {
         private DeviceControl deviceControl;
-        private JoyAssgn[] tmpJoyStick;
-
         private KeyFile keyFile;
         private KeyAssgn SelectedCallback;
 
-        private KeyFile tmpKeyFile;
+        private JoyAssgn[] tmpJoyStick;
         private KeyAssgn tmpCallback;
 
         private DirectInputKeyboard directInputDevice = new DirectInputKeyboard();
@@ -54,7 +52,6 @@ namespace FalconBMS_Alternative_Launcher_Cs
             {
                 tmpJoyStick[i] = deviceControl.joyAssign[i].Clone();
             }
-            this.tmpKeyFile = this.keyFile.Clone();
             this.tmpCallback = this.SelectedCallback.Clone();
         }
 
@@ -80,26 +77,33 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         private void KeyMappingtimerCode(object sender, EventArgs e)
         {
-            ShowAssignedStatus();
             KeyboardButtonMonitor();
             JoystickButtonMonitor();
+            ShowAssignedStatus();
         }
 
         private void ShowAssignedStatus()
         {
-            this.MappedButton.Content = this.tmpCallback.GetKeyAssignmentStatus() + "; ";
-            if (this.MappedButton.Content == "")
-                this.MappedButton.Content = "";
+            string str = "";
+            str += this.tmpCallback.GetKeyAssignmentStatus() + "; ";
+            if (str == "; ")
+                str = "";
             for (int i = 0; i < deviceControl.devList.Count; i++)
-                this.MappedButton.Content += this.tmpCallback.ReadJoyAssignment(i, tmpJoyStick);
-            return;
+                str += this.tmpCallback.ReadJoyAssignment(i, tmpJoyStick);
+            this.MappedButton.Content = str;
+
+            if (str != "")
+            {
+                this.AwaitingInputs.Content = "";
+                return;
+            }
             if (sw.ElapsedMilliseconds > 1000)
             {
-                MappedButton.Content = "";
+                this.AwaitingInputs.Content = "";
             }
             if (sw.ElapsedMilliseconds > 1666)
             {
-                MappedButton.Content = "   AWAITING INPUTS";
+                this.AwaitingInputs.Content = "   AWAITING INPUTS";
                 sw.Reset();
                 sw.Start();
             }
@@ -118,7 +122,10 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     if (buttons[ii] == neutralButtons[i].buttons[ii])
                         continue;
                     if (buttons[ii] == 0)
+                    {
+                        getNeutralPosition();
                         continue;
+                    }
 
                     Pinky pinkyStatus = Pinky.UnShift;
                     Behaviour behaviourStatus = Behaviour.Press;
@@ -137,8 +144,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     {
                         tmpJoyStick[i].dx[ii].Assign(this.tmpCallback.GetCallback(), pinkyStatus, behaviourStatus, this.invokeStatus, 0);
                     }
+                    //while (buttons[ii] != neutralButtons[i].buttons[ii])
+                    //{
+                    //    buttons = deviceControl.joyStick[i].CurrentJoystickState.GetButtons();
+                    //}
                     getNeutralPosition();
-                    //this.Close();
+                    return;
                 }
                 povs = deviceControl.joyStick[i].CurrentJoystickState.GetPointOfView();
                 for (int ii = 0; ii < 4; ii++)
@@ -146,7 +157,10 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     if (povs[ii] == neutralButtons[i].povs[ii])
                         continue;
                     if (povs[ii] == -1)
+                    {
+                        getNeutralPosition();
                         continue;
+                    }
 
                     Pinky pinkyStatus = Pinky.UnShift;
                     if (Select_PinkyShift.IsChecked == false)
@@ -154,8 +168,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
                     // Construct POV button instance.
                     tmpJoyStick[i].pov[ii].Assign(povs[ii], this.tmpCallback.GetCallback(), pinkyStatus, 0);
+                    //while (povs[ii] != neutralButtons[i].povs[ii])
+                    //{
+                    //    povs = deviceControl.joyStick[i].CurrentJoystickState.GetPointOfView();
+                    //}
                     getNeutralPosition();
-                    //this.Close();
+                    return;
                 }
             }
         }

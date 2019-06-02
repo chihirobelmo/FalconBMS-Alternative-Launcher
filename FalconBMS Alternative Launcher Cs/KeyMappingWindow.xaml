@@ -38,6 +38,7 @@
         </Grid.Background>
         <Label x:Name="CallbackName" Content="CallbackName" HorizontalAlignment="Left" Margin="24,12,0,0" VerticalAlignment="Top" FontSize="16" FontStyle="Italic" FontWeight="Bold"/>
         <Label x:Name="MappedButton" HorizontalAlignment="Left" Margin="32,67,0,0" VerticalAlignment="Top" FontStyle="Italic" Height="28" Width="447"/>
+        <Label x:Name="AwaitingInputs" HorizontalAlignment="Left" Margin="32,67,0,0" VerticalAlignment="Top" FontStyle="Italic" Height="28" Width="447"/>
         <Border BorderBrush="#FF606060" BorderThickness="1" HorizontalAlignment="Center" Height="28" Margin="32,67,33,0" VerticalAlignment="Top" Width="447"/>
         <Button x:Name="ClearDX" Content="Clear DX" HorizontalAlignment="Left" Margin="404,112,0,0" VerticalAlignment="Top" Width="75" Click="ClearDX_Click"/>
         <Button x:Name="ClearKey" Content="Clear Key" HorizontalAlignment="Left" Margin="404,144,0,0" VerticalAlignment="Top" Width="75" Click="ClearKey_Click"/>
@@ -45,5 +46,8 @@
         <ToggleButton x:Name="Select_DX_Release" Content="RELEASE" HorizontalAlignment="Right" Margin="0,144,320,0" VerticalAlignment="Top" Width="160" Height="27"/>
         <Button x:Name="Select_Invoke" Content="Invoke Both" HorizontalAlignment="Right" Margin="0,176,320,0" VerticalAlignment="Top" Width="160" Click="Select_Invoke_Click" Height="27"/>
         <Button x:Name="Save" Content="Save" HorizontalAlignment="Left" Margin="404,176,0,0" VerticalAlignment="Top" Width="75" Click="Save_Click"/>
+        <TextBlock TextWrapping="Wrap" Margin="206,112,122,80" Foreground="#FF7D7D7D" FontSize="10">* CLEAR DX button will unassign shown<LineBreak />DX/POV buttons from whole callbacks<LineBreak />so stay sharp.</TextBlock>
+        <TextBlock TextWrapping="Wrap" Margin="206,161,122,31" Foreground="#FF7D7D7D" FontSize="10">* If you want to invoke callback when a<LineBreak />button is released, make sure you set<LineBreak />INVOKE KEYDN option.</TextBlock>
+        <TextBlock TextWrapping="Wrap" Margin="32,46,33,174" Foreground="#FF7D7D7D" FontSize="10">* BMS only recognizez POV switch on the device whoes axis is bound to Roll/Pitch.</TextBlock>
     </Grid>
 </Controls:MetroWindow>

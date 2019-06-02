@@ -22,11 +22,11 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         // Constructor
         public DxAssgn() { }
-        public DxAssgn(Assgn[] assign)
+        public DxAssgn(DxAssgn otherInstance)
         {
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < this.assign.Length; i++)
             {
-                this.assign[i] = assign[i].Clone();
+                this.assign[i] = otherInstance.assign[i].Clone();
             }
         }
 
@@ -38,7 +38,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         public DxAssgn Clone()
         {
-            return new DxAssgn(this.assign);
+            return new DxAssgn(this);
         }
     }
 
@@ -60,6 +60,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         // Constructor
         public Assgn() { }
+        public Assgn(Assgn otherInstance)
+        {
+            this.callback = otherInstance.callback;
+            this.invoke = otherInstance.invoke;
+            this.soundID = otherInstance.soundID;
+        }
         public Assgn(string callback, Invoke invoke, int soundID)
         {
             this.callback = callback;
@@ -74,7 +80,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         public Assgn Clone()
         {
-            return new Assgn(this.callback, this.invoke, this.soundID);
+            return new Assgn(this);
         }
     }
 
