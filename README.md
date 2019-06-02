@@ -103,14 +103,12 @@ invert check box, and AB / IDLE detent setters for throttle control.
 ![readme04](https://user-images.githubusercontent.com/32677587/53295052-db966700-3835-11e9-8d2c-a72f876c06ec.png)
 
 In Key Mapping page, you can assign keyboard and joystick DX/POV setups.
-Clicking specific raw then press the key or DX/POV switches will assign them to the callback.
-When you want to remove the assignment, double-click the cell.
+Double clicking specific raw to open small Key Mapping Window, then press the key or DX/POV switches to assign them to the callback.
 
 Key Mapping Page has a drop-down list to jump the Datagrid scroll to the specific
 sections, especially useful to find essential HOTAS callbacks section.
 
-You can also setup KEYCOMBO, SHIFTED DX, BUTTON RELEASE, and INVOKE
-setups which cannot be done from stock BMS UI
+You can also setup KEYCOMBO, SHIFTED DX, BUTTON RELEASE, and INVOKE which cannot be done from stock BMS UI
 
 When you would like to setup key/buttons for KEYCOMBO, SHIFTED DX or RELEASE to
 activate callbacks, click and enable "KEYCOMBO / PINKYSHIFT" button or "RELEASE"
