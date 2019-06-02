@@ -314,18 +314,7 @@
                                     <Button x:Name="Trim_Yaw" Content="Assign" HorizontalAlignment="Left" Margin="320,175,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
                                 </Grid>
                                 <Grid HorizontalAlignment="Left" Height="189" Margin="480,233,0,0" VerticalAlignment="Top" Width="480">
-                                    <TextBlock HorizontalAlignment="Left" Margin="32,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="#FF606060">
-                                        <Bold>TIPS:</Bold><LineBreak /> 
-                                        <LineBreak /> 
-                                        + Falcon BMS Implements Real Life F-16 FLCS Curve and Deadzone.<LineBreak />
-                                        <Run Text="   " />Disabling curves and deadzones application for joystick is recommended.<LineBreak />
-                                        <LineBreak />
-                                        + "Throttle" "Toe Brake" works as Both Throttle / Both Toe Brakes control<LineBreak />
-                                        <Run Text="   " />as long as no axis are applied to "Throttle Right" or "Toe Brake Right"<LineBreak />
-                                        <LineBreak />
-                                        <Run Text="   " />If any axis has been applied to "Throttle Right" "Toe Brake Right",<LineBreak />
-                                        <Run Text="   " />each of these two axes works as "Throttle Left" "Toe Brake Left"<LineBreak />
-                                    </TextBlock>
+                                    <TextBlock HorizontalAlignment="Left" Margin="32,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="#FF606060"><Bold><Run Text="TIPS:"/></Bold><LineBreak/><LineBreak/><Run Text="* Falcon BMS Implements Real Life F-16 FLCS Curve and Deadzone."/><LineBreak/><Run Text="   "/><Run Text="Disabling curves and deadzones for joystick is recommended."/><LineBreak/><LineBreak/><Run Text="*"/><Run Text=" &quot;Throttle&quot; &quot;Toe Brake&quot; works as Both Throttle / Both Toe Brakes control"/><LineBreak/><Run Text="   "/><Run Text="as long as no axis are applied to &quot;Throttle Right&quot; or &quot;Toe Brake Right&quot;"/><LineBreak/><LineBreak/><Run Text="   "/><Run Text="If any axis has been applied to &quot;Throttle Right&quot; &quot;Toe Brake Right&quot;,"/><LineBreak/><Run Text="   "/><Run Text="each of these two axes works as &quot;Throttle Left&quot; &quot;Toe Brake Left&quot;"/><LineBreak/></TextBlock>
                                 </Grid>
                                 <Grid HorizontalAlignment="Left" Height="148" Margin="480,427,0,0" VerticalAlignment="Top" Width="475">
                                     <Label Content="MISC:" HorizontalAlignment="Left" Margin="24,0,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
@@ -448,7 +437,7 @@
                         <TabItem Header="  Views" Controls:ControlsHelper.HeaderFontSize="24">
                             <Grid Background="#7FD4E1EE" Margin="0,0,0,24" x:Name="BackGroundBox4">
                                 <Grid HorizontalAlignment="Left" Height="278" VerticalAlignment="Top" Width="480" Grid.ColumnSpan="2"/>
-                                <Grid HorizontalAlignment="Left" Height="330" VerticalAlignment="Top" Width="480">
+                                <Grid HorizontalAlignment="Left" Height="531" VerticalAlignment="Top" Width="480">
                                     <Label Content="VIEWS" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold" FontStyle="Oblique" Height="41" Width="349"/>
 
                                     <Label Content="FOV : " HorizontalAlignment="Left" Margin="32,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="128" FontWeight="Bold"/>
@@ -461,14 +450,37 @@
                                     <Controls:MetroProgressBar x:Name="Axis_Camera_Distance" HorizontalAlignment="Left" Margin="32,134,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
                                     <Button x:Name="Camera_Distance" Content="Assign" HorizontalAlignment="Left" Margin="320,126,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
                                     <Controls:ToggleSwitch x:Name="Misc_TrackIRZ" OnLabel="TrackIR Zoom Fov" OffLabel="TrackIR Head Forward" HorizontalContentAlignment="Right" FontSize="11" HorizontalAlignment="Left" Margin="47,10,0,0" VerticalAlignment="Top" Foreground="#FF606060" Width="347"/>
-                                    <CheckBox x:Name="Misc_ExMouseLook" Content="External MouseLook" HorizontalAlignment="Left" Margin="32,167,0,0" VerticalAlignment="Top" Foreground="#FF606060"/>
-                                    <TextBlock Text="Allows the mouse to control the camera for external views. Note that if this is enabled, controlling the external camera with the POV hat will be disabled." TextWrapping="Wrap" Margin="56,190,0,107" Foreground="#FF7D7D7D" FontSize="10"/>
-                                    <CheckBox x:Name="Misc_NaturalHeadMovement" Content="Natural Head Movement" HorizontalAlignment="Left" Margin="32,233,0,0" VerticalAlignment="Top" Foreground="#FF606060"/>
-                                    <TextBlock Text="Using this option will provide a more realistic experience when looking back at your six o'clock position as it will take into account the torso movement necessary to do so (valid with and without TIR)." TextWrapping="Wrap" Margin="56,256,0,21" Foreground="#FF7D7D7D" FontSize="10"/>
+                                    <CheckBox x:Name="Misc_ExMouseLook" Content="External MouseLook" HorizontalAlignment="Left" Margin="32,192,0,0" VerticalAlignment="Top" Foreground="#FF606060"/>
+                                    <TextBlock Text="Allows the mouse to control the camera for external views. Note that if this is enabled, controlling the external camera with the POV hat will be disabled." TextWrapping="Wrap" Margin="56,215,0,82" Foreground="#FF7D7D7D" FontSize="10"/>
+                                    <CheckBox x:Name="Misc_NaturalHeadMovement" Content="Natural Head Movement" HorizontalAlignment="Left" Margin="32,258,0,0" VerticalAlignment="Top" Foreground="#FF606060"/>
+                                    <TextBlock Text="Using this option will provide a more realistic experience when looking back at your six o'clock position as it will take into account the torso movement necessary to do so (valid with and without TIR)." TextWrapping="Wrap" Margin="56,281,0,-4" Foreground="#FF7D7D7D" FontSize="10"/>
+                                    <CheckBox x:Name="Misc_PilotModel" Content="Pilot Model" HorizontalAlignment="Left" Margin="32,338,0,0" VerticalAlignment="Top" Foreground="#FF606060" Height="17"/>
+                                    <TextBlock TextWrapping="Wrap" Margin="56,359,0,-61" Foreground="#FF7D7D7D" FontSize="10">
+                                        <Run Text="Shows Pilot Model in 3D cockpit with kneeboards. "/>
+                                        <Hyperlink NavigateUri="http://www.weapondeliveryplanner.nl/" RequestNavigate="WDP_RequestNavigate">
+                                            Weapon Delivery Planner
+                                        </Hyperlink>
+                                        <Run Text="by Falcas will update their kneeboard images applying current mission data."/>
+                                    </TextBlock>
                                 </Grid>
                                 <Grid HorizontalAlignment="Left" Height="278" Margin="499,0,0,307" VerticalAlignment="Center" Width="485">
                                     <Label Content="Smart Scaling" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10,10,10,0" Width="Auto" Height="48" FontSize="24"/>
-                                    <TextBlock HorizontalAlignment="Left" Margin="32,63,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="#FF606060" Height="Auto" Width="409"><Bold><Run Text="Improving Target Orientation Discrimination Performance"/></Bold><LineBreak /><LineBreak /><Run Text="When performing air-to-air combat within visual range of the target aircraft, even the modern monitors are unable to provide the necessary resolution to accurately represent enemy aircraft at realistic ranges. The fine details of an aircraft seen flying in the real world typically are not visible in the simulator at the same simulated distances. Pilots use these details to help determine things like the pitch, bank and heading of the target aircraft."/><LineBreak /><LineBreak /><Bold><Run Text="Smart Scaling"/></Bold><Run Text=" based on the research paper "/><Italic><Run Text="Serfoss 2003"/></Italic><Run Text=" achieves desired cue visibility by magnifying target only minimally at close ranges yet magnifies significantly (2X) at a 2.3-mile distance."/></TextBlock>
+                                    <TextBlock HorizontalAlignment="Left" Margin="32,63,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="#FF606060" Height="Auto" Width="409">
+                                        <Bold><Run Text="Improving Target Orientation Discrimination Performance"/></Bold>
+                                        <LineBreak />
+                                        <LineBreak />
+                                        <Run Text="When performing air-to-air combat within visual range of the target aircraft, even the modern monitors are unable to provide the necessary resolution to accurately represent enemy aircraft at realistic ranges. The fine details of an aircraft seen flying in the real world typically are not visible in the simulator at the same simulated distances. Pilots use these details to help determine things like the pitch, bank and heading of the target aircraft."/>
+                                        <LineBreak />
+                                        <LineBreak />
+                                        <Bold><Run Text="Smart Scaling"/></Bold>
+                                        <Run Text=" based on the research paper "/>
+                                        <Hyperlink NavigateUri="https://apps.dtic.mil/docs/citations/ADA414893" RequestNavigate="Serfoss2003_RequestNavigate">
+                                            <Italic>
+                                                Serfoss 2003
+                                            </Italic>
+                                        </Hyperlink>
+                                        <Run Text=" achieves desired cue visibility by magnifying target only minimally at close ranges yet magnifies significantly (2X) at a 2.3-mile distance."/>
+                                    </TextBlock>
                                     <CheckBox x:Name="Misc_SmartScalingOverride" Content="Enable" Foreground="#FF606060" HorizontalAlignment="Left" Margin="236,27,0,0" VerticalAlignment="Top"/>
                                 </Grid>
                             </Grid>
@@ -542,7 +554,7 @@
         <Image x:Name="LOGO433" Visibility="Hidden" HorizontalAlignment="Left" VerticalAlignment="Top" Height="64" Source="Resources/LOGO433.png" Stretch="Uniform" Margin="0,0,-350,0"/>
         <Image x:Name="LOGO434" Visibility="Hidden" HorizontalAlignment="Left" VerticalAlignment="Top" Height="64" Source="Resources/LOGO434.png" Stretch="Uniform" Margin="0,0,-350,0"/>
         <Image x:Name="LOGO435" Visibility="Hidden"  HorizontalAlignment="Left" VerticalAlignment="Top" Height="64" Source="Resources/LOGO435.png" Stretch="Uniform" Margin="0,0,-350,0"/>
-        <Label Content="FalconBMS Alternative Launcher v1.31" HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontWeight="Bold" Margin="0,0,10,0"/>
+        <Label Content="FalconBMS Alternative Launcher v1.40" HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontWeight="Bold" Margin="0,0,10,0"/>
 
         <Button x:Name="Button_Apply_YAME64" Content="Apply" HorizontalAlignment="Right" Margin="0,31,10,0" VerticalAlignment="top" Width="128" Style="{StaticResource AccentedSquareButtonStyle}" Controls:ControlsHelper.ContentCharacterCasing="Normal" Click="Apply_YAME64"/>
 

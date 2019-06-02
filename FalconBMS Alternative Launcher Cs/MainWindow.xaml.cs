@@ -620,5 +620,15 @@ namespace FalconBMS_Alternative_Launcher_Cs
             this.appReg.getOverrideWriter().Execute(inGameAxis, deviceControl, keyFile);
             this.Close();
         }
+
+        private void WDP_RequestNavigate(object sender, RequestNavigateEventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://www.weapondeliveryplanner.nl/");
+        }
+
+        private void Serfoss2003_RequestNavigate(object sender, RequestNavigateEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://apps.dtic.mil/docs/citations/ADA414893");
+        }
     }
 }

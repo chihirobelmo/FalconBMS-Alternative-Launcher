@@ -229,7 +229,6 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 this.tmpCallback.SetKeyboard(catchedScanCode, Shift, Ctrl, Alt);
             if (pinkyStatus == Pinky.Shift)
                 this.tmpCallback.Setkeycombo(catchedScanCode, Shift, Ctrl, Alt);
-            //this.Close();
         }
 
         private class NeutralButtons
@@ -251,7 +250,13 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         private void WindowMouseDown(object sender, MouseButtonEventArgs e)
         {
-
+            try
+            {
+                if (e.ChangedButton == MouseButton.Left)
+                    this.DragMove();
+            }
+            catch
+            { }
         }
 
         private void ClearDX_Click(object sender, RoutedEventArgs e)
@@ -259,13 +264,11 @@ namespace FalconBMS_Alternative_Launcher_Cs
             string target = this.tmpCallback.GetCallback();
             foreach (JoyAssgn joy in this.tmpJoyStick)
                 joy.UnassigntargetCallback(target);
-            //this.Close();
         }
 
         private void ClearKey_Click(object sender, RoutedEventArgs e)
         {
             this.tmpCallback.UnassignKeyboard();
-            //this.Close();
         }
 
         private void Select_Invoke_Click(object sender, RoutedEventArgs e)

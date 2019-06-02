@@ -298,5 +298,17 @@ namespace FalconBMS_Alternative_Launcher_Cs.Properties {
                 this["Misc_NaturalHeadMovement"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool Misc_PilotModel {
+            get {
+                return ((bool)(this["Misc_PilotModel"]));
+            }
+            set {
+                this["Misc_PilotModel"] = value;
+            }
+        }
     }
 }

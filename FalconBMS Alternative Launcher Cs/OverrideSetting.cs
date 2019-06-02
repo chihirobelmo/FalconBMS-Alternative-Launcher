@@ -942,6 +942,11 @@ namespace FalconBMS_Alternative_Launcher_Cs
             if (mainWindow.Misc_SmartScalingOverride.IsChecked == true)
                 bs[12] = 0x05;
 
+            // Smart Scaling
+            bs[0] = 0x13;
+            if (mainWindow.Misc_PilotModel.IsChecked == true)
+                bs[0] = 0x33;
+
             fs = new System.IO.FileStream
                 (filename, System.IO.FileMode.Create, System.IO.FileAccess.Write);
             fs.Write(bs, 0, bs.Length);
