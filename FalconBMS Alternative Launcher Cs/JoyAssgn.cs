@@ -61,6 +61,9 @@ namespace FalconBMS_Alternative_Launcher_Cs
         public JoyAssgn() {}
         public JoyAssgn(JoyAssgn otherInstance)
         {
+            this.productGUID = otherInstance.productGUID;
+            this.productName = otherInstance.productName;
+            this.instanceGUID = otherInstance.instanceGUID;
             for (int i = 0; i < this.axis.Length; i++)
                 this.axis[i] = otherInstance.axis[i].Clone();
             for (int i = 0; i < this.pov.Length; i++)
