@@ -361,14 +361,14 @@ namespace FalconBMS_Alternative_Launcher_Cs
         {
             if (status == Status.WaitInput)
             {
-                JoyAssgn.AxAssgn axisInfo = new JoyAssgn.AxAssgn();
+                AxAssgn axisInfo = new AxAssgn();
                 axisAssign = new InGameAxAssgn(-1, -1, axisInfo);
                 if (whoCalledWindow == "Throttle" | whoCalledWindow == "Throttle_Right")
                     MainWindow.deviceControl.throttlePos = new ThrottlePosition();
             }
             if (status == Status.ShowAxisStatus)
             {
-                JoyAssgn.AxAssgn axisInfo = new JoyAssgn.AxAssgn();
+                AxAssgn axisInfo = new AxAssgn();
                 axisAssign = new InGameAxAssgn(
                         devNumTmp, 
                         phyAxNumTmp, 

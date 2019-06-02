@@ -102,14 +102,17 @@
     </ApplicationDefinition>
     <Compile Include="AppProperties.cs" />
     <Compile Include="AppRegInfo.cs" />
+    <Compile Include="AxAssgn.cs" />
     <Compile Include="AxisName.cs" />
     <Compile Include="DeviceControl.cs" />
+    <Compile Include="DxAssgn.cs" />
     <Compile Include="InGameAxAssgn.cs" />
     <Compile Include="KeyFile.cs" />
     <Compile Include="KeyMappingWindow.xaml.cs">
       <DependentUpon>KeyMappingWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="OverrideSetting.cs" />
+    <Compile Include="PovAssgn.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Launcher.cs" />
     <Compile Include="TheaterList.cs" />

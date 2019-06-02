@@ -14,7 +14,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         public DeviceList devList;
         public Device[] joyStick;
         public JoyAssgn[] joyAssign;
-        public JoyAssgn.AxAssgn mouseWheelAssign = new JoyAssgn.AxAssgn();
+        public AxAssgn mouseWheelAssign = new AxAssgn();
         public ThrottlePosition throttlePos = new ThrottlePosition();
 
         /// <summary>
@@ -98,12 +98,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
             }
             
             // Load MouseWheel .xml file.
-            serializer = new System.Xml.Serialization.XmlSerializer(typeof(JoyAssgn.AxAssgn));
+            serializer = new System.Xml.Serialization.XmlSerializer(typeof(AxAssgn));
             fileName = appReg.GetInstallDir() + "/User/Config/Setup.v100.Mousewheel.xml";
             if (File.Exists(fileName))
             {
                 sr = new System.IO.StreamReader(fileName, new System.Text.UTF8Encoding(false));
-                mouseWheelAssign = (JoyAssgn.AxAssgn)serializer.Deserialize(sr);
+                mouseWheelAssign = (AxAssgn)serializer.Deserialize(sr);
                 sr.Close();
             }
 

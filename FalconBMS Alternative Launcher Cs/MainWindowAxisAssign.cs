@@ -347,16 +347,16 @@ namespace FalconBMS_Alternative_Launcher_Cs
             for (int i = 0; i < deviceControl.devList.Count; i++)
                 deviceControl.joyAssign[i].ResetPreviousAxis(whocalledwindow);
             if (deviceControl.mouseWheelAssign.GetAxisName() == whocalledwindow)
-                deviceControl.mouseWheelAssign = new JoyAssgn.AxAssgn();
+                deviceControl.mouseWheelAssign = new AxAssgn();
 
             // When axis has been assigned.
             if (axisAssign.GetDeviceNumber() > -1)
                 deviceControl.joyAssign[axisAssign.GetDeviceNumber()].axis[axisAssign.GetPhysicalNumber()]
-                    = new JoyAssgn.AxAssgn(whocalledwindow, axisAssign);
+                    = new AxAssgn(whocalledwindow, axisAssign);
             if (axisAssign.GetDeviceNumber() == -2)
             {
                 wheelValue = 0;
-                deviceControl.mouseWheelAssign = new JoyAssgn.AxAssgn(whocalledwindow, axisAssign);
+                deviceControl.mouseWheelAssign = new AxAssgn(whocalledwindow, axisAssign);
             }
 
             joyAssign_2_inGameAxis();

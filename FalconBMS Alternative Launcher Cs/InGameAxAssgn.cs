@@ -18,7 +18,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         public InGameAxAssgn() { }
 
-        public InGameAxAssgn(int devNum, int phyAxNum, JoyAssgn.AxAssgn axis)
+        public InGameAxAssgn(int devNum, int phyAxNum, AxAssgn axis)
         {
             this.devNum = devNum;
             this.phyAxNum = phyAxNum;

@@ -284,37 +284,57 @@ namespace FalconBMS_Alternative_Launcher_Cs
         }
 
         // Z_Joy_<asssigned joystick number> = "DX1 DX16 POV1UP" //
-        public string Z_Joy_0  { get { return ReadJoyAssignment(0,  MainWindow.deviceControl.joyAssign); } }
-        public string Z_Joy_1  { get { return ReadJoyAssignment(1,  MainWindow.deviceControl.joyAssign); } }
-        public string Z_Joy_2  { get { return ReadJoyAssignment(2,  MainWindow.deviceControl.joyAssign); } }
-        public string Z_Joy_3  { get { return ReadJoyAssignment(3,  MainWindow.deviceControl.joyAssign); } }
-        public string Z_Joy_4  { get { return ReadJoyAssignment(4,  MainWindow.deviceControl.joyAssign); } }
-        public string Z_Joy_5  { get { return ReadJoyAssignment(5,  MainWindow.deviceControl.joyAssign); } }
-        public string Z_Joy_6  { get { return ReadJoyAssignment(6,  MainWindow.deviceControl.joyAssign); } }
-        public string Z_Joy_7  { get { return ReadJoyAssignment(7,  MainWindow.deviceControl.joyAssign); } }
-        public string Z_Joy_8  { get { return ReadJoyAssignment(8,  MainWindow.deviceControl.joyAssign); } }
-        public string Z_Joy_9  { get { return ReadJoyAssignment(9,  MainWindow.deviceControl.joyAssign); } }
-        public string Z_Joy_10 { get { return ReadJoyAssignment(10, MainWindow.deviceControl.joyAssign); } }
-        public string Z_Joy_11 { get { return ReadJoyAssignment(11, MainWindow.deviceControl.joyAssign); } }
-        public string Z_Joy_12 { get { return ReadJoyAssignment(12, MainWindow.deviceControl.joyAssign); } }
-        public string Z_Joy_13 { get { return ReadJoyAssignment(13, MainWindow.deviceControl.joyAssign); } }
-        public string Z_Joy_14 { get { return ReadJoyAssignment(14, MainWindow.deviceControl.joyAssign); } }
-        public string Z_Joy_15 { get { return ReadJoyAssignment(15, MainWindow.deviceControl.joyAssign); } }
+        public string Z_Joy_0  { get { return ReadJoyAssignment(0); } }
+        public string Z_Joy_1  { get { return ReadJoyAssignment(1); } }
+        public string Z_Joy_2  { get { return ReadJoyAssignment(2); } }
+        public string Z_Joy_3  { get { return ReadJoyAssignment(3); } }
+        public string Z_Joy_4  { get { return ReadJoyAssignment(4); } }
+        public string Z_Joy_5  { get { return ReadJoyAssignment(5); } }
+        public string Z_Joy_6  { get { return ReadJoyAssignment(6); } }
+        public string Z_Joy_7  { get { return ReadJoyAssignment(7); } }
+        public string Z_Joy_8  { get { return ReadJoyAssignment(8); } }
+        public string Z_Joy_9  { get { return ReadJoyAssignment(9); } }
+        public string Z_Joy_10 { get { return ReadJoyAssignment(10); } }
+        public string Z_Joy_11 { get { return ReadJoyAssignment(11); } }
+        public string Z_Joy_12 { get { return ReadJoyAssignment(12); } }
+        public string Z_Joy_13 { get { return ReadJoyAssignment(13); } }
+        public string Z_Joy_14 { get { return ReadJoyAssignment(14); } }
+        public string Z_Joy_15 { get { return ReadJoyAssignment(15); } }
 
+        public string ReadJoyAssignment(int joynum)
+        {
+            string ans = "";
+            if (MainWindow.deviceControl.joyAssign.Length <= joynum)
+                return "";
+            ans = MainWindow.deviceControl.joyAssign[joynum].KeyMappingPreviewDX(this);
+            // PRIMARY DEVICE POV
+            if (((InGameAxAssgn)MainWindow.inGameAxis["Roll"]).GetDeviceNumber() == joynum)
+            {
+                string tmp = MainWindow.deviceControl.joyAssign[joynum].KeyMappingPreviewPOV(this);
+                if (ans != "" & tmp != "")
+                    ans += "\n";
+                ans += tmp;
+            }
+            return ans;
+        }
         public string ReadJoyAssignment(int joynum, JoyAssgn[] joyAssign)
         {
             string ans = "";
             if (joyAssign.Length <= joynum)
                 return "";
             ans = joyAssign[joynum].KeyMappingPreviewDX(this);
+            if(ans != "")
+                ans = "JOY " + joynum.ToString() + " " + joyAssign[joynum].KeyMappingPreviewDX(this).Replace("\n", ", ");
             // PRIMARY DEVICE POV
             if (((InGameAxAssgn)MainWindow.inGameAxis["Roll"]).GetDeviceNumber() == joynum)
             {
-                string tmp = joyAssign[joynum].KeyMappingPreviewPOV(this);
+                string tmp = joyAssign[joynum].KeyMappingPreviewPOV(this).Replace("\n", ", ");
                 if (ans != "" & tmp != "")
-                    ans += "\n";
+                    ans += " ";
                 ans += tmp;
             }
+            if (ans != "")
+                ans += "; ";
             return ans;
         }
 

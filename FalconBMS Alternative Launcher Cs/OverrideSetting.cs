@@ -86,7 +86,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             }
             fileName = appReg.GetInstallDir() + "/User/Config/Setup.v100.MouseWheel.xml";
 
-            serializer = new System.Xml.Serialization.XmlSerializer(typeof(JoyAssgn.AxAssgn));
+            serializer = new System.Xml.Serialization.XmlSerializer(typeof(AxAssgn));
             sw = new System.IO.StreamWriter(fileName, false, new System.Text.UTF8Encoding(false));
             serializer.Serialize(sw, deviceControl.mouseWheelAssign);
 

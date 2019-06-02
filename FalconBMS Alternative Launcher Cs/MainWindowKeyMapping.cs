@@ -95,6 +95,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
             this.KeyMappingTimer.Stop();
 
             var selectedItem = (KeyAssgn)KeyMappingGrid.SelectedItem;
+            if (selectedItem == null)
+                return;
             if (KeyMappingGrid.CurrentColumn == null)
                 return;
             if (selectedItem.GetVisibility() != "White")

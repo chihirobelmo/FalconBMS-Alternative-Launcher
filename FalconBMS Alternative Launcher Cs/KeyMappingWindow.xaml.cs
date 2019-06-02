@@ -87,9 +87,11 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         private void ShowAssignedStatus()
         {
-            this.MappedButton.Content = this.tmpCallback.GetKeyAssignmentStatus().Replace("\t: ", "") + "; ";
+            this.MappedButton.Content = this.tmpCallback.GetKeyAssignmentStatus() + "; ";
+            if (this.MappedButton.Content == "")
+                this.MappedButton.Content = "";
             for (int i = 0; i < deviceControl.devList.Count; i++)
-                this.MappedButton.Content += this.tmpCallback.ReadJoyAssignment(i, tmpJoyStick).Replace("\n", "; ");
+                this.MappedButton.Content += this.tmpCallback.ReadJoyAssignment(i, tmpJoyStick);
             return;
             if (sw.ElapsedMilliseconds > 1000)
             {
