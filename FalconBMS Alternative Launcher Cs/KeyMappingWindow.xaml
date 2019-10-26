@@ -47,6 +47,6 @@
         <Button x:Name="Select_Invoke" Content="Invoke Both" HorizontalAlignment="Right" Margin="0,176,320,0" VerticalAlignment="Top" Width="160" Click="Select_Invoke_Click" Height="27"/>
         <Button x:Name="Save" Content="Save" HorizontalAlignment="Left" Margin="404,176,0,0" VerticalAlignment="Top" Width="75" Click="Save_Click"/>
         <TextBlock TextWrapping="Wrap" Margin="206,161,122,31" Foreground="#FF7D7D7D" FontSize="10">* If you want to invoke callback when a<LineBreak />button is released, make sure you set<LineBreak />INVOKE KEYDN option.</TextBlock>
-        <TextBlock TextWrapping="Wrap" Margin="32,46,33,174" Foreground="#FF7D7D7D" FontSize="10">* BMS only recognizez POV switch on the device whoes axis is bound to Roll/Pitch.</TextBlock>
+        <TextBlock TextWrapping="Wrap" Margin="32,46,33,174" Foreground="#FF7D7D7D" FontSize="10">* BMS only recognizes POV switch on the device whose axis is bound to Roll/Pitch.</TextBlock>
     </Grid>
 </Controls:MetroWindow>
