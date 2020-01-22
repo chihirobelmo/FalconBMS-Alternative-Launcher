@@ -94,7 +94,6 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 case "Roll":
                     DirectionDecrease.Content = "Left Wing Down";
                     DirectionIncrease.Content = "Right Wing Down";
-                    Invert.Visibility = Visibility.Collapsed;
                     break;
                 case "Trim_Roll":
                     DirectionDecrease.Content = "Left Wing Down";
@@ -103,7 +102,6 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 case "Pitch":
                     DirectionDecrease.Content = "Pitch Down";
                     DirectionIncrease.Content = "Pitch Up";
-                    Invert.Visibility = Visibility.Collapsed;
                     break;
                 case "Trim_Pitch":
                     DirectionDecrease.Content = "Pitch Down";
