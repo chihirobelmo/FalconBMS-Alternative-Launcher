@@ -209,6 +209,35 @@ namespace FalconBMS_Alternative_Launcher_Cs
             return assign;
         }
 
+        public string GetKeyLinePOV(int povNum)
+        {
+            string assign = "";
+            assign += "\n#======== " + this.GetProductName() + " : POV ========\n";
+            for (int i = 0; i < 1; i++)
+            {
+                for (int ii = 0; ii < this.pov[i].direction.Length; ii++)
+                {
+                    for (int iii = 0; iii < 1; iii++)
+                    {
+                        if (this.pov[i].direction[ii].GetCallback((Pinky)iii) == "SimDoNothing")
+                            continue;
+                        assign += this.pov[i].direction[ii].GetCallback((Pinky)iii);
+                        if ((Pinky)iii == Pinky.UnShift)
+                            assign += " " + povNum.ToString();
+                        if ((Pinky)iii == Pinky.Shift)
+                            assign += " " + (povNum + 2).ToString();
+                        assign += " " + "-1";
+                        assign += " " + "-3";
+                        assign += " " + ii.ToString();
+                        assign += " " + "0x0";
+                        assign += " " + this.pov[i].direction[ii].GetSoundID((Pinky)iii);
+                        assign += "\n";
+                    }
+                }
+            }
+            return assign;
+        }
+
         /// <summary>
         /// Reset Physical axis which has assigned to "sender.name"
         /// </summary>

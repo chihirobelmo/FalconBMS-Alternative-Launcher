@@ -55,7 +55,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             SaveAxisMapping(inGameAxis, deviceControl);
             SaveJoystickCal(inGameAxis, deviceControl);
             SaveDeviceSorting(deviceControl);
-            SaveConfigfile(deviceControl);
+            SaveConfigfile(inGameAxis, deviceControl);
             SaveKeyMapping(inGameAxis, deviceControl, keyFile);
             SavePlcLbk();
             SavePop();
@@ -104,7 +104,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <summary>
         /// As the name inplies...
         /// </summary>
-        protected void SaveConfigfile(DeviceControl deviceControl)
+        protected virtual void SaveConfigfile(Hashtable inGameAxis, DeviceControl deviceControl)
         {
             string filename = appReg.GetInstallDir() + "/User/Config/falcon bms.cfg";
             string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/falcon bms.cfg";
@@ -165,7 +165,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <summary>
         /// As the name inplies...
         /// </summary>
-        protected void SaveKeyMapping(Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile)
+        protected virtual void SaveKeyMapping(Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile)
         {
             string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.getKeyFileName();
             string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/" + appReg.getKeyFileName();
@@ -775,6 +775,83 @@ namespace FalconBMS_Alternative_Launcher_Cs
             AxisName.AI_vs_IVC,
             AxisName.FLIR_Brightness
         };
+    }
+
+    public class OverrideSettingFor434U1 : OverrideSettingFor434
+    {
+        public OverrideSettingFor434U1(MainWindow mainWindow, AppRegInfo appReg) : base(mainWindow, appReg)
+        {
+        }
+
+        protected override void SaveConfigfile(Hashtable inGameAxis, DeviceControl deviceControl)
+        {
+            string filename = appReg.GetInstallDir() + "/User/Config/falcon bms.cfg";
+            string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/falcon bms.cfg";
+            if (!System.IO.File.Exists(fbackupname) & (System.IO.File.Exists(filename)))
+                System.IO.File.Copy(filename, fbackupname, true);
+
+            if (System.IO.File.Exists(filename))
+                System.IO.File.SetAttributes(filename, System.IO.File.GetAttributes(filename) & (~System.IO.FileAttributes.ReadOnly));
+
+            System.IO.StreamReader cReader = new System.IO.StreamReader
+                (filename, System.Text.Encoding.Default);
+            string stResult = "";
+            while (cReader.Peek() >= 0)
+            {
+                string stBuffer = cReader.ReadLine();
+                if (stBuffer.Contains("// SETUP OVERRIDE"))
+                    continue;
+                stResult += stBuffer + "\r\n";
+            }
+            cReader.Close();
+
+            System.IO.StreamWriter cfg = new System.IO.StreamWriter
+                (filename, false, System.Text.Encoding.GetEncoding("shift_jis"));
+            cfg.Write(stResult);
+            cfg.Write("set g_nHotasPinkyShiftMagnitude " + (deviceControl.devList.Count * 32).ToString()
+                + "          // SETUP OVERRIDE\r\n");
+            cfg.Write("set g_bHotasDgftSelfCancel " + Convert.ToInt32(mainWindow.Misc_OverrideSelfCancel.IsChecked)
+                + "          // SETUP OVERRIDE\r\n");
+            cfg.Write("set g_b3DClickableCursorAnchored " + Convert.ToInt32(mainWindow.Misc_MouseCursorAnchor.IsChecked)
+                + "          // SETUP OVERRIDE\r\n");
+            cfg.Write("set g_nNumOfPOVs 2      // SETUP OVERRIDE\r\n");
+            cfg.Write("set g_nPOV1DeviceID " + (((InGameAxAssgn)inGameAxis["Roll"]).GetDeviceNumber() + 2).ToString() + "   // SETUP OVERRIDE\r\n");
+            cfg.Write("set g_nPOV1ID 0         // SETUP OVERRIDE\r\n");
+            cfg.Write("set g_nPOV2DeviceID " + (((InGameAxAssgn)inGameAxis["Throttle"]).GetDeviceNumber() + 2).ToString() + "   // SETUP OVERRIDE\r\n");
+            cfg.Write("set g_nPOV2ID 0         // SETUP OVERRIDE\r\n");
+            cfg.Close();
+        }
+
+        protected override void SaveKeyMapping(Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile)
+        {
+            string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.getKeyFileName();
+            string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/" + appReg.getKeyFileName();
+            if (!System.IO.File.Exists(fbackupname) & (System.IO.File.Exists(filename)))
+                System.IO.File.Copy(filename, fbackupname, true);
+
+            if (System.IO.File.Exists(filename))
+                System.IO.File.SetAttributes(filename, System.IO.File.GetAttributes(filename) & (~System.IO.FileAttributes.ReadOnly));
+
+            System.IO.StreamWriter sw = new System.IO.StreamWriter
+                (filename, false, System.Text.Encoding.GetEncoding("utf-8"));
+            for (int i = 0; i < keyFile.keyAssign.Length; i++)
+                sw.Write(keyFile.keyAssign[i].GetKeyLine());
+            for (int i = 0; i < deviceControl.devList.Count; i++)
+            {
+                sw.Write(deviceControl.joyAssign[i].GetKeyLineDX(i, deviceControl.devList.Count));
+                // PRIMARY DEVICE POV
+                if (((InGameAxAssgn)inGameAxis["Roll"]).GetDeviceNumber() == i && ((InGameAxAssgn)inGameAxis["Roll"]).GetDeviceNumber() == ((InGameAxAssgn)inGameAxis["Throttle"]).GetDeviceNumber())
+                {
+                    sw.Write(deviceControl.joyAssign[i].GetKeyLinePOV());
+                    break;
+                }
+                if (((InGameAxAssgn)inGameAxis["Roll"]).GetDeviceNumber() == i)
+                    sw.Write(deviceControl.joyAssign[i].GetKeyLinePOV(0));
+                if (((InGameAxAssgn)inGameAxis["Throttle"]).GetDeviceNumber() == i)
+                    sw.Write(deviceControl.joyAssign[i].GetKeyLinePOV(1));
+            }
+            sw.Close();
+        }
     }
 
     /// <summary>

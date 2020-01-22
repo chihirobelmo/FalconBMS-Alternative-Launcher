@@ -69,13 +69,17 @@ namespace FalconBMS_Alternative_Launcher_Cs
             {
                 this.bms_Version = BMS_Version.BMS434;
             }
+            else if (versionNum == 34 && updateNum > 0)
+            {
+                this.bms_Version = BMS_Version.BMS434U1;
+            }
             else if (versionNum == 35)
             {
                 this.bms_Version = BMS_Version.BMS435;
             }
             else
             {
-                this.bms_Version = BMS_Version.BMS434;
+                this.bms_Version = BMS_Version.BMS434U1;
             }
 
             // load command line.
@@ -103,11 +107,14 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     case "4.34":
                         this.bms_Version = BMS_Version.BMS434;
                         break;
+                    case "4.34.1":
+                        this.bms_Version = BMS_Version.BMS434U1;
+                        break;
                     case "4.35":
                         this.bms_Version = BMS_Version.BMS435;
                         break;
                     default:
-                        this.bms_Version = BMS_Version.BMS434;
+                        this.bms_Version = BMS_Version.BMS434U1;
                         break;
                 }
             }
@@ -140,6 +147,13 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     this.regName = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.34";
                     this.keyFileName = "BMS - Full.key";
                     this.overRideSetting = new OverrideSettingFor434(this.mainWindow, this);
+                    this.launcher = new Launcher434(this, this.mainWindow);
+                    mainWindow.LOGO434.Visibility = System.Windows.Visibility.Visible;
+                    break;
+                case BMS_Version.BMS434U1:
+                    this.regName = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.34";
+                    this.keyFileName = "BMS - Full.key";
+                    this.overRideSetting = new OverrideSettingFor434U1(this.mainWindow, this);
                     this.launcher = new Launcher434(this, this.mainWindow);
                     mainWindow.LOGO434.Visibility = System.Windows.Visibility.Visible;
                     break;
@@ -249,6 +263,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         BMS433,
         BMS433U1,
         BMS434,
+        BMS434U1,
         BMS435
     }
 }
