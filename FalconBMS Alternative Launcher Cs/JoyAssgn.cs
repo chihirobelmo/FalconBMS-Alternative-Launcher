@@ -217,7 +217,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             {
                 for (int ii = 0; ii < this.pov[i].direction.Length; ii++)
                 {
-                    for (int iii = 0; iii < 1; iii++)
+                    for (int iii = 0; iii < 2; iii++)
                     {
                         if (this.pov[i].direction[ii].GetCallback((Pinky)iii) == "SimDoNothing")
                             continue;

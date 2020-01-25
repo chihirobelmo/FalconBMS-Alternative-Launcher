@@ -66,6 +66,9 @@ namespace FalconBMS_Alternative_Launcher_Cs
             if (stArrayData.Length > 9)
                 for (int i = 9; i < stArrayData.Length; i++)
                     this.description += " " + (string)stArrayData[i];
+
+            if (this.callback == "SimHotasPinkyShift")
+                this.visibility = "White";
         }
 
         public KeyAssgn() { }
