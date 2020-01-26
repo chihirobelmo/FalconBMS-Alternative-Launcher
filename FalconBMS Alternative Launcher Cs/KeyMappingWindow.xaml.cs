@@ -36,6 +36,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
         private NeutralButtons[] neutralButtons;
         private Invoke invokeStatus = Invoke.Default;
 
+        private Boolean pressedByHand = false;
+
         public KeyMappingWindow(KeyAssgn SelectedCallback, KeyFile keyFile, DeviceControl deviceControl)
         {
             InitializeComponent();
@@ -119,11 +121,25 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 buttons = deviceControl.joyStick[i].CurrentJoystickState.GetButtons();
                 for (int ii = 0; ii < 32; ii++)
                 {
+                    if (buttons[ii] == 128 && deviceControl.joyAssign[i].dx[ii].assign[0].GetCallback() == "SimHotasPinkyShift" && this.pressedByHand == false)
+                    {
+                        Select_PinkyShift.IsChecked = false;
+                    }
+                    if (buttons[ii] == 0 && deviceControl.joyAssign[i].dx[ii].assign[0].GetCallback() == "SimHotasPinkyShift" && this.pressedByHand == false)
+                    {
+                        Select_PinkyShift.IsChecked = true;
+                    }
+
                     if (buttons[ii] == neutralButtons[i].buttons[ii])
                         continue;
                     if (buttons[ii] == 0)
                     {
                         getNeutralPosition();
+                        continue;
+                    }
+
+                    if (deviceControl.joyAssign[i].dx[ii].assign[0].GetCallback() == "SimHotasPinkyShift" && this.pressedByHand == false)
+                    {
                         continue;
                     }
 
@@ -329,6 +345,14 @@ namespace FalconBMS_Alternative_Launcher_Cs
             }
 
             this.Close();
+        }
+
+        private void Select_PinkyShift_Click(object sender, RoutedEventArgs e)
+        {
+            if (Select_PinkyShift.IsChecked == false)
+                this.pressedByHand = true;
+            else
+                this.pressedByHand = false;
         }
     }
 }

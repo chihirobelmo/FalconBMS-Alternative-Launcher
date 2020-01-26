@@ -42,7 +42,7 @@
         <Border BorderBrush="#FF606060" BorderThickness="1" HorizontalAlignment="Center" Height="28" Margin="32,67,33,0" VerticalAlignment="Top" Width="447"/>
         <Button x:Name="ClearDX" Content="Clear DX" HorizontalAlignment="Left" Margin="404,112,0,0" VerticalAlignment="Top" Width="75" Click="ClearDX_Click"/>
         <Button x:Name="ClearKey" Content="Clear Key" HorizontalAlignment="Left" Margin="404,144,0,0" VerticalAlignment="Top" Width="75" Click="ClearKey_Click"/>
-        <ToggleButton x:Name="Select_PinkyShift" Content="KEYCOMBO / PINKYSHIFT" HorizontalAlignment="Right" Margin="0,112,320,0" VerticalAlignment="Top" Width="160" Height="27"/>
+        <ToggleButton x:Name="Select_PinkyShift" Content="KEYCOMBO / PINKYSHIFT" HorizontalAlignment="Right" Margin="0,112,320,0" VerticalAlignment="Top" Width="160" Height="27" Click="Select_PinkyShift_Click"/>
         <ToggleButton x:Name="Select_DX_Release" Content="RELEASE" HorizontalAlignment="Right" Margin="0,144,320,0" VerticalAlignment="Top" Width="160" Height="27"/>
         <Button x:Name="Select_Invoke" Content="Invoke Both" HorizontalAlignment="Right" Margin="0,176,320,0" VerticalAlignment="Top" Width="160" Click="Select_Invoke_Click" Height="27"/>
         <Button x:Name="Save" Content="Save" HorizontalAlignment="Left" Margin="404,176,0,0" VerticalAlignment="Top" Width="75" Click="Save_Click"/>
