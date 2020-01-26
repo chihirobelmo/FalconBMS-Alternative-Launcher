@@ -95,7 +95,7 @@
                     <Label Content="Launchers :" HorizontalAlignment="Left" Margin="32,331,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="16" Foreground="#FF606060"/>
 
                     <ToggleButton x:Name="CMD_ACMI" Content="ACMI" HorizontalAlignment="Left" Margin="204,164,0,0" VerticalAlignment="Top" Width="64"/>
-                    <ToggleButton x:Name="CMD_WINDOW" Content="WINDOW" HorizontalAlignment="Left" Margin="286,164,0,0" VerticalAlignment="Top" Width="64"/>
+                    <ToggleButton x:Name="CMD_WINDOW" Content="WINDOW" HorizontalAlignment="Left" Margin="286,164,0,0" VerticalAlignment="Top" Width="64" Click="CMD_WINDOW_Click"/>
                     <ToggleButton x:Name="CMD_NOMOVIE" Content="NOMOVIE" HorizontalAlignment="Left" Margin="368,164,0,0" VerticalAlignment="Top" Width="64"/>
                     <ToggleButton x:Name="CMD_EF" Content="EYEFLY" HorizontalAlignment="Left" Margin="204,209,0,0" VerticalAlignment="Top" Width="64"/>
                     <ToggleButton x:Name="CMD_MONO" Content="DEBUG" HorizontalAlignment="Left" Margin="286,209,0,0" VerticalAlignment="Top" Width="64"/>

@@ -57,39 +57,37 @@ namespace FalconBMS_Alternative_Launcher_Cs
             {
                 // load command line.
                 string[] args = Environment.GetCommandLineArgs();
-                var option = new Dictionary<string, string>();
-                for (int index = 1; index < args.Length; index += 2)
+
+                if (args.Length % 2 == 1)
                 {
-                    option.Add(args[index], args[index + 1]);
+                    var option = new Dictionary<string, string>();
+                    for (int index = 1; index < args.Length; index += 2)
+                    {
+                        option.Add(args[index], args[index + 1]);
+                    }
+                    if (option.ContainsKey("/yame") == true)
+                        if (option["/yame"] == "true")
+                            FLG_YAME64 = true;
+
+                    if (FLG_YAME64)
+                    {
+                        LargeTab.SelectedIndex = 1;
+                        Tab_Launcher.Visibility = Visibility.Collapsed;
+
+                        this.Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
+                        BackGroundBox1.Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
+                        BackGroundBox2.Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
+                        BackGroundBox3.Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
+                        BackGroundBox4.Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
+                        BackGroundImage.Opacity = 0;
+
+                        Button_Apply_YAME64.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        Button_Apply_YAME64.Visibility = Visibility.Hidden;
+                    }
                 }
-                if (option.ContainsKey("/yame") == true)
-                    if (option["/yame"] == "true")
-                        FLG_YAME64 = true;
-
-                if (FLG_YAME64)
-                {
-                    LargeTab.SelectedIndex = 1;
-                    Tab_Launcher.Visibility = Visibility.Collapsed;
-
-                    this.Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
-                    BackGroundBox1.Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
-                    BackGroundBox2.Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
-                    BackGroundBox3.Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
-                    BackGroundBox4.Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
-                    BackGroundImage.Opacity = 0;
-
-                    Button_Apply_YAME64.Visibility = Visibility.Visible;
-                }
-                else
-                {
-                    Button_Apply_YAME64.Visibility = Visibility.Hidden;
-                }
-
-                // Load UI Properties(Like Button Status).
-                this.appProperties = new AppProperties(this);
-
-                // Read Registry
-                this.appReg = new AppRegInfo(this);
             }
             catch (System.IO.FileNotFoundException ex)
             {
@@ -103,6 +101,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
                 this.Close();
             }
+
+            // Load UI Properties(Like Button Status).
+            this.appProperties = new AppProperties(this);
+
+            // Read Registry
+            this.appReg = new AppRegInfo(this);
 
             if (this.appReg.getBMSVersion() == BMS_Version.UNDEFINED)
             {
@@ -629,6 +633,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
         private void Serfoss2003_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
             System.Diagnostics.Process.Start("https://apps.dtic.mil/docs/citations/ADA414893");
+        }
+
+        private void CMD_WINDOW_Click(object sender, RoutedEventArgs e)
+        {
+            if (CMD_WINDOW.IsChecked == true)
+                MessageBox.Show("FalconBMS crashes when Alt+TAB in FullScreen Mode. Recommend Enabling Window Mode.\n(WINDOW button turning on light)", "WARNING", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }

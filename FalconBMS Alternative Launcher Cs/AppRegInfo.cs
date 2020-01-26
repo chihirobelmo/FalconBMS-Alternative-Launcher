@@ -85,9 +85,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
             // load command line.
             string[] args = Environment.GetCommandLineArgs();
             var option = new Dictionary<string, string>();
-            for (int index = 1; index < args.Length; index += 2)
+            if (args.Length % 2 == 1)
             {
-                option.Add(args[index], args[index + 1]);
+                for (int index = 1; index < args.Length; index += 2)
+                {
+                    option.Add(args[index], args[index + 1]);
+                }
             }
 
             // User defined BMS version
