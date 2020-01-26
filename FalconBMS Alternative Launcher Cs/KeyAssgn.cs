@@ -334,9 +334,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
             // PRIMARY DEVICE POV
             if (((InGameAxAssgn)MainWindow.inGameAxis["Roll"]).GetDeviceNumber() == joynum || ((InGameAxAssgn)MainWindow.inGameAxis["Throttle"]).GetDeviceNumber() == joynum) 
             {
-                string tmp = joyAssign[joynum].KeyMappingPreviewPOV(this).Replace("\n", ", ");
+                string tmp = "";
+                tmp = joyAssign[joynum].KeyMappingPreviewPOV(this);
+                if (tmp != "")
+                    tmp = "JOY " + joynum.ToString() + " " + joyAssign[joynum].KeyMappingPreviewPOV(this).Replace("\n", ", ");
                 if (ans != "" & tmp != "")
-                    ans += " ";
+                    ans += "; ";
                 ans += tmp;
             }
             if (ans != "")
