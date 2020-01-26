@@ -439,7 +439,7 @@
                                         <Run Text="by Falcas will update their kneeboard images applying current mission data."/>
                                     </TextBlock>
                                 </Grid>
-                                <Grid HorizontalAlignment="Left" Height="278" Margin="499,0,0,307" VerticalAlignment="Center" Width="485">
+                                <Grid HorizontalAlignment="Left" Height="278" Margin="499,0,0,307" VerticalAlignment="Top" Width="485">
                                     <Label Content="Smart Scaling" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10,10,10,0" Width="Auto" Height="48" FontSize="24"/>
                                     <TextBlock HorizontalAlignment="Left" Margin="32,63,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="#FF606060" Height="Auto" Width="409">
                                         <Bold><Run Text="Improving Target Orientation Discrimination Performance"/></Bold>
