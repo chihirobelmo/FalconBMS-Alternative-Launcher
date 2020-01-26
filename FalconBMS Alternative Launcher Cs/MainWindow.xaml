@@ -510,9 +510,9 @@
                     <Label Content="ASSIGNMENT " VerticalContentAlignment="Top" HorizontalAlignment="Left" Margin="10,0,0,32" VerticalAlignment="Bottom" RenderTransformOrigin="-4.878,1.143" FontWeight="Bold" Height="26" Width="89"/>
                     <Label x:Name="Label_AssgnStatus" Content="KEYSEARCH MODE" VerticalContentAlignment="Top" HorizontalAlignment="Left" Margin="114,0,0,32" VerticalAlignment="Bottom" RenderTransformOrigin="-4.878,1.143" FontStyle="Italic" Height="26" Width="886"/>
 
-                    <ToggleButton x:Name="Select_PinkyShift" Content="KEYCOMBO / PINKYSHIFT" HorizontalAlignment="Right" Margin="0,12,253,0" VerticalAlignment="Top" Width="160" Height="27"/>
-                    <ToggleButton x:Name="Select_DX_Release" Content="RELEASE" HorizontalAlignment="Right" Margin="0,12,164,0" VerticalAlignment="Top" Width="64" Height="27"/>
-                    <Button x:Name="Select_Invoke" Content="Invoke Both" HorizontalAlignment="Right" Margin="0,12,10,0" VerticalAlignment="Top" Width="129" Click="Select_Invoke_Click" Height="27"/>
+                    <ToggleButton x:Name="Select_PinkyShift" Visibility="Hidden" Content="KEYCOMBO / PINKYSHIFT" HorizontalAlignment="Right" Margin="0,12,253,0" VerticalAlignment="Top" Width="160" Height="27" Click="Select_PinkyShift_Click"/>
+                    <ToggleButton x:Name="Select_DX_Release" Visibility="Hidden" Content="RELEASE" HorizontalAlignment="Right" Margin="0,12,164,0" VerticalAlignment="Top" Width="64" Height="27"/>
+                    <Button x:Name="Select_Invoke" Visibility="Hidden" Content="Invoke Both" HorizontalAlignment="Right" Margin="0,12,10,0" VerticalAlignment="Top" Width="129" Click="Select_Invoke_Click" Height="27"/>
                     <CheckBox x:Name="Misc_OverrideSelfCancel" Content="Use 3-Way ON-OFF-ON Switch for TQS: DOGFIGHT" FontSize="11" HorizontalAlignment="Left" Margin="10,0,0,9" VerticalAlignment="Bottom" Foreground="#FF606060" Height="18" Width="272"/>
                     <CheckBox x:Name="Misc_MouseCursorAnchor" Content="Anchor the Mouse Cursor to Clickable Switches or Dials." HorizontalAlignment="Left" Margin="300,0,0,9" VerticalAlignment="Bottom" Foreground="#FF606060" Height="18" Width="318"/>
 

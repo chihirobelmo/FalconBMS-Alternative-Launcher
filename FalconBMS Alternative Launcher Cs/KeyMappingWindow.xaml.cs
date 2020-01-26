@@ -168,6 +168,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     return;
                 }
                 povs = deviceControl.joyStick[i].CurrentJoystickState.GetPointOfView();
+                buttons = deviceControl.joyStick[i].CurrentJoystickState.GetButtons();
                 for (int ii = 0; ii < 4; ii++)
                 {
                     if (povs[ii] == neutralButtons[i].povs[ii])

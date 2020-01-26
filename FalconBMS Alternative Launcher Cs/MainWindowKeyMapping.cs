@@ -188,12 +188,22 @@ namespace FalconBMS_Alternative_Launcher_Cs
                         buttons = deviceControl.joyStick[i].CurrentJoystickState.GetButtons();
                         for (int ii = 0; ii < 32; ii++)
                         {
+                            if (buttons[ii] == 128 && deviceControl.joyAssign[i].dx[ii].assign[0].GetCallback() == "SimHotasPinkyShift" && this.pressedByHand == false)
+                                Select_PinkyShift.IsChecked = false;
+                            if (buttons[ii] == 0 && deviceControl.joyAssign[i].dx[ii].assign[0].GetCallback() == "SimHotasPinkyShift" && this.pressedByHand == false)
+                                Select_PinkyShift.IsChecked = true;
+
                             if (buttons[ii] == neutralButtons[i].buttons[ii])
                                 continue;
                             statusAssign = Status.GetNeutralPos;
                             if (buttons[ii] == 0) // RELEASE SHIFT
+                                Select_DX_Release.IsChecked = false;
+                            else
+                                Select_DX_Release.IsChecked = true;
+
+                            if (deviceControl.joyAssign[i].dx[ii].assign[0].GetCallback() == "SimHotasPinkyShift" && this.pressedByHand == false)
                                 continue;
-                            
+
                             Pinky pinkyStatus = Pinky.UnShift;
                             Behaviour behaviourStatus = Behaviour.Press;
                             if (Select_PinkyShift.IsChecked == false)
@@ -202,7 +212,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
                                 behaviourStatus = Behaviour.Release;
 
                             target = deviceControl.joyAssign[i].dx[ii].assign[(int)pinkyStatus + (int)behaviourStatus].GetCallback();
-                            Label_AssgnStatus.Content = "DX" + (ii+1) + "\t: " + deviceControl.joyAssign[i].GetProductName();
+                            if (target == "SimDoNothing" && behaviourStatus == Behaviour.Release)
+                            { }
+                            else
+                            {
+                                Label_AssgnStatus.Content = "DX" + (ii + 1) + "\t: " + deviceControl.joyAssign[i].GetProductName();
+                            }
                         }
                         povs = deviceControl.joyStick[i].CurrentJoystickState.GetPointOfView();
                         for (int ii = 0; ii < 4; ii++)
