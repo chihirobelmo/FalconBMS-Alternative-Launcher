@@ -69,6 +69,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
             if (this.callback == "SimHotasPinkyShift")
                 this.visibility = "White";
+            if (this.description == "\"======== 2.19     THROTTLE QUADRANT SYSTEM ==\"")
+                this.description = "\"======== 2.19     THROTTLE QUADRANT SYSTEM ========\"";
         }
 
         public KeyAssgn() { }
