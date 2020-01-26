@@ -206,7 +206,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
                     // OVERRIDE SETTINGS.
                     mainWindow.executeOverride();
-
+                        
                     String appPlatform = appReg.GetInstallDir() + "/Bin/x64/Falcon BMS.exe";
                     process = System.Diagnostics.Process.Start(appPlatform, strCmdText);
                     mainWindow.Close();

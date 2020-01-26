@@ -172,7 +172,7 @@
                     <Button x:Name="OpenDocs" Content="Open Docs Folder" Style="{StaticResource AccentedSquareButtonStyle}" Controls:ControlsHelper.ContentCharacterCasing="Normal" HorizontalAlignment="Left" Margin="301,271,0,0" VerticalAlignment="Top" Width="165" Click="OpenDocs_Click"/>
                     <CheckBox x:Name="ApplicationOverride" Content="Launch without any setup override." HorizontalAlignment="Left" Margin="140,339,0,0" VerticalAlignment="Top" Background="#FFECFF71" Foreground="#FF606060"/>
 
-                    <Border BorderThickness="1" HorizontalAlignment="Left" Height="128" Margin="48,503,0,0" VerticalAlignment="Top" Width="688">
+                    <Border BorderThickness="1" HorizontalAlignment="Left" Height="128" Margin="48,503,0,0" VerticalAlignment="Top" Width="418">
                         <Border.Background>
                             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                                 <GradientStop Color="#7F151719" Offset="0"/>
@@ -209,34 +209,10 @@
                                     </ControlTemplate>
                                 </Button.Template>
                             </Button>
-                            <Button x:Name="Launch_F4AWACS" BorderThickness="10" BorderBrush="Black" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="416,0,0,56" Height="48" Width="48" Click="Launch_Third" MouseEnter="MouseEnterLauncher" MouseLeave="MouseLeaveLauncher">
-                                <Button.Template>
-                                    <ControlTemplate>
-                                        <Image Source="Resources/F4AWACS.png"/>
-                                    </ControlTemplate>
-                                </Button.Template>
-                            </Button>
-                            <Button Visibility="Visible" x:Name="Launch_TIR" BorderThickness="10" BorderBrush="Black" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="512,0,0,56" Height="48" Width="48" Click="Launch_Third" MouseEnter="MouseEnterLauncher" MouseLeave="MouseLeaveLauncher">
-                                <Button.Template>
-                                    <ControlTemplate>
-                                        <Image Source="Resources/TIR.png"/>
-                                    </ControlTemplate>
-                                </Button.Template>
-                            </Button>
-                            <Button Visibility="Visible" x:Name="Launch_VA" BorderThickness="10" BorderBrush="Black" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="608,0,0,56" Height="48" Width="48" Click="Launch_Third" MouseEnter="MouseEnterLauncher" MouseLeave="MouseLeaveLauncher">
-                                <Button.Template>
-                                    <ControlTemplate>
-                                        <Image Source="Resources/VA.png"/>
-                                    </ControlTemplate>
-                                </Button.Template>
-                            </Button>
                             <Label x:Name="Label_WDP" Content="Weapon Delivery&#10;        Planner" HorizontalAlignment="Left" Margin="4,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
                             <Label x:Name="Label_MC" Content="    Mission&#xA;Commander" HorizontalAlignment="Left" Margin="114,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
                             <Label x:Name="Label_WC" Content="   Weather&#xA;Commander" HorizontalAlignment="Left" Margin="210,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
                             <Label x:Name="Label_F4WX" Content="       F4Wx Real&#xA;Weather Converter" HorizontalAlignment="Left" Margin="288,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
-                            <Label x:Name="Label_F4AWACS" Content="F4AWACS" HorizontalAlignment="Left" Margin="408,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
-                            <Label x:Name="Label_TIR" Visibility="Visible" Content="TrackIR 5" HorizontalAlignment="Left" Margin="506,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
-                            <Label x:Name="Label_VA" Visibility="Visible" Content="Voice Attack" HorizontalAlignment="Left" Margin="594,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
                         </Grid>
                     </Border>
                 </Grid>

@@ -47,23 +47,11 @@
     <Setting Name="Third_WC" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:\</Value>
     </Setting>
-    <Setting Name="Third_GRIB2FMAP" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\</Value>
-    </Setting>
     <Setting Name="Third_F4WX" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\</Value>
-    </Setting>
-    <Setting Name="Third_F4AWACS" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:\</Value>
     </Setting>
     <Setting Name="CMD_MONO" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="Third_TIR" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\</Value>
-    </Setting>
-    <Setting Name="Third_VA" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\</Value>
     </Setting>
     <Setting Name="Misc_SmartScalingOverride" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>

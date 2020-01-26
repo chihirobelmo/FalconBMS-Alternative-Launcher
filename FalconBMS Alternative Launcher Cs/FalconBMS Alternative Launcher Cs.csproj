@@ -206,16 +206,7 @@
     <Resource Include="Resources\F4WX.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\F4AWACS.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\BackGround.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\TIR.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\VA.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\LOGO432.png" />

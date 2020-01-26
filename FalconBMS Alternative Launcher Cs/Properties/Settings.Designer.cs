@@ -206,36 +206,12 @@ namespace FalconBMS_Alternative_Launcher_Cs.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("C:\\")]
-        public string Third_GRIB2FMAP {
-            get {
-                return ((string)(this["Third_GRIB2FMAP"]));
-            }
-            set {
-                this["Third_GRIB2FMAP"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\")]
         public string Third_F4WX {
             get {
                 return ((string)(this["Third_F4WX"]));
             }
             set {
                 this["Third_F4WX"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\")]
-        public string Third_F4AWACS {
-            get {
-                return ((string)(this["Third_F4AWACS"]));
-            }
-            set {
-                this["Third_F4AWACS"] = value;
             }
         }
         
@@ -248,30 +224,6 @@ namespace FalconBMS_Alternative_Launcher_Cs.Properties {
             }
             set {
                 this["CMD_MONO"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\")]
-        public string Third_TIR {
-            get {
-                return ((string)(this["Third_TIR"]));
-            }
-            set {
-                this["Third_TIR"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\")]
-        public string Third_VA {
-            get {
-                return ((string)(this["Third_VA"]));
-            }
-            set {
-                this["Third_VA"] = value;
             }
         }
         
