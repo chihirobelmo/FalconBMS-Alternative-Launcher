@@ -65,7 +65,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             {
                 this.bms_Version = BMS_Version.BMS433U1;
             }
-            else if (versionNum == 34)
+            else if (versionNum == 34 && updateNum == 0)
             {
                 this.bms_Version = BMS_Version.BMS434;
             }
