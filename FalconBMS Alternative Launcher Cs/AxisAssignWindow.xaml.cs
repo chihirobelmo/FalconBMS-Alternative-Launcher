@@ -434,7 +434,6 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 return;
             int ABposition;
             ABposition = MAXIN - MainWindow.deviceControl.JoyAxisState(devNumTmp, phyAxNumTmp);
-            ABposition += 256;
             if (MainWindow.deviceControl.JoyAxisState(devNumTmp, phyAxNumTmp) > MAXIN)
                 ABposition = MAXIN;
             this.AB = ABposition;
@@ -446,7 +445,6 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 return;
             int IDLEposition;
             IDLEposition = MAXIN - MainWindow.deviceControl.JoyAxisState(devNumTmp, phyAxNumTmp);
-            IDLEposition -= 256;
             if (MainWindow.deviceControl.JoyAxisState(devNumTmp, phyAxNumTmp) < 0)
                 IDLEposition = 0;
             this.IDLE = IDLEposition;

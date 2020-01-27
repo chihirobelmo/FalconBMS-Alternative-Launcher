@@ -268,15 +268,13 @@ namespace FalconBMS_Alternative_Launcher_Cs
                         result += "\n";
                     result += " DX" + (i + 1);
                     if (ii == 1) //PRESS + SHIFT
-                        result += " SHFT";
+                        result += " SHIFT";
                     if (ii == 2) //RELEASE
-                        result += " REL";
+                        result += " RELEASE";
                     if (ii == 3) //RELEASE + SHIFT
-                        result += " REL SHFT";
-                    if (this.dx[i].assign[ii].GetInvoke() == Invoke.Down)
-                        result += " INV: DN";
-                    if (this.dx[i].assign[ii].GetInvoke() == Invoke.Up)
-                        result += " INV: UP";
+                        result += " RELEASE SHIFT";
+                    if (this.dx[i].assign[ii].GetInvoke() == Invoke.Down && ii != 2 && ii !=3 )
+                        result += " HOLD";
                 }
             }
             return result;

@@ -355,5 +355,41 @@ namespace FalconBMS_Alternative_Launcher_Cs
             else
                 this.pressedByHand = false;
         }
+
+        private Press pressStatus = Press.Press;
+        public enum Press
+        {
+            Press,
+            Hold,
+            Release
+        }
+
+        private void Select_Press_Click(object sender, RoutedEventArgs e)
+        {
+            switch (pressStatus)
+            {
+                case Press.Press:
+                    this.pressStatus = Press.Hold;
+                    this.Select_Press.Content = "HOLD";
+                    this.Select_Press.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x99, 0xD9, 0xEA));
+                    this.invokeStatus = Invoke.Down;
+                    this.Select_DX_Release.IsChecked = true;
+                    break;
+                case Press.Hold:
+                    this.pressStatus = Press.Release;
+                    this.Select_Press.Content = "RELEASE";
+                    this.Select_Press.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x99, 0xD9, 0xEA));
+                    this.invokeStatus = Invoke.Down;
+                    this.Select_DX_Release.IsChecked = false;
+                    break;
+                case Press.Release:
+                    this.pressStatus = Press.Press;
+                    this.Select_Press.Content = "PRESS";
+                    this.Select_Press.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xF7, 0xF7, 0xF7));
+                    this.invokeStatus = Invoke.Default;
+                    this.Select_DX_Release.IsChecked = true;
+                    break;
+            }
+        }
     }
 }
