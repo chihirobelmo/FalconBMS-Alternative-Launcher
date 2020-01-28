@@ -369,13 +369,6 @@ namespace FalconBMS_Alternative_Launcher_Cs
             switch (pressStatus)
             {
                 case Press.Press:
-                    this.pressStatus = Press.Hold;
-                    this.Select_Press.Content = "HOLD";
-                    this.Select_Press.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x99, 0xD9, 0xEA));
-                    this.invokeStatus = Invoke.Down;
-                    this.Select_DX_Release.IsChecked = true;
-                    break;
-                case Press.Hold:
                     this.pressStatus = Press.Release;
                     this.Select_Press.Content = "RELEASE";
                     this.Select_Press.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x99, 0xD9, 0xEA));
