@@ -300,9 +300,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
         {
             if (this.ApplicationOverride.IsChecked == true)
             {
-                string textMessage = "You are going to launch BMS without any setup override from AxisAssign and KeyMapping section. Will you continue?";
-                if (MessageBox.Show(textMessage, "WARNING", MessageBoxButton.OKCancel, MessageBoxImage.Information) == MessageBoxResult.Cancel)
-                    return;
+                string textMessage = "You are going to launch BMS without any setup override from AxisAssign and KeyMapping section.";
+                MessageBox.Show(textMessage, "WARNING", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
             {
