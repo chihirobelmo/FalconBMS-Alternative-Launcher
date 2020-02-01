@@ -176,7 +176,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
                 // Save UI Properties(Like Button Status).
                 this.appProperties.SaveUISetup();
-                this.appReg.getOverrideWriter().Execute(inGameAxis, deviceControl, keyFile);
+                if (this.ApplicationOverride.IsChecked == false)
+                    this.appReg.getOverrideWriter().Execute(inGameAxis, deviceControl, keyFile);
             }
             catch (System.IO.FileNotFoundException ex)
             {

@@ -57,7 +57,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             SaveDeviceSorting(deviceControl);
             SaveConfigfile(inGameAxis, deviceControl);
             SaveKeyMapping(inGameAxis, deviceControl, keyFile);
-            SavePlcLbk();
+            //SavePlcLbk();
             SavePop();
             SaveWindowConfig();
             SaveJoyAssignStatus(deviceControl);
@@ -863,6 +863,11 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 + "          // SETUP OVERRIDE\r\n");
             cfg.Write("set g_b3DClickableCursorAnchored " + Convert.ToInt32(mainWindow.Misc_MouseCursorAnchor.IsChecked)
                 + "          // SETUP OVERRIDE\r\n");
+            if (((InGameAxAssgn)inGameAxis["Roll"]).GetDeviceNumber() == ((InGameAxAssgn)inGameAxis["Throttle"]).GetDeviceNumber())
+            {
+                cfg.Close();
+                return;
+            }
             cfg.Write("set g_nNumOfPOVs 2      // SETUP OVERRIDE\r\n");
             cfg.Write("set g_nPOV1DeviceID " + (((InGameAxAssgn)inGameAxis["Roll"]).GetDeviceNumber() + 2).ToString() + "   // SETUP OVERRIDE\r\n");
             cfg.Write("set g_nPOV1ID 0         // SETUP OVERRIDE\r\n");
