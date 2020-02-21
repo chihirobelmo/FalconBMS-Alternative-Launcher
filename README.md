@@ -53,20 +53,15 @@ before contacting Official Devs.
 
 # How to install Falcon BMS Alternative Launcher?
 
-Make a backup of the stock Falcon BMS 4.33 U1¥Bin¥x86¥Hub.exe before installing it.
+Make a backup of the stock Falcon BMS 4.34¥Bin¥x86¥Hub.exe before installing it.
 Download Falcon BMS Alternative Launcher, unzip the file and extract all of the included files to
-Falcon BMS 4.33 U1¥Bin¥x86, overwrite Hub.exe. Next time you launch BMS, Falcon BMS
+Falcon BMS 4.34¥Bin¥x86, overwrite Hub.exe. Next time you launch BMS, Falcon BMS
 Alternative Launcher will be launched instead of the stock launcher.
 
 Installing the new launcher after the clean installation of BMS is the most secure way to use this
 app.
 
 ![readme01](https://user-images.githubusercontent.com/32677587/53294990-b48b6580-3834-11e9-874d-f6f0443b96e0.png)
-
-NOTE: Just after the fresh install of BMS it does not have registry information for current
-selected theater or logbook, so if you first to install BMS and want to install the
-app. You have to launch BMS via stock launcher once or directory run Bin/x86/Falcon
-BMS.exe then install the app.
 
 # How to use Falcon BMS Alternative Launcher?
 
@@ -77,7 +72,7 @@ BMS.exe then install the app.
 In Axis Assign page, you can assign axis setups.
 Clicking "Assign" button popups axis setup window for each control.
 
-Axis Assign Page is divided into 2 pages, "FlightControl" and "Avionics & Radios".
+Axis Assign Page is divided into 4 pages, "FlightControl" "Avionics" "Radios" "Views".
 
 # * Axis Setup Window *
 
@@ -108,13 +103,12 @@ Double clicking specific raw to open small Key Mapping Window, then press the ke
 Key Mapping Page has a drop-down list to jump the Datagrid scroll to the specific
 sections, especially useful to find essential HOTAS callbacks section.
 
-You can also setup KEYCOMBO, SHIFTED DX, BUTTON RELEASE, and INVOKE which cannot be done from stock BMS UI
+You can also setup SHIFTED DX or BUTTON RELEASE behaviours which cannot be done from stock BMS UI
 
-When you would like to setup key/buttons for KEYCOMBO, SHIFTED DX or RELEASE to
+When you would like to setup key/buttons for SHIFTED DX or RELEASE to
 activate callbacks, click and enable "KEYCOMBO / PINKYSHIFT" button or "RELEASE"
 button. When the button has lightened up it has been enabled. Then press buttons to assign
 them.
-
 
 # * TIPS:
 
@@ -135,7 +129,7 @@ Launcher page has several shortcuts for BMS itself and other tools.
 
 <b>* Platform:</b>
 
-Here you can select which version (32bit or 64 bit) of BMS to launch.
+Here you can select which version (32bit or 64 bit) of BMS to launch (Only works for BMs4.33).
 
 <b>* Theater:</b>
 
@@ -151,7 +145,7 @@ the app supports this for Israel and Ikaros theater.
 <b>* Command Line:</b>
 
 These buttons will enable/disable each launch options for BMS. For further details read
-BMS-Manual.pdf 3.2.5 Launching BMS 4.33
+BMS-Manual.pdf 3.2.4 Launching BMS 4.34
 
 <b>* Documentation and Manuals:</b>
 
@@ -169,8 +163,7 @@ you still have to read and learn this sim from those manuals.
 Assign Page and Key Mapping Page. Use this in case of something not working
 properly regarding this app. You can use this app just as same as stock launcher then.
 
-Weapon Delivery Planner / Mission Commander / Weather Commander / F4WX /
-F4AWACS are the 3rd party tools that will not come with BMS installation. Click the
+Weapon Delivery Planner / Mission Commander / Weather Commander / F4WX are the 3rd party tools that will not come with BMS installation. Click the
 icons and you will have to select install directory first time. After that these icons will be
 work as shortcuts for those apps. When you updated those apps to a latest version,
 delete or move older version from local storage and app will ask for updated install
