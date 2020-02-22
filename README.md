@@ -40,9 +40,9 @@ backups to User/Config/Backup at its first launch.
 
 I recommend make backups of the registry.
 
-- HKEY_LOCAL_MACHINE¥SOFTWARE¥BenchmarkSims¥Falcon BMS 4.33 U1
+- HKEY_LOCAL_MACHINE/SOFTWARE/BenchmarkSims/Falcon BMS 4.33 U1
 
-- HKEY_LOCAL_MACHINE¥SOFTWARE¥Wow6432Node¥BenchmarkSims¥Falcon BMS 4.33 U1
+- HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node/BenchmarkSims/Falcon BMS 4.33 U1
 
 (Export .reg file via regedit.exe, For restoring just run reg file you have backed up.)
 
@@ -53,9 +53,9 @@ before contacting Official Devs.
 
 # How to install Falcon BMS Alternative Launcher?
 
-Make a backup of the stock Falcon BMS 4.34¥Bin¥x86¥Hub.exe before installing it.
+Make a backup of the stock Falcon BMS 4.34/Bin/x86/Hub.exe before installing it.
 Download Falcon BMS Alternative Launcher, unzip the file and extract all of the included files to
-Falcon BMS 4.34¥Bin¥x86, overwrite Hub.exe. Next time you launch BMS, Falcon BMS
+Falcon BMS 4.34/Bin/x86, overwrite Hub.exe. Next time you launch BMS, Falcon BMS
 Alternative Launcher will be launched instead of the stock launcher.
 
 Installing the new launcher after the clean installation of BMS is the most secure way to use this
