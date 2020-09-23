@@ -190,8 +190,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 {
                     for (int iii = 0; iii < 2; iii++)
                     {
-                        if (this.pov[i].direction[ii].GetCallback((Pinky)iii) == "SimDoNothing")
-                            continue;
+                        // if (this.pov[i].direction[ii].GetCallback((Pinky)iii) == "SimDoNothing")
+                        //    continue;
                         assign += this.pov[i].direction[ii].GetCallback((Pinky)iii);
                         if ((Pinky)iii == Pinky.UnShift)
                             assign += " " + i.ToString();
@@ -219,8 +219,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 {
                     for (int iii = 0; iii < 2; iii++)
                     {
-                        if (this.pov[i].direction[ii].GetCallback((Pinky)iii) == "SimDoNothing")
-                            continue;
+                        // if (this.pov[i].direction[ii].GetCallback((Pinky)iii) == "SimDoNothing")
+                        //    continue;
                         assign += this.pov[i].direction[ii].GetCallback((Pinky)iii);
                         if ((Pinky)iii == Pinky.UnShift)
                             assign += " " + povNum.ToString();

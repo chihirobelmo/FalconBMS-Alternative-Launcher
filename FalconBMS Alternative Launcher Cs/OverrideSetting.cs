@@ -897,7 +897,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 if (((InGameAxAssgn)inGameAxis["Roll"]).GetDeviceNumber() == i && ((InGameAxAssgn)inGameAxis["Roll"]).GetDeviceNumber() == ((InGameAxAssgn)inGameAxis["Throttle"]).GetDeviceNumber())
                 {
                     sw.Write(deviceControl.joyAssign[i].GetKeyLinePOV());
-                    break;
+                    continue;
                 }
                 if (((InGameAxAssgn)inGameAxis["Roll"]).GetDeviceNumber() == i)
                     sw.Write(deviceControl.joyAssign[i].GetKeyLinePOV(0));
