@@ -13,33 +13,36 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <summary>
         /// Read theater.lst and apply the list to Combobox.
         /// </summary>
-        public TheaterList(AppRegInfo appReg, ComboBox Combo)
+        public static void Populate(AppRegInfo appReg, ComboBox Combo)
         {
             String filename = appReg.GetInstallDir() + "/Data/Terrdata/theaterdefinition/theater.lst";
             if (File.Exists(filename) == false)
                 return;
-            string[] definitionfile = File.ReadAllLines(filename, Encoding.UTF8);
+            var theaterPaths = File.ReadLines(filename, Encoding.UTF8)
+                .Select(line => line.Trim()) // Trim whitespace
+                .Where(line => line.Length > 0 && !line.StartsWith("#")) // Throw out empty lines, comments, etc.
+                .Select(line => appReg.GetInstallDir() + "\\Data\\" + line) // Construct TDF file path
+                .Where(tdf => File.Exists(tdf)); // Throw out paths we can't find
 
-            var list = new List<string>();
-            foreach (string tdf in definitionfile)
+            var theaters = new List<string>();
+            foreach (string tdf in theaterPaths)
             {
-                if (File.Exists(appReg.GetInstallDir() + "\\Data\\" + tdf) == false)
-                    continue;
-                string[] line = File.ReadAllLines(appReg.GetInstallDir() + "\\Data\\" + tdf, Encoding.UTF8);
-                string theatername = "";
-                foreach (string str in line)
+                var lines = File.ReadLines(tdf, Encoding.UTF8);
+                foreach (string str in lines)
                 {
-                    if (!str.Contains("name "))
-                        continue;
-                    theatername = str.Replace("name ", "").Trim();
-                    break;
+                    if (str.Contains("name "))
+                    {
+                        theaters.Add(str.Replace("name ", "").Trim());
+                        break;
+                    }
                 }
-                list.Add(theatername);
             }
-            for (int ii = 0; ii < list.Count; ii++)
+            theaters.Sort();
+
+            for (int ii = 0; ii < theaters.Count; ii++)
             {
-                Combo.Items.Add(list[ii]);
-                if (list[ii] == appReg.GetCurrentTheater())
+                Combo.Items.Add(theaters[ii]);
+                if (theaters[ii] == appReg.GetCurrentTheater())
                     Combo.SelectedIndex = ii;
             }
         }
