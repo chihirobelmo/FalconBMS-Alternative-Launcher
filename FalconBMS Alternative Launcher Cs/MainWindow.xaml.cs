@@ -298,14 +298,28 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// </summary>
         public void executeOverride()
         {
-            if (this.ApplicationOverride.IsChecked == true)
+            try
             {
-                string textMessage = "You are going to launch BMS without any setup override from AxisAssign and KeyMapping section.";
-                MessageBox.Show(textMessage, "WARNING", MessageBoxButton.OK, MessageBoxImage.Information);
+                // throw new Exception("An exception occurs.");
+                if (this.ApplicationOverride.IsChecked == true)
+                {
+                    string textMessage = "You are going to launch BMS without any setup override from AxisAssign and KeyMapping section.";
+                    MessageBox.Show(textMessage, "WARNING", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    this.appReg.getOverrideWriter().Execute(inGameAxis, deviceControl, keyFile);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                this.appReg.getOverrideWriter().Execute(inGameAxis, deviceControl, keyFile);
+                System.Console.WriteLine(ex.Message);
+
+                System.IO.StreamWriter sw = new System.IO.StreamWriter("C:\\FBMSAltLauncherErrorLog.txt", false, System.Text.Encoding.GetEncoding("shift_jis"));
+                sw.Write(ex.Message);
+                sw.Close();
+
+                this.Close();
             }
         }
 
