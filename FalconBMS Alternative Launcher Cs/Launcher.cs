@@ -262,6 +262,9 @@ namespace FalconBMS_Alternative_Launcher_Cs
             mainWindow.Misc_Platform.Visibility = Visibility.Hidden;
             mainWindow.Label_Platform.Content = "Platform : BMS 4.35 is 64-bit apprecation.";
 
+            mainWindow.Launch_DISX.Visibility = Visibility.Hidden;
+            mainWindow.Label_DISX.Visibility  = Visibility.Hidden;
+
             mainWindow.CMD_BW.Visibility = Visibility.Hidden;
         }
 
