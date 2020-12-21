@@ -190,19 +190,38 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 {
                     for (int iii = 0; iii < 2; iii++)
                     {
-                        if (this.pov[i].direction[ii].GetCallback((Pinky)iii) == "SimDoNothing")
-                            continue;
-                        assign += this.pov[i].direction[ii].GetCallback((Pinky)iii);
-                        if ((Pinky)iii == Pinky.UnShift)
-                            assign += " " + i.ToString();
-                        if ((Pinky)iii == Pinky.Shift)
-                            assign += " " + (i + 2).ToString();
-                        assign += " " + "-1";
-                        assign += " " + "-3";
-                        assign += " " + ii.ToString();
-                        assign += " " + "0x0";
-                        assign += " " + this.pov[i].direction[ii].GetSoundID((Pinky)iii);
-                        assign += "\n";
+                        if (i < 2)
+                        {
+                            // if (this.pov[i].direction[ii].GetCallback((Pinky)iii) == "SimDoNothing")
+                            //    continue;
+                            assign += this.pov[i].direction[ii].GetCallback((Pinky)iii);
+                            if ((Pinky)iii == Pinky.UnShift)
+                                assign += " " + i.ToString();
+                            if ((Pinky)iii == Pinky.Shift)
+                                assign += " " + (i + 2).ToString();
+                            assign += " " + "-1";
+                            assign += " " + "-3";
+                            assign += " " + ii.ToString();
+                            assign += " " + "0x0";
+                            assign += " " + this.pov[i].direction[ii].GetSoundID((Pinky)iii);
+                            assign += "\n";
+                        }
+                        else
+                        {
+                            if (this.pov[i].direction[ii].GetCallback((Pinky)iii) == "SimDoNothing" & this.pov[i-2].direction[ii].GetCallback((Pinky)iii) != "SimDoNothing")
+                                continue;
+                            assign += this.pov[i].direction[ii].GetCallback((Pinky)iii);
+                            if ((Pinky)iii == Pinky.UnShift)
+                                assign += " " + i.ToString();
+                            if ((Pinky)iii == Pinky.Shift)
+                                assign += " " + (i + 2).ToString();
+                            assign += " " + "-1";
+                            assign += " " + "-3";
+                            assign += " " + ii.ToString();
+                            assign += " " + "0x0";
+                            assign += " " + this.pov[i].direction[ii].GetSoundID((Pinky)iii);
+                            assign += "\n";
+                        }
                     }
                 }
             }
@@ -219,8 +238,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 {
                     for (int iii = 0; iii < 2; iii++)
                     {
-                        if (this.pov[i].direction[ii].GetCallback((Pinky)iii) == "SimDoNothing")
-                            continue;
+                        // if (this.pov[i].direction[ii].GetCallback((Pinky)iii) == "SimDoNothing")
+                        //    continue;
                         assign += this.pov[i].direction[ii].GetCallback((Pinky)iii);
                         if ((Pinky)iii == Pinky.UnShift)
                             assign += " " + povNum.ToString();

@@ -117,7 +117,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             try
             {
                 // Read Theater List
-                TheaterList theaterlist = new TheaterList(appReg, this.Dropdown_TheaterList);
+                TheaterList.Populate(appReg, this.Dropdown_TheaterList);
 
                 // Get Devices
                 deviceControl = new DeviceControl(appReg);

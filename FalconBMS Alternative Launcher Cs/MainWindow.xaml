@@ -530,7 +530,7 @@
         <Image x:Name="LOGO433" Visibility="Hidden" HorizontalAlignment="Left" VerticalAlignment="Top" Height="64" Source="Resources/LOGO433.png" Stretch="Uniform" Margin="0,0,-350,0"/>
         <Image x:Name="LOGO434" Visibility="Hidden" HorizontalAlignment="Left" VerticalAlignment="Top" Height="64" Source="Resources/LOGO434.png" Stretch="Uniform" Margin="0,0,-350,0"/>
         <Image x:Name="LOGO435" Visibility="Hidden"  HorizontalAlignment="Left" VerticalAlignment="Top" Height="64" Source="Resources/LOGO435.png" Stretch="Uniform" Margin="0,0,-350,0"/>
-        <Label Content="FalconBMS Alternative Launcher v1.50" HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontWeight="Bold" Margin="0,0,10,0"/>
+        <Label Content="FalconBMS Alternative Launcher v1.53" HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontWeight="Bold" Margin="0,0,10,0"/>
 
         <Button x:Name="Button_Apply_YAME64" Visibility="Hidden" Content="Apply" HorizontalAlignment="Right" Margin="0,31,10,0" VerticalAlignment="top" Width="128" Style="{StaticResource AccentedSquareButtonStyle}" Controls:ControlsHelper.ContentCharacterCasing="Normal" Click="Apply_YAME64"/>
 
