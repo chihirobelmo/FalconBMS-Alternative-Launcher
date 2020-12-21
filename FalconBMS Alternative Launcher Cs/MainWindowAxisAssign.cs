@@ -57,7 +57,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
             AxisName.Camera_Distance,
             AxisName.HSI_Course_Knob,
             AxisName.HSI_Heading_Knob,
-            AxisName.Altimeter_Knob
+            AxisName.Altimeter_Knob,
+            AxisName.ILS_Volume_Knob
         };
         
         /// <summary>
@@ -118,6 +119,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                         case AxisName.MSL_Volume:
                         case AxisName.Threat_Volume:
                         case AxisName.AI_vs_IVC:
+                        case AxisName.ILS_Volume_Knob:
                             if (!((InGameAxAssgn)inGameAxis[nme.ToString()]).GetInvert())
                                 invertNum = -1;
                             else

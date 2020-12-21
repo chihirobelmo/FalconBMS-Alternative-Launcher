@@ -1161,7 +1161,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
     /// <summary>
     /// Writer for BMS4.35 setting Override
     /// </summary>
-    public class OverrideSettingFor435 : OverrideSetting
+    public class OverrideSettingFor435 : OverrideSettingFor434U1
     {
         /// <summary>
         /// Writer for BMS4.35 setting Override
@@ -1174,5 +1174,80 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         protected override void SavePop()
         { }
+
+        public override AxisName[] getAxisMappingList() { return this.axisMappingList; }
+        public override AxisName[] getJoystickCalList() { return this.joystickCalList; }
+
+        /// <summary>
+        /// Axis information order for AxisMapping.dat
+        /// </summary>
+        private AxisName[] axisMappingList = {
+            AxisName.Pitch,
+            AxisName.Roll,
+            AxisName.Yaw,
+            AxisName.Throttle,
+            AxisName.Throttle_Right,
+            AxisName.Toe_Brake,
+            AxisName.Toe_Brake_Right,
+            AxisName.FOV,
+            AxisName.Trim_Pitch,
+            AxisName.Trim_Yaw,
+            AxisName.Trim_Roll,
+            AxisName.Radar_Antenna_Elevation,
+            AxisName.Range_Knob,
+            AxisName.Cursor_X,
+            AxisName.Cursor_Y,
+            AxisName.COMM_Channel_1,
+            AxisName.COMM_Channel_2,
+            AxisName.MSL_Volume,
+            AxisName.Threat_Volume,
+            AxisName.Intercom,
+            AxisName.AI_vs_IVC,
+            AxisName.HUD_Brightness,
+            AxisName.FLIR_Brightness,
+            AxisName.HMS_Brightness,
+            AxisName.Reticle_Depression,
+            AxisName.Camera_Distance,
+            AxisName.HSI_Course_Knob,
+            AxisName.HSI_Heading_Knob,
+            AxisName.Altimeter_Knob,
+            AxisName.ILS_Volume_Knob
+        };
+
+        /// <summary>
+        /// Axis information order for JoyStick.cal
+        /// </summary>
+        private AxisName[] joystickCalList = {
+            AxisName.Pitch,
+            AxisName.Roll,
+            AxisName.Yaw,
+            AxisName.Throttle,
+            AxisName.Throttle_Right,
+            AxisName.Trim_Pitch,
+            AxisName.Trim_Yaw,
+            AxisName.Trim_Roll,
+            AxisName.Toe_Brake,
+            AxisName.Toe_Brake_Right,
+            AxisName.FOV,
+            AxisName.Radar_Antenna_Elevation,
+            AxisName.Cursor_X,
+            AxisName.Cursor_Y,
+            AxisName.Range_Knob,
+            AxisName.COMM_Channel_1,
+            AxisName.COMM_Channel_2,
+            AxisName.MSL_Volume,
+            AxisName.Threat_Volume,
+            AxisName.HUD_Brightness,
+            AxisName.Reticle_Depression,
+            AxisName.Camera_Distance,
+            AxisName.Intercom,
+            AxisName.HMS_Brightness,
+            AxisName.AI_vs_IVC,
+            AxisName.FLIR_Brightness,
+            AxisName.HSI_Course_Knob,
+            AxisName.HSI_Heading_Knob,
+            AxisName.Altimeter_Knob,
+            AxisName.ILS_Volume_Knob
+        };
     }
 }

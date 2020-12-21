@@ -12,9 +12,9 @@ namespace FalconBMS_Alternative_Launcher_Cs
     {
         // Member
         private Microsoft.Win32.RegistryKey regkey;
-        private string regName = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.34";
+        private string regName = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.35";
         private Platform platform = Platform.OS_64bit;
-        private BMS_Version bms_Version = BMS_Version.BMS434;
+        private BMS_Version bms_Version = BMS_Version.BMS435;
         private OverrideSetting overRideSetting;
         private Launcher launcher;
 
@@ -79,7 +79,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             }
             else
             {
-                this.bms_Version = BMS_Version.BMS434U1;
+                this.bms_Version = BMS_Version.BMS435;
             }
 
             // load command line.
@@ -117,7 +117,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                         this.bms_Version = BMS_Version.BMS435;
                         break;
                     default:
-                        this.bms_Version = BMS_Version.BMS434U1;
+                        this.bms_Version = BMS_Version.BMS435;
                         break;
                 }
             }

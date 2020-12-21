@@ -347,7 +347,7 @@
                                     <Controls:MetroProgressBar x:Name="Axis_FLIR_Brightness" HorizontalAlignment="Left" Margin="32,232,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
                                     <Button x:Name="FLIR_Brightness" Content="Assign" HorizontalAlignment="Left" Margin="320,224,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
                                 </Grid>
-                                <Grid HorizontalAlignment="Left" Height="400" VerticalAlignment="Top" Width="480" Margin="480,0,0,0">
+                                <Grid HorizontalAlignment="Left" Height="527" VerticalAlignment="Top" Width="480" Margin="480,0,0,0">
                                     <Label Content="AUDIO Panel" HorizontalAlignment="Left" Margin="10,10,-18,177" FontSize="16" FontWeight="Bold" FontStyle="Oblique" Width="422"/>
 
                                     <Label Content="Intercom :" HorizontalAlignment="Left" Margin="32,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="128" FontWeight="Bold"/>
@@ -379,6 +379,11 @@
                                     <Label x:Name="Label_AI_vs_IVC" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="188,296,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100"/>
                                     <Controls:MetroProgressBar x:Name="Axis_AI_vs_IVC" HorizontalAlignment="Left" Margin="32,330,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
                                     <Button x:Name="AI_vs_IVC" Content="Assign" HorizontalAlignment="Left" Margin="320,322,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
+
+                                    <Label x:Name="Name_ILS_Volume_Knob" Content="ILS Vol :" HorizontalAlignment="Left" Margin="32,343,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="128" FontWeight="Bold"/>
+                                    <Label x:Name="Label_ILS_Volume_Knob" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="188,343,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100"/>
+                                    <Controls:MetroProgressBar x:Name="Axis_ILS_Volume_Knob" HorizontalAlignment="Left" Margin="32,377,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
+                                    <Button x:Name="ILS_Volume_Knob" Content="Assign" HorizontalAlignment="Left" Margin="320,369,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
                                 </Grid>
                             </Grid>
                         </TabItem>
@@ -530,7 +535,7 @@
         <Image x:Name="LOGO433" Visibility="Hidden" HorizontalAlignment="Left" VerticalAlignment="Top" Height="64" Source="Resources/LOGO433.png" Stretch="Uniform" Margin="0,0,-350,0"/>
         <Image x:Name="LOGO434" Visibility="Hidden" HorizontalAlignment="Left" VerticalAlignment="Top" Height="64" Source="Resources/LOGO434.png" Stretch="Uniform" Margin="0,0,-350,0"/>
         <Image x:Name="LOGO435" Visibility="Hidden"  HorizontalAlignment="Left" VerticalAlignment="Top" Height="64" Source="Resources/LOGO435.png" Stretch="Uniform" Margin="0,0,-350,0"/>
-        <Label Content="FalconBMS Alternative Launcher v1.53" HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontWeight="Bold" Margin="0,0,10,0"/>
+        <Label Content="FalconBMS Alternative Launcher v1.50" HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontWeight="Bold" Margin="0,0,10,0"/>
 
         <Button x:Name="Button_Apply_YAME64" Visibility="Hidden" Content="Apply" HorizontalAlignment="Right" Margin="0,31,10,0" VerticalAlignment="top" Width="128" Style="{StaticResource AccentedSquareButtonStyle}" Controls:ControlsHelper.ContentCharacterCasing="Normal" Click="Apply_YAME64"/>
 
