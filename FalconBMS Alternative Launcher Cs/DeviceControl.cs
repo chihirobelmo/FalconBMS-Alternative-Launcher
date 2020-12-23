@@ -32,9 +32,6 @@ namespace FalconBMS_Alternative_Launcher_Cs
             this.devList = Manager.GetDevices(DeviceClass.GameControl, EnumDevicesFlags.AttachedOnly);
             this.joyStick = new Device[devList.Count];
             this.joyAssign = new JoyAssgn[devList.Count];
-
-            System.Xml.Serialization.XmlSerializer serializer;
-            System.IO.StreamReader sr;
             string fileName = "";
             string stockFileName = "";
             int i = 0;
@@ -54,10 +51,17 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 // Load exsisting .xml files.
                 if (File.Exists(fileName))
                 {
-                    serializer = new System.Xml.Serialization.XmlSerializer(typeof(JoyAssgn));
-                    sr = new System.IO.StreamReader(fileName, new System.Text.UTF8Encoding(false));
-                    joyAssign[i] = (JoyAssgn)serializer.Deserialize(sr);
-                    sr.Close();
+                    try
+                    {
+                        var serializer = new System.Xml.Serialization.XmlSerializer(typeof(JoyAssgn));
+                        using (var reader = new System.IO.StreamReader(fileName, new System.Text.UTF8Encoding(false)))
+                            joyAssign[i] = (JoyAssgn)serializer.Deserialize(reader);
+                    }
+                    catch
+                    {
+                        // If the XML couldn't be deserialized for any reason, delete the file and fall back to stock setup.
+                        File.Delete(fileName);
+                    }
                 }
                 else
                 {
@@ -67,10 +71,9 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     {
                         File.Copy(stockFileName, fileName);
 
-                        serializer = new System.Xml.Serialization.XmlSerializer(typeof(JoyAssgn));
-                        sr = new System.IO.StreamReader(fileName, new System.Text.UTF8Encoding(false));
-                        joyAssign[i] = (JoyAssgn)serializer.Deserialize(sr);
-                        sr.Close();
+                        var serializer = new System.Xml.Serialization.XmlSerializer(typeof(JoyAssgn));
+                        using (var reader = new System.IO.StreamReader(fileName, new System.Text.UTF8Encoding(false)))
+                            joyAssign[i] = (JoyAssgn)serializer.Deserialize(reader);
                     }
                 }
                 joyAssign[i].SetDeviceInstance(dev);
@@ -98,23 +101,37 @@ namespace FalconBMS_Alternative_Launcher_Cs
             }
             
             // Load MouseWheel .xml file.
-            serializer = new System.Xml.Serialization.XmlSerializer(typeof(AxAssgn));
             fileName = appReg.GetInstallDir() + "/User/Config/Setup.v100.Mousewheel.xml";
             if (File.Exists(fileName))
             {
-                sr = new System.IO.StreamReader(fileName, new System.Text.UTF8Encoding(false));
-                mouseWheelAssign = (AxAssgn)serializer.Deserialize(sr);
-                sr.Close();
+                try
+                {
+                    var serializer = new System.Xml.Serialization.XmlSerializer(typeof(AxAssgn));
+                    using (var reader = new System.IO.StreamReader(fileName, new System.Text.UTF8Encoding(false)))
+                        mouseWheelAssign = (AxAssgn)serializer.Deserialize(reader);
+                }
+                catch
+                {
+                    // If the XML couldn't be deserialized for any reason, delete the file and fall back to stock setup.
+                    File.Delete(fileName);
+                }
             }
 
             // Load ThrottlePosition .xml file.
-            serializer = new System.Xml.Serialization.XmlSerializer(typeof(ThrottlePosition));
             fileName = appReg.GetInstallDir() + "/User/Config/Setup.v100.throttlePosition.xml";
             if (File.Exists(fileName))
             {
-                sr = new System.IO.StreamReader(fileName, new System.Text.UTF8Encoding(false));
-                throttlePos = (ThrottlePosition)serializer.Deserialize(sr);
-                sr.Close();
+                try
+                {
+                    var serializer = new System.Xml.Serialization.XmlSerializer(typeof(ThrottlePosition));
+                    using (var reader = new System.IO.StreamReader(fileName, new System.Text.UTF8Encoding(false)))
+                        throttlePos = (ThrottlePosition)serializer.Deserialize(reader);
+                }
+                catch
+                {
+                    // If the XML couldn't be deserialized for any reason, delete the file and fall back to stock setup.
+                    File.Delete(fileName);
+                }
             }
         }
 
