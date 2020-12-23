@@ -11,49 +11,31 @@ namespace FalconBMS_Alternative_Launcher_Cs
     /// </summary>
     public class AxAssgn
     {
-        // Member
-        protected string axisName = "";     // ex:Roll, Pitch, Yaw etc...
-        protected System.DateTime assgnDate = DateTime.Parse("12/12/1998 12:00:00");
-        protected bool invert = false;
-        protected AxCurve saturation = 0;
-        protected AxCurve deadzone = 0;
-
         // Property for XML
-        public string AxisName { get { return this.axisName; } set { this.axisName = value; } }
-        public DateTime AssgnDate { get { return this.assgnDate; } set { this.assgnDate = value; } }
-        public bool Invert { get { return this.invert; } set { this.invert = value; } }
-        public AxCurve Saturation { get { return this.saturation; } set { this.saturation = value; } }
-        public AxCurve Deadzone { get { return this.deadzone; } set { this.deadzone = value; } }
+        public AxisName? AxisName { get; set; }
+        public DateTime AssignDate { get; set; }
+        public bool Invert { get; set; }
+        public AxCurve Saturation { get; set; }
+        public AxCurve Deadzone { get; set; }
 
         // Constructor
         public AxAssgn() { }
-        public AxAssgn(String axisName, InGameAxAssgn axisassign)
-        {
-            this.axisName = axisName;
-            this.assgnDate = DateTime.Now;
-            this.invert = axisassign.GetInvert();
-            this.saturation = axisassign.GetSaturation();
-            this.deadzone = axisassign.GetDeadzone();
-        }
-        public AxAssgn(String axisName, DateTime assgnDate, bool invert, AxCurve saturation, AxCurve deadzone)
-        {
-            this.axisName = axisName;
-            this.assgnDate = assgnDate;
-            this.invert = invert;
-            this.saturation = saturation;
-            this.deadzone = deadzone;
-        }
+        public AxAssgn(AxisName axisName, InGameAxAssgn axisassign) :
+            this(axisName, DateTime.Parse("12/12/1998 12:00:00"), axisassign.GetInvert(), axisassign.GetSaturation(), axisassign.GetDeadzone())
+        { }
 
-        // Method
-        public string GetAxisName() { return this.axisName; }
-        public DateTime GetAssignDate() { return this.assgnDate; }
-        public bool GetInvert() { return this.invert; }
-        public AxCurve GetDeadZone() { return this.deadzone; }
-        public AxCurve GetSaturation() { return this.saturation; }
+        public AxAssgn(AxisName? axisName, DateTime assgnDate, bool invert, AxCurve saturation, AxCurve deadzone)
+        {
+            this.AxisName = axisName;
+            this.AssignDate = assgnDate;
+            this.Invert = invert;
+            this.Saturation = saturation;
+            this.Deadzone = deadzone;
+        }
 
         public AxAssgn Clone()
         {
-            return new AxAssgn(this.axisName, this.assgnDate, this.invert, this.saturation, this.deadzone);
+            return new AxAssgn(this.AxisName, this.AssignDate, this.Invert, this.Saturation, this.Deadzone);
         }
     }
 

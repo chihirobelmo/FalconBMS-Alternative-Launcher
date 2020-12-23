@@ -22,10 +22,10 @@ namespace FalconBMS_Alternative_Launcher_Cs
         {
             this.devNum = devNum;
             this.phyAxNum = phyAxNum;
-            this.invert = axis.GetInvert();
-            this.saturation = axis.GetSaturation();
-            this.deadzone = axis.GetDeadZone();
-            this.assgnDate = axis.GetAssignDate();
+            this.invert = axis.Invert;
+            this.saturation = axis.Saturation;
+            this.deadzone = axis.Deadzone;
+            this.assgnDate = axis.AssignDate;
         }
 
         public InGameAxAssgn(int devNum, int phyAxNum, bool invert, AxCurve deadzone, AxCurve saturation)

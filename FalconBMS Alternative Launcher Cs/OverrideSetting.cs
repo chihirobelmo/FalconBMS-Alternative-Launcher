@@ -47,7 +47,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <param name="deviceControl"></param>
         /// <param name="keyFile"></param>
         /// <param name="visualAcuity"></param>
-        public void Execute(Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile)
+        public void Execute(Dictionary<AxisName, InGameAxAssgn> inGameAxis, DeviceControl deviceControl, KeyFile keyFile)
         {
             if (!System.IO.Directory.Exists(appReg.GetInstallDir() + "/User/Config/Backup/"))
                 System.IO.Directory.CreateDirectory(appReg.GetInstallDir() + "/User/Config/Backup/");
@@ -153,7 +153,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <summary>
         /// As the name inplies...
         /// </summary>
-        protected virtual void SaveConfigfile(Hashtable inGameAxis, DeviceControl deviceControl)
+        protected virtual void SaveConfigfile(Dictionary<AxisName, InGameAxAssgn> inGameAxis, DeviceControl deviceControl)
         {
             string filename = appReg.GetInstallDir() + "/User/Config/falcon bms.cfg";
             string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/falcon bms.cfg";
@@ -214,7 +214,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <summary>
         /// As the name inplies...
         /// </summary>
-        protected virtual void SaveKeyMapping(Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile)
+        protected virtual void SaveKeyMapping(Dictionary<AxisName, InGameAxAssgn> inGameAxis, DeviceControl deviceControl, KeyFile keyFile)
         {
             string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.getKeyFileName();
             string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/" + appReg.getKeyFileName();
@@ -232,7 +232,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             {
                 sw.Write(deviceControl.joyAssign[i].GetKeyLineDX(i, deviceControl.devList.Count));
                 // PRIMARY DEVICE POV
-                if (((InGameAxAssgn)inGameAxis["Roll"]).GetDeviceNumber() == i) 
+                if (inGameAxis[AxisName.Roll].GetDeviceNumber() == i)
                     sw.Write(deviceControl.joyAssign[i].GetKeyLinePOV());
             }
             sw.Close();
@@ -302,7 +302,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <summary>
         /// As the name inplies...
         /// </summary>
-        protected void SaveAxisMapping(Hashtable inGameAxis, DeviceControl deviceControl)
+        protected void SaveAxisMapping(Dictionary<AxisName, InGameAxAssgn> inGameAxis, DeviceControl deviceControl)
         {
             string filename = appReg.GetInstallDir() + "/User/Config/axismapping.dat";
             string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/axismapping.dat";
@@ -317,16 +317,16 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
             byte[] bs;
             
-            if (((InGameAxAssgn)inGameAxis["Pitch"]).GetDeviceNumber() > -1)
+            if (inGameAxis[AxisName.Pitch].GetDeviceNumber() > -1)
             {
                 bs = new byte[] 
                 {
-                    (byte)(((InGameAxAssgn)inGameAxis["Pitch"]).GetDeviceNumber()+2),
+                    (byte)(inGameAxis[AxisName.Pitch].GetDeviceNumber()+2),
                     0x00, 0x00, 0x00
                 };
                 fs.Write(bs, 0, bs.Length);
 
-                bs = deviceControl.joyAssign[(byte)((InGameAxAssgn)inGameAxis["Pitch"]).GetDeviceNumber()]
+                bs = deviceControl.joyAssign[(byte)inGameAxis[AxisName.Pitch].GetDeviceNumber()]
                     .GetInstanceGUID().ToByteArray();
                 fs.Write(bs, 0, bs.Length);
 
@@ -348,7 +348,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             AxisName[] localAxisMappingList = this.getAxisMappingList();
             foreach (AxisName nme in localAxisMappingList)
             {
-                if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() == -1)
+                if (inGameAxis[nme].GetDeviceNumber() == -1)
                 {
                     bs = new byte[] 
                     {
@@ -360,27 +360,27 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     fs.Write(bs, 0, bs.Length);
                     continue;
                 }
-                if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() > -1)
+                if (inGameAxis[nme].GetDeviceNumber() > -1)
                 {
                     bs = new byte[] 
                     {
-                        (byte)(((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber()+2),
+                        (byte)(inGameAxis[nme].GetDeviceNumber()+2),
                         0x00, 0x00, 0x00
                     };
                     fs.Write(bs, 0, bs.Length);
                     bs = new byte[] 
                     {
-                        (byte)((InGameAxAssgn)inGameAxis[nme.ToString()]).GetPhysicalNumber(),
+                        (byte)inGameAxis[nme].GetPhysicalNumber(),
                         0x00, 0x00, 0x00
                     };
                     fs.Write(bs, 0, bs.Length);
                 }
-                if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() == -2)
+                if (inGameAxis[nme].GetDeviceNumber() == -2)
                 {
                     bs = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
                     fs.Write(bs, 0, bs.Length);
                 }
-                switch (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeadzone())
+                switch (inGameAxis[nme].GetDeadzone())
                 {
                     case AxCurve.None:
                         bs = new byte[] { 0x00, 0x00, 0x00, 0x00 };
@@ -396,7 +396,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                         break;
                 }
                 fs.Write(bs, 0, bs.Length);
-                switch (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetSaturation())
+                switch (inGameAxis[nme].GetSaturation())
                 {
                     case AxCurve.None:
                         bs = new byte[] { 0xFF, 0xFF, 0xFF, 0xFF };
@@ -419,7 +419,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <summary>
         /// As the name inplies...
         /// </summary>
-        protected virtual void SaveJoystickCal(Hashtable inGameAxis, DeviceControl deviceControl)
+        protected virtual void SaveJoystickCal(Dictionary<AxisName, InGameAxAssgn> inGameAxis, DeviceControl deviceControl)
         {
             string filename = appReg.GetInstallDir() + "/User/Config/joystick.cal";
             string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/joystick.cal";
@@ -444,7 +444,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
                     0x00, 0x00, 0x00, 0x00
                 };
-                if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() != -1)
+                if (inGameAxis[nme].GetDeviceNumber() != -1)
                 {
                     bs[12] = 0x01;
 
@@ -471,7 +471,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                             bs[5] = 0x3A;
                     }
                 }
-                if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetInvert())
+                if (inGameAxis[nme].GetInvert())
                 {
                     bs[20] = 0x01;
                 }
@@ -832,7 +832,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         {
         }
 
-        protected override void SaveConfigfile(Hashtable inGameAxis, DeviceControl deviceControl)
+        protected override void SaveConfigfile(Dictionary<AxisName, InGameAxAssgn> inGameAxis, DeviceControl deviceControl)
         {
             string filename = appReg.GetInstallDir() + "/User/Config/falcon bms.cfg";
             string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/falcon bms.cfg";
@@ -863,20 +863,20 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 + "          // SETUP OVERRIDE\r\n");
             cfg.Write("set g_b3DClickableCursorAnchored " + Convert.ToInt32(mainWindow.Misc_MouseCursorAnchor.IsChecked)
                 + "          // SETUP OVERRIDE\r\n");
-            if (((InGameAxAssgn)inGameAxis["Roll"]).GetDeviceNumber() == ((InGameAxAssgn)inGameAxis["Throttle"]).GetDeviceNumber())
+            if (inGameAxis[AxisName.Roll].GetDeviceNumber() == inGameAxis[AxisName.Throttle].GetDeviceNumber())
             {
                 cfg.Close();
                 return;
             }
             cfg.Write("set g_nNumOfPOVs 2      // SETUP OVERRIDE\r\n");
-            cfg.Write("set g_nPOV1DeviceID " + (((InGameAxAssgn)inGameAxis["Roll"]).GetDeviceNumber() + 2).ToString() + "   // SETUP OVERRIDE\r\n");
+            cfg.Write("set g_nPOV1DeviceID " + (inGameAxis[AxisName.Roll].GetDeviceNumber() + 2).ToString() + "   // SETUP OVERRIDE\r\n");
             cfg.Write("set g_nPOV1ID 0         // SETUP OVERRIDE\r\n");
-            cfg.Write("set g_nPOV2DeviceID " + (((InGameAxAssgn)inGameAxis["Throttle"]).GetDeviceNumber() + 2).ToString() + "   // SETUP OVERRIDE\r\n");
+            cfg.Write("set g_nPOV2DeviceID " + (inGameAxis[AxisName.Throttle].GetDeviceNumber() + 2).ToString() + "   // SETUP OVERRIDE\r\n");
             cfg.Write("set g_nPOV2ID 0         // SETUP OVERRIDE\r\n");
             cfg.Close();
         }
 
-        protected override void SaveKeyMapping(Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile)
+        protected override void SaveKeyMapping(Dictionary<AxisName, InGameAxAssgn> inGameAxis, DeviceControl deviceControl, KeyFile keyFile)
         {
             string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.getKeyFileName();
             string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/" + appReg.getKeyFileName();
@@ -894,14 +894,14 @@ namespace FalconBMS_Alternative_Launcher_Cs
             {
                 sw.Write(deviceControl.joyAssign[i].GetKeyLineDX(i, deviceControl.devList.Count));
                 // PRIMARY DEVICE POV
-                if (((InGameAxAssgn)inGameAxis["Roll"]).GetDeviceNumber() == i && ((InGameAxAssgn)inGameAxis["Roll"]).GetDeviceNumber() == ((InGameAxAssgn)inGameAxis["Throttle"]).GetDeviceNumber())
+                if (inGameAxis[AxisName.Roll].GetDeviceNumber() == i && inGameAxis[AxisName.Roll].GetDeviceNumber() == inGameAxis[AxisName.Throttle].GetDeviceNumber())
                 {
                     sw.Write(deviceControl.joyAssign[i].GetKeyLinePOV());
                     continue;
                 }
-                if (((InGameAxAssgn)inGameAxis["Roll"]).GetDeviceNumber() == i)
+                if (inGameAxis[AxisName.Roll].GetDeviceNumber() == i)
                     sw.Write(deviceControl.joyAssign[i].GetKeyLinePOV(0));
-                if (((InGameAxAssgn)inGameAxis["Throttle"]).GetDeviceNumber() == i)
+                if (inGameAxis[AxisName.Throttle].GetDeviceNumber() == i)
                     sw.Write(deviceControl.joyAssign[i].GetKeyLinePOV(1));
             }
             sw.Close();
@@ -925,7 +925,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <summary>
         /// As the name inplies...
         /// </summary>
-        protected override void SaveJoystickCal(Hashtable inGameAxis, DeviceControl deviceControl)
+        protected override void SaveJoystickCal(Dictionary<AxisName, InGameAxAssgn> inGameAxis, DeviceControl deviceControl)
         {
             string filename = appReg.GetInstallDir() + "/User/Config/joystick.cal";
             string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/joystick.cal";
@@ -949,7 +949,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
                 };
-                if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() != -1)
+                if (inGameAxis[nme].GetDeviceNumber() != -1)
                 {
                     bs[12] = 0x01;
 
@@ -976,7 +976,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                             bs[5] = 0x3A;
                     }
                 }
-                if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetInvert())
+                if (inGameAxis[nme].GetInvert())
                 {
                     bs[20] = 0x01;
                     bs[21] = 0x01;

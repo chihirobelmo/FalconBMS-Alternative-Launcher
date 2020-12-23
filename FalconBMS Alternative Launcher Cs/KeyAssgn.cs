@@ -313,7 +313,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 return "";
             ans = MainWindow.deviceControl.joyAssign[joynum].KeyMappingPreviewDX(this);
             // PRIMARY DEVICE POV
-            if (((InGameAxAssgn)MainWindow.inGameAxis["Roll"]).GetDeviceNumber() == joynum || ((InGameAxAssgn)MainWindow.inGameAxis["Throttle"]).GetDeviceNumber() == joynum)
+            if (((InGameAxAssgn)MainWindow.inGameAxis[AxisName.Roll]).GetDeviceNumber() == joynum || ((InGameAxAssgn)MainWindow.inGameAxis[AxisName.Throttle]).GetDeviceNumber() == joynum)
             {
                 string tmp = MainWindow.deviceControl.joyAssign[joynum].KeyMappingPreviewPOV(this);
                 if (ans != "" & tmp != "")
@@ -332,7 +332,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             if(ans != "")
                 ans = "JOY " + joynum.ToString() + " " + joyAssign[joynum].KeyMappingPreviewDX(this).Replace("\n", ", ");
             // PRIMARY DEVICE POV
-            if (((InGameAxAssgn)MainWindow.inGameAxis["Roll"]).GetDeviceNumber() == joynum || ((InGameAxAssgn)MainWindow.inGameAxis["Throttle"]).GetDeviceNumber() == joynum) 
+            if (MainWindow.inGameAxis[AxisName.Roll].GetDeviceNumber() == joynum || MainWindow.inGameAxis[AxisName.Throttle].GetDeviceNumber() == joynum)
             {
                 string tmp = "";
                 tmp = joyAssign[joynum].KeyMappingPreviewPOV(this);

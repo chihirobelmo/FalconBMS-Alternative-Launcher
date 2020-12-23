@@ -260,10 +260,10 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <summary>
         /// Reset Physical axis which has assigned to "sender.name"
         /// </summary>
-        public void ResetPreviousAxis(string axisname)
+        public void ResetPreviousAxis(AxisName axisname)
         {
             for (int i = 0; i < this.axis.Length; i++)
-                if (this.axis[i].GetAxisName() == axisname)
+                if (this.axis[i].AxisName == axisname)
                     this.axis[i] = new AxAssgn();
         }
 
@@ -457,7 +457,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                             }
 
                             InGameAxAssgn inGameAxAssgn = new InGameAxAssgn(currentID, axisNum, invert, deadzone, saturation);
-                            this.axis[axisNum] = new AxAssgn(axisMappingList[i].ToString(), inGameAxAssgn);
+                            this.axis[axisNum] = new AxAssgn(axisMappingList[i], inGameAxAssgn);
                         }
                     }
                 }

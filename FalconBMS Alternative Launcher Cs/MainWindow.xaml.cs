@@ -128,7 +128,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
                 // Reset All Axis Settings
                 foreach (AxisName nme in axisNameList)
-                    inGameAxis[nme.ToString()] = new InGameAxAssgn();
+                    inGameAxis[nme] = new InGameAxAssgn();
                 joyAssign_2_inGameAxis();
                 ResetAssgnWindow();
 
