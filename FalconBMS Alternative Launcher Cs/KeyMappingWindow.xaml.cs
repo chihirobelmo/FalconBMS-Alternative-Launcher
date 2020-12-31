@@ -1,17 +1,8 @@
-﻿using MahApps.Metro.Controls;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Diagnostics;
 using Microsoft.DirectX.DirectInput;
@@ -36,28 +27,28 @@ namespace FalconBMS_Alternative_Launcher_Cs
         private NeutralButtons[] neutralButtons;
         private Invoke invokeStatus = Invoke.Default;
 
-        private Boolean pressedByHand = false;
+        private bool pressedByHand = false;
 
         public KeyMappingWindow(KeyAssgn SelectedCallback, KeyFile keyFile, DeviceControl deviceControl)
         {
             InitializeComponent();
-            this.CallbackName.Content = SelectedCallback.GetKeyDescription();
-            this.Select_PinkyShift.IsChecked = true;
-            this.Select_DX_Release.IsChecked = true;
+            CallbackName.Content = SelectedCallback.GetKeyDescription();
+            Select_PinkyShift.IsChecked = true;
+            Select_DX_Release.IsChecked = true;
             this.SelectedCallback = SelectedCallback;
             this.keyFile = keyFile;
             this.deviceControl = deviceControl;
-            this.neutralButtons = new NeutralButtons[deviceControl.devList.Count];
+            neutralButtons = new NeutralButtons[deviceControl.devList.Count];
 
             tmpJoyStick = new JoyAssgn[deviceControl.devList.Count];
             for (int i = 0; i < deviceControl.devList.Count; i++)
             {
                 tmpJoyStick[i] = deviceControl.joyAssign[i].Clone();
             }
-            this.tmpCallback = this.SelectedCallback.Clone();
+            tmpCallback = this.SelectedCallback.Clone();
         }
 
-        static public void ShowKeyMappingWindow(KeyAssgn SelectedCallback, KeyFile keyFile, DeviceControl deviceControl, object sender)
+        public static void ShowKeyMappingWindow(KeyAssgn SelectedCallback, KeyFile keyFile, DeviceControl deviceControl, object sender)
         {
             KeyMappingWindow ownWindow = new KeyMappingWindow(SelectedCallback, keyFile, deviceControl);
             ownWindow.ShowDialog();
@@ -73,7 +64,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         private void getNeutralPosition()
         {
-            for (int i = 0; i < this.deviceControl.devList.Count; i++)
+            for (int i = 0; i < deviceControl.devList.Count; i++)
                 neutralButtons[i] = new NeutralButtons(deviceControl.joyStick[i]);
         }
 
@@ -87,25 +78,25 @@ namespace FalconBMS_Alternative_Launcher_Cs
         private void ShowAssignedStatus()
         {
             string str = "";
-            str += this.tmpCallback.GetKeyAssignmentStatus() + "; ";
+            str += tmpCallback.GetKeyAssignmentStatus() + "; ";
             if (str == "; ")
                 str = "";
             for (int i = 0; i < deviceControl.devList.Count; i++)
-                str += this.tmpCallback.ReadJoyAssignment(i, tmpJoyStick);
-            this.MappedButton.Content = str;
+                str += tmpCallback.ReadJoyAssignment(i, tmpJoyStick);
+            MappedButton.Content = str;
 
             if (str != "")
             {
-                this.AwaitingInputs.Content = "";
+                AwaitingInputs.Content = "";
                 return;
             }
             if (sw.ElapsedMilliseconds > 1000)
             {
-                this.AwaitingInputs.Content = "";
+                AwaitingInputs.Content = "";
             }
             if (sw.ElapsedMilliseconds > 1666)
             {
-                this.AwaitingInputs.Content = "   AWAITING INPUTS";
+                AwaitingInputs.Content = "   AWAITING INPUTS";
                 sw.Reset();
                 sw.Start();
             }
@@ -121,11 +112,11 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 buttons = deviceControl.joyStick[i].CurrentJoystickState.GetButtons();
                 for (int ii = 0; ii < 32; ii++)
                 {
-                    if (buttons[ii] == 128 && deviceControl.joyAssign[i].dx[ii].assign[0].GetCallback() == "SimHotasPinkyShift" && this.pressedByHand == false)
+                    if (buttons[ii] == 128 && deviceControl.joyAssign[i].dx[ii].assign[0].GetCallback() == "SimHotasPinkyShift" && pressedByHand == false)
                     {
                         Select_PinkyShift.IsChecked = false;
                     }
-                    if (buttons[ii] == 0 && deviceControl.joyAssign[i].dx[ii].assign[0].GetCallback() == "SimHotasPinkyShift" && this.pressedByHand == false)
+                    if (buttons[ii] == 0 && deviceControl.joyAssign[i].dx[ii].assign[0].GetCallback() == "SimHotasPinkyShift" && pressedByHand == false)
                     {
                         Select_PinkyShift.IsChecked = true;
                     }
@@ -138,7 +129,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                         continue;
                     }
 
-                    if (deviceControl.joyAssign[i].dx[ii].assign[0].GetCallback() == "SimHotasPinkyShift" && this.pressedByHand == false)
+                    if (deviceControl.joyAssign[i].dx[ii].assign[0].GetCallback() == "SimHotasPinkyShift" && pressedByHand == false)
                     {
                         continue;
                     }
@@ -151,14 +142,14 @@ namespace FalconBMS_Alternative_Launcher_Cs
                         behaviourStatus = Behaviour.Release;
 
                     // Construct DX button instance.
-                    if (this.tmpCallback.GetCallback() == "SimHotasPinkyShift")
+                    if (tmpCallback.GetCallback() == "SimHotasPinkyShift")
                     {
-                        tmpJoyStick[i].dx[ii].Assign(this.tmpCallback.GetCallback(), Pinky.UnShift, Behaviour.Press, Invoke.Default, 0);
-                        tmpJoyStick[i].dx[ii].Assign(this.tmpCallback.GetCallback(), Pinky.Shift, Behaviour.Press, Invoke.Default, 0);
+                        tmpJoyStick[i].dx[ii].Assign(tmpCallback.GetCallback(), Pinky.UnShift, Behaviour.Press, Invoke.Default, 0);
+                        tmpJoyStick[i].dx[ii].Assign(tmpCallback.GetCallback(), Pinky.Shift, Behaviour.Press, Invoke.Default, 0);
                     }
                     else
                     {
-                        tmpJoyStick[i].dx[ii].Assign(this.tmpCallback.GetCallback(), pinkyStatus, behaviourStatus, this.invokeStatus, 0);
+                        tmpJoyStick[i].dx[ii].Assign(tmpCallback.GetCallback(), pinkyStatus, behaviourStatus, invokeStatus, 0);
                     }
                     //while (buttons[ii] != neutralButtons[i].buttons[ii])
                     //{
@@ -184,7 +175,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                         pinkyStatus = Pinky.Shift;
 
                     // Construct POV button instance.
-                    tmpJoyStick[i].pov[ii].Assign(povs[ii], this.tmpCallback.GetCallback(), pinkyStatus, 0);
+                    tmpJoyStick[i].pov[ii].Assign(povs[ii], tmpCallback.GetCallback(), pinkyStatus, 0);
                     //while (povs[ii] != neutralButtons[i].povs[ii])
                     //{
                     //    povs = deviceControl.joyStick[i].CurrentJoystickState.GetPointOfView();
@@ -239,13 +230,13 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 return;
 
             Pinky pinkyStatus = Pinky.UnShift;
-            if (this.Select_PinkyShift.IsChecked == false)
+            if (Select_PinkyShift.IsChecked == false)
                 pinkyStatus = Pinky.Shift;
 
             if (pinkyStatus == Pinky.UnShift)
-                this.tmpCallback.SetKeyboard(catchedScanCode, Shift, Ctrl, Alt);
+                tmpCallback.SetKeyboard(catchedScanCode, Shift, Ctrl, Alt);
             if (pinkyStatus == Pinky.Shift)
-                this.tmpCallback.Setkeycombo(catchedScanCode, Shift, Ctrl, Alt);
+                tmpCallback.Setkeycombo(catchedScanCode, Shift, Ctrl, Alt);
         }
 
         private class NeutralButtons
@@ -255,8 +246,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
             public NeutralButtons(Device joyStick)
             {
-                this.buttons = joyStick.CurrentJoystickState.GetButtons();
-                this.povs = joyStick.CurrentJoystickState.GetPointOfView();
+                buttons = joyStick.CurrentJoystickState.GetButtons();
+                povs = joyStick.CurrentJoystickState.GetPointOfView();
             }
         }
 
@@ -270,7 +261,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             try
             {
                 if (e.ChangedButton == MouseButton.Left)
-                    this.DragMove();
+                    DragMove();
             }
             catch
             { }
@@ -282,14 +273,14 @@ namespace FalconBMS_Alternative_Launcher_Cs
             {
                 tmpJoyStick[i] = deviceControl.joyAssign[i].Clone();
             }
-            string target = this.tmpCallback.GetCallback();
-            foreach (JoyAssgn joy in this.tmpJoyStick)
+            string target = tmpCallback.GetCallback();
+            foreach (JoyAssgn joy in tmpJoyStick)
                 joy.UnassigntargetCallback(target);
         }
 
         private void ClearKey_Click(object sender, RoutedEventArgs e)
         {
-            this.tmpCallback.UnassignKeyboard();
+            tmpCallback.UnassignKeyboard();
         }
 
         private void Select_Invoke_Click(object sender, RoutedEventArgs e)
@@ -297,34 +288,34 @@ namespace FalconBMS_Alternative_Launcher_Cs
             switch (invokeStatus)
             {
                 case Invoke.Default:
-                    this.invokeStatus = Invoke.Down;
-                    this.Select_Invoke.Content = "INVOKE KEYDN";
-                    this.Select_Invoke.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x99, 0xD9, 0xEA));
+                    invokeStatus = Invoke.Down;
+                    Select_Invoke.Content = "INVOKE KEYDN";
+                    Select_Invoke.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x99, 0xD9, 0xEA));
                     break;
                 case Invoke.Down:
-                    this.invokeStatus = Invoke.Up;
-                    this.Select_Invoke.Content = "INVOKE KEYUP";
-                    this.Select_Invoke.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x99, 0xD9, 0xEA));
+                    invokeStatus = Invoke.Up;
+                    Select_Invoke.Content = "INVOKE KEYUP";
+                    Select_Invoke.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x99, 0xD9, 0xEA));
                     break;
                 case Invoke.Up:
-                    this.invokeStatus = Invoke.Default;
-                    this.Select_Invoke.Content = "INVOKE BOTH";
-                    this.Select_Invoke.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xF7, 0xF7, 0xF7));
+                    invokeStatus = Invoke.Default;
+                    Select_Invoke.Content = "INVOKE BOTH";
+                    Select_Invoke.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xF7, 0xF7, 0xF7));
                     break;
             }
         }
 
         private class DirectInputKeyboard
         {
-            Microsoft.DirectX.DirectInput.Device device;
-            Microsoft.DirectX.DirectInput.KeyboardState keyState;
+            Device device;
+            KeyboardState keyState;
             public KeyboardState KeyboardState
             {
                 get { return keyState; }
             }
             public DirectInputKeyboard()
             {
-                device = new Microsoft.DirectX.DirectInput.Device(SystemGuid.Keyboard);
+                device = new Device(SystemGuid.Keyboard);
                 device.Acquire();
             }
             public void GetCurrentKeyboardState()
@@ -335,25 +326,25 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            this.deviceControl.joyAssign = this.tmpJoyStick;
-            this.SelectedCallback.getOtherKeyInstance(this.tmpCallback);
+            deviceControl.joyAssign = tmpJoyStick;
+            SelectedCallback.getOtherKeyInstance(tmpCallback);
 
             // Unassign the previous mapping that was assigned to this key/key combo.
-            var oldKey = this.keyFile.keyAssign.FirstOrDefault(x => (x != this.SelectedCallback) && x.GetKeyAssignmentStatus() == this.SelectedCallback.GetKeyAssignmentStatus());
+            var oldKey = keyFile.keyAssign.FirstOrDefault(x => x != SelectedCallback && x.GetKeyAssignmentStatus() == SelectedCallback.GetKeyAssignmentStatus());
             if (oldKey != null)
             {
                 oldKey.UnassignKeyboard();
             }
 
-            this.Close();
+            Close();
         }
 
         private void Select_PinkyShift_Click(object sender, RoutedEventArgs e)
         {
             if (Select_PinkyShift.IsChecked == false)
-                this.pressedByHand = true;
+                pressedByHand = true;
             else
-                this.pressedByHand = false;
+                pressedByHand = false;
         }
 
         private Press pressStatus = Press.Press;
@@ -369,18 +360,18 @@ namespace FalconBMS_Alternative_Launcher_Cs
             switch (pressStatus)
             {
                 case Press.Press:
-                    this.pressStatus = Press.Release;
-                    this.Select_Press.Content = "RELEASE";
-                    this.Select_Press.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x99, 0xD9, 0xEA));
-                    this.invokeStatus = Invoke.Down;
-                    this.Select_DX_Release.IsChecked = false;
+                    pressStatus = Press.Release;
+                    Select_Press.Content = "RELEASE";
+                    Select_Press.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x99, 0xD9, 0xEA));
+                    invokeStatus = Invoke.Down;
+                    Select_DX_Release.IsChecked = false;
                     break;
                 case Press.Release:
-                    this.pressStatus = Press.Press;
-                    this.Select_Press.Content = "PRESS";
-                    this.Select_Press.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xF7, 0xF7, 0xF7));
-                    this.invokeStatus = Invoke.Default;
-                    this.Select_DX_Release.IsChecked = true;
+                    pressStatus = Press.Press;
+                    Select_Press.Content = "PRESS";
+                    Select_Press.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xF7, 0xF7, 0xF7));
+                    invokeStatus = Invoke.Default;
+                    Select_DX_Release.IsChecked = true;
                     break;
             }
         }

@@ -20,16 +20,16 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         // for Datagrid Display //
         public string Visibility { get; set; }
-        public string Mapping { get { return " " + this.description.Replace("\"",""); } }
+        public string Mapping { get { return " " + description.Replace("\"",""); } }
         public string Key {
-            get { return this.GetKeyAssignmentStatus(); }
-            set { this.keyboard = value; }
+            get { return GetKeyAssignmentStatus(); }
+            set { keyboard = value; }
         }
 
-        public string GetCallback() { return this.callback; }
-        public string GetKeycombo() { return this.keycombo; }
-        public string GetKeycomboMod() { return this.keycomboMod; }
-        public string GetKeyDescription() { return this.description; }
+        public string GetCallback() { return callback; }
+        public string GetKeycombo() { return keycombo; }
+        public string GetKeycomboMod() { return keycomboMod; }
+        public string GetKeyDescription() { return description; }
 
         /// <summary>
         /// Save given key file code line in "BMS - FULL.key" and split them to parts.
@@ -38,60 +38,60 @@ namespace FalconBMS_Alternative_Launcher_Cs
         {
             string[] stArrayData = stBuffer.Split(' ');
 
-            this.callback = (string)stArrayData[0];
-            this.soundID = (string)stArrayData[1];
-            this.none = (string)stArrayData[2];
-            this.keyboard = (string)stArrayData[3];
-            this.modifier = (string)stArrayData[4];
-            this.keycombo = (string)stArrayData[5];
-            this.keycomboMod = (string)stArrayData[6];
-            this.visibility = (string)stArrayData[7];
-            if (this.visibility == "-2")
-                this.visibility = "Hidden";
-            else if (this.visibility == "-1")
-                this.visibility = "Blue";
-            else if (this.visibility == "-0")
-                this.visibility = "Green";
-            else if (this.visibility == "1")
-                this.visibility = "White";
+            callback = (string)stArrayData[0];
+            soundID = (string)stArrayData[1];
+            none = (string)stArrayData[2];
+            keyboard = (string)stArrayData[3];
+            modifier = (string)stArrayData[4];
+            keycombo = (string)stArrayData[5];
+            keycomboMod = (string)stArrayData[6];
+            visibility = (string)stArrayData[7];
+            if (visibility == "-2")
+                visibility = "Hidden";
+            else if (visibility == "-1")
+                visibility = "Blue";
+            else if (visibility == "-0")
+                visibility = "Green";
+            else if (visibility == "1")
+                visibility = "White";
             else
             {
-                this.visibility = "Green";
-                this.description += "!Alt Launcher ERROR!";
+                visibility = "Green";
+                description += "!Alt Launcher ERROR!";
             }
-            this.description = "";
+            description = "";
 
             if (stArrayData.Length >= 9)
-                this.description = (string)stArrayData[8];
+                description = (string)stArrayData[8];
             if (stArrayData.Length > 9)
                 for (int i = 9; i < stArrayData.Length; i++)
-                    this.description += " " + (string)stArrayData[i];
+                    description += " " + (string)stArrayData[i];
 
-            if (this.callback == "SimHotasPinkyShift")
-                this.visibility = "White";
-            if (this.description == "\"======== 2.19     THROTTLE QUADRANT SYSTEM ==\"")
-                this.description = "\"======== 2.19     THROTTLE QUADRANT SYSTEM ========\"";
+            if (callback == "SimHotasPinkyShift")
+                visibility = "White";
+            if (description == "\"======== 2.19     THROTTLE QUADRANT SYSTEM ==\"")
+                description = "\"======== 2.19     THROTTLE QUADRANT SYSTEM ========\"";
         }
 
         public KeyAssgn() { }
 
         public void getOtherKeyInstance(KeyAssgn otherInstance)
         {
-            this.callback    = otherInstance.callback;
-            this.soundID     = otherInstance.soundID;
-            this.none        = otherInstance.none;
-            this.keyboard    = otherInstance.keyboard;
-            this.modifier    = otherInstance.modifier;
-            this.keycombo    = otherInstance.keycombo;
-            this.keycomboMod = otherInstance.keycomboMod;
-            this.visibility  = otherInstance.visibility;
-            this.description = otherInstance.description;
+            callback    = otherInstance.callback;
+            soundID     = otherInstance.soundID;
+            none        = otherInstance.none;
+            keyboard    = otherInstance.keyboard;
+            modifier    = otherInstance.modifier;
+            keycombo    = otherInstance.keycombo;
+            keycomboMod = otherInstance.keycomboMod;
+            visibility  = otherInstance.visibility;
+            description = otherInstance.description;
         }
 
         /// <summary>
         /// Get Visibility information (1=Visible -1=Headline -0=Locked -2=hidden)
         /// </summary>
-        public string GetVisibility() { return this.visibility; }
+        public string GetVisibility() { return visibility; }
 
         /// <summary>
         /// Returns each line to write to BMS - FULL.key file.
@@ -100,33 +100,33 @@ namespace FalconBMS_Alternative_Launcher_Cs
         public string GetKeyLine()
         {
             string line = "";
-            if (this.visibility == "Blue")
+            if (visibility == "Blue")
                 line += "#=======================================" +
                     "============================================\n";
-            line += this.callback;
-            line += " " + this.soundID;
-            line += " " + this.none;
-            line += " " + this.keyboard;
-            line += " " + this.modifier;
-            line += " " + this.keycombo;
-            line += " " + this.keycomboMod;
-            if (this.visibility == "Hidden")
+            line += callback;
+            line += " " + soundID;
+            line += " " + none;
+            line += " " + keyboard;
+            line += " " + modifier;
+            line += " " + keycombo;
+            line += " " + keycomboMod;
+            if (visibility == "Hidden")
                 line += " -2";
-            if (this.visibility == "Blue")
+            if (visibility == "Blue")
                 line += " -1";
-            if (this.visibility == "Green")
+            if (visibility == "Green")
                 line += " -0";
-            if (this.visibility == "White")
+            if (visibility == "White")
                 line += " 1";
-            if (this.visibility == "-2")
+            if (visibility == "-2")
                 line += " -2";
-            if (this.visibility == "-1")
+            if (visibility == "-1")
                 line += " -1";
-            if (this.visibility == "-0")
+            if (visibility == "-0")
                 line += " -0";
-            if (this.visibility == "1")
+            if (visibility == "1")
                 line += " 1";
-            line += " " + this.description;
+            line += " " + description;
             line += "\n";
             return line;
         }
@@ -147,9 +147,9 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 code += 2;
             if (alt)
                 code += 4;
-            this.modifier = code.ToString();
+            modifier = code.ToString();
 
-            this.keyboard = "0x" + scancode10.ToString("X");
+            keyboard = "0x" + scancode10.ToString("X");
         }
 
         /// <summary>
@@ -171,9 +171,9 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 code += 2;
             if (alt)
                 code += 4;
-            this.keycomboMod = code.ToString();
+            keycomboMod = code.ToString();
 
-            this.keycombo = "0x" + scancode10.ToString("X");
+            keycombo = "0x" + scancode10.ToString("X");
         }
 
         /// <summary>
@@ -181,10 +181,10 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// </summary>
         public void UnassignKeyboard()
         {
-            this.keyboard = "0xFFFFFFFF";
-            this.modifier = "0";
-            this.keycombo = "0";
-            this.keycomboMod = "0";
+            keyboard = "0xFFFFFFFF";
+            modifier = "0";
+            keycombo = "0";
+            keycomboMod = "0";
         }
 
         /// <summary>
@@ -205,10 +205,10 @@ namespace FalconBMS_Alternative_Launcher_Cs
             string assignmentStatus = "";
 
             // keycombo //
-            if (this.keycombo != "0")
+            if (keycombo != "0")
             {
                 // keycomboMod //
-                switch (this.keycomboMod)
+                switch (keycomboMod)
                 {
                     case "0":
                         assignmentStatus += "";
@@ -236,7 +236,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                         break;
                 }
 
-                string scancodestr = this.keycombo.Remove(0, 2);
+                string scancodestr = keycombo.Remove(0, 2);
                 int scancode10 = Convert.ToInt32(scancodestr, 16);
 
                 // int -> enum
@@ -245,10 +245,10 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 assignmentStatus += int2enum.ToString() + "\t: ";
             }
 
-            if (this.keyboard.Remove(0, 2) != "FFFFFFFF")
+            if (keyboard.Remove(0, 2) != "FFFFFFFF")
             {
                 // modifier //
-                switch (this.modifier)
+                switch (modifier)
                 {
                     case "0":
                         assignmentStatus += "";
@@ -276,7 +276,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                         break;
                 }
 
-                string scancodestr = this.keyboard.Remove(0, 2);
+                string scancodestr = keyboard.Remove(0, 2);
                 int scancode10 = Convert.ToInt32(scancodestr, 16);
 
                 // int -> enum

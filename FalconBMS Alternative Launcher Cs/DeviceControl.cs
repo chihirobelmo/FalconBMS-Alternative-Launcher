@@ -1,10 +1,7 @@
 ﻿using Microsoft.DirectX.DirectInput;
-using System;
-using System.Collections.Generic;
+
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FalconBMS_Alternative_Launcher_Cs
 {
@@ -29,12 +26,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
         public DeviceControl(AppRegInfo appReg)
         {
             // Make Joystick Instances.
-            this.devList = Manager.GetDevices(DeviceClass.GameControl, EnumDevicesFlags.AttachedOnly);
-            this.joyStick = new Device[devList.Count];
-            this.joyAssign = new JoyAssgn[devList.Count];
+            devList = Manager.GetDevices(DeviceClass.GameControl, EnumDevicesFlags.AttachedOnly);
+            joyStick = new Device[devList.Count];
+            joyAssign = new JoyAssgn[devList.Count];
 
             System.Xml.Serialization.XmlSerializer serializer;
-            System.IO.StreamReader sr;
+            StreamReader sr;
             string fileName = "";
             string stockFileName = "";
             int i = 0;
@@ -55,7 +52,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 if (File.Exists(fileName))
                 {
                     serializer = new System.Xml.Serialization.XmlSerializer(typeof(JoyAssgn));
-                    sr = new System.IO.StreamReader(fileName, new System.Text.UTF8Encoding(false));
+                    sr = new StreamReader(fileName, new System.Text.UTF8Encoding(false));
                     joyAssign[i] = (JoyAssgn)serializer.Deserialize(sr);
                     sr.Close();
                 }
@@ -68,7 +65,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                         File.Copy(stockFileName, fileName);
 
                         serializer = new System.Xml.Serialization.XmlSerializer(typeof(JoyAssgn));
-                        sr = new System.IO.StreamReader(fileName, new System.Text.UTF8Encoding(false));
+                        sr = new StreamReader(fileName, new System.Text.UTF8Encoding(false));
                         joyAssign[i] = (JoyAssgn)serializer.Deserialize(sr);
                         sr.Close();
                     }
@@ -88,11 +85,11 @@ namespace FalconBMS_Alternative_Launcher_Cs
                         joyAssign[ii].ImportStockSetup(appReg, joyStick.Count(), joyStick[ii].Caps.NumberPointOfViews, ii);
                 }
             }
-            catch (System.IO.FileNotFoundException ex)
+            catch (FileNotFoundException ex)
             {
                 System.Console.WriteLine(ex.Message);
 
-                System.IO.StreamWriter sw = new System.IO.StreamWriter(appReg.GetInstallDir() + "\\Error.txt", false, System.Text.Encoding.GetEncoding("shift_jis"));
+                StreamWriter sw = new StreamWriter(appReg.GetInstallDir() + "\\Error.txt", false, System.Text.Encoding.GetEncoding("shift_jis"));
                 sw.Write(ex.Message);
                 sw.Close();
             }
@@ -102,7 +99,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             fileName = appReg.GetInstallDir() + "/User/Config/Setup.v100.Mousewheel.xml";
             if (File.Exists(fileName))
             {
-                sr = new System.IO.StreamReader(fileName, new System.Text.UTF8Encoding(false));
+                sr = new StreamReader(fileName, new System.Text.UTF8Encoding(false));
                 mouseWheelAssign = (AxAssgn)serializer.Deserialize(sr);
                 sr.Close();
             }
@@ -112,7 +109,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             fileName = appReg.GetInstallDir() + "/User/Config/Setup.v100.throttlePosition.xml";
             if (File.Exists(fileName))
             {
-                sr = new System.IO.StreamReader(fileName, new System.Text.UTF8Encoding(false));
+                sr = new StreamReader(fileName, new System.Text.UTF8Encoding(false));
                 throttlePos = (ThrottlePosition)serializer.Deserialize(sr);
                 sr.Close();
             }
@@ -124,28 +121,28 @@ namespace FalconBMS_Alternative_Launcher_Cs
             switch (joyAxisNumber)
             {
                 case 0:
-                    input = this.joyStick[joyNumber].CurrentJoystickState.X;
+                    input = joyStick[joyNumber].CurrentJoystickState.X;
                     break;
                 case 1:
-                    input = this.joyStick[joyNumber].CurrentJoystickState.Y;
+                    input = joyStick[joyNumber].CurrentJoystickState.Y;
                     break;
                 case 2:
-                    input = this.joyStick[joyNumber].CurrentJoystickState.Z;
+                    input = joyStick[joyNumber].CurrentJoystickState.Z;
                     break;
                 case 3:
-                    input = this.joyStick[joyNumber].CurrentJoystickState.Rx;
+                    input = joyStick[joyNumber].CurrentJoystickState.Rx;
                     break;
                 case 4:
-                    input = this.joyStick[joyNumber].CurrentJoystickState.Ry;
+                    input = joyStick[joyNumber].CurrentJoystickState.Ry;
                     break;
                 case 5:
-                    input = this.joyStick[joyNumber].CurrentJoystickState.Rz;
+                    input = joyStick[joyNumber].CurrentJoystickState.Rz;
                     break;
                 case 6:
-                    input = this.joyStick[joyNumber].CurrentJoystickState.GetSlider()[0];
+                    input = joyStick[joyNumber].CurrentJoystickState.GetSlider()[0];
                     break;
                 case 7:
-                    input = this.joyStick[joyNumber].CurrentJoystickState.GetSlider()[1];
+                    input = joyStick[joyNumber].CurrentJoystickState.GetSlider()[1];
                     break;
             }
             return input;

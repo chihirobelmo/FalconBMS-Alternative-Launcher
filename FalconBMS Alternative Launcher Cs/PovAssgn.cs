@@ -19,13 +19,13 @@ namespace FalconBMS_Alternative_Launcher_Cs
         // Constructor
         public PovAssgn()
         {
-            for (int i = 0; i < this.direction.Length; i++)
-                this.direction[i] = new DirAssgn();
+            for (int i = 0; i < direction.Length; i++)
+                direction[i] = new DirAssgn();
         }
         public PovAssgn(PovAssgn otherInstance)
         {
-            for (int i = 0; i < this.direction.Length; i++)
-                this.direction[i] = otherInstance.direction[i].Clone();
+            for (int i = 0; i < direction.Length; i++)
+                direction[i] = otherInstance.direction[i].Clone();
         }
 
         // Method
@@ -33,7 +33,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         {
             if (GetPointofView > 7)
                 GetPointofView = GetPointofView / 4500;
-            this.direction[GetPointofView].Assign(callback, pinky, soundID);
+            direction[GetPointofView].Assign(callback, pinky, soundID);
         }
 
         public string GetDirection(int GetPointOfView)
@@ -89,22 +89,22 @@ namespace FalconBMS_Alternative_Launcher_Cs
         // [1]=PRESS + SHIFT
 
         // Property for XML
-        public string[] Callback { get { return this.callback; } set { this.callback = value; } }
-        public int[] SoundID { get { return this.soundID; } set { this.soundID = value; } }
+        public string[] Callback { get { return callback; } set { callback = value; } }
+        public int[] SoundID { get { return soundID; } set { soundID = value; } }
 
         // Constructor
         public DirAssgn() { }
         public DirAssgn(DirAssgn otherInstance)
         {
-            this.callback[0] = otherInstance.callback[0];
-            this.callback[1] = otherInstance.callback[1];
-            this.soundID[0] = otherInstance.soundID[0];
-            this.soundID[1] = otherInstance.soundID[1];
+            callback[0] = otherInstance.callback[0];
+            callback[1] = otherInstance.callback[1];
+            soundID[0] = otherInstance.soundID[0];
+            soundID[1] = otherInstance.soundID[1];
         }
 
         // Method
-        public string GetCallback(Pinky pinky) { return this.callback[(int)pinky]; }
-        public int GetSoundID(Pinky pinky) { return this.soundID[(int)pinky]; }
+        public string GetCallback(Pinky pinky) { return callback[(int)pinky]; }
+        public int GetSoundID(Pinky pinky) { return soundID[(int)pinky]; }
 
         public void Assign(string callback, Pinky pinky, int soundID)
         {
@@ -114,8 +114,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         public void UnAssign(Pinky pinky)
         {
-            this.callback[(int)pinky] = "SimDoNothing";
-            this.soundID[(int)pinky] = 0;
+            callback[(int)pinky] = "SimDoNothing";
+            soundID[(int)pinky] = 0;
         }
 
         public DirAssgn Clone()

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 using System.Windows;
 
 namespace FalconBMS_Alternative_Launcher_Cs
@@ -30,7 +25,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         {
             mainWindow.Misc_Platform.IsChecked = false;
             mainWindow.Misc_Platform.Visibility = Visibility.Hidden;
-            mainWindow.Label_Platform.Content = "Platform : BMS 4.32 is 32-bit apprecation.";
+            mainWindow.Label_Platform.Content = "Platform : BMS 4.32 is 32-bit appreciation.";
 
             mainWindow.Launch_AVC.Visibility = Visibility.Hidden;
             mainWindow.Label_AVC.Visibility = Visibility.Hidden;
@@ -55,12 +50,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
             switch (((System.Windows.Controls.Button)sender).Name)
             {
                 case "Launch_BMS":
-                    string strCmdText = this.getCommandLine();
+                    string strCmdText = getCommandLine();
 
                     // OVERRIDE SETTINGS.
                     mainWindow.executeOverride();
 
-                    String appPlatform = appReg.GetInstallDir() + "/Bin/x86/Falcon BMS.exe";
+                    string appPlatform = appReg.GetInstallDir() + "/Bin/x86/Falcon BMS.exe";
                     process = System.Diagnostics.Process.Start(appPlatform, strCmdText);
                     mainWindow.Close();
                     break;
@@ -72,7 +67,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Bin/x86/Display Extraction.exe");
                     break;
                 case "Launch_IVCC":
-                    System.IO.Directory.SetCurrentDirectory(appReg.GetInstallDir() + "/Bin/x86/IVC/");
+                    Directory.SetCurrentDirectory(appReg.GetInstallDir() + "/Bin/x86/IVC/");
                     System.Diagnostics.Process.Start("IVC Client.exe");
                     break;
                 case "Launch_IVCS":
@@ -91,17 +86,17 @@ namespace FalconBMS_Alternative_Launcher_Cs
         public override string getCommandLine()
         {
             string strCmdText = "";
-            if (this.mainWindow.CMD_ACMI.IsChecked == false)
+            if (mainWindow.CMD_ACMI.IsChecked == false)
                 strCmdText += "-acmi ";
-            if (this.mainWindow.CMD_WINDOW.IsChecked == false)
+            if (mainWindow.CMD_WINDOW.IsChecked == false)
                 strCmdText += "-window ";
-            if (this.mainWindow.CMD_NOMOVIE.IsChecked == false)
+            if (mainWindow.CMD_NOMOVIE.IsChecked == false)
                 strCmdText += "-nomovie ";
-            if (this.mainWindow.CMD_EF.IsChecked == false)
+            if (mainWindow.CMD_EF.IsChecked == false)
                 strCmdText += "-ef ";
-            if (this.mainWindow.CMD_MONO.IsChecked == false)
+            if (mainWindow.CMD_MONO.IsChecked == false)
                 strCmdText += "-mono ";
-            strCmdText += "-bw " + this.mainWindow.getBWValue();
+            strCmdText += "-bw " + mainWindow.getBWValue();
             return strCmdText;
         }
     }
@@ -120,12 +115,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
             switch (((System.Windows.Controls.Button)sender).Name)
             {
                 case "Launch_BMS":
-                    string strCmdText = this.getCommandLine();
+                    string strCmdText = getCommandLine();
 
                     // OVERRIDE SETTINGS.
                     mainWindow.executeOverride();
 
-                    String appPlatform = "";
+                    string appPlatform = "";
                     if (mainWindow.Misc_Platform.IsChecked == true)
                         appPlatform = appReg.GetInstallDir() + "/Bin/x64/Falcon BMS.exe";
                     else
@@ -149,14 +144,14 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Bin/x86/Display Extraction.exe");
                     break;
                 case "Launch_IVCC":
-                    System.IO.Directory.SetCurrentDirectory(appReg.GetInstallDir() + "/Bin/x86/IVC/");
+                    Directory.SetCurrentDirectory(appReg.GetInstallDir() + "/Bin/x86/IVC/");
                     System.Diagnostics.Process.Start("IVC Client.exe");
                     break;
                 case "Launch_IVCS":
                     System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Bin/x86/IVC/IVC Server.exe");
                     break;
                 case "Launch_AVC":
-                    System.IO.Directory.SetCurrentDirectory(appReg.GetInstallDir() + "/Bin/x86/");
+                    Directory.SetCurrentDirectory(appReg.GetInstallDir() + "/Bin/x86/");
                     System.Diagnostics.Process.Start("Avionics Configurator.exe");
                     break;
                 case "Launch_EDIT":
@@ -170,17 +165,17 @@ namespace FalconBMS_Alternative_Launcher_Cs
         public override string getCommandLine()
         {
             string strCmdText = "";
-            if (this.mainWindow.CMD_ACMI.IsChecked == false)
+            if (mainWindow.CMD_ACMI.IsChecked == false)
                 strCmdText += "-acmi ";
-            if (this.mainWindow.CMD_WINDOW.IsChecked == false)
+            if (mainWindow.CMD_WINDOW.IsChecked == false)
                 strCmdText += "-window ";
-            if (this.mainWindow.CMD_NOMOVIE.IsChecked == false)
+            if (mainWindow.CMD_NOMOVIE.IsChecked == false)
                 strCmdText += "-nomovie ";
-            if (this.mainWindow.CMD_EF.IsChecked == false)
+            if (mainWindow.CMD_EF.IsChecked == false)
                 strCmdText += "-ef ";
-            if (this.mainWindow.CMD_MONO.IsChecked == false)
+            if (mainWindow.CMD_MONO.IsChecked == false)
                 strCmdText += "-mono ";
-            strCmdText += "-bw " + this.mainWindow.getBWValue();
+            strCmdText += "-bw " + mainWindow.getBWValue();
             return strCmdText;
         }
     }
@@ -191,7 +186,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         {
             mainWindow.Misc_Platform.IsChecked = true;
             mainWindow.Misc_Platform.Visibility = Visibility.Hidden;
-            mainWindow.Label_Platform.Content = "Platform : BMS 4.34 is 64-bit apprecation.";
+            mainWindow.Label_Platform.Content = "Platform : BMS 4.34 is 64-bit appreciation.";
 
             mainWindow.CMD_BW.Visibility = Visibility.Hidden;
         }
@@ -202,12 +197,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
             switch (((System.Windows.Controls.Button)sender).Name)
             {
                 case "Launch_BMS":
-                    string strCmdText = this.getCommandLine();
+                    string strCmdText = getCommandLine();
 
                     // OVERRIDE SETTINGS.
                     mainWindow.executeOverride();
                         
-                    String appPlatform = appReg.GetInstallDir() + "/Bin/x64/Falcon BMS.exe";
+                    string appPlatform = appReg.GetInstallDir() + "/Bin/x64/Falcon BMS.exe";
                     process = System.Diagnostics.Process.Start(appPlatform, strCmdText);
                     mainWindow.Close();
                     break;
@@ -219,14 +214,14 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Bin/x86/Display Extraction.exe");
                     break;
                 case "Launch_IVCC":
-                    System.IO.Directory.SetCurrentDirectory(appReg.GetInstallDir() + "/Bin/x64/IVC/");
+                    Directory.SetCurrentDirectory(appReg.GetInstallDir() + "/Bin/x64/IVC/");
                     System.Diagnostics.Process.Start("IVC Client.exe");
                     break;
                 case "Launch_IVCS":
                     System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Bin/x64/IVC/IVC Server.exe");
                     break;
                 case "Launch_AVC":
-                    System.IO.Directory.SetCurrentDirectory(appReg.GetInstallDir() + "/Bin/x86/");
+                    Directory.SetCurrentDirectory(appReg.GetInstallDir() + "/Bin/x86/");
                     System.Diagnostics.Process.Start("Avionics Configurator.exe");
                     break;
                 case "Launch_EDIT":
@@ -240,15 +235,15 @@ namespace FalconBMS_Alternative_Launcher_Cs
         public override string getCommandLine()
         {
             string strCmdText = "";
-            if (this.mainWindow.CMD_ACMI.IsChecked == false)
+            if (mainWindow.CMD_ACMI.IsChecked == false)
                 strCmdText += "-acmi ";
-            if (this.mainWindow.CMD_WINDOW.IsChecked == false)
+            if (mainWindow.CMD_WINDOW.IsChecked == false)
                 strCmdText += "-window ";
-            if (this.mainWindow.CMD_NOMOVIE.IsChecked == false)
+            if (mainWindow.CMD_NOMOVIE.IsChecked == false)
                 strCmdText += "-nomovie ";
-            if (this.mainWindow.CMD_EF.IsChecked == false)
+            if (mainWindow.CMD_EF.IsChecked == false)
                 strCmdText += "-ef ";
-            if (this.mainWindow.CMD_MONO.IsChecked == false)
+            if (mainWindow.CMD_MONO.IsChecked == false)
                 strCmdText += "-mono ";
             return strCmdText;
         }
@@ -260,7 +255,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         {
             mainWindow.Misc_Platform.IsChecked = true;
             mainWindow.Misc_Platform.Visibility = Visibility.Hidden;
-            mainWindow.Label_Platform.Content = "Platform : BMS 4.35 is 64-bit apprecation.";
+            mainWindow.Label_Platform.Content = "Platform : BMS 4.35 is 64-bit appreciation.";
 
             mainWindow.Launch_DISX.Visibility = Visibility.Hidden;
             mainWindow.Label_DISX.Visibility  = Visibility.Hidden;
@@ -274,12 +269,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
             switch (((System.Windows.Controls.Button)sender).Name)
             {
                 case "Launch_BMS":
-                    string strCmdText = this.getCommandLine();
+                    string strCmdText = getCommandLine();
 
                     // OVERRIDE SETTINGS.
                     mainWindow.executeOverride();
 
-                    String appPlatform = appReg.GetInstallDir() + "/Bin/x64/Falcon BMS.exe";
+                    string appPlatform = appReg.GetInstallDir() + "/Bin/x64/Falcon BMS.exe";
                     process = System.Diagnostics.Process.Start(appPlatform, strCmdText);
                     mainWindow.Close();
                     break;
@@ -291,14 +286,14 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Bin/x86/Display Extraction.exe");
                     break;
                 case "Launch_IVCC":
-                    System.IO.Directory.SetCurrentDirectory(appReg.GetInstallDir() + "/Bin/x64/IVC/");
+                    Directory.SetCurrentDirectory(appReg.GetInstallDir() + "/Bin/x64/IVC/");
                     System.Diagnostics.Process.Start("IVC Client.exe");
                     break;
                 case "Launch_IVCS":
                     System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Bin/x64/IVC/IVC Server.exe");
                     break;
                 case "Launch_AVC":
-                    System.IO.Directory.SetCurrentDirectory(appReg.GetInstallDir() + "/Bin/x86/");
+                    Directory.SetCurrentDirectory(appReg.GetInstallDir() + "/Bin/x86/");
                     System.Diagnostics.Process.Start("Avionics Configurator.exe");
                     break;
                 case "Launch_EDIT":
@@ -312,15 +307,15 @@ namespace FalconBMS_Alternative_Launcher_Cs
         public override string getCommandLine()
         {
             string strCmdText = "";
-            if (this.mainWindow.CMD_ACMI.IsChecked == false)
+            if (mainWindow.CMD_ACMI.IsChecked == false)
                 strCmdText += "-acmi ";
-            if (this.mainWindow.CMD_WINDOW.IsChecked == false)
+            if (mainWindow.CMD_WINDOW.IsChecked == false)
                 strCmdText += "-window ";
-            if (this.mainWindow.CMD_NOMOVIE.IsChecked == false)
+            if (mainWindow.CMD_NOMOVIE.IsChecked == false)
                 strCmdText += "-nomovie ";
-            if (this.mainWindow.CMD_EF.IsChecked == false)
+            if (mainWindow.CMD_EF.IsChecked == false)
                 strCmdText += "-ef ";
-            if (this.mainWindow.CMD_MONO.IsChecked == false)
+            if (mainWindow.CMD_MONO.IsChecked == false)
                 strCmdText += "-mono ";
             return strCmdText;
         }

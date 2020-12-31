@@ -13,15 +13,15 @@ namespace FalconBMS_Alternative_Launcher_Cs
         protected int iDLE = 0;
 
         // Property for XML
-        public int AB { get { return this.aB; } set { this.aB = value; } }
-        public int IDLE { get { return this.iDLE; } set { this.iDLE = value; } }
+        public int AB { get { return aB; } set { aB = value; } }
+        public int IDLE { get { return iDLE; } set { iDLE = value; } }
 
         // Constructor
         public ThrottlePosition(int aB, int iDLE) { this.aB = aB; this.iDLE = iDLE; }
         public ThrottlePosition() { }
 
         // Method
-        public int GetAB() { return this.aB; }
-        public int GetIDLE() { return this.iDLE; }
+        public int GetAB() { return aB; }
+        public int GetIDLE() { return iDLE; }
     }
 }

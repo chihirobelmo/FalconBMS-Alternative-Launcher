@@ -49,8 +49,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <param name="visualAcuity"></param>
         public void Execute(Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile)
         {
-            if (!System.IO.Directory.Exists(appReg.GetInstallDir() + "/User/Config/Backup/"))
-                System.IO.Directory.CreateDirectory(appReg.GetInstallDir() + "/User/Config/Backup/");
+            if (!Directory.Exists(appReg.GetInstallDir() + "/User/Config/Backup/"))
+                Directory.CreateDirectory(appReg.GetInstallDir() + "/User/Config/Backup/");
 
             SaveAxisMapping(inGameAxis, deviceControl);
             SaveJoystickCal(inGameAxis, deviceControl);
@@ -67,12 +67,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
         {
             string filename = appReg.GetInstallDir() + "/User/Config/windowconfig.dat";
             string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/windowconfig.dat";
-            if ((!System.IO.File.Exists(fbackupname)) & (System.IO.File.Exists(filename)))
-                System.IO.File.Copy(filename, fbackupname, true);
-            if (System.IO.File.Exists(filename))
-                System.IO.File.SetAttributes(filename, System.IO.File.GetAttributes(filename) & (~System.IO.FileAttributes.ReadOnly));
+            if (!File.Exists(fbackupname) & File.Exists(filename))
+                File.Copy(filename, fbackupname, true);
+            if (File.Exists(filename))
+                File.SetAttributes(filename, File.GetAttributes(filename) & ~FileAttributes.ReadOnly);
 
-            if (!System.IO.File.Exists(filename))
+            if (!File.Exists(filename))
             {
                 byte[] nbs = {
                     0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -92,12 +92,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
                     0x00, 0x00, 0x00, 0x00, 0x90, 0x01, 0x00, 0x00, 0x8C, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
                 };
-                System.IO.FileStream nfs = new System.IO.FileStream(filename, System.IO.FileMode.Create, System.IO.FileAccess.Write);
+                FileStream nfs = new FileStream(filename, FileMode.Create, FileAccess.Write);
                 nfs.Write(nbs, 0, nbs.Length);
                 nfs.Close();
             }
 
-            System.IO.FileStream fs = new System.IO.FileStream(filename, System.IO.FileMode.Open, System.IO.FileAccess.Read);
+            FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read);
 
             byte[] bs = new byte[fs.Length];
             fs.Read(bs, 0, bs.Length);
@@ -106,7 +106,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
             bs[4] = 0x00;
 
-            System.IO.FileStream nfs2 = new System.IO.FileStream(filename, System.IO.FileMode.Create, System.IO.FileAccess.Write);
+            FileStream nfs2 = new FileStream(filename, FileMode.Create, FileAccess.Write);
             nfs2.Write(bs, 0, bs.Length);
             nfs2.Close();
         }
@@ -120,7 +120,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             string fileName = "";
 
             System.Xml.Serialization.XmlSerializer serializer;
-            System.IO.StreamWriter sw;
+            StreamWriter sw;
 
             for (int i = 0; i < deviceControl.devList.Count; i++)
             {
@@ -128,7 +128,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 + " {" + deviceControl.joyAssign[i].GetInstanceGUID().ToString().ToUpper() + "}.xml";
 
                 serializer = new System.Xml.Serialization.XmlSerializer(typeof(JoyAssgn));
-                sw = new System.IO.StreamWriter(fileName, false, new System.Text.UTF8Encoding(false));
+                sw = new StreamWriter(fileName, false, new UTF8Encoding(false));
                 serializer.Serialize(sw, deviceControl.joyAssign[i]);
 
                 sw.Close();
@@ -136,7 +136,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             fileName = appReg.GetInstallDir() + "/User/Config/Setup.v100.MouseWheel.xml";
 
             serializer = new System.Xml.Serialization.XmlSerializer(typeof(AxAssgn));
-            sw = new System.IO.StreamWriter(fileName, false, new System.Text.UTF8Encoding(false));
+            sw = new StreamWriter(fileName, false, new UTF8Encoding(false));
             serializer.Serialize(sw, deviceControl.mouseWheelAssign);
 
             sw.Close();
@@ -144,7 +144,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             fileName = appReg.GetInstallDir() + "/User/Config/Setup.v100.ThrottlePosition.xml";
 
             serializer = new System.Xml.Serialization.XmlSerializer(typeof(ThrottlePosition));
-            sw = new System.IO.StreamWriter(fileName, false, new System.Text.UTF8Encoding(false));
+            sw = new StreamWriter(fileName, false, new UTF8Encoding(false));
             serializer.Serialize(sw, deviceControl.throttlePos);
 
             sw.Close();
@@ -157,14 +157,14 @@ namespace FalconBMS_Alternative_Launcher_Cs
         {
             string filename = appReg.GetInstallDir() + "/User/Config/falcon bms.cfg";
             string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/falcon bms.cfg";
-            if (!System.IO.File.Exists(fbackupname) & (System.IO.File.Exists(filename)))
-                System.IO.File.Copy(filename, fbackupname, true);
+            if (!File.Exists(fbackupname) & File.Exists(filename))
+                File.Copy(filename, fbackupname, true);
 
-            if (System.IO.File.Exists(filename))
-                System.IO.File.SetAttributes(filename, System.IO.File.GetAttributes(filename) & (~System.IO.FileAttributes.ReadOnly));
+            if (File.Exists(filename))
+                File.SetAttributes(filename, File.GetAttributes(filename) & ~FileAttributes.ReadOnly);
 
-            System.IO.StreamReader cReader = new System.IO.StreamReader
-                (filename, System.Text.Encoding.Default);
+            StreamReader cReader = new StreamReader
+                (filename, Encoding.Default);
             string stResult = "";
             while (cReader.Peek() >= 0)
             {
@@ -175,8 +175,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
             }
             cReader.Close();
             
-            System.IO.StreamWriter cfg = new System.IO.StreamWriter
-                (filename, false, System.Text.Encoding.GetEncoding("shift_jis"));
+            StreamWriter cfg = new StreamWriter
+                (filename, false, Encoding.GetEncoding("shift_jis"));
             cfg.Write(stResult);
             cfg.Write("set g_nHotasPinkyShiftMagnitude " + (deviceControl.devList.Count*32).ToString()
                 + "          // SETUP OVERRIDE\r\n");
@@ -199,14 +199,14 @@ namespace FalconBMS_Alternative_Launcher_Cs
             // BMS overwrites DeviceSorting.txt if was written in UTF-8.
             string filename = appReg.GetInstallDir() + "/User/Config/DeviceSorting.txt";
             string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/DeviceSorting.txt";
-            if ((!System.IO.File.Exists(fbackupname)) & (System.IO.File.Exists(filename)))
-                System.IO.File.Copy(filename, fbackupname, true);
+            if (!File.Exists(fbackupname) & File.Exists(filename))
+                File.Copy(filename, fbackupname, true);
 
-            if (System.IO.File.Exists(filename))
-                System.IO.File.SetAttributes(filename, System.IO.File.GetAttributes(filename) & (~System.IO.FileAttributes.ReadOnly));
+            if (File.Exists(filename))
+                File.SetAttributes(filename, File.GetAttributes(filename) & ~FileAttributes.ReadOnly);
 
-            System.IO.StreamWriter ds = new System.IO.StreamWriter
-                (filename, false, System.Text.Encoding.GetEncoding("shift_jis"));
+            StreamWriter ds = new StreamWriter
+                (filename, false, Encoding.GetEncoding("shift_jis"));
             ds.Write(deviceSort);
             ds.Close();
         }
@@ -218,14 +218,14 @@ namespace FalconBMS_Alternative_Launcher_Cs
         {
             string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.getKeyFileName();
             string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/" + appReg.getKeyFileName();
-            if (!System.IO.File.Exists(fbackupname) & (System.IO.File.Exists(filename)))
-                System.IO.File.Copy(filename, fbackupname, true);
+            if (!File.Exists(fbackupname) & File.Exists(filename))
+                File.Copy(filename, fbackupname, true);
 
-            if (System.IO.File.Exists(filename))
-                System.IO.File.SetAttributes(filename, System.IO.File.GetAttributes(filename) & (~System.IO.FileAttributes.ReadOnly));
+            if (File.Exists(filename))
+                File.SetAttributes(filename, File.GetAttributes(filename) & ~FileAttributes.ReadOnly);
 
-            System.IO.StreamWriter sw = new System.IO.StreamWriter
-                (filename, false, System.Text.Encoding.GetEncoding("utf-8"));
+            StreamWriter sw = new StreamWriter
+                (filename, false, Encoding.GetEncoding("utf-8"));
             for (int i = 0; i < keyFile.keyAssign.Length; i++)
                 sw.Write(keyFile.keyAssign[i].GetKeyLine());
             for (int i = 0; i < deviceControl.devList.Count; i++)
@@ -251,20 +251,20 @@ namespace FalconBMS_Alternative_Launcher_Cs
         protected void SavePlcLbk()
         {
             string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.GetPilotCallsign().ToString() + ".plc";
-            if (!System.IO.File.Exists(filename))
+            if (!File.Exists(filename))
             {
                 byte[] nbs = {
                     0x9C, 0x02, 0x91, 0x0D, 0x9D, 0x0C, 0xD3, 0x45, 0xC9, 0x16, 0x90, 0x00, 0x8A, 0x07, 0xD8, 0x6A,
                     0xF4, 0x78, 0xF3, 0x69, 0xE4, 0x5D, 0xC3, 0xAF
                 };
-                System.IO.FileStream nfs = new System.IO.FileStream
-                    (filename, System.IO.FileMode.Create, System.IO.FileAccess.Write);
+                FileStream nfs = new FileStream
+                    (filename, FileMode.Create, FileAccess.Write);
                 nfs.Write(nbs, 0, nbs.Length);
                 nfs.Close();
             }
 
             filename = appReg.GetInstallDir() + "/User/Config/" + appReg.GetPilotCallsign().ToString() + ".lbk";
-            if (!System.IO.File.Exists(filename))
+            if (!File.Exists(filename))
             {
                 byte[] nbs = {
                     0x54, 0x5A, 0x53, 0x10, 0x2F, 0x28, 0x64, 0x62, 0x65, 0x45, 0x3C, 0x53, 0x26, 0x54, 0x74, 0x39,
@@ -292,8 +292,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     0xA2, 0xD1, 0xA5, 0xC0, 0xB2, 0xF4, 0x95, 0xF9, 0x9A, 0xF5, 0x9B, 0xBB, 0xD2, 0xA1, 0x81, 0xF8,
                     0x97, 0xE2, 0x90, 0xB0
                 };
-                System.IO.FileStream nfs = new System.IO.FileStream
-                    (filename, System.IO.FileMode.Create, System.IO.FileAccess.Write);
+                FileStream nfs = new FileStream
+                    (filename, FileMode.Create, FileAccess.Write);
                 nfs.Write(nbs, 0, nbs.Length);
                 nfs.Close();
             }
@@ -306,14 +306,14 @@ namespace FalconBMS_Alternative_Launcher_Cs
         {
             string filename = appReg.GetInstallDir() + "/User/Config/axismapping.dat";
             string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/axismapping.dat";
-            if ((!System.IO.File.Exists(fbackupname)) & (System.IO.File.Exists(filename)))
-                System.IO.File.Copy(filename, fbackupname, true);
+            if (!File.Exists(fbackupname) & File.Exists(filename))
+                File.Copy(filename, fbackupname, true);
 
-            if (System.IO.File.Exists(filename))
-                System.IO.File.SetAttributes(filename, System.IO.File.GetAttributes(filename) & (~System.IO.FileAttributes.ReadOnly));
+            if (File.Exists(filename))
+                File.SetAttributes(filename, File.GetAttributes(filename) & ~FileAttributes.ReadOnly);
 
-            System.IO.FileStream fs = new System.IO.FileStream
-                (filename, System.IO.FileMode.Create, System.IO.FileAccess.Write);
+            FileStream fs = new FileStream
+                (filename, FileMode.Create, FileAccess.Write);
 
             byte[] bs;
             
@@ -345,7 +345,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 fs.Write(bs, 0, bs.Length);
             }
 
-            AxisName[] localAxisMappingList = this.getAxisMappingList();
+            AxisName[] localAxisMappingList = getAxisMappingList();
             foreach (AxisName nme in localAxisMappingList)
             {
                 if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() == -1)
@@ -423,14 +423,14 @@ namespace FalconBMS_Alternative_Launcher_Cs
         {
             string filename = appReg.GetInstallDir() + "/User/Config/joystick.cal";
             string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/joystick.cal";
-            if ((!System.IO.File.Exists(fbackupname)) & (System.IO.File.Exists(filename)))
-                System.IO.File.Copy(filename, fbackupname, true);
+            if (!File.Exists(fbackupname) & File.Exists(filename))
+                File.Copy(filename, fbackupname, true);
 
-            if (System.IO.File.Exists(filename))
-                System.IO.File.SetAttributes(filename, System.IO.File.GetAttributes(filename) & (~System.IO.FileAttributes.ReadOnly));
+            if (File.Exists(filename))
+                File.SetAttributes(filename, File.GetAttributes(filename) & ~FileAttributes.ReadOnly);
 
-            System.IO.FileStream fs = new System.IO.FileStream
-                (filename, System.IO.FileMode.Create, System.IO.FileAccess.Write);
+            FileStream fs = new FileStream
+                (filename, FileMode.Create, FileAccess.Write);
 
             byte[] bs;
 
@@ -465,7 +465,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                         bs[1] = ab[1];
                         bs[5] = idle[1];
 
-                        if (deviceControl.throttlePos.GetAB() > (65536 - 256))
+                        if (deviceControl.throttlePos.GetAB() > 65536 - 256)
                             bs[1] = 0x00;
                         if (deviceControl.throttlePos.GetIDLE() < 256)
                             bs[5] = 0x3A;
@@ -480,8 +480,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
             fs.Close();
         }
 
-        public virtual AxisName[] getAxisMappingList() { return this.axisMappingList; }
-        public virtual AxisName[] getJoystickCalList() { return this.joystickCalList; }
+        public virtual AxisName[] getAxisMappingList() { return axisMappingList; }
+        public virtual AxisName[] getJoystickCalList() { return joystickCalList; }
 
         /// <summary>
         /// Axis information order for AxisMapping.dat
@@ -511,7 +511,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         protected override void SavePop()
         {
             string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.GetPilotCallsign().ToString() + ".pop";
-            if (!System.IO.File.Exists(filename))
+            if (!File.Exists(filename))
             {
                 byte[] nbs = {
                      0x1B, 0x00, 0x00, 0x00, 0x00, 0x00, 0xA0, 0x42, 0x00, 0x00, 0x00, 0x00, 0x05, 0x00, 0x00, 0x00,
@@ -537,25 +537,25 @@ namespace FalconBMS_Alternative_Launcher_Cs
                      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
                      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x03, 0x00, 0x00, 0x00, 0xF0, 0xD8, 0xFF, 0xFF
                 };
-                System.IO.FileStream nfs = new System.IO.FileStream
-                    (filename, System.IO.FileMode.Create, System.IO.FileAccess.Write);
+                FileStream nfs = new FileStream
+                    (filename, FileMode.Create, FileAccess.Write);
                 nfs.Write(nbs, 0, nbs.Length);
                 nfs.Close();
             }
             string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/" + appReg.GetPilotCallsign().ToString() + ".pop";
-            if (!System.IO.File.Exists(fbackupname))
-                System.IO.File.Copy(filename, fbackupname, true);
+            if (!File.Exists(fbackupname))
+                File.Copy(filename, fbackupname, true);
 
-            System.IO.File.SetAttributes(filename, System.IO.File.GetAttributes(filename) & (~System.IO.FileAttributes.ReadOnly));
+            File.SetAttributes(filename, File.GetAttributes(filename) & ~FileAttributes.ReadOnly);
 
-            System.IO.FileStream fs = new System.IO.FileStream
-                (filename, System.IO.FileMode.Open, System.IO.FileAccess.Read);
+            FileStream fs = new FileStream
+                (filename, FileMode.Open, FileAccess.Read);
             byte[] bs = new byte[fs.Length];
             fs.Read(bs, 0, bs.Length);
             fs.Close();
 
             // Set Keyfile selected.
-            byte[] keyFileName = System.Text.Encoding.ASCII.GetBytes(appReg.getKeyFileName().Replace(".key", ""));
+            byte[] keyFileName = Encoding.ASCII.GetBytes(appReg.getKeyFileName().Replace(".key", ""));
             for (int i = 0; i <= 15; i++)
             {
                 if (i >= keyFileName.Length)
@@ -586,14 +586,14 @@ namespace FalconBMS_Alternative_Launcher_Cs
             if (mainWindow.Misc_SmartScalingOverride.IsChecked == true)
                 bs[12] = 0x05;
 
-            fs = new System.IO.FileStream
-                (filename, System.IO.FileMode.Create, System.IO.FileAccess.Write);
+            fs = new FileStream
+                (filename, FileMode.Create, FileAccess.Write);
             fs.Write(bs, 0, bs.Length);
             fs.Close();
         }
 
-        public override AxisName[] getAxisMappingList() { return this.axisMappingList; }
-        public override AxisName[] getJoystickCalList() { return this.joystickCalList; }
+        public override AxisName[] getAxisMappingList() { return axisMappingList; }
+        public override AxisName[] getJoystickCalList() { return joystickCalList; }
 
         /// <summary>
         /// Axis information order for AxisMapping.dat
@@ -673,7 +673,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         protected override void SavePop()
         {
             string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.GetPilotCallsign().ToString() + ".pop";
-            if (!System.IO.File.Exists(filename))
+            if (!File.Exists(filename))
             {
                 byte[] nbs = {
                     0x1B, 0x00, 0x00, 0x00, 0x00, 0x00, 0xA0, 0x42, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00,
@@ -703,25 +703,25 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
                     0x00, 0x00, 0x00, 0x00, 0x03, 0x00, 0x00, 0x00, 0xF0, 0xD8, 0xFF, 0xFF
                 };
-                System.IO.FileStream nfs = new System.IO.FileStream
-                    (filename, System.IO.FileMode.Create, System.IO.FileAccess.Write);
+                FileStream nfs = new FileStream
+                    (filename, FileMode.Create, FileAccess.Write);
                 nfs.Write(nbs, 0, nbs.Length);
                 nfs.Close();
             }
             string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/" + appReg.GetPilotCallsign().ToString() + ".pop";
-            if (!System.IO.File.Exists(fbackupname))
-                System.IO.File.Copy(filename, fbackupname, true);
+            if (!File.Exists(fbackupname))
+                File.Copy(filename, fbackupname, true);
 
-            System.IO.File.SetAttributes(filename, System.IO.File.GetAttributes(filename) & (~System.IO.FileAttributes.ReadOnly));
+            File.SetAttributes(filename, File.GetAttributes(filename) & ~FileAttributes.ReadOnly);
 
-            System.IO.FileStream fs = new System.IO.FileStream
-                (filename, System.IO.FileMode.Open, System.IO.FileAccess.Read);
+            FileStream fs = new FileStream
+                (filename, FileMode.Open, FileAccess.Read);
             byte[] bs = new byte[fs.Length];
             fs.Read(bs, 0, bs.Length);
             fs.Close();
 
             // Set Keyfile selected.
-            byte[] keyFileName = System.Text.Encoding.ASCII.GetBytes(appReg.getKeyFileName().Replace(".key", ""));
+            byte[] keyFileName = Encoding.ASCII.GetBytes(appReg.getKeyFileName().Replace(".key", ""));
             for (int i = 0; i <= 15; i++)
             {
                 if (i >= keyFileName.Length)
@@ -752,14 +752,14 @@ namespace FalconBMS_Alternative_Launcher_Cs
             if (mainWindow.Misc_SmartScalingOverride.IsChecked == true)
                 bs[12] = 0x05;
 
-            fs = new System.IO.FileStream
-                (filename, System.IO.FileMode.Create, System.IO.FileAccess.Write);
+            fs = new FileStream
+                (filename, FileMode.Create, FileAccess.Write);
             fs.Write(bs, 0, bs.Length);
             fs.Close();
         }
 
-        public override AxisName[] getAxisMappingList() { return this.axisMappingList; }
-        public override AxisName[] getJoystickCalList() { return this.joystickCalList; }
+        public override AxisName[] getAxisMappingList() { return axisMappingList; }
+        public override AxisName[] getJoystickCalList() { return joystickCalList; }
 
         /// <summary>
         /// Axis information order for AxisMapping.dat
@@ -836,14 +836,14 @@ namespace FalconBMS_Alternative_Launcher_Cs
         {
             string filename = appReg.GetInstallDir() + "/User/Config/falcon bms.cfg";
             string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/falcon bms.cfg";
-            if (!System.IO.File.Exists(fbackupname) & (System.IO.File.Exists(filename)))
-                System.IO.File.Copy(filename, fbackupname, true);
+            if (!File.Exists(fbackupname) & File.Exists(filename))
+                File.Copy(filename, fbackupname, true);
 
-            if (System.IO.File.Exists(filename))
-                System.IO.File.SetAttributes(filename, System.IO.File.GetAttributes(filename) & (~System.IO.FileAttributes.ReadOnly));
+            if (File.Exists(filename))
+                File.SetAttributes(filename, File.GetAttributes(filename) & ~FileAttributes.ReadOnly);
 
-            System.IO.StreamReader cReader = new System.IO.StreamReader
-                (filename, System.Text.Encoding.Default);
+            StreamReader cReader = new StreamReader
+                (filename, Encoding.Default);
             string stResult = "";
             while (cReader.Peek() >= 0)
             {
@@ -854,8 +854,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
             }
             cReader.Close();
 
-            System.IO.StreamWriter cfg = new System.IO.StreamWriter
-                (filename, false, System.Text.Encoding.GetEncoding("shift_jis"));
+            StreamWriter cfg = new StreamWriter
+                (filename, false, Encoding.GetEncoding("shift_jis"));
             cfg.Write(stResult);
             cfg.Write("set g_nHotasPinkyShiftMagnitude " + (deviceControl.devList.Count * 32).ToString()
                 + "          // SETUP OVERRIDE\r\n");
@@ -880,14 +880,14 @@ namespace FalconBMS_Alternative_Launcher_Cs
         {
             string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.getKeyFileName();
             string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/" + appReg.getKeyFileName();
-            if (!System.IO.File.Exists(fbackupname) & (System.IO.File.Exists(filename)))
-                System.IO.File.Copy(filename, fbackupname, true);
+            if (!File.Exists(fbackupname) & File.Exists(filename))
+                File.Copy(filename, fbackupname, true);
 
-            if (System.IO.File.Exists(filename))
-                System.IO.File.SetAttributes(filename, System.IO.File.GetAttributes(filename) & (~System.IO.FileAttributes.ReadOnly));
+            if (File.Exists(filename))
+                File.SetAttributes(filename, File.GetAttributes(filename) & ~FileAttributes.ReadOnly);
 
-            System.IO.StreamWriter sw = new System.IO.StreamWriter
-                (filename, false, System.Text.Encoding.GetEncoding("utf-8"));
+            StreamWriter sw = new StreamWriter
+                (filename, false, Encoding.GetEncoding("utf-8"));
             for (int i = 0; i < keyFile.keyAssign.Length; i++)
                 sw.Write(keyFile.keyAssign[i].GetKeyLine());
             for (int i = 0; i < deviceControl.devList.Count; i++)
@@ -929,14 +929,14 @@ namespace FalconBMS_Alternative_Launcher_Cs
         {
             string filename = appReg.GetInstallDir() + "/User/Config/joystick.cal";
             string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/joystick.cal";
-            if ((!System.IO.File.Exists(fbackupname)) & (System.IO.File.Exists(filename)))
-                System.IO.File.Copy(filename, fbackupname, true);
+            if (!File.Exists(fbackupname) & File.Exists(filename))
+                File.Copy(filename, fbackupname, true);
 
-            if (System.IO.File.Exists(filename))
-                System.IO.File.SetAttributes(filename, System.IO.File.GetAttributes(filename) & (~System.IO.FileAttributes.ReadOnly));
+            if (File.Exists(filename))
+                File.SetAttributes(filename, File.GetAttributes(filename) & ~FileAttributes.ReadOnly);
 
-            System.IO.FileStream fs = new System.IO.FileStream
-                (filename, System.IO.FileMode.Create, System.IO.FileAccess.Write);
+            FileStream fs = new FileStream
+                (filename, FileMode.Create, FileAccess.Write);
 
             byte[] bs;
 
@@ -970,7 +970,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                         bs[1] = ab[1];
                         bs[5] = idle[1];
 
-                        if (deviceControl.throttlePos.GetAB() > (65536 - 256))
+                        if (deviceControl.throttlePos.GetAB() > 65536 - 256)
                             bs[1] = 0x00;
                         if (deviceControl.throttlePos.GetIDLE() < 256)
                             bs[5] = 0x3A;
@@ -989,7 +989,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         protected override void SavePop()
         {
             string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.GetPilotCallsign().ToString() + ".pop";
-            if (!System.IO.File.Exists(filename))
+            if (!File.Exists(filename))
             {
                 byte[] nbs = {
                     0x1B, 0x00, 0x00, 0x00, 0x00, 0x00, 0xA0, 0x42, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00,
@@ -1019,25 +1019,25 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x03, 0x00, 0x00, 0x00, 0xFE, 0xF7, 0xFF, 0xFF
                 };
-                System.IO.FileStream nfs = new System.IO.FileStream
-                    (filename, System.IO.FileMode.Create, System.IO.FileAccess.Write);
+                FileStream nfs = new FileStream
+                    (filename, FileMode.Create, FileAccess.Write);
                 nfs.Write(nbs, 0, nbs.Length);
                 nfs.Close();
             }
             string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/" + appReg.GetPilotCallsign().ToString() + ".pop";
-            if (!System.IO.File.Exists(fbackupname))
-                System.IO.File.Copy(filename, fbackupname, true);
+            if (!File.Exists(fbackupname))
+                File.Copy(filename, fbackupname, true);
 
-            System.IO.File.SetAttributes(filename, System.IO.File.GetAttributes(filename) & (~System.IO.FileAttributes.ReadOnly));
+            File.SetAttributes(filename, File.GetAttributes(filename) & ~FileAttributes.ReadOnly);
 
-            System.IO.FileStream fs = new System.IO.FileStream
-                (filename, System.IO.FileMode.Open, System.IO.FileAccess.Read);
+            FileStream fs = new FileStream
+                (filename, FileMode.Open, FileAccess.Read);
             byte[] bs = new byte[fs.Length];
             fs.Read(bs, 0, bs.Length);
             fs.Close();
 
             // Set Keyfile selected.
-            byte[] keyFileName = System.Text.Encoding.ASCII.GetBytes(appReg.getKeyFileName().Replace(".key", ""));
+            byte[] keyFileName = Encoding.ASCII.GetBytes(appReg.getKeyFileName().Replace(".key", ""));
             for (int i = 0; i <= 15; i++)
             {
                 if (i >= keyFileName.Length)
@@ -1078,14 +1078,14 @@ namespace FalconBMS_Alternative_Launcher_Cs
             if (mainWindow.Misc_PilotModel.IsChecked == true)
                 bs[0] = 0x33;
 
-            fs = new System.IO.FileStream
-                (filename, System.IO.FileMode.Create, System.IO.FileAccess.Write);
+            fs = new FileStream
+                (filename, FileMode.Create, FileAccess.Write);
             fs.Write(bs, 0, bs.Length);
             fs.Close();
         }
 
-        public override AxisName[] getAxisMappingList() { return this.axisMappingList; }
-        public override AxisName[] getJoystickCalList() { return this.joystickCalList; }
+        public override AxisName[] getAxisMappingList() { return axisMappingList; }
+        public override AxisName[] getJoystickCalList() { return joystickCalList; }
 
         /// <summary>
         /// Axis information order for AxisMapping.dat
@@ -1175,7 +1175,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         protected override void SavePop()
         {
             string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.GetPilotCallsign().ToString() + ".pop";
-            if (!System.IO.File.Exists(filename))
+            if (!File.Exists(filename))
             {
                 byte[] nbs = {
                     0x13, 0x00, 0x00, 0x00, 0x00, 0x00, 0xA0, 0x42, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 
@@ -1208,25 +1208,25 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x03, 0x00, 0x00, 0x00, 0xFE, 0xF7, 0xFF, 0xFF
                 };
-                System.IO.FileStream nfs = new System.IO.FileStream
-                    (filename, System.IO.FileMode.Create, System.IO.FileAccess.Write);
+                FileStream nfs = new FileStream
+                    (filename, FileMode.Create, FileAccess.Write);
                 nfs.Write(nbs, 0, nbs.Length);
                 nfs.Close();
             }
             string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/" + appReg.GetPilotCallsign().ToString() + ".pop";
-            if (!System.IO.File.Exists(fbackupname))
-                System.IO.File.Copy(filename, fbackupname, true);
+            if (!File.Exists(fbackupname))
+                File.Copy(filename, fbackupname, true);
 
-            System.IO.File.SetAttributes(filename, System.IO.File.GetAttributes(filename) & (~System.IO.FileAttributes.ReadOnly));
+            File.SetAttributes(filename, File.GetAttributes(filename) & ~FileAttributes.ReadOnly);
 
-            System.IO.FileStream fs = new System.IO.FileStream
-                (filename, System.IO.FileMode.Open, System.IO.FileAccess.Read);
+            FileStream fs = new FileStream
+                (filename, FileMode.Open, FileAccess.Read);
             byte[] bs = new byte[fs.Length];
             fs.Read(bs, 0, bs.Length);
             fs.Close();
 
             // Set Keyfile selected.
-            byte[] keyFileName = System.Text.Encoding.ASCII.GetBytes(appReg.getKeyFileName().Replace(".key", ""));
+            byte[] keyFileName = Encoding.ASCII.GetBytes(appReg.getKeyFileName().Replace(".key", ""));
             for (int i = 0; i <= 15; i++)
             {
                 if (i >= keyFileName.Length)
@@ -1267,14 +1267,14 @@ namespace FalconBMS_Alternative_Launcher_Cs
             if (mainWindow.Misc_PilotModel.IsChecked == true)
                 bs[0] = 0x33;
 
-            fs = new System.IO.FileStream
-                (filename, System.IO.FileMode.Create, System.IO.FileAccess.Write);
+            fs = new FileStream
+                (filename, FileMode.Create, FileAccess.Write);
             fs.Write(bs, 0, bs.Length);
             fs.Close();
         }
 
-        public override AxisName[] getAxisMappingList() { return this.axisMappingList; }
-        public override AxisName[] getJoystickCalList() { return this.joystickCalList; }
+        public override AxisName[] getAxisMappingList() { return axisMappingList; }
+        public override AxisName[] getJoystickCalList() { return joystickCalList; }
 
         /// <summary>
         /// Axis information order for AxisMapping.dat

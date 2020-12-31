@@ -23,19 +23,19 @@ namespace FalconBMS_Alternative_Launcher_Cs
         // Constructor
         public DxAssgn()
         {
-            for (int i = 0; i < this.assign.Length; i++)
-                this.assign[i] = new Assgn();
+            for (int i = 0; i < assign.Length; i++)
+                assign[i] = new Assgn();
         }
         public DxAssgn(DxAssgn otherInstance)
         {
-            for (int i = 0; i < this.assign.Length; i++)
-                this.assign[i] = otherInstance.assign[i].Clone();
+            for (int i = 0; i < assign.Length; i++)
+                assign[i] = otherInstance.assign[i].Clone();
         }
 
         // Method
         public void Assign(string callback, Pinky pinky, Behaviour behaviour, Invoke invoke, int soundID)
         {
-            this.assign[(int)pinky + (int)behaviour] = new Assgn(callback, invoke, soundID);
+            assign[(int)pinky + (int)behaviour] = new Assgn(callback, invoke, soundID);
         }
 
         public DxAssgn Clone()
@@ -56,17 +56,17 @@ namespace FalconBMS_Alternative_Launcher_Cs
         protected int soundID = 0;
 
         // Property for XML
-        public string Callback { get { return this.callback; } set { this.callback = value; } }
-        public Invoke Invoke { get { return this.invoke; } set { this.invoke = value; } }
-        public int SoundID { get { return this.soundID; } set { this.soundID = value; } }
+        public string Callback { get { return callback; } set { callback = value; } }
+        public Invoke Invoke { get { return invoke; } set { invoke = value; } }
+        public int SoundID { get { return soundID; } set { soundID = value; } }
 
         // Constructor
         public Assgn() { }
         public Assgn(Assgn otherInstance)
         {
-            this.callback = otherInstance.callback;
-            this.invoke = otherInstance.invoke;
-            this.soundID = otherInstance.soundID;
+            callback = otherInstance.callback;
+            invoke = otherInstance.invoke;
+            soundID = otherInstance.soundID;
         }
         public Assgn(string callback, Invoke invoke, int soundID)
         {
@@ -76,9 +76,9 @@ namespace FalconBMS_Alternative_Launcher_Cs
         }
 
         // Method
-        public string GetCallback() { return this.callback; }
-        public Invoke GetInvoke() { return this.invoke; }
-        public int GetSoundID() { return this.soundID; }
+        public string GetCallback() { return callback; }
+        public Invoke GetInvoke() { return invoke; }
+        public int GetSoundID() { return soundID; }
 
         public Assgn Clone()
         {

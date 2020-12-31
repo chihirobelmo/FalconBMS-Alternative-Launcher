@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -28,13 +26,13 @@ namespace FalconBMS_Alternative_Launcher_Cs
         public string theaterOwnConfig = "";
 
         // Method
-        public string GetInstallDir() { return this.installDir; }
-        public string GetCurrentTheater() { return this.currentTheater; }
-        public string GetPilotCallsign() { return this.pilotCallsign; }
-        public string getKeyFileName() { return this.keyFileName; }
-        public OverrideSetting getOverrideWriter() { return this.overRideSetting; }
-        public BMS_Version getBMSVersion() { return this.bms_Version; }
-        public Launcher getLauncher() { return this.launcher; }
+        public string GetInstallDir() { return installDir; }
+        public string GetCurrentTheater() { return currentTheater; }
+        public string GetPilotCallsign() { return pilotCallsign; }
+        public string getKeyFileName() { return keyFileName; }
+        public OverrideSetting getOverrideWriter() { return overRideSetting; }
+        public BMS_Version getBMSVersion() { return bms_Version; }
+        public Launcher getLauncher() { return launcher; }
 
         public AppRegInfo(MainWindow mainWindow)
         {
@@ -55,31 +53,31 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
             if (versionNum == 32)
             {
-                this.bms_Version = BMS_Version.BMS432;
+                bms_Version = BMS_Version.BMS432;
             }
             else if (versionNum == 33 && updateNum == 0)
             {
-                this.bms_Version = BMS_Version.BMS433;
+                bms_Version = BMS_Version.BMS433;
             }
             else if (versionNum == 33 && updateNum > 0)
             {
-                this.bms_Version = BMS_Version.BMS433U1;
+                bms_Version = BMS_Version.BMS433U1;
             }
             else if (versionNum == 34 && updateNum == 0)
             {
-                this.bms_Version = BMS_Version.BMS434;
+                bms_Version = BMS_Version.BMS434;
             }
             else if (versionNum == 34 && updateNum > 0)
             {
-                this.bms_Version = BMS_Version.BMS434U1;
+                bms_Version = BMS_Version.BMS434U1;
             }
             else if (versionNum == 35)
             {
-                this.bms_Version = BMS_Version.BMS435;
+                bms_Version = BMS_Version.BMS435;
             }
             else
             {
-                this.bms_Version = BMS_Version.BMS435;
+                bms_Version = BMS_Version.BMS435;
             }
 
             // load command line.
@@ -99,73 +97,73 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 switch (option["/bms"])
                 {
                     case "4.32":
-                        this.bms_Version = BMS_Version.BMS432;
+                        bms_Version = BMS_Version.BMS432;
                         break;
                     case "4.33":
-                        this.bms_Version = BMS_Version.BMS433;
+                        bms_Version = BMS_Version.BMS433;
                         break;
                     case "4.33.1":
-                        this.bms_Version = BMS_Version.BMS433U1;
+                        bms_Version = BMS_Version.BMS433U1;
                         break;
                     case "4.34":
-                        this.bms_Version = BMS_Version.BMS434;
+                        bms_Version = BMS_Version.BMS434;
                         break;
                     case "4.34.1":
-                        this.bms_Version = BMS_Version.BMS434U1;
+                        bms_Version = BMS_Version.BMS434U1;
                         break;
                     case "4.35":
-                        this.bms_Version = BMS_Version.BMS435;
+                        bms_Version = BMS_Version.BMS435;
                         break;
                     default:
-                        this.bms_Version = BMS_Version.BMS435;
+                        bms_Version = BMS_Version.BMS435;
                         break;
                 }
             }
 
             // BMS version
-            switch (this.bms_Version)
+            switch (bms_Version)
             {
                 case BMS_Version.BMS432:
-                    this.regName = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.32";
-                    this.keyFileName = "BMS.key";
-                    this.overRideSetting = new OverrideSettingFor432(this.mainWindow, this);
-                    this.launcher = new Launcher432(this, this.mainWindow);
-                    mainWindow.LOGO432.Visibility = System.Windows.Visibility.Visible;
+                    regName = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.32";
+                    keyFileName = "BMS.key";
+                    overRideSetting = new OverrideSettingFor432(this.mainWindow, this);
+                    launcher = new Launcher432(this, this.mainWindow);
+                    mainWindow.LOGO432.Visibility = Visibility.Visible;
                     break;
                 case BMS_Version.BMS433:
-                    this.regName = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.33";
-                    this.keyFileName = "BMS - Full.key";
-                    this.overRideSetting = new OverrideSettingFor433(this.mainWindow, this);
-                    this.launcher = new Launcher433(this, this.mainWindow);
-                    mainWindow.LOGO433.Visibility = System.Windows.Visibility.Visible;
+                    regName = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.33";
+                    keyFileName = "BMS - Full.key";
+                    overRideSetting = new OverrideSettingFor433(this.mainWindow, this);
+                    launcher = new Launcher433(this, this.mainWindow);
+                    mainWindow.LOGO433.Visibility = Visibility.Visible;
                     break;
                 case BMS_Version.BMS433U1:
-                    this.regName = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.33 U1";
-                    this.keyFileName = "BMS - Full.key";
-                    this.overRideSetting = new OverrideSettingFor433(this.mainWindow, this);
-                    this.launcher = new Launcher433(this, this.mainWindow);
-                    mainWindow.LOGO433.Visibility = System.Windows.Visibility.Visible;
+                    regName = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.33 U1";
+                    keyFileName = "BMS - Full.key";
+                    overRideSetting = new OverrideSettingFor433(this.mainWindow, this);
+                    launcher = new Launcher433(this, this.mainWindow);
+                    mainWindow.LOGO433.Visibility = Visibility.Visible;
                     break;
                 case BMS_Version.BMS434:
-                    this.regName = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.34";
-                    this.keyFileName = "BMS - Full.key";
-                    this.overRideSetting = new OverrideSettingFor434(this.mainWindow, this);
-                    this.launcher = new Launcher434(this, this.mainWindow);
-                    mainWindow.LOGO434.Visibility = System.Windows.Visibility.Visible;
+                    regName = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.34";
+                    keyFileName = "BMS - Full.key";
+                    overRideSetting = new OverrideSettingFor434(this.mainWindow, this);
+                    launcher = new Launcher434(this, this.mainWindow);
+                    mainWindow.LOGO434.Visibility = Visibility.Visible;
                     break;
                 case BMS_Version.BMS434U1:
-                    this.regName = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.34";
-                    this.keyFileName = "BMS - Full.key";
-                    this.overRideSetting = new OverrideSettingFor434U1(this.mainWindow, this);
-                    this.launcher = new Launcher434(this, this.mainWindow);
-                    mainWindow.LOGO434.Visibility = System.Windows.Visibility.Visible;
+                    regName = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.34";
+                    keyFileName = "BMS - Full.key";
+                    overRideSetting = new OverrideSettingFor434U1(this.mainWindow, this);
+                    launcher = new Launcher434(this, this.mainWindow);
+                    mainWindow.LOGO434.Visibility = Visibility.Visible;
                     break;
                 case BMS_Version.BMS435:
-                    this.regName = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.35";
-                    this.keyFileName = "BMS - Full.key";
-                    this.overRideSetting = new OverrideSettingFor435(this.mainWindow, this);
-                    this.launcher = new Launcher435(this, this.mainWindow);
-                    mainWindow.LOGO435.Visibility = System.Windows.Visibility.Visible;
+                    regName = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.35";
+                    keyFileName = "BMS - Full.key";
+                    overRideSetting = new OverrideSettingFor435(this.mainWindow, this);
+                    launcher = new Launcher435(this, this.mainWindow);
+                    mainWindow.LOGO435.Visibility = Visibility.Visible;
                     break;
                 default:
                     break;
@@ -174,28 +172,28 @@ namespace FalconBMS_Alternative_Launcher_Cs
             // User defined registry
             if (option.ContainsKey("/reg") == true)
             {
-                this.regName = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\" + option["/reg"];
+                regName = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\" + option["/reg"];
             }
 
             // User defined key file
             if (option.ContainsKey("/key") == true)
             {
-                this.keyFileName = option["/key"];
+                keyFileName = option["/key"];
             }
 
             // Read Registry
-            this.regkey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(this.regName, false);
+            regkey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(regName, false);
             if (regkey == null)
             {
-                this.regName  = this.regName.Replace("SOFTWARE\\Wow6432Node\\", "SOFTWARE\\");
-                this.regkey   = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(regName, false);
-                this.platform = Platform.OS_32bit;
+                regName  = regName.Replace("SOFTWARE\\Wow6432Node\\", "SOFTWARE\\");
+                regkey   = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(regName, false);
+                platform = Platform.OS_32bit;
                 mainWindow.Misc_Platform.IsChecked = false;
                 mainWindow.Misc_Platform.IsEnabled = false;
             }
             if (regkey == null)
             {
-                System.Windows.MessageBox.Show("Could not find FalconBMS Installed.");
+                MessageBox.Show("Could not find FalconBMS Installed.");
                 mainWindow.Close();
                 return;
             }
@@ -203,27 +201,27 @@ namespace FalconBMS_Alternative_Launcher_Cs
             byte[] bs;
             if (regkey.GetValue("PilotName") == null)
             {
-                this.regkey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(regName, true);
+                regkey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(regName, true);
                 bs = new byte[] { 0x4a, 0x6f, 0x65, 0x20, 0x50, 0x69, 0x6c, 0x6f, 0x74, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
                 regkey.SetValue("PilotName", bs);
             }
             if (regkey.GetValue("PilotCallsign") == null)
             {
-                this.regkey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(regName, true);
+                regkey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(regName, true);
                 bs = new byte[] { 0x56, 0x69, 0x70, 0x65, 0x72, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
                 regkey.SetValue("PilotCallsign", bs);
             }
             if (regkey.GetValue("curTheater") == null)
             {
-                this.regkey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(regName, true);
+                regkey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(regName, true);
                 regkey.SetValue("curTheater", "Korea KTO");
             }
 
-            this.installDir     = (string)regkey.GetValue("baseDir");
-            this.currentTheater = (string)regkey.GetValue("curTheater");
-            this.pilotCallsign  = (Encoding.UTF8.GetString((byte[])regkey.GetValue("PilotCallsign"))).Replace("\0", "");
+            installDir     = (string)regkey.GetValue("baseDir");
+            currentTheater = (string)regkey.GetValue("curTheater");
+            pilotCallsign  = Encoding.UTF8.GetString((byte[])regkey.GetValue("PilotCallsign")).Replace("\0", "");
 
-            this.regkey.Close();
+            regkey.Close();
         }
 
         /// <summary>
@@ -232,19 +230,19 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <param name="combobox"></param>
         public void ChangeTheater(ComboBox combobox)
         {
-            this.regkey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(this.regName, true);
-            this.regkey.SetValue("curTheater", combobox.Items[combobox.SelectedIndex].ToString());
-            this.regkey.Close();
+            regkey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(regName, true);
+            regkey.SetValue("curTheater", combobox.Items[combobox.SelectedIndex].ToString());
+            regkey.Close();
 
-            switch ((String)mainWindow.Dropdown_TheaterList.SelectedItem)
+            switch ((string)mainWindow.Dropdown_TheaterList.SelectedItem)
             {
                 case "Israel":
                     mainWindow.Launch_TheaterConfig.Visibility = Visibility.Visible;
-                    this.theaterOwnConfig = this.GetInstallDir() + "\\Data\\Add-On Israel\\Israeli Theater Settings.exe";
+                    theaterOwnConfig = GetInstallDir() + "\\Data\\Add-On Israel\\Israeli Theater Settings.exe";
                     break;
                 case "Ikaros":
                     mainWindow.Launch_TheaterConfig.Visibility = Visibility.Visible;
-                    this.theaterOwnConfig = this.GetInstallDir() + "\\Data\\Add-On Ikaros\\Ikaros Settings.exe";
+                    theaterOwnConfig = GetInstallDir() + "\\Data\\Add-On Ikaros\\Ikaros Settings.exe";
                     break;
                 default:
                     mainWindow.Launch_TheaterConfig.Visibility = Visibility.Collapsed;
