@@ -77,12 +77,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
             // Import stock BMS Setup if .xml save file for the joystick does not exist. 
             try
             {
-                for (int ii = 0; ii < joyAssign.Count(); ii++)
+                for (int ii = 0; ii < joyAssign.Length; ii++)
                 {
                     fileName = appReg.GetInstallDir() + "/User/Config/Setup.v100." + joyAssign[ii].GetProductName().Replace("/", "-")
                        + " {" + joyAssign[ii].GetInstanceGUID().ToString().ToUpper() + "}.xml";
                     if (File.Exists(fileName) == false)
-                        joyAssign[ii].ImportStockSetup(appReg, joyStick.Count(), joyStick[ii].Caps.NumberPointOfViews, ii);
+                        joyAssign[ii].ImportStockSetup(appReg, joyStick.Length, joyStick[ii].Caps.NumberPointOfViews, ii);
                 }
             }
             catch (FileNotFoundException ex)

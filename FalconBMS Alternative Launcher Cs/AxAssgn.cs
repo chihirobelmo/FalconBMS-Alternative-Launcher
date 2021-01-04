@@ -10,16 +10,26 @@ namespace FalconBMS_Alternative_Launcher_Cs
         // Member
         protected string axisName = "";     // ex:Roll, Pitch, Yaw etc...
         protected DateTime assgnDate = DateTime.Parse("12/12/1998 12:00:00");
-        protected bool invert = false;
+        protected bool invert;
         protected AxCurve saturation = 0;
         protected AxCurve deadzone = 0;
 
         // Property for XML
-        public string AxisName { get { return axisName; } set { axisName = value; } }
-        public DateTime AssgnDate { get { return assgnDate; } set { assgnDate = value; } }
-        public bool Invert { get { return invert; } set { invert = value; } }
-        public AxCurve Saturation { get { return saturation; } set { saturation = value; } }
-        public AxCurve Deadzone { get { return deadzone; } set { deadzone = value; } }
+        public string AxisName { get => axisName;
+            set => axisName = value;
+        }
+        public DateTime AssgnDate { get => assgnDate;
+            set => assgnDate = value;
+        }
+        public bool Invert { get => invert;
+            set => invert = value;
+        }
+        public AxCurve Saturation { get => saturation;
+            set => saturation = value;
+        }
+        public AxCurve Deadzone { get => deadzone;
+            set => deadzone = value;
+        }
 
         // Constructor
         public AxAssgn() { }

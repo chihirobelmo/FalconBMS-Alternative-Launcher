@@ -82,7 +82,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         {
             KeyMappingTimer.Stop();
 
-            var selectedItem = (KeyAssgn)KeyMappingGrid.SelectedItem;
+            KeyAssgn selectedItem = (KeyAssgn)KeyMappingGrid.SelectedItem;
             if (selectedItem == null)
                 return;
             if (KeyMappingGrid.CurrentColumn == null)
@@ -233,7 +233,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             if (target == "SimDoNothing")
                 return;
             // If the key assignment was found, jump to the mapping for it and highlight it.
-            var key = keyFile.keyAssign.FirstOrDefault(x => x.GetCallback() == target);
+            KeyAssgn key = keyFile.keyAssign.FirstOrDefault(x => x.GetCallback() == target);
             if (key != null)
             {
                 Label_AssgnStatus.Content += "   / " + key.Mapping;
@@ -248,11 +248,11 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// </summary>
         private void KeyMappingGrid_KeyDown()
         {
-            if (SearchBox.IsSelectionActive == true)
+            if (SearchBox.IsSelectionActive)
                 return;
-            if (SearchBox.IsFocused == true)
+            if (SearchBox.IsFocused)
                 return;
-            if (SearchBox.IsKeyboardFocused == true)
+            if (SearchBox.IsKeyboardFocused)
                 return;
 
             bool Shift = false;
@@ -298,7 +298,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             Label_AssgnStatus.Content = "INPUT " + keytmp.GetKeyAssignmentStatus();
 
             // If the key assignment was found, jump to the mapping for it and highlight it.
-            var key = keyFile.keyAssign.FirstOrDefault(x => x.GetKeyAssignmentStatus() == keytmp.GetKeyAssignmentStatus());
+            KeyAssgn key = keyFile.keyAssign.FirstOrDefault(x => x.GetKeyAssignmentStatus() == keytmp.GetKeyAssignmentStatus());
             if (key != null)
             {
                 Label_AssgnStatus.Content += "\t/" + key.Mapping;
@@ -317,10 +317,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
         {
             Device device;
             KeyboardState keyState;
-            public KeyboardState KeyboardState
-            {
-                get { return keyState; }
-            }
+            public KeyboardState KeyboardState => keyState;
+
             public DirectInputKeyboard()
             {
                 device = new Device(SystemGuid.Keyboard);
@@ -431,7 +429,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         {
             KeyMappingGrid.UnselectAllCells();
             string filter = SearchBox.Text.Trim().ToLower();
-            var isFilterEmpty = String.IsNullOrWhiteSpace(filter);
+            bool isFilterEmpty = string.IsNullOrWhiteSpace(filter);
 
             // Enable the category selector only if there's no search filter active.
             Category.IsEnabled = isFilterEmpty;

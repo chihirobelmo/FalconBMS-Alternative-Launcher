@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Microsoft.DirectX.DirectInput;
+
 namespace FalconBMS_Alternative_Launcher_Cs
 {
     public class KeyAssgn
@@ -20,10 +22,11 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         // for Datagrid Display //
         public string Visibility { get; set; }
-        public string Mapping { get { return " " + description.Replace("\"",""); } }
+        public string Mapping => " " + description.Replace("\"","");
+
         public string Key {
-            get { return GetKeyAssignmentStatus(); }
-            set { keyboard = value; }
+            get => GetKeyAssignmentStatus();
+            set => keyboard = value;
         }
 
         public string GetCallback() { return callback; }
@@ -38,14 +41,14 @@ namespace FalconBMS_Alternative_Launcher_Cs
         {
             string[] stArrayData = stBuffer.Split(' ');
 
-            callback = (string)stArrayData[0];
-            soundID = (string)stArrayData[1];
-            none = (string)stArrayData[2];
-            keyboard = (string)stArrayData[3];
-            modifier = (string)stArrayData[4];
-            keycombo = (string)stArrayData[5];
-            keycomboMod = (string)stArrayData[6];
-            visibility = (string)stArrayData[7];
+            callback = stArrayData[0];
+            soundID = stArrayData[1];
+            none = stArrayData[2];
+            keyboard = stArrayData[3];
+            modifier = stArrayData[4];
+            keycombo = stArrayData[5];
+            keycomboMod = stArrayData[6];
+            visibility = stArrayData[7];
             if (visibility == "-2")
                 visibility = "Hidden";
             else if (visibility == "-1")
@@ -62,10 +65,10 @@ namespace FalconBMS_Alternative_Launcher_Cs
             description = "";
 
             if (stArrayData.Length >= 9)
-                description = (string)stArrayData[8];
+                description = stArrayData[8];
             if (stArrayData.Length > 9)
                 for (int i = 9; i < stArrayData.Length; i++)
-                    description += " " + (string)stArrayData[i];
+                    description += " " + stArrayData[i];
 
             if (callback == "SimHotasPinkyShift")
                 visibility = "White";
@@ -240,7 +243,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 int scancode10 = Convert.ToInt32(scancodestr, 16);
 
                 // int -> enum
-                var int2enum = (Microsoft.DirectX.DirectInput.Key)scancode10;
+                Key int2enum = (Microsoft.DirectX.DirectInput.Key)scancode10;
 
                 assignmentStatus += int2enum.ToString() + "\t: ";
             }
@@ -280,7 +283,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 int scancode10 = Convert.ToInt32(scancodestr, 16);
 
                 // int -> enum
-                var int2enum = (Microsoft.DirectX.DirectInput.Key)scancode10;
+                Key int2enum = (Microsoft.DirectX.DirectInput.Key)scancode10;
 
                 assignmentStatus += int2enum.ToString();
             }
@@ -289,22 +292,22 @@ namespace FalconBMS_Alternative_Launcher_Cs
         }
 
         // Z_Joy_<asssigned joystick number> = "DX1 DX16 POV1UP" //
-        public string Z_Joy_0  { get { return ReadJoyAssignment(0); } }
-        public string Z_Joy_1  { get { return ReadJoyAssignment(1); } }
-        public string Z_Joy_2  { get { return ReadJoyAssignment(2); } }
-        public string Z_Joy_3  { get { return ReadJoyAssignment(3); } }
-        public string Z_Joy_4  { get { return ReadJoyAssignment(4); } }
-        public string Z_Joy_5  { get { return ReadJoyAssignment(5); } }
-        public string Z_Joy_6  { get { return ReadJoyAssignment(6); } }
-        public string Z_Joy_7  { get { return ReadJoyAssignment(7); } }
-        public string Z_Joy_8  { get { return ReadJoyAssignment(8); } }
-        public string Z_Joy_9  { get { return ReadJoyAssignment(9); } }
-        public string Z_Joy_10 { get { return ReadJoyAssignment(10); } }
-        public string Z_Joy_11 { get { return ReadJoyAssignment(11); } }
-        public string Z_Joy_12 { get { return ReadJoyAssignment(12); } }
-        public string Z_Joy_13 { get { return ReadJoyAssignment(13); } }
-        public string Z_Joy_14 { get { return ReadJoyAssignment(14); } }
-        public string Z_Joy_15 { get { return ReadJoyAssignment(15); } }
+        public string Z_Joy_0 => ReadJoyAssignment(0);
+        public string Z_Joy_1 => ReadJoyAssignment(1);
+        public string Z_Joy_2 => ReadJoyAssignment(2);
+        public string Z_Joy_3 => ReadJoyAssignment(3);
+        public string Z_Joy_4 => ReadJoyAssignment(4);
+        public string Z_Joy_5 => ReadJoyAssignment(5);
+        public string Z_Joy_6 => ReadJoyAssignment(6);
+        public string Z_Joy_7 => ReadJoyAssignment(7);
+        public string Z_Joy_8 => ReadJoyAssignment(8);
+        public string Z_Joy_9 => ReadJoyAssignment(9);
+        public string Z_Joy_10 => ReadJoyAssignment(10);
+        public string Z_Joy_11 => ReadJoyAssignment(11);
+        public string Z_Joy_12 => ReadJoyAssignment(12);
+        public string Z_Joy_13 => ReadJoyAssignment(13);
+        public string Z_Joy_14 => ReadJoyAssignment(14);
+        public string Z_Joy_15 => ReadJoyAssignment(15);
 
         public string ReadJoyAssignment(int joynum)
         {

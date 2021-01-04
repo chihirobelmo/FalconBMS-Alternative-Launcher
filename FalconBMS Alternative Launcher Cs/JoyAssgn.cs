@@ -139,16 +139,16 @@ namespace FalconBMS_Alternative_Launcher_Cs
                         if (ii != 0)
                             continue;
                         assign += dx[i].assign[ii].GetCallback();
-                        assign += " " + (joynum * 32 + i).ToString();
-                        assign += " " + ((int)Invoke.Default).ToString();
+                        assign += " " + (joynum * 32 + i);
+                        assign += " " + (int)Invoke.Default;
                         assign += " " + "-2";
                         assign += " " + "0";
                         assign += " " + "0x0";
                         assign += " " + dx[i].assign[ii].GetSoundID();
                         assign += "\n";
                         assign += dx[i].assign[ii].GetCallback();
-                        assign += " " + (numOfDevices * 32 + joynum * 32 + i).ToString();
-                        assign += " " + ((int)Invoke.Default).ToString();
+                        assign += " " + (numOfDevices * 32 + joynum * 32 + i);
+                        assign += " " + (int)Invoke.Default;
                         assign += " " + "-2";
                         assign += " " + "0";
                         assign += " " + "0x0";
@@ -158,10 +158,10 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     }
                     assign += dx[i].assign[ii].GetCallback();
                     if (ii == 0 | ii == 2)
-                        assign += " " + (joynum * 32 + i).ToString();
+                        assign += " " + (joynum * 32 + i);
                     if (ii == 1 | ii == 3)
-                        assign += " " + (numOfDevices * 32 + joynum * 32 + i).ToString();
-                    assign += " " + ((int)dx[i].assign[ii].GetInvoke()).ToString();
+                        assign += " " + (numOfDevices * 32 + joynum * 32 + i);
+                    assign += " " + (int)dx[i].assign[ii].GetInvoke();
                     assign += " " + "-2";
                     if (ii == 0 | ii == 1)
                         assign += " " + "0";
@@ -194,12 +194,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
                             //    continue;
                             assign += pov[i].direction[ii].GetCallback((Pinky)iii);
                             if ((Pinky)iii == Pinky.UnShift)
-                                assign += " " + i.ToString();
+                                assign += " " + i;
                             if ((Pinky)iii == Pinky.Shift)
-                                assign += " " + (i + 2).ToString();
+                                assign += " " + (i + 2);
                             assign += " " + "-1";
                             assign += " " + "-3";
-                            assign += " " + ii.ToString();
+                            assign += " " + ii;
                             assign += " " + "0x0";
                             assign += " " + pov[i].direction[ii].GetSoundID((Pinky)iii);
                             assign += "\n";
@@ -210,12 +210,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
                                 continue;
                             assign += pov[i].direction[ii].GetCallback((Pinky)iii);
                             if ((Pinky)iii == Pinky.UnShift)
-                                assign += " " + i.ToString();
+                                assign += " " + i;
                             if ((Pinky)iii == Pinky.Shift)
-                                assign += " " + (i + 2).ToString();
+                                assign += " " + (i + 2);
                             assign += " " + "-1";
                             assign += " " + "-3";
-                            assign += " " + ii.ToString();
+                            assign += " " + ii;
                             assign += " " + "0x0";
                             assign += " " + pov[i].direction[ii].GetSoundID((Pinky)iii);
                             assign += "\n";
@@ -240,12 +240,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
                         //    continue;
                         assign += pov[i].direction[ii].GetCallback((Pinky)iii);
                         if ((Pinky)iii == Pinky.UnShift)
-                            assign += " " + povNum.ToString();
+                            assign += " " + povNum;
                         if ((Pinky)iii == Pinky.Shift)
-                            assign += " " + (povNum + 2).ToString();
+                            assign += " " + (povNum + 2);
                         assign += " " + "-1";
                         assign += " " + "-3";
-                        assign += " " + ii.ToString();
+                        assign += " " + ii;
                         assign += " " + "0x0";
                         assign += " " + pov[i].direction[ii].GetSoundID((Pinky)iii);
                         assign += "\n";
@@ -302,8 +302,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// </summary>
         public string KeyMappingPreviewPOV(KeyAssgn keyAssign)
         {
-            string result;
-            result = "";
+            string result = "";
             
             for (int i = 0; i < pov.Length; i++)
             {
@@ -342,7 +341,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 return;
             string[] lines = System.IO.File.ReadAllLines(deviceSorting, Encoding.UTF8);
             int currentID = -1;
-            for (int i = 0; i < lines.Count(); i++)
+            for (int i = 0; i < lines.Length; i++)
             {
                 if (lines[i] == GetDeviceSortingLine().Replace("\r\n", ""))
                     currentID = i;
@@ -360,17 +359,17 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     continue;
                 if (stArrayData[3] == "-2" | stArrayData[3] == "-3")
                 {
-                    if ((string)stArrayData[2] == "-1")
+                    if (stArrayData[2] == "-1")
                         invokeStatus = Invoke.Default;
-                    if ((string)stArrayData[2] == "-2")
+                    if (stArrayData[2] == "-2")
                         invokeStatus = Invoke.Down;
-                    if ((string)stArrayData[2] == "-4")
+                    if (stArrayData[2] == "-4")
                         invokeStatus = Invoke.Up;
-                    if ((string)stArrayData[2] == "8")
+                    if (stArrayData[2] == "8")
                         invokeStatus = Invoke.UI;
-                    if ((string)stArrayData[3] == "0")
+                    if (stArrayData[3] == "0")
                         behaviourStatus = Behaviour.Press;
-                    if ((string)stArrayData[3] == "0x42")
+                    if (stArrayData[3] == "0x42")
                         behaviourStatus = Behaviour.Release;
                 }
                 // Import DX Setup
@@ -378,10 +377,10 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 {
                     for (int i = 0; i < 32; i++)
                     {
-                        if (Int32.Parse(stArrayData[1]) == i + currentID * 32)
-                            dx[i].Assign((string)stArrayData[0], Pinky.UnShift, behaviourStatus, invokeStatus, 0);
-                        if (Int32.Parse(stArrayData[1]) == i + currentID * 32 + devcount * 32) // Okay This has to be the problem. I have to read FalconBMS.cfg for
-                            dx[i].Assign((string)stArrayData[0], Pinky.Shift, behaviourStatus, invokeStatus, 0);
+                        if (int.Parse(stArrayData[1]) == i + currentID * 32)
+                            dx[i].Assign(stArrayData[0], Pinky.UnShift, behaviourStatus, invokeStatus, 0);
+                        if (int.Parse(stArrayData[1]) == i + currentID * 32 + devcount * 32) // Okay This has to be the problem. I have to read FalconBMS.cfg for
+                            dx[i].Assign(stArrayData[0], Pinky.Shift, behaviourStatus, invokeStatus, 0);
                     }
                 }
                 // Import POV Setup
@@ -389,17 +388,17 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 {
                     for (int i = 0; i < 4; i++)
                     {
-                        if (Int32.Parse(stArrayData[1]) != i)
+                        if (int.Parse(stArrayData[1]) != i)
                             continue;
                         if (povnum < 3)
                         {
                             if (i == 0 | i == 1)
-                                pov[i].direction[Int32.Parse(stArrayData[4])].Assign((string)stArrayData[0], Pinky.UnShift, 0);
+                                pov[i].direction[int.Parse(stArrayData[4])].Assign(stArrayData[0], Pinky.UnShift, 0);
                             if (i == 2 | i == 3)
-                                pov[i - 2].direction[Int32.Parse(stArrayData[4])].Assign((string)stArrayData[0], Pinky.Shift, 0);
+                                pov[i - 2].direction[int.Parse(stArrayData[4])].Assign(stArrayData[0], Pinky.Shift, 0);
                             continue;
                         }
-                        pov[i].direction[Int32.Parse(stArrayData[4])].Assign((string)stArrayData[0], Pinky.UnShift, 0);
+                        pov[i].direction[int.Parse(stArrayData[4])].Assign(stArrayData[0], Pinky.UnShift, 0);
                     }
                 }
                 // Import Axis Setup
@@ -421,35 +420,35 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
                 AxisName[] axisMappingList = appReg.getOverrideWriter().getAxisMappingList();
                 AxisName[] joystickCalList = appReg.getOverrideWriter().getJoystickCalList();
-                for (int i = 0; i < axisMappingList.Count(); i++)
+                for (int i = 0; i < axisMappingList.Length; i++)
                 {
                     for (int ii = 0; ii < devcount; ii++)
                     {
-                        if ((int)ad[24 + i * 16] == currentID + 2)
+                        if (ad[24 + i * 16] == currentID + 2)
                         {
-                            int axisNum = (int)ad[24 + i * 16 + 4];
+                            int axisNum = ad[24 + i * 16 + 4];
                             AxCurve deadzone = AxCurve.None;
-                            if ((int)ad[24 + i * 16 + 8] == 0x64)
+                            if (ad[24 + i * 16 + 8] == 0x64)
                                 deadzone = AxCurve.Small;
-                            if ((int)ad[24 + i * 16 + 8] == 0xF4)
+                            if (ad[24 + i * 16 + 8] == 0xF4)
                                 deadzone = AxCurve.Medium;
-                            if ((int)ad[24 + i * 16 + 8] == 0xE8)
+                            if (ad[24 + i * 16 + 8] == 0xE8)
                                 deadzone = AxCurve.Large;
                             AxCurve saturation = AxCurve.None;
-                            if ((int)ad[24 + i * 16 + 12] == 0x1C)
+                            if (ad[24 + i * 16 + 12] == 0x1C)
                                 saturation = AxCurve.Small;
-                            if ((int)ad[24 + i * 16 + 12] == 0x28)
+                            if (ad[24 + i * 16 + 12] == 0x28)
                                 saturation = AxCurve.Medium;
-                            if ((int)ad[24 + i * 16 + 12] == 0x34)
+                            if (ad[24 + i * 16 + 12] == 0x34)
                                 saturation = AxCurve.Large;
                             bool invert = false;
 
-                            for (int iii = 0; iii < joystickCalList.Count(); iii++)
+                            for (int iii = 0; iii < joystickCalList.Length; iii++)
                             {
                                 // read joystick.cal
                                 if (axisMappingList[i] != joystickCalList[iii])
                                     continue;
-                                int invertnum = (int)jc[iii * 28 + 20];
+                                int invertnum = jc[iii * 28 + 20];
                                 if (invertnum == 1)
                                     invert = true;
                             }

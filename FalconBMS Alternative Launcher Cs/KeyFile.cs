@@ -56,7 +56,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 {
                     string fnamestock = appReg.GetInstallDir() + "\\Docs\\Key Files & Input\\" + appReg.getKeyFileName();
                     string fname = appReg.GetInstallDir() + "\\User\\Config\\" + appReg.getKeyFileName(); ;
-                    if (File.Exists(fnamestock) == true)
+                    if (File.Exists(fnamestock))
                     {
                         File.Copy(fnamestock, fname, true);
                         Application.Current.Shutdown();
@@ -73,10 +73,10 @@ namespace FalconBMS_Alternative_Launcher_Cs
             Array.Resize(ref keyAssign, i+1);
         }
 
-        public KeyFile(KeyAssgn[] keyAssign)
+        public KeyFile(IReadOnlyList<KeyAssgn> keyAssign)
         {
-            this.keyAssign = new KeyAssgn[keyAssign.Length];
-            for (int i = 0; i < keyAssign.Length; i++)
+            this.keyAssign = new KeyAssgn[keyAssign.Count];
+            for (int i = 0; i < keyAssign.Count; i++)
             {
                 this.keyAssign[i] = keyAssign[i].Clone();
             }

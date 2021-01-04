@@ -35,7 +35,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         private DispatcherTimer AxisMovingTimer = new DispatcherTimer();
         private DispatcherTimer KeyMappingTimer = new DispatcherTimer();
         
-        public static bool FLG_YAME64 = false;
+        public static bool FLG_YAME64;
 
         /// <summary>
         /// Execute when launching this app.
@@ -51,12 +51,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
                 if (args.Length % 2 == 1)
                 {
-                    var option = new Dictionary<string, string>();
+                    Dictionary<string, string> option = new Dictionary<string, string>();
                     for (int index = 1; index < args.Length; index += 2)
                     {
                         option.Add(args[index], args[index + 1]);
                     }
-                    if (option.ContainsKey("/yame") == true)
+                    if (option.ContainsKey("/yame"))
                         if (option["/yame"] == "true")
                             FLG_YAME64 = true;
 
@@ -320,7 +320,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <param name="process"></param>
         public void minimizeWindowUntilProcessEnds(System.Diagnostics.Process process)
         {
-            process.Exited += new EventHandler(window_Normal);
+            process.Exited += window_Normal;
             process.EnableRaisingEvents = true;
             WindowState = WindowState.Minimized;
         }
@@ -332,7 +332,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <param name="e"></param>
         private void window_Normal(object sender, EventArgs e)
         {
-            this.Invoke(new Action(() => { WindowState = WindowState.Normal; }));
+            this.Invoke(() => { WindowState = WindowState.Normal; });
         }
 
         /// <summary>
@@ -429,11 +429,13 @@ namespace FalconBMS_Alternative_Launcher_Cs
                         installexe = Properties.Settings.Default.Third_F4WX + target;
                         if (File.Exists(installexe) == false)
                         {
-                            System.Windows.Forms.FolderBrowserDialog fbd = new System.Windows.Forms.FolderBrowserDialog();
+                            System.Windows.Forms.FolderBrowserDialog fbd = new System.Windows.Forms.FolderBrowserDialog
+                            {
+                                Description = "Select Install Directory",
+                                RootFolder = Environment.SpecialFolder.MyComputer,
+                                ShowNewFolderButton = false
+                            };
 
-                            fbd.Description = "Select Install Directory";
-                            fbd.RootFolder = Environment.SpecialFolder.MyComputer;
-                            fbd.ShowNewFolderButton = false;
                             System.Windows.Forms.DialogResult dirResult = fbd.ShowDialog();
 
                             installexe = fbd.SelectedPath + target;
@@ -556,7 +558,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 MessageBox.Show("FalconBMS crashes when Alt+TAB in FullScreen Mode. Recommend Enabling Window Mode.\n(WINDOW button turning on light)", "WARNING", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        private bool pressedByHand = false;
+        private bool pressedByHand;
 
         private void Select_PinkyShift_Click(object sender, RoutedEventArgs e)
         {

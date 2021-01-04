@@ -10,11 +10,15 @@ namespace FalconBMS_Alternative_Launcher_Cs
     {
         // Member
         protected int aB = MainWindow.MAXIN;
-        protected int iDLE = 0;
+        protected int iDLE;
 
         // Property for XML
-        public int AB { get { return aB; } set { aB = value; } }
-        public int IDLE { get { return iDLE; } set { iDLE = value; } }
+        public int AB { get => aB;
+            set => aB = value;
+        }
+        public int IDLE { get => iDLE;
+            set => iDLE = value;
+        }
 
         // Constructor
         public ThrottlePosition(int aB, int iDLE) { this.aB = aB; this.iDLE = iDLE; }

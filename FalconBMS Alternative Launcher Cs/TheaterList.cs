@@ -14,19 +14,19 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// </summary>
         public static void Populate(AppRegInfo appReg, ComboBox Combo)
         {
-            String filename = appReg.GetInstallDir() + "/Data/Terrdata/theaterdefinition/theater.lst";
+            string filename = appReg.GetInstallDir() + "/Data/Terrdata/theaterdefinition/theater.lst";
             if (File.Exists(filename) == false)
                 return;
-            var theaterPaths = File.ReadLines(filename, Encoding.UTF8)
+            IEnumerable<string> theaterPaths = File.ReadLines(filename, Encoding.UTF8)
                 .Select(line => line.Trim()) // Trim whitespace
                 .Where(line => line.Length > 0 && !line.StartsWith("#")) // Throw out empty lines, comments, etc.
                 .Select(line => appReg.GetInstallDir() + "\\Data\\" + line) // Construct TDF file path
                 .Where(tdf => File.Exists(tdf)); // Throw out paths we can't find
 
-            var theaters = new List<string>();
+            List<string> theaters = new List<string>();
             foreach (string tdf in theaterPaths)
             {
-                var lines = File.ReadLines(tdf, Encoding.UTF8);
+                IEnumerable<string> lines = File.ReadLines(tdf, Encoding.UTF8);
                 foreach (string str in lines)
                 {
                     if (str.Contains("name "))
