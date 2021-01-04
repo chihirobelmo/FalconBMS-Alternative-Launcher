@@ -26,15 +26,15 @@ namespace FalconBMS_Alternative_Launcher_Cs
             InitializeComponent();
 
             this.axisAssign = axisAssign;
-            this.whoCalledWindow = ((System.Windows.Controls.Button)sender).Name;
+            whoCalledWindow = ((System.Windows.Controls.Button)sender).Name;
 
-            this.devNumTmp = axisAssign.GetDeviceNumber();
-            this.phyAxNumTmp = axisAssign.GetPhysicalNumber();
+            devNumTmp = axisAssign.GetDeviceNumber();
+            phyAxNumTmp = axisAssign.GetPhysicalNumber();
 
-            this.MouseWheel += Detect_MouseWheel;
+            MouseWheel += Detect_MouseWheel;
         }
 
-        static public InGameAxAssgn ShowAxisAssignWindow(InGameAxAssgn axisAssign, object sender)
+        public static InGameAxAssgn ShowAxisAssignWindow(InGameAxAssgn axisAssign, object sender)
         {
             AxisAssignWindow ownWindow = new AxisAssignWindow(axisAssign, sender);
             ownWindow.ShowDialog();
@@ -77,7 +77,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             // YAME 64 VERSION
             if (MainWindow.FLG_YAME64 == true)
             {
-                this.Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
+                Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
                 BackGroundImage.Opacity = 0;
             }
 
@@ -237,8 +237,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 {
                     for (int ii = 0; ii < 8; ii++)
                     {
-                        if (MainWindow.deviceControl.JoyAxisState(i, ii) < (Joynum[i].NeutralValue[ii] + MAXIN / 4) &
-                            MainWindow.deviceControl.JoyAxisState(i, ii) > (Joynum[i].NeutralValue[ii] - MAXIN / 4))
+                        if (MainWindow.deviceControl.JoyAxisState(i, ii) < Joynum[i].NeutralValue[ii] + MAXIN / 4 &
+                            MainWindow.deviceControl.JoyAxisState(i, ii) > Joynum[i].NeutralValue[ii] - MAXIN / 4)
                             continue;
                         devNumTmp = i;
                         phyAxNumTmp = ii;
@@ -304,7 +304,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
                 if (devNumTmp == -2)
                 {
-                    AxisValueProgress.Value = (32768 + (wheelValue * 1024 /120 )) * invertNum;
+                    AxisValueProgress.Value = (32768 + wheelValue * 1024 /120) * invertNum;
                     AssignedJoystick.Content = "   MouseWheel";
                     return;
                 }
@@ -379,7 +379,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             }
             AxisDetectionTimer.Stop();
             sw.Stop();
-            this.Close();
+            Close();
         }
 
         private void AssignWindow_Closed(object sender, EventArgs e)
@@ -436,7 +436,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             ABposition = MAXIN - MainWindow.deviceControl.JoyAxisState(devNumTmp, phyAxNumTmp);
             if (MainWindow.deviceControl.JoyAxisState(devNumTmp, phyAxNumTmp) > MAXIN)
                 ABposition = MAXIN;
-            this.AB = ABposition;
+            AB = ABposition;
         }
 
         private void SetIDLE_Click(object sender, RoutedEventArgs e)
@@ -447,7 +447,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             IDLEposition = MAXIN - MainWindow.deviceControl.JoyAxisState(devNumTmp, phyAxNumTmp);
             if (MainWindow.deviceControl.JoyAxisState(devNumTmp, phyAxNumTmp) < 0)
                 IDLEposition = 0;
-            this.IDLE = IDLEposition;
+            IDLE = IDLEposition;
         }
         
         private void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e)
@@ -455,10 +455,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
             try
             {
                 if (e.ChangedButton == MouseButton.Left)
-                    this.DragMove();
+                    DragMove();
             }
             catch
-            { }
+            {
+
+            }
         }
     }
 }

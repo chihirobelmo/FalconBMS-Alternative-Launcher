@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FalconBMS_Alternative_Launcher_Cs
 {
@@ -26,7 +22,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             string path = assemblyName.Name + ".dll";
             if (assemblyName.CultureInfo.Equals(System.Globalization.CultureInfo.InvariantCulture) == false)
             {
-                path = String.Format(@"{0}\{1}", assemblyName.CultureInfo, path);
+                path = string.Format(@"{0}\{1}", assemblyName.CultureInfo, path);
             }
 
             using (System.IO.Stream stream = executingAssembly.GetManifestResourceStream(path))

@@ -14,7 +14,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         protected bool invert = false;
         protected AxCurve saturation = AxCurve.None;
         protected AxCurve deadzone = AxCurve.None;
-        protected System.DateTime assgnDate = DateTime.Parse("12/12/1998 12:00:00");
+        protected DateTime assgnDate = DateTime.Parse("12/12/1998 12:00:00");
 
         public InGameAxAssgn() { }
 
@@ -22,10 +22,10 @@ namespace FalconBMS_Alternative_Launcher_Cs
         {
             this.devNum = devNum;
             this.phyAxNum = phyAxNum;
-            this.invert = axis.GetInvert();
-            this.saturation = axis.GetSaturation();
-            this.deadzone = axis.GetDeadZone();
-            this.assgnDate = axis.GetAssignDate();
+            invert = axis.GetInvert();
+            saturation = axis.GetSaturation();
+            deadzone = axis.GetDeadZone();
+            assgnDate = axis.GetAssignDate();
         }
 
         public InGameAxAssgn(int devNum, int phyAxNum, bool invert, AxCurve deadzone, AxCurve saturation)
@@ -37,11 +37,11 @@ namespace FalconBMS_Alternative_Launcher_Cs
             this.saturation = saturation;
         }
 
-        public int GetDeviceNumber() { return this.devNum; }
-        public int GetPhysicalNumber() { return this.phyAxNum; }
-        public bool GetInvert() { return this.invert; }
-        public AxCurve GetDeadzone() { return this.deadzone; }
-        public AxCurve GetSaturation() { return this.saturation; }
-        public DateTime getDate() { return this.assgnDate; }
+        public int GetDeviceNumber() { return devNum; }
+        public int GetPhysicalNumber() { return phyAxNum; }
+        public bool GetInvert() { return invert; }
+        public AxCurve GetDeadzone() { return deadzone; }
+        public AxCurve GetSaturation() { return saturation; }
+        public DateTime getDate() { return assgnDate; }
     }
 }

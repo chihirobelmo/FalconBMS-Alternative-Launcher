@@ -104,8 +104,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 {
                     if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() == -1)
                         continue;
-                    tblabel = this.FindName("Label_" + nme.ToString()) as Label;
-                    tbprogressbar = this.FindName("Axis_" + nme.ToString()) as ProgressBar;
+                    tblabel = FindName("Label_" + nme.ToString()) as Label;
+                    tbprogressbar = FindName("Axis_" + nme.ToString()) as ProgressBar;
 
                     switch (nme)
                     {
@@ -145,7 +145,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
                     if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() == -2)
                     {
-                        tbprogressbar.Value = (MAXIN / 2 + (wheelValue * 1024 / 120)) * invertNum;
+                        tbprogressbar.Value = (MAXIN / 2 + wheelValue * 1024 / 120) * invertNum;
                         tblabel.Content = "MOUSE : WH";
                         continue;
                     }
@@ -220,7 +220,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     if (nme != AxisName.Throttle & nme != AxisName.Throttle_Right)
                         continue;
 
-                    tblabelab = this.FindName("AB_" + nme.ToString()) as Label;
+                    tblabelab = FindName("AB_" + nme.ToString()) as Label;
                     tblabelab.Visibility = Visibility.Hidden;
 
                     tbprogressbar.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 0x38, 0x78, 0xA8));
@@ -238,17 +238,17 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     }
                 }
             }
-            catch (System.IO.FileNotFoundException ex)
+            catch (FileNotFoundException ex)
             {
-                System.Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.Message);
 
-                System.IO.StreamWriter sw = new System.IO.StreamWriter(appReg.GetInstallDir() + "\\Error.txt", false, System.Text.Encoding.GetEncoding("shift_jis"));
+                StreamWriter sw = new StreamWriter(appReg.GetInstallDir() + "\\Error.txt", false, Encoding.GetEncoding("shift_jis"));
                 sw.Write(ex.Message);
                 sw.Close();
 
                 MessageBox.Show("Error Log Saved To " + appReg.GetInstallDir() + "\\Error.txt", "WARNING", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                this.Close();
+                Close();
             }
         }
         
@@ -271,16 +271,16 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     x3 = MAXIN / 2;
                     break;
                 case AxCurve.Small:
-                    x2 = (MAXIN / 2) - ((MAXIN / 2) * 0.01);
-                    x3 = (MAXIN / 2) + ((MAXIN / 2) * 0.01);
+                    x2 = MAXIN / 2 - MAXIN / 2 * 0.01;
+                    x3 = MAXIN / 2 + MAXIN / 2 * 0.01;
                     break;
                 case AxCurve.Medium:
-                    x2 = (MAXIN / 2) - ((MAXIN / 2) * 0.05);
-                    x3 = (MAXIN / 2) + ((MAXIN / 2) * 0.05);
+                    x2 = MAXIN / 2 - MAXIN / 2 * 0.05;
+                    x3 = MAXIN / 2 + MAXIN / 2 * 0.05;
                     break;
                 case AxCurve.Large:
-                    x2 = (MAXIN / 2) - ((MAXIN / 2) * 0.1);
-                    x3 = (MAXIN / 2) + ((MAXIN / 2) * 0.1);
+                    x2 = MAXIN / 2 - MAXIN / 2 * 0.1;
+                    x3 = MAXIN / 2 + MAXIN / 2 * 0.1;
                     break;
             }
             switch (saturation)
@@ -290,37 +290,37 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     x4 = MAXIN;
                     break;
                 case AxCurve.Small:
-                    x1 = 0 + ((MAXIN / 2) * 0.01);
-                    x4 = MAXIN - ((MAXIN / 2) * 0.01);
+                    x1 = 0 + MAXIN / 2 * 0.01;
+                    x4 = MAXIN - MAXIN / 2 * 0.01;
                     break;
                 case AxCurve.Medium:
-                    x1 = 0 + ((MAXIN / 2) * 0.05);
-                    x4 = MAXIN - ((MAXIN / 2) * 0.05);
+                    x1 = 0 + MAXIN / 2 * 0.05;
+                    x4 = MAXIN - MAXIN / 2 * 0.05;
                     break;
                 case AxCurve.Large:
-                    x1 = 0 + ((MAXIN / 2) * 0.1);
-                    x4 = MAXIN - ((MAXIN / 2) * 0.1);
+                    x1 = 0 + MAXIN / 2 * 0.1;
+                    x4 = MAXIN - MAXIN / 2 * 0.1;
                     break;
             }
 
-            a1 = (MAXIN / 2) / (x2 - x1);
+            a1 = MAXIN / 2 / (x2 - x1);
             b1 = -a1 * x1;
-            a2 = (MAXIN / 2) / (x4 - x3);
-            b2 = (MAXIN / 2) - a2 * x3;
+            a2 = MAXIN / 2 / (x4 - x3);
+            b2 = MAXIN / 2 - a2 * x3;
 
-            if (input < (MAXIN / 2))
+            if (input < MAXIN / 2)
             {
                 y = a1 * x + b1;
                 if (y < 0)
                     y = 0;
-                if (y > (MAXIN / 2))
-                    y = (MAXIN / 2);
+                if (y > MAXIN / 2)
+                    y = MAXIN / 2;
             }
-            if (input >= (MAXIN / 2))
+            if (input >= MAXIN / 2)
             {
                 y = a2 * x + b2;
-                if (y < (MAXIN / 2))
-                    y = (MAXIN / 2);
+                if (y < MAXIN / 2)
+                    y = MAXIN / 2;
                 if (y > MAXIN)
                     y = MAXIN;
             }
@@ -380,14 +380,14 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 {
                     if (inGameAxis[deviceControl.joyAssign[i].axis[ii].GetAxisName()] == null)
                         continue;
-                    if (object.ReferenceEquals(deviceControl.joyAssign[i].axis[ii].GetAxisName(), ""))
+                    if (ReferenceEquals(deviceControl.joyAssign[i].axis[ii].GetAxisName(), ""))
                         continue;
                     if (((InGameAxAssgn)inGameAxis[deviceControl.joyAssign[i].axis[ii].GetAxisName()]).getDate() > deviceControl.joyAssign[i].axis[ii].GetAssignDate())
                         continue;
                     inGameAxis[deviceControl.joyAssign[i].axis[ii].GetAxisName()] = new InGameAxAssgn(i, ii, deviceControl.joyAssign[i].axis[ii]);
                 }
             }
-            if (object.ReferenceEquals(deviceControl.mouseWheelAssign.GetAxisName(), ""))
+            if (ReferenceEquals(deviceControl.mouseWheelAssign.GetAxisName(), ""))
                 return;
             if (((InGameAxAssgn)inGameAxis[deviceControl.mouseWheelAssign.GetAxisName()]).getDate() > deviceControl.mouseWheelAssign.GetAssignDate())
                 return;
@@ -401,8 +401,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
         {
             foreach (AxisName nme in axisNameList)
             {
-                Label tblabel = this.FindName("Label_" + nme.ToString()) as Label;
-                ProgressBar tbprogressbar = this.FindName("Axis_" + nme.ToString()) as ProgressBar;
+                Label tblabel = FindName("Label_" + nme.ToString()) as Label;
+                ProgressBar tbprogressbar = FindName("Axis_" + nme.ToString()) as ProgressBar;
 
                 tblabel.Content = nme.ToString().Replace("_", " ") + " :";
                 tblabel.Content = "";
@@ -421,15 +421,15 @@ namespace FalconBMS_Alternative_Launcher_Cs
         {
             if (FLG)
             {
-                for (int i = 0; i < MainWindow.deviceControl.devList.Count; i++)
+                for (int i = 0; i < deviceControl.devList.Count; i++)
                 {
-                    MainWindow.deviceControl.joyStick[i].Acquire();
+                    deviceControl.joyStick[i].Acquire();
                 }
                 return;
             }
-            for (int i = 0; i < MainWindow.deviceControl.devList.Count; i++)
+            for (int i = 0; i < deviceControl.devList.Count; i++)
             {
-                MainWindow.deviceControl.joyStick[i].Unacquire();
+                deviceControl.joyStick[i].Unacquire();
             }
         }
         

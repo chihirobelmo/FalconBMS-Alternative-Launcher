@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 
 namespace FalconBMS_Alternative_Launcher_Cs
 {
@@ -23,7 +18,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             mainWindow.CMD_NOMOVIE.IsChecked               = Properties.Settings.Default.CMD_NOMOVIE;
             mainWindow.CMD_EF.IsChecked                    = Properties.Settings.Default.CMD_EF;
             mainWindow.CMD_MONO.IsChecked                  = Properties.Settings.Default.CMD_MONO;
-            this.bandWidthDefault                          = Properties.Settings.Default.CMD_BW;
+            bandWidthDefault                          = Properties.Settings.Default.CMD_BW;
             mainWindow.ApplicationOverride.IsChecked       = Properties.Settings.Default.NoOverride;
             mainWindow.Misc_RollLinkedNWS.IsChecked        = Properties.Settings.Default.Misc_RLNWS;
             mainWindow.Misc_MouseCursorAnchor.IsChecked    = Properties.Settings.Default.Misc_MouseCursorAnchor;
@@ -37,7 +32,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             // Button Status Default
             mainWindow.Select_DX_Release.IsChecked  = true;
             mainWindow.Select_PinkyShift.IsChecked  = true;
-            mainWindow.CMD_BW.Content               = "BW : " + this.bandWidthDefault.ToString();
+            mainWindow.CMD_BW.Content               = "BW : " + bandWidthDefault.ToString();
             mainWindow.AB_Throttle.Visibility       = Visibility.Hidden;
             mainWindow.AB_Throttle_Right.Visibility = Visibility.Hidden;
         }
@@ -50,7 +45,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             Properties.Settings.Default.CMD_NOMOVIE               = (bool)mainWindow.CMD_NOMOVIE.IsChecked;
             Properties.Settings.Default.CMD_EF                    = (bool)mainWindow.CMD_EF.IsChecked;
             Properties.Settings.Default.CMD_MONO                  = (bool)mainWindow.CMD_MONO.IsChecked;
-            Properties.Settings.Default.CMD_BW                    = this.bandWidthDefault;
+            Properties.Settings.Default.CMD_BW                    = bandWidthDefault;
             Properties.Settings.Default.NoOverride                = (bool)mainWindow.ApplicationOverride.IsChecked;
             Properties.Settings.Default.Misc_RLNWS                = (bool)mainWindow.Misc_RollLinkedNWS.IsChecked;
             Properties.Settings.Default.Misc_MouseCursorAnchor    = (bool)mainWindow.Misc_MouseCursorAnchor.IsChecked;
@@ -65,12 +60,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         public void CMD_BW_Click()
         {
-            this.bandWidthDefault *= 2;
-            if (this.bandWidthDefault > 10000)
+            bandWidthDefault *= 2;
+            if (bandWidthDefault > 10000)
             {
-                this.bandWidthDefault = 512;
+                bandWidthDefault = 512;
             }
-            mainWindow.CMD_BW.Content = "BW : " + this.bandWidthDefault.ToString();
+            mainWindow.CMD_BW.Content = "BW : " + bandWidthDefault.ToString();
         }
     }
 }

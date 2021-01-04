@@ -1,22 +1,10 @@
-﻿using MahApps.Metro.Controls;
-using Microsoft.DirectX.DirectInput;
+﻿using Microsoft.DirectX.DirectInput;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Configuration;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace FalconBMS_Alternative_Launcher_Cs
 {
@@ -45,7 +33,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             //    }
             //}
 
-            this.KeyMappingGrid.ItemsSource = keyFile.keyAssign;
+            KeyMappingGrid.ItemsSource = keyFile.keyAssign;
         }
 
         /// <summary>
@@ -92,7 +80,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <param name="e"></param>
         private void DataGrid_MouseButtonDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            this.KeyMappingTimer.Stop();
+            KeyMappingTimer.Stop();
 
             var selectedItem = (KeyAssgn)KeyMappingGrid.SelectedItem;
             if (selectedItem == null)
@@ -108,7 +96,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             KeyMappingGrid.Items.Refresh();
             KeyMappingGrid.UnselectAllCells();
 
-            this.KeyMappingTimer.Start();
+            KeyMappingTimer.Start();
         }
         
         private byte[] buttons;
@@ -125,8 +113,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
             public NeutralButtons(Device joyStick)
             {
-                this.buttons = joyStick.CurrentJoystickState.GetButtons();
-                this.povs = joyStick.CurrentJoystickState.GetPointOfView();
+                buttons = joyStick.CurrentJoystickState.GetButtons();
+                povs = joyStick.CurrentJoystickState.GetPointOfView();
             }
         }
         
@@ -157,7 +145,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             }
             catch (System.IO.FileNotFoundException ex)
             {
-                System.Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.Message);
 
                 System.IO.StreamWriter sw = new System.IO.StreamWriter(appReg.GetInstallDir() + "\\Error.txt", false, System.Text.Encoding.GetEncoding("shift_jis"));
                 sw.Write(ex.Message);
@@ -165,7 +153,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
                 MessageBox.Show("Error Log Saved To " + appReg.GetInstallDir() + "\\Error.txt", "WARNING", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                this.Close();
+                Close();
             }
         }
 
@@ -188,9 +176,9 @@ namespace FalconBMS_Alternative_Launcher_Cs
                         buttons = deviceControl.joyStick[i].CurrentJoystickState.GetButtons();
                         for (int ii = 0; ii < 32; ii++)
                         {
-                            if (buttons[ii] == 128 && deviceControl.joyAssign[i].dx[ii].assign[0].GetCallback() == "SimHotasPinkyShift" && this.pressedByHand == false)
+                            if (buttons[ii] == 128 && deviceControl.joyAssign[i].dx[ii].assign[0].GetCallback() == "SimHotasPinkyShift" && pressedByHand == false)
                                 Select_PinkyShift.IsChecked = false;
-                            if (buttons[ii] == 0 && deviceControl.joyAssign[i].dx[ii].assign[0].GetCallback() == "SimHotasPinkyShift" && this.pressedByHand == false)
+                            if (buttons[ii] == 0 && deviceControl.joyAssign[i].dx[ii].assign[0].GetCallback() == "SimHotasPinkyShift" && pressedByHand == false)
                                 Select_PinkyShift.IsChecked = true;
 
                             if (buttons[ii] == neutralButtons[i].buttons[ii])
@@ -201,7 +189,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                             else
                                 Select_DX_Release.IsChecked = true;
 
-                            if (deviceControl.joyAssign[i].dx[ii].assign[0].GetCallback() == "SimHotasPinkyShift" && this.pressedByHand == false)
+                            if (deviceControl.joyAssign[i].dx[ii].assign[0].GetCallback() == "SimHotasPinkyShift" && pressedByHand == false)
                                 continue;
 
                             Pinky pinkyStatus = Pinky.UnShift;
@@ -327,15 +315,15 @@ namespace FalconBMS_Alternative_Launcher_Cs
         DirectInputKeyboard directInputDevice = new DirectInputKeyboard();
         class DirectInputKeyboard
         {
-            Microsoft.DirectX.DirectInput.Device device;
-            Microsoft.DirectX.DirectInput.KeyboardState keyState;
+            Device device;
+            KeyboardState keyState;
             public KeyboardState KeyboardState
             {
                 get { return keyState; }
             }
             public DirectInputKeyboard()
             {
-                device = new Microsoft.DirectX.DirectInput.Device(SystemGuid.Keyboard);
+                device = new Device(SystemGuid.Keyboard);
                 device.Acquire();
             }
             public void GetCurrentKeyboardState()

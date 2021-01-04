@@ -1,22 +1,13 @@
 ﻿using MahApps.Metro.Controls;
-using Microsoft.DirectX.DirectInput;
+
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace FalconBMS_Alternative_Launcher_Cs
@@ -31,7 +22,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             RenderOptions.ProcessRenderMode = System.Windows.Interop.RenderMode.SoftwareOnly;
             InitializeComponent();
 
-            this.MouseWheel += Detect_MouseWheel;
+            MouseWheel += Detect_MouseWheel;
         }
 
         public static DeviceControl deviceControl;
@@ -74,7 +65,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                         LargeTab.SelectedIndex = 1;
                         Tab_Launcher.Visibility = Visibility.Collapsed;
 
-                        this.Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
+                        Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
                         BackGroundBox1.Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
                         BackGroundBox2.Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
                         BackGroundBox3.Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
@@ -89,39 +80,39 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     }
                 }
             }
-            catch (System.IO.FileNotFoundException ex)
+            catch (FileNotFoundException ex)
             {
-                System.Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.Message);
 
-                System.IO.StreamWriter sw = new System.IO.StreamWriter("C:\\FBMSAltLauncherErrorLog.txt", false, System.Text.Encoding.GetEncoding("shift_jis"));
+                StreamWriter sw = new StreamWriter("C:\\FBMSAltLauncherErrorLog.txt", false, System.Text.Encoding.GetEncoding("shift_jis"));
                 sw.Write(ex.Message);
                 sw.Close();
 
                 MessageBox.Show("Error Log Saved To C:\\FBMSAltLauncherErrorLog.txt", "WARNING", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                this.Close();
+                Close();
             }
 
             // Load UI Properties(Like Button Status).
-            this.appProperties = new AppProperties(this);
+            appProperties = new AppProperties(this);
 
             // Read Registry
-            this.appReg = new AppRegInfo(this);
+            appReg = new AppRegInfo(this);
 
-            if (this.appReg.getBMSVersion() == BMS_Version.UNDEFINED)
+            if (appReg.getBMSVersion() == BMS_Version.UNDEFINED)
             {
-                this.Close();
+                Close();
                 return;
             }
 
             try
             {
                 // Read Theater List
-                TheaterList.Populate(appReg, this.Dropdown_TheaterList);
+                TheaterList.Populate(appReg, Dropdown_TheaterList);
 
                 // Get Devices
                 deviceControl = new DeviceControl(appReg);
-                this.neutralButtons = new NeutralButtons[deviceControl.devList.Count];
+                neutralButtons = new NeutralButtons[deviceControl.devList.Count];
 
                 // Aquire joySticks
                 AquireAll(true);
@@ -134,31 +125,31 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
                 // Read BMS-FULL.key
                 string fname = appReg.GetInstallDir() + "\\User\\Config\\" + appReg.getKeyFileName();
-                this.keyFile = new KeyFile(fname, appReg);
+                keyFile = new KeyFile(fname, appReg);
 
                 // Write Data Grid
                 WriteDataGrid();
 
                 // Set Timer
-                this.AxisMovingTimer.Tick += this.AxisMovingTimer_Tick;
-                this.AxisMovingTimer.Interval = new TimeSpan(0, 0, 0, 0, 16);
+                AxisMovingTimer.Tick += AxisMovingTimer_Tick;
+                AxisMovingTimer.Interval = new TimeSpan(0, 0, 0, 0, 16);
 
-                this.KeyMappingTimer.Tick += this.KeyMappingTimer_Tick;
-                this.KeyMappingTimer.Interval = new TimeSpan(0, 0, 0, 0, 16);
+                KeyMappingTimer.Tick += KeyMappingTimer_Tick;
+                KeyMappingTimer.Interval = new TimeSpan(0, 0, 0, 0, 16);
 
                 //System.Diagnostics.PresentationTraceSources.DataBindingSource.Switch.Level = System.Diagnostics.SourceLevels.Critical;
             }
-            catch (System.IO.FileNotFoundException ex)
+            catch (FileNotFoundException ex)
             {
-                System.Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.Message);
 
-                System.IO.StreamWriter sw = new System.IO.StreamWriter(appReg.GetInstallDir() + "\\Error.txt", false, System.Text.Encoding.GetEncoding("shift_jis"));
+                StreamWriter sw = new StreamWriter(appReg.GetInstallDir() + "\\Error.txt", false, System.Text.Encoding.GetEncoding("shift_jis"));
                 sw.Write(ex.Message);
                 sw.Close();
 
                 MessageBox.Show("Error Log Saved To " + appReg.GetInstallDir() + "\\Error.txt", "WARNING", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                this.Close();
+                Close();
             }
         }
         
@@ -171,25 +162,25 @@ namespace FalconBMS_Alternative_Launcher_Cs
         {
             try
             {
-                if (this.appReg == null)
+                if (appReg == null)
                     return;
 
                 // Save UI Properties(Like Button Status).
-                this.appProperties.SaveUISetup();
-                if (this.ApplicationOverride.IsChecked == false)
-                    this.appReg.getOverrideWriter().Execute(inGameAxis, deviceControl, keyFile);
+                appProperties.SaveUISetup();
+                if (ApplicationOverride.IsChecked == false)
+                    appReg.getOverrideWriter().Execute(inGameAxis, deviceControl, keyFile);
             }
-            catch (System.IO.FileNotFoundException ex)
+            catch (FileNotFoundException ex)
             {
-                System.Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.Message);
 
-                System.IO.StreamWriter sw = new System.IO.StreamWriter(appReg.GetInstallDir() + "\\Error.txt", false, System.Text.Encoding.GetEncoding("shift_jis"));
+                StreamWriter sw = new StreamWriter(appReg.GetInstallDir() + "\\Error.txt", false, System.Text.Encoding.GetEncoding("shift_jis"));
                 sw.Write(ex.Message);
                 sw.Close();
 
                 MessageBox.Show("Error Log Saved To " + appReg.GetInstallDir() + "\\Error.txt", "WARNING", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                this.Close();
+                Close();
             }
         }
         
@@ -200,23 +191,23 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <param name="e"></param>
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (!e.Source.Equals(this.LargeTab))
+            if (!e.Source.Equals(LargeTab))
                 return;
 
             int value = LargeTab.SelectedIndex;
 
             if (value == 1)
-                this.AxisMovingTimer.Start();
+                AxisMovingTimer.Start();
             else
-                this.AxisMovingTimer.Stop();
+                AxisMovingTimer.Stop();
 
             if (value == 2)
             {
-                this.KeyMappingTimer.Start();
-                this.KeyMappingGrid.Items.Refresh();
+                KeyMappingTimer.Start();
+                KeyMappingGrid.Items.Refresh();
             }
             else
-                this.KeyMappingTimer.Stop();
+                KeyMappingTimer.Stop();
         }
         
         /// <summary>
@@ -226,7 +217,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <param name="e"></param>
         private void Dropdown_TheaterList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            this.appReg.ChangeTheater(this.Dropdown_TheaterList);
+            appReg.ChangeTheater(Dropdown_TheaterList);
         }
         
         /// <summary>
@@ -246,7 +237,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <param name="e"></param>
         private void CMD_BW_Click(object sender, RoutedEventArgs e)
         {
-            this.appProperties.CMD_BW_Click();
+            appProperties.CMD_BW_Click();
         }
 
         /// <summary>
@@ -268,19 +259,19 @@ namespace FalconBMS_Alternative_Launcher_Cs
         {
             try
             {
-                this.appReg.getLauncher().execute(sender);
+                appReg.getLauncher().execute(sender);
             }
-            catch (System.IO.FileNotFoundException ex)
+            catch (FileNotFoundException ex)
             {
-                System.Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.Message);
 
-                System.IO.StreamWriter sw = new System.IO.StreamWriter(appReg.GetInstallDir() + "\\Error.txt", false, System.Text.Encoding.GetEncoding("shift_jis"));
+                StreamWriter sw = new StreamWriter(appReg.GetInstallDir() + "\\Error.txt", false, System.Text.Encoding.GetEncoding("shift_jis"));
                 sw.Write(ex.Message);
                 sw.Close();
 
                 MessageBox.Show("Error Log Saved To " + appReg.GetInstallDir() + "\\Error.txt", "WARNING", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                this.Close();
+                Close();
             }
         }
 
@@ -290,7 +281,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <returns></returns>
         public int getBWValue()
         {
-            return this.appProperties.bandWidthDefault;
+            return appProperties.bandWidthDefault;
         }
 
         /// <summary>
@@ -301,25 +292,25 @@ namespace FalconBMS_Alternative_Launcher_Cs
             try
             {
                 // throw new Exception("An exception occurs.");
-                if (this.ApplicationOverride.IsChecked == true)
+                if (ApplicationOverride.IsChecked == true)
                 {
                     string textMessage = "You are going to launch BMS without any setup override from AxisAssign and KeyMapping section.";
                     MessageBox.Show(textMessage, "WARNING", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
                 {
-                    this.appReg.getOverrideWriter().Execute(inGameAxis, deviceControl, keyFile);
+                    appReg.getOverrideWriter().Execute(inGameAxis, deviceControl, keyFile);
                 }
             }
             catch (Exception ex)
             {
-                System.Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.Message);
 
-                System.IO.StreamWriter sw = new System.IO.StreamWriter("C:\\FBMSAltLauncherErrorLog.txt", false, System.Text.Encoding.GetEncoding("shift_jis"));
+                StreamWriter sw = new StreamWriter("C:\\FBMSAltLauncherErrorLog.txt", false, System.Text.Encoding.GetEncoding("shift_jis"));
                 sw.Write(ex.Message);
                 sw.Close();
 
-                this.Close();
+                Close();
             }
         }
 
@@ -331,7 +322,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         {
             process.Exited += new EventHandler(window_Normal);
             process.EnableRaisingEvents = true;
-            this.WindowState = WindowState.Minimized;
+            WindowState = WindowState.Minimized;
         }
 
         /// <summary>
@@ -339,9 +330,9 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void window_Normal(object sender, System.EventArgs e)
+        private void window_Normal(object sender, EventArgs e)
         {
-            this.Invoke(new System.Action(() => { this.WindowState = WindowState.Normal; }));
+            this.Invoke(new Action(() => { WindowState = WindowState.Normal; }));
         }
 
         /// <summary>
@@ -358,7 +349,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 string downloadlink = "";
                 string installexe = "";
 
-                switch (((System.Windows.Controls.Button)sender).Name)
+                switch (((Button)sender).Name)
                 {
                     case "Launch_WDP":
                         target = "\\WeaponDeliveryPlanner.exe";
@@ -458,17 +449,17 @@ namespace FalconBMS_Alternative_Launcher_Cs
                         break;
                 }
             }
-            catch (System.IO.FileNotFoundException ex)
+            catch (FileNotFoundException ex)
             {
-                System.Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.Message);
 
-                System.IO.StreamWriter sw = new System.IO.StreamWriter(appReg.GetInstallDir() + "\\Error.txt", false, System.Text.Encoding.GetEncoding("shift_jis"));
+                StreamWriter sw = new StreamWriter(appReg.GetInstallDir() + "\\Error.txt", false, System.Text.Encoding.GetEncoding("shift_jis"));
                 sw.Write(ex.Message);
                 sw.Close();
 
                 MessageBox.Show("Error Log Saved To " + appReg.GetInstallDir() + "\\Error.txt", "WARNING", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                this.Close();
+                Close();
             }
         }
 
@@ -479,20 +470,20 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <param name="e"></param>
         private void MouseEnterLauncher(object sender, EventArgs e)
         {
-            string nme = ((System.Windows.Controls.Button)sender).Name;
+            string nme = ((Button)sender).Name;
 
             if (nme.Contains("Launch_"))
             {
                 if (nme.Contains("Launch_TheaterConfig"))
                     return;
-                System.Windows.Controls.Button tbButton = this.FindName(nme) as System.Windows.Controls.Button;
+                Button tbButton = FindName(nme) as Button;
                 if (tbButton == null)
                     return;
                 tbButton.BorderBrush = new SolidColorBrush(Colors.LightBlue);
                 tbButton.BorderThickness = new Thickness(1);
 
                 nme = nme.Replace("Launch_", "");
-                Label tblabel = this.FindName("Label_" + nme) as Label;
+                Label tblabel = FindName("Label_" + nme) as Label;
                 if (tblabel == null)
                     return;
                 tblabel.Foreground = new SolidColorBrush(Color.FromArgb(255, 128, 255, 255));
@@ -506,19 +497,19 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <param name="e"></param>
         private void MouseLeaveLauncher(object sender, EventArgs e)
         {
-            string nme = ((System.Windows.Controls.Button)sender).Name;
+            string nme = ((Button)sender).Name;
 
             if (nme.Contains("Launch_"))
             {
                 if (nme.Contains("Launch_TheaterConfig"))
                     return;
-                System.Windows.Controls.Button tbButton = this.FindName(nme) as System.Windows.Controls.Button;
+                Button tbButton = FindName(nme) as Button;
                 if (tbButton == null)
                     return;
                 tbButton.BorderThickness = new Thickness(0);
 
                 nme = nme.Replace("Launch_", "");
-                Label tblabel = this.FindName("Label_" + nme) as Label;
+                Label tblabel = FindName("Label_" + nme) as Label;
                 if (tblabel == null)
                     return;
                 tblabel.Foreground = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
@@ -535,7 +526,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             try
             {
                 if (e.ChangedButton == MouseButton.Left)
-                    this.DragMove();
+                    DragMove();
             }
             catch
             {
@@ -545,8 +536,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         private void Apply_YAME64(object sender, RoutedEventArgs e)
         {
-            this.appReg.getOverrideWriter().Execute(inGameAxis, deviceControl, keyFile);
-            this.Close();
+            appReg.getOverrideWriter().Execute(inGameAxis, deviceControl, keyFile);
+            Close();
         }
 
         private void WDP_RequestNavigate(object sender, RequestNavigateEventArgs e)
@@ -565,14 +556,14 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 MessageBox.Show("FalconBMS crashes when Alt+TAB in FullScreen Mode. Recommend Enabling Window Mode.\n(WINDOW button turning on light)", "WARNING", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        private Boolean pressedByHand = false;
+        private bool pressedByHand = false;
 
         private void Select_PinkyShift_Click(object sender, RoutedEventArgs e)
         {
             if (Select_PinkyShift.IsChecked == false)
-                this.pressedByHand = true;
+                pressedByHand = true;
             else
-                this.pressedByHand = false;
+                pressedByHand = false;
         }
     }
 }

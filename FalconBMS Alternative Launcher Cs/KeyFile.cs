@@ -14,12 +14,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         public KeyFile(string Filename, AppRegInfo appReg)
         {
-            string stParentName = System.IO.Path.GetDirectoryName(Filename);
+            string stParentName = Path.GetDirectoryName(Filename);
 
             // Do BMS - FULL.key file exists at User/Config?
             if (File.Exists(Filename) == false)
             {
-                MessageBoxResult result = System.Windows.MessageBox.Show
+                MessageBoxResult result = MessageBox.Show
                     ("App could not find " + Filename, "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 return;
             }
@@ -50,7 +50,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 if (keyAssign[i].CheckFileCollapsing() == false)
                     continue;
 
-                MessageBoxResult result = System.Windows.MessageBox.Show
+                MessageBoxResult result = MessageBox.Show
                     ("App found " + appReg.getKeyFileName() + " broken\nWould you like to restore it to the default?", "Error", MessageBoxButton.OKCancel, MessageBoxImage.Exclamation);
                 if (result == MessageBoxResult.OK)
                 {
@@ -58,16 +58,16 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     string fname = appReg.GetInstallDir() + "\\User\\Config\\" + appReg.getKeyFileName(); ;
                     if (File.Exists(fnamestock) == true)
                     {
-                        System.IO.File.Copy(fnamestock, fname, true);
+                        File.Copy(fnamestock, fname, true);
                         Application.Current.Shutdown();
                         System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
                         return;
                     }
-                    System.Windows.MessageBox.Show("App could not find " + appReg.getKeyFileName() + " at\nDocs\\Key Files & Input\\", "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                    System.Windows.Application.Current.Shutdown();
+                    MessageBox.Show("App could not find " + appReg.getKeyFileName() + " at\nDocs\\Key Files & Input\\", "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    Application.Current.Shutdown();
                     return;
                 }
-                System.Windows.Application.Current.Shutdown();
+                Application.Current.Shutdown();
                 return;
             }
             Array.Resize(ref keyAssign, i+1);
@@ -84,7 +84,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         public KeyFile Clone()
         {
-            return new KeyFile(this.keyAssign);
+            return new KeyFile(keyAssign);
         }
     }
 }
