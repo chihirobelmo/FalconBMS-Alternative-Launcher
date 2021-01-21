@@ -178,7 +178,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             StreamWriter cfg = new StreamWriter
                 (filename, false, Encoding.GetEncoding("shift_jis"));
             cfg.Write(stResult);
-            cfg.Write("set g_nHotasPinkyShiftMagnitude " + (deviceControl.devList.Count*32).ToString()
+            cfg.Write("set g_nHotasPinkyShiftMagnitude " + deviceControl.devList.Count*32
                 + "          // SETUP OVERRIDE\r\n");
             cfg.Write("set g_bHotasDgftSelfCancel " + Convert.ToInt32(mainWindow.Misc_OverrideSelfCancel.IsChecked)
                 + "          // SETUP OVERRIDE\r\n");
@@ -250,7 +250,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// </summary>
         protected void SavePlcLbk()
         {
-            string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.GetPilotCallsign().ToString() + ".plc";
+            string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.GetPilotCallsign() + ".plc";
             if (!File.Exists(filename))
             {
                 byte[] nbs = {
@@ -263,7 +263,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 nfs.Close();
             }
 
-            filename = appReg.GetInstallDir() + "/User/Config/" + appReg.GetPilotCallsign().ToString() + ".lbk";
+            filename = appReg.GetInstallDir() + "/User/Config/" + appReg.GetPilotCallsign() + ".lbk";
             if (!File.Exists(filename))
             {
                 byte[] nbs = {
@@ -450,8 +450,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
                     if (nme == AxisName.Throttle)
                     {
-                        double iAB = (double)deviceControl.throttlePos.GetAB();
-                        double iIdle = (double)deviceControl.throttlePos.GetIDLE();
+                        double iAB = deviceControl.throttlePos.GetAB();
+                        double iIdle = deviceControl.throttlePos.GetIDLE();
 
                         const double MAXIN = 65536;
                         const double MAXOUT = 14848;
@@ -510,7 +510,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         protected override void SavePop()
         {
-            string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.GetPilotCallsign().ToString() + ".pop";
+            string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.GetPilotCallsign() + ".pop";
             if (!File.Exists(filename))
             {
                 byte[] nbs = {
@@ -542,7 +542,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 nfs.Write(nbs, 0, nbs.Length);
                 nfs.Close();
             }
-            string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/" + appReg.GetPilotCallsign().ToString() + ".pop";
+            string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/" + appReg.GetPilotCallsign() + ".pop";
             if (!File.Exists(fbackupname))
                 File.Copy(filename, fbackupname, true);
 
@@ -672,7 +672,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         protected override void SavePop()
         {
-            string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.GetPilotCallsign().ToString() + ".pop";
+            string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.GetPilotCallsign() + ".pop";
             if (!File.Exists(filename))
             {
                 byte[] nbs = {
@@ -708,7 +708,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 nfs.Write(nbs, 0, nbs.Length);
                 nfs.Close();
             }
-            string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/" + appReg.GetPilotCallsign().ToString() + ".pop";
+            string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/" + appReg.GetPilotCallsign() + ".pop";
             if (!File.Exists(fbackupname))
                 File.Copy(filename, fbackupname, true);
 
@@ -857,7 +857,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             StreamWriter cfg = new StreamWriter
                 (filename, false, Encoding.GetEncoding("shift_jis"));
             cfg.Write(stResult);
-            cfg.Write("set g_nHotasPinkyShiftMagnitude " + (deviceControl.devList.Count * 32).ToString()
+            cfg.Write("set g_nHotasPinkyShiftMagnitude " + deviceControl.devList.Count * 32
                 + "          // SETUP OVERRIDE\r\n");
             cfg.Write("set g_bHotasDgftSelfCancel " + Convert.ToInt32(mainWindow.Misc_OverrideSelfCancel.IsChecked)
                 + "          // SETUP OVERRIDE\r\n");
@@ -869,9 +869,9 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 return;
             }
             cfg.Write("set g_nNumOfPOVs 2      // SETUP OVERRIDE\r\n");
-            cfg.Write("set g_nPOV1DeviceID " + (((InGameAxAssgn)inGameAxis["Roll"]).GetDeviceNumber() + 2).ToString() + "   // SETUP OVERRIDE\r\n");
+            cfg.Write("set g_nPOV1DeviceID " + (((InGameAxAssgn)inGameAxis["Roll"]).GetDeviceNumber() + 2) + "   // SETUP OVERRIDE\r\n");
             cfg.Write("set g_nPOV1ID 0         // SETUP OVERRIDE\r\n");
-            cfg.Write("set g_nPOV2DeviceID " + (((InGameAxAssgn)inGameAxis["Throttle"]).GetDeviceNumber() + 2).ToString() + "   // SETUP OVERRIDE\r\n");
+            cfg.Write("set g_nPOV2DeviceID " + (((InGameAxAssgn)inGameAxis["Throttle"]).GetDeviceNumber() + 2) + "   // SETUP OVERRIDE\r\n");
             cfg.Write("set g_nPOV2ID 0         // SETUP OVERRIDE\r\n");
             cfg.Close();
         }
@@ -955,8 +955,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
                     if (nme == AxisName.Throttle)
                     {
-                        double iAB = (double)deviceControl.throttlePos.GetAB();
-                        double iIdle = (double)deviceControl.throttlePos.GetIDLE();
+                        double iAB = deviceControl.throttlePos.GetAB();
+                        double iIdle = deviceControl.throttlePos.GetIDLE();
 
                         const double MAXIN = 65536;
                         const double MAXOUT = 14848;
@@ -988,7 +988,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         protected override void SavePop()
         {
-            string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.GetPilotCallsign().ToString() + ".pop";
+            string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.GetPilotCallsign() + ".pop";
             if (!File.Exists(filename))
             {
                 byte[] nbs = {
@@ -1024,7 +1024,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 nfs.Write(nbs, 0, nbs.Length);
                 nfs.Close();
             }
-            string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/" + appReg.GetPilotCallsign().ToString() + ".pop";
+            string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/" + appReg.GetPilotCallsign() + ".pop";
             if (!File.Exists(fbackupname))
                 File.Copy(filename, fbackupname, true);
 
@@ -1174,7 +1174,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         protected override void SavePop()
         {
-            string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.GetPilotCallsign().ToString() + ".pop";
+            string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.GetPilotCallsign() + ".pop";
             if (!File.Exists(filename))
             {
                 byte[] nbs = {
@@ -1213,7 +1213,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 nfs.Write(nbs, 0, nbs.Length);
                 nfs.Close();
             }
-            string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/" + appReg.GetPilotCallsign().ToString() + ".pop";
+            string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/" + appReg.GetPilotCallsign() + ".pop";
             if (!File.Exists(fbackupname))
                 File.Copy(filename, fbackupname, true);
 

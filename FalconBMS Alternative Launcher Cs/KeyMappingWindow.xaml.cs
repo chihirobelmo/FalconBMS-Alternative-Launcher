@@ -27,7 +27,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         private NeutralButtons[] neutralButtons;
         private Invoke invokeStatus = Invoke.Default;
 
-        private bool pressedByHand = false;
+        private bool pressedByHand;
 
         public KeyMappingWindow(KeyAssgn SelectedCallback, KeyFile keyFile, DeviceControl deviceControl)
         {
@@ -309,10 +309,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
         {
             Device device;
             KeyboardState keyState;
-            public KeyboardState KeyboardState
-            {
-                get { return keyState; }
-            }
+            public KeyboardState KeyboardState => keyState;
+
             public DirectInputKeyboard()
             {
                 device = new Device(SystemGuid.Keyboard);
@@ -330,7 +328,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             SelectedCallback.getOtherKeyInstance(tmpCallback);
 
             // Unassign the previous mapping that was assigned to this key/key combo.
-            var oldKey = keyFile.keyAssign.FirstOrDefault(x => x != SelectedCallback && x.GetKeyAssignmentStatus() == SelectedCallback.GetKeyAssignmentStatus());
+            KeyAssgn oldKey = keyFile.keyAssign.FirstOrDefault(x => x != SelectedCallback && x.GetKeyAssignmentStatus() == SelectedCallback.GetKeyAssignmentStatus());
             if (oldKey != null)
             {
                 oldKey.UnassignKeyboard();

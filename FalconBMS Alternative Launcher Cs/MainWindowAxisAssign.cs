@@ -74,7 +74,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <summary>
         /// invert TRUE or FALSE (TODO: This has to be Boolean)
         /// </summary>
-        private int invertNum = 0;
+        private int invertNum;
 
         /// <summary>
         /// I forgot what was these...
@@ -104,8 +104,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 {
                     if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() == -1)
                         continue;
-                    tblabel = FindName("Label_" + nme.ToString()) as Label;
-                    tbprogressbar = FindName("Axis_" + nme.ToString()) as ProgressBar;
+                    tblabel = FindName("Label_" + nme) as Label;
+                    tbprogressbar = FindName("Axis_" + nme) as ProgressBar;
 
                     switch (nme)
                     {
@@ -220,7 +220,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     if (nme != AxisName.Throttle & nme != AxisName.Throttle_Right)
                         continue;
 
-                    tblabelab = FindName("AB_" + nme.ToString()) as Label;
+                    tblabelab = FindName("AB_" + nme) as Label;
                     tblabelab.Visibility = Visibility.Hidden;
 
                     tbprogressbar.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 0x38, 0x78, 0xA8));
@@ -261,7 +261,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <returns></returns>
         public static int ApplyDeadZone(int input, AxCurve deadzone, AxCurve saturation)
         {
-            double x = (double)input, y = 0;
+            double x = input, y = 0;
             double x1 = 0, x2 = 0, x3 = 0, x4 = 0, a1 = 0, a2 = 0, b1 = 0, b2 = 0;
 
             switch (deadzone)
@@ -282,6 +282,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     x2 = MAXIN / 2 - MAXIN / 2 * 0.1;
                     x3 = MAXIN / 2 + MAXIN / 2 * 0.1;
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(deadzone), deadzone, null); // TODO: Add error message to pass to console/logs here.
             }
             switch (saturation)
             {
@@ -301,6 +303,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     x1 = 0 + MAXIN / 2 * 0.1;
                     x4 = MAXIN - MAXIN / 2 * 0.1;
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(saturation), saturation, null); // TODO: Add error message to pass to console/logs here.
             }
 
             a1 = MAXIN / 2 / (x2 - x1);
@@ -401,8 +405,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
         {
             foreach (AxisName nme in axisNameList)
             {
-                Label tblabel = FindName("Label_" + nme.ToString()) as Label;
-                ProgressBar tbprogressbar = FindName("Axis_" + nme.ToString()) as ProgressBar;
+                Label tblabel = FindName("Label_" + nme) as Label;
+                ProgressBar tbprogressbar = FindName("Axis_" + nme) as ProgressBar;
 
                 tblabel.Content = nme.ToString().Replace("_", " ") + " :";
                 tblabel.Content = "";

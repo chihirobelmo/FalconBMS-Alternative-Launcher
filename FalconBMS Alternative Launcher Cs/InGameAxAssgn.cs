@@ -11,7 +11,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         protected int devNum = -1;      // DeviceNumber(-2=MouseWheel)
         protected int phyAxNum = -1;    // PhysicalAxisNumber
                                         // 0=X 1=Y 2=Z 3=Rx 4=Ry 5=Rz 6=Slider0 7=Slider1
-        protected bool invert = false;
+        protected bool invert;
         protected AxCurve saturation = AxCurve.None;
         protected AxCurve deadzone = AxCurve.None;
         protected DateTime assgnDate = DateTime.Parse("12/12/1998 12:00:00");

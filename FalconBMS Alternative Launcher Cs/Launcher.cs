@@ -78,8 +78,6 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 case "Launch_EDIT":
                     System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Bin/x64/Editor.exe");
                     break;
-                default:
-                    break;
             }
         }
 
@@ -157,8 +155,6 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 case "Launch_EDIT":
                     System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Bin/x86/Editor.exe");
                     break;
-                default:
-                    break;
             }
         }
 
@@ -226,8 +222,6 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     break;
                 case "Launch_EDIT":
                     System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Bin/x64/Editor.exe");
-                    break;
-                default:
                     break;
             }
         }
@@ -298,8 +292,6 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     break;
                 case "Launch_EDIT":
                     System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Bin/x64/Editor.exe");
-                    break;
-                default:
                     break;
             }
         }

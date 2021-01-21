@@ -22,7 +22,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             string path = assemblyName.Name + ".dll";
             if (assemblyName.CultureInfo.Equals(System.Globalization.CultureInfo.InvariantCulture) == false)
             {
-                path = string.Format(@"{0}\{1}", assemblyName.CultureInfo, path);
+                path = $@"{assemblyName.CultureInfo}\{path}";
             }
 
             using (System.IO.Stream stream = executingAssembly.GetManifestResourceStream(path))

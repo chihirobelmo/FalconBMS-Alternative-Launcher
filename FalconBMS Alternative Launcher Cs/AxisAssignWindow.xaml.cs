@@ -56,12 +56,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         private int devNumTmp = -1;
         private int phyAxNumTmp = -1;
-        private int invertNum = 0;
+        private int invertNum;
         private int wheelValue;
 
         const int MAXIN = 65536;
         private int AB = MAXIN;
-        private int IDLE = 0;
+        private int IDLE;
 
         private Status status = Status.GetNeutralPosition;
 
@@ -75,7 +75,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         private void AssignWindow_Loaded(object sender, RoutedEventArgs e)
         {
             // YAME 64 VERSION
-            if (MainWindow.FLG_YAME64 == true)
+            if (MainWindow.FLG_YAME64)
             {
                 Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
                 BackGroundImage.Opacity = 0;

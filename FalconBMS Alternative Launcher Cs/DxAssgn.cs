@@ -53,12 +53,18 @@ namespace FalconBMS_Alternative_Launcher_Cs
         // Member
         protected string callback = "SimDoNothing";
         protected Invoke invoke = Invoke.Default;
-        protected int soundID = 0;
+        protected int soundID;
 
         // Property for XML
-        public string Callback { get { return callback; } set { callback = value; } }
-        public Invoke Invoke { get { return invoke; } set { invoke = value; } }
-        public int SoundID { get { return soundID; } set { soundID = value; } }
+        public string Callback { get => callback;
+            set => callback = value;
+        }
+        public Invoke Invoke { get => invoke;
+            set => invoke = value;
+        }
+        public int SoundID { get => soundID;
+            set => soundID = value;
+        }
 
         // Constructor
         public Assgn() { }

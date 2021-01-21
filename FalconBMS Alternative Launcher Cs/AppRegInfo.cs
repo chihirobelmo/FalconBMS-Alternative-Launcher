@@ -82,7 +82,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
             // load command line.
             string[] args = Environment.GetCommandLineArgs();
-            var option = new Dictionary<string, string>();
+            Dictionary<string, string> option = new Dictionary<string, string>();
             if (args.Length % 2 == 1)
             {
                 for (int index = 1; index < args.Length; index += 2)
@@ -92,7 +92,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             }
 
             // User defined BMS version
-            if (option.ContainsKey("/bms") == true)
+            if (option.ContainsKey("/bms"))
             {
                 switch (option["/bms"])
                 {
@@ -165,18 +165,16 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     launcher = new Launcher435(this, this.mainWindow);
                     mainWindow.LOGO435.Visibility = Visibility.Visible;
                     break;
-                default:
-                    break;
             }
 
             // User defined registry
-            if (option.ContainsKey("/reg") == true)
+            if (option.ContainsKey("/reg"))
             {
                 regName = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\" + option["/reg"];
             }
 
             // User defined key file
-            if (option.ContainsKey("/key") == true)
+            if (option.ContainsKey("/key"))
             {
                 keyFileName = option["/key"];
             }

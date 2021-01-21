@@ -32,7 +32,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         public void Assign(int GetPointofView, string callback, Pinky pinky, int soundID)
         {
             if (GetPointofView > 7)
-                GetPointofView = GetPointofView / 4500;
+                GetPointofView /= 4500;
             direction[GetPointofView].Assign(callback, pinky, soundID);
         }
 
@@ -40,7 +40,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         {
             string direction = "";
             if (GetPointOfView > 7)
-                GetPointOfView = GetPointOfView / 4500;
+                GetPointOfView /= 4500;
             switch (GetPointOfView)
             {
                 case 0:
@@ -83,14 +83,18 @@ namespace FalconBMS_Alternative_Launcher_Cs
     public class DirAssgn
     {
         // Member
-        protected string[] callback = new string[2] { "SimDoNothing", "SimDoNothing" };
-        protected int[] soundID = new int[2] { 0, 0 };
+        protected string[] callback = { "SimDoNothing", "SimDoNothing" };
+        protected int[] soundID = { 0, 0 };
         // [0]=PRESS
         // [1]=PRESS + SHIFT
 
         // Property for XML
-        public string[] Callback { get { return callback; } set { callback = value; } }
-        public int[] SoundID { get { return soundID; } set { soundID = value; } }
+        public string[] Callback { get => callback;
+            set => callback = value;
+        }
+        public int[] SoundID { get => soundID;
+            set => soundID = value;
+        }
 
         // Constructor
         public DirAssgn() { }

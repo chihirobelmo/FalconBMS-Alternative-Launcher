@@ -32,7 +32,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             // Button Status Default
             mainWindow.Select_DX_Release.IsChecked  = true;
             mainWindow.Select_PinkyShift.IsChecked  = true;
-            mainWindow.CMD_BW.Content               = "BW : " + bandWidthDefault.ToString();
+            mainWindow.CMD_BW.Content               = "BW : " + bandWidthDefault;
             mainWindow.AB_Throttle.Visibility       = Visibility.Hidden;
             mainWindow.AB_Throttle_Right.Visibility = Visibility.Hidden;
         }
@@ -65,7 +65,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             {
                 bandWidthDefault = 512;
             }
-            mainWindow.CMD_BW.Content = "BW : " + bandWidthDefault.ToString();
+            mainWindow.CMD_BW.Content = "BW : " + bandWidthDefault;
         }
     }
 }
