@@ -25,7 +25,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         {
             mainWindow.Misc_Platform.IsChecked = false;
             mainWindow.Misc_Platform.Visibility = Visibility.Hidden;
-            mainWindow.Label_Platform.Content = "Platform : BMS 4.32 is 32-bit appreciation.";
+            mainWindow.Label_Platform.Content = "Platform : BMS 4.35 64-bit.";
 
             mainWindow.Launch_AVC.Visibility = Visibility.Hidden;
             mainWindow.Label_AVC.Visibility = Visibility.Hidden;
