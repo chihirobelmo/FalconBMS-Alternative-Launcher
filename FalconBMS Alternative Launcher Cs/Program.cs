@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Globalization;
+using System.IO;
+using System.Reflection;
 
 namespace FalconBMS_Alternative_Launcher_Cs
 {
     public class Program
     {
         /// <summary>
-        /// Main
+        ///     Main
         /// </summary>
         [STAThread]
         public static void Main()
@@ -14,25 +18,40 @@ namespace FalconBMS_Alternative_Launcher_Cs
             App.Main();
         }
 
-        private static System.Reflection.Assembly OnResolveAssembly(object sender, ResolveEventArgs args)
+        private static Assembly OnResolveAssembly(object sender, ResolveEventArgs args)
         {
-            System.Reflection.Assembly executingAssembly = System.Reflection.Assembly.GetExecutingAssembly();
-            System.Reflection.AssemblyName assemblyName = new System.Reflection.AssemblyName(args.Name);
+            Assembly executingAssembly = Assembly.GetExecutingAssembly();
+            AssemblyName assemblyName = new AssemblyName(args.Name);
 
             string path = assemblyName.Name + ".dll";
-            if (assemblyName.CultureInfo.Equals(System.Globalization.CultureInfo.InvariantCulture) == false)
+
+            try
             {
-                path = $@"{assemblyName.CultureInfo}\{path}";
+                if (assemblyName.CultureInfo == null)
+                {
+                    assemblyName.CultureInfo = CultureInfo.InvariantCulture;
+                }
+
+                if (assemblyName.CultureInfo.Equals(CultureInfo.InvariantCulture) == false)
+                {
+                    path = $@"{assemblyName.CultureInfo}\{path}";
+                }
             }
 
-            using (System.IO.Stream stream = executingAssembly.GetManifestResourceStream(path))
+            catch (NullReferenceException ex)
+            {
+                Debug.Print($"Null Reference Exception Occured: {ex.InnerException} \n {ex.Message}");
+            }
+
+
+            using (Stream stream = executingAssembly.GetManifestResourceStream(path))
             {
                 if (stream == null)
                     return null;
 
                 byte[] assemblyRawBytes = new byte[stream.Length];
                 stream.Read(assemblyRawBytes, 0, assemblyRawBytes.Length);
-                return System.Reflection.Assembly.Load(assemblyRawBytes);
+                return Assembly.Load(assemblyRawBytes);
             }
         }
     }
