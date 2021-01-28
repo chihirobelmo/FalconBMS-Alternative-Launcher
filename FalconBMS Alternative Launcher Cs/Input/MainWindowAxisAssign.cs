@@ -1,24 +1,14 @@
-﻿using MahApps.Metro.Controls;
-using Microsoft.DirectX.DirectInput;
-using System;
+﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
-namespace FalconBMS_Alternative_Launcher_Cs
+using FalconBMS.Launcher.Windows;
+
+namespace FalconBMS.Launcher.Input
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -152,13 +142,13 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
                     int output = ApplyDeadZone
                         (
-                            deviceControl.JoyAxisState(((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber(), ((InGameAxAssgn)inGameAxis[nme.ToString()]).GetPhysicalNumber()),
+                            Windows.MainWindow.deviceControl.JoyAxisState(((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber(), ((InGameAxAssgn)inGameAxis[nme.ToString()]).GetPhysicalNumber()),
                             ((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeadzone(),
                             ((InGameAxAssgn)inGameAxis[nme.ToString()]).GetSaturation()
                         );
                     tbprogressbar.Value = output * invertNum;
 
-                    string joyActualName = deviceControl.joyStick[((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber()].DeviceInformation.InstanceName;
+                    string joyActualName = Windows.MainWindow.deviceControl.joyStick[((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber()].DeviceInformation.InstanceName;
                     string joyName = "JOY  " + ((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber();
 
                     if (joyActualName.Contains("Thrustmaster HOTAS Cougar"))
@@ -224,13 +214,13 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     tblabelab.Visibility = Visibility.Hidden;
 
                     tbprogressbar.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 0x38, 0x78, 0xA8));
-                    if (MAXIN + tbprogressbar.Value < deviceControl.throttlePos.GetIDLE())
+                    if (MAXIN + tbprogressbar.Value < Windows.MainWindow.deviceControl.throttlePos.GetIDLE())
                     {
                         tbprogressbar.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 240, 0, 0));
                         tblabelab.Visibility = Visibility.Visible;
                         tblabelab.Content = "IDLE CUTOFF";
                     }
-                    if (MAXIN + tbprogressbar.Value > deviceControl.throttlePos.GetAB())
+                    if (MAXIN + tbprogressbar.Value > Windows.MainWindow.deviceControl.throttlePos.GetAB())
                     {
                         tbprogressbar.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 0, 240, 0));
                         tblabelab.Visibility = Visibility.Visible;
@@ -352,19 +342,19 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
             // Reset PhysicalAxis previously assigned to same axis
             // In case of axis has been unassigned and saved.
-            for (int i = 0; i < deviceControl.devList.Count; i++)
-                deviceControl.joyAssign[i].ResetPreviousAxis(whocalledwindow);
-            if (deviceControl.mouseWheelAssign.GetAxisName() == whocalledwindow)
-                deviceControl.mouseWheelAssign = new AxAssgn();
+            for (int i = 0; i < Windows.MainWindow.deviceControl.devList.Count; i++)
+                Windows.MainWindow.deviceControl.joyAssign[i].ResetPreviousAxis(whocalledwindow);
+            if (Windows.MainWindow.deviceControl.mouseWheelAssign.GetAxisName() == whocalledwindow)
+                Windows.MainWindow.deviceControl.mouseWheelAssign = new AxAssgn();
 
             // When axis has been assigned.
             if (axisAssign.GetDeviceNumber() > -1)
-                deviceControl.joyAssign[axisAssign.GetDeviceNumber()].axis[axisAssign.GetPhysicalNumber()]
+                Windows.MainWindow.deviceControl.joyAssign[axisAssign.GetDeviceNumber()].axis[axisAssign.GetPhysicalNumber()]
                     = new AxAssgn(whocalledwindow, axisAssign);
             if (axisAssign.GetDeviceNumber() == -2)
             {
                 wheelValue = 0;
-                deviceControl.mouseWheelAssign = new AxAssgn(whocalledwindow, axisAssign);
+                Windows.MainWindow.deviceControl.mouseWheelAssign = new AxAssgn(whocalledwindow, axisAssign);
             }
 
             joyAssign_2_inGameAxis();
@@ -380,24 +370,24 @@ namespace FalconBMS_Alternative_Launcher_Cs
         {
             foreach (AxisName nme in axisNameList)
                 inGameAxis[nme.ToString()] = new InGameAxAssgn();
-            for (int i = 0; i <= deviceControl.joyAssign.Length - 1; i++)
+            for (int i = 0; i <= Windows.MainWindow.deviceControl.joyAssign.Length - 1; i++)
             {
                 for (int ii = 0; ii <= 7; ii++)
                 {
-                    if (inGameAxis[deviceControl.joyAssign[i].axis[ii].GetAxisName()] == null)
+                    if (inGameAxis[Windows.MainWindow.deviceControl.joyAssign[i].axis[ii].GetAxisName()] == null)
                         continue;
-                    if (ReferenceEquals(deviceControl.joyAssign[i].axis[ii].GetAxisName(), ""))
+                    if (ReferenceEquals(Windows.MainWindow.deviceControl.joyAssign[i].axis[ii].GetAxisName(), ""))
                         continue;
-                    if (((InGameAxAssgn)inGameAxis[deviceControl.joyAssign[i].axis[ii].GetAxisName()]).getDate() > deviceControl.joyAssign[i].axis[ii].GetAssignDate())
+                    if (((InGameAxAssgn)inGameAxis[Windows.MainWindow.deviceControl.joyAssign[i].axis[ii].GetAxisName()]).getDate() > Windows.MainWindow.deviceControl.joyAssign[i].axis[ii].GetAssignDate())
                         continue;
-                    inGameAxis[deviceControl.joyAssign[i].axis[ii].GetAxisName()] = new InGameAxAssgn(i, ii, deviceControl.joyAssign[i].axis[ii]);
+                    inGameAxis[Windows.MainWindow.deviceControl.joyAssign[i].axis[ii].GetAxisName()] = new InGameAxAssgn(i, ii, Windows.MainWindow.deviceControl.joyAssign[i].axis[ii]);
                 }
             }
-            if (ReferenceEquals(deviceControl.mouseWheelAssign.GetAxisName(), ""))
+            if (ReferenceEquals(Windows.MainWindow.deviceControl.mouseWheelAssign.GetAxisName(), ""))
                 return;
-            if (((InGameAxAssgn)inGameAxis[deviceControl.mouseWheelAssign.GetAxisName()]).getDate() > deviceControl.mouseWheelAssign.GetAssignDate())
+            if (((InGameAxAssgn)inGameAxis[Windows.MainWindow.deviceControl.mouseWheelAssign.GetAxisName()]).getDate() > Windows.MainWindow.deviceControl.mouseWheelAssign.GetAssignDate())
                 return;
-            inGameAxis[deviceControl.mouseWheelAssign.GetAxisName()] = new InGameAxAssgn(-2, -1, deviceControl.mouseWheelAssign);
+            inGameAxis[Windows.MainWindow.deviceControl.mouseWheelAssign.GetAxisName()] = new InGameAxAssgn(-2, -1, Windows.MainWindow.deviceControl.mouseWheelAssign);
         }
         
         /// <summary>
@@ -427,15 +417,15 @@ namespace FalconBMS_Alternative_Launcher_Cs
         {
             if (FLG)
             {
-                for (int i = 0; i < deviceControl.devList.Count; i++)
+                for (int i = 0; i < Windows.MainWindow.deviceControl.devList.Count; i++)
                 {
-                    deviceControl.joyStick[i].Acquire();
+                    Windows.MainWindow.deviceControl.joyStick[i].Acquire();
                 }
                 return;
             }
-            for (int i = 0; i < deviceControl.devList.Count; i++)
+            for (int i = 0; i < Windows.MainWindow.deviceControl.devList.Count; i++)
             {
-                deviceControl.joyStick[i].Unacquire();
+                Windows.MainWindow.deviceControl.joyStick[i].Unacquire();
             }
         }
         
@@ -446,7 +436,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <param name="e"></param>
         private void Detect_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            if (deviceControl.mouseWheelAssign.GetAxisName() != "")
+            if (Windows.MainWindow.deviceControl.mouseWheelAssign.GetAxisName() != "")
             {
                 wheelValue += e.Delta;
                 // (32768 * 120 / 1240 ) = 3840 

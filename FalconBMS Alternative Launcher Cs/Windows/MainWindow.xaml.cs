@@ -1,6 +1,4 @@
-﻿using MahApps.Metro.Controls;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -12,7 +10,11 @@ using System.Windows.Media;
 using System.Windows.Navigation;
 using System.Windows.Threading;
 
-namespace FalconBMS_Alternative_Launcher_Cs
+using FalconBMS.Launcher.Input;
+
+using MahApps.Metro.Controls;
+
+namespace FalconBMS.Launcher.Windows
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -119,14 +121,14 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
                 // Get Devices
                 deviceControl = new DeviceControl(appReg);
-                neutralButtons = new NeutralButtons[deviceControl.devList.Count];
+                neutralButtons = new Input.MainWindow.NeutralButtons[deviceControl.devList.Count];
 
                 // Aquire joySticks
-                AquireAll(true);
+                Input.MainWindow.AquireAll(true);
 
                 // Reset All Axis Settings
-                foreach (AxisName nme in axisNameList)
-                    inGameAxis[nme.ToString()] = new InGameAxAssgn();
+                foreach (AxisName nme in Input.MainWindow.axisNameList)
+                    Input.MainWindow.inGameAxis[nme.ToString()] = new InGameAxAssgn();
                 joyAssign_2_inGameAxis();
                 ResetAssgnWindow();
 
@@ -177,7 +179,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 // Save UI Properties(Like Button Status).
                 appProperties.SaveUISetup();
                 if (ApplicationOverride.IsChecked == false)
-                    appReg.getOverrideWriter().Execute(inGameAxis, deviceControl, keyFile);
+                    appReg.getOverrideWriter().Execute(Input.MainWindow.inGameAxis, deviceControl, keyFile);
             }
 
             catch (FileNotFoundException ex)
@@ -312,7 +314,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 }
                 else
                 {
-                    appReg.getOverrideWriter().Execute(inGameAxis, deviceControl, keyFile);
+                    appReg.getOverrideWriter().Execute(Input.MainWindow.inGameAxis, deviceControl, keyFile);
                 }
             }
 
@@ -555,7 +557,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         private void Apply_YAME64(object sender, RoutedEventArgs e)
         {
-            appReg.getOverrideWriter().Execute(inGameAxis, deviceControl, keyFile);
+            appReg.getOverrideWriter().Execute(Input.MainWindow.inGameAxis, deviceControl, keyFile);
             Close();
         }
 

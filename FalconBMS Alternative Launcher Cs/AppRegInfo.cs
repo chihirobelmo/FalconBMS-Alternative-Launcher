@@ -4,7 +4,9 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace FalconBMS_Alternative_Launcher_Cs
+using FalconBMS.Launcher.Windows;
+
+namespace FalconBMS.Launcher
 {
     public class AppRegInfo
     {

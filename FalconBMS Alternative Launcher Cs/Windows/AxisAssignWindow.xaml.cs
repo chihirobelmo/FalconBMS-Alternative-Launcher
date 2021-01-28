@@ -1,20 +1,12 @@
-﻿using MahApps.Metro.Controls;
-using Microsoft.DirectX.DirectInput;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
-namespace FalconBMS_Alternative_Launcher_Cs
+using FalconBMS.Launcher.Input;
+
+namespace FalconBMS.Launcher.Windows
 {
     /// <summary>
     /// Interaction logic for AxisAssignWindow.xaml
@@ -309,7 +301,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     return;
                 }
 
-                int output = MainWindow.ApplyDeadZone
+                int output = Input.MainWindow.ApplyDeadZone
                     (
                         MainWindow.deviceControl.JoyAxisState(devNumTmp, phyAxNumTmp), 
                         (AxCurve)DeadZone.SelectedIndex, 

@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Controls;
 
-namespace FalconBMS_Alternative_Launcher_Cs
+namespace FalconBMS.Launcher
 {
     public class TheaterList
     {

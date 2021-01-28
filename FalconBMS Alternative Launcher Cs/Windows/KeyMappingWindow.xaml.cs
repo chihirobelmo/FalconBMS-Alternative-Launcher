@@ -1,13 +1,16 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
-using System.Diagnostics;
+
+using FalconBMS.Launcher.Input;
+
 using Microsoft.DirectX.DirectInput;
 
-namespace FalconBMS_Alternative_Launcher_Cs
+namespace FalconBMS.Launcher.Windows
 {
     /// <summary>
     /// Interaction logic for KeyMappingWindow.xaml

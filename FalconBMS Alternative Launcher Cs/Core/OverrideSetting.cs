@@ -1,25 +1,13 @@
-﻿using MahApps.Metro.Controls;
-using Microsoft.DirectX.DirectInput;
-using System;
+﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Windows.Threading;
 
-namespace FalconBMS_Alternative_Launcher_Cs
+using FalconBMS.Launcher.Input;
+
+using MainWindow = FalconBMS.Launcher.Windows.MainWindow;
+
+namespace FalconBMS.Launcher
 {
     /// <summary>
     /// Writer for setting Override

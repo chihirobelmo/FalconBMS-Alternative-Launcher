@@ -1,9 +1,9 @@
-﻿using Microsoft.DirectX.DirectInput;
-using System;
-using System.Linq;
+﻿using System;
 using System.Text;
 
-namespace FalconBMS_Alternative_Launcher_Cs
+using Microsoft.DirectX.DirectInput;
+
+namespace FalconBMS.Launcher.Input
 {
     public class JoyAssgn
     {

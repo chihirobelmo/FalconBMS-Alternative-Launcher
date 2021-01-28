@@ -4,7 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Reflection;
 
-namespace FalconBMS_Alternative_Launcher_Cs
+namespace FalconBMS.Launcher
 {
     public class Program
     {

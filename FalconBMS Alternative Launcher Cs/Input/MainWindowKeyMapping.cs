@@ -1,5 +1,4 @@
-﻿using Microsoft.DirectX.DirectInput;
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -7,7 +6,11 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace FalconBMS_Alternative_Launcher_Cs
+using FalconBMS.Launcher.Windows;
+
+using Microsoft.DirectX.DirectInput;
+
+namespace FalconBMS.Launcher.Input
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -64,12 +67,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
             if (!e.PropertyName.Contains("Z_Joy_"))
                 return;
             int target = int.Parse(e.PropertyName.Replace("Z_Joy_", ""));
-            if (target >= deviceControl.devList.Count)
+            if (target >= Windows.MainWindow.deviceControl.devList.Count)
             {
                 e.Cancel = true;
                 return;
             }
-            e.Column.Header = deviceControl.joyAssign[target].GetProductName();
+            e.Column.Header = Windows.MainWindow.deviceControl.joyAssign[target].GetProductName();
             e.Column.Width = 128;
             e.Column.DisplayIndex = 3 + target;
         }
@@ -93,7 +96,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             if (selectedItem.GetCallback() == "SimDoNothing")
                 return;
 
-            KeyMappingWindow.ShowKeyMappingWindow(selectedItem, keyFile, deviceControl, sender);
+            KeyMappingWindow.ShowKeyMappingWindow(selectedItem, keyFile, Windows.MainWindow.deviceControl, sender);
             KeyMappingGrid.Items.Refresh();
             KeyMappingGrid.UnselectAllCells();
 
@@ -170,19 +173,19 @@ namespace FalconBMS_Alternative_Launcher_Cs
             switch (statusAssign)
             {
                 case Status.GetNeutralPos:
-                    for (int i = 0; i < deviceControl.devList.Count; i++)
-                        neutralButtons[i] = new NeutralButtons(deviceControl.joyStick[i]);
+                    for (int i = 0; i < Windows.MainWindow.deviceControl.devList.Count; i++)
+                        neutralButtons[i] = new NeutralButtons(Windows.MainWindow.deviceControl.joyStick[i]);
                     statusAssign = Status.WaitingforInput;
                     break;
                 case Status.WaitingforInput:
-                    for (int i = 0; i < deviceControl.devList.Count; i++)
+                    for (int i = 0; i < Windows.MainWindow.deviceControl.devList.Count; i++)
                     {
-                        buttons = deviceControl.joyStick[i].CurrentJoystickState.GetButtons();
+                        buttons = Windows.MainWindow.deviceControl.joyStick[i].CurrentJoystickState.GetButtons();
                         for (int ii = 0; ii < 32; ii++)
                         {
-                            if (buttons[ii] == 128 && deviceControl.joyAssign[i].dx[ii].assign[0].GetCallback() == "SimHotasPinkyShift" && pressedByHand == false)
+                            if (buttons[ii] == 128 && Windows.MainWindow.deviceControl.joyAssign[i].dx[ii].assign[0].GetCallback() == "SimHotasPinkyShift" && pressedByHand == false)
                                 Select_PinkyShift.IsChecked = false;
-                            if (buttons[ii] == 0 && deviceControl.joyAssign[i].dx[ii].assign[0].GetCallback() == "SimHotasPinkyShift" && pressedByHand == false)
+                            if (buttons[ii] == 0 && Windows.MainWindow.deviceControl.joyAssign[i].dx[ii].assign[0].GetCallback() == "SimHotasPinkyShift" && pressedByHand == false)
                                 Select_PinkyShift.IsChecked = true;
 
                             if (buttons[ii] == neutralButtons[i].buttons[ii])
@@ -193,7 +196,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                             else
                                 Select_DX_Release.IsChecked = true;
 
-                            if (deviceControl.joyAssign[i].dx[ii].assign[0].GetCallback() == "SimHotasPinkyShift" && pressedByHand == false)
+                            if (Windows.MainWindow.deviceControl.joyAssign[i].dx[ii].assign[0].GetCallback() == "SimHotasPinkyShift" && pressedByHand == false)
                                 continue;
 
                             Pinky pinkyStatus = Pinky.UnShift;
@@ -203,15 +206,15 @@ namespace FalconBMS_Alternative_Launcher_Cs
                             if (Select_DX_Release.IsChecked == false)
                                 behaviourStatus = Behaviour.Release;
 
-                            target = deviceControl.joyAssign[i].dx[ii].assign[(int)pinkyStatus + (int)behaviourStatus].GetCallback();
+                            target = Windows.MainWindow.deviceControl.joyAssign[i].dx[ii].assign[(int)pinkyStatus + (int)behaviourStatus].GetCallback();
                             if (target == "SimDoNothing" && behaviourStatus == Behaviour.Release)
                             { }
                             else
                             {
-                                Label_AssgnStatus.Content = "DX" + (ii + 1) + "\t: " + deviceControl.joyAssign[i].GetProductName();
+                                Label_AssgnStatus.Content = "DX" + (ii + 1) + "\t: " + Windows.MainWindow.deviceControl.joyAssign[i].GetProductName();
                             }
                         }
-                        povs = deviceControl.joyStick[i].CurrentJoystickState.GetPointOfView();
+                        povs = Windows.MainWindow.deviceControl.joyStick[i].CurrentJoystickState.GetPointOfView();
                         for (int ii = 0; ii < 4; ii++)
                         {
                             if (povs[ii] == neutralButtons[i].povs[ii])
@@ -224,10 +227,10 @@ namespace FalconBMS_Alternative_Launcher_Cs
                             if (Select_PinkyShift.IsChecked == false)
                                 pinkyStatus = Pinky.Shift;
 
-                            target = deviceControl.joyAssign[i].pov[ii].direction[povs[ii] / 4500].GetCallback(pinkyStatus);
+                            target = Windows.MainWindow.deviceControl.joyAssign[i].pov[ii].direction[povs[ii] / 4500].GetCallback(pinkyStatus);
 
-                            string direction = deviceControl.joyAssign[i].pov[ii].GetDirection(povs[ii]);
-                            Label_AssgnStatus.Content = "POV" + (ii + 1) + "." + direction + "\t: " + deviceControl.joyAssign[i].GetProductName();
+                            string direction = Windows.MainWindow.deviceControl.joyAssign[i].pov[ii].GetDirection(povs[ii]);
+                            Label_AssgnStatus.Content = "POV" + (ii + 1) + "." + direction + "\t: " + Windows.MainWindow.deviceControl.joyAssign[i].GetProductName();
                         }
                     }
                     break;
@@ -237,7 +240,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             if (target == "SimDoNothing")
                 return;
             // If the key assignment was found, jump to the mapping for it and highlight it.
-            KeyAssgn key = keyFile.keyAssign.FirstOrDefault(x => x.GetCallback() == target);
+            KeyAssgn key = Enumerable.FirstOrDefault<KeyAssgn>(keyFile.keyAssign, x => x.GetCallback() == target);
             if (key != null)
             {
                 Label_AssgnStatus.Content += "   / " + key.Mapping;
@@ -302,7 +305,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             Label_AssgnStatus.Content = "INPUT " + keytmp.GetKeyAssignmentStatus();
 
             // If the key assignment was found, jump to the mapping for it and highlight it.
-            KeyAssgn key = keyFile.keyAssign.FirstOrDefault(x => x.GetKeyAssignmentStatus() == keytmp.GetKeyAssignmentStatus());
+            KeyAssgn key = Enumerable.FirstOrDefault<KeyAssgn>(keyFile.keyAssign, x => x.GetKeyAssignmentStatus() == keytmp.GetKeyAssignmentStatus());
             if (key != null)
             {
                 Label_AssgnStatus.Content += "\t/" + key.Mapping;

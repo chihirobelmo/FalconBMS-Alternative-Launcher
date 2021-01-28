@@ -5,11 +5,11 @@ using System.Windows;
 // アセンブリに関する一般情報は以下の属性セットをとおして制御されます。
 // アセンブリに関連付けられている情報を変更するには、
 // これらの属性値を変更してください。
-[assembly: AssemblyTitle("FalconBMS Alternative Launcher Cs")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("FalconBMS Alternative Launcher")]
+[assembly: AssemblyDescription("Alternative Launcher for Falcon BMS.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("chihirobelmo")]
-[assembly: AssemblyProduct("FalconBMS Alternative Launcher Cs")]
+[assembly: AssemblyProduct("FalconBMS Alternative Launcher")]
 [assembly: AssemblyCopyright("chihirobelmo")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -49,5 +49,5 @@ using System.Windows;
 // すべての値を指定するか、次を使用してビルド番号とリビジョン番号を既定に設定できます
 // 既定値にすることができます:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.6.0.0")]
-[assembly: AssemblyFileVersion("1.6.0.0")]
+[assembly: AssemblyVersion("1.7.0.0")]
+[assembly: AssemblyFileVersion("1.7.0.0")]

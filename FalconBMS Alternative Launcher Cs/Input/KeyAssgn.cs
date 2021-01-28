@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Microsoft.DirectX.DirectInput;
 
-namespace FalconBMS_Alternative_Launcher_Cs
+namespace FalconBMS.Launcher.Input
 {
     public class KeyAssgn
     {
@@ -312,13 +308,13 @@ namespace FalconBMS_Alternative_Launcher_Cs
         public string ReadJoyAssignment(int joynum)
         {
             string ans = "";
-            if (MainWindow.deviceControl.joyAssign.Length <= joynum)
+            if (Windows.MainWindow.deviceControl.joyAssign.Length <= joynum)
                 return "";
-            ans = MainWindow.deviceControl.joyAssign[joynum].KeyMappingPreviewDX(this);
+            ans = Windows.MainWindow.deviceControl.joyAssign[joynum].KeyMappingPreviewDX(this);
             // PRIMARY DEVICE POV
             if (((InGameAxAssgn)MainWindow.inGameAxis["Roll"]).GetDeviceNumber() == joynum || ((InGameAxAssgn)MainWindow.inGameAxis["Throttle"]).GetDeviceNumber() == joynum)
             {
-                string tmp = MainWindow.deviceControl.joyAssign[joynum].KeyMappingPreviewPOV(this);
+                string tmp = Windows.MainWindow.deviceControl.joyAssign[joynum].KeyMappingPreviewPOV(this);
                 if (ans != "" & tmp != "")
                     ans += "\n";
                 ans += tmp;

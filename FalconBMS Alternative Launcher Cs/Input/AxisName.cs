@@ -1,4 +1,4 @@
-﻿namespace FalconBMS_Alternative_Launcher_Cs
+﻿namespace FalconBMS.Launcher.Input
 {
     public enum AxisName
     {
