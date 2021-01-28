@@ -33,13 +33,13 @@ namespace FalconBMS.Launcher.Input
 
         // Constructor
         public AxAssgn() { }
-        public AxAssgn(string axisName, InGameAxAssgn axisassign)
+        public AxAssgn(string axisName, InGameAxAssign axisassign)
         {
             this.axisName = axisName;
             assgnDate = DateTime.Now;
             invert = axisassign.GetInvert();
             saturation = axisassign.GetSaturation();
-            deadzone = axisassign.GetDeadzone();
+            deadzone = axisassign.GetDeadZone();
         }
         public AxAssgn(string axisName, DateTime assgnDate, bool invert, AxCurve saturation, AxCurve deadzone)
         {

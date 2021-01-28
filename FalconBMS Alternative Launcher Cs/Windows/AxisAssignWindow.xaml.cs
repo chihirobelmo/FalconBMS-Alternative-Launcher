@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 using FalconBMS.Launcher.Input;
 
@@ -13,12 +15,12 @@ namespace FalconBMS.Launcher.Windows
     /// </summary>
     public partial class AxisAssignWindow
     {
-        public AxisAssignWindow(InGameAxAssgn axisAssign, object sender)
+        public AxisAssignWindow(InGameAxAssign axisAssign, object sender)
         {
             InitializeComponent();
 
             this.axisAssign = axisAssign;
-            whoCalledWindow = ((System.Windows.Controls.Button)sender).Name;
+            whoCalledWindow = ((Button)sender).Name;
 
             devNumTmp = axisAssign.GetDeviceNumber();
             phyAxNumTmp = axisAssign.GetPhysicalNumber();
@@ -26,7 +28,7 @@ namespace FalconBMS.Launcher.Windows
             MouseWheel += Detect_MouseWheel;
         }
 
-        public static InGameAxAssgn ShowAxisAssignWindow(InGameAxAssgn axisAssign, object sender)
+        public static InGameAxAssign ShowAxisAssignWindow(InGameAxAssign axisAssign, object sender)
         {
             AxisAssignWindow ownWindow = new AxisAssignWindow(axisAssign, sender);
             ownWindow.ShowDialog();
@@ -34,16 +36,16 @@ namespace FalconBMS.Launcher.Windows
             return axisAssign;
         }
 
-        System.Windows.Threading.DispatcherTimer AxisDetectionTimer = new System.Windows.Threading.DispatcherTimer();
-        System.Diagnostics.Stopwatch sw = System.Diagnostics.Stopwatch.StartNew();
+        DispatcherTimer axisDetectionTimer = new DispatcherTimer();
+        Stopwatch sw = Stopwatch.StartNew();
 
-        private JoyAxisNeutralValue[] Joynum;
+        private JoyAxisNeutralValue[] joynum;
         public class JoyAxisNeutralValue
         {
-            public int[] NeutralValue = new int[8];
+            public int[] neutralValue = new int[8];
         }
 
-        private InGameAxAssgn axisAssign;
+        private InGameAxAssign axisAssign;
         private string whoCalledWindow;
 
         private int devNumTmp = -1;
@@ -51,9 +53,9 @@ namespace FalconBMS.Launcher.Windows
         private int invertNum;
         private int wheelValue;
 
-        const int MAXIN = 65536;
-        private int AB = MAXIN;
-        private int IDLE;
+        const int Maxin = 65536;
+        private int ab = Maxin;
+        private int idle;
 
         private Status status = Status.GetNeutralPosition;
 
@@ -67,17 +69,17 @@ namespace FalconBMS.Launcher.Windows
         private void AssignWindow_Loaded(object sender, RoutedEventArgs e)
         {
             // YAME 64 VERSION
-            if (MainWindow.FLG_YAME64)
+            if (MainWindow.flgYame64)
             {
                 Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
                 BackGroundImage.Opacity = 0;
             }
 
             Retry.Visibility = Visibility.Hidden;
-            SetAB.Visibility = Visibility.Hidden;
+            SetAb.Visibility = Visibility.Hidden;
             Idle.Visibility = Visibility.Hidden;
 
-            check_ABIDLE.Visibility = Visibility.Hidden;
+            CheckAbidle.Visibility = Visibility.Hidden;
 
             AxisName.Content = whoCalledWindow.Replace("_", " ");
 
@@ -110,14 +112,14 @@ namespace FalconBMS.Launcher.Windows
                     DirectionIncrease.Content = "Forward";
                     Invert.Visibility = Visibility.Collapsed;
                     DeadZone.Visibility = Visibility.Collapsed;
-                    Label_DeadZone.Visibility = Visibility.Collapsed;
+                    LabelDeadZone.Visibility = Visibility.Collapsed;
                     break;
                 case "Toe_Brake":
                 case "Toe_Brake_Right":
                     DirectionDecrease.Content = "Release";
                     DirectionIncrease.Content = "Apply";
                     DeadZone.Visibility = Visibility.Collapsed;
-                    Label_DeadZone.Visibility = Visibility.Collapsed;
+                    LabelDeadZone.Visibility = Visibility.Collapsed;
                     break;
                 case "Radar_Antenna_Elevation":
                     DirectionDecrease.Content = "Elevation Down";
@@ -142,7 +144,7 @@ namespace FalconBMS.Launcher.Windows
                     DirectionDecrease.Content = "Dark";
                     DirectionIncrease.Content = "Bright";
                     DeadZone.Visibility = Visibility.Collapsed;
-                    Label_DeadZone.Visibility = Visibility.Collapsed;
+                    LabelDeadZone.Visibility = Visibility.Collapsed;
                     break;
                 case "Intercom":
                 case "COMM_Channel_1":
@@ -153,19 +155,19 @@ namespace FalconBMS.Launcher.Windows
                     DirectionDecrease.Content = "Volume Down";
                     DirectionIncrease.Content = "Volume Up";
                     DeadZone.Visibility = Visibility.Collapsed;
-                    Label_DeadZone.Visibility = Visibility.Collapsed;
+                    LabelDeadZone.Visibility = Visibility.Collapsed;
                     break;
                 case "FOV":
                     DirectionDecrease.Content = "Narrow";
                     DirectionIncrease.Content = "Wide";
                     DeadZone.Visibility = Visibility.Collapsed;
-                    Label_DeadZone.Visibility = Visibility.Collapsed;
+                    LabelDeadZone.Visibility = Visibility.Collapsed;
                     break;
                 case "Camera_Distance":
                     DirectionDecrease.Content = "Close";
                     DirectionIncrease.Content = "Leave";
                     DeadZone.Visibility = Visibility.Collapsed;
-                    Label_DeadZone.Visibility = Visibility.Collapsed;
+                    LabelDeadZone.Visibility = Visibility.Collapsed;
                     break;
                 case "HSI_Course_Knob":
                 case "HSI_Heading_Knob":
@@ -173,16 +175,16 @@ namespace FalconBMS.Launcher.Windows
                     DirectionDecrease.Content = "Decrease";
                     DirectionIncrease.Content = "Increase";
                     DeadZone.Visibility = Visibility.Collapsed;
-                    Label_DeadZone.Visibility = Visibility.Collapsed;
+                    LabelDeadZone.Visibility = Visibility.Collapsed;
                     break;
             }
 
             AxisValueProgress.Value = 0;
             AxisValueProgress.Minimum = 0;
-            AxisValueProgress.Maximum = MAXIN;
+            AxisValueProgress.Maximum = Maxin;
 
             Saturation.SelectedIndex = (int)axisAssign.GetSaturation();
-            DeadZone.SelectedIndex = (int)axisAssign.GetDeadzone();
+            DeadZone.SelectedIndex = (int)axisAssign.GetDeadZone();
             Invert.IsChecked = axisAssign.GetInvert();
 
             if (axisAssign.GetDeviceNumber() > -1 | 
@@ -193,22 +195,22 @@ namespace FalconBMS.Launcher.Windows
                 Retry.Visibility = Visibility.Visible;
                 if (whoCalledWindow == "Throttle" | whoCalledWindow == "Throttle_Right")
                 {
-                    SetAB.Visibility = Visibility.Visible;
+                    SetAb.Visibility = Visibility.Visible;
                     Idle.Visibility = Visibility.Visible;
-                    AB = MainWindow.deviceControl.throttlePos.GetAB();
-                    IDLE = MainWindow.deviceControl.throttlePos.GetIDLE();
+                    ab = MainWindow.deviceControl.throttlePos.GetAb();
+                    idle = MainWindow.deviceControl.throttlePos.GetIdle();
                 }
             }
 
-            Joynum = new JoyAxisNeutralValue[MainWindow.deviceControl.devList.Count];
+            joynum = new JoyAxisNeutralValue[MainWindow.deviceControl.devList.Count];
             for (int i = 0; i < MainWindow.deviceControl.devList.Count; i++)
             {
-                Joynum[i] = new JoyAxisNeutralValue();
+                joynum[i] = new JoyAxisNeutralValue();
             }
 
-            AxisDetectionTimer.Tick += AxisDetectionTimerCode;
-            AxisDetectionTimer.Interval = new TimeSpan(0, 0, 0, 0, 16);
-            AxisDetectionTimer.Start();
+            axisDetectionTimer.Tick += AxisDetectionTimerCode;
+            axisDetectionTimer.Interval = new TimeSpan(0, 0, 0, 0, 16);
+            axisDetectionTimer.Start();
             
         }
 
@@ -218,7 +220,7 @@ namespace FalconBMS.Launcher.Windows
             {
                 for (int i = 0; i <= MainWindow.deviceControl.devList.Count - 1; i++)
                     for (int ii = 0; ii < 8; ii++)
-                        Joynum[i].NeutralValue[ii] = MainWindow.deviceControl.JoyAxisState(i, ii);
+                        joynum[i].neutralValue[ii] = MainWindow.deviceControl.JoyAxisState(i, ii);
                 status = Status.WaitInput;
                 AssignedJoystick.Content = "   AWAITING INPUTS";
                 sw.Start();
@@ -229,8 +231,8 @@ namespace FalconBMS.Launcher.Windows
                 {
                     for (int ii = 0; ii < 8; ii++)
                     {
-                        if (MainWindow.deviceControl.JoyAxisState(i, ii) < Joynum[i].NeutralValue[ii] + MAXIN / 4 &
-                            MainWindow.deviceControl.JoyAxisState(i, ii) > Joynum[i].NeutralValue[ii] - MAXIN / 4)
+                        if (MainWindow.deviceControl.JoyAxisState(i, ii) < joynum[i].neutralValue[ii] + Maxin / 4 &
+                            MainWindow.deviceControl.JoyAxisState(i, ii) > joynum[i].neutralValue[ii] - Maxin / 4)
                             continue;
                         devNumTmp = i;
                         phyAxNumTmp = ii;
@@ -240,10 +242,10 @@ namespace FalconBMS.Launcher.Windows
 
                         if (whoCalledWindow != "Throttle" & whoCalledWindow != "Throttle_Right")
                             continue;
-                        SetAB.Visibility = Visibility.Visible;
+                        SetAb.Visibility = Visibility.Visible;
                         Idle.Visibility = Visibility.Visible;
-                        AB = MainWindow.deviceControl.throttlePos.GetAB();
-                        IDLE = MainWindow.deviceControl.throttlePos.GetIDLE();
+                        ab = MainWindow.deviceControl.throttlePos.GetAb();
+                        idle = MainWindow.deviceControl.throttlePos.GetIdle();
                     }
                 }
                 if (sw.ElapsedMilliseconds > 1000)
@@ -286,11 +288,11 @@ namespace FalconBMS.Launcher.Windows
                 if (invertNum == 1)
                 {
                     AxisValueProgress.Minimum = 0;
-                    AxisValueProgress.Maximum = MAXIN;
+                    AxisValueProgress.Maximum = Maxin;
                 }
                 else
                 {
-                    AxisValueProgress.Minimum = -MAXIN;
+                    AxisValueProgress.Minimum = -Maxin;
                     AxisValueProgress.Maximum = 0;
                 }
 
@@ -315,18 +317,18 @@ namespace FalconBMS.Launcher.Windows
                 if (whoCalledWindow != "Throttle" & whoCalledWindow != "Throttle_Right")
                     return;
                 AxisValueProgress.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 0x38, 0x78, 0xA8));
-                check_ABIDLE.Visibility = Visibility.Hidden;
-                if (MAXIN + AxisValueProgress.Value < IDLE)
+                CheckAbidle.Visibility = Visibility.Hidden;
+                if (Maxin + AxisValueProgress.Value < idle)
                 {
                     AxisValueProgress.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 240, 0, 0));
-                    check_ABIDLE.Visibility = Visibility.Visible;
-                    check_ABIDLE.Content = "IDLE CUTOFF";
+                    CheckAbidle.Visibility = Visibility.Visible;
+                    CheckAbidle.Content = "IDLE CUTOFF";
                 }
-                if (MAXIN + AxisValueProgress.Value > AB)
+                if (Maxin + AxisValueProgress.Value > ab)
                 {
                     AxisValueProgress.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 0, 240, 0));
-                    check_ABIDLE.Visibility = Visibility.Visible;
-                    check_ABIDLE.Content = "AB";
+                    CheckAbidle.Visibility = Visibility.Visible;
+                    CheckAbidle.Content = "AB";
                 }
             }
         }
@@ -337,11 +339,11 @@ namespace FalconBMS.Launcher.Windows
             AssignedJoystick.Content = "   AWAITING INPUTS";
 
             AxisValueProgress.Minimum = 0;
-            AxisValueProgress.Maximum = MAXIN;
+            AxisValueProgress.Maximum = Maxin;
             AxisValueProgress.Value = 0;
 
             Retry.Visibility = Visibility.Hidden;
-            SetAB.Visibility = Visibility.Hidden;
+            SetAb.Visibility = Visibility.Hidden;
             Idle.Visibility = Visibility.Hidden;
 
             wheelValue = 0;
@@ -349,34 +351,47 @@ namespace FalconBMS.Launcher.Windows
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            if (status == Status.WaitInput)
+            switch (status)
             {
-                AxAssgn axisInfo = new AxAssgn();
-                axisAssign = new InGameAxAssgn(-1, -1, axisInfo);
-                if (whoCalledWindow == "Throttle" | whoCalledWindow == "Throttle_Right")
-                    MainWindow.deviceControl.throttlePos = new ThrottlePosition();
-            }
-            if (status == Status.ShowAxisStatus)
-            {
-                AxAssgn axisInfo = new AxAssgn();
-                axisAssign = new InGameAxAssgn(
+                case Status.WaitInput:
+                {
+                    AxAssgn axisInfo = new AxAssgn();
+                    axisAssign = new InGameAxAssign(-1, -1, axisInfo);
+                    if (whoCalledWindow == "Throttle" | whoCalledWindow == "Throttle_Right")
+                        MainWindow.deviceControl.throttlePos = new ThrottlePosition();
+
+                    break;
+                }
+                case Status.ShowAxisStatus:
+                {
+                    AxAssgn axisInfo = new AxAssgn();
+                    axisAssign = new InGameAxAssign(
                         devNumTmp, 
                         phyAxNumTmp, 
                         (bool)Invert.IsChecked, 
                         (AxCurve)DeadZone.SelectedIndex, 
                         (AxCurve)Saturation.SelectedIndex
                     );
-                if (whoCalledWindow == "Throttle" | whoCalledWindow == "Throttle_Right")
-                    MainWindow.deviceControl.throttlePos = new ThrottlePosition(AB,IDLE);
+                    if (whoCalledWindow == "Throttle" | whoCalledWindow == "Throttle_Right")
+                        MainWindow.deviceControl.throttlePos = new ThrottlePosition(ab,idle);
+
+                    break;
+                }
+                case Status.GetNeutralPosition:
+                    // TODO: Handle Neutral Position Status.
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
-            AxisDetectionTimer.Stop();
+
+            axisDetectionTimer.Stop();
             sw.Stop();
             Close();
         }
 
         private void AssignWindow_Closed(object sender, EventArgs e)
         {
-            AxisDetectionTimer.Stop();
+            axisDetectionTimer.Stop();
             sw.Stop();
         }
 
@@ -424,22 +439,22 @@ namespace FalconBMS.Launcher.Windows
         {
             if (status != Status.ShowAxisStatus)
                 return;
-            int ABposition;
-            ABposition = MAXIN - MainWindow.deviceControl.JoyAxisState(devNumTmp, phyAxNumTmp);
-            if (MainWindow.deviceControl.JoyAxisState(devNumTmp, phyAxNumTmp) > MAXIN)
-                ABposition = MAXIN;
-            AB = ABposition;
+            int aBposition;
+            aBposition = Maxin - MainWindow.deviceControl.JoyAxisState(devNumTmp, phyAxNumTmp);
+            if (MainWindow.deviceControl.JoyAxisState(devNumTmp, phyAxNumTmp) > Maxin)
+                aBposition = Maxin;
+            ab = aBposition;
         }
 
         private void SetIDLE_Click(object sender, RoutedEventArgs e)
         {
             if (status != Status.ShowAxisStatus)
                 return;
-            int IDLEposition;
-            IDLEposition = MAXIN - MainWindow.deviceControl.JoyAxisState(devNumTmp, phyAxNumTmp);
+            int idlEposition;
+            idlEposition = Maxin - MainWindow.deviceControl.JoyAxisState(devNumTmp, phyAxNumTmp);
             if (MainWindow.deviceControl.JoyAxisState(devNumTmp, phyAxNumTmp) < 0)
-                IDLEposition = 0;
-            IDLE = IDLEposition;
+                idlEposition = 0;
+            idle = idlEposition;
         }
         
         private void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e)

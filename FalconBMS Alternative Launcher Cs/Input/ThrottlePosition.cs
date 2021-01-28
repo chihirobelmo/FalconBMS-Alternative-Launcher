@@ -3,23 +3,23 @@
     public class ThrottlePosition
     {
         // Member
-        protected int aB = MainWindow.MAXIN;
-        protected int iDLE;
+        protected int aB = MainWindow.Maxin;
+        protected int iDle;
 
         // Property for XML
-        public int AB { get => aB;
+        public int Ab { get => aB;
             set => aB = value;
         }
-        public int IDLE { get => iDLE;
-            set => iDLE = value;
+        public int Idle { get => iDle;
+            set => iDle = value;
         }
 
         // Constructor
-        public ThrottlePosition(int aB, int iDLE) { this.aB = aB; this.iDLE = iDLE; }
+        public ThrottlePosition(int aB, int iDle) { this.aB = aB; this.iDle = iDle; }
         public ThrottlePosition() { }
 
         // Method
-        public int GetAB() { return aB; }
-        public int GetIDLE() { return iDLE; }
+        public int GetAb() { return aB; }
+        public int GetIdle() { return iDle; }
     }
 }

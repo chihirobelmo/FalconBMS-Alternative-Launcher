@@ -23,12 +23,12 @@ namespace FalconBMS.Launcher.Input
         /// </summary>
         public void WriteDataGrid()
         {
-            foreach (KeyAssgn Assgn in keyFile.keyAssign)
-                Assgn.Visibility = Assgn.GetVisibility();
+            foreach (KeyAssign assgn in keyFile.keyAssign)
+                assgn.Visibility = assgn.GetVisibility();
 
             //string target = "MFD";
 
-            //foreach (KeyAssgn Assgn in keyFile.keyAssign)
+            //foreach (KeyAssign Assgn in keyFile.keyAssign)
             //{
             //    if (Assgn.Mapping.Trim().Contains(target))
             //        Assgn.Visibility = Assgn.GetVisibility();
@@ -87,7 +87,7 @@ namespace FalconBMS.Launcher.Input
         {
             KeyMappingTimer.Stop();
 
-            KeyAssgn selectedItem = (KeyAssgn)KeyMappingGrid.SelectedItem;
+            KeyAssign selectedItem = (KeyAssign)KeyMappingGrid.SelectedItem;
             if (selectedItem == null)
                 return;
             if (KeyMappingGrid.CurrentColumn == null)
@@ -113,13 +113,13 @@ namespace FalconBMS.Launcher.Input
         /// </summary>
         public class NeutralButtons
         {
-            public byte[] buttons { get; set; }
-            public int[] povs { get; set; }
+            public byte[] Buttons { get; set; }
+            public int[] Povs { get; set; }
 
             public NeutralButtons(Device joyStick)
             {
-                buttons = joyStick.CurrentJoystickState.GetButtons();
-                povs = joyStick.CurrentJoystickState.GetPointOfView();
+                Buttons = joyStick.CurrentJoystickState.GetButtons();
+                Povs = joyStick.CurrentJoystickState.GetPointOfView();
             }
         }
         
@@ -189,7 +189,7 @@ namespace FalconBMS.Launcher.Input
                             if (buttons[ii] == 0 && Windows.MainWindow.deviceControl.joyAssign[i].dx[ii].assign[0].GetCallback() == "SimHotasPinkyShift" && pressedByHand == false)
                                 Select_PinkyShift.IsChecked = true;
 
-                            if (buttons[ii] == neutralButtons[i].buttons[ii])
+                            if (buttons[ii] == neutralButtons[i].Buttons[ii])
                                 continue;
                             statusAssign = Status.GetNeutralPos;
                             if (buttons[ii] == 0) // RELEASE SHIFT
@@ -218,7 +218,7 @@ namespace FalconBMS.Launcher.Input
                         povs = Windows.MainWindow.deviceControl.joyStick[i].CurrentJoystickState.GetPointOfView();
                         for (int ii = 0; ii < 4; ii++)
                         {
-                            if (povs[ii] == neutralButtons[i].povs[ii])
+                            if (povs[ii] == neutralButtons[i].Povs[ii])
                                 continue;
                             statusAssign = Status.GetNeutralPos;
                             if (povs[ii] == -1)
@@ -241,7 +241,7 @@ namespace FalconBMS.Launcher.Input
             if (target == "SimDoNothing")
                 return;
             // If the key assignment was found, jump to the mapping for it and highlight it.
-            KeyAssgn key = Enumerable.FirstOrDefault<KeyAssgn>(keyFile.keyAssign, x => x.GetCallback() == target);
+            KeyAssign key = Enumerable.FirstOrDefault<KeyAssign>(keyFile.keyAssign, x => x.GetCallback() == target);
             if (key != null)
             {
                 Label_AssgnStatus.Content += "   / " + key.Mapping;
@@ -263,9 +263,9 @@ namespace FalconBMS.Launcher.Input
             if (SearchBox.IsKeyboardFocused)
                 return;
 
-            bool Shift = false;
-            bool Ctrl = false;
-            bool Alt = false;
+            bool shift = false;
+            bool ctrl = false;
+            bool alt = false;
 
             int catchedScanCode = 0;
 
@@ -278,19 +278,19 @@ namespace FalconBMS.Launcher.Input
                     if (i == (int)Microsoft.DirectX.DirectInput.Key.LeftShift |
                         i == (int)Microsoft.DirectX.DirectInput.Key.RightShift)
                     {
-                        Shift = true;
+                        shift = true;
                         continue;
                     }
                     if (i == (int)Microsoft.DirectX.DirectInput.Key.LeftControl |
                         i == (int)Microsoft.DirectX.DirectInput.Key.RightControl)
                     {
-                        Ctrl = true;
+                        ctrl = true;
                         continue;
                     }
                     if (i == (int)Microsoft.DirectX.DirectInput.Key.LeftAlt |
                         i == (int)Microsoft.DirectX.DirectInput.Key.RightAlt)
                     {
-                        Alt = true;
+                        alt = true;
                         continue;
                     }
                     catchedScanCode = i;
@@ -301,12 +301,12 @@ namespace FalconBMS.Launcher.Input
             if (Select_PinkyShift.IsChecked == false)
                 return;
 
-            KeyAssgn keytmp = new KeyAssgn("SimDoNothing - 1 0 0XFFFFFFFF 0 0 0 - 1 \"nothing\"");
-            keytmp.SetKeyboard(catchedScanCode, Shift, Ctrl, Alt);
+            KeyAssign keytmp = new KeyAssign("SimDoNothing - 1 0 0XFFFFFFFF 0 0 0 - 1 \"nothing\"");
+            keytmp.SetKeyboard(catchedScanCode, shift, ctrl, alt);
             Label_AssgnStatus.Content = "INPUT " + keytmp.GetKeyAssignmentStatus();
 
             // If the key assignment was found, jump to the mapping for it and highlight it.
-            KeyAssgn key = Enumerable.FirstOrDefault<KeyAssgn>(keyFile.keyAssign, x => x.GetKeyAssignmentStatus() == keytmp.GetKeyAssignmentStatus());
+            KeyAssign key = Enumerable.FirstOrDefault<KeyAssign>(keyFile.keyAssign, x => x.GetKeyAssignmentStatus() == keytmp.GetKeyAssignmentStatus());
             if (key != null)
             {
                 Label_AssgnStatus.Content += "\t/" + key.Mapping;
@@ -416,7 +416,7 @@ namespace FalconBMS.Launcher.Input
             }
 
             int i = 0;
-            foreach (KeyAssgn keys in keyFile.keyAssign)
+            foreach (KeyAssign keys in keyFile.keyAssign)
             {
                 if (keys.Mapping.Trim() == target)
                 {
@@ -442,7 +442,7 @@ namespace FalconBMS.Launcher.Input
             // Enable the category selector only if there's no search filter active.
             Category.IsEnabled = isFilterEmpty;
 
-            KeyMappingGrid.Items.Filter = x => isFilterEmpty || ((KeyAssgn) x).Mapping.Trim().ToLower().Contains(filter);
+            KeyMappingGrid.Items.Filter = x => isFilterEmpty || ((KeyAssign) x).Mapping.Trim().ToLower().Contains(filter);
         }
     }
 }

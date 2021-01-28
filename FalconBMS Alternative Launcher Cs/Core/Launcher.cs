@@ -16,46 +16,46 @@ namespace FalconBMS.Launcher.Core
             this.mainWindow = mainWindow;
         }
 
-        public virtual void execute(object sender) { }
+        public virtual void Execute(object sender) { }
 
-        public virtual string getCommandLine() { return ""; }
+        public virtual string GetCommandLine() { return ""; }
     }
 
     public class Launcher432 : Launcher
     {
         public Launcher432(AppRegInfo appReg, MainWindow mainWindow) : base(appReg, mainWindow)
         {
-            mainWindow.Misc_Platform.IsChecked = false;
-            mainWindow.Misc_Platform.Visibility = Visibility.Hidden;
-            mainWindow.Label_Platform.Content = "Platform : BMS 4.32 is 32-bit appreciation.";
+            mainWindow.MiscPlatform.IsChecked = false;
+            mainWindow.MiscPlatform.Visibility = Visibility.Hidden;
+            mainWindow.LabelPlatform.Content = "Platform : BMS 4.32 is 32-bit appreciation.";
 
-            mainWindow.Launch_AVC.Visibility = Visibility.Hidden;
-            mainWindow.Label_AVC.Visibility = Visibility.Hidden;
+            mainWindow.LaunchAvc.Visibility = Visibility.Hidden;
+            mainWindow.LabelAvc.Visibility = Visibility.Hidden;
 
-            mainWindow.Name_FLIR_Brightness.Visibility = Visibility.Hidden;
-            mainWindow.Label_FLIR_Brightness.Visibility = Visibility.Hidden;
-            mainWindow.Axis_FLIR_Brightness.Visibility = Visibility.Hidden;
-            mainWindow.FLIR_Brightness.Visibility = Visibility.Hidden;
+            mainWindow.NameFlirBrightness.Visibility = Visibility.Hidden;
+            mainWindow.LabelFlirBrightness.Visibility = Visibility.Hidden;
+            mainWindow.AxisFlirBrightness.Visibility = Visibility.Hidden;
+            mainWindow.FlirBrightness.Visibility = Visibility.Hidden;
 
-            mainWindow.Name_AI_vs_IVC.Visibility = Visibility.Hidden;
-            mainWindow.Label_AI_vs_IVC.Visibility = Visibility.Hidden;
-            mainWindow.Axis_AI_vs_IVC.Visibility = Visibility.Hidden;
-            mainWindow.AI_vs_IVC.Visibility = Visibility.Hidden;
+            mainWindow.NameAiVsIvc.Visibility = Visibility.Hidden;
+            mainWindow.LabelAiVsIvc.Visibility = Visibility.Hidden;
+            mainWindow.AxisAiVsIvc.Visibility = Visibility.Hidden;
+            mainWindow.AiVsIvc.Visibility = Visibility.Hidden;
 
-            mainWindow.Tab_HSI_and_Altimeter.Visibility = Visibility.Collapsed;
-            mainWindow.Misc_NaturalHeadMovement.Visibility = Visibility.Collapsed;
+            mainWindow.TabHsiAndAltimeter.Visibility = Visibility.Collapsed;
+            mainWindow.MiscNaturalHeadMovement.Visibility = Visibility.Collapsed;
         }
 
-        public override void execute(object sender)
+        public override void Execute(object sender)
         {
             System.Diagnostics.Process process;
             switch (((System.Windows.Controls.Button)sender).Name)
             {
                 case "Launch_BMS":
-                    string strCmdText = getCommandLine();
+                    string strCmdText = GetCommandLine();
 
                     // OVERRIDE SETTINGS.
-                    mainWindow.executeOverride();
+                    mainWindow.ExecuteOverride();
 
                     string appPlatform = appReg.GetInstallDir() + "/Bin/x86/Falcon BMS.exe";
                     process = System.Diagnostics.Process.Start(appPlatform, strCmdText);
@@ -63,7 +63,7 @@ namespace FalconBMS.Launcher.Core
                     break;
                 case "Launch_CFG":
                     process = System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Config.exe");
-                    mainWindow.minimizeWindowUntilProcessEnds(process);
+                    mainWindow.MinimizeWindowUntilProcessEnds(process);
                     break;
                 case "Launch_DISX":
                     System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Bin/x86/Display Extraction.exe");
@@ -83,20 +83,20 @@ namespace FalconBMS.Launcher.Core
             }
         }
 
-        public override string getCommandLine()
+        public override string GetCommandLine()
         {
             string strCmdText = "";
-            if (mainWindow.CMD_ACMI.IsChecked == false)
+            if (mainWindow.CmdAcmi.IsChecked == false)
                 strCmdText += "-acmi ";
-            if (mainWindow.CMD_WINDOW.IsChecked == false)
+            if (mainWindow.CmdWindow.IsChecked == false)
                 strCmdText += "-window ";
-            if (mainWindow.CMD_NOMOVIE.IsChecked == false)
+            if (mainWindow.CmdNomovie.IsChecked == false)
                 strCmdText += "-nomovie ";
-            if (mainWindow.CMD_EF.IsChecked == false)
+            if (mainWindow.CmdEf.IsChecked == false)
                 strCmdText += "-ef ";
-            if (mainWindow.CMD_MONO.IsChecked == false)
+            if (mainWindow.CmdMono.IsChecked == false)
                 strCmdText += "-mono ";
-            strCmdText += "-bw " + mainWindow.getBWValue();
+            strCmdText += "-bw " + mainWindow.GetBwValue();
             return strCmdText;
         }
     }
@@ -105,29 +105,29 @@ namespace FalconBMS.Launcher.Core
     {
         public Launcher433(AppRegInfo appReg, MainWindow mainWindow) : base(appReg, mainWindow)
         {
-            mainWindow.Tab_HSI_and_Altimeter.Visibility = Visibility.Collapsed;
-            mainWindow.Misc_NaturalHeadMovement.Visibility = Visibility.Collapsed;
+            mainWindow.TabHsiAndAltimeter.Visibility = Visibility.Collapsed;
+            mainWindow.MiscNaturalHeadMovement.Visibility = Visibility.Collapsed;
         }
 
-        public override void execute(object sender)
+        public override void Execute(object sender)
         {
             System.Diagnostics.Process process;
             switch (((System.Windows.Controls.Button)sender).Name)
             {
                 case "Launch_BMS":
-                    string strCmdText = getCommandLine();
+                    string strCmdText = GetCommandLine();
 
                     // OVERRIDE SETTINGS.
-                    mainWindow.executeOverride();
+                    mainWindow.ExecuteOverride();
 
                     string appPlatform = "";
-                    if (mainWindow.Misc_Platform.IsChecked == true)
+                    if (mainWindow.MiscPlatform.IsChecked == true)
                         appPlatform = appReg.GetInstallDir() + "/Bin/x64/Falcon BMS.exe";
                     else
                         appPlatform = appReg.GetInstallDir() + "/Bin/x86/Falcon BMS.exe";
                     if (File.Exists(appPlatform) == false)
                     {
-                        mainWindow.Misc_Platform.IsChecked = false;
+                        mainWindow.MiscPlatform.IsChecked = false;
                         appPlatform = appReg.GetInstallDir() + "/Bin/x86/Falcon BMS.exe";
                         return;
                     }
@@ -138,7 +138,7 @@ namespace FalconBMS.Launcher.Core
                     break;
                 case "Launch_CFG":
                     process = System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Config.exe");
-                    mainWindow.minimizeWindowUntilProcessEnds(process);
+                    mainWindow.MinimizeWindowUntilProcessEnds(process);
                     break;
                 case "Launch_DISX":
                     System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Bin/x86/Display Extraction.exe");
@@ -160,20 +160,20 @@ namespace FalconBMS.Launcher.Core
             }
         }
 
-        public override string getCommandLine()
+        public override string GetCommandLine()
         {
             string strCmdText = "";
-            if (mainWindow.CMD_ACMI.IsChecked == false)
+            if (mainWindow.CmdAcmi.IsChecked == false)
                 strCmdText += "-acmi ";
-            if (mainWindow.CMD_WINDOW.IsChecked == false)
+            if (mainWindow.CmdWindow.IsChecked == false)
                 strCmdText += "-window ";
-            if (mainWindow.CMD_NOMOVIE.IsChecked == false)
+            if (mainWindow.CmdNomovie.IsChecked == false)
                 strCmdText += "-nomovie ";
-            if (mainWindow.CMD_EF.IsChecked == false)
+            if (mainWindow.CmdEf.IsChecked == false)
                 strCmdText += "-ef ";
-            if (mainWindow.CMD_MONO.IsChecked == false)
+            if (mainWindow.CmdMono.IsChecked == false)
                 strCmdText += "-mono ";
-            strCmdText += "-bw " + mainWindow.getBWValue();
+            strCmdText += "-bw " + mainWindow.GetBwValue();
             return strCmdText;
         }
     }
@@ -182,23 +182,23 @@ namespace FalconBMS.Launcher.Core
     {
         public Launcher434(AppRegInfo appReg, MainWindow mainWindow) : base(appReg, mainWindow)
         {
-            mainWindow.Misc_Platform.IsChecked = true;
-            mainWindow.Misc_Platform.Visibility = Visibility.Hidden;
-            mainWindow.Label_Platform.Content = "Platform : BMS 4.34 is 64-bit appreciation.";
+            mainWindow.MiscPlatform.IsChecked = true;
+            mainWindow.MiscPlatform.Visibility = Visibility.Hidden;
+            mainWindow.LabelPlatform.Content = "Platform : BMS 4.34 is 64-bit appreciation.";
 
-            mainWindow.CMD_BW.Visibility = Visibility.Hidden;
+            mainWindow.CmdBw.Visibility = Visibility.Hidden;
         }
 
-        public override void execute(object sender)
+        public override void Execute(object sender)
         {
             System.Diagnostics.Process process;
             switch (((System.Windows.Controls.Button)sender).Name)
             {
                 case "Launch_BMS":
-                    string strCmdText = getCommandLine();
+                    string strCmdText = GetCommandLine();
 
                     // OVERRIDE SETTINGS.
-                    mainWindow.executeOverride();
+                    mainWindow.ExecuteOverride();
                         
                     string appPlatform = appReg.GetInstallDir() + "/Bin/x64/Falcon BMS.exe";
                     process = System.Diagnostics.Process.Start(appPlatform, strCmdText);
@@ -206,7 +206,7 @@ namespace FalconBMS.Launcher.Core
                     break;
                 case "Launch_CFG":
                     process = System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Config.exe");
-                    mainWindow.minimizeWindowUntilProcessEnds(process);
+                    mainWindow.MinimizeWindowUntilProcessEnds(process);
                     break;
                 case "Launch_DISX":
                     System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Bin/x86/Display Extraction.exe");
@@ -228,18 +228,18 @@ namespace FalconBMS.Launcher.Core
             }
         }
 
-        public override string getCommandLine()
+        public override string GetCommandLine()
         {
             string strCmdText = "";
-            if (mainWindow.CMD_ACMI.IsChecked == false)
+            if (mainWindow.CmdAcmi.IsChecked == false)
                 strCmdText += "-acmi ";
-            if (mainWindow.CMD_WINDOW.IsChecked == false)
+            if (mainWindow.CmdWindow.IsChecked == false)
                 strCmdText += "-window ";
-            if (mainWindow.CMD_NOMOVIE.IsChecked == false)
+            if (mainWindow.CmdNomovie.IsChecked == false)
                 strCmdText += "-nomovie ";
-            if (mainWindow.CMD_EF.IsChecked == false)
+            if (mainWindow.CmdEf.IsChecked == false)
                 strCmdText += "-ef ";
-            if (mainWindow.CMD_MONO.IsChecked == false)
+            if (mainWindow.CmdMono.IsChecked == false)
                 strCmdText += "-mono ";
             return strCmdText;
         }
@@ -249,26 +249,26 @@ namespace FalconBMS.Launcher.Core
     {
         public Launcher435(AppRegInfo appReg, MainWindow mainWindow) : base(appReg, mainWindow)
         {
-            mainWindow.Misc_Platform.IsChecked = true;
-            mainWindow.Misc_Platform.Visibility = Visibility.Hidden;
-            mainWindow.Label_Platform.Content = "Platform : BMS 4.35 is 64-bit appreciation.";
+            mainWindow.MiscPlatform.IsChecked = true;
+            mainWindow.MiscPlatform.Visibility = Visibility.Hidden;
+            mainWindow.LabelPlatform.Content = "Platform : BMS 4.35 is 64-bit appreciation.";
 
-            mainWindow.Launch_DISX.Visibility = Visibility.Hidden;
-            mainWindow.Label_DISX.Visibility  = Visibility.Hidden;
+            mainWindow.LaunchDisx.Visibility = Visibility.Hidden;
+            mainWindow.LabelDisx.Visibility  = Visibility.Hidden;
 
-            mainWindow.CMD_BW.Visibility = Visibility.Hidden;
+            mainWindow.CmdBw.Visibility = Visibility.Hidden;
         }
 
-        public override void execute(object sender)
+        public override void Execute(object sender)
         {
             System.Diagnostics.Process process;
             switch (((System.Windows.Controls.Button)sender).Name)
             {
                 case "Launch_BMS":
-                    string strCmdText = getCommandLine();
+                    string strCmdText = GetCommandLine();
 
                     // OVERRIDE SETTINGS.
-                    mainWindow.executeOverride();
+                    mainWindow.ExecuteOverride();
 
                     string appPlatform = appReg.GetInstallDir() + "/Bin/x64/Falcon BMS.exe";
                     process = System.Diagnostics.Process.Start(appPlatform, strCmdText);
@@ -276,7 +276,7 @@ namespace FalconBMS.Launcher.Core
                     break;
                 case "Launch_CFG":
                     process = System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Config.exe");
-                    mainWindow.minimizeWindowUntilProcessEnds(process);
+                    mainWindow.MinimizeWindowUntilProcessEnds(process);
                     break;
                 case "Launch_DISX":
                     System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Bin/x86/Display Extraction.exe");
@@ -298,18 +298,18 @@ namespace FalconBMS.Launcher.Core
             }
         }
 
-        public override string getCommandLine()
+        public override string GetCommandLine()
         {
             string strCmdText = "";
-            if (mainWindow.CMD_ACMI.IsChecked == false)
+            if (mainWindow.CmdAcmi.IsChecked == false)
                 strCmdText += "-acmi ";
-            if (mainWindow.CMD_WINDOW.IsChecked == false)
+            if (mainWindow.CmdWindow.IsChecked == false)
                 strCmdText += "-window ";
-            if (mainWindow.CMD_NOMOVIE.IsChecked == false)
+            if (mainWindow.CmdNomovie.IsChecked == false)
                 strCmdText += "-nomovie ";
-            if (mainWindow.CMD_EF.IsChecked == false)
+            if (mainWindow.CmdEf.IsChecked == false)
                 strCmdText += "-ef ";
-            if (mainWindow.CMD_MONO.IsChecked == false)
+            if (mainWindow.CmdMono.IsChecked == false)
                 strCmdText += "-mono ";
             return strCmdText;
         }

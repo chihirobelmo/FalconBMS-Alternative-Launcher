@@ -12,7 +12,7 @@ namespace FalconBMS.Launcher.Input
         // Member
         public DeviceList devList;
         public Device[] joyStick;
-        public JoyAssgn[] joyAssign;
+        public JoyAssign[] joyAssign;
         public AxAssgn mouseWheelAssign = new AxAssgn();
         public ThrottlePosition throttlePos = new ThrottlePosition();
 
@@ -31,7 +31,7 @@ namespace FalconBMS.Launcher.Input
             // Make Joystick Instances.
             devList = Manager.GetDevices(DeviceClass.GameControl, EnumDevicesFlags.AttachedOnly);
             joyStick = new Device[devList.Count];
-            joyAssign = new JoyAssgn[devList.Count];
+            joyAssign = new JoyAssign[devList.Count];
 
             System.Xml.Serialization.XmlSerializer serializer;
             StreamReader sr;
@@ -42,21 +42,21 @@ namespace FalconBMS.Launcher.Input
             foreach (DeviceInstance dev in devList)
             {
                 joyStick[i] = new Device(dev.InstanceGuid);
-                joyAssign[i] = new JoyAssgn();
+                joyAssign[i] = new JoyAssign();
 
                 joyAssign[i].SetDeviceInstance(dev);
                 int povnum = joyStick[i].Caps.NumberPointOfViews;
                 joyStick.Count();
 
                 fileName = appReg.GetInstallDir() + "/User/Config/Setup.v100." + joyAssign[i].GetProductName().Replace("/", "-")
-                + " {" + joyAssign[i].GetInstanceGUID().ToString().ToUpper() + "}.xml";
+                + " {" + joyAssign[i].GetInstanceGuid().ToString().ToUpper() + "}.xml";
 
                 // Load exsisting .xml files.
                 if (File.Exists(fileName))
                 {
-                    serializer = new System.Xml.Serialization.XmlSerializer(typeof(JoyAssgn));
+                    serializer = new System.Xml.Serialization.XmlSerializer(typeof(JoyAssign));
                     sr = new StreamReader(fileName, new System.Text.UTF8Encoding(false));
-                    joyAssign[i] = (JoyAssgn)serializer.Deserialize(sr);
+                    joyAssign[i] = (JoyAssign)serializer.Deserialize(sr);
                     sr.Close();
                 }
                 else
@@ -67,9 +67,9 @@ namespace FalconBMS.Launcher.Input
                     {
                         File.Copy(stockFileName, fileName);
 
-                        serializer = new System.Xml.Serialization.XmlSerializer(typeof(JoyAssgn));
+                        serializer = new System.Xml.Serialization.XmlSerializer(typeof(JoyAssign));
                         sr = new StreamReader(fileName, new System.Text.UTF8Encoding(false));
-                        joyAssign[i] = (JoyAssgn)serializer.Deserialize(sr);
+                        joyAssign[i] = (JoyAssign)serializer.Deserialize(sr);
                         sr.Close();
                     }
                 }
@@ -83,7 +83,7 @@ namespace FalconBMS.Launcher.Input
                 for (int ii = 0; ii < joyAssign.Length; ii++)
                 {
                     fileName = appReg.GetInstallDir() + "/User/Config/Setup.v100." + joyAssign[ii].GetProductName().Replace("/", "-")
-                       + " {" + joyAssign[ii].GetInstanceGUID().ToString().ToUpper() + "}.xml";
+                       + " {" + joyAssign[ii].GetInstanceGuid().ToString().ToUpper() + "}.xml";
                     if (File.Exists(fileName) == false)
                         joyAssign[ii].ImportStockSetup(appReg, joyStick.Length, joyStick[ii].Caps.NumberPointOfViews, ii);
                 }

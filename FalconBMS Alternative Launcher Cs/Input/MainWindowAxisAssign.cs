@@ -24,32 +24,32 @@ namespace FalconBMS.Launcher.Input
             AxisName.Pitch,
             AxisName.Yaw,
             AxisName.Throttle,
-            AxisName.Throttle_Right,
-            AxisName.Toe_Brake,
-            AxisName.Toe_Brake_Right,
-            AxisName.Trim_Roll,
-            AxisName.Trim_Pitch,
-            AxisName.Trim_Yaw,
-            AxisName.Radar_Antenna_Elevation,
-            AxisName.Cursor_X,
-            AxisName.Cursor_Y,
-            AxisName.Range_Knob,
-            AxisName.HUD_Brightness,
-            AxisName.Reticle_Depression,
-            AxisName.HMS_Brightness,
-            AxisName.FLIR_Brightness,
+            AxisName.ThrottleRight,
+            AxisName.ToeBrake,
+            AxisName.ToeBrakeRight,
+            AxisName.TrimRoll,
+            AxisName.TrimPitch,
+            AxisName.TrimYaw,
+            AxisName.RadarAntennaElevation,
+            AxisName.CursorX,
+            AxisName.CursorY,
+            AxisName.RangeKnob,
+            AxisName.HudBrightness,
+            AxisName.ReticleDepression,
+            AxisName.HmsBrightness,
+            AxisName.FlirBrightness,
             AxisName.Intercom,
-            AxisName.COMM_Channel_1,
-            AxisName.COMM_Channel_2,
-            AxisName.MSL_Volume,
-            AxisName.Threat_Volume,
-            AxisName.AI_vs_IVC,
-            AxisName.FOV,
-            AxisName.Camera_Distance,
-            AxisName.HSI_Course_Knob,
-            AxisName.HSI_Heading_Knob,
-            AxisName.Altimeter_Knob,
-            AxisName.ILS_Volume_Knob
+            AxisName.CommChannel1,
+            AxisName.CommChannel2,
+            AxisName.MslVolume,
+            AxisName.ThreatVolume,
+            AxisName.AiVsIvc,
+            AxisName.Fov,
+            AxisName.CameraDistance,
+            AxisName.HsiCourseKnob,
+            AxisName.HsiHeadingKnob,
+            AxisName.AltimeterKnob,
+            AxisName.IlsVolumeKnob
         };
         
         /// <summary>
@@ -77,14 +77,14 @@ namespace FalconBMS.Launcher.Input
         /// <summary>
         /// MAX INPUT = 16bit
         /// </summary>
-        public const int MAXIN = 65536;
+        public const int Maxin = 65536;
 
         /// <summary>
         /// Checks and shows each device each axis inputs 60 times per seconds.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public async void AxisMovingTimer_Tick(object sender, EventArgs e)
+        public void AxisMovingTimer_Tick(object sender, EventArgs e)
         {
             try
             {
@@ -93,31 +93,32 @@ namespace FalconBMS.Launcher.Input
                 invertNum = 0;
                 foreach (AxisName nme in axisNameList)
                 {
-                    if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() == -1)
+                    if (((InGameAxAssign)inGameAxis[nme.ToString()]).GetDeviceNumber() == -1)
                         continue;
-                    tblabel = FindName("Label_" + nme) as Label;
-                    tbprogressbar = FindName("Axis_" + nme) as ProgressBar;
+
+                    tblabel = FrameworkElement.FindName("Label_" + nme) as Label;
+                    tbprogressbar = FrameworkElement.FindName("Axis_" + nme) as ProgressBar;
 
                     switch (nme)
                     {
                         case AxisName.Throttle:
-                        case AxisName.Throttle_Right:
-                        case AxisName.Toe_Brake:
-                        case AxisName.Toe_Brake_Right:
+                        case AxisName.ThrottleRight:
+                        case AxisName.ToeBrake:
+                        case AxisName.ToeBrakeRight:
                         case AxisName.Intercom:
-                        case AxisName.COMM_Channel_1:
-                        case AxisName.COMM_Channel_2:
-                        case AxisName.MSL_Volume:
-                        case AxisName.Threat_Volume:
-                        case AxisName.AI_vs_IVC:
-                        case AxisName.ILS_Volume_Knob:
-                            if (!((InGameAxAssgn)inGameAxis[nme.ToString()]).GetInvert())
+                        case AxisName.CommChannel1:
+                        case AxisName.CommChannel2:
+                        case AxisName.MslVolume:
+                        case AxisName.ThreatVolume:
+                        case AxisName.AiVsIvc:
+                        case AxisName.IlsVolumeKnob:
+                            if (!((InGameAxAssign)inGameAxis[nme.ToString()]).GetInvert())
                                 invertNum = -1;
                             else
                                 invertNum = 1;
                             break;
                         default:
-                            if (!((InGameAxAssgn)inGameAxis[nme.ToString()]).GetInvert())
+                            if (!((InGameAxAssign)inGameAxis[nme.ToString()]).GetInvert())
                                 invertNum = 1;
                             else
                                 invertNum = -1;
@@ -126,31 +127,31 @@ namespace FalconBMS.Launcher.Input
                     if (invertNum == 1)
                     {
                         tbprogressbar.Minimum = 0;
-                        tbprogressbar.Maximum = MAXIN;
+                        tbprogressbar.Maximum = Maxin;
                     }
                     else
                     {
-                        tbprogressbar.Minimum = -MAXIN;
+                        tbprogressbar.Minimum = -Maxin;
                         tbprogressbar.Maximum = 0;
                     }
 
-                    if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() == -2)
+                    if (((InGameAxAssign)inGameAxis[nme.ToString()]).GetDeviceNumber() == -2)
                     {
-                        tbprogressbar.Value = (MAXIN / 2 + wheelValue * 1024 / 120) * invertNum;
+                        tbprogressbar.Value = (Maxin / 2 + wheelValue * 1024 / 120) * invertNum;
                         tblabel.Content = "MOUSE : WH";
                         continue;
                     }
 
                     int output = ApplyDeadZone
                         (
-                            Windows.MainWindow.deviceControl.JoyAxisState(((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber(), ((InGameAxAssgn)inGameAxis[nme.ToString()]).GetPhysicalNumber()),
-                            ((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeadzone(),
-                            ((InGameAxAssgn)inGameAxis[nme.ToString()]).GetSaturation()
+                            Windows.MainWindow.deviceControl.JoyAxisState(((InGameAxAssign)inGameAxis[nme.ToString()]).GetDeviceNumber(), ((InGameAxAssign)inGameAxis[nme.ToString()]).GetPhysicalNumber()),
+                            ((InGameAxAssign)inGameAxis[nme.ToString()]).GetDeadZone(),
+                            ((InGameAxAssign)inGameAxis[nme.ToString()]).GetSaturation()
                         );
                     tbprogressbar.Value = output * invertNum;
 
-                    string joyActualName = Windows.MainWindow.deviceControl.joyStick[((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber()].DeviceInformation.InstanceName;
-                    string joyName = "JOY  " + ((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber();
+                    string joyActualName = Windows.MainWindow.deviceControl.joyStick[((InGameAxAssign)inGameAxis[nme.ToString()]).GetDeviceNumber()].DeviceInformation.InstanceName;
+                    string joyName = "JOY  " + ((InGameAxAssign)inGameAxis[nme.ToString()]).GetDeviceNumber();
 
                     if (joyActualName.Contains("Thrustmaster HOTAS Cougar"))
                         joyName = "HOTAS";
@@ -201,27 +202,27 @@ namespace FalconBMS.Launcher.Input
                     if (joyActualName.ToLower().Contains("ch ") && joyActualName.ToLower().Contains("pedals"))
                         joyName = "CHPPP";
 
-                    int axisNumber = ((InGameAxAssgn)inGameAxis[nme.ToString()]).GetPhysicalNumber();
+                    int axisNumber = ((InGameAxAssign)inGameAxis[nme.ToString()]).GetPhysicalNumber();
                     tblabel.Content = joyName + " : " + ((AxisNumName)axisNumber).ToString().Replace('_', ' ');
                     tblabel.Content = ((string)tblabel.Content).Replace("Axis ", "  ");
                     tblabel.Content = ((string)tblabel.Content).Replace("Rotation ", "R");
                     tblabel.Content = ((string)tblabel.Content).Replace("Slider 0", "S1");
                     tblabel.Content = ((string)tblabel.Content).Replace("Slider 1", "S2");
 
-                    if (nme != AxisName.Throttle & nme != AxisName.Throttle_Right)
+                    if (nme != AxisName.Throttle & nme != AxisName.ThrottleRight)
                         continue;
 
-                    tblabelab = FindName("AB_" + nme) as Label;
+                    tblabelab = FrameworkElement.FindName("AB_" + nme) as Label;
                     tblabelab.Visibility = Visibility.Hidden;
 
                     tbprogressbar.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 0x38, 0x78, 0xA8));
-                    if (MAXIN + tbprogressbar.Value < Windows.MainWindow.deviceControl.throttlePos.GetIDLE())
+                    if (Maxin + tbprogressbar.Value < Windows.MainWindow.deviceControl.throttlePos.GetIdle())
                     {
                         tbprogressbar.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 240, 0, 0));
                         tblabelab.Visibility = Visibility.Visible;
                         tblabelab.Content = "IDLE CUTOFF";
                     }
-                    if (MAXIN + tbprogressbar.Value > Windows.MainWindow.deviceControl.throttlePos.GetAB())
+                    if (Maxin + tbprogressbar.Value > Windows.MainWindow.deviceControl.throttlePos.GetAb())
                     {
                         tbprogressbar.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 0, 240, 0));
                         tblabelab.Visibility = Visibility.Visible;
@@ -260,20 +261,20 @@ namespace FalconBMS.Launcher.Input
             switch (deadzone)
             {
                 case AxCurve.None:
-                    x2 = MAXIN / 2;
-                    x3 = MAXIN / 2;
+                    x2 = Maxin / 2;
+                    x3 = Maxin / 2;
                     break;
                 case AxCurve.Small:
-                    x2 = MAXIN / 2 - MAXIN / 2 * 0.01;
-                    x3 = MAXIN / 2 + MAXIN / 2 * 0.01;
+                    x2 = Maxin / 2 - Maxin / 2 * 0.01;
+                    x3 = Maxin / 2 + Maxin / 2 * 0.01;
                     break;
                 case AxCurve.Medium:
-                    x2 = MAXIN / 2 - MAXIN / 2 * 0.05;
-                    x3 = MAXIN / 2 + MAXIN / 2 * 0.05;
+                    x2 = Maxin / 2 - Maxin / 2 * 0.05;
+                    x3 = Maxin / 2 + Maxin / 2 * 0.05;
                     break;
                 case AxCurve.Large:
-                    x2 = MAXIN / 2 - MAXIN / 2 * 0.1;
-                    x3 = MAXIN / 2 + MAXIN / 2 * 0.1;
+                    x2 = Maxin / 2 - Maxin / 2 * 0.1;
+                    x3 = Maxin / 2 + Maxin / 2 * 0.1;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(deadzone), deadzone, null); // TODO: Add error message to pass to console/logs here.
@@ -282,44 +283,44 @@ namespace FalconBMS.Launcher.Input
             {
                 case AxCurve.None:
                     x1 = 0;
-                    x4 = MAXIN;
+                    x4 = Maxin;
                     break;
                 case AxCurve.Small:
-                    x1 = 0 + MAXIN / 2 * 0.01;
-                    x4 = MAXIN - MAXIN / 2 * 0.01;
+                    x1 = 0 + Maxin / 2 * 0.01;
+                    x4 = Maxin - Maxin / 2 * 0.01;
                     break;
                 case AxCurve.Medium:
-                    x1 = 0 + MAXIN / 2 * 0.05;
-                    x4 = MAXIN - MAXIN / 2 * 0.05;
+                    x1 = 0 + Maxin / 2 * 0.05;
+                    x4 = Maxin - Maxin / 2 * 0.05;
                     break;
                 case AxCurve.Large:
-                    x1 = 0 + MAXIN / 2 * 0.1;
-                    x4 = MAXIN - MAXIN / 2 * 0.1;
+                    x1 = 0 + Maxin / 2 * 0.1;
+                    x4 = Maxin - Maxin / 2 * 0.1;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(saturation), saturation, null); // TODO: Add error message to pass to console/logs here.
             }
 
-            a1 = MAXIN / 2 / (x2 - x1);
+            a1 = Maxin / 2 / (x2 - x1);
             b1 = -a1 * x1;
-            a2 = MAXIN / 2 / (x4 - x3);
-            b2 = MAXIN / 2 - a2 * x3;
+            a2 = Maxin / 2 / (x4 - x3);
+            b2 = Maxin / 2 - a2 * x3;
 
-            if (input < MAXIN / 2)
+            if (input < Maxin / 2)
             {
                 y = a1 * x + b1;
                 if (y < 0)
                     y = 0;
-                if (y > MAXIN / 2)
-                    y = MAXIN / 2;
+                if (y > Maxin / 2)
+                    y = Maxin / 2;
             }
-            if (input >= MAXIN / 2)
+            if (input >= Maxin / 2)
             {
                 y = a2 * x + b2;
-                if (y < MAXIN / 2)
-                    y = MAXIN / 2;
-                if (y > MAXIN)
-                    y = MAXIN;
+                if (y < Maxin / 2)
+                    y = Maxin / 2;
+                if (y > Maxin)
+                    y = Maxin;
             }
 
             int output = (int)y;
@@ -335,11 +336,11 @@ namespace FalconBMS.Launcher.Input
         {
             AxisMovingTimer.Stop();
 
-            string whocalledwindow = ((System.Windows.Controls.Button)sender).Name;
+            string whocalledwindow = ((Button)sender).Name;
 
-            InGameAxAssgn axisAssign = new InGameAxAssgn();
+            InGameAxAssign axisAssign = new InGameAxAssign();
 
-            axisAssign = AxisAssignWindow.ShowAxisAssignWindow((InGameAxAssgn)inGameAxis[whocalledwindow], sender);
+            axisAssign = AxisAssignWindow.ShowAxisAssignWindow((InGameAxAssign)inGameAxis[whocalledwindow], sender);
 
             // Reset PhysicalAxis previously assigned to same axis
             // In case of axis has been unassigned and saved.
@@ -370,7 +371,7 @@ namespace FalconBMS.Launcher.Input
         public void joyAssign_2_inGameAxis()
         {
             foreach (AxisName nme in axisNameList)
-                inGameAxis[nme.ToString()] = new InGameAxAssgn();
+                inGameAxis[nme.ToString()] = new InGameAxAssign();
             for (int i = 0; i <= Windows.MainWindow.deviceControl.joyAssign.Length - 1; i++)
             {
                 for (int ii = 0; ii <= 7; ii++)
@@ -379,16 +380,16 @@ namespace FalconBMS.Launcher.Input
                         continue;
                     if (ReferenceEquals(Windows.MainWindow.deviceControl.joyAssign[i].axis[ii].GetAxisName(), ""))
                         continue;
-                    if (((InGameAxAssgn)inGameAxis[Windows.MainWindow.deviceControl.joyAssign[i].axis[ii].GetAxisName()]).getDate() > Windows.MainWindow.deviceControl.joyAssign[i].axis[ii].GetAssignDate())
+                    if (((InGameAxAssign)inGameAxis[Windows.MainWindow.deviceControl.joyAssign[i].axis[ii].GetAxisName()]).GetDate() > Windows.MainWindow.deviceControl.joyAssign[i].axis[ii].GetAssignDate())
                         continue;
-                    inGameAxis[Windows.MainWindow.deviceControl.joyAssign[i].axis[ii].GetAxisName()] = new InGameAxAssgn(i, ii, Windows.MainWindow.deviceControl.joyAssign[i].axis[ii]);
+                    inGameAxis[Windows.MainWindow.deviceControl.joyAssign[i].axis[ii].GetAxisName()] = new InGameAxAssign(i, ii, Windows.MainWindow.deviceControl.joyAssign[i].axis[ii]);
                 }
             }
             if (ReferenceEquals(Windows.MainWindow.deviceControl.mouseWheelAssign.GetAxisName(), ""))
                 return;
-            if (((InGameAxAssgn)inGameAxis[Windows.MainWindow.deviceControl.mouseWheelAssign.GetAxisName()]).getDate() > Windows.MainWindow.deviceControl.mouseWheelAssign.GetAssignDate())
+            if (((InGameAxAssign)inGameAxis[Windows.MainWindow.deviceControl.mouseWheelAssign.GetAxisName()]).GetDate() > Windows.MainWindow.deviceControl.mouseWheelAssign.GetAssignDate())
                 return;
-            inGameAxis[Windows.MainWindow.deviceControl.mouseWheelAssign.GetAxisName()] = new InGameAxAssgn(-2, -1, Windows.MainWindow.deviceControl.mouseWheelAssign);
+            inGameAxis[Windows.MainWindow.deviceControl.mouseWheelAssign.GetAxisName()] = new InGameAxAssign(-2, -1, Windows.MainWindow.deviceControl.mouseWheelAssign);
         }
         
         /// <summary>
@@ -406,17 +407,17 @@ namespace FalconBMS.Launcher.Input
 
                 tbprogressbar.Value = 0;
                 tbprogressbar.Minimum = 0;
-                tbprogressbar.Maximum = MAXIN;
+                tbprogressbar.Maximum = Maxin;
             }
         }
         
         /// <summary>
         /// Aquire/Unaquire all devices
         /// </summary>
-        /// <param name="FLG"></param>
-        public static void AquireAll(bool FLG)
+        /// <param name="flg"></param>
+        public static void AquireAll(bool flg)
         {
-            if (FLG)
+            if (flg)
             {
                 for (int i = 0; i < Windows.MainWindow.deviceControl.devList.Count; i++)
                 {

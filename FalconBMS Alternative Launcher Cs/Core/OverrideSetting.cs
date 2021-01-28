@@ -113,9 +113,9 @@ namespace FalconBMS.Launcher.Core
             for (int i = 0; i < deviceControl.devList.Count; i++)
             {
                 fileName = appReg.GetInstallDir() + "/User/Config/Setup.v100." + deviceControl.joyAssign[i].GetProductName().Replace("/", "-")
-                + " {" + deviceControl.joyAssign[i].GetInstanceGUID().ToString().ToUpper() + "}.xml";
+                + " {" + deviceControl.joyAssign[i].GetInstanceGuid().ToString().ToUpper() + "}.xml";
 
-                serializer = new System.Xml.Serialization.XmlSerializer(typeof(JoyAssgn));
+                serializer = new System.Xml.Serialization.XmlSerializer(typeof(JoyAssign));
                 sw = new StreamWriter(fileName, false, new UTF8Encoding(false));
                 serializer.Serialize(sw, deviceControl.joyAssign[i]);
 
@@ -165,9 +165,9 @@ namespace FalconBMS.Launcher.Core
             cfg.Write(stResult);
             cfg.Write("set g_nHotasPinkyShiftMagnitude " + deviceControl.devList.Count*32
                 + "          // SETUP OVERRIDE\r\n");
-            cfg.Write("set g_bHotasDgftSelfCancel " + Convert.ToInt32(mainWindow.Misc_OverrideSelfCancel.IsChecked)
+            cfg.Write("set g_bHotasDgftSelfCancel " + Convert.ToInt32(mainWindow.MiscOverrideSelfCancel.IsChecked)
                 + "          // SETUP OVERRIDE\r\n");
-            cfg.Write("set g_b3DClickableCursorAnchored " + Convert.ToInt32(mainWindow.Misc_MouseCursorAnchor.IsChecked)
+            cfg.Write("set g_b3DClickableCursorAnchored " + Convert.ToInt32(mainWindow.MiscMouseCursorAnchor.IsChecked)
                 + "          // SETUP OVERRIDE\r\n");
             cfg.Close();
         }
@@ -201,8 +201,8 @@ namespace FalconBMS.Launcher.Core
         /// </summary>
         protected virtual void SaveKeyMapping(Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile)
         {
-            string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.getKeyFileName();
-            string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/" + appReg.getKeyFileName();
+            string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.GetKeyFileName();
+            string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/" + appReg.GetKeyFileName();
             if (!File.Exists(fbackupname) & File.Exists(filename))
                 File.Copy(filename, fbackupname, true);
 
@@ -215,10 +215,10 @@ namespace FalconBMS.Launcher.Core
                 sw.Write(keyFile.keyAssign[i].GetKeyLine());
             for (int i = 0; i < deviceControl.devList.Count; i++)
             {
-                sw.Write(deviceControl.joyAssign[i].GetKeyLineDX(i, deviceControl.devList.Count));
+                sw.Write(deviceControl.joyAssign[i].GetKeyLineDx(i, deviceControl.devList.Count));
                 // PRIMARY DEVICE POV
-                if (((InGameAxAssgn)inGameAxis["Roll"]).GetDeviceNumber() == i) 
-                    sw.Write(deviceControl.joyAssign[i].GetKeyLinePOV());
+                if (((InGameAxAssign)inGameAxis["Roll"]).GetDeviceNumber() == i) 
+                    sw.Write(deviceControl.joyAssign[i].GetKeyLinePov());
             }
             sw.Close();
         }
@@ -302,17 +302,17 @@ namespace FalconBMS.Launcher.Core
 
             byte[] bs;
             
-            if (((InGameAxAssgn)inGameAxis["Pitch"]).GetDeviceNumber() > -1)
+            if (((InGameAxAssign)inGameAxis["Pitch"]).GetDeviceNumber() > -1)
             {
                 bs = new byte[] 
                 {
-                    (byte)(((InGameAxAssgn)inGameAxis["Pitch"]).GetDeviceNumber()+2),
+                    (byte)(((InGameAxAssign)inGameAxis["Pitch"]).GetDeviceNumber()+2),
                     0x00, 0x00, 0x00
                 };
                 fs.Write(bs, 0, bs.Length);
 
-                bs = deviceControl.joyAssign[(byte)((InGameAxAssgn)inGameAxis["Pitch"]).GetDeviceNumber()]
-                    .GetInstanceGUID().ToByteArray();
+                bs = deviceControl.joyAssign[(byte)((InGameAxAssign)inGameAxis["Pitch"]).GetDeviceNumber()]
+                    .GetInstanceGuid().ToByteArray();
                 fs.Write(bs, 0, bs.Length);
 
                 bs = new byte[] { (byte)deviceControl.devList.Count, 0x00, 0x00, 0x00 };
@@ -330,10 +330,10 @@ namespace FalconBMS.Launcher.Core
                 fs.Write(bs, 0, bs.Length);
             }
 
-            AxisName[] localAxisMappingList = getAxisMappingList();
+            AxisName[] localAxisMappingList = GetAxisMappingList();
             foreach (AxisName nme in localAxisMappingList)
             {
-                if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() == -1)
+                if (((InGameAxAssign)inGameAxis[nme.ToString()]).GetDeviceNumber() == -1)
                 {
                     bs = new byte[] 
                     {
@@ -345,27 +345,27 @@ namespace FalconBMS.Launcher.Core
                     fs.Write(bs, 0, bs.Length);
                     continue;
                 }
-                if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() > -1)
+                if (((InGameAxAssign)inGameAxis[nme.ToString()]).GetDeviceNumber() > -1)
                 {
                     bs = new byte[] 
                     {
-                        (byte)(((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber()+2),
+                        (byte)(((InGameAxAssign)inGameAxis[nme.ToString()]).GetDeviceNumber()+2),
                         0x00, 0x00, 0x00
                     };
                     fs.Write(bs, 0, bs.Length);
                     bs = new byte[] 
                     {
-                        (byte)((InGameAxAssgn)inGameAxis[nme.ToString()]).GetPhysicalNumber(),
+                        (byte)((InGameAxAssign)inGameAxis[nme.ToString()]).GetPhysicalNumber(),
                         0x00, 0x00, 0x00
                     };
                     fs.Write(bs, 0, bs.Length);
                 }
-                if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() == -2)
+                if (((InGameAxAssign)inGameAxis[nme.ToString()]).GetDeviceNumber() == -2)
                 {
                     bs = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
                     fs.Write(bs, 0, bs.Length);
                 }
-                switch (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeadzone())
+                switch (((InGameAxAssign)inGameAxis[nme.ToString()]).GetDeadZone())
                 {
                     case AxCurve.None:
                         bs = new byte[] { 0x00, 0x00, 0x00, 0x00 };
@@ -381,7 +381,7 @@ namespace FalconBMS.Launcher.Core
                         break;
                 }
                 fs.Write(bs, 0, bs.Length);
-                switch (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetSaturation())
+                switch (((InGameAxAssign)inGameAxis[nme.ToString()]).GetSaturation())
                 {
                     case AxCurve.None:
                         bs = new byte[] { 0xFF, 0xFF, 0xFF, 0xFF };
@@ -419,7 +419,7 @@ namespace FalconBMS.Launcher.Core
 
             byte[] bs;
 
-            AxisName[] localJoystickCalList = appReg.getOverrideWriter().getJoystickCalList();
+            AxisName[] localJoystickCalList = appReg.GetOverrideWriter().GetJoystickCalList();
             foreach (AxisName nme in localJoystickCalList)
             {
                 bs = new byte[] 
@@ -429,34 +429,34 @@ namespace FalconBMS.Launcher.Core
                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
                     0x00, 0x00, 0x00, 0x00
                 };
-                if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() != -1)
+                if (((InGameAxAssign)inGameAxis[nme.ToString()]).GetDeviceNumber() != -1)
                 {
                     bs[12] = 0x01;
 
                     if (nme == AxisName.Throttle)
                     {
-                        double iAB = deviceControl.throttlePos.GetAB();
-                        double iIdle = deviceControl.throttlePos.GetIDLE();
+                        double iAb = deviceControl.throttlePos.GetAb();
+                        double iIdle = deviceControl.throttlePos.GetIdle();
 
-                        const double MAXIN = 65536;
-                        const double MAXOUT = 14848;
+                        const double maxin = 65536;
+                        const double maxout = 14848;
 
-                        iAB = -iAB * (MAXOUT / MAXIN) + MAXOUT;
-                        iIdle = -iIdle * (MAXOUT / MAXIN) + MAXOUT;
+                        iAb = -iAb * (maxout / maxin) + maxout;
+                        iIdle = -iIdle * (maxout / maxin) + maxout;
 
-                        byte[] ab = BitConverter.GetBytes((int)iAB);
+                        byte[] ab = BitConverter.GetBytes((int)iAb);
                         byte[] idle = BitConverter.GetBytes((int)iIdle);
                         
                         bs[1] = ab[1];
                         bs[5] = idle[1];
 
-                        if (deviceControl.throttlePos.GetAB() > 65536 - 256)
+                        if (deviceControl.throttlePos.GetAb() > 65536 - 256)
                             bs[1] = 0x00;
-                        if (deviceControl.throttlePos.GetIDLE() < 256)
+                        if (deviceControl.throttlePos.GetIdle() < 256)
                             bs[5] = 0x3A;
                     }
                 }
-                if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetInvert())
+                if (((InGameAxAssign)inGameAxis[nme.ToString()]).GetInvert())
                 {
                     bs[20] = 0x01;
                 }
@@ -465,8 +465,8 @@ namespace FalconBMS.Launcher.Core
             fs.Close();
         }
 
-        public virtual AxisName[] getAxisMappingList() { return axisMappingList; }
-        public virtual AxisName[] getJoystickCalList() { return joystickCalList; }
+        public virtual AxisName[] GetAxisMappingList() { return axisMappingList; }
+        public virtual AxisName[] GetJoystickCalList() { return joystickCalList; }
 
         /// <summary>
         /// Axis information order for AxisMapping.dat
@@ -540,7 +540,7 @@ namespace FalconBMS.Launcher.Core
             fs.Close();
 
             // Set Keyfile selected.
-            byte[] keyFileName = Encoding.ASCII.GetBytes(appReg.getKeyFileName().Replace(".key", ""));
+            byte[] keyFileName = Encoding.ASCII.GetBytes(appReg.GetKeyFileName().Replace(".key", ""));
             for (int i = 0; i <= 15; i++)
             {
                 if (i >= keyFileName.Length)
@@ -553,22 +553,22 @@ namespace FalconBMS.Launcher.Core
 
             // TrackIR Z-Axis(0:Z-axis 1:FOV)
             bs[276] = 0x00;
-            if (mainWindow.Misc_TrackIRZ.IsChecked == true)
+            if (mainWindow.MiscTrackIrz.IsChecked == true)
                 bs[276] = 0x01;
 
             // External Mouselook
             bs[281] = 0x00;
-            if (mainWindow.Misc_ExMouseLook.IsChecked == true)
+            if (mainWindow.MiscExMouseLook.IsChecked == true)
                 bs[281] = 0x01;
 
             // Roll-linked NWS
             bs[302] = 0x00;
-            if (mainWindow.Misc_RollLinkedNWS.IsChecked == true)
+            if (mainWindow.MiscRollLinkedNws.IsChecked == true)
                 bs[302] = 0x01;
 
             // Smart Scaling
             bs[12] = 0x01;
-            if (mainWindow.Misc_SmartScalingOverride.IsChecked == true)
+            if (mainWindow.MiscSmartScalingOverride.IsChecked == true)
                 bs[12] = 0x05;
 
             fs = new FileStream
@@ -577,8 +577,8 @@ namespace FalconBMS.Launcher.Core
             fs.Close();
         }
 
-        public override AxisName[] getAxisMappingList() { return axisMappingList; }
-        public override AxisName[] getJoystickCalList() { return joystickCalList; }
+        public override AxisName[] GetAxisMappingList() { return axisMappingList; }
+        public override AxisName[] GetJoystickCalList() { return joystickCalList; }
 
         /// <summary>
         /// Axis information order for AxisMapping.dat
@@ -588,26 +588,26 @@ namespace FalconBMS.Launcher.Core
             AxisName.Roll,
             AxisName.Yaw,
             AxisName.Throttle,
-            AxisName.Throttle_Right,
-            AxisName.Toe_Brake,
-            AxisName.Toe_Brake_Right,
-            AxisName.FOV,
-            AxisName.Trim_Pitch,
-            AxisName.Trim_Yaw,
-            AxisName.Trim_Roll,
-            AxisName.Radar_Antenna_Elevation,
-            AxisName.Range_Knob,
-            AxisName.Cursor_X,
-            AxisName.Cursor_Y,
-            AxisName.COMM_Channel_1,
-            AxisName.COMM_Channel_2,
-            AxisName.MSL_Volume,
-            AxisName.Threat_Volume,
+            AxisName.ThrottleRight,
+            AxisName.ToeBrake,
+            AxisName.ToeBrakeRight,
+            AxisName.Fov,
+            AxisName.TrimPitch,
+            AxisName.TrimYaw,
+            AxisName.TrimRoll,
+            AxisName.RadarAntennaElevation,
+            AxisName.RangeKnob,
+            AxisName.CursorX,
+            AxisName.CursorY,
+            AxisName.CommChannel1,
+            AxisName.CommChannel2,
+            AxisName.MslVolume,
+            AxisName.ThreatVolume,
             AxisName.Intercom,
-            AxisName.HUD_Brightness,
-            AxisName.HMS_Brightness,
-            AxisName.Reticle_Depression,
-            AxisName.Camera_Distance
+            AxisName.HudBrightness,
+            AxisName.HmsBrightness,
+            AxisName.ReticleDepression,
+            AxisName.CameraDistance
         };
 
         /// <summary>
@@ -618,26 +618,26 @@ namespace FalconBMS.Launcher.Core
             AxisName.Roll,
             AxisName.Yaw,
             AxisName.Throttle,
-            AxisName.Throttle_Right,
-            AxisName.Trim_Pitch,
-            AxisName.Trim_Yaw,
-            AxisName.Trim_Roll,
-            AxisName.Toe_Brake,
-            AxisName.Toe_Brake_Right,
-            AxisName.FOV,
-            AxisName.Radar_Antenna_Elevation,
-            AxisName.Cursor_X,
-            AxisName.Cursor_Y,
-            AxisName.Range_Knob,
-            AxisName.COMM_Channel_1,
-            AxisName.COMM_Channel_2,
-            AxisName.MSL_Volume,
-            AxisName.Threat_Volume,
-            AxisName.HUD_Brightness,
-            AxisName.Reticle_Depression,
-            AxisName.Camera_Distance,
+            AxisName.ThrottleRight,
+            AxisName.TrimPitch,
+            AxisName.TrimYaw,
+            AxisName.TrimRoll,
+            AxisName.ToeBrake,
+            AxisName.ToeBrakeRight,
+            AxisName.Fov,
+            AxisName.RadarAntennaElevation,
+            AxisName.CursorX,
+            AxisName.CursorY,
+            AxisName.RangeKnob,
+            AxisName.CommChannel1,
+            AxisName.CommChannel2,
+            AxisName.MslVolume,
+            AxisName.ThreatVolume,
+            AxisName.HudBrightness,
+            AxisName.ReticleDepression,
+            AxisName.CameraDistance,
             AxisName.Intercom,
-            AxisName.HMS_Brightness,
+            AxisName.HmsBrightness,
         };
     }
 
@@ -706,7 +706,7 @@ namespace FalconBMS.Launcher.Core
             fs.Close();
 
             // Set Keyfile selected.
-            byte[] keyFileName = Encoding.ASCII.GetBytes(appReg.getKeyFileName().Replace(".key", ""));
+            byte[] keyFileName = Encoding.ASCII.GetBytes(appReg.GetKeyFileName().Replace(".key", ""));
             for (int i = 0; i <= 15; i++)
             {
                 if (i >= keyFileName.Length)
@@ -719,22 +719,22 @@ namespace FalconBMS.Launcher.Core
 
             // TrackIR Z-Axis(0:Z-axis 1:FOV)
             bs[336] = 0x00; 
-            if (mainWindow.Misc_TrackIRZ.IsChecked == true)
+            if (mainWindow.MiscTrackIrz.IsChecked == true)
                 bs[336] = 0x01;
 
             // External Mouselook
             bs[341] = 0x00; 
-            if (mainWindow.Misc_ExMouseLook.IsChecked == true)
+            if (mainWindow.MiscExMouseLook.IsChecked == true)
                 bs[341] = 0x01;
 
             // Roll-linked NWS
             bs[362] = 0x00; 
-            if (mainWindow.Misc_RollLinkedNWS.IsChecked == true)
+            if (mainWindow.MiscRollLinkedNws.IsChecked == true)
                 bs[362] = 0x01;
 
             // Smart Scaling
             bs[12] = 0x01;
-            if (mainWindow.Misc_SmartScalingOverride.IsChecked == true)
+            if (mainWindow.MiscSmartScalingOverride.IsChecked == true)
                 bs[12] = 0x05;
 
             fs = new FileStream
@@ -743,8 +743,8 @@ namespace FalconBMS.Launcher.Core
             fs.Close();
         }
 
-        public override AxisName[] getAxisMappingList() { return axisMappingList; }
-        public override AxisName[] getJoystickCalList() { return joystickCalList; }
+        public override AxisName[] GetAxisMappingList() { return axisMappingList; }
+        public override AxisName[] GetJoystickCalList() { return joystickCalList; }
 
         /// <summary>
         /// Axis information order for AxisMapping.dat
@@ -754,28 +754,28 @@ namespace FalconBMS.Launcher.Core
             AxisName.Roll,
             AxisName.Yaw,
             AxisName.Throttle,
-            AxisName.Throttle_Right,
-            AxisName.Toe_Brake,
-            AxisName.Toe_Brake_Right,
-            AxisName.FOV,
-            AxisName.Trim_Pitch,
-            AxisName.Trim_Yaw,
-            AxisName.Trim_Roll,
-            AxisName.Radar_Antenna_Elevation,
-            AxisName.Range_Knob,
-            AxisName.Cursor_X,
-            AxisName.Cursor_Y,
-            AxisName.COMM_Channel_1,
-            AxisName.COMM_Channel_2,
-            AxisName.MSL_Volume,
-            AxisName.Threat_Volume,
+            AxisName.ThrottleRight,
+            AxisName.ToeBrake,
+            AxisName.ToeBrakeRight,
+            AxisName.Fov,
+            AxisName.TrimPitch,
+            AxisName.TrimYaw,
+            AxisName.TrimRoll,
+            AxisName.RadarAntennaElevation,
+            AxisName.RangeKnob,
+            AxisName.CursorX,
+            AxisName.CursorY,
+            AxisName.CommChannel1,
+            AxisName.CommChannel2,
+            AxisName.MslVolume,
+            AxisName.ThreatVolume,
             AxisName.Intercom,
-            AxisName.AI_vs_IVC,
-            AxisName.HUD_Brightness,
-            AxisName.FLIR_Brightness,
-            AxisName.HMS_Brightness,
-            AxisName.Reticle_Depression,
-            AxisName.Camera_Distance
+            AxisName.AiVsIvc,
+            AxisName.HudBrightness,
+            AxisName.FlirBrightness,
+            AxisName.HmsBrightness,
+            AxisName.ReticleDepression,
+            AxisName.CameraDistance
         };
 
         /// <summary>
@@ -786,28 +786,28 @@ namespace FalconBMS.Launcher.Core
             AxisName.Roll,
             AxisName.Yaw,
             AxisName.Throttle,
-            AxisName.Throttle_Right,
-            AxisName.Trim_Pitch,
-            AxisName.Trim_Yaw,
-            AxisName.Trim_Roll,
-            AxisName.Toe_Brake,
-            AxisName.Toe_Brake_Right,
-            AxisName.FOV,
-            AxisName.Radar_Antenna_Elevation,
-            AxisName.Cursor_X,
-            AxisName.Cursor_Y,
-            AxisName.Range_Knob,
-            AxisName.COMM_Channel_1,
-            AxisName.COMM_Channel_2,
-            AxisName.MSL_Volume,
-            AxisName.Threat_Volume,
-            AxisName.HUD_Brightness,
-            AxisName.Reticle_Depression,
-            AxisName.Camera_Distance,
+            AxisName.ThrottleRight,
+            AxisName.TrimPitch,
+            AxisName.TrimYaw,
+            AxisName.TrimRoll,
+            AxisName.ToeBrake,
+            AxisName.ToeBrakeRight,
+            AxisName.Fov,
+            AxisName.RadarAntennaElevation,
+            AxisName.CursorX,
+            AxisName.CursorY,
+            AxisName.RangeKnob,
+            AxisName.CommChannel1,
+            AxisName.CommChannel2,
+            AxisName.MslVolume,
+            AxisName.ThreatVolume,
+            AxisName.HudBrightness,
+            AxisName.ReticleDepression,
+            AxisName.CameraDistance,
             AxisName.Intercom,
-            AxisName.HMS_Brightness,
-            AxisName.AI_vs_IVC,
-            AxisName.FLIR_Brightness
+            AxisName.HmsBrightness,
+            AxisName.AiVsIvc,
+            AxisName.FlirBrightness
         };
     }
 
@@ -844,27 +844,27 @@ namespace FalconBMS.Launcher.Core
             cfg.Write(stResult);
             cfg.Write("set g_nHotasPinkyShiftMagnitude " + deviceControl.devList.Count * 32
                 + "          // SETUP OVERRIDE\r\n");
-            cfg.Write("set g_bHotasDgftSelfCancel " + Convert.ToInt32(mainWindow.Misc_OverrideSelfCancel.IsChecked)
+            cfg.Write("set g_bHotasDgftSelfCancel " + Convert.ToInt32(mainWindow.MiscOverrideSelfCancel.IsChecked)
                 + "          // SETUP OVERRIDE\r\n");
-            cfg.Write("set g_b3DClickableCursorAnchored " + Convert.ToInt32(mainWindow.Misc_MouseCursorAnchor.IsChecked)
+            cfg.Write("set g_b3DClickableCursorAnchored " + Convert.ToInt32(mainWindow.MiscMouseCursorAnchor.IsChecked)
                 + "          // SETUP OVERRIDE\r\n");
-            if (((InGameAxAssgn)inGameAxis["Roll"]).GetDeviceNumber() == ((InGameAxAssgn)inGameAxis["Throttle"]).GetDeviceNumber())
+            if (((InGameAxAssign)inGameAxis["Roll"]).GetDeviceNumber() == ((InGameAxAssign)inGameAxis["Throttle"]).GetDeviceNumber())
             {
                 cfg.Close();
                 return;
             }
             cfg.Write("set g_nNumOfPOVs 2      // SETUP OVERRIDE\r\n");
-            cfg.Write("set g_nPOV1DeviceID " + (((InGameAxAssgn)inGameAxis["Roll"]).GetDeviceNumber() + 2) + "   // SETUP OVERRIDE\r\n");
+            cfg.Write("set g_nPOV1DeviceID " + (((InGameAxAssign)inGameAxis["Roll"]).GetDeviceNumber() + 2) + "   // SETUP OVERRIDE\r\n");
             cfg.Write("set g_nPOV1ID 0         // SETUP OVERRIDE\r\n");
-            cfg.Write("set g_nPOV2DeviceID " + (((InGameAxAssgn)inGameAxis["Throttle"]).GetDeviceNumber() + 2) + "   // SETUP OVERRIDE\r\n");
+            cfg.Write("set g_nPOV2DeviceID " + (((InGameAxAssign)inGameAxis["Throttle"]).GetDeviceNumber() + 2) + "   // SETUP OVERRIDE\r\n");
             cfg.Write("set g_nPOV2ID 0         // SETUP OVERRIDE\r\n");
             cfg.Close();
         }
 
         protected override void SaveKeyMapping(Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile)
         {
-            string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.getKeyFileName();
-            string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/" + appReg.getKeyFileName();
+            string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.GetKeyFileName();
+            string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/" + appReg.GetKeyFileName();
             if (!File.Exists(fbackupname) & File.Exists(filename))
                 File.Copy(filename, fbackupname, true);
 
@@ -877,17 +877,17 @@ namespace FalconBMS.Launcher.Core
                 sw.Write(keyFile.keyAssign[i].GetKeyLine());
             for (int i = 0; i < deviceControl.devList.Count; i++)
             {
-                sw.Write(deviceControl.joyAssign[i].GetKeyLineDX(i, deviceControl.devList.Count));
+                sw.Write(deviceControl.joyAssign[i].GetKeyLineDx(i, deviceControl.devList.Count));
                 // PRIMARY DEVICE POV
-                if (((InGameAxAssgn)inGameAxis["Roll"]).GetDeviceNumber() == i && ((InGameAxAssgn)inGameAxis["Roll"]).GetDeviceNumber() == ((InGameAxAssgn)inGameAxis["Throttle"]).GetDeviceNumber())
+                if (((InGameAxAssign)inGameAxis["Roll"]).GetDeviceNumber() == i && ((InGameAxAssign)inGameAxis["Roll"]).GetDeviceNumber() == ((InGameAxAssign)inGameAxis["Throttle"]).GetDeviceNumber())
                 {
-                    sw.Write(deviceControl.joyAssign[i].GetKeyLinePOV());
+                    sw.Write(deviceControl.joyAssign[i].GetKeyLinePov());
                     continue;
                 }
-                if (((InGameAxAssgn)inGameAxis["Roll"]).GetDeviceNumber() == i)
-                    sw.Write(deviceControl.joyAssign[i].GetKeyLinePOV(0));
-                if (((InGameAxAssgn)inGameAxis["Throttle"]).GetDeviceNumber() == i)
-                    sw.Write(deviceControl.joyAssign[i].GetKeyLinePOV(1));
+                if (((InGameAxAssign)inGameAxis["Roll"]).GetDeviceNumber() == i)
+                    sw.Write(deviceControl.joyAssign[i].GetKeyLinePov(0));
+                if (((InGameAxAssign)inGameAxis["Throttle"]).GetDeviceNumber() == i)
+                    sw.Write(deviceControl.joyAssign[i].GetKeyLinePov(1));
             }
             sw.Close();
         }
@@ -925,7 +925,7 @@ namespace FalconBMS.Launcher.Core
 
             byte[] bs;
 
-            AxisName[] localJoystickCalList = appReg.getOverrideWriter().getJoystickCalList();
+            AxisName[] localJoystickCalList = appReg.GetOverrideWriter().GetJoystickCalList();
             foreach (AxisName nme in localJoystickCalList)
             {
                 bs = new byte[]
@@ -934,34 +934,34 @@ namespace FalconBMS.Launcher.Core
                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
                 };
-                if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() != -1)
+                if (((InGameAxAssign)inGameAxis[nme.ToString()]).GetDeviceNumber() != -1)
                 {
                     bs[12] = 0x01;
 
                     if (nme == AxisName.Throttle)
                     {
-                        double iAB = deviceControl.throttlePos.GetAB();
-                        double iIdle = deviceControl.throttlePos.GetIDLE();
+                        double iAb = deviceControl.throttlePos.GetAb();
+                        double iIdle = deviceControl.throttlePos.GetIdle();
 
-                        const double MAXIN = 65536;
-                        const double MAXOUT = 14848;
+                        const double maxin = 65536;
+                        const double maxout = 14848;
 
-                        iAB = -iAB * (MAXOUT / MAXIN) + MAXOUT;
-                        iIdle = -iIdle * (MAXOUT / MAXIN) + MAXOUT;
+                        iAb = -iAb * (maxout / maxin) + maxout;
+                        iIdle = -iIdle * (maxout / maxin) + maxout;
 
-                        byte[] ab = BitConverter.GetBytes((int)iAB);
+                        byte[] ab = BitConverter.GetBytes((int)iAb);
                         byte[] idle = BitConverter.GetBytes((int)iIdle);
 
                         bs[1] = ab[1];
                         bs[5] = idle[1];
 
-                        if (deviceControl.throttlePos.GetAB() > 65536 - 256)
+                        if (deviceControl.throttlePos.GetAb() > 65536 - 256)
                             bs[1] = 0x00;
-                        if (deviceControl.throttlePos.GetIDLE() < 256)
+                        if (deviceControl.throttlePos.GetIdle() < 256)
                             bs[5] = 0x3A;
                     }
                 }
-                if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetInvert())
+                if (((InGameAxAssign)inGameAxis[nme.ToString()]).GetInvert())
                 {
                     bs[20] = 0x01;
                     bs[21] = 0x01;
@@ -1022,7 +1022,7 @@ namespace FalconBMS.Launcher.Core
             fs.Close();
 
             // Set Keyfile selected.
-            byte[] keyFileName = Encoding.ASCII.GetBytes(appReg.getKeyFileName().Replace(".key", ""));
+            byte[] keyFileName = Encoding.ASCII.GetBytes(appReg.GetKeyFileName().Replace(".key", ""));
             for (int i = 0; i <= 15; i++)
             {
                 if (i >= keyFileName.Length)
@@ -1035,32 +1035,32 @@ namespace FalconBMS.Launcher.Core
 
             // TrackIR Z-Axis(0:Z-axis 1:FOV)
             bs[336] = 0x00;
-            if (mainWindow.Misc_TrackIRZ.IsChecked == true)
+            if (mainWindow.MiscTrackIrz.IsChecked == true)
                 bs[336] = 0x01;
 
             // External Mouselook
             bs[341] = 0x00;
-            if (mainWindow.Misc_ExMouseLook.IsChecked == true)
+            if (mainWindow.MiscExMouseLook.IsChecked == true)
                 bs[341] = 0x01;
 
             // Natural Head Movement
             bs[342] = 0x00;
-            if (mainWindow.Misc_NaturalHeadMovement.IsChecked == true)
+            if (mainWindow.MiscNaturalHeadMovement.IsChecked == true)
                 bs[342] = 0x01;
 
             // Roll-linked NWS
             bs[362] = 0x00;
-            if (mainWindow.Misc_RollLinkedNWS.IsChecked == true)
+            if (mainWindow.MiscRollLinkedNws.IsChecked == true)
                 bs[362] = 0x01;
 
             // Smart Scaling
             bs[12] = 0x01;
-            if (mainWindow.Misc_SmartScalingOverride.IsChecked == true)
+            if (mainWindow.MiscSmartScalingOverride.IsChecked == true)
                 bs[12] = 0x05;
 
             // Smart Scaling
             bs[0] = 0x13;
-            if (mainWindow.Misc_PilotModel.IsChecked == true)
+            if (mainWindow.MiscPilotModel.IsChecked == true)
                 bs[0] = 0x33;
 
             fs = new FileStream
@@ -1069,8 +1069,8 @@ namespace FalconBMS.Launcher.Core
             fs.Close();
         }
 
-        public override AxisName[] getAxisMappingList() { return axisMappingList; }
-        public override AxisName[] getJoystickCalList() { return joystickCalList; }
+        public override AxisName[] GetAxisMappingList() { return axisMappingList; }
+        public override AxisName[] GetJoystickCalList() { return joystickCalList; }
 
         /// <summary>
         /// Axis information order for AxisMapping.dat
@@ -1080,31 +1080,31 @@ namespace FalconBMS.Launcher.Core
             AxisName.Roll,
             AxisName.Yaw,
             AxisName.Throttle,
-            AxisName.Throttle_Right,
-            AxisName.Toe_Brake,
-            AxisName.Toe_Brake_Right,
-            AxisName.FOV,
-            AxisName.Trim_Pitch,
-            AxisName.Trim_Yaw,
-            AxisName.Trim_Roll,
-            AxisName.Radar_Antenna_Elevation,
-            AxisName.Range_Knob,
-            AxisName.Cursor_X,
-            AxisName.Cursor_Y,
-            AxisName.COMM_Channel_1,
-            AxisName.COMM_Channel_2,
-            AxisName.MSL_Volume,
-            AxisName.Threat_Volume,
+            AxisName.ThrottleRight,
+            AxisName.ToeBrake,
+            AxisName.ToeBrakeRight,
+            AxisName.Fov,
+            AxisName.TrimPitch,
+            AxisName.TrimYaw,
+            AxisName.TrimRoll,
+            AxisName.RadarAntennaElevation,
+            AxisName.RangeKnob,
+            AxisName.CursorX,
+            AxisName.CursorY,
+            AxisName.CommChannel1,
+            AxisName.CommChannel2,
+            AxisName.MslVolume,
+            AxisName.ThreatVolume,
             AxisName.Intercom,
-            AxisName.AI_vs_IVC,
-            AxisName.HUD_Brightness,
-            AxisName.FLIR_Brightness,
-            AxisName.HMS_Brightness,
-            AxisName.Reticle_Depression,
-            AxisName.Camera_Distance,
-            AxisName.HSI_Course_Knob,
-            AxisName.HSI_Heading_Knob,
-            AxisName.Altimeter_Knob
+            AxisName.AiVsIvc,
+            AxisName.HudBrightness,
+            AxisName.FlirBrightness,
+            AxisName.HmsBrightness,
+            AxisName.ReticleDepression,
+            AxisName.CameraDistance,
+            AxisName.HsiCourseKnob,
+            AxisName.HsiHeadingKnob,
+            AxisName.AltimeterKnob
         };
 
         /// <summary>
@@ -1115,31 +1115,31 @@ namespace FalconBMS.Launcher.Core
             AxisName.Roll,
             AxisName.Yaw,
             AxisName.Throttle,
-            AxisName.Throttle_Right,
-            AxisName.Trim_Pitch,
-            AxisName.Trim_Yaw,
-            AxisName.Trim_Roll,
-            AxisName.Toe_Brake,
-            AxisName.Toe_Brake_Right,
-            AxisName.FOV,
-            AxisName.Radar_Antenna_Elevation,
-            AxisName.Cursor_X,
-            AxisName.Cursor_Y,
-            AxisName.Range_Knob,
-            AxisName.COMM_Channel_1,
-            AxisName.COMM_Channel_2,
-            AxisName.MSL_Volume,
-            AxisName.Threat_Volume,
-            AxisName.HUD_Brightness,
-            AxisName.Reticle_Depression,
-            AxisName.Camera_Distance,
+            AxisName.ThrottleRight,
+            AxisName.TrimPitch,
+            AxisName.TrimYaw,
+            AxisName.TrimRoll,
+            AxisName.ToeBrake,
+            AxisName.ToeBrakeRight,
+            AxisName.Fov,
+            AxisName.RadarAntennaElevation,
+            AxisName.CursorX,
+            AxisName.CursorY,
+            AxisName.RangeKnob,
+            AxisName.CommChannel1,
+            AxisName.CommChannel2,
+            AxisName.MslVolume,
+            AxisName.ThreatVolume,
+            AxisName.HudBrightness,
+            AxisName.ReticleDepression,
+            AxisName.CameraDistance,
             AxisName.Intercom,
-            AxisName.HMS_Brightness,
-            AxisName.AI_vs_IVC,
-            AxisName.FLIR_Brightness,
-            AxisName.HSI_Course_Knob,
-            AxisName.HSI_Heading_Knob,
-            AxisName.Altimeter_Knob
+            AxisName.HmsBrightness,
+            AxisName.AiVsIvc,
+            AxisName.FlirBrightness,
+            AxisName.HsiCourseKnob,
+            AxisName.HsiHeadingKnob,
+            AxisName.AltimeterKnob
         };
     }
 
@@ -1211,7 +1211,7 @@ namespace FalconBMS.Launcher.Core
             fs.Close();
 
             // Set Keyfile selected.
-            byte[] keyFileName = Encoding.ASCII.GetBytes(appReg.getKeyFileName().Replace(".key", ""));
+            byte[] keyFileName = Encoding.ASCII.GetBytes(appReg.GetKeyFileName().Replace(".key", ""));
             for (int i = 0; i <= 15; i++)
             {
                 if (i >= keyFileName.Length)
@@ -1224,32 +1224,32 @@ namespace FalconBMS.Launcher.Core
 
             // TrackIR Z-Axis(0:Z-axis 1:FOV)
             bs[336 + 48] = 0x00;
-            if (mainWindow.Misc_TrackIRZ.IsChecked == true)
+            if (mainWindow.MiscTrackIrz.IsChecked == true)
                 bs[336 + 48] = 0x01;
 
             // External Mouselook
             bs[341 + 48] = 0x00;
-            if (mainWindow.Misc_ExMouseLook.IsChecked == true)
+            if (mainWindow.MiscExMouseLook.IsChecked == true)
                 bs[341 + 48] = 0x01;
 
             // Natural Head Movement
             bs[342 + 48] = 0x00;
-            if (mainWindow.Misc_NaturalHeadMovement.IsChecked == true)
+            if (mainWindow.MiscNaturalHeadMovement.IsChecked == true)
                 bs[342 + 48] = 0x01;
 
             // Roll-linked NWS
             bs[362 + 48] = 0x00;
-            if (mainWindow.Misc_RollLinkedNWS.IsChecked == true)
+            if (mainWindow.MiscRollLinkedNws.IsChecked == true)
                 bs[362 + 48] = 0x01;
 
             // Smart Scaling
             bs[12] = 0x01;
-            if (mainWindow.Misc_SmartScalingOverride.IsChecked == true)
+            if (mainWindow.MiscSmartScalingOverride.IsChecked == true)
                 bs[12] = 0x05;
 
             // Smart Scaling
             bs[0] = 0x13;
-            if (mainWindow.Misc_PilotModel.IsChecked == true)
+            if (mainWindow.MiscPilotModel.IsChecked == true)
                 bs[0] = 0x33;
 
             fs = new FileStream
@@ -1258,8 +1258,8 @@ namespace FalconBMS.Launcher.Core
             fs.Close();
         }
 
-        public override AxisName[] getAxisMappingList() { return axisMappingList; }
-        public override AxisName[] getJoystickCalList() { return joystickCalList; }
+        public override AxisName[] GetAxisMappingList() { return axisMappingList; }
+        public override AxisName[] GetJoystickCalList() { return joystickCalList; }
 
         /// <summary>
         /// Axis information order for AxisMapping.dat
@@ -1269,32 +1269,32 @@ namespace FalconBMS.Launcher.Core
             AxisName.Roll,
             AxisName.Yaw,
             AxisName.Throttle,
-            AxisName.Throttle_Right,
-            AxisName.Toe_Brake,
-            AxisName.Toe_Brake_Right,
-            AxisName.FOV,
-            AxisName.Trim_Pitch,
-            AxisName.Trim_Yaw,
-            AxisName.Trim_Roll,
-            AxisName.Radar_Antenna_Elevation,
-            AxisName.Range_Knob,
-            AxisName.Cursor_X,
-            AxisName.Cursor_Y,
-            AxisName.COMM_Channel_1,
-            AxisName.COMM_Channel_2,
-            AxisName.MSL_Volume,
-            AxisName.Threat_Volume,
+            AxisName.ThrottleRight,
+            AxisName.ToeBrake,
+            AxisName.ToeBrakeRight,
+            AxisName.Fov,
+            AxisName.TrimPitch,
+            AxisName.TrimYaw,
+            AxisName.TrimRoll,
+            AxisName.RadarAntennaElevation,
+            AxisName.RangeKnob,
+            AxisName.CursorX,
+            AxisName.CursorY,
+            AxisName.CommChannel1,
+            AxisName.CommChannel2,
+            AxisName.MslVolume,
+            AxisName.ThreatVolume,
             AxisName.Intercom,
-            AxisName.AI_vs_IVC,
-            AxisName.HUD_Brightness,
-            AxisName.FLIR_Brightness,
-            AxisName.HMS_Brightness,
-            AxisName.Reticle_Depression,
-            AxisName.Camera_Distance,
-            AxisName.HSI_Course_Knob,
-            AxisName.HSI_Heading_Knob,
-            AxisName.Altimeter_Knob,
-            AxisName.ILS_Volume_Knob
+            AxisName.AiVsIvc,
+            AxisName.HudBrightness,
+            AxisName.FlirBrightness,
+            AxisName.HmsBrightness,
+            AxisName.ReticleDepression,
+            AxisName.CameraDistance,
+            AxisName.HsiCourseKnob,
+            AxisName.HsiHeadingKnob,
+            AxisName.AltimeterKnob,
+            AxisName.IlsVolumeKnob
         };
 
         /// <summary>
@@ -1305,32 +1305,32 @@ namespace FalconBMS.Launcher.Core
             AxisName.Roll,
             AxisName.Yaw,
             AxisName.Throttle,
-            AxisName.Throttle_Right,
-            AxisName.Trim_Pitch,
-            AxisName.Trim_Yaw,
-            AxisName.Trim_Roll,
-            AxisName.Toe_Brake,
-            AxisName.Toe_Brake_Right,
-            AxisName.FOV,
-            AxisName.Radar_Antenna_Elevation,
-            AxisName.Cursor_X,
-            AxisName.Cursor_Y,
-            AxisName.Range_Knob,
-            AxisName.COMM_Channel_1,
-            AxisName.COMM_Channel_2,
-            AxisName.MSL_Volume,
-            AxisName.Threat_Volume,
-            AxisName.HUD_Brightness,
-            AxisName.Reticle_Depression,
-            AxisName.Camera_Distance,
+            AxisName.ThrottleRight,
+            AxisName.TrimPitch,
+            AxisName.TrimYaw,
+            AxisName.TrimRoll,
+            AxisName.ToeBrake,
+            AxisName.ToeBrakeRight,
+            AxisName.Fov,
+            AxisName.RadarAntennaElevation,
+            AxisName.CursorX,
+            AxisName.CursorY,
+            AxisName.RangeKnob,
+            AxisName.CommChannel1,
+            AxisName.CommChannel2,
+            AxisName.MslVolume,
+            AxisName.ThreatVolume,
+            AxisName.HudBrightness,
+            AxisName.ReticleDepression,
+            AxisName.CameraDistance,
             AxisName.Intercom,
-            AxisName.HMS_Brightness,
-            AxisName.AI_vs_IVC,
-            AxisName.FLIR_Brightness,
-            AxisName.HSI_Course_Knob,
-            AxisName.HSI_Heading_Knob,
-            AxisName.Altimeter_Knob,
-            AxisName.ILS_Volume_Knob
+            AxisName.HmsBrightness,
+            AxisName.AiVsIvc,
+            AxisName.FlirBrightness,
+            AxisName.HsiCourseKnob,
+            AxisName.HsiHeadingKnob,
+            AxisName.AltimeterKnob,
+            AxisName.IlsVolumeKnob
         };
     }
 }

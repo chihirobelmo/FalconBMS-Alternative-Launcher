@@ -4,15 +4,15 @@ using Microsoft.DirectX.DirectInput;
 
 namespace FalconBMS.Launcher.Input
 {
-    public class KeyAssgn
+    public class KeyAssign
     {
         protected string callback = "SimDoNothing";            // 1st: callback(ex: "SimDoNothing")
-        protected string soundID = "-1";                       // 2nd: -1
+        protected string soundId = "-1";                       // 2nd: -1
         protected string none = "0";                           // 3rd: 0 
-        protected string keyboard = "0xFFFFFFFF";              // 4th: Scancode(ex: 0x1E => 30 => A).
+        protected string keyboard = "0xFFFFFFFF";              // 4th: Scan code(ex: 0x1E => 30 => A).
         protected string modifier = "0";                       // 5th: Modification keys(ex: Shift,Ctrl,Alt).
         protected string keycombo = "0";                       // 6th: (Same as keyboard)
-        protected string keycomboMod = "0";                    // 7th: (Same as modifier but for keycombo)
+        protected string keycomboMod = "0";                    // 7th: (Same as modifier but for key combo)
         protected string visibility = "-0";                    // 8th: 1=Visible -1=Headline -0=Locked -2=hidden
         protected string description = "!Alt Launcher ERROR!"; // 9th: The description
 
@@ -33,31 +33,38 @@ namespace FalconBMS.Launcher.Input
         /// <summary>
         /// Save given key file code line in "BMS - FULL.key" and split them to parts.
         /// </summary>
-        public KeyAssgn(string stBuffer)
+        public KeyAssign(string stBuffer)
         {
             string[] stArrayData = stBuffer.Split(' ');
 
             callback = stArrayData[0];
-            soundID = stArrayData[1];
+            soundId = stArrayData[1];
             none = stArrayData[2];
             keyboard = stArrayData[3];
             modifier = stArrayData[4];
             keycombo = stArrayData[5];
             keycomboMod = stArrayData[6];
             visibility = stArrayData[7];
-            if (visibility == "-2")
-                visibility = "Hidden";
-            else if (visibility == "-1")
-                visibility = "Blue";
-            else if (visibility == "-0")
-                visibility = "Green";
-            else if (visibility == "1")
-                visibility = "White";
-            else
+            switch (visibility)
             {
-                visibility = "Green";
-                description += "!Alt Launcher ERROR!";
+                case "-2":
+                    visibility = "Hidden";
+                    break;
+                case "-1":
+                    visibility = "Blue";
+                    break;
+                case "-0":
+                    visibility = "Green";
+                    break;
+                case "1":
+                    visibility = "White";
+                    break;
+                default:
+                    visibility = "Green";
+                    description += "!Alt Launcher ERROR!";
+                    break;
             }
+
             description = "";
 
             if (stArrayData.Length >= 9)
@@ -72,12 +79,12 @@ namespace FalconBMS.Launcher.Input
                 description = "\"======== 2.19     THROTTLE QUADRANT SYSTEM ========\"";
         }
 
-        public KeyAssgn() { }
+        public KeyAssign() { }
 
-        public void getOtherKeyInstance(KeyAssgn otherInstance)
+        public void GetOtherKeyInstance(KeyAssign otherInstance)
         {
             callback    = otherInstance.callback;
-            soundID     = otherInstance.soundID;
+            soundId     = otherInstance.soundId;
             none        = otherInstance.none;
             keyboard    = otherInstance.keyboard;
             modifier    = otherInstance.modifier;
@@ -103,28 +110,40 @@ namespace FalconBMS.Launcher.Input
                 line += "#=======================================" +
                     "============================================\n";
             line += callback;
-            line += " " + soundID;
+            line += " " + soundId;
             line += " " + none;
             line += " " + keyboard;
             line += " " + modifier;
             line += " " + keycombo;
             line += " " + keycomboMod;
-            if (visibility == "Hidden")
-                line += " -2";
-            if (visibility == "Blue")
-                line += " -1";
-            if (visibility == "Green")
-                line += " -0";
-            if (visibility == "White")
-                line += " 1";
-            if (visibility == "-2")
-                line += " -2";
-            if (visibility == "-1")
-                line += " -1";
-            if (visibility == "-0")
-                line += " -0";
-            if (visibility == "1")
-                line += " 1";
+            switch (visibility)
+            {
+                case "Hidden":
+                    line += " -2";
+                    break;
+                case "Blue":
+                    line += " -1";
+                    break;
+                case "Green":
+                    line += " -0";
+                    break;
+                case "White":
+                    line += " 1";
+                    break;
+                case "-2":
+                    line += " -2";
+                    break;
+                case "-1":
+                    line += " -1";
+                    break;
+                case "-0":
+                    line += " -0";
+                    break;
+                case "1":
+                    line += " 1";
+                    break;
+            }
+
             line += " " + description;
             line += "\n";
             return line;
@@ -239,12 +258,12 @@ namespace FalconBMS.Launcher.Input
                 int scancode10 = Convert.ToInt32(scancodestr, 16);
 
                 // int -> enum
-                Key int2enum = (Microsoft.DirectX.DirectInput.Key)scancode10;
+                Key int2Enum = (Key)scancode10;
 
-                assignmentStatus += int2enum.ToString() + "\t: ";
+                assignmentStatus += int2Enum + "\t: ";
             }
 
-            if (keyboard.Remove(0, 2) != "FFFFFFFF")
+            if (keyboard.Remove(0, 2) == "FFFFFFFF") return assignmentStatus;
             {
                 // modifier //
                 switch (modifier)
@@ -279,42 +298,42 @@ namespace FalconBMS.Launcher.Input
                 int scancode10 = Convert.ToInt32(scancodestr, 16);
 
                 // int -> enum
-                Key int2enum = (Microsoft.DirectX.DirectInput.Key)scancode10;
+                Key int2Enum = (Key)scancode10;
 
-                assignmentStatus += int2enum.ToString();
+                assignmentStatus += int2Enum.ToString();
             }
 
             return assignmentStatus;
         }
 
         // Z_Joy_<asssigned joystick number> = "DX1 DX16 POV1UP" //
-        public string Z_Joy_0 => ReadJoyAssignment(0);
-        public string Z_Joy_1 => ReadJoyAssignment(1);
-        public string Z_Joy_2 => ReadJoyAssignment(2);
-        public string Z_Joy_3 => ReadJoyAssignment(3);
-        public string Z_Joy_4 => ReadJoyAssignment(4);
-        public string Z_Joy_5 => ReadJoyAssignment(5);
-        public string Z_Joy_6 => ReadJoyAssignment(6);
-        public string Z_Joy_7 => ReadJoyAssignment(7);
-        public string Z_Joy_8 => ReadJoyAssignment(8);
-        public string Z_Joy_9 => ReadJoyAssignment(9);
-        public string Z_Joy_10 => ReadJoyAssignment(10);
-        public string Z_Joy_11 => ReadJoyAssignment(11);
-        public string Z_Joy_12 => ReadJoyAssignment(12);
-        public string Z_Joy_13 => ReadJoyAssignment(13);
-        public string Z_Joy_14 => ReadJoyAssignment(14);
-        public string Z_Joy_15 => ReadJoyAssignment(15);
+        public string ZJoy0 => ReadJoyAssignment(0);
+        public string ZJoy1 => ReadJoyAssignment(1);
+        public string ZJoy2 => ReadJoyAssignment(2);
+        public string ZJoy3 => ReadJoyAssignment(3);
+        public string ZJoy4 => ReadJoyAssignment(4);
+        public string ZJoy5 => ReadJoyAssignment(5);
+        public string ZJoy6 => ReadJoyAssignment(6);
+        public string ZJoy7 => ReadJoyAssignment(7);
+        public string ZJoy8 => ReadJoyAssignment(8);
+        public string ZJoy9 => ReadJoyAssignment(9);
+        public string ZJoy10 => ReadJoyAssignment(10);
+        public string ZJoy11 => ReadJoyAssignment(11);
+        public string ZJoy12 => ReadJoyAssignment(12);
+        public string ZJoy13 => ReadJoyAssignment(13);
+        public string ZJoy14 => ReadJoyAssignment(14);
+        public string ZJoy15 => ReadJoyAssignment(15);
 
         public string ReadJoyAssignment(int joynum)
         {
-            string ans = "";
+            string ans;
             if (Windows.MainWindow.deviceControl.joyAssign.Length <= joynum)
                 return "";
-            ans = Windows.MainWindow.deviceControl.joyAssign[joynum].KeyMappingPreviewDX(this);
+            ans = Windows.MainWindow.deviceControl.joyAssign[joynum].KeyMappingPreviewDx(this);
             // PRIMARY DEVICE POV
-            if (((InGameAxAssgn)MainWindow.inGameAxis["Roll"]).GetDeviceNumber() == joynum || ((InGameAxAssgn)MainWindow.inGameAxis["Throttle"]).GetDeviceNumber() == joynum)
+            if (((InGameAxAssign)MainWindow.inGameAxis["Roll"]).GetDeviceNumber() == joynum || ((InGameAxAssign)MainWindow.inGameAxis["Throttle"]).GetDeviceNumber() == joynum)
             {
-                string tmp = Windows.MainWindow.deviceControl.joyAssign[joynum].KeyMappingPreviewPOV(this);
+                string tmp = Windows.MainWindow.deviceControl.joyAssign[joynum].KeyMappingPreviewPov(this);
                 if (ans != "" & tmp != "")
                     ans += "\n";
                 ans += tmp;
@@ -322,21 +341,21 @@ namespace FalconBMS.Launcher.Input
             return ans;
         }
 
-        public string ReadJoyAssignment(int joynum, JoyAssgn[] joyAssign)
+        public string ReadJoyAssignment(int joynum, JoyAssign[] joyAssign)
         {
-            string ans = "";
+            string ans;
             if (joyAssign.Length <= joynum)
                 return "";
-            ans = joyAssign[joynum].KeyMappingPreviewDX(this);
+            ans = joyAssign[joynum].KeyMappingPreviewDx(this);
             if(ans != "")
-                ans = "JOY " + joynum.ToString() + " " + joyAssign[joynum].KeyMappingPreviewDX(this).Replace("\n", ", ");
+                ans = "JOY " + joynum + " " + joyAssign[joynum].KeyMappingPreviewDx(this).Replace("\n", ", ");
             // PRIMARY DEVICE POV
-            if (((InGameAxAssgn)MainWindow.inGameAxis["Roll"]).GetDeviceNumber() == joynum || ((InGameAxAssgn)MainWindow.inGameAxis["Throttle"]).GetDeviceNumber() == joynum) 
+            if (((InGameAxAssign)MainWindow.inGameAxis["Roll"]).GetDeviceNumber() == joynum || ((InGameAxAssign)MainWindow.inGameAxis["Throttle"]).GetDeviceNumber() == joynum) 
             {
-                string tmp = "";
-                tmp = joyAssign[joynum].KeyMappingPreviewPOV(this);
+                string tmp;
+                tmp = joyAssign[joynum].KeyMappingPreviewPov(this);
                 if (tmp != "")
-                    tmp = "JOY " + joynum.ToString() + " " + joyAssign[joynum].KeyMappingPreviewPOV(this).Replace("\n", ", ");
+                    tmp = "JOY " + joynum + " " + joyAssign[joynum].KeyMappingPreviewPov(this).Replace("\n", ", ");
                 if (ans != "" & tmp != "")
                     ans += "; ";
                 ans += tmp;
@@ -346,9 +365,9 @@ namespace FalconBMS.Launcher.Input
             return ans;
         }
 
-        public KeyAssgn Clone()
+        public KeyAssign Clone()
         {
-            return (KeyAssgn)MemberwiseClone();
+            return (KeyAssign)MemberwiseClone();
         }
     }
 }

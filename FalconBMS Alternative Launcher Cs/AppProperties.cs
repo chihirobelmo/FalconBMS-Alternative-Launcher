@@ -14,49 +14,49 @@ namespace FalconBMS.Launcher
             this.mainWindow = mainWindow;
 
             // Load Buttons
-            mainWindow.Misc_Platform.IsChecked             = Properties.Settings.Default.Platform;
-            mainWindow.CMD_ACMI.IsChecked                  = Properties.Settings.Default.CMD_ACMI;
-            mainWindow.CMD_WINDOW.IsChecked                = Properties.Settings.Default.CMD_WINDOW;
-            mainWindow.CMD_NOMOVIE.IsChecked               = Properties.Settings.Default.CMD_NOMOVIE;
-            mainWindow.CMD_EF.IsChecked                    = Properties.Settings.Default.CMD_EF;
-            mainWindow.CMD_MONO.IsChecked                  = Properties.Settings.Default.CMD_MONO;
+            mainWindow.MiscPlatform.IsChecked             = Properties.Settings.Default.Platform;
+            mainWindow.CmdAcmi.IsChecked                  = Properties.Settings.Default.CMD_ACMI;
+            mainWindow.CmdWindow.IsChecked                = Properties.Settings.Default.CMD_WINDOW;
+            mainWindow.CmdNomovie.IsChecked               = Properties.Settings.Default.CMD_NOMOVIE;
+            mainWindow.CmdEf.IsChecked                    = Properties.Settings.Default.CMD_EF;
+            mainWindow.CmdMono.IsChecked                  = Properties.Settings.Default.CMD_MONO;
             bandWidthDefault                          = Properties.Settings.Default.CMD_BW;
             mainWindow.ApplicationOverride.IsChecked       = Properties.Settings.Default.NoOverride;
-            mainWindow.Misc_RollLinkedNWS.IsChecked        = Properties.Settings.Default.Misc_RLNWS;
-            mainWindow.Misc_MouseCursorAnchor.IsChecked    = Properties.Settings.Default.Misc_MouseCursorAnchor;
-            mainWindow.Misc_TrackIRZ.IsChecked             = Properties.Settings.Default.Misc_TrackIRZ;
-            mainWindow.Misc_ExMouseLook.IsChecked          = Properties.Settings.Default.Misc_ExMouseLook;
-            mainWindow.Misc_OverrideSelfCancel.IsChecked   = Properties.Settings.Default.Misc_OverrideSelfCancel;
-            mainWindow.Misc_SmartScalingOverride.IsChecked = Properties.Settings.Default.Misc_SmartScalingOverride;
-            mainWindow.Misc_NaturalHeadMovement.IsChecked  = Properties.Settings.Default.Misc_NaturalHeadMovement;
-            mainWindow.Misc_PilotModel.IsChecked           = Properties.Settings.Default.Misc_PilotModel;
+            mainWindow.MiscRollLinkedNws.IsChecked        = Properties.Settings.Default.Misc_RLNWS;
+            mainWindow.MiscMouseCursorAnchor.IsChecked    = Properties.Settings.Default.Misc_MouseCursorAnchor;
+            mainWindow.MiscTrackIrz.IsChecked             = Properties.Settings.Default.Misc_TrackIRZ;
+            mainWindow.MiscExMouseLook.IsChecked          = Properties.Settings.Default.Misc_ExMouseLook;
+            mainWindow.MiscOverrideSelfCancel.IsChecked   = Properties.Settings.Default.Misc_OverrideSelfCancel;
+            mainWindow.MiscSmartScalingOverride.IsChecked = Properties.Settings.Default.Misc_SmartScalingOverride;
+            mainWindow.MiscNaturalHeadMovement.IsChecked  = Properties.Settings.Default.Misc_NaturalHeadMovement;
+            mainWindow.MiscPilotModel.IsChecked           = Properties.Settings.Default.Misc_PilotModel;
 
             // Button Status Default
-            mainWindow.Select_DX_Release.IsChecked  = true;
-            mainWindow.Select_PinkyShift.IsChecked  = true;
-            mainWindow.CMD_BW.Content               = "BW : " + bandWidthDefault;
-            mainWindow.AB_Throttle.Visibility       = Visibility.Hidden;
-            mainWindow.AB_Throttle_Right.Visibility = Visibility.Hidden;
+            mainWindow.SelectDxRelease.IsChecked  = true;
+            mainWindow.SelectPinkyShift.IsChecked  = true;
+            mainWindow.CmdBw.Content               = "BW : " + bandWidthDefault;
+            mainWindow.AbThrottle.Visibility       = Visibility.Hidden;
+            mainWindow.AbThrottleRight.Visibility = Visibility.Hidden;
         }
 
-        public void SaveUISetup()
+        public void SaveUiSetup()
         {
-            Properties.Settings.Default.Platform                  = (bool)mainWindow.Misc_Platform.IsChecked;
-            Properties.Settings.Default.CMD_ACMI                  = (bool)mainWindow.CMD_ACMI.IsChecked;
-            Properties.Settings.Default.CMD_WINDOW                = (bool)mainWindow.CMD_WINDOW.IsChecked;
-            Properties.Settings.Default.CMD_NOMOVIE               = (bool)mainWindow.CMD_NOMOVIE.IsChecked;
-            Properties.Settings.Default.CMD_EF                    = (bool)mainWindow.CMD_EF.IsChecked;
-            Properties.Settings.Default.CMD_MONO                  = (bool)mainWindow.CMD_MONO.IsChecked;
+            Properties.Settings.Default.Platform                  = (bool)mainWindow.MiscPlatform.IsChecked;
+            Properties.Settings.Default.CMD_ACMI                  = (bool)mainWindow.CmdAcmi.IsChecked;
+            Properties.Settings.Default.CMD_WINDOW                = (bool)mainWindow.CmdWindow.IsChecked;
+            Properties.Settings.Default.CMD_NOMOVIE               = (bool)mainWindow.CmdNomovie.IsChecked;
+            Properties.Settings.Default.CMD_EF                    = (bool)mainWindow.CmdEf.IsChecked;
+            Properties.Settings.Default.CMD_MONO                  = (bool)mainWindow.CmdMono.IsChecked;
             Properties.Settings.Default.CMD_BW                    = bandWidthDefault;
             Properties.Settings.Default.NoOverride                = (bool)mainWindow.ApplicationOverride.IsChecked;
-            Properties.Settings.Default.Misc_RLNWS                = (bool)mainWindow.Misc_RollLinkedNWS.IsChecked;
-            Properties.Settings.Default.Misc_MouseCursorAnchor    = (bool)mainWindow.Misc_MouseCursorAnchor.IsChecked;
-            Properties.Settings.Default.Misc_TrackIRZ             = (bool)mainWindow.Misc_TrackIRZ.IsChecked;
-            Properties.Settings.Default.Misc_ExMouseLook          = (bool)mainWindow.Misc_ExMouseLook.IsChecked;
-            Properties.Settings.Default.Misc_OverrideSelfCancel   = (bool)mainWindow.Misc_OverrideSelfCancel.IsChecked;
-            Properties.Settings.Default.Misc_SmartScalingOverride = (bool)mainWindow.Misc_SmartScalingOverride.IsChecked;
-            Properties.Settings.Default.Misc_NaturalHeadMovement  = (bool)mainWindow.Misc_NaturalHeadMovement.IsChecked;
-            Properties.Settings.Default.Misc_PilotModel           = (bool)mainWindow.Misc_PilotModel.IsChecked;
+            Properties.Settings.Default.Misc_RLNWS                = (bool)mainWindow.MiscRollLinkedNws.IsChecked;
+            Properties.Settings.Default.Misc_MouseCursorAnchor    = (bool)mainWindow.MiscMouseCursorAnchor.IsChecked;
+            Properties.Settings.Default.Misc_TrackIRZ             = (bool)mainWindow.MiscTrackIrz.IsChecked;
+            Properties.Settings.Default.Misc_ExMouseLook          = (bool)mainWindow.MiscExMouseLook.IsChecked;
+            Properties.Settings.Default.Misc_OverrideSelfCancel   = (bool)mainWindow.MiscOverrideSelfCancel.IsChecked;
+            Properties.Settings.Default.Misc_SmartScalingOverride = (bool)mainWindow.MiscSmartScalingOverride.IsChecked;
+            Properties.Settings.Default.Misc_NaturalHeadMovement  = (bool)mainWindow.MiscNaturalHeadMovement.IsChecked;
+            Properties.Settings.Default.Misc_PilotModel           = (bool)mainWindow.MiscPilotModel.IsChecked;
             Properties.Settings.Default.Save();
         }
 
@@ -67,7 +67,7 @@ namespace FalconBMS.Launcher
             {
                 bandWidthDefault = 512;
             }
-            mainWindow.CMD_BW.Content = "BW : " + bandWidthDefault;
+            mainWindow.CmdBw.Content = "BW : " + bandWidthDefault;
         }
     }
 }

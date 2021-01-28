@@ -1,9 +1,9 @@
-﻿<Controls:MetroWindow x:Class="FalconBMS.Launcher.Windows.KeyMappingWindow"
+﻿<controls:MetroWindow x:Class="FalconBMS.Launcher.Windows.KeyMappingWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
         GlowBrush="Black" BorderThickness="0"
         Title="Axis Assign" Height="236" Width="512" 
@@ -15,7 +15,7 @@
         <Style TargetType="Label">
             <Setter Property="Foreground" Value="#FF606060" />
         </Style>
-        <Style TargetType="Controls:MetroProgressBar">
+        <Style TargetType="controls:MetroProgressBar">
             <Setter Property="Background" Value="#80F0F0F0" />
             <Setter Property="Foreground" Value="#803878A8" />
             <Setter Property="BorderBrush" Value="#FF606060" />
@@ -39,14 +39,14 @@
         <Label x:Name="MappedButton" HorizontalAlignment="Left" Margin="32,67,0,0" VerticalAlignment="Top" FontStyle="Italic" Height="28" Width="447"/>
         <Label x:Name="AwaitingInputs" HorizontalAlignment="Left" Margin="32,67,0,0" VerticalAlignment="Top" FontStyle="Italic" Height="28" Width="447"/>
         <Border BorderBrush="#FF606060" BorderThickness="1" HorizontalAlignment="Center" Height="28" Margin="32,67,33,0" VerticalAlignment="Top" Width="447"/>
-        <Button x:Name="ClearDX" Content="Clear DX" HorizontalAlignment="Left" Margin="404,112,0,0" VerticalAlignment="Top" Width="75" Click="ClearDX_Click"/>
+        <Button x:Name="ClearDx" Content="Clear DX" HorizontalAlignment="Left" Margin="404,112,0,0" VerticalAlignment="Top" Width="75" Click="ClearDX_Click"/>
         <Button x:Name="ClearKey" Content="Clear Key" HorizontalAlignment="Left" Margin="404,144,0,0" VerticalAlignment="Top" Width="75" Click="ClearKey_Click"/>
-        <ToggleButton x:Name="Select_PinkyShift" Content="DX SHIFT" HorizontalAlignment="Right" Margin="0,112,320,0" VerticalAlignment="Top" Width="160" Height="27" Click="Select_PinkyShift_Click" IsHitTestVisible="False"/>
-        <ToggleButton x:Name="Select_DX_Release" Content="RELEASE" HorizontalAlignment="Right" Margin="0,144,320,0" VerticalAlignment="Top" Width="160" Height="27" Visibility="Hidden"/>
-        <Button x:Name="Select_Invoke" Content="Invoke Both" HorizontalAlignment="Right" Margin="0,176,320,0" VerticalAlignment="Top" Width="160" Click="Select_Invoke_Click" Height="27" Visibility="Hidden"/>
+        <ToggleButton x:Name="SelectPinkyShift" Content="DX SHIFT" HorizontalAlignment="Right" Margin="0,112,320,0" VerticalAlignment="Top" Width="160" Height="27" Click="Select_PinkyShift_Click" IsHitTestVisible="False"/>
+        <ToggleButton x:Name="SelectDxRelease" Content="RELEASE" HorizontalAlignment="Right" Margin="0,144,320,0" VerticalAlignment="Top" Width="160" Height="27" Visibility="Hidden"/>
+        <Button x:Name="SelectInvoke" Content="Invoke Both" HorizontalAlignment="Right" Margin="0,176,320,0" VerticalAlignment="Top" Width="160" Click="Select_Invoke_Click" Height="27" Visibility="Hidden"/>
         <Button x:Name="Save" Content="Save" HorizontalAlignment="Left" Margin="404,176,0,0" VerticalAlignment="Top" Width="75" Click="Save_Click"/>
         <TextBlock TextWrapping="Wrap" Margin="32,46,33,174" Foreground="#FF7D7D7D" FontSize="10"><Run Text="* "/><Run Text="Alternative Launcher recognizes POV switch on the device whose axis is bound to Roll"/><Run Text=" or Throttle"/><Run Text="."/></TextBlock>
-        <Button x:Name="Select_Press" Content="PRESS" HorizontalAlignment="Right" Margin="0,144,320,0" VerticalAlignment="Top" Width="160" Click="Select_Press_Click" Height="27"/>
+        <Button x:Name="SelectPress" Content="PRESS" HorizontalAlignment="Right" Margin="0,144,320,0" VerticalAlignment="Top" Width="160" Click="Select_Press_Click" Height="27"/>
         <TextBlock TextWrapping="Wrap" Margin="32,176,113,10" Foreground="#FF7D7D7D" FontSize="9"><Run Text="* "/><Run Text="Press and hold "/><Run Text="DX button wh"/><Run Text="ich"/><Run Text=" you"/><Run Text=" have"/><Run Text=" assigned to &quot;"/><Run Text="STICK:PINKY SWITCH (DXSHIFT)"/><Run Text="&quot;"/><LineBreak/><Run Text="will"/><Run Text=" lit up &quot;DX SHIFT&quot; button above."/><Run Text=" "/><Run Text=" "/><Run Text="While the button is lit up, pressing another DX button"/><LineBreak/><Run Text="will assign it to a shifted layer."/></TextBlock>
     </Grid>
-</Controls:MetroWindow>
+</controls:MetroWindow>

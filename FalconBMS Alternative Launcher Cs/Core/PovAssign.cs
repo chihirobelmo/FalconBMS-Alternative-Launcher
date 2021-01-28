@@ -5,39 +5,39 @@ namespace FalconBMS.Launcher.Core
     /// <summary>
     /// Means each actual POV switches on a joystick.
     /// </summary>
-    public class PovAssgn
+    public class PovAssign
     {
         /// <summary>
         /// One POV switch has 8 directions.
         /// </summary>
-        public DirAssgn[] direction = new DirAssgn[8];
+        public DirAssign[] direction = new DirAssign[8];
 
         // Constructor
-        public PovAssgn()
+        public PovAssign()
         {
             for (int i = 0; i < direction.Length; i++)
-                direction[i] = new DirAssgn();
+                direction[i] = new DirAssign();
         }
-        public PovAssgn(PovAssgn otherInstance)
+        public PovAssign(PovAssign otherInstance)
         {
             for (int i = 0; i < direction.Length; i++)
                 direction[i] = otherInstance.direction[i].Clone();
         }
 
         // Method
-        public void Assign(int GetPointofView, string callback, Pinky pinky, int soundID)
+        public void Assign(int getPointOfView, string callback, Pinky pinky, int soundId)
         {
-            if (GetPointofView > 7)
-                GetPointofView /= 4500;
-            direction[GetPointofView].Assign(callback, pinky, soundID);
+            if (getPointOfView > 7)
+                getPointOfView /= 4500;
+            direction[getPointOfView].Assign(callback, pinky, soundId);
         }
 
-        public string GetDirection(int GetPointOfView)
+        public string GetDirection(int getPointOfView)
         {
             string direction = "";
-            if (GetPointOfView > 7)
-                GetPointOfView /= 4500;
-            switch (GetPointOfView)
+            if (getPointOfView > 7)
+                getPointOfView /= 4500;
+            switch (getPointOfView)
             {
                 case 0:
                     direction = "UP";
@@ -67,20 +67,20 @@ namespace FalconBMS.Launcher.Core
             return direction;
         }
 
-        public PovAssgn Clone()
+        public PovAssign Clone()
         {
-            return new PovAssgn(this);
+            return new PovAssign(this);
         }
     }
 
     /// <summary>
     /// Means each direction on a POV switch,
     /// </summary>
-    public class DirAssgn
+    public class DirAssign
     {
         // Member
         protected string[] callback = { "SimDoNothing", "SimDoNothing" };
-        protected int[] soundID = { 0, 0 };
+        protected int[] soundId = { 0, 0 };
         // [0]=PRESS
         // [1]=PRESS + SHIFT
 
@@ -88,39 +88,39 @@ namespace FalconBMS.Launcher.Core
         public string[] Callback { get => callback;
             set => callback = value;
         }
-        public int[] SoundID { get => soundID;
-            set => soundID = value;
+        public int[] SoundId { get => soundId;
+            set => soundId = value;
         }
 
         // Constructor
-        public DirAssgn() { }
-        public DirAssgn(DirAssgn otherInstance)
+        public DirAssign() { }
+        public DirAssign(DirAssign otherInstance)
         {
             callback[0] = otherInstance.callback[0];
             callback[1] = otherInstance.callback[1];
-            soundID[0] = otherInstance.soundID[0];
-            soundID[1] = otherInstance.soundID[1];
+            soundId[0] = otherInstance.soundId[0];
+            soundId[1] = otherInstance.soundId[1];
         }
 
         // Method
         public string GetCallback(Pinky pinky) { return callback[(int)pinky]; }
-        public int GetSoundID(Pinky pinky) { return soundID[(int)pinky]; }
+        public int GetSoundId(Pinky pinky) { return soundId[(int)pinky]; }
 
-        public void Assign(string callback, Pinky pinky, int soundID)
+        public void Assign(string callback, Pinky pinky, int soundId)
         {
             this.callback[(int)pinky] = callback;
-            this.soundID[(int)pinky] = soundID;
+            this.soundId[(int)pinky] = soundId;
         }
 
         public void UnAssign(Pinky pinky)
         {
             callback[(int)pinky] = "SimDoNothing";
-            soundID[(int)pinky] = 0;
+            soundId[(int)pinky] = 0;
         }
 
-        public DirAssgn Clone()
+        public DirAssign Clone()
         {
-            return new DirAssgn(this);
+            return new DirAssign(this);
         }
     }
 }

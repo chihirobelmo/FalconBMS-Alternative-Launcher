@@ -37,10 +37,10 @@ namespace FalconBMS.Launcher.Windows
 
         private AppProperties appProperties;
 
-        private DispatcherTimer AxisMovingTimer = new DispatcherTimer();
-        private DispatcherTimer KeyMappingTimer = new DispatcherTimer();
+        private DispatcherTimer axisMovingTimer = new DispatcherTimer();
+        private DispatcherTimer keyMappingTimer = new DispatcherTimer();
         
-        public static bool FLG_YAME64;
+        public static bool flgYame64;
 
         /// <summary>
         /// Execute when launching this app.
@@ -63,12 +63,12 @@ namespace FalconBMS.Launcher.Windows
                     }
                     if (option.ContainsKey("/yame"))
                         if (option["/yame"] == "true")
-                            FLG_YAME64 = true;
+                            flgYame64 = true;
 
-                    if (FLG_YAME64)
+                    if (flgYame64)
                     {
                         LargeTab.SelectedIndex = 1;
-                        Tab_Launcher.Visibility = Visibility.Collapsed;
+                        TabLauncher.Visibility = Visibility.Collapsed;
 
                         Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
                         BackGroundBox1.Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
@@ -77,11 +77,11 @@ namespace FalconBMS.Launcher.Windows
                         BackGroundBox4.Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
                         BackGroundImage.Opacity = 0;
 
-                        Button_Apply_YAME64.Visibility = Visibility.Visible;
+                        ButtonApplyYame64.Visibility = Visibility.Visible;
                     }
                     else
                     {
-                        Button_Apply_YAME64.Visibility = Visibility.Hidden;
+                        ButtonApplyYame64.Visibility = Visibility.Hidden;
                     }
                 }
             }
@@ -109,7 +109,7 @@ namespace FalconBMS.Launcher.Windows
             // Read Registry
             appReg = new AppRegInfo(this);
 
-            if (appReg.getBMSVersion() == BMS_Version.UNDEFINED)
+            if (appReg.GetBmsVersion() == BmsVersion.Undefined)
             {
                 Close();
                 return;
@@ -118,7 +118,7 @@ namespace FalconBMS.Launcher.Windows
             try
             {
                 // Read Theater List
-                TheaterList.Populate(appReg, Dropdown_TheaterList);
+                TheaterList.Populate(appReg, DropdownTheaterList);
 
                 // Get Devices
                 deviceControl = new DeviceControl(appReg);
@@ -129,23 +129,23 @@ namespace FalconBMS.Launcher.Windows
 
                 // Reset All Axis Settings
                 foreach (AxisName nme in Input.MainWindow.axisNameList)
-                    Input.MainWindow.inGameAxis[nme.ToString()] = new InGameAxAssgn();
+                    Input.MainWindow.inGameAxis[nme.ToString()] = new InGameAxAssign();
                 joyAssign_2_inGameAxis();
                 ResetAssgnWindow();
 
                 // Read BMS-FULL.key
-                string fname = appReg.GetInstallDir() + "\\User\\Config\\" + appReg.getKeyFileName();
+                string fname = appReg.GetInstallDir() + "\\User\\Config\\" + appReg.GetKeyFileName();
                 keyFile = new KeyFile(fname, appReg);
 
                 // Write Data Grid
                 WriteDataGrid();
 
                 // Set Timer
-                AxisMovingTimer.Tick += AxisMovingTimer_Tick;
-                AxisMovingTimer.Interval = new TimeSpan(0, 0, 0, 0, 16);
+                axisMovingTimer.Tick += AxisMovingTimer_Tick;
+                axisMovingTimer.Interval = new TimeSpan(0, 0, 0, 0, 16);
 
-                KeyMappingTimer.Tick += KeyMappingTimer_Tick;
-                KeyMappingTimer.Interval = new TimeSpan(0, 0, 0, 0, 16);
+                keyMappingTimer.Tick += KeyMappingTimer_Tick;
+                keyMappingTimer.Interval = new TimeSpan(0, 0, 0, 0, 16);
 
                 //System.Diagnostics.PresentationTraceSources.DataBindingSource.Switch.Level = System.Diagnostics.SourceLevels.Critical;
             }
@@ -178,9 +178,9 @@ namespace FalconBMS.Launcher.Windows
                     return;
 
                 // Save UI Properties(Like Button Status).
-                appProperties.SaveUISetup();
+                appProperties.SaveUiSetup();
                 if (ApplicationOverride.IsChecked == false)
-                    appReg.getOverrideWriter().Execute(Input.MainWindow.inGameAxis, deviceControl, keyFile);
+                    appReg.GetOverrideWriter().Execute(Input.MainWindow.inGameAxis, deviceControl, keyFile);
             }
 
             catch (FileNotFoundException ex)
@@ -211,17 +211,17 @@ namespace FalconBMS.Launcher.Windows
             int value = LargeTab.SelectedIndex;
 
             if (value == 1)
-                AxisMovingTimer.Start();
+                axisMovingTimer.Start();
             else
-                AxisMovingTimer.Stop();
+                axisMovingTimer.Stop();
 
             if (value == 2)
             {
-                KeyMappingTimer.Start();
+                keyMappingTimer.Start();
                 KeyMappingGrid.Items.Refresh();
             }
             else
-                KeyMappingTimer.Stop();
+                keyMappingTimer.Stop();
         }
         
         /// <summary>
@@ -231,7 +231,7 @@ namespace FalconBMS.Launcher.Windows
         /// <param name="e"></param>
         private void Dropdown_TheaterList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            appReg.ChangeTheater(Dropdown_TheaterList);
+            appReg.ChangeTheater(DropdownTheaterList);
         }
         
         /// <summary>
@@ -273,7 +273,7 @@ namespace FalconBMS.Launcher.Windows
         {
             try
             {
-                appReg.getLauncher().execute(sender);
+                appReg.GetLauncher().Execute(sender);
             }
             catch (FileNotFoundException ex)
             {
@@ -295,7 +295,7 @@ namespace FalconBMS.Launcher.Windows
         /// As the name implies.
         /// </summary>
         /// <returns></returns>
-        public int getBWValue()
+        public int GetBwValue()
         {
             return appProperties.bandWidthDefault;
         }
@@ -303,7 +303,7 @@ namespace FalconBMS.Launcher.Windows
         /// <summary>
         /// OverrideSettings.
         /// </summary>
-        public void executeOverride()
+        public void ExecuteOverride()
         {
             try
             {
@@ -315,7 +315,7 @@ namespace FalconBMS.Launcher.Windows
                 }
                 else
                 {
-                    appReg.getOverrideWriter().Execute(Input.MainWindow.inGameAxis, deviceControl, keyFile);
+                    appReg.GetOverrideWriter().Execute(Input.MainWindow.inGameAxis, deviceControl, keyFile);
                 }
             }
 
@@ -336,7 +336,7 @@ namespace FalconBMS.Launcher.Windows
         /// As the name implies.
         /// </summary>
         /// <param name="process"></param>
-        public void minimizeWindowUntilProcessEnds(Process process)
+        public void MinimizeWindowUntilProcessEnds(Process process)
         {
             process.Exited += window_Normal;
             process.EnableRaisingEvents = true;
@@ -498,15 +498,15 @@ namespace FalconBMS.Launcher.Windows
             {
                 if (nme.Contains("Launch_TheaterConfig"))
                     return;
-                Button tbButton = FindName(nme) as Button;
-                if (tbButton == null)
+
+                if (!(FindName(nme) is Button tbButton))
                     return;
                 tbButton.BorderBrush = new SolidColorBrush(Colors.LightBlue);
                 tbButton.BorderThickness = new Thickness(1);
 
                 nme = nme.Replace("Launch_", "");
-                Label tblabel = FindName("Label_" + nme) as Label;
-                if (tblabel == null)
+
+                if (!(FindName("Label_" + nme) is Label tblabel))
                     return;
                 tblabel.Foreground = new SolidColorBrush(Color.FromArgb(255, 128, 255, 255));
             }
@@ -525,14 +525,14 @@ namespace FalconBMS.Launcher.Windows
             {
                 if (nme.Contains("Launch_TheaterConfig"))
                     return;
-                Button tbButton = FindName(nme) as Button;
-                if (tbButton == null)
+
+                if (!(FindName(nme) is Button tbButton))
                     return;
                 tbButton.BorderThickness = new Thickness(0);
 
                 nme = nme.Replace("Launch_", "");
-                Label tblabel = FindName("Label_" + nme) as Label;
-                if (tblabel == null)
+
+                if (!(FindName("Label_" + nme) is Label tblabel))
                     return;
                 tblabel.Foreground = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
             }
@@ -558,7 +558,7 @@ namespace FalconBMS.Launcher.Windows
 
         private void Apply_YAME64(object sender, RoutedEventArgs e)
         {
-            appReg.getOverrideWriter().Execute(Input.MainWindow.inGameAxis, deviceControl, keyFile);
+            appReg.GetOverrideWriter().Execute(Input.MainWindow.inGameAxis, deviceControl, keyFile);
             Close();
         }
 
@@ -574,7 +574,7 @@ namespace FalconBMS.Launcher.Windows
 
         private void CMD_WINDOW_Click(object sender, RoutedEventArgs e)
         {
-            if (CMD_WINDOW.IsChecked == true)
+            if (CmdWindow.IsChecked == true)
                 MessageBox.Show("FalconBMS crashes when Alt+TAB in FullScreen Mode. Recommend Enabling Window Mode.\n(WINDOW button turning on light)", "WARNING", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
@@ -582,7 +582,7 @@ namespace FalconBMS.Launcher.Windows
 
         private void Select_PinkyShift_Click(object sender, RoutedEventArgs e)
         {
-            if (Select_PinkyShift.IsChecked == false)
+            if (SelectPinkyShift.IsChecked == false)
                 pressedByHand = true;
             else
                 pressedByHand = false;

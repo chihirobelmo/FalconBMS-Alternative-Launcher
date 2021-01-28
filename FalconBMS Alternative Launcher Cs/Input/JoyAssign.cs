@@ -7,17 +7,17 @@ using Microsoft.DirectX.DirectInput;
 
 namespace FalconBMS.Launcher.Input
 {
-    public class JoyAssgn
+    public class JoyAssign
     {
         // Member
         protected string productName = "";
-        protected Guid productGUID;
-        protected Guid instanceGUID;
+        protected Guid productGuid;
+        protected Guid instanceGuid;
 
         // Method
         public string GetProductName() { return productName; }
-        public Guid GetProductGUID() { return productGUID; }
-        public Guid GetInstanceGUID() { return instanceGUID; }
+        public Guid GetProductGuid() { return productGuid; }
+        public Guid GetInstanceGuid() { return instanceGuid; }
 
         /// <summary>
         /// [0]=X
@@ -37,7 +37,7 @@ namespace FalconBMS.Launcher.Input
         /// [2]=POV3
         /// [3]=POV4
         /// </summary>
-        public PovAssgn[] pov = new PovAssgn[4];
+        public PovAssign[] pov = new PovAssign[4];
 
         /// <summary>
         /// [N] = DX[N]
@@ -58,20 +58,20 @@ namespace FalconBMS.Launcher.Input
         /// <summary>
         /// Make new instance.
         /// </summary>
-        public JoyAssgn()
+        public JoyAssign()
         {
             for (int i = 0; i < axis.Length; i++)
                 axis[i] = new AxAssgn();
             for (int i = 0; i < pov.Length; i++)
-                pov[i] = new PovAssgn();
+                pov[i] = new PovAssign();
             for (int i = 0; i < dx.Length; i++)
                 dx[i] = new DxAssgn();
         }
-        public JoyAssgn(JoyAssgn otherInstance)
+        public JoyAssign(JoyAssign otherInstance)
         {
-            productGUID = otherInstance.productGUID;
+            productGuid = otherInstance.productGuid;
             productName = otherInstance.productName;
-            instanceGUID = otherInstance.instanceGUID;
+            instanceGuid = otherInstance.instanceGuid;
             for (int i = 0; i < axis.Length; i++)
                 axis[i] = otherInstance.axis[i].Clone();
             for (int i = 0; i < pov.Length; i++)
@@ -85,9 +85,9 @@ namespace FalconBMS.Launcher.Input
         /// </summary>
         public void SetDeviceInstance(DeviceInstance deviceInstance)
         {
-            productGUID = deviceInstance.ProductGuid;
+            productGuid = deviceInstance.ProductGuid;
             productName = deviceInstance.ProductName;
-            instanceGUID = deviceInstance.InstanceGuid;
+            instanceGuid = deviceInstance.InstanceGuid;
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace FalconBMS.Launcher.Input
         /// </summary>
         public string GetDeviceSortingLine()
         {
-            Guid guid = GetProductGUID();
+            Guid guid = GetProductGuid();
             string str = guid.ToString().ToUpper();
             str = "{" + str + "} \"" + GetProductName() + "\"\r\n";
             return str;
@@ -126,7 +126,7 @@ namespace FalconBMS.Launcher.Input
         /// <summary>
         /// Get whole DX button assignment line to write a key file.
         /// </summary>
-        public string GetKeyLineDX(int joynum, int numOfDevices)
+        public string GetKeyLineDx(int joynum, int numOfDevices)
         {
             string assign = "";
             assign += "\n#======== " + GetProductName() + " ========\n";
@@ -146,7 +146,7 @@ namespace FalconBMS.Launcher.Input
                         assign += " " + "-2";
                         assign += " " + "0";
                         assign += " " + "0x0";
-                        assign += " " + dx[i].assign[ii].GetSoundID();
+                        assign += " " + dx[i].assign[ii].GetSoundId();
                         assign += "\n";
                         assign += dx[i].assign[ii].GetCallback();
                         assign += " " + (numOfDevices * 32 + joynum * 32 + i);
@@ -154,7 +154,7 @@ namespace FalconBMS.Launcher.Input
                         assign += " " + "-2";
                         assign += " " + "0";
                         assign += " " + "0x0";
-                        assign += " " + dx[i].assign[ii].GetSoundID();
+                        assign += " " + dx[i].assign[ii].GetSoundId();
                         assign += "\n";
                         continue;
                     }
@@ -170,7 +170,7 @@ namespace FalconBMS.Launcher.Input
                     if (ii == 2 | ii == 3)
                         assign += " " + "0x42";
                     assign += " " + "0x0";
-                    assign += " " + dx[i].assign[ii].GetSoundID();
+                    assign += " " + dx[i].assign[ii].GetSoundId();
                     assign += "\n";
                 }
             }
@@ -180,7 +180,7 @@ namespace FalconBMS.Launcher.Input
         /// <summary>
         /// Get each POV hat assignment line to write a key file.
         /// </summary>
-        public string GetKeyLinePOV()
+        public string GetKeyLinePov()
         {
             string assign = "";
             assign += "\n#======== " + GetProductName() + " : POV ========\n";
@@ -203,7 +203,7 @@ namespace FalconBMS.Launcher.Input
                             assign += " " + "-3";
                             assign += " " + ii;
                             assign += " " + "0x0";
-                            assign += " " + pov[i].direction[ii].GetSoundID((Pinky)iii);
+                            assign += " " + pov[i].direction[ii].GetSoundId((Pinky)iii);
                             assign += "\n";
                         }
                         else
@@ -219,7 +219,7 @@ namespace FalconBMS.Launcher.Input
                             assign += " " + "-3";
                             assign += " " + ii;
                             assign += " " + "0x0";
-                            assign += " " + pov[i].direction[ii].GetSoundID((Pinky)iii);
+                            assign += " " + pov[i].direction[ii].GetSoundId((Pinky)iii);
                             assign += "\n";
                         }
                     }
@@ -228,7 +228,7 @@ namespace FalconBMS.Launcher.Input
             return assign;
         }
 
-        public string GetKeyLinePOV(int povNum)
+        public string GetKeyLinePov(int povNum)
         {
             string assign = "";
             assign += "\n#======== " + GetProductName() + " : POV ========\n";
@@ -249,7 +249,7 @@ namespace FalconBMS.Launcher.Input
                         assign += " " + "-3";
                         assign += " " + ii;
                         assign += " " + "0x0";
-                        assign += " " + pov[i].direction[ii].GetSoundID((Pinky)iii);
+                        assign += " " + pov[i].direction[ii].GetSoundId((Pinky)iii);
                         assign += "\n";
                     }
                 }
@@ -270,7 +270,7 @@ namespace FalconBMS.Launcher.Input
         /// <summary>
         /// Write Joy Assignment Status to KeyMappingGridCell.
         /// </summary>
-        public string KeyMappingPreviewDX(KeyAssgn keyAssign)
+        public string KeyMappingPreviewDx(KeyAssign keyAssign)
         {
             string result;
             result = "";
@@ -302,7 +302,7 @@ namespace FalconBMS.Launcher.Input
         /// <summary>
         /// Write Joy Assignment Status to KeyMappingGridCell.
         /// </summary>
-        public string KeyMappingPreviewPOV(KeyAssgn keyAssign)
+        public string KeyMappingPreviewPov(KeyAssign keyAssign)
         {
             string result = "";
             
@@ -333,7 +333,7 @@ namespace FalconBMS.Launcher.Input
         /// </summary>
         public void ImportStockSetup(AppRegInfo appReg, int devcount, int povnum, int joynum)
         {
-            Invoke invokeStatus = Invoke.UI;
+            Invoke invokeStatus = Invoke.Ui;
             Behaviour behaviourStatus = Behaviour.Press;
 
             string deviceSorting = appReg.GetInstallDir() + "/User/Config/DeviceSorting.txt";
@@ -342,17 +342,17 @@ namespace FalconBMS.Launcher.Input
             if (System.IO.File.Exists(deviceSorting) == false)
                 return;
             string[] lines = System.IO.File.ReadAllLines(deviceSorting, Encoding.UTF8);
-            int currentID = -1;
+            int currentId = -1;
             for (int i = 0; i < lines.Length; i++)
             {
                 if (lines[i] == GetDeviceSortingLine().Replace("\r\n", ""))
-                    currentID = i;
+                    currentId = i;
             }
-            if (currentID == -1)
+            if (currentId == -1)
                 return;
-            string keyfile = appReg.GetInstallDir() + "/User/Config/" + appReg.getKeyFileName();
-            string[] Klines = System.IO.File.ReadAllLines(keyfile, Encoding.UTF8);
-            foreach (string stBuffer in Klines)
+            string keyfile = appReg.GetInstallDir() + "/User/Config/" + appReg.GetKeyFileName();
+            string[] klines = System.IO.File.ReadAllLines(keyfile, Encoding.UTF8);
+            foreach (string stBuffer in klines)
             {
                 string[] stArrayData = stBuffer.Split(' ');
                 if (stArrayData.Length < 7)
@@ -368,7 +368,7 @@ namespace FalconBMS.Launcher.Input
                     if (stArrayData[2] == "-4")
                         invokeStatus = Invoke.Up;
                     if (stArrayData[2] == "8")
-                        invokeStatus = Invoke.UI;
+                        invokeStatus = Invoke.Ui;
                     if (stArrayData[3] == "0")
                         behaviourStatus = Behaviour.Press;
                     if (stArrayData[3] == "0x42")
@@ -379,9 +379,9 @@ namespace FalconBMS.Launcher.Input
                 {
                     for (int i = 0; i < 32; i++)
                     {
-                        if (int.Parse(stArrayData[1]) == i + currentID * 32)
+                        if (int.Parse(stArrayData[1]) == i + currentId * 32)
                             dx[i].Assign(stArrayData[0], Pinky.UnShift, behaviourStatus, invokeStatus, 0);
-                        if (int.Parse(stArrayData[1]) == i + currentID * 32 + devcount * 32) // Okay This has to be the problem. I have to read FalconBMS.cfg for
+                        if (int.Parse(stArrayData[1]) == i + currentId * 32 + devcount * 32) // Okay This has to be the problem. I have to read FalconBMS.cfg for
                             dx[i].Assign(stArrayData[0], Pinky.Shift, behaviourStatus, invokeStatus, 0);
                     }
                 }
@@ -420,13 +420,13 @@ namespace FalconBMS.Launcher.Input
                 fs.Read(jc, 0, jc.Length);
                 fs.Close();
 
-                AxisName[] axisMappingList = appReg.getOverrideWriter().getAxisMappingList();
-                AxisName[] joystickCalList = appReg.getOverrideWriter().getJoystickCalList();
+                AxisName[] axisMappingList = appReg.GetOverrideWriter().GetAxisMappingList();
+                AxisName[] joystickCalList = appReg.GetOverrideWriter().GetJoystickCalList();
                 for (int i = 0; i < axisMappingList.Length; i++)
                 {
                     for (int ii = 0; ii < devcount; ii++)
                     {
-                        if (ad[24 + i * 16] == currentID + 2)
+                        if (ad[24 + i * 16] == currentId + 2)
                         {
                             int axisNum = ad[24 + i * 16 + 4];
                             AxCurve deadzone = AxCurve.None;
@@ -455,17 +455,17 @@ namespace FalconBMS.Launcher.Input
                                     invert = true;
                             }
 
-                            InGameAxAssgn inGameAxAssgn = new InGameAxAssgn(currentID, axisNum, invert, deadzone, saturation);
-                            axis[axisNum] = new AxAssgn(axisMappingList[i].ToString(), inGameAxAssgn);
+                            InGameAxAssign inGameAxAssign = new InGameAxAssign(currentId, axisNum, invert, deadzone, saturation);
+                            axis[axisNum] = new AxAssgn(axisMappingList[i].ToString(), inGameAxAssign);
                         }
                     }
                 }
             }
         }
 
-        public JoyAssgn Clone()
+        public JoyAssign Clone()
         {
-            return new JoyAssgn(this);
+            return new JoyAssign(this);
         }
     }
 }

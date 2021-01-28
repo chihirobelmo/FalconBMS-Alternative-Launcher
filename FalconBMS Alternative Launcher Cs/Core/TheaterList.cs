@@ -11,7 +11,7 @@ namespace FalconBMS.Launcher.Core
         /// <summary>
         /// Read theater.lst and apply the list to Combobox.
         /// </summary>
-        public static void Populate(AppRegInfo appReg, ComboBox Combo)
+        public static void Populate(AppRegInfo appReg, ComboBox combo)
         {
             string filename = appReg.GetInstallDir() + "/Data/Terrdata/theaterdefinition/theater.lst";
             if (File.Exists(filename) == false)
@@ -39,9 +39,9 @@ namespace FalconBMS.Launcher.Core
 
             for (int ii = 0; ii < theaters.Count; ii++)
             {
-                Combo.Items.Add(theaters[ii]);
+                combo.Items.Add(theaters[ii]);
                 if (theaters[ii] == appReg.GetCurrentTheater())
-                    Combo.SelectedIndex = ii;
+                    combo.SelectedIndex = ii;
             }
         }
     }

@@ -27,9 +27,9 @@
         }
 
         // Method
-        public void Assign(string callback, Pinky pinky, Behaviour behaviour, Invoke invoke, int soundID)
+        public void Assign(string callback, Pinky pinky, Behaviour behaviour, Invoke invoke, int soundId)
         {
-            assign[(int)pinky + (int)behaviour] = new Assgn(callback, invoke, soundID);
+            assign[(int)pinky + (int)behaviour] = new Assgn(callback, invoke, soundId);
         }
 
         public DxAssgn Clone()
@@ -47,7 +47,7 @@
         // Member
         protected string callback = "SimDoNothing";
         protected Invoke invoke = Invoke.Default;
-        protected int soundID;
+        protected int soundId;
 
         // Property for XML
         public string Callback { get => callback;
@@ -56,8 +56,8 @@
         public Invoke Invoke { get => invoke;
             set => invoke = value;
         }
-        public int SoundID { get => soundID;
-            set => soundID = value;
+        public int SoundId { get => soundId;
+            set => soundId = value;
         }
 
         // Constructor
@@ -66,19 +66,19 @@
         {
             callback = otherInstance.callback;
             invoke = otherInstance.invoke;
-            soundID = otherInstance.soundID;
+            soundId = otherInstance.soundId;
         }
-        public Assgn(string callback, Invoke invoke, int soundID)
+        public Assgn(string callback, Invoke invoke, int soundId)
         {
             this.callback = callback;
             this.invoke = invoke;
-            this.soundID = soundID;
+            this.soundId = soundId;
         }
 
         // Method
         public string GetCallback() { return callback; }
         public Invoke GetInvoke() { return invoke; }
-        public int GetSoundID() { return soundID; }
+        public int GetSoundId() { return soundId; }
 
         public Assgn Clone()
         {
@@ -103,6 +103,6 @@
         Default = -1,
         Down = -2,
         Up = -4,
-        UI = 8
+        Ui = 8
     }
 }

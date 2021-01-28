@@ -108,13 +108,13 @@
     <Compile Include="Input\DeviceControl.cs" />
     <Compile Include="Core\Diagnostics.cs" />
     <Compile Include="Input\DxAssgn.cs" />
-    <Compile Include="Input\InGameAxAssgn.cs" />
+    <Compile Include="Input\InGameAxAssign.cs" />
     <Compile Include="Input\KeyFile.cs" />
     <Compile Include="Windows\KeyMappingWindow.xaml.cs">
       <DependentUpon>KeyMappingWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Core\OverrideSetting.cs" />
-    <Compile Include="Core\PovAssgn.cs" />
+    <Compile Include="Core\PovAssign.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Core\Launcher.cs" />
     <Compile Include="Core\TheaterList.cs" />
@@ -140,8 +140,8 @@
     </Compile>
     <Compile Include="Input\MainWindowAxisAssign.cs" />
     <Compile Include="Input\MainWindowKeyMapping.cs" />
-    <Compile Include="Input\JoyAssgn.cs" />
-    <Compile Include="Input\KeyAssgn.cs" />
+    <Compile Include="Input\JoyAssign.cs" />
+    <Compile Include="Input\KeyAssign.cs" />
     <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
