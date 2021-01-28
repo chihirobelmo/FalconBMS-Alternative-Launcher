@@ -1,6 +1,8 @@
 ﻿using System.IO;
 using System.Linq;
 
+using FalconBMS.Launcher.Core;
+
 using Microsoft.DirectX.DirectInput;
 
 namespace FalconBMS.Launcher.Input

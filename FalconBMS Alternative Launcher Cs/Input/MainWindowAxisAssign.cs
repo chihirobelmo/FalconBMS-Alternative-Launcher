@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
+using FalconBMS.Launcher.Core;
 using FalconBMS.Launcher.Windows;
 
 namespace FalconBMS.Launcher.Input

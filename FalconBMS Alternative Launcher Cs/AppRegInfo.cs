@@ -4,6 +4,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 
+using FalconBMS.Launcher.Core;
 using FalconBMS.Launcher.Windows;
 
 namespace FalconBMS.Launcher
@@ -16,7 +17,7 @@ namespace FalconBMS.Launcher
         private Platform platform = Platform.OS_64bit;
         private BMS_Version bms_Version = BMS_Version.BMS435;
         private OverrideSetting overRideSetting;
-        private Launcher launcher;
+        private Core.Launcher launcher;
 
         private string installDir;
         private string currentTheater;
@@ -34,7 +35,7 @@ namespace FalconBMS.Launcher
         public string getKeyFileName() { return keyFileName; }
         public OverrideSetting getOverrideWriter() { return overRideSetting; }
         public BMS_Version getBMSVersion() { return bms_Version; }
-        public Launcher getLauncher() { return launcher; }
+        public Core.Launcher getLauncher() { return launcher; }
 
         public AppRegInfo(MainWindow mainWindow)
         {

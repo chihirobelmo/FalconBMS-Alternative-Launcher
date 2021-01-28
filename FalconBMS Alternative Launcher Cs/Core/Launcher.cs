@@ -3,7 +3,7 @@ using System.Windows;
 
 using FalconBMS.Launcher.Windows;
 
-namespace FalconBMS.Launcher
+namespace FalconBMS.Launcher.Core
 {
     public class Launcher
     {

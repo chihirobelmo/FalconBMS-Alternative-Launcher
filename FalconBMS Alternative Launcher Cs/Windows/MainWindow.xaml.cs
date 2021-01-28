@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Navigation;
 using System.Windows.Threading;
 
+using FalconBMS.Launcher.Core;
 using FalconBMS.Launcher.Input;
 
 using MahApps.Metro.Controls;

@@ -1,6 +1,6 @@
 ﻿using FalconBMS.Launcher.Input;
 
-namespace FalconBMS.Launcher
+namespace FalconBMS.Launcher.Core
 {
     /// <summary>
     /// Means each actual POV switches on a joystick.

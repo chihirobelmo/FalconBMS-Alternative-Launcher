@@ -7,7 +7,7 @@ using FalconBMS.Launcher.Input;
 
 using MainWindow = FalconBMS.Launcher.Windows.MainWindow;
 
-namespace FalconBMS.Launcher
+namespace FalconBMS.Launcher.Core
 {
     /// <summary>
     /// Writer for setting Override
