@@ -25,6 +25,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// </summary>
         public DeviceControl(AppRegInfo appReg)
         {
+            // TODO: Move try catch loops in this constructor into private async methods.
             // Make Joystick Instances.
             devList = Manager.GetDevices(DeviceClass.GameControl, EnumDevicesFlags.AttachedOnly);
             joyStick = new Device[devList.Count];
@@ -88,9 +89,10 @@ namespace FalconBMS_Alternative_Launcher_Cs
             catch (FileNotFoundException ex)
             {
                 System.Console.WriteLine(ex.Message);
-
+                Diagnostics.Log(ex);
                 StreamWriter sw = new StreamWriter(appReg.GetInstallDir() + "\\Error.txt", false, System.Text.Encoding.GetEncoding("shift_jis"));
                 sw.Write(ex.Message);
+                
                 sw.Close();
             }
             
@@ -147,5 +149,6 @@ namespace FalconBMS_Alternative_Launcher_Cs
             }
             return input;
         }
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.DirectX.DirectInput;
 using System;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -133,7 +134,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void KeyMappingTimer_Tick(object sender, EventArgs e)
+        public async void KeyMappingTimer_Tick(object sender, EventArgs e)
         {
             try
             {
@@ -143,15 +144,18 @@ namespace FalconBMS_Alternative_Launcher_Cs
                         KeyMappingGrid_KeyDown();
                 JumptoAssignedKey();
             }
-            catch (System.IO.FileNotFoundException ex)
+
+            catch (FileNotFoundException ex)
             {
                 Console.WriteLine(ex.Message);
 
-                System.IO.StreamWriter sw = new System.IO.StreamWriter(appReg.GetInstallDir() + "\\Error.txt", false, System.Text.Encoding.GetEncoding("shift_jis"));
-                sw.Write(ex.Message);
-                sw.Close();
+                Diagnostics.Log(ex);
 
-                MessageBox.Show("Error Log Saved To " + appReg.GetInstallDir() + "\\Error.txt", "WARNING", MessageBoxButton.OK, MessageBoxImage.Information);
+                //StreamWriter sw = new StreamWriter(appReg.GetInstallDir() + "\\Error.txt", false, System.Text.Encoding.GetEncoding("shift_jis"));
+                //sw.Write(ex.Message);
+                //sw.Close();
+
+                MessageBox.Show($"Error log saved to {Diagnostics.AppDataPath}", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
 
                 Close();
             }

@@ -23,6 +23,9 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     MessageBoxButton.OK, MessageBoxImage.Information);
 
                 e.Handled = true;
+
+
+                Diagnostics.Log(e.Exception);
             }
 
             else
@@ -34,6 +37,8 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     MessageBoxButton.OK, MessageBoxImage.Error);
 
                 e.Handled = true;
+
+                Diagnostics.Log(e.Exception);
             }
         }
     }

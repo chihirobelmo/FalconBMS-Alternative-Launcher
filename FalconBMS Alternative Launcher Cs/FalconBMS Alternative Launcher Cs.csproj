@@ -105,6 +105,7 @@
     <Compile Include="AxAssgn.cs" />
     <Compile Include="AxisName.cs" />
     <Compile Include="DeviceControl.cs" />
+    <Compile Include="Diagnostics.cs" />
     <Compile Include="DxAssgn.cs" />
     <Compile Include="InGameAxAssgn.cs" />
     <Compile Include="KeyFile.cs" />

@@ -116,7 +116,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// </summary>
         protected void SaveJoyAssignStatus(DeviceControl deviceControl)
         {
-            //保存先のファイル名
+            
             string fileName = "";
 
             System.Xml.Serialization.XmlSerializer serializer;
@@ -150,9 +150,6 @@ namespace FalconBMS_Alternative_Launcher_Cs
             sw.Close();
         }
 
-        /// <summary>
-        /// As the name inplies...
-        /// </summary>
         protected virtual void SaveConfigfile(Hashtable inGameAxis, DeviceControl deviceControl)
         {
             string filename = appReg.GetInstallDir() + "/User/Config/falcon bms.cfg";

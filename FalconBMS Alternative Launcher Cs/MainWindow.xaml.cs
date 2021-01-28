@@ -2,7 +2,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -42,7 +44,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -80,15 +82,20 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     }
                 }
             }
+
             catch (FileNotFoundException ex)
             {
                 Console.WriteLine(ex.Message);
 
-                StreamWriter sw = new StreamWriter("C:\\FBMSAltLauncherErrorLog.txt", false, System.Text.Encoding.GetEncoding("shift_jis"));
-                sw.Write(ex.Message);
-                sw.Close();
+                StreamWriter file = new StreamWriter(Diagnostics.LogFilePath, append: true, Encoding.GetEncoding("shift_jis"));
+                
 
-                MessageBox.Show("Error Log Saved To C:\\FBMSAltLauncherErrorLog.txt", "WARNING", MessageBoxButton.OK, MessageBoxImage.Information);
+                Diagnostics.Log(ex);
+                //StreamWriter sw = new StreamWriter("C:\\FBMSAltLauncherErrorLog.txt", false, System.Text.Encoding.GetEncoding("shift_jis"));
+                //sw.Write(ex.Message);
+                //sw.Close();
+
+                MessageBox.Show($"Error Log Saved To {Diagnostics.AppDataPath}", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
 
                 Close();
             }
@@ -139,15 +146,17 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
                 //System.Diagnostics.PresentationTraceSources.DataBindingSource.Switch.Level = System.Diagnostics.SourceLevels.Critical;
             }
+
             catch (FileNotFoundException ex)
             {
                 Console.WriteLine(ex.Message);
+                Diagnostics.Log(ex);
+                //StreamWriter sw = new StreamWriter(appReg.GetInstallDir() + "\\Error.txt", false, System.Text.Encoding.GetEncoding("shift_jis"));
+                //sw.Write(ex.Message);
+                //sw.Close();
 
-                StreamWriter sw = new StreamWriter(appReg.GetInstallDir() + "\\Error.txt", false, System.Text.Encoding.GetEncoding("shift_jis"));
-                sw.Write(ex.Message);
-                sw.Close();
-
-                MessageBox.Show("Error Log Saved To " + appReg.GetInstallDir() + "\\Error.txt", "WARNING", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show($"Error Log Saved To  {Diagnostics.AppDataPath}", "Warning", MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
 
                 Close();
             }
@@ -170,15 +179,17 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 if (ApplicationOverride.IsChecked == false)
                     appReg.getOverrideWriter().Execute(inGameAxis, deviceControl, keyFile);
             }
+
             catch (FileNotFoundException ex)
             {
                 Console.WriteLine(ex.Message);
 
-                StreamWriter sw = new StreamWriter(appReg.GetInstallDir() + "\\Error.txt", false, System.Text.Encoding.GetEncoding("shift_jis"));
-                sw.Write(ex.Message);
-                sw.Close();
+                Diagnostics.Log(ex);
+                //StreamWriter sw = new StreamWriter(appReg.GetInstallDir() + "\\Error.txt", false, System.Text.Encoding.GetEncoding("shift_jis"));
+                //sw.Write(ex.Message);
+                //sw.Close();
 
-                MessageBox.Show("Error Log Saved To " + appReg.GetInstallDir() + "\\Error.txt", "WARNING", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show($"Error Log Saved To {Diagnostics.AppDataPath}", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
 
                 Close();
             }
@@ -227,7 +238,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <param name="e"></param>
         private void Launch_TheaterConfig_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start(appReg.theaterOwnConfig);
+            Process.Start(appReg.theaterOwnConfig);
         }
         
         /// <summary>
@@ -247,7 +258,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// <param name="e"></param>
         private void OpenDocs_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Docs");
+            Process.Start(appReg.GetInstallDir() + "/Docs");
         }
 
         /// <summary>
@@ -265,11 +276,13 @@ namespace FalconBMS_Alternative_Launcher_Cs
             {
                 Console.WriteLine(ex.Message);
 
-                StreamWriter sw = new StreamWriter(appReg.GetInstallDir() + "\\Error.txt", false, System.Text.Encoding.GetEncoding("shift_jis"));
-                sw.Write(ex.Message);
-                sw.Close();
+                Diagnostics.Log(ex);
 
-                MessageBox.Show("Error Log Saved To " + appReg.GetInstallDir() + "\\Error.txt", "WARNING", MessageBoxButton.OK, MessageBoxImage.Information);
+                //StreamWriter sw = new StreamWriter(appReg.GetInstallDir() + "\\Error.txt", false, System.Text.Encoding.GetEncoding("shift_jis"));
+                //sw.Write(ex.Message);
+                //sw.Close();
+
+                MessageBox.Show($"Error log saved to {Diagnostics.AppDataPath}", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
 
                 Close();
             }
@@ -302,13 +315,15 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     appReg.getOverrideWriter().Execute(inGameAxis, deviceControl, keyFile);
                 }
             }
+
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
 
-                StreamWriter sw = new StreamWriter("C:\\FBMSAltLauncherErrorLog.txt", false, System.Text.Encoding.GetEncoding("shift_jis"));
-                sw.Write(ex.Message);
-                sw.Close();
+                Diagnostics.Log(ex);
+                //StreamWriter sw = new StreamWriter("C:\\FBMSAltLauncherErrorLog.txt", false, System.Text.Encoding.GetEncoding("shift_jis"));
+                //sw.Write(ex.Message);
+                //sw.Close();
 
                 Close();
             }
@@ -318,7 +333,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         /// As the name implies.
         /// </summary>
         /// <param name="process"></param>
-        public void minimizeWindowUntilProcessEnds(System.Diagnostics.Process process)
+        public void minimizeWindowUntilProcessEnds(Process process)
         {
             process.Exited += window_Normal;
             process.EnableRaisingEvents = true;
@@ -369,11 +384,11 @@ namespace FalconBMS_Alternative_Launcher_Cs
                                 Properties.Settings.Default.Third_WDP = fbd.SelectedPath;
                             else
                             {
-                                System.Diagnostics.Process.Start(downloadlink);
+                                Process.Start(downloadlink);
                                 return;
                             }
                         }
-                        System.Diagnostics.Process.Start(installexe);
+                        Process.Start(installexe);
                         break;
                     case "Launch_MC":
                         target = "\\Mission Commander.exe";
@@ -393,11 +408,11 @@ namespace FalconBMS_Alternative_Launcher_Cs
                                 Properties.Settings.Default.Third_MC = fbd.SelectedPath;
                             else
                             {
-                                System.Diagnostics.Process.Start(downloadlink);
+                                Process.Start(downloadlink);
                                 return;
                             }
                         }
-                        System.Diagnostics.Process.Start(installexe);
+                        Process.Start(installexe);
                         break;
                     case "Launch_WC":
                         target = "\\Weather Commander.exe";
@@ -417,11 +432,11 @@ namespace FalconBMS_Alternative_Launcher_Cs
                                 Properties.Settings.Default.Third_WC = fbd.SelectedPath;
                             else
                             {
-                                System.Diagnostics.Process.Start(downloadlink);
+                                Process.Start(downloadlink);
                                 return;
                             }
                         }
-                        System.Diagnostics.Process.Start(installexe);
+                        Process.Start(installexe);
                         break;
                     case "Launch_F4WX":
                         target = "\\F4Wx.exe";
@@ -443,23 +458,25 @@ namespace FalconBMS_Alternative_Launcher_Cs
                                 Properties.Settings.Default.Third_F4WX = fbd.SelectedPath;
                             else
                             {
-                                System.Diagnostics.Process.Start(downloadlink);
+                                Process.Start(downloadlink);
                                 return;
                             }
                         }
-                        System.Diagnostics.Process.Start(installexe);
+                        Process.Start(installexe);
                         break;
                 }
             }
+
             catch (FileNotFoundException ex)
             {
                 Console.WriteLine(ex.Message);
 
-                StreamWriter sw = new StreamWriter(appReg.GetInstallDir() + "\\Error.txt", false, System.Text.Encoding.GetEncoding("shift_jis"));
-                sw.Write(ex.Message);
-                sw.Close();
+                Diagnostics.Log(ex);
+                //StreamWriter sw = new StreamWriter(appReg.GetInstallDir() + "\\Error.txt", false, Encoding.GetEncoding("shift_jis"));
+                //sw.Write(ex.Message);
+                //sw.Close();
 
-                MessageBox.Show("Error Log Saved To " + appReg.GetInstallDir() + "\\Error.txt", "WARNING", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show($"Error Log Saved to {Diagnostics.AppDataPath}", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
 
                 Close();
             }
@@ -544,12 +561,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
 
         private void WDP_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
-            System.Diagnostics.Process.Start("http://www.weapondeliveryplanner.nl/");
+            Process.Start("http://www.weapondeliveryplanner.nl/");
         }
 
         private void Serfoss2003_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
-            System.Diagnostics.Process.Start("https://apps.dtic.mil/docs/citations/ADA414893");
+            Process.Start("https://apps.dtic.mil/docs/citations/ADA414893");
         }
 
         private void CMD_WINDOW_Click(object sender, RoutedEventArgs e)
