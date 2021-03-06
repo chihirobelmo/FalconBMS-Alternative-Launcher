@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FalconBMS_Alternative_Launcher_Cs
+﻿namespace FalconBMS.Launcher.Input
 {
     /// <summary>
     /// Means each actual POV switches on a joystick.

@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Threading;
 
-namespace FalconBMS_Alternative_Launcher_Cs
+namespace FalconBMS.Launcher
 {
     /// <summary>
     /// App.xaml

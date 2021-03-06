@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FalconBMS_Alternative_Launcher_Cs
+namespace FalconBMS.Launcher.Input
 {
     /// <summary>
     /// Means each physical axis on a joystick.

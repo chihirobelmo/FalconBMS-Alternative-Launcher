@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{F410A784-8F9E-4698-A45B-0D4FEAB404B0}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>FalconBMS_Alternative_Launcher_Cs</RootNamespace>
+    <RootNamespace>FalconBMS.Launcher</RootNamespace>
     <AssemblyName>Hub</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -54,7 +54,7 @@
     <ApplicationIcon>MAINICON.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>FalconBMS_Alternative_Launcher_Cs.Program</StartupObject>
+    <StartupObject>FalconBMS.Launcher.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
@@ -102,31 +102,31 @@
     </ApplicationDefinition>
     <Compile Include="AppProperties.cs" />
     <Compile Include="AppRegInfo.cs" />
-    <Compile Include="AxAssgn.cs" />
-    <Compile Include="AxisName.cs" />
-    <Compile Include="DeviceControl.cs" />
+    <Compile Include="Input\AxAssgn.cs" />
+    <Compile Include="Input\AxisName.cs" />
+    <Compile Include="Input\DeviceControl.cs" />
     <Compile Include="Diagnostics.cs" />
-    <Compile Include="DxAssgn.cs" />
-    <Compile Include="InGameAxAssgn.cs" />
-    <Compile Include="KeyFile.cs" />
-    <Compile Include="KeyMappingWindow.xaml.cs">
+    <Compile Include="Input\DxAssgn.cs" />
+    <Compile Include="Input\InGameAxAssgn.cs" />
+    <Compile Include="Input\KeyFile.cs" />
+    <Compile Include="Windows\KeyMappingWindow.xaml.cs">
       <DependentUpon>KeyMappingWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="OverrideSetting.cs" />
-    <Compile Include="PovAssgn.cs" />
+    <Compile Include="Input\PovAssgn.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Launcher.cs" />
     <Compile Include="TheaterList.cs" />
-    <Compile Include="ThrottlePosition.cs" />
-    <Page Include="AxisAssignWindow.xaml">
+    <Compile Include="Input\ThrottlePosition.cs" />
+    <Page Include="Windows\AxisAssignWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="KeyMappingWindow.xaml">
+    <Page Include="Windows\KeyMappingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Windows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -134,14 +134,14 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="AxisAssignWindow.xaml.cs">
+    <Compile Include="Windows\AxisAssignWindow.xaml.cs">
       <DependentUpon>AxisAssignWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainWindowAxisAssign.cs" />
-    <Compile Include="MainWindowKeyMapping.cs" />
-    <Compile Include="JoyAssgn.cs" />
-    <Compile Include="KeyAssgn.cs" />
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Windows\MainWindowAxisAssign.cs" />
+    <Compile Include="Windows\MainWindowKeyMapping.cs" />
+    <Compile Include="Input\JoyAssgn.cs" />
+    <Compile Include="Input\KeyAssgn.cs" />
+    <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -243,6 +243,7 @@
   <ItemGroup>
     <Resource Include="Resources\LOGO000.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterResolveReferences">
     <ItemGroup>

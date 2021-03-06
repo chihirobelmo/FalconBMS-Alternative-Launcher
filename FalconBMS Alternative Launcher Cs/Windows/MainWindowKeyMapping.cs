@@ -1,12 +1,15 @@
-﻿using Microsoft.DirectX.DirectInput;
-using System;
+﻿using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace FalconBMS_Alternative_Launcher_Cs
+using FalconBMS.Launcher.Input;
+
+using Microsoft.DirectX.DirectInput;
+
+namespace FalconBMS.Launcher.Windows
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

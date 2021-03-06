@@ -1,9 +1,9 @@
-﻿using Microsoft.DirectX.DirectInput;
-
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 
-namespace FalconBMS_Alternative_Launcher_Cs
+using Microsoft.DirectX.DirectInput;
+
+namespace FalconBMS.Launcher.Input
 {
     public class DeviceControl
     {

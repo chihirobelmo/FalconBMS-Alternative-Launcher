@@ -1,25 +1,13 @@
-﻿using MahApps.Metro.Controls;
-using Microsoft.DirectX.DirectInput;
-using System;
+﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Windows.Threading;
+using System.Xml.Serialization;
 
-namespace FalconBMS_Alternative_Launcher_Cs
+using FalconBMS.Launcher.Input;
+using FalconBMS.Launcher.Windows;
+
+namespace FalconBMS.Launcher
 {
     /// <summary>
     /// Writer for setting Override
@@ -112,14 +100,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
         }
 
         /// <summary>
-        /// As the name inplies...
+        /// As the name implies...
         /// </summary>
         protected void SaveJoyAssignStatus(DeviceControl deviceControl)
         {
-            //保存先のファイル名
-            string fileName = "";
-
-            System.Xml.Serialization.XmlSerializer serializer;
+            string fileName;
+            XmlSerializer serializer;
             StreamWriter sw;
 
             for (int i = 0; i < deviceControl.devList.Count; i++)
@@ -127,7 +113,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 fileName = appReg.GetInstallDir() + "/User/Config/Setup.v100." + deviceControl.joyAssign[i].GetProductName().Replace("/", "-")
                 + " {" + deviceControl.joyAssign[i].GetInstanceGUID().ToString().ToUpper() + "}.xml";
 
-                serializer = new System.Xml.Serialization.XmlSerializer(typeof(JoyAssgn));
+                serializer = new XmlSerializer(typeof(JoyAssgn));
                 sw = new StreamWriter(fileName, false, new UTF8Encoding(false));
                 serializer.Serialize(sw, deviceControl.joyAssign[i]);
 
@@ -135,7 +121,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             }
             fileName = appReg.GetInstallDir() + "/User/Config/Setup.v100.MouseWheel.xml";
 
-            serializer = new System.Xml.Serialization.XmlSerializer(typeof(AxAssgn));
+            serializer = new XmlSerializer(typeof(AxAssgn));
             sw = new StreamWriter(fileName, false, new UTF8Encoding(false));
             serializer.Serialize(sw, deviceControl.mouseWheelAssign);
 
@@ -143,7 +129,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
             
             fileName = appReg.GetInstallDir() + "/User/Config/Setup.v100.ThrottlePosition.xml";
 
-            serializer = new System.Xml.Serialization.XmlSerializer(typeof(ThrottlePosition));
+            serializer = new XmlSerializer(typeof(ThrottlePosition));
             sw = new StreamWriter(fileName, false, new UTF8Encoding(false));
             serializer.Serialize(sw, deviceControl.throttlePos);
 
@@ -151,7 +137,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         }
 
         /// <summary>
-        /// As the name inplies...
+        /// As the name implies...
         /// </summary>
         protected virtual void SaveConfigfile(Hashtable inGameAxis, DeviceControl deviceControl)
         {
@@ -188,7 +174,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         }
 
         /// <summary>
-        /// As the name inplies...
+        /// As the name implies...
         /// </summary>
         protected void SaveDeviceSorting(DeviceControl deviceControl)
         {
@@ -212,7 +198,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         }
 
         /// <summary>
-        /// As the name inplies...
+        /// As the name implies...
         /// </summary>
         protected virtual void SaveKeyMapping(Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile)
         {
@@ -417,7 +403,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         }
 
         /// <summary>
-        /// As the name inplies...
+        /// As the name implies...
         /// </summary>
         protected virtual void SaveJoystickCal(Hashtable inGameAxis, DeviceControl deviceControl)
         {

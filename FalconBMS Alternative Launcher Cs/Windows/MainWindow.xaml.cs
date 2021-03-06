@@ -1,6 +1,4 @@
-﻿using MahApps.Metro.Controls;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows;
@@ -10,7 +8,11 @@ using System.Windows.Media;
 using System.Windows.Navigation;
 using System.Windows.Threading;
 
-namespace FalconBMS_Alternative_Launcher_Cs
+using FalconBMS.Launcher.Input;
+
+using MahApps.Metro.Controls;
+
+namespace FalconBMS.Launcher.Windows
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

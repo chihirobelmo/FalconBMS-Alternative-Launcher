@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FalconBMS.Launcher.Windows;
 
-namespace FalconBMS_Alternative_Launcher_Cs
+namespace FalconBMS.Launcher.Input
 {
     public class ThrottlePosition
     {

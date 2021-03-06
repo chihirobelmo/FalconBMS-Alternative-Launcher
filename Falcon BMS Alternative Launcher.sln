@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FalconBMS Alternative Launcher Cs", "FalconBMS Alternative Launcher Cs\FalconBMS Alternative Launcher Cs.csproj", "{F410A784-8F9E-4698-A45B-0D4FEAB404B0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Falcon BMS Alternative Launcher", "FalconBMS Alternative Launcher Cs\Falcon BMS Alternative Launcher.csproj", "{F410A784-8F9E-4698-A45B-0D4FEAB404B0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +18,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {57CFCBFD-7511-4516-8D02-EFDAA3F074D8}
 	EndGlobalSection
 EndGlobal

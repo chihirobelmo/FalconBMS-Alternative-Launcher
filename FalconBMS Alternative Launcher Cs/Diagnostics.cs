@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text;
 
-namespace FalconBMS_Alternative_Launcher_Cs
+namespace FalconBMS.Launcher
 {
     public static class Diagnostics
     {
