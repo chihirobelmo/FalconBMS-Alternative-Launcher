@@ -55,7 +55,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 if (result == MessageBoxResult.OK)
                 {
                     string fnamestock = appReg.GetInstallDir() + "\\Docs\\Key Files & Input\\" + appReg.getKeyFileName();
-                    string fname = appReg.GetInstallDir() + "\\User\\Config\\" + appReg.getKeyFileName(); ;
+                    string fname = appReg.GetInstallDir() + "\\User\\Config\\" + appReg.getKeyFileName();
                     if (File.Exists(fnamestock))
                     {
                         File.Copy(fnamestock, fname, true);

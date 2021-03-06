@@ -38,7 +38,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         {
             this.mainWindow = mainWindow;
 
-            // Read Current Directry
+            // Read Current Directory
             int versionNum = 0;
             int updateNum = 0;
             string exeName = System.IO.Directory.GetCurrentDirectory() + "/Falcon BMS.exe";
@@ -165,6 +165,12 @@ namespace FalconBMS_Alternative_Launcher_Cs
                     launcher = new Launcher435(this, this.mainWindow);
                     mainWindow.LOGO435.Visibility = Visibility.Visible;
                     break;
+
+                case BMS_Version.UNDEFINED:
+                    throw new ArgumentOutOfRangeException(); // Just to be explicit.
+
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
 
             // User defined registry

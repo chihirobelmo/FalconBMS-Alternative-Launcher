@@ -923,7 +923,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
         }
 
         /// <summary>
-        /// As the name inplies...
+        /// As the name implies...
         /// </summary>
         protected override void SaveJoystickCal(Hashtable inGameAxis, DeviceControl deviceControl)
         {

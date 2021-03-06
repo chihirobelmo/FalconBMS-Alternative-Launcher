@@ -48,7 +48,7 @@ namespace FalconBMS_Alternative_Launcher_Cs
                 fileName = appReg.GetInstallDir() + "/User/Config/Setup.v100." + joyAssign[i].GetProductName().Replace("/", "-")
                 + " {" + joyAssign[i].GetInstanceGUID().ToString().ToUpper() + "}.xml";
 
-                // Load exsisting .xml files.
+                // Load existing .xml files.
                 if (File.Exists(fileName))
                 {
                     serializer = new System.Xml.Serialization.XmlSerializer(typeof(JoyAssgn));
