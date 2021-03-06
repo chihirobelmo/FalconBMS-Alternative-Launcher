@@ -6,7 +6,7 @@ using Microsoft.DirectX.DirectInput;
 
 namespace FalconBMS.Launcher.Input
 {
-    public class KeyAssgn
+    public class KeyAssgn : ICloneable
     {
         protected string callback = "SimDoNothing";            // 1st: callback(ex: "SimDoNothing")
         protected string soundID = "-1";                       // 2nd: -1
@@ -241,9 +241,9 @@ namespace FalconBMS.Launcher.Input
                 int scancode10 = Convert.ToInt32(scancodestr, 16);
 
                 // int -> enum
-                Key int2enum = (Microsoft.DirectX.DirectInput.Key)scancode10;
+                Key int2enum = (Key)scancode10;
 
-                assignmentStatus += int2enum.ToString() + "\t: ";
+                assignmentStatus += int2enum + "\t: ";
             }
 
             if (keyboard.Remove(0, 2) != "FFFFFFFF")
@@ -281,7 +281,7 @@ namespace FalconBMS.Launcher.Input
                 int scancode10 = Convert.ToInt32(scancodestr, 16);
 
                 // int -> enum
-                Key int2enum = (Microsoft.DirectX.DirectInput.Key)scancode10;
+                Key int2enum = (Key)scancode10;
 
                 assignmentStatus += int2enum.ToString();
             }
@@ -331,14 +331,14 @@ namespace FalconBMS.Launcher.Input
                 return "";
             ans = joyAssign[joynum].KeyMappingPreviewDX(this);
             if(ans != "")
-                ans = "JOY " + joynum.ToString() + " " + joyAssign[joynum].KeyMappingPreviewDX(this).Replace("\n", ", ");
+                ans = "JOY " + joynum + " " + joyAssign[joynum].KeyMappingPreviewDX(this).Replace("\n", ", ");
             // PRIMARY DEVICE POV
             if (((InGameAxAssgn)MainWindow.inGameAxis["Roll"]).GetDeviceNumber() == joynum || ((InGameAxAssgn)MainWindow.inGameAxis["Throttle"]).GetDeviceNumber() == joynum) 
             {
                 string tmp = "";
                 tmp = joyAssign[joynum].KeyMappingPreviewPOV(this);
                 if (tmp != "")
-                    tmp = "JOY " + joynum.ToString() + " " + joyAssign[joynum].KeyMappingPreviewPOV(this).Replace("\n", ", ");
+                    tmp = "JOY " + joynum + " " + joyAssign[joynum].KeyMappingPreviewPOV(this).Replace("\n", ", ");
                 if (ans != "" & tmp != "")
                     ans += "; ";
                 ans += tmp;
@@ -347,6 +347,8 @@ namespace FalconBMS.Launcher.Input
                 ans += "; ";
             return ans;
         }
+
+        object ICloneable.Clone() => Clone();
 
         public KeyAssgn Clone()
         {

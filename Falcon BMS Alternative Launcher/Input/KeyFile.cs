@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Windows;
 
 namespace FalconBMS.Launcher.Input
 {
-    public class KeyFile
+    public sealed class KeyFile : ICloneable
     {
         public KeyAssgn[] keyAssign;
 
@@ -58,7 +59,7 @@ namespace FalconBMS.Launcher.Input
                     {
                         File.Copy(fnamestock, fname, true);
                         Application.Current.Shutdown();
-                        System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
+                        Process.Start(Application.ResourceAssembly.Location);
                         return;
                     }
                     MessageBox.Show("App could not find " + appReg.getKeyFileName() + " at\nDocs\\Key Files & Input\\", "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
@@ -79,6 +80,8 @@ namespace FalconBMS.Launcher.Input
                 this.keyAssign[i] = keyAssign[i].Clone();
             }
         }
+
+        object ICloneable.Clone() => Clone();
 
         public KeyFile Clone()
         {

@@ -5,7 +5,7 @@ namespace FalconBMS.Launcher.Input
     /// <summary>
     /// Means each physical axis on a joystick.
     /// </summary>
-    public class AxAssgn
+    public class AxAssgn : ICloneable
     {
         // Member
         protected string axisName = "";     // ex:Roll, Pitch, Yaw etc...
@@ -56,6 +56,8 @@ namespace FalconBMS.Launcher.Input
         public bool GetInvert() { return invert; }
         public AxCurve GetDeadZone() { return deadzone; }
         public AxCurve GetSaturation() { return saturation; }
+
+        object ICloneable.Clone() => Clone();
 
         public AxAssgn Clone()
         {

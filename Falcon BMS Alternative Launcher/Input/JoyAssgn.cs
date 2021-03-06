@@ -1,11 +1,12 @@
 ﻿using System;
+using System.IO;
 using System.Text;
 
 using Microsoft.DirectX.DirectInput;
 
 namespace FalconBMS.Launcher.Input
 {
-    public class JoyAssgn
+    public class JoyAssgn : ICloneable
     {
         // Member
         protected string productName = "";
@@ -335,11 +336,11 @@ namespace FalconBMS.Launcher.Input
             Behaviour behaviourStatus = Behaviour.Press;
 
             string deviceSorting = appReg.GetInstallDir() + "/User/Config/DeviceSorting.txt";
-            if (System.IO.Path.GetFileName(deviceSorting) != "DeviceSorting.txt")
+            if (Path.GetFileName(deviceSorting) != "DeviceSorting.txt")
                 return;
-            if (System.IO.File.Exists(deviceSorting) == false)
+            if (File.Exists(deviceSorting) == false)
                 return;
-            string[] lines = System.IO.File.ReadAllLines(deviceSorting, Encoding.UTF8);
+            string[] lines = File.ReadAllLines(deviceSorting, Encoding.UTF8);
             int currentID = -1;
             for (int i = 0; i < lines.Length; i++)
             {
@@ -349,7 +350,7 @@ namespace FalconBMS.Launcher.Input
             if (currentID == -1)
                 return;
             string keyfile = appReg.GetInstallDir() + "/User/Config/" + appReg.getKeyFileName();
-            string[] Klines = System.IO.File.ReadAllLines(keyfile, Encoding.UTF8);
+            string[] Klines = File.ReadAllLines(keyfile, Encoding.UTF8);
             foreach (string stBuffer in Klines)
             {
                 string[] stArrayData = stBuffer.Split(' ');
@@ -403,17 +404,17 @@ namespace FalconBMS.Launcher.Input
                 }
                 // Import Axis Setup
                 string filename = appReg.GetInstallDir() + "/User/Config/axismapping.dat";
-                if (!System.IO.File.Exists(filename))
+                if (!File.Exists(filename))
                     return;
-                System.IO.FileStream fs = new System.IO.FileStream(filename, System.IO.FileMode.Open, System.IO.FileAccess.Read);
+                FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read);
                 byte[] ad = new byte[fs.Length];
                 fs.Read(ad, 0, ad.Length);
                 fs.Close();
 
                 filename = appReg.GetInstallDir() + "/User/Config/joystick.cal";
-                if (!System.IO.File.Exists(filename))
+                if (!File.Exists(filename))
                     return;
-                fs = new System.IO.FileStream(filename, System.IO.FileMode.Open, System.IO.FileAccess.Read);
+                fs = new FileStream(filename, FileMode.Open, FileAccess.Read);
                 byte[] jc = new byte[fs.Length];
                 fs.Read(jc, 0, jc.Length);
                 fs.Close();
@@ -460,6 +461,8 @@ namespace FalconBMS.Launcher.Input
                 }
             }
         }
+
+        object ICloneable.Clone() => Clone();
 
         public JoyAssgn Clone()
         {
