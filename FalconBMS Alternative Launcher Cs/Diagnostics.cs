@@ -58,6 +58,27 @@ namespace FalconBMS_Alternative_Launcher_Cs
             file.Close();
         }
 
+        public static void Log(Exception exception, string message)
+        {
+            if (!Directory.Exists(AppDataPath))
+            {
+                Directory.CreateDirectory(AppDataPath);
+            }
+
+            if (!File.Exists(LogFilePath))
+            {
+                File.Create(AppDataPath);
+                File.SetCreationTimeUtc(LogFilePath, DateTime.UtcNow);
+            }
+
+            StreamWriter file = new StreamWriter(LogFilePath, true, Encoding.GetEncoding("shift_jis"));
+
+            file.Write(
+                $"[{DateTime.Now}] ====== Exception Occured ====== \n \n {message} \n Source: {exception.Source}  \n {exception.Message} \n Target Site: {exception.TargetSite} \n Message: {exception.Message} \n Details: {exception.InnerException} \n \n Exception Data: {exception.Data} \n \n Stack Trace: {exception.StackTrace} \n ============ \n");
+
+            file.Close();
+        }
+
         public static void Log(Exception exception, bool append)
         {
             if (!Directory.Exists(AppDataPath))
