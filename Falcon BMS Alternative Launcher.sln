@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31005.135
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Falcon BMS Alternative Launcher", "Falcon BMS Alternative Launcher\Falcon BMS Alternative Launcher.csproj", "{F410A784-8F9E-4698-A45B-0D4FEAB404B0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F410A784-8F9E-4698-A45B-0D4FEAB404B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F410A784-8F9E-4698-A45B-0D4FEAB404B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F410A784-8F9E-4698-A45B-0D4FEAB404B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F410A784-8F9E-4698-A45B-0D4FEAB404B0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {57CFCBFD-7511-4516-8D02-EFDAA3F074D8}
+	EndGlobalSection
+EndGlobal
