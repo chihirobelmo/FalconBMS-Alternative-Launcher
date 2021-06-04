@@ -11,19 +11,23 @@ namespace FalconBMS.Launcher
         /// <summary>
         /// Read theater.lst and apply the list to Combobox.
         /// </summary>
-        public static void Populate(AppRegInfo appReg, ComboBox Combo)
+        public static void PopulateAndSave(AppRegInfo appReg, ComboBox Combo)
         {
             string filename = appReg.GetInstallDir() + "/Data/Terrdata/theaterdefinition/theater.lst";
-            if (File.Exists(filename) == false)
-                return;
-            IEnumerable<string> theaterPaths = File.ReadLines(filename, Encoding.UTF8)
-                .Select(line => line.Trim()) // Trim whitespace
-                .Where(line => line.Length > 0 && !line.StartsWith("#")) // Throw out empty lines, comments, etc.
-                .Select(line => appReg.GetInstallDir() + "\\Data\\" + line) // Construct TDF file path
-                .Where(tdf => File.Exists(tdf)); // Throw out paths we can't find
+            string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/theater.lst";
+            if (!File.Exists(fbackupname) & File.Exists(filename))
+                File.Copy(filename, fbackupname, false);
+            File.SetAttributes(filename, File.GetAttributes(filename) & ~FileAttributes.ReadOnly);
+
+            var theaterFiles = Directory.GetFiles(appReg.GetInstallDir() + "/Data", "*.tdf", SearchOption.AllDirectories);
+            System.Array.Sort(theaterFiles);
+
+            // Write all TDFs to the theater list, slicing the install dir off.
+            var dataDirLength = appReg.GetInstallDir().Length + "/Data/".Length;
+            File.WriteAllLines(filename, theaterFiles.Select(t => t.Substring(dataDirLength)).ToArray());
 
             List<string> theaters = new List<string>();
-            foreach (string tdf in theaterPaths)
+            foreach (string tdf in theaterFiles)
             {
                 IEnumerable<string> lines = File.ReadLines(tdf, Encoding.UTF8);
                 foreach (string str in lines)
@@ -35,7 +39,6 @@ namespace FalconBMS.Launcher
                     }
                 }
             }
-            theaters.Sort();
 
             for (int ii = 0; ii < theaters.Count; ii++)
             {
