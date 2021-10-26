@@ -110,7 +110,7 @@ namespace FalconBMS.Launcher.Windows
             try
             {
                 // Read Theater List
-                TheaterList.Populate(appReg, Dropdown_TheaterList);
+                TheaterList.PopulateAndSave(appReg, Dropdown_TheaterList);
 
                 // Get Devices
                 deviceControl = new DeviceControl(appReg);
