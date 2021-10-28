@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
+using System.Windows;
 
 namespace FalconBMS.Launcher
 {
@@ -16,6 +17,37 @@ namespace FalconBMS.Launcher
         {
             AppDomain.CurrentDomain.AssemblyResolve += OnResolveAssembly;
             App.Main();
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+        }
+
+        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            if (e.ExceptionObject is NotImplementedException)
+            {
+                Exception ex = e.ExceptionObject as Exception;
+
+                MessageBox.Show("This feature has not yet been implemented.", "Feature not Implemented",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
+               
+                
+                //ex.Handled = true;
+            }
+
+            else
+            {
+                // Skip this step if debugging so the debugger can catch errors.
+                if (Debugger.IsAttached) return;
+
+                MessageBox.Show("An unknown error has occured. Contact support if this problem persists.", "Error",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+
+                //e.Handled = true;
+            }
+        }
+
+        private static void Current_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            
         }
 
         private static Assembly OnResolveAssembly(object sender, ResolveEventArgs args)
