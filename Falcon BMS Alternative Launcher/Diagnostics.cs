@@ -4,11 +4,19 @@ using System.Text;
 
 namespace FalconBMS.Launcher
 {
-    public class Diagnostics
+    public static class Diagnostics
     {
+        public enum LogLevels
+        {
+            Info,
+            Warning,
+            Error,
+            Exception,
+        }
+
         #region Fields
 
-        public string log;
+        internal static string logData;
 
         public static readonly string AppDataPath = $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData, Environment.SpecialFolderOption.Create)}" + "\\FalconBMSAlternativeLauncher";
 
@@ -17,23 +25,36 @@ namespace FalconBMS.Launcher
         #endregion
 
         #region Methods
-        public void Log(string message)
+
+        public static void Log(string message)
         {
-            string message2 = $"[{DateTime.Now}] {message}";
-            log = log + message2 + "/r/n";
-        }
-        public void Log(Exception exception)
-        {
-            string message2 = $"[{DateTime.Now}] ====== Exception Occured ====== \n \n Source: {exception.Source}  \n {exception.Message} \n Target Site: {exception.TargetSite} \n Message: {exception.Message} \n Details: {exception.InnerException} \n \n Exception Data: {exception.Data} \n \n Stack Trace: {exception.StackTrace} \n ============ \n";
-            log = log + message2 + "/r/n";
-        }
-        public void Log(Exception exception, string message)
-        {
-            string message2 = $"[{DateTime.Now}] ====== Exception Occured ====== \n \n {message} \n Source: {exception.Source}  \n {exception.Message} \n Target Site: {exception.TargetSite} \n Message: {exception.Message} \n Details: {exception.InnerException} \n \n Exception Data: {exception.Data} \n \n Stack Trace: {exception.StackTrace} \n ============ \n";
-            log = log + message2 + "/r/n";
+            string message2 = $"[{DateTime.Now}] [INFO] :: {message}";
+            logData = logData + message2 + "/r/n";
+            //WriteLogFile(logData);
         }
 
-        public void Output()
+        public static void Log(string message, LogLevels logLevel)
+        {
+            string message2 = $"[{DateTime.Now}] [{GetLogLevelText(logLevel)}] :: {message}";
+            logData = logData + message2 + "/r/n";
+            //WriteLogFile(logData);
+        }
+
+        public static void Log(Exception exception)
+        {
+            string message2 = $"[{DateTime.Now}] [EXCEPTION] {exception.Message}:: \n \n Source: {exception.Source} \n Target Site: {exception.TargetSite} \n Message: {exception.Message} \n Details: {exception.InnerException} \n \n Exception Data: {exception.Data} \n \n Stack Trace: {exception.StackTrace} \n ============ \n";
+            logData = logData + message2 + "/r/n";
+            //WriteLogFile(logData);
+        }
+
+        public static void Log(Exception exception, string message)
+        {
+            string message2 = $"[{DateTime.Now}] [EXCEPTION] {exception.Message} \n {message} \n Source: {exception.Source} \n Target Site: {exception.TargetSite} \n Message: {exception.Message} \n Details: {exception.InnerException} \n \n Exception Data: {exception.Data} \n \n Stack Trace: {exception.StackTrace} \n ============ \n";
+            logData = logData + message2 + "/r/n";
+            //WriteLogFile(logData);
+        }
+
+        public static void WriteLogFile(string logData)
         {
             if (!Directory.Exists(AppDataPath))
             {
@@ -49,13 +70,13 @@ namespace FalconBMS.Launcher
                 File.SetCreationTimeUtc(LogFilePath, DateTime.UtcNow);
             }
 
-            StreamWriter file = new StreamWriter(Diagnostics.LogFilePath, true, Encoding.Default);
+            StreamWriter file = new StreamWriter(LogFilePath, true, Encoding.Default);
 
-            file.Write($"{log}");
+            file.Write($"{logData}");
             file.Close();
         }
 
-        public void Output(bool append)
+        public static void WriteLogFile(string logData, bool append)
         {
             if (!Directory.Exists(AppDataPath))
             {
@@ -68,10 +89,27 @@ namespace FalconBMS.Launcher
                 File.SetCreationTimeUtc(LogFilePath, DateTime.UtcNow);
             }
 
-            StreamWriter file = new StreamWriter(Diagnostics.LogFilePath, append, Encoding.Default);
+            StreamWriter file = new StreamWriter(LogFilePath, append, Encoding.Default);
 
-            file.Write($"{log}");
+            file.Write($"{logData}");
             file.Close();
+        }
+
+        internal static string GetLogLevelText(LogLevels logLevel)
+        {
+            switch (logLevel)
+            {
+                case LogLevels.Info:
+                    return "INFO";
+                case LogLevels.Warning:
+                    return "WARNING";
+                case LogLevels.Error:
+                    return "ERROR";
+                case LogLevels.Exception:
+                    return "EXCEPTION";
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(logLevel), logLevel, null);
+            }
         }
 
         #endregion

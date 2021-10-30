@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace FalconBMS.Launcher
 {
@@ -17,7 +18,6 @@ namespace FalconBMS.Launcher
         {
             AppDomain.CurrentDomain.AssemblyResolve += OnResolveAssembly;
             App.Main();
-            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
         }
 
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -45,7 +45,7 @@ namespace FalconBMS.Launcher
             }
         }
 
-        private static void Current_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        private static void Current_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             
         }

@@ -13,6 +13,7 @@ namespace FalconBMS.Launcher
         public App()
         {
             Current.DispatcherUnhandledException += App_DispatcherUnhandledException;
+            Diagnostics.Log("Application Initialization completed successfully.", Diagnostics.LogLevels.Info);
         }
 
         private static void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
