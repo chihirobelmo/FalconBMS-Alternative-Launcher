@@ -569,10 +569,7 @@ namespace FalconBMS.Launcher.Windows
             }
             catch (Exception ex)
             {
-                Diagnostics.Log(ex);
-                Diagnostics.WriteLogFile();
-
-                Close();
+                // Do Not Set Diagnostics.Log nor Output here!
             }
         }
 
