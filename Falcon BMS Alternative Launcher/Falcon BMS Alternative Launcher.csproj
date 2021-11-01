@@ -104,6 +104,7 @@
     <Compile Include="AppRegInfo.cs" />
     <Compile Include="Input\AxAssgn.cs" />
     <Compile Include="Input\AxisName.cs" />
+    <Compile Include="Input\CommonConstants.cs" />
     <Compile Include="Input\DeviceControl.cs" />
     <Compile Include="Diagnostics.cs" />
     <Compile Include="Input\DxAssgn.cs" />
@@ -210,12 +211,6 @@
     <Resource Include="Resources\BackGround.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\LOGO432.png" />
-    <Resource Include="Resources\LOGO433.png" />
-    <Resource Include="Resources\LOGO434.png" />
-    <Resource Include="Resources\LOGO435.png" />
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4.5.2 %28x86 および x64%29</ProductName>
@@ -241,9 +236,8 @@
     <Resource Include="Resources\TabControl_2_BackGround.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\LOGO000.png" />
+    <Resource Include="Resources\web_banner.png" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterResolveReferences">
     <ItemGroup>

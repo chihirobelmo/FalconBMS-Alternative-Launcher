@@ -53,7 +53,7 @@ namespace FalconBMS.Launcher.Input
                 {
                     serializer = new System.Xml.Serialization.XmlSerializer(typeof(JoyAssgn));
                     sr = new StreamReader(fileName, new System.Text.UTF8Encoding(false));
-                    joyAssign[i] = (JoyAssgn)serializer.Deserialize(sr);
+                    joyAssign[i].Load((JoyAssgn)serializer.Deserialize(sr));
                     sr.Close();
                 }
                 else
@@ -66,7 +66,7 @@ namespace FalconBMS.Launcher.Input
 
                         serializer = new System.Xml.Serialization.XmlSerializer(typeof(JoyAssgn));
                         sr = new StreamReader(fileName, new System.Text.UTF8Encoding(false));
-                        joyAssign[i] = (JoyAssgn)serializer.Deserialize(sr);
+                        joyAssign[i].Load((JoyAssgn)serializer.Deserialize(sr));
                         sr.Close();
                     }
                 }

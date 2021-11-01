@@ -18,16 +18,19 @@ namespace FalconBMS.Launcher.Windows
     public partial class KeyMappingWindow
     {
         private DeviceControl deviceControl;
-        private KeyFile keyFile;
-        private KeyAssgn SelectedCallback;
+        private KeyFile       keyFile;
+        private KeyAssgn      SelectedCallback;
 
         private JoyAssgn[] tmpJoyStick;
-        private KeyAssgn tmpCallback;
+        private KeyAssgn   tmpCallback;
 
         private DirectInputKeyboard directInputDevice = new DirectInputKeyboard();
-        private DispatcherTimer KeyMappingTimer = new DispatcherTimer();
+        private DispatcherTimer     KeyMappingTimer   = new DispatcherTimer();
+
         private Stopwatch sw = Stopwatch.StartNew();
+
         private NeutralButtons[] neutralButtons;
+
         private Invoke invokeStatus = Invoke.Default;
 
         private bool pressedByHand;
@@ -35,12 +38,17 @@ namespace FalconBMS.Launcher.Windows
         public KeyMappingWindow(KeyAssgn SelectedCallback, KeyFile keyFile, DeviceControl deviceControl)
         {
             InitializeComponent();
+
             CallbackName.Content = SelectedCallback.GetKeyDescription();
+
             Select_PinkyShift.IsChecked = true;
             Select_DX_Release.IsChecked = true;
+
             this.SelectedCallback = SelectedCallback;
-            this.keyFile = keyFile;
+
+            this.keyFile       = keyFile;
             this.deviceControl = deviceControl;
+
             neutralButtons = new NeutralButtons[deviceControl.devList.Count];
 
             tmpJoyStick = new JoyAssgn[deviceControl.devList.Count];
@@ -113,26 +121,26 @@ namespace FalconBMS.Launcher.Windows
                 int[] povs;
 
                 buttons = deviceControl.joyStick[i].CurrentJoystickState.GetButtons();
-                for (int ii = 0; ii < 32; ii++)
+                for (int ii = 0; ii < CommonConstants.DX32; ii++)
                 {
-                    if (buttons[ii] == 128 && deviceControl.joyAssign[i].dx[ii].assign[0].GetCallback() == "SimHotasPinkyShift" && pressedByHand == false)
+                    if (buttons[ii] == CommonConstants.PRS128 && deviceControl.joyAssign[i].dx[ii].assign[CommonConstants.DX_PRESS].GetCallback() == "SimHotasPinkyShift" && pressedByHand == false)
                     {
                         Select_PinkyShift.IsChecked = false;
                     }
-                    if (buttons[ii] == 0 && deviceControl.joyAssign[i].dx[ii].assign[0].GetCallback() == "SimHotasPinkyShift" && pressedByHand == false)
+                    if (buttons[ii] == CommonConstants.PRS0   && deviceControl.joyAssign[i].dx[ii].assign[CommonConstants.DX_PRESS].GetCallback() == "SimHotasPinkyShift" && pressedByHand == false)
                     {
                         Select_PinkyShift.IsChecked = true;
                     }
 
                     if (buttons[ii] == neutralButtons[i].buttons[ii])
                         continue;
-                    if (buttons[ii] == 0)
+                    if (buttons[ii] == CommonConstants.PRS0)
                     {
                         getNeutralPosition();
                         continue;
                     }
 
-                    if (deviceControl.joyAssign[i].dx[ii].assign[0].GetCallback() == "SimHotasPinkyShift" && pressedByHand == false)
+                    if (deviceControl.joyAssign[i].dx[ii].assign[CommonConstants.DX_PRESS].GetCallback() == "SimHotasPinkyShift" && pressedByHand == false)
                     {
                         continue;
                     }
@@ -192,7 +200,7 @@ namespace FalconBMS.Launcher.Windows
         private void KeyboardButtonMonitor()
         {
             directInputDevice.GetCurrentKeyboardState();
-            for (int i = 1; i < 238; i++)
+            for (int i = 1; i < CommonConstants.KEYBOARD_KEYLENGTH; i++)
                 if (directInputDevice.KeyboardState[(Microsoft.DirectX.DirectInput.Key)i])
                     KeyMappingGrid_KeyDown();
         }

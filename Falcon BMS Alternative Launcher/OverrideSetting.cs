@@ -164,7 +164,7 @@ namespace FalconBMS.Launcher
             StreamWriter cfg = new StreamWriter
                 (filename, false, Encoding.GetEncoding("shift_jis"));
             cfg.Write(stResult);
-            cfg.Write("set g_nHotasPinkyShiftMagnitude " + deviceControl.devList.Count*32
+            cfg.Write("set g_nHotasPinkyShiftMagnitude " + deviceControl.devList.Count * CommonConstants.DX32
                 + "          // SETUP OVERRIDE\r\n");
             cfg.Write("set g_bHotasDgftSelfCancel " + Convert.ToInt32(mainWindow.Misc_OverrideSelfCancel.IsChecked)
                 + "          // SETUP OVERRIDE\r\n");
@@ -843,7 +843,7 @@ namespace FalconBMS.Launcher
             StreamWriter cfg = new StreamWriter
                 (filename, false, Encoding.GetEncoding("shift_jis"));
             cfg.Write(stResult);
-            cfg.Write("set g_nHotasPinkyShiftMagnitude " + deviceControl.devList.Count * 32
+            cfg.Write("set g_nHotasPinkyShiftMagnitude " + deviceControl.devList.Count * CommonConstants.DX32
                 + "          // SETUP OVERRIDE\r\n");
             cfg.Write("set g_bHotasDgftSelfCancel " + Convert.ToInt32(mainWindow.Misc_OverrideSelfCancel.IsChecked)
                 + "          // SETUP OVERRIDE\r\n");

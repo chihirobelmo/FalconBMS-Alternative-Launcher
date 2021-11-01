@@ -177,22 +177,22 @@ namespace FalconBMS.Launcher.Windows
                     for (int i = 0; i < deviceControl.devList.Count; i++)
                     {
                         buttons = deviceControl.joyStick[i].CurrentJoystickState.GetButtons();
-                        for (int ii = 0; ii < 32; ii++)
+                        for (int ii = 0; ii < CommonConstants.DX128; ii++)
                         {
-                            if (buttons[ii] == 128 && deviceControl.joyAssign[i].dx[ii].assign[0].GetCallback() == "SimHotasPinkyShift" && pressedByHand == false)
+                            if (buttons[ii] == CommonConstants.PRS128 && deviceControl.joyAssign[i].dx[ii].assign[CommonConstants.DX_PRESS].GetCallback() == "SimHotasPinkyShift" && pressedByHand == false)
                                 Select_PinkyShift.IsChecked = false;
-                            if (buttons[ii] == 0 && deviceControl.joyAssign[i].dx[ii].assign[0].GetCallback() == "SimHotasPinkyShift" && pressedByHand == false)
+                            if (buttons[ii] == CommonConstants.PRS0   && deviceControl.joyAssign[i].dx[ii].assign[CommonConstants.DX_PRESS].GetCallback() == "SimHotasPinkyShift" && pressedByHand == false)
                                 Select_PinkyShift.IsChecked = true;
 
                             if (buttons[ii] == neutralButtons[i].buttons[ii])
                                 continue;
                             statusAssign = Status.GetNeutralPos;
-                            if (buttons[ii] == 0) // RELEASE SHIFT
+                            if (buttons[ii] == CommonConstants.PRS0) // RELEASE SHIFT
                                 Select_DX_Release.IsChecked = false;
                             else
                                 Select_DX_Release.IsChecked = true;
 
-                            if (deviceControl.joyAssign[i].dx[ii].assign[0].GetCallback() == "SimHotasPinkyShift" && pressedByHand == false)
+                            if (deviceControl.joyAssign[i].dx[ii].assign[CommonConstants.DX_PRESS].GetCallback() == "SimHotasPinkyShift" && pressedByHand == false)
                                 continue;
 
                             Pinky pinkyStatus = Pinky.UnShift;
@@ -223,7 +223,7 @@ namespace FalconBMS.Launcher.Windows
                             if (Select_PinkyShift.IsChecked == false)
                                 pinkyStatus = Pinky.Shift;
 
-                            target = deviceControl.joyAssign[i].pov[ii].direction[povs[ii] / 4500].GetCallback(pinkyStatus);
+                            target = deviceControl.joyAssign[i].pov[ii].direction[povs[ii] / CommonConstants.POV45].GetCallback(pinkyStatus);
 
                             string direction = deviceControl.joyAssign[i].pov[ii].GetDirection(povs[ii]);
                             Label_AssgnStatus.Content = "POV" + (ii + 1) + "." + direction + "\t: " + deviceControl.joyAssign[i].GetProductName();
@@ -266,7 +266,7 @@ namespace FalconBMS.Launcher.Windows
 
             directInputDevice.GetCurrentKeyboardState();
 
-            for (int i = 1; i < 238; i++)
+            for (int i = 1; i < CommonConstants.KEYBOARD_KEYLENGTH; i++)
             {
                 if (directInputDevice.KeyboardState[(Microsoft.DirectX.DirectInput.Key)i])
                 {

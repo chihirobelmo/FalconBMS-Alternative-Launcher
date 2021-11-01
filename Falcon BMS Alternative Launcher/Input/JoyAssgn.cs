@@ -8,6 +8,25 @@ namespace FalconBMS.Launcher.Input
 {
     public class JoyAssgn : ICloneable
     {
+        public void Load(JoyAssgn j)
+        {
+            productName  = j.productName;
+            productGUID  = j.productGUID;
+            instanceGUID = j.instanceGUID;
+            axis         = j.axis;
+            pov          = j.pov;
+            for (int i = 0; i < CommonConstants.DX32; i++)
+            {
+                dx[i] = j.dx[i];
+            }
+            if (j.dx.Length <= CommonConstants.DX32)
+                return;
+            for (int i = CommonConstants.DX32; i < CommonConstants.DX128; i++)
+            {
+                dx[i] = j.dx[i];
+            }
+        }
+
         // Member
         protected string productName = "";
         protected Guid productGUID;
@@ -52,7 +71,7 @@ namespace FalconBMS.Launcher.Input
         // None:            Not used: 0x0 ALWAYS
         // SoundID:         Sound ID: -1 Or 0
         // Description:     The description
-        public DxAssgn[] dx = new DxAssgn[32];
+        public DxAssgn[] dx = new DxAssgn[CommonConstants.DX128];
 
         /// <summary>
         /// Make new instance.
@@ -140,7 +159,7 @@ namespace FalconBMS.Launcher.Input
                         if (ii != 0)
                             continue;
                         assign += dx[i].assign[ii].GetCallback();
-                        assign += " " + (joynum * 32 + i);
+                        assign += " " + (joynum * CommonConstants.DX32 + i);
                         assign += " " + (int)Invoke.Default;
                         assign += " " + "-2";
                         assign += " " + "0";
@@ -148,7 +167,7 @@ namespace FalconBMS.Launcher.Input
                         assign += " " + dx[i].assign[ii].GetSoundID();
                         assign += "\n";
                         assign += dx[i].assign[ii].GetCallback();
-                        assign += " " + (numOfDevices * 32 + joynum * 32 + i);
+                        assign += " " + (numOfDevices * CommonConstants.DX32 + joynum * CommonConstants.DX32 + i);
                         assign += " " + (int)Invoke.Default;
                         assign += " " + "-2";
                         assign += " " + "0";
@@ -157,17 +176,22 @@ namespace FalconBMS.Launcher.Input
                         assign += "\n";
                         continue;
                     }
+
                     assign += dx[i].assign[ii].GetCallback();
-                    if (ii == 0 | ii == 2)
-                        assign += " " + (joynum * 32 + i);
-                    if (ii == 1 | ii == 3)
-                        assign += " " + (numOfDevices * 32 + joynum * 32 + i);
+
+                    if (ii == CommonConstants.DX_PRESS | ii == CommonConstants.DX_RELEASE)
+                        assign += " " + (joynum * CommonConstants.DX32 + i);
+                    if (ii == CommonConstants.DX_PRESS_SHIFT | ii == CommonConstants.DX_RELEASE_SHIFT)
+                        assign += " " + (numOfDevices * CommonConstants.DX32 + joynum * CommonConstants.DX32 + i);
+
                     assign += " " + (int)dx[i].assign[ii].GetInvoke();
                     assign += " " + "-2";
-                    if (ii == 0 | ii == 1)
+
+                    if (ii == CommonConstants.DX_PRESS | ii == CommonConstants.DX_PRESS_SHIFT)
                         assign += " " + "0";
-                    if (ii == 2 | ii == 3)
+                    if (ii == CommonConstants.DX_RELEASE | ii == CommonConstants.DX_RELEASE_SHIFT)
                         assign += " " + "0x42";
+
                     assign += " " + "0x0";
                     assign += " " + dx[i].assign[ii].GetSoundID();
                     assign += "\n";
@@ -284,14 +308,17 @@ namespace FalconBMS.Launcher.Input
                         continue;
                     if (result != "")
                         result += "\n";
+
                     result += " DX" + (i + 1);
-                    if (ii == 1) //PRESS + SHIFT
+
+                    if (ii == CommonConstants.DX_PRESS_SHIFT) 
                         result += " SHIFT";
-                    if (ii == 2) //RELEASE
+                    if (ii == CommonConstants.DX_RELEASE)
                         result += " RELEASE";
-                    if (ii == 3) //RELEASE + SHIFT
+                    if (ii == CommonConstants.DX_RELEASE_SHIFT) 
                         result += " RELEASE SHIFT";
-                    if (dx[i].assign[ii].GetInvoke() == Invoke.Down && ii != 2 && ii !=3 )
+
+                    if (dx[i].assign[ii].GetInvoke() == Invoke.Down && ii != CommonConstants.DX_RELEASE && ii != CommonConstants.DX_RELEASE_SHIFT)
                         result += " HOLD";
                 }
             }
@@ -376,11 +403,11 @@ namespace FalconBMS.Launcher.Input
                 // Import DX Setup
                 if (stArrayData[3] == "-2")
                 {
-                    for (int i = 0; i < 32; i++)
+                    for (int i = 0; i < CommonConstants.DX32; i++)
                     {
-                        if (int.Parse(stArrayData[1]) == i + currentID * 32)
+                        if (int.Parse(stArrayData[1]) == i + currentID * CommonConstants.DX32)
                             dx[i].Assign(stArrayData[0], Pinky.UnShift, behaviourStatus, invokeStatus, 0);
-                        if (int.Parse(stArrayData[1]) == i + currentID * 32 + devcount * 32) // Okay This has to be the problem. I have to read FalconBMS.cfg for
+                        if (int.Parse(stArrayData[1]) == i + currentID * CommonConstants.DX32 + devcount * CommonConstants.DX32) // Okay This has to be the problem. I have to read FalconBMS.cfg for
                             dx[i].Assign(stArrayData[0], Pinky.Shift, behaviourStatus, invokeStatus, 0);
                     }
                 }
@@ -449,8 +476,7 @@ namespace FalconBMS.Launcher.Input
                                 // read joystick.cal
                                 if (axisMappingList[i] != joystickCalList[iii])
                                     continue;
-                                int invertnum = jc[iii * 28 + 20];
-                                if (invertnum == 1)
+                                if (jc[iii * 28 + 20] == 0x01)
                                     invert = true;
                             }
 
