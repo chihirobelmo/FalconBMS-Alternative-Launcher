@@ -113,11 +113,21 @@ namespace FalconBMS.Launcher
                 fileName = appReg.GetInstallDir() + "/User/Config/Setup.v100." + deviceControl.joyAssign[i].GetProductName().Replace("/", "-")
                 + " {" + deviceControl.joyAssign[i].GetInstanceGUID().ToString().ToUpper() + "}.xml";
 
-                serializer = new XmlSerializer(typeof(JoyAssgn));
-                sw = new StreamWriter(fileName, false, new UTF8Encoding(false));
-                serializer.Serialize(sw, deviceControl.joyAssign[i]);
+                try
+                {
+                    serializer = new XmlSerializer(typeof(JoyAssgn));
+                    sw = new StreamWriter(fileName, false, new UTF8Encoding(false));
+                    serializer.Serialize(sw, deviceControl.joyAssign[i]);
 
-                sw.Close();
+                    sw.Close();
+                }
+                catch (Exception ex)
+                {
+                    Diagnostics.WriteLogFile(ex);
+
+                    continue;
+                }
+
             }
             fileName = appReg.GetInstallDir() + "/User/Config/Setup.v100.MouseWheel.xml";
 
