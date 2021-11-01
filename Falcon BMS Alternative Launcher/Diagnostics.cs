@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using System.Windows.Forms;
 
 namespace FalconBMS.Launcher
 {
@@ -54,45 +55,120 @@ namespace FalconBMS.Launcher
             //WriteLogFile(logData);
         }
 
-        public static void WriteLogFile(string logData)
+        public static void WriteLogFile()
         {
-            if (!Directory.Exists(AppDataPath))
+            try
             {
-                Directory.CreateDirectory(AppDataPath);
+                if (!Directory.Exists(AppDataPath))
+                {
+                    Directory.CreateDirectory(AppDataPath);
+                }
+
+                DirectoryInfo dirInfo = new DirectoryInfo(AppDataPath);
+                dirInfo.Attributes = dirInfo.Attributes & ~FileAttributes.ReadOnly;
+
+                if (!File.Exists(LogFilePath))
+                {
+                    File.Create(AppDataPath);
+                    File.SetCreationTimeUtc(LogFilePath, DateTime.UtcNow);
+                }
+
+                StreamWriter file = new StreamWriter(LogFilePath, true, Encoding.Default);
+
+                file.Write($"{logData}");
+                file.Close();
             }
-
-            DirectoryInfo dirInfo = new DirectoryInfo(AppDataPath);
-            dirInfo.Attributes = dirInfo.Attributes & ~FileAttributes.ReadOnly;
-
-            if (!File.Exists(LogFilePath))
+            catch
             {
-                File.Create(AppDataPath);
-                File.SetCreationTimeUtc(LogFilePath, DateTime.UtcNow);
+                MessageBox.Show($"{logData}");
             }
-
-            StreamWriter file = new StreamWriter(LogFilePath, true, Encoding.Default);
-
-            file.Write($"{logData}");
-            file.Close();
         }
 
-        public static void WriteLogFile(string logData, bool append)
+        public static void WriteLogFile(Exception e)
         {
-            if (!Directory.Exists(AppDataPath))
+            try
             {
-                Directory.CreateDirectory(AppDataPath);
-            }
+                if (!Directory.Exists(AppDataPath))
+                {
+                    Directory.CreateDirectory(AppDataPath);
+                }
 
-            if (!File.Exists(LogFilePath))
+                DirectoryInfo dirInfo = new DirectoryInfo(AppDataPath);
+                dirInfo.Attributes = dirInfo.Attributes & ~FileAttributes.ReadOnly;
+
+                if (!File.Exists(LogFilePath))
+                {
+                    File.Create(AppDataPath);
+                    File.SetCreationTimeUtc(LogFilePath, DateTime.UtcNow);
+                }
+
+                StreamWriter file = new StreamWriter(LogFilePath, true, Encoding.Default);
+
+                file.Write($"{logData}");
+                file.Close();
+            }
+            catch
             {
-                File.Create(AppDataPath);
-                File.SetCreationTimeUtc(LogFilePath, DateTime.UtcNow);
+                MessageBox.Show($"{e}");
             }
+        }
 
-            StreamWriter file = new StreamWriter(LogFilePath, append, Encoding.Default);
+        public static void WriteLogFile(bool append)
+        {
+            try
+            {
+                if (!Directory.Exists(AppDataPath))
+                {
+                    Directory.CreateDirectory(AppDataPath);
+                }
 
-            file.Write($"{logData}");
-            file.Close();
+                DirectoryInfo dirInfo = new DirectoryInfo(AppDataPath);
+                dirInfo.Attributes = dirInfo.Attributes & ~FileAttributes.ReadOnly;
+
+                if (!File.Exists(LogFilePath))
+                {
+                    File.Create(AppDataPath);
+                    File.SetCreationTimeUtc(LogFilePath, DateTime.UtcNow);
+                }
+
+                StreamWriter file = new StreamWriter(LogFilePath, append, Encoding.Default);
+
+                file.Write($"{logData}");
+                file.Close();
+            }
+            catch
+            {
+                MessageBox.Show($"{logData}");
+            }
+        }
+
+        public static void WriteLogFile(bool append, Exception e)
+        {
+            try
+            {
+                if (!Directory.Exists(AppDataPath))
+                {
+                    Directory.CreateDirectory(AppDataPath);
+                }
+
+                DirectoryInfo dirInfo = new DirectoryInfo(AppDataPath);
+                dirInfo.Attributes = dirInfo.Attributes & ~FileAttributes.ReadOnly;
+
+                if (!File.Exists(LogFilePath))
+                {
+                    File.Create(AppDataPath);
+                    File.SetCreationTimeUtc(LogFilePath, DateTime.UtcNow);
+                }
+
+                StreamWriter file = new StreamWriter(LogFilePath, append, Encoding.Default);
+
+                file.Write($"{logData}");
+                file.Close();
+            }
+            catch
+            {
+                MessageBox.Show($"{e}");
+            }
         }
 
         internal static string GetLogLevelText(LogLevels logLevel)

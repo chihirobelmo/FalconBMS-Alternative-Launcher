@@ -82,27 +82,34 @@ namespace FalconBMS.Launcher.Windows
                     }
                 }
             }
-            catch (FileNotFoundException ex)
+            catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-
-                StreamWriter sw = new StreamWriter("C:\\FBMSAltLauncherErrorLog.txt", false, System.Text.Encoding.GetEncoding("shift_jis"));
-                sw.Write(ex.Message);
-                sw.Close();
-
-                MessageBox.Show("Error Log Saved To C:\\FBMSAltLauncherErrorLog.txt", "WARNING", MessageBoxButton.OK, MessageBoxImage.Information);
+                Diagnostics.Log(ex);
+                Diagnostics.WriteLogFile();
 
                 Close();
             }
 
-            // Load UI Properties(Like Button Status).
-            appProperties = new AppProperties(this);
+            try
+            {
+                // Load UI Properties(Like Button Status).
+                appProperties = new AppProperties(this);
 
-            // Read Registry
-            appReg = new AppRegInfo(this);
+                // Read Registry
+                appReg = new AppRegInfo(this);
+            }
+            catch (Exception ex3)
+            {
+                Diagnostics.Log(ex3);
+                Diagnostics.WriteLogFile();
+                Close();
+                return;
+            }
 
             if (appReg.getBMSVersion() == BMS_Version.UNDEFINED)
             {
+                Diagnostics.Log("Could Not Find BMS");
+                Diagnostics.WriteLogFile();
                 Close();
                 return;
             }
@@ -141,15 +148,10 @@ namespace FalconBMS.Launcher.Windows
 
                 //System.Diagnostics.PresentationTraceSources.DataBindingSource.Switch.Level = System.Diagnostics.SourceLevels.Critical;
             }
-            catch (FileNotFoundException ex)
+            catch (Exception ex2)
             {
-                Console.WriteLine(ex.Message);
-
-                StreamWriter sw = new StreamWriter(appReg.GetInstallDir() + "\\Error.txt", false, System.Text.Encoding.GetEncoding("shift_jis"));
-                sw.Write(ex.Message);
-                sw.Close();
-
-                MessageBox.Show("Error Log Saved To " + appReg.GetInstallDir() + "\\Error.txt", "WARNING", MessageBoxButton.OK, MessageBoxImage.Information);
+                Diagnostics.Log(ex2);
+                Diagnostics.WriteLogFile();
 
                 Close();
             }
@@ -172,15 +174,10 @@ namespace FalconBMS.Launcher.Windows
                 if (ApplicationOverride.IsChecked == false)
                     appReg.getOverrideWriter().Execute(inGameAxis, deviceControl, keyFile);
             }
-            catch (FileNotFoundException ex)
+            catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-
-                StreamWriter sw = new StreamWriter(appReg.GetInstallDir() + "\\Error.txt", false, System.Text.Encoding.GetEncoding("shift_jis"));
-                sw.Write(ex.Message);
-                sw.Close();
-
-                MessageBox.Show("Error Log Saved To " + appReg.GetInstallDir() + "\\Error.txt", "WARNING", MessageBoxButton.OK, MessageBoxImage.Information);
+                Diagnostics.Log(ex);
+                Diagnostics.WriteLogFile();
 
                 Close();
             }
@@ -193,23 +190,34 @@ namespace FalconBMS.Launcher.Windows
         /// <param name="e"></param>
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (!e.Source.Equals(LargeTab))
-                return;
-
-            int value = LargeTab.SelectedIndex;
-
-            if (value == 1)
-                AxisMovingTimer.Start();
-            else
-                AxisMovingTimer.Stop();
-
-            if (value == 2)
+            try
             {
-                KeyMappingTimer.Start();
-                KeyMappingGrid.Items.Refresh();
+                if (!e.Source.Equals(LargeTab))
+                    return;
+
+                int value = LargeTab.SelectedIndex;
+
+                if (value == 1)
+                    AxisMovingTimer.Start();
+                else
+                    AxisMovingTimer.Stop();
+
+                if (value == 2)
+                {
+                    KeyMappingTimer.Start();
+                    KeyMappingGrid.Items.Refresh();
+                }
+                else
+                    KeyMappingTimer.Stop();
             }
-            else
-                KeyMappingTimer.Stop();
+            catch (Exception ex)
+            {
+                Diagnostics.Log(ex);
+                Diagnostics.WriteLogFile();
+
+                Close();
+            }
+
         }
         
         /// <summary>
@@ -219,7 +227,17 @@ namespace FalconBMS.Launcher.Windows
         /// <param name="e"></param>
         private void Dropdown_TheaterList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            appReg.ChangeTheater(Dropdown_TheaterList);
+            try
+            {
+                appReg.ChangeTheater(Dropdown_TheaterList);
+            }
+            catch (Exception ex)
+            {
+                Diagnostics.Log(ex);
+                Diagnostics.WriteLogFile();
+
+                Close();
+            }
         }
         
         /// <summary>
@@ -229,7 +247,17 @@ namespace FalconBMS.Launcher.Windows
         /// <param name="e"></param>
         private void Launch_TheaterConfig_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start(appReg.theaterOwnConfig);
+            try
+            {
+                System.Diagnostics.Process.Start(appReg.theaterOwnConfig);
+            }
+            catch (Exception ex)
+            {
+                Diagnostics.Log(ex);
+                Diagnostics.WriteLogFile();
+
+                Close();
+            }
         }
         
         /// <summary>
@@ -239,7 +267,17 @@ namespace FalconBMS.Launcher.Windows
         /// <param name="e"></param>
         private void CMD_BW_Click(object sender, RoutedEventArgs e)
         {
-            appProperties.CMD_BW_Click();
+            try
+            {
+                appProperties.CMD_BW_Click();
+            }
+            catch (Exception ex)
+            {
+                Diagnostics.Log(ex);
+                Diagnostics.WriteLogFile();
+
+                Close();
+            }
         }
 
         /// <summary>
@@ -249,7 +287,17 @@ namespace FalconBMS.Launcher.Windows
         /// <param name="e"></param>
         private void OpenDocs_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Docs");
+            try
+            {
+                System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Docs");
+            }
+            catch (Exception ex)
+            {
+                Diagnostics.Log(ex);
+                Diagnostics.WriteLogFile();
+
+                Close();
+            }
         }
 
         /// <summary>
@@ -265,13 +313,8 @@ namespace FalconBMS.Launcher.Windows
             }
             catch (FileNotFoundException ex)
             {
-                Console.WriteLine(ex.Message);
-
-                StreamWriter sw = new StreamWriter(appReg.GetInstallDir() + "\\Error.txt", false, System.Text.Encoding.GetEncoding("shift_jis"));
-                sw.Write(ex.Message);
-                sw.Close();
-
-                MessageBox.Show("Error Log Saved To " + appReg.GetInstallDir() + "\\Error.txt", "WARNING", MessageBoxButton.OK, MessageBoxImage.Information);
+                Diagnostics.Log(ex);
+                Diagnostics.WriteLogFile();
 
                 Close();
             }
@@ -306,11 +349,8 @@ namespace FalconBMS.Launcher.Windows
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-
-                StreamWriter sw = new StreamWriter("C:\\FBMSAltLauncherErrorLog.txt", false, System.Text.Encoding.GetEncoding("shift_jis"));
-                sw.Write(ex.Message);
-                sw.Close();
+                Diagnostics.Log(ex);
+                Diagnostics.WriteLogFile();
 
                 Close();
             }
@@ -453,15 +493,10 @@ namespace FalconBMS.Launcher.Windows
                         break;
                 }
             }
-            catch (FileNotFoundException ex)
+            catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-
-                StreamWriter sw = new StreamWriter(appReg.GetInstallDir() + "\\Error.txt", false, System.Text.Encoding.GetEncoding("shift_jis"));
-                sw.Write(ex.Message);
-                sw.Close();
-
-                MessageBox.Show("Error Log Saved To " + appReg.GetInstallDir() + "\\Error.txt", "WARNING", MessageBoxButton.OK, MessageBoxImage.Information);
+                Diagnostics.Log(ex);
+                Diagnostics.WriteLogFile();
 
                 Close();
             }
@@ -532,9 +567,12 @@ namespace FalconBMS.Launcher.Windows
                 if (e.ChangedButton == MouseButton.Left)
                     DragMove();
             }
-            catch
+            catch (Exception ex)
             {
+                Diagnostics.Log(ex);
+                Diagnostics.WriteLogFile();
 
+                Close();
             }
         }
 
