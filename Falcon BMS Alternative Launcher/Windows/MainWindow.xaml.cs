@@ -70,7 +70,6 @@ namespace FalconBMS.Launcher.Windows
                         Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
                         BackGroundBox1.Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
                         BackGroundBox2.Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
-                        BackGroundBox3.Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
                         BackGroundBox4.Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
                         BackGroundImage.Opacity = 0;
 

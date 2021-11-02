@@ -45,7 +45,8 @@ namespace FalconBMS.Launcher
             mainWindow.Axis_AI_vs_IVC.Visibility  = Visibility.Hidden;
             mainWindow.AI_vs_IVC.Visibility       = Visibility.Hidden;
 
-            mainWindow.Tab_HSI_and_Altimeter.Visibility    = Visibility.Collapsed;
+            mainWindow.Grid_HSI.Visibility                 = Visibility.Collapsed;
+            mainWindow.Grid_Altimeter.Visibility           = Visibility.Collapsed;
             mainWindow.Misc_NaturalHeadMovement.Visibility = Visibility.Collapsed;
         }
 
@@ -108,7 +109,8 @@ namespace FalconBMS.Launcher
     {
         public Launcher433(AppRegInfo appReg, MainWindow mainWindow) : base(appReg, mainWindow)
         {
-            mainWindow.Tab_HSI_and_Altimeter.Visibility    = Visibility.Collapsed;
+            mainWindow.Grid_HSI.Visibility = Visibility.Collapsed;
+            mainWindow.Grid_Altimeter.Visibility = Visibility.Collapsed;
             mainWindow.Misc_NaturalHeadMovement.Visibility = Visibility.Collapsed;
 
             mainWindow.Misc_Megane.Visibility = Visibility.Hidden;

@@ -238,6 +238,12 @@
   <ItemGroup>
     <Resource Include="Resources\web_banner.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\BackGround_Header.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\BackGroundAxis.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterResolveReferences">
     <ItemGroup>

@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="FalconBMS Alternative Launcher" Height="768" Width="1024" GlowBrush="#803878A8"
         Loaded="Window_Loaded" Closed="Window_Closed" MouseDown="MetroWindow_MouseDown"
-        FontSize="12" WindowStartupLocation="CenterScreen" ShowTitleBar="False" WindowStyle="None" Background="#FFD4E1EE">
+        FontSize="12" WindowStartupLocation="CenterScreen" ShowTitleBar="False" WindowStyle="None" Background="#a4a9ac">
     <Window.Resources>
         <Style TargetType="Label">
             <Setter Property="Foreground" Value="#FF606060" />
@@ -74,14 +74,28 @@
                         <ScaleTransform CenterX="1"/>
                         <SkewTransform CenterX="1"/>
                         <RotateTransform CenterX="1"/>
-                        <TranslateTransform/>
+                        <TranslateTransform Y="0"/>
                     </TransformGroup>
                 </ImageBrush.RelativeTransform>
             </ImageBrush>
         </Grid.Background>
-        <Image Visibility="Visible" HorizontalAlignment="Left" VerticalAlignment="Top" Height="42" Source="/Resources/TabControl_1_BackGround.png" Stretch="None" Margin="-214,64,-350,0" Width="1580"/>
-        <TabControl x:Name="LargeTab" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="TabControl_SelectionChanged" Margin="0,64,0,0" Background="{x:Null}">
-            <TabItem Header="  Launcher" x:Name="Tab_Launcher">
+        <Border BorderThickness="1" Height="111" Margin="-10,-10,-10,0" VerticalAlignment="Top" HorizontalAlignment="Stretch" Width="auto">
+            <Border.Background>
+                <ImageBrush ImageSource="/Resources/BackGround_Header.jpg" Stretch="UniformToFill">
+                    <ImageBrush.RelativeTransform>
+                        <TransformGroup>
+                            <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                            <SkewTransform CenterY="0.5" CenterX="0.5"/>
+                            <RotateTransform CenterY="0.5" CenterX="0.5"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </ImageBrush.RelativeTransform>
+                </ImageBrush>
+            </Border.Background>
+            <Grid HorizontalAlignment="Stretch" Height="auto" Margin="0,0,0,0" VerticalAlignment="Stretch" Width="auto"/>
+        </Border>
+        <TabControl x:Name="LargeTab" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="TabControl_SelectionChanged" Margin="0,64,0.333,0.333" Background="{x:Null}">
+            <TabItem Header="LAUNCHER" x:Name="Tab_Launcher" HorizontalAlignment="Center" Margin="535,-40,-535.333,40.333">
                 <Grid>
                     <Controls:ToggleSwitch x:Name="Misc_Platform" OnLabel="64bit" OffLabel="32bit" HorizontalAlignment="Left" Margin="160,30,0,0" VerticalAlignment="Top" Foreground="#FF606060"/>
                     <Label x:Name="Label_Platform" Content="Platform :" HorizontalAlignment="Left" Margin="32,32,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="16" Foreground="#FF606060"/>
@@ -97,7 +111,7 @@
                     <Controls:ToggleSwitch x:Name="Misc_Megane" OnLabel="Enable" OffLabel="Disable" HorizontalAlignment="Left" Margin="160,250,0,0" VerticalAlignment="Top" Foreground="#FF606060"/>
                     <Label Content="Documentation and Manuals :" HorizontalAlignment="Left" Margin="32,206,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="16" Foreground="#FF606060"/>
                     <Button x:Name="OpenDocs" Content="Open Docs Folder" Style="{StaticResource AccentedSquareButtonStyle}" Controls:ControlsHelper.ContentCharacterCasing="Normal" HorizontalAlignment="Left" Margin="301,209,0,0" VerticalAlignment="Top" Width="165" Click="OpenDocs_Click"/>
-                    
+
                     <ToggleButton x:Name="CMD_ACMI" Content="ACMI" HorizontalAlignment="Left" Margin="204,168,0,0" VerticalAlignment="Top" Width="64"/>
                     <ToggleButton x:Name="CMD_WINDOW" Content="WINDOW" HorizontalAlignment="Left" Margin="286,168,0,0" VerticalAlignment="Top" Width="64" Click="CMD_WINDOW_Click"/>
                     <ToggleButton x:Name="CMD_NOMOVIE" Content="NOMOVIE" HorizontalAlignment="Left" Margin="368,168,0,0" VerticalAlignment="Top" Width="64"/>
@@ -219,12 +233,11 @@
                     </Border>
                 </Grid>
             </TabItem>
-            <TabItem Header=" AxisAssign">
+            <TabItem Header="AXISASSIGN" Margin="535.333,-40,-535,40.333">
                 <Grid>
-                    <Image Visibility="Visible" HorizontalAlignment="Left" VerticalAlignment="Top" Height="39" Source="/Resources/TabControl_1_BackGround.png" Stretch="None" Margin="-5,-1,-563.667,0" Width="1580"/>
                     <TabControl HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Stretch" Width="auto" Margin="10,0" Background="{x:Null}">
-                        <TabItem Header=" FlightControl" Controls:ControlsHelper.HeaderFontSize="24">
-                            <Grid Margin="0,0,0,24" Background="#7FD4E1EE" x:Name="BackGroundBox1">
+                        <TabItem Header=" FLIGHT CONTROL &amp; AVIONICS" Controls:ControlsHelper.HeaderFontSize="24" Margin="205,-46,-205,46">
+                            <Grid Margin="0,-35,0,23.667" Background="#7FD4E1EE" x:Name="BackGroundBox1">
                                 <!-- Roll Axis -->
                                 <Grid HorizontalAlignment="Left" Height="180" VerticalAlignment="Top" Width="480">
                                     <Label Content="SSC (Side Stick Controller)" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold" FontStyle="Oblique" Height="41" Width="349"/>
@@ -256,22 +269,27 @@
                                     <Label x:Name="AB_Throttle_Right" Content="AB" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="32,126,0,0" VerticalAlignment="Top" Foreground="#FF606060" FontSize="11" Width="256"/>
                                 </Grid>
                                 <Grid HorizontalAlignment="Left" Height="228" Margin="0,360,0,0" VerticalAlignment="Top" Width="480">
-                                    <Label Content="Rudder" HorizontalAlignment="Left" Margin="10,10,-18,177" FontSize="16" FontWeight="Bold" FontStyle="Oblique" Width="422"/>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="248*"/>
+                                        <ColumnDefinition Width="78*"/>
+                                        <ColumnDefinition Width="153*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Content="Rudder" HorizontalAlignment="Left" Margin="10,10,0,177" FontSize="16" FontWeight="Bold" FontStyle="Oblique" Width="422" Grid.ColumnSpan="3"/>
 
                                     <Label Content="Yaw :" HorizontalAlignment="Left" Margin="32,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="60" FontWeight="Bold"/>
-                                    <Label x:Name="Label_Yaw" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="188,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100"/>
-                                    <Controls:MetroProgressBar x:Name="Axis_Yaw" HorizontalAlignment="Left" Margin="32,85,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
-                                    <Button x:Name="Yaw" Content="Assign" HorizontalAlignment="Left" Margin="320,77,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
+                                    <Label x:Name="Label_Yaw" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="188,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100" Grid.ColumnSpan="2"/>
+                                    <Controls:MetroProgressBar x:Name="Axis_Yaw" HorizontalAlignment="Left" Margin="32,85,0,0" VerticalAlignment="Top" Width="256" Height="10" Grid.ColumnSpan="2"/>
+                                    <Button x:Name="Yaw" Content="Assign" HorizontalAlignment="Left" Margin="71.778,77,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27" Grid.ColumnSpan="2" Grid.Column="1"/>
 
                                     <Label Content="Toe Brake :" HorizontalAlignment="Left" Margin="32,100,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100" FontWeight="Bold"/>
-                                    <Label x:Name="Label_Toe_Brake" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="188,100,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100"/>
-                                    <Controls:MetroProgressBar x:Name="Axis_Toe_Brake" HorizontalAlignment="Left" Margin="32,134,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
-                                    <Button x:Name="Toe_Brake" Content="Assign" HorizontalAlignment="Left" Margin="320,126,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
+                                    <Label x:Name="Label_Toe_Brake" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="188,100,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100" Grid.ColumnSpan="2"/>
+                                    <Controls:MetroProgressBar x:Name="Axis_Toe_Brake" HorizontalAlignment="Left" Margin="32,134,0,0" VerticalAlignment="Top" Width="256" Height="10" Grid.ColumnSpan="2"/>
+                                    <Button x:Name="Toe_Brake" Content="Assign" HorizontalAlignment="Left" Margin="71.778,126,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27" Grid.ColumnSpan="2" Grid.Column="1"/>
 
                                     <Label Content="Toe Brake Right :" HorizontalAlignment="Left" Margin="32,149,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="132" FontWeight="Bold"/>
-                                    <Label x:Name="Label_Toe_Brake_Right" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="188,149,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100"/>
-                                    <Controls:MetroProgressBar x:Name="Axis_Toe_Brake_Right" HorizontalAlignment="Left" Margin="32,183,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
-                                    <Button x:Name="Toe_Brake_Right" Content="Assign" HorizontalAlignment="Left" Margin="320,175,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
+                                    <Label x:Name="Label_Toe_Brake_Right" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="188,149,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100" Grid.ColumnSpan="2"/>
+                                    <Controls:MetroProgressBar x:Name="Axis_Toe_Brake_Right" HorizontalAlignment="Left" Margin="32,183,0,0" VerticalAlignment="Top" Width="256" Height="10" Grid.ColumnSpan="2"/>
+                                    <Button x:Name="Toe_Brake_Right" Content="Assign" HorizontalAlignment="Left" Margin="71.778,175,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27" Grid.ColumnSpan="2" Grid.Column="1"/>
                                 </Grid>
                                 <Grid HorizontalAlignment="Left" Height="228" Margin="480,0,0,0" VerticalAlignment="Top" Width="480">
                                     <Label Content="TRIM Panel" HorizontalAlignment="Left" Margin="10,10,-18,177" FontSize="16" FontWeight="Bold" FontStyle="Oblique" Width="422"/>
@@ -291,20 +309,15 @@
                                     <Controls:MetroProgressBar x:Name="Axis_Trim_Yaw" HorizontalAlignment="Left" Margin="32,183,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
                                     <Button x:Name="Trim_Yaw" Content="Assign" HorizontalAlignment="Left" Margin="320,175,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
                                 </Grid>
-                                <Grid HorizontalAlignment="Left" Height="189" Margin="480,233,0,0" VerticalAlignment="Top" Width="480">
-                                    <TextBlock HorizontalAlignment="Left" Margin="32,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="#FF606060"><Bold><Run Text="TIPS:"/></Bold><LineBreak/><LineBreak/><Run Text="* Falcon BMS Implements Real Life F-16 FLCS Curve and Deadzone."/><LineBreak/><Run Text="   "/><Run Text="Disabling curves and deadzones for joystick is recommended."/><LineBreak/><LineBreak/><Run Text="*"/><Run Text=" &quot;Throttle&quot; &quot;Toe Brake&quot; works as Both Throttle / Both Toe Brakes control"/><LineBreak/><Run Text="   "/><Run Text="as long as no axis are applied to &quot;Throttle Right&quot; or &quot;Toe Brake Right&quot;"/><LineBreak/><LineBreak/><Run Text="   "/><Run Text="If any axis has been applied to &quot;Throttle Right&quot; &quot;Toe Brake Right&quot;,"/><LineBreak/><Run Text="   "/><Run Text="each of these two axes works as &quot;Throttle Left&quot; &quot;Toe Brake Left&quot;"/><LineBreak/></TextBlock>
+                                <Grid HorizontalAlignment="Left" Height="40" Margin="346,336,0,0" VerticalAlignment="Top" Width="480">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="461*"/>
+                                        <ColumnDefinition Width="19*"/>
+                                    </Grid.ColumnDefinitions>
                                 </Grid>
-                                <Grid HorizontalAlignment="Left" Height="148" Margin="480,427,0,0" VerticalAlignment="Top" Width="475">
-                                    <Label Content="MISC:" HorizontalAlignment="Left" Margin="24,0,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-                                    <CheckBox x:Name="Misc_RollLinkedNWS" Content="Use Roll Axis for Steering while on the Ground enabling NWS." HorizontalAlignment="Left" Margin="48,32,0,0" VerticalAlignment="Top" Foreground="#FF606060"/>
-                                    <Label Content="*Assigning any device to Yaw Axis disables this option." FontSize="11" Foreground="#FF606060" HorizontalAlignment="Left" Margin="64,48,0,0" VerticalAlignment="Top"/>
-                                </Grid>
-                            </Grid>
-                        </TabItem>
-                        <TabItem Header="  Avionics &amp; Radios" Controls:ControlsHelper.HeaderFontSize="24">
-                            <Grid Background="#7FD4E1EE" Margin="0,0,0,24" x:Name="BackGroundBox2">
-                                <Grid HorizontalAlignment="Left" Height="278" VerticalAlignment="Top" Width="480" Grid.ColumnSpan="2">
-                                    <Label Content="TQS (Throttle Quadrant System)" HorizontalAlignment="Left" Margin="10,10,-18,177" FontSize="16" FontWeight="Bold" FontStyle="Oblique" Width="422"/>
+                                <Grid HorizontalAlignment="Left" Height="77" Margin="381,498,0,0" VerticalAlignment="Top" Width="475"/>
+                                <Grid HorizontalAlignment="Left" Height="278" VerticalAlignment="Top" Width="480" Margin="480,233,0,0">
+                                    <Label Content="TQS Avionics" HorizontalAlignment="Left" Margin="10,10,-18,177" FontSize="16" FontWeight="Bold" FontStyle="Oblique" Width="422"/>
 
                                     <Label Content="Antenna Elev :" HorizontalAlignment="Left" Margin="32,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="128" FontWeight="Bold"/>
                                     <Label x:Name="Label_Radar_Antenna_Elevation" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="188,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="100"/>
@@ -326,7 +339,14 @@
                                     <Controls:MetroProgressBar x:Name="Axis_Range_Knob" HorizontalAlignment="Left" Margin="32,232,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
                                     <Button x:Name="Range_Knob" Content="Assign" HorizontalAlignment="Left" Margin="320,224,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
                                 </Grid>
-                                <Grid HorizontalAlignment="Left" Height="278" VerticalAlignment="Top" Width="480" Margin="0,278,0,0" Grid.ColumnSpan="2">
+                                <TextBlock HorizontalAlignment="Left" Margin="513,511,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="#FF606060" Height="36"><Run Text="*"/><Run Text=" &quot;Throttle&quot; &quot;Toe Brake&quot; works as Both Throttle / Both Toe Brakes control"/><LineBreak/><Run Text="   "/><Run Text="as long as no axis are applied to &quot;Throttle Right&quot; or &quot;Toe Brake Right&quot;"/><LineBreak/></TextBlock>
+                                <CheckBox x:Name="Misc_RollLinkedNWS" Content="Use Roll Axis for Steering while on the Ground enabling NWS." HorizontalAlignment="Left" Margin="525,558,0,0" VerticalAlignment="Top" Foreground="#FF606060" Height="18" Width="349"/>
+                                <Label Content="*Assigning any device to Yaw Axis disables this option." FontSize="11" Foreground="#FF606060" HorizontalAlignment="Left" Margin="543,575,0,0" VerticalAlignment="Top" Height="25" Width="273"/>
+                            </Grid>
+                        </TabItem>
+                        <TabItem Header="ICP, RADIOS, AUDIO &amp; ALTIMETER" Controls:ControlsHelper.HeaderFontSize="24" Margin="205,-46,-204.333,46">
+                            <Grid Background="#7FD4E1EE" Margin="0,-35,0,23.667" x:Name="BackGroundBox2">
+                                <Grid HorizontalAlignment="Left" Height="278" VerticalAlignment="Top" Width="480">
                                     <Label Content="ICP (Integrated Control Panel)" HorizontalAlignment="Left" Margin="10,10,-18,177" FontSize="16" FontWeight="Bold" FontStyle="Oblique" Width="422"/>
 
                                     <Label Content="HUD Bright :" HorizontalAlignment="Left" Margin="32,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="128" FontWeight="Bold"/>
@@ -387,12 +407,7 @@
                                     <Controls:MetroProgressBar x:Name="Axis_ILS_Volume_Knob" HorizontalAlignment="Left" Margin="32,377,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
                                     <Button x:Name="ILS_Volume_Knob" Content="Assign" HorizontalAlignment="Left" Margin="320,369,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
                                 </Grid>
-                            </Grid>
-                        </TabItem>
-                        <TabItem x:Name="Tab_HSI_and_Altimeter" Header="  HSI &amp; Altimeter" Controls:ControlsHelper.HeaderFontSize="24">
-                            <Grid Margin="0,0,0,24" Background="#7FD4E1EE" x:Name="BackGroundBox3">
-                                <!-- Roll Axis -->
-                                <Grid HorizontalAlignment="Left" Height="180" VerticalAlignment="Top" Width="480">
+                                <Grid x:Name="Grid_HSI" HorizontalAlignment="Left" Height="180" VerticalAlignment="Top" Width="480" Margin="0,278,0,0">
                                     <Label Content="HSI (Horizontal Situation Indicator)" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold" FontStyle="Oblique" Height="41" Width="349"/>
 
                                     <Label Content="Course : " HorizontalAlignment="Left" Margin="32,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="90" FontWeight="Bold"/>
@@ -405,7 +420,7 @@
                                     <Controls:MetroProgressBar x:Name="Axis_HSI_Heading_Knob" HorizontalAlignment="Left" Margin="32,134,0,0" VerticalAlignment="Top" Width="256" Height="10"/>
                                     <Button x:Name="HSI_Heading_Knob" Content="Assign" HorizontalAlignment="Left" Margin="320,126,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
                                 </Grid>
-                                <Grid HorizontalAlignment="Left" Height="180" Margin="0,180,0,0" VerticalAlignment="Top" Width="480">
+                                <Grid x:Name="Grid_Altimeter" HorizontalAlignment="Left" Height="122" Margin="0,458,0,0" VerticalAlignment="Top" Width="480">
                                     <Label Content="Altimeter" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold" FontStyle="Oblique" Height="46" Width="458"/>
 
                                     <Label Content="Setting :" HorizontalAlignment="Left" Margin="32,51,0,0" VerticalAlignment="Top" FontSize="16" Height="34" Width="80" FontWeight="Bold"/>
@@ -414,11 +429,10 @@
                                     <Button x:Name="Altimeter_Knob" Content="Assign" HorizontalAlignment="Left" Margin="320,77,0,0" VerticalAlignment="Top" Width="74" Click="Assign_Click" Height="27"/>
 
                                 </Grid>
-                                <Grid HorizontalAlignment="Left" Height="148" Margin="480,427,0,0" VerticalAlignment="Top" Width="475"/>
                             </Grid>
                         </TabItem>
-                        <TabItem Header="  Views" Controls:ControlsHelper.HeaderFontSize="24">
-                            <Grid Background="#7FD4E1EE" Margin="0,0,0,24" x:Name="BackGroundBox4">
+                        <TabItem Header="VIEW" Controls:ControlsHelper.HeaderFontSize="24" Margin="204.333,-46,-204.333,46">
+                            <Grid Background="#7FD4E1EE" Margin="0,-35,0,23.667" x:Name="BackGroundBox4">
                                 <Grid HorizontalAlignment="Left" Height="278" VerticalAlignment="Top" Width="480" Grid.ColumnSpan="2"/>
                                 <Grid HorizontalAlignment="Left" Height="531" VerticalAlignment="Top" Width="480">
                                     <Label Content="VIEWS" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold" FontStyle="Oblique" Height="41" Width="349"/>
@@ -446,7 +460,7 @@
                                         <Run Text="by Falcas will update their kneeboard images applying current mission data."/>
                                     </TextBlock>
                                 </Grid>
-                                <Grid HorizontalAlignment="Left" Height="278" Margin="499,0,0,307" VerticalAlignment="Top" Width="485">
+                                <Grid HorizontalAlignment="Left" Height="278" Margin="489,332,0,0" VerticalAlignment="Top" Width="485">
                                     <Label Content="Smart Scaling" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10,10,10,0" Width="Auto" Height="48" FontSize="24"/>
                                     <TextBlock HorizontalAlignment="Left" Margin="32,63,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="#FF606060" Height="Auto" Width="409">
                                         <Bold><Run Text="Improving Target Orientation Discrimination Performance"/></Bold>
@@ -472,13 +486,13 @@
 
                 </Grid>
             </TabItem>
-            <TabItem Header=" KeyMapping">
-                <Grid>
+            <TabItem Header="KEYMAPPING" Margin="535,-40,-536,40.333">
+                <Grid Margin="0,1,-0.333,0.333">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Label Content="Category:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="26" Width="64" HorizontalContentAlignment="Right"/>
-                    <ComboBox x:Name="Category" HorizontalAlignment="Left" Margin="87,12,0,0" VerticalAlignment="Top" Width="256" BorderBrush="Black" Background="#80F0F0F0" Foreground="#FF606060" SelectionChanged="Category_SelectionChanged" Height="26">
+                    <Label Content="Category:" HorizontalAlignment="Left" Margin="223,-43,0,0" VerticalAlignment="Top" Height="26" Width="64" HorizontalContentAlignment="Right" Foreground="White"/>
+                    <ComboBox x:Name="Category" HorizontalAlignment="Left" Margin="300,-41,0,0" VerticalAlignment="Top" Width="256" BorderBrush="Black" Background="#80F0F0F0" Foreground="#FF191919" SelectionChanged="Category_SelectionChanged" Height="26">
                         <TextBlock Text=" TOP" FontWeight="Bold"/>
                         <TextBlock Text=" UI &amp; 3RD PARTY SOFTWARE" Foreground="#FF00C001"/>
                         <TextBlock Text=" LEFT CONSOLE"/>
@@ -493,7 +507,7 @@
                         <TextBlock Text=" VIEWS"/>
                         <TextBlock Text=" RADIO COMMS"/>
                     </ComboBox>
-                    <DataGrid x:Name="KeyMappingGrid" HorizontalAlignment="Stretch" Height="auto" Margin="10,94,10,64" 
+                    <DataGrid x:Name="KeyMappingGrid" HorizontalAlignment="Stretch" Height="auto" Margin="10,10,9.667,64" 
                               EnableColumnVirtualization="True" EnableRowVirtualization="True" VirtualizingPanel.IsVirtualizingWhenGrouping="True"
                               RowStyle="{StaticResource MyDataGridStyle}"
                               AutoGenerateColumns="True" 
@@ -523,15 +537,13 @@
                     <CheckBox x:Name="Misc_OverrideSelfCancel" Content="Use 3-Way ON-OFF-ON Switch for TQS: DOGFIGHT" FontSize="11" HorizontalAlignment="Left" Margin="10,0,0,9" VerticalAlignment="Bottom" Foreground="#FF606060" Height="18" Width="272"/>
                     <CheckBox x:Name="Misc_MouseCursorAnchor" Content="Anchor the Mouse Cursor to Clickable Switches or Dials." HorizontalAlignment="Left" Margin="300,0,0,9" VerticalAlignment="Bottom" Foreground="#FF606060" Height="18" Width="318"/>
 
-                    <Label Content="Filter:" HorizontalAlignment="Left" Margin="10,43,0,0" VerticalAlignment="Top" Width="64" HorizontalContentAlignment="Right"/>
-                    <TextBox x:Name="SearchBox" HorizontalAlignment="Left" Height="23" Margin="87,43,0,0" VerticalAlignment="Top" Width="384" Background="#80F0F0F0" Foreground="#FF606060" Controls:TextBoxHelper.ClearTextButton="True" TextChanged="SearchBox_TextChanged"/>
+                    <Label Content="Filter:" HorizontalAlignment="Left" Margin="561,-43,0,0" VerticalAlignment="Top" Width="43" HorizontalContentAlignment="Right" Foreground="White"/>
+                    <TextBox x:Name="SearchBox" HorizontalAlignment="Left" Height="23" Margin="616,-41,0,0" VerticalAlignment="Top" Width="384" Background="#80F0F0F0" Foreground="#FF191919" Controls:TextBoxHelper.ClearTextButton="True" TextChanged="SearchBox_TextChanged"/>
 
-                    <Label Content="* Double Click a cell to Assign keys." HorizontalContentAlignment="Right" HorizontalAlignment="Right" Margin="0,69,10,0" VerticalAlignment="Top" Width="596" Height="26"/>
+                    <Label Content="* Double Click a cell to Assign keys." HorizontalContentAlignment="Right" HorizontalAlignment="Right" Margin="0,592,9.667,0" VerticalAlignment="Top" Width="596" Height="29"/>
                 </Grid>
             </TabItem>
         </TabControl>
-
-        <Image Visibility="Visible" HorizontalAlignment="Left" VerticalAlignment="Top" Height="64" Source="/Resources/LOGO_BACK.png" Stretch="Uniform" Margin="0,0,-350,0"/>
         <Image x:Name="LOGO000" HorizontalAlignment="Left" VerticalAlignment="Top" Height="49" Source="/Resources/web_banner.png" Stretch="Uniform" Width="363" Margin="24,10,0,0"/>
         <Label Content="FalconBMS Alternative Launcher v1.62" HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontWeight="Bold" Margin="0,0,10,0"/>
 

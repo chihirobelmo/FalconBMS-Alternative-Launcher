@@ -10,24 +10,24 @@
         WindowStartupLocation="CenterScreen"
         Loaded="WindowLoaded" Closed="WindowClosed" MouseDown="WindowMouseDown"
         ResizeMode="NoResize" SizeToContent="Width" Topmost="True" 
-        AllowDrop="False" ShowTitleBar="False" IsWindowDraggable="False" WindowStyle="None" Background="#FFE1F1FF">
+        AllowDrop="False" ShowTitleBar="False" IsWindowDraggable="False" WindowStyle="None" Background="#bfc7cf">
     <Window.Resources>
         <Style TargetType="Label">
-            <Setter Property="Foreground" Value="#FF606060" />
+            <Setter Property="Foreground" Value="#FF191919" />
         </Style>
         <Style TargetType="Controls:MetroProgressBar">
             <Setter Property="Background" Value="#80F0F0F0" />
-            <Setter Property="Foreground" Value="#803878A8" />
-            <Setter Property="BorderBrush" Value="#FF606060" />
+            <Setter Property="Foreground" Value="#FF191919" />
+            <Setter Property="BorderBrush" Value="#FF191919" />
             <Setter Property="BorderThickness" Value="1" />
         </Style>
     </Window.Resources>
     <Grid>
         <Grid.Background>
-            <ImageBrush ImageSource="/Resources/BackgroundAxis.png" Stretch="UniformToFill" x:Name="BackGroundImage">
+            <ImageBrush ImageSource="/Resources/BackgroundAxis.jpg" Stretch="UniformToFill" x:Name="BackGroundImage">
                 <ImageBrush.RelativeTransform>
                     <TransformGroup>
-                        <ScaleTransform CenterY="1" CenterX="1" ScaleX="2" ScaleY="2"/>
+                        <ScaleTransform CenterY="0.5" CenterX="0.5" ScaleX="1" ScaleY="1"/>
                         <SkewTransform CenterY="1" CenterX="1"/>
                         <RotateTransform CenterY="1" CenterX="1"/>
                         <TranslateTransform/>
@@ -38,15 +38,15 @@
         <Label x:Name="CallbackName" Content="CallbackName" HorizontalAlignment="Left" Margin="24,12,0,0" VerticalAlignment="Top" FontSize="16" FontStyle="Italic" FontWeight="Bold"/>
         <Label x:Name="MappedButton" HorizontalAlignment="Left" Margin="32,67,0,0" VerticalAlignment="Top" FontStyle="Italic" Height="28" Width="447"/>
         <Label x:Name="AwaitingInputs" HorizontalAlignment="Left" Margin="32,67,0,0" VerticalAlignment="Top" FontStyle="Italic" Height="28" Width="447"/>
-        <Border BorderBrush="#FF606060" BorderThickness="1" HorizontalAlignment="Center" Height="28" Margin="32,67,33,0" VerticalAlignment="Top" Width="447"/>
+        <Border BorderBrush="#FF191919" BorderThickness="1" HorizontalAlignment="Center" Height="28" Margin="32,67,33,0" VerticalAlignment="Top" Width="447"/>
         <Button x:Name="ClearDX" Content="Clear DX" HorizontalAlignment="Left" Margin="404,112,0,0" VerticalAlignment="Top" Width="75" Click="ClearDX_Click"/>
         <Button x:Name="ClearKey" Content="Clear Key" HorizontalAlignment="Left" Margin="404,144,0,0" VerticalAlignment="Top" Width="75" Click="ClearKey_Click"/>
         <ToggleButton x:Name="Select_PinkyShift" Content="DX SHIFT" HorizontalAlignment="Right" Margin="0,112,320,0" VerticalAlignment="Top" Width="160" Height="27" Click="Select_PinkyShift_Click" IsHitTestVisible="False"/>
         <ToggleButton x:Name="Select_DX_Release" Content="RELEASE" HorizontalAlignment="Right" Margin="0,144,320,0" VerticalAlignment="Top" Width="160" Height="27" Visibility="Hidden"/>
         <Button x:Name="Select_Invoke" Content="Invoke Both" HorizontalAlignment="Right" Margin="0,176,320,0" VerticalAlignment="Top" Width="160" Click="Select_Invoke_Click" Height="27" Visibility="Hidden"/>
         <Button x:Name="Save" Content="Save" HorizontalAlignment="Left" Margin="404,176,0,0" VerticalAlignment="Top" Width="75" Click="Save_Click"/>
-        <TextBlock TextWrapping="Wrap" Margin="32,46,33,174" Foreground="#FF7D7D7D" FontSize="10"><Run Text="* "/><Run Text="Alternative Launcher recognizes POV switch on the device whose axis is bound to Roll"/><Run Text=" or Throttle"/><Run Text="."/></TextBlock>
+        <TextBlock TextWrapping="Wrap" Margin="32,46,33,174" Foreground="#FF191919" FontSize="10"><Run Text="* "/><Run Text="Alternative Launcher recognizes POV switch on the device whose axis is bound to Roll"/><Run Text=" or Throttle"/><Run Text="."/></TextBlock>
         <Button x:Name="Select_Press" Content="PRESS" HorizontalAlignment="Right" Margin="0,144,320,0" VerticalAlignment="Top" Width="160" Click="Select_Press_Click" Height="27"/>
-        <TextBlock TextWrapping="Wrap" Margin="32,176,113,10" Foreground="#FF7D7D7D" FontSize="9"><Run Text="* "/><Run Text="Press and hold "/><Run Text="DX button wh"/><Run Text="ich"/><Run Text=" you"/><Run Text=" have"/><Run Text=" assigned to &quot;"/><Run Text="STICK:PINKY SWITCH (DXSHIFT)"/><Run Text="&quot;"/><LineBreak/><Run Text="will"/><Run Text=" lit up &quot;DX SHIFT&quot; button above."/><Run Text=" "/><Run Text=" "/><Run Text="While the button is lit up, pressing another DX button"/><LineBreak/><Run Text="will assign it to a shifted layer."/></TextBlock>
+        <TextBlock TextWrapping="Wrap" Margin="32,176,113,10" Foreground="#FF191919" FontSize="9"><Run Text="* "/><Run Text="Press and hold "/><Run Text="DX button wh"/><Run Text="ich"/><Run Text=" you"/><Run Text=" have"/><Run Text=" assigned to &quot;"/><Run Text="STICK:PINKY SWITCH (DXSHIFT)"/><Run Text="&quot;"/><LineBreak/><Run Text="will"/><Run Text=" lit up &quot;DX SHIFT&quot; button above."/><Run Text=" "/><Run Text=" "/><Run Text="While the button is lit up, pressing another DX button"/><LineBreak/><Run Text="will assign it to a shifted layer."/></TextBlock>
     </Grid>
 </Controls:MetroWindow>
