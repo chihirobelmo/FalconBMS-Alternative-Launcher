@@ -30,7 +30,7 @@ namespace FalconBMS.Launcher
             mainWindow.Misc_Platform.Visibility = Visibility.Hidden;
             mainWindow.Misc_Megane.Visibility       = Visibility.Hidden;
 
-            mainWindow.Label_Platform.Content = "Platform : BMS 4.35 64-bit.";
+            mainWindow.Label_Platform.Content = "Platform : BMS 4.32 is 32-bit application.";
 
             mainWindow.Launch_AVC.Visibility = Visibility.Hidden;
             mainWindow.Label_AVC.Visibility  = Visibility.Hidden;
@@ -197,7 +197,7 @@ namespace FalconBMS.Launcher
 
             mainWindow.Label_Megane.Visibility = Visibility.Hidden;
 
-            mainWindow.Label_Platform.Content   = "Platform : BMS 4.34 is 64-bit appreciation.";
+            mainWindow.Label_Platform.Content   = "Platform : BMS 4.34 is 64-bit application.";
 
             mainWindow.CMD_BW.Visibility = Visibility.Hidden;
         }
@@ -266,7 +266,7 @@ namespace FalconBMS.Launcher
             mainWindow.Misc_Platform.Visibility = Visibility.Hidden;
             mainWindow.Misc_Megane.Visibility   = Visibility.Hidden;
 
-            mainWindow.Label_Platform.Content   = "Platform : BMS 4.35 is 64-bit appreciation.";
+            mainWindow.Label_Platform.Content   = "Platform : BMS 4.35 is 64-bit application.";
             mainWindow.Label_Megane.Visibility = Visibility.Hidden;
 
             mainWindow.Launch_DISX.Visibility = Visibility.Hidden;
