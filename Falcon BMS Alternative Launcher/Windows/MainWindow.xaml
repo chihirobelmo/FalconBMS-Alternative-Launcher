@@ -231,6 +231,7 @@
                             <Label x:Name="Label_F4WX" Content="       F4Wx Real&#xA;Weather Converter" HorizontalAlignment="Left" Margin="288,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
                         </Grid>
                     </Border>
+                    <Button x:Name="Launch_BMS_Large" Content="LAUNCH" Style="{StaticResource AccentedSquareButtonStyle}" Controls:ControlsHelper.ContentCharacterCasing="Normal" HorizontalAlignment="Left" Margin="793,559,0,0" VerticalAlignment="Top" Width="208" Click="Launch_Click" Height="72" Background="#CC2494FF" BorderBrush="{x:Null}" FontSize="24"/>
                 </Grid>
             </TabItem>
             <TabItem Header="AXISASSIGN" Margin="535.333,-40,-535,40.333">
@@ -545,9 +546,11 @@
             </TabItem>
         </TabControl>
         <Image x:Name="LOGO000" HorizontalAlignment="Left" VerticalAlignment="Top" Height="49" Source="/Resources/web_banner.png" Stretch="Uniform" Width="363" Margin="24,10,0,0"/>
+        <Label x:Name="Version_Number" Content="4.36 (I)" HorizontalAlignment="Left" Margin="392,0,0,703.333" VerticalAlignment="Top" Foreground="#FFC4C4C4" FontSize="36"/>
         <Label Content="FalconBMS Alternative Launcher v1.62" HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontWeight="Bold" Margin="0,0,10,0"/>
 
         <Button x:Name="Button_Apply_YAME64" Visibility="Hidden" Content="Apply" HorizontalAlignment="Right" Margin="0,31,10,0" VerticalAlignment="top" Width="128" Style="{StaticResource AccentedSquareButtonStyle}" Controls:ControlsHelper.ContentCharacterCasing="Normal" Click="Apply_YAME64"/>
+
 
 
     </Grid>

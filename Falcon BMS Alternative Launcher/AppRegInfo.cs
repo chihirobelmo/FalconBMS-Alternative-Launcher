@@ -77,6 +77,14 @@ namespace FalconBMS.Launcher
             {
                 bms_Version = BMS_Version.BMS435;
             }
+            else if (versionNum == 36)
+            {
+                bms_Version = BMS_Version.BMS436I;
+            }
+            else if (versionNum == 37)
+            {
+                bms_Version = BMS_Version.BMS437I;
+            }
             else
             {
                 bms_Version = BMS_Version.BMS435;
@@ -115,6 +123,12 @@ namespace FalconBMS.Launcher
                         break;
                     case "4.35":
                         bms_Version = BMS_Version.BMS435;
+                        break;
+                    case "4.36":
+                        bms_Version = BMS_Version.BMS436I;
+                        break;
+                    case "4.37":
+                        bms_Version = BMS_Version.BMS437I;
                         break;
                     default:
                         bms_Version = BMS_Version.BMS435;
@@ -165,6 +179,22 @@ namespace FalconBMS.Launcher
                     keyFileName = "BMS - Full.key";
                     overRideSetting = new OverrideSettingFor435(this.mainWindow, this);
                     launcher = new Launcher435(this, this.mainWindow);
+                    //mainWindow.LOGO435.Visibility = Visibility.Visible;
+                    break;
+                case BMS_Version.BMS436:
+                case BMS_Version.BMS436I:
+                    regName = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.36 (Internal)";
+                    keyFileName = "BMS - Full.key";
+                    overRideSetting = new OverrideSettingFor436(this.mainWindow, this);
+                    launcher = new Launcher436Internal(this, this.mainWindow);
+                    //mainWindow.LOGO435.Visibility = Visibility.Visible;
+                    break;
+                case BMS_Version.BMS437:
+                case BMS_Version.BMS437I:
+                    regName = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.37 (Internal)";
+                    keyFileName = "BMS - Full.key";
+                    overRideSetting = new OverrideSettingFor437(this.mainWindow, this);
+                    launcher = new Launcher437Internal(this, this.mainWindow);
                     //mainWindow.LOGO435.Visibility = Visibility.Visible;
                     break;
 
@@ -273,6 +303,8 @@ namespace FalconBMS.Launcher
         BMS434U1,
         BMS435,
         BMS436I,
-        BMS437I
+        BMS436,
+        BMS437I,
+        BMS437
     }
 }

@@ -48,6 +48,8 @@ namespace FalconBMS.Launcher
             mainWindow.Grid_HSI.Visibility                 = Visibility.Collapsed;
             mainWindow.Grid_Altimeter.Visibility           = Visibility.Collapsed;
             mainWindow.Misc_NaturalHeadMovement.Visibility = Visibility.Collapsed;
+
+            mainWindow.Version_Number.Content = "4.32";
         }
 
         public override void execute(object sender)
@@ -56,6 +58,7 @@ namespace FalconBMS.Launcher
             switch (((System.Windows.Controls.Button)sender).Name)
             {
                 case "Launch_BMS":
+                case "Launch_BMS_Large":
                     string strCmdText = getCommandLine();
 
                     // OVERRIDE SETTINGS.
@@ -115,6 +118,8 @@ namespace FalconBMS.Launcher
 
             mainWindow.Misc_Megane.Visibility = Visibility.Hidden;
             mainWindow.Label_Megane.Visibility = Visibility.Hidden;
+
+            mainWindow.Version_Number.Content = "4.33";
         }
 
         public override void execute(object sender)
@@ -123,6 +128,7 @@ namespace FalconBMS.Launcher
             switch (((System.Windows.Controls.Button)sender).Name)
             {
                 case "Launch_BMS":
+                case "Launch_BMS_Large":
                     string strCmdText = getCommandLine();
 
                     // OVERRIDE SETTINGS.
@@ -200,6 +206,8 @@ namespace FalconBMS.Launcher
             mainWindow.Label_Platform.Content   = "Platform : BMS 4.34 is 64-bit application.";
 
             mainWindow.CMD_BW.Visibility = Visibility.Hidden;
+
+            mainWindow.Version_Number.Content = "4.34";
         }
 
         public override void execute(object sender)
@@ -208,6 +216,7 @@ namespace FalconBMS.Launcher
             switch (((System.Windows.Controls.Button)sender).Name)
             {
                 case "Launch_BMS":
+                case "Launch_BMS_Large":
                     string strCmdText = getCommandLine();
 
                     // OVERRIDE SETTINGS.
@@ -273,6 +282,8 @@ namespace FalconBMS.Launcher
             mainWindow.Label_DISX.Visibility  = Visibility.Hidden;
 
             mainWindow.CMD_BW.Visibility = Visibility.Hidden;
+
+            mainWindow.Version_Number.Content = "4.35";
         }
 
         public override void execute(object sender)
@@ -281,6 +292,7 @@ namespace FalconBMS.Launcher
             switch (((System.Windows.Controls.Button)sender).Name)
             {
                 case "Launch_BMS":
+                case "Launch_BMS_Large":
                     string strCmdText = getCommandLine();
 
                     // OVERRIDE SETTINGS.
@@ -344,6 +356,8 @@ namespace FalconBMS.Launcher
             mainWindow.Label_DISX.Visibility  = Visibility.Hidden;
 
             mainWindow.CMD_BW.Visibility = Visibility.Hidden;
+
+            mainWindow.Version_Number.Content = "4.36 (I)";
         }
 
         public override void execute(object sender)
@@ -352,12 +366,13 @@ namespace FalconBMS.Launcher
             switch (((System.Windows.Controls.Button)sender).Name)
             {
                 case "Launch_BMS":
+                case "Launch_BMS_Large":
                     string strCmdText = getCommandLine();
 
                     // OVERRIDE SETTINGS.
                     mainWindow.executeOverride();
 
-                    string appPlatform = appReg.GetInstallDir() + "/Bin/x86/Hub.exe";
+                    string appPlatform = appReg.GetInstallDir() + "/Launcher.exe";
                     process = System.Diagnostics.Process.Start(appPlatform, strCmdText);
                     mainWindow.Close();
                     break;
@@ -380,6 +395,42 @@ namespace FalconBMS.Launcher
                     System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Bin/x64/Editor.exe");
                     break;
             }
+        }
+
+        public override string getCommandLine()
+        {
+            string strCmdText = "";
+            if (mainWindow.CMD_ACMI.IsChecked == false)
+                strCmdText += "-acmi ";
+            if (mainWindow.CMD_WINDOW.IsChecked == false)
+                strCmdText += "-window ";
+            if (mainWindow.CMD_NOMOVIE.IsChecked == false)
+                strCmdText += "-nomovie ";
+            if (mainWindow.CMD_EF.IsChecked == false)
+                strCmdText += "-ef ";
+            if (mainWindow.CMD_MONO.IsChecked == false)
+                strCmdText += "-mono ";
+            return strCmdText;
+        }
+    }
+    public class Launcher437Internal : Launcher436Internal
+    {
+        public Launcher437Internal(AppRegInfo appReg, MainWindow mainWindow) : base(appReg, mainWindow)
+        {
+            mainWindow.Misc_Platform.IsChecked = true;
+
+            mainWindow.Misc_Platform.Visibility = Visibility.Hidden;
+            mainWindow.Misc_Megane.Visibility = Visibility.Hidden;
+
+            mainWindow.Label_Megane.Visibility = Visibility.Hidden;
+            mainWindow.Label_Platform.Visibility = Visibility.Hidden;
+
+            mainWindow.Launch_DISX.Visibility = Visibility.Hidden;
+            mainWindow.Label_DISX.Visibility = Visibility.Hidden;
+
+            mainWindow.CMD_BW.Visibility = Visibility.Hidden;
+
+            mainWindow.Version_Number.Content = "4.37 (I)";
         }
 
         public override string getCommandLine()

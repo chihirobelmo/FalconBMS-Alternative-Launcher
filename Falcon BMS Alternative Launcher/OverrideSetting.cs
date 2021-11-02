@@ -1344,4 +1344,18 @@ namespace FalconBMS.Launcher
             AxisName.ILS_Volume_Knob
         };
     }
+
+
+    public class OverrideSettingFor436 : OverrideSettingFor435
+    {
+        public OverrideSettingFor436(MainWindow mainWindow, AppRegInfo appReg) : base(mainWindow, appReg)
+        {
+        }
+    }
+    public class OverrideSettingFor437 : OverrideSettingFor436
+    {
+        public OverrideSettingFor437(MainWindow mainWindow, AppRegInfo appReg) : base(mainWindow, appReg)
+        {
+        }
+    }
 }
