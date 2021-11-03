@@ -137,8 +137,6 @@ namespace FalconBMS.Launcher.Windows
 
         private void Reset()
         {
-            LargeTab.SelectedIndex = 0;
-
             // Read Theater List
             TheaterList.PopulateAndSave(appReg, Dropdown_TheaterList);
 
