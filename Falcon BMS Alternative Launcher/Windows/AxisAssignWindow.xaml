@@ -15,6 +15,9 @@
         <Style TargetType="Label">
             <Setter Property="Foreground" Value="#D0191919" />
         </Style>
+        <Style TargetType="CheckBox">
+            <Setter Property="Foreground" Value="#D0191919" />
+        </Style>
         <Style TargetType="Controls:MetroProgressBar">
             <Setter Property="Background" Value="#80F0F0F0" />
             <Setter Property="Foreground" Value="#803878A8" />
@@ -44,7 +47,7 @@
 
         <Button x:Name="Retry" Content="Retry" HorizontalAlignment="Left" Margin="320,176,0,0" VerticalAlignment="Top" Width="75" Click="Retry_Click"/>
         <Button x:Name="Save" Content="Save" HorizontalAlignment="Left" Margin="400,176,0,0" VerticalAlignment="Top" Width="75" Click="Save_Click"/>
-        <Button x:Name="SetAB" Content="Set AB" HorizontalAlignment="Left" Margin="320,144,0,0" VerticalAlignment="Top" Width="75" Click="SetAB_Click"/>
+        <Button x:Name="SetAB" Content="AB DETENT" HorizontalAlignment="Left" Margin="320,144,0,0" VerticalAlignment="Top" Width="75" Click="SetAB_Click"/>
         <Button x:Name="Idle" Content="Idle DETENT" HorizontalAlignment="Left" Margin="400,144,0,0" VerticalAlignment="Top" Width="75" Click="SetIDLE_Click"/>
 
         <CheckBox x:Name="Invert" Content="INVERT" HorizontalAlignment="Left" Margin="28,148,0,0" VerticalAlignment="Top"/>
