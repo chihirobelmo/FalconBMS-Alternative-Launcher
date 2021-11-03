@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
-        Title="FalconBMS Alternative Launcher" Height="768" Width="1024"
+        Title="FalconBMS Alternative Launcher" Height="768" Width="1024" MinHeight="768" MinWidth="1024"
         Loaded="Window_Loaded" Closed="Window_Closed" MouseDown="MetroWindow_MouseDown"
         FontSize="12" WindowStartupLocation="CenterScreen" ShowTitleBar="False" WindowStyle="None" Background="#a4a9ac">
     <Window.Resources>
@@ -116,8 +116,8 @@
                     <Label Content="Command Line :" HorizontalAlignment="Left" Margin="32,164,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="16" />
                     <Label Content="Launchers :" HorizontalAlignment="Left" Margin="32,331,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="16" />
 
-                    <Label x:Name="Label_Megane" Content="Sugoi Megane:" HorizontalAlignment="Left" Margin="32,251,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="16" />
-                    <Controls:ToggleSwitch x:Name="Misc_Megane" OnLabel="Enable" OffLabel="Disable" HorizontalAlignment="Left" Margin="160,250,0,0" VerticalAlignment="Top" Background="#80FFFFFF"/>
+                    <Label x:Name="Label_Secret" Content="Secret:" HorizontalAlignment="Left" Margin="32,251,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="16" />
+                    <Controls:ToggleSwitch x:Name="Misc_Secret" OnLabel="Enable" OffLabel="Disable" HorizontalAlignment="Left" Margin="160,250,0,0" VerticalAlignment="Top" Background="#80FFFFFF"/>
                     <Label Content="Documentation and Manuals :" HorizontalAlignment="Left" Margin="32,206,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="16" />
                     <Button x:Name="OpenDocs" Content="Open Docs Folder" Style="{StaticResource AccentedSquareButtonStyle}" Controls:ControlsHelper.ContentCharacterCasing="Normal" HorizontalAlignment="Left" Margin="301,209,0,0" VerticalAlignment="Top" Width="165" Click="OpenDocs_Click"/>
 
@@ -128,7 +128,7 @@
                     <ToggleButton x:Name="CMD_MONO" Content="DEBUG" HorizontalAlignment="Left" Margin="533,168,0,0" VerticalAlignment="Top" Width="64"/>
                     <Button x:Name="CMD_BW" Content="BW : 1024" HorizontalAlignment="Left" Margin="615,168,0,0" VerticalAlignment="Top" Width="64" Click="CMD_BW_Click"/>
 
-                    <Border BorderThickness="1" HorizontalAlignment="Left" Height="128" Margin="48,370,0,0" VerticalAlignment="Top" Width="688">
+                    <Border BorderThickness="1" Height="128" Margin="48,370,165.667,0" VerticalAlignment="Top">
                         <Border.Background>
                             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                                 <GradientStop Color="#7F151719" Offset="0"/>
@@ -157,47 +157,63 @@
                                     </ControlTemplate>
                                 </Button.Template>
                             </Button>
-                            <Button x:Name="Launch_IVCC" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="320,0,0,56" Height="48" Width="48" Click="Launch_Click" MouseEnter="MouseEnterLauncher" MouseLeave="MouseLeaveLauncher">
+                            <Button x:Name="Launch_RTTC" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="224,0,0,56" Height="48" Width="48" Click="Launch_Click" MouseEnter="MouseEnterLauncher" MouseLeave="MouseLeaveLauncher">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Image Source="/Resources/RTTClient64.png"/>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                            <Button x:Name="Launch_RTTS" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="320,0,0,56.333" Height="48" Width="48" Click="Launch_Click" MouseEnter="MouseEnterLauncher" MouseLeave="MouseLeaveLauncher">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Image Source="/Resources/RTTServer64.png"/>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                            <Button x:Name="Launch_IVCC" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="416,0,0,56.333" Height="48" Width="48" Click="Launch_Click" MouseEnter="MouseEnterLauncher" MouseLeave="MouseLeaveLauncher">
                                 <Button.Template>
                                     <ControlTemplate>
                                         <Image Source="/Resources/IVCC.png"/>
                                     </ControlTemplate>
                                 </Button.Template>
                             </Button>
-                            <Button x:Name="Launch_IVCS" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="416,0,0,56" Height="48" Width="48" Click="Launch_Click" MouseEnter="MouseEnterLauncher" MouseLeave="MouseLeaveLauncher">
+                            <Button x:Name="Launch_IVCS" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="512,0,0,56.333" Height="48" Width="48" Click="Launch_Click" MouseEnter="MouseEnterLauncher" MouseLeave="MouseLeaveLauncher">
                                 <Button.Template>
                                     <ControlTemplate>
                                         <Image Source="/Resources/IVCS.png"/>
                                     </ControlTemplate>
                                 </Button.Template>
                             </Button>
-                            <Button x:Name="Launch_AVC" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="512,0,0,56" Height="48" Width="48" Click="Launch_Click" MouseEnter="MouseEnterLauncher" MouseLeave="MouseLeaveLauncher">
+                            <Button x:Name="Launch_AVC" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="608,0,0,56.333" Height="48" Width="48" Click="Launch_Click" MouseEnter="MouseEnterLauncher" MouseLeave="MouseLeaveLauncher">
                                 <Button.Template>
                                     <ControlTemplate>
                                         <Image Source="/Resources/AVC.png"/>
                                     </ControlTemplate>
                                 </Button.Template>
                             </Button>
-                            <Button x:Name="Launch_EDIT" VerticalAlignment="Bottom" Margin="608,0,30,56" Height="48" Click="Launch_Click" MouseEnter="MouseEnterLauncher" MouseLeave="MouseLeaveLauncher">
+                            <Button x:Name="Launch_EDIT" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="704,0,0,56.333" Height="48" Click="Launch_Click" MouseEnter="MouseEnterLauncher" MouseLeave="MouseLeaveLauncher">
                                 <Button.Template>
                                     <ControlTemplate>
                                         <Image Source="/Resources/EDIT.png"/>
                                     </ControlTemplate>
                                 </Button.Template>
                             </Button>
-                            <Label x:Name="Label_BMS" Content="Launch" HorizontalAlignment="Left" Margin="31,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
-                            <Label x:Name="Label_CFG" Content="Config" HorizontalAlignment="Left" Margin="128,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
+                            <Label x:Name="Label_BMS" Content="Launch" HorizontalAlignment="Left" Margin="32,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
+                            <Label x:Name="Label_CFG" Content="Config" HorizontalAlignment="Left" Margin="129,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
                             <Label x:Name="Label_DISX" Content="Cockpit Display&#10;   Extraction" HorizontalAlignment="Left" Margin="201,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
-                            <Label x:Name="Label_IVCC" Content="IVC Client" HorizontalAlignment="Left" Margin="312,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
-                            <Label x:Name="Label_IVCS" Content="IVC Server" HorizontalAlignment="Left" Margin="407,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
-                            <Label x:Name="Label_AVC" Content="   Avionics&#10;Configurator" HorizontalAlignment="Left" Margin="496,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
-                            <Label x:Name="Label_EDIT" Content="Editor" HorizontalAlignment="Left" Margin="610,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
+                            <Label x:Name="Label_RTTC" Content="       RTTR Client&#10;(Display Extraction)" HorizontalAlignment="Left" Margin="187,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
+                            <Label x:Name="Label_RTTS" Content="RTTR Server" HorizontalAlignment="Left" Margin="307,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
+                            <Label x:Name="Label_IVCC" Content=" IVC Client&#10;(MP Radio)" HorizontalAlignment="Left" Margin="404,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
+                            <Label x:Name="Label_IVCS" Content=" IVC Server&#10;(MP Radio)" HorizontalAlignment="Left" Margin="500,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
+                            <Label x:Name="Label_AVC" Content="   Avionics&#10;Configurator" HorizontalAlignment="Left" Margin="594,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
+                            <Label x:Name="Label_EDIT" Content="Editor" HorizontalAlignment="Left" Margin="708,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
                         </Grid>
                     </Border>
                     <CheckBox x:Name="ApplicationOverride" Content="Launch without any setup override." HorizontalAlignment="Left" Margin="140,339,0,0" VerticalAlignment="Top" Background="#FFECFF71" />
 
 
-                    <Border BorderThickness="1" HorizontalAlignment="Left" Height="128" Margin="48,503,0,0" VerticalAlignment="Top" Width="418">
+                    <Border BorderThickness="1" HorizontalAlignment="Left" Height="128" Margin="48,503,0,0" VerticalAlignment="Top" Width="503">
                         <Border.Background>
                             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                                 <GradientStop Color="#7F151719" Offset="0"/>
@@ -234,13 +250,30 @@
                                     </ControlTemplate>
                                 </Button.Template>
                             </Button>
+                            <Button x:Name="Launch_F4RADAR" BorderThickness="10" BorderBrush="Black" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="416,0,0,56" Height="48" Width="48" Click="Launch_Third" MouseEnter="MouseEnterLauncher" MouseLeave="MouseLeaveLauncher">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Image Source="/Resources/F4RADAR.png"/>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
                             <Label x:Name="Label_WDP" Content="Weapon Delivery&#10;        Planner" HorizontalAlignment="Left" Margin="4,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
                             <Label x:Name="Label_MC" Content="    Mission&#xA;Commander" HorizontalAlignment="Left" Margin="114,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
                             <Label x:Name="Label_WC" Content="   Weather&#xA;Commander" HorizontalAlignment="Left" Margin="210,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
-                            <Label x:Name="Label_F4WX" Content="       F4Wx Real&#xA;Weather Converter" HorizontalAlignment="Left" Margin="288,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
+                            <Label x:Name="Label_F4WX" Content="      F4Wx&#xA;Real Weather" HorizontalAlignment="Left" Margin="302,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
+                            <Label x:Name="Label_F4RADAR" Content="     F4 RADAR&#xA;C2(AWACS) Tool" HorizontalAlignment="Left" Margin="390
+                                   ,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
                         </Grid>
                     </Border>
                     <Button x:Name="Launch_BMS_Large" Content="LAUNCH" Style="{StaticResource AccentedSquareButtonStyle}" Controls:ControlsHelper.ContentCharacterCasing="Normal" HorizontalAlignment="Left" Margin="793,559,0,0" VerticalAlignment="Top" Width="208" Click="Launch_Click" Height="72" Background="#CC2494FF" BorderBrush="{x:Null}" FontSize="24"/>
+                    <ListBox x:Name="ListBox_BMS" SelectionChanged="ListBox_BMS_SelectionChanged"  HorizontalAlignment="Left" Height="72" Margin="566,559,0,0" VerticalAlignment="Top" Width="222" Background="#80000000" BorderBrush="#80FFFFFF" Foreground="#80FFFFFF" SelectionMode="Single">
+                        <ListBox.Resources>
+                            <Style TargetType="{x:Type ListBoxItem}">
+                                <Setter Property="Background" Value="Transparent" />
+                                <Setter Property="Margin" Value="1" />
+                            </Style>
+                        </ListBox.Resources>
+                    </ListBox>
                 </Grid>
             </TabItem>
             <TabItem Header="AXISASSIGN" Margin="535.333,-40,-535,40.333">
@@ -552,13 +585,13 @@
                     <Label Content="Filter:" HorizontalAlignment="Left" Margin="561,-43,0,0" VerticalAlignment="Top" Width="43" HorizontalContentAlignment="Right" Foreground="White"/>
                     <TextBox x:Name="SearchBox" HorizontalAlignment="Left" Height="23" Margin="616,-41,0,0" VerticalAlignment="Top" Width="384" Background="#80F0F0F0" Foreground="#FF191919" Controls:TextBoxHelper.ClearTextButton="True" TextChanged="SearchBox_TextChanged"/>
 
-                    <Label Content="* Double Click a cell to Assign keys." HorizontalContentAlignment="Right" HorizontalAlignment="Right" Margin="0,592,9.667,0" VerticalAlignment="Top" Width="596" Height="29"/>
+                    <Label Content="* Double Click a cell to Assign keys." HorizontalContentAlignment="Right" HorizontalAlignment="Right" Margin="0,0,9.667,30" VerticalAlignment="Bottom" Width="596" Height="29"/>
                 </Grid>
             </TabItem>
         </TabControl>
         <Image x:Name="LOGO000" HorizontalAlignment="Left" VerticalAlignment="Top" Height="49" Source="/Resources/web_banner.png" Stretch="Uniform" Width="363" Margin="24,10,0,0"/>
         <Label x:Name="Version_Number" Content="4.36 (I)" HorizontalAlignment="Left" Margin="392,0,0,703.333" VerticalAlignment="Top" Foreground="#FFC4C4C4" FontSize="36"/>
-        <Label Content="FalconBMS Alternative Launcher v1.62" HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontWeight="Bold" Margin="0,0,10,0"/>
+        <Label Content="FalconBMS Alternative Launcher v1.62" HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontWeight="Bold" Margin="0,0,10.333,0.333"/>
 
         <Button x:Name="Button_Apply_YAME64" Visibility="Hidden" Content="Apply" HorizontalAlignment="Right" Margin="0,31,10,0" VerticalAlignment="top" Width="128" Style="{StaticResource AccentedSquareButtonStyle}" Controls:ControlsHelper.ContentCharacterCasing="Normal" Click="Apply_YAME64"/>
 

@@ -96,6 +96,8 @@ namespace FalconBMS.Launcher.Windows
 
                 // Read Registry
                 appReg = new AppRegInfo(this);
+
+                ListBox_BMS.SelectedIndex = 0; // Will Reset() too
             }
             catch (Exception ex3)
             {
@@ -115,29 +117,6 @@ namespace FalconBMS.Launcher.Windows
 
             try
             {
-                // Read Theater List
-                TheaterList.PopulateAndSave(appReg, Dropdown_TheaterList);
-
-                // Get Devices
-                deviceControl = new DeviceControl(appReg);
-                neutralButtons = new NeutralButtons[deviceControl.devList.Count];
-
-                // Aquire joySticks
-                AquireAll(true);
-
-                // Reset All Axis Settings
-                foreach (AxisName nme in axisNameList)
-                    inGameAxis[nme.ToString()] = new InGameAxAssgn();
-                joyAssign_2_inGameAxis();
-                ResetAssgnWindow();
-
-                // Read BMS-FULL.key
-                string fname = appReg.GetInstallDir() + "\\User\\Config\\" + appReg.getKeyFileName();
-                keyFile = new KeyFile(fname, appReg);
-
-                // Write Data Grid
-                WriteDataGrid();
-
                 // Set Timer
                 AxisMovingTimer.Tick += AxisMovingTimer_Tick;
                 AxisMovingTimer.Interval = new TimeSpan(0, 0, 0, 0, 16);
@@ -154,6 +133,34 @@ namespace FalconBMS.Launcher.Windows
 
                 Close();
             }
+        }
+
+        private void Reset()
+        {
+            LargeTab.SelectedIndex = 0;
+
+            // Read Theater List
+            TheaterList.PopulateAndSave(appReg, Dropdown_TheaterList);
+
+            // Get Devices
+            deviceControl = new DeviceControl(appReg);
+            neutralButtons = new NeutralButtons[deviceControl.devList.Count];
+
+            // Aquire joySticks
+            AquireAll(true);
+
+            // Reset All Axis Settings
+            foreach (AxisName nme in axisNameList)
+                inGameAxis[nme.ToString()] = new InGameAxAssgn();
+            joyAssign_2_inGameAxis();
+            ResetAssgnWindow();
+
+            // Read BMS-FULL.key
+            string fname = appReg.GetInstallDir() + "\\User\\Config\\" + appReg.getKeyFileName();
+            keyFile = new KeyFile(fname, appReg);
+
+            // Write Data Grid
+            WriteDataGrid();
         }
         
         /// <summary>
@@ -602,6 +609,12 @@ namespace FalconBMS.Launcher.Windows
                 pressedByHand = true;
             else
                 pressedByHand = false;
+        }
+
+        private void ListBox_BMS_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            appReg.Init(this, this.ListBox_BMS.SelectedItem.ToString());
+            Reset();
         }
     }
 }

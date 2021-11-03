@@ -184,6 +184,8 @@ namespace FalconBMS.Launcher.Windows
                             if (buttons[ii] == CommonConstants.PRS0   && deviceControl.joyAssign[i].dx[ii].assign[CommonConstants.DX_PRESS].GetCallback() == "SimHotasPinkyShift" && pressedByHand == false)
                                 Select_PinkyShift.IsChecked = true;
 
+                            if (neutralButtons[i] == null)
+                                break; // KEY SEARCH WILL NOT WORK IF ENTER HERE
                             if (buttons[ii] == neutralButtons[i].buttons[ii])
                                 continue;
                             statusAssign = Status.GetNeutralPos;
@@ -213,6 +215,8 @@ namespace FalconBMS.Launcher.Windows
                         povs = deviceControl.joyStick[i].CurrentJoystickState.GetPointOfView();
                         for (int ii = 0; ii < 4; ii++)
                         {
+                            if (neutralButtons[i] == null)
+                                break; // KEY SEARCH WILL NOT WORK IF ENTER HERE
                             if (povs[ii] == neutralButtons[i].povs[ii])
                                 continue;
                             statusAssign = Status.GetNeutralPos;

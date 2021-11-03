@@ -28,7 +28,7 @@ namespace FalconBMS.Launcher
             mainWindow.Misc_Platform.IsChecked  = false;
 
             mainWindow.Misc_Platform.Visibility = Visibility.Hidden;
-            mainWindow.Misc_Megane.Visibility       = Visibility.Hidden;
+            mainWindow.Misc_Secret.Visibility       = Visibility.Hidden;
 
             mainWindow.Label_Platform.Content = "Platform : BMS 4.32 is 32-bit application.";
 
@@ -116,8 +116,8 @@ namespace FalconBMS.Launcher
             mainWindow.Grid_Altimeter.Visibility = Visibility.Collapsed;
             mainWindow.Misc_NaturalHeadMovement.Visibility = Visibility.Collapsed;
 
-            mainWindow.Misc_Megane.Visibility = Visibility.Hidden;
-            mainWindow.Label_Megane.Visibility = Visibility.Hidden;
+            mainWindow.Misc_Secret.Visibility = Visibility.Hidden;
+            mainWindow.Label_Secret.Visibility = Visibility.Hidden;
 
             mainWindow.Version_Number.Content = "4.33";
         }
@@ -199,9 +199,9 @@ namespace FalconBMS.Launcher
             mainWindow.Misc_Platform.IsChecked  = true;
 
             mainWindow.Misc_Platform.Visibility = Visibility.Hidden;
-            mainWindow.Misc_Megane.Visibility   = Visibility.Hidden;
+            mainWindow.Misc_Secret.Visibility   = Visibility.Hidden;
 
-            mainWindow.Label_Megane.Visibility = Visibility.Hidden;
+            mainWindow.Label_Secret.Visibility = Visibility.Hidden;
 
             mainWindow.Label_Platform.Content   = "Platform : BMS 4.34 is 64-bit application.";
 
@@ -273,10 +273,10 @@ namespace FalconBMS.Launcher
         {
             mainWindow.Misc_Platform.IsChecked  = true;
             mainWindow.Misc_Platform.Visibility = Visibility.Hidden;
-            mainWindow.Misc_Megane.Visibility   = Visibility.Hidden;
+            mainWindow.Misc_Secret.Visibility   = Visibility.Hidden;
 
             mainWindow.Label_Platform.Content   = "Platform : BMS 4.35 is 64-bit application.";
-            mainWindow.Label_Megane.Visibility = Visibility.Hidden;
+            mainWindow.Label_Secret.Visibility = Visibility.Hidden;
 
             mainWindow.Launch_DISX.Visibility = Visibility.Hidden;
             mainWindow.Label_DISX.Visibility  = Visibility.Hidden;
@@ -347,9 +347,9 @@ namespace FalconBMS.Launcher
             mainWindow.Misc_Platform.IsChecked  = true;
 
             mainWindow.Misc_Platform.Visibility = Visibility.Hidden;
-            mainWindow.Misc_Megane.Visibility   = Visibility.Hidden;
+            mainWindow.Misc_Secret.Visibility   = Visibility.Hidden;
 
-            mainWindow.Label_Megane.Visibility = Visibility.Hidden;
+            mainWindow.Label_Secret.Visibility = Visibility.Hidden;
             mainWindow.Label_Platform.Visibility = Visibility.Hidden;
 
             mainWindow.Launch_DISX.Visibility = Visibility.Hidden;
@@ -420,9 +420,9 @@ namespace FalconBMS.Launcher
             mainWindow.Misc_Platform.IsChecked = true;
 
             mainWindow.Misc_Platform.Visibility = Visibility.Hidden;
-            mainWindow.Misc_Megane.Visibility = Visibility.Hidden;
+            mainWindow.Misc_Secret.Visibility = Visibility.Hidden;
 
-            mainWindow.Label_Megane.Visibility = Visibility.Hidden;
+            mainWindow.Label_Secret.Visibility = Visibility.Hidden;
             mainWindow.Label_Platform.Visibility = Visibility.Hidden;
 
             mainWindow.Launch_DISX.Visibility = Visibility.Hidden;
