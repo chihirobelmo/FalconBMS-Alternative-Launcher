@@ -97,7 +97,7 @@ namespace FalconBMS.Launcher.Windows
                 // Read Registry
                 appReg = new AppRegInfo(this);
 
-                ListBox_BMS.SelectedIndex = 0; // Will Reset() too
+                Reset();
             }
             catch (Exception ex3)
             {
@@ -638,8 +638,13 @@ namespace FalconBMS.Launcher.Windows
 
         private void ListBox_BMS_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (!e.Source.Equals(ListBox_BMS))
+                return;
+            if (appReg == null)
+                return;
+
+            Properties.Settings.Default.BMS_Version = this.ListBox_BMS.SelectedItem.ToString();
             appReg.Init(this, this.ListBox_BMS.SelectedItem.ToString());
-            appReg.GetTheater();
             Reset();
         }
     }

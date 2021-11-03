@@ -40,72 +40,105 @@ namespace FalconBMS.Launcher
         {
             bool flg = true;
             string version = "Falcon BMS 4.35";
+            string v = "Falcon BMS 4.35";
 
             if (Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.37 (Internal)", false) != null)
             {
                 version = "Falcon BMS 4.37 (Internal)";
                 mainWindow.ListBox_BMS.Items.Add(version);
+                if (version == Properties.Settings.Default.BMS_Version)
+                {
+                    v = version;
+                    mainWindow.ListBox_BMS.SelectedIndex = mainWindow.ListBox_BMS.Items.Count - 1;
+                }
             }
             if (Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.36 (Internal)", false) != null)
             {
                 version = "Falcon BMS 4.36 (Internal)";
                 mainWindow.ListBox_BMS.Items.Add(version);
+                if (version == Properties.Settings.Default.BMS_Version)
+                {
+                    v = version;
+                    mainWindow.ListBox_BMS.SelectedIndex = mainWindow.ListBox_BMS.Items.Count - 1;
+                }
             }
             if (Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.37", false) != null)
             {
                 version = "Falcon BMS 4.37";
                 mainWindow.ListBox_BMS.Items.Add(version);
+                if (version == Properties.Settings.Default.BMS_Version)
+                {
+                    v = version;
+                    mainWindow.ListBox_BMS.SelectedIndex = mainWindow.ListBox_BMS.Items.Count - 1;
+                }
             }
             if (Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.36", false) != null)
             {
                 version = "Falcon BMS 4.36";
                 mainWindow.ListBox_BMS.Items.Add(version);
+                if (version == Properties.Settings.Default.BMS_Version)
+                {
+                    v = version;
+                    mainWindow.ListBox_BMS.SelectedIndex = mainWindow.ListBox_BMS.Items.Count - 1;
+                }
             }
             if (Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.35", false) != null)
             {
                 version = "Falcon BMS 4.35";
                 mainWindow.ListBox_BMS.Items.Add(version);
+                if (version == Properties.Settings.Default.BMS_Version)
+                {
+                    v = version;
+                    mainWindow.ListBox_BMS.SelectedIndex = mainWindow.ListBox_BMS.Items.Count - 1;
+                }
             }
             if (Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.34", false) != null)
             {
                 version = "Falcon BMS 4.34";
                 mainWindow.ListBox_BMS.Items.Add(version);
+                if (version == Properties.Settings.Default.BMS_Version)
+                {
+                    v = version;
+                    mainWindow.ListBox_BMS.SelectedIndex = mainWindow.ListBox_BMS.Items.Count - 1;
+                }
             }
             if (Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.33 U1", false) != null)
             {
                 version = "Falcon BMS 4.33 U1";
                 mainWindow.ListBox_BMS.Items.Add(version);
+                if (version == Properties.Settings.Default.BMS_Version)
+                {
+                    v = version;
+                    mainWindow.ListBox_BMS.SelectedIndex = mainWindow.ListBox_BMS.Items.Count - 1;
+                }
             }
             if (Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.33", false) != null)
             {
                 version = "Falcon BMS 4.33";
                 mainWindow.ListBox_BMS.Items.Add(version);
+                if (version == Properties.Settings.Default.BMS_Version)
+                {
+                    v = version;
+                    mainWindow.ListBox_BMS.SelectedIndex = mainWindow.ListBox_BMS.Items.Count - 1;
+                }
             }
             if (Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.34", false) != null)
             {
                 version = "Falcon BMS 4.32";
                 mainWindow.ListBox_BMS.Items.Add(version);
+                if (version == Properties.Settings.Default.BMS_Version)
+                {
+                    v = version;
+                    mainWindow.ListBox_BMS.SelectedIndex = mainWindow.ListBox_BMS.Items.Count - 1;
+                }
             }
 
-            Init(mainWindow, version);
+            Init(mainWindow, v);
         }
 
         public void Init(MainWindow mainWindow, string version)
         {
             this.mainWindow = mainWindow;
-
-            // Read Current Directory
-            int versionNum = 0;
-            int updateNum = 0;
-            string exeName = System.IO.Directory.GetCurrentDirectory() + "/Falcon BMS.exe";
-            if (!System.IO.File.Exists(exeName))
-                exeName = System.IO.Directory.GetCurrentDirectory() + "/../x64/Falcon BMS.exe";
-            if (System.IO.File.Exists(exeName))
-            {
-                System.Diagnostics.FileVersionInfo exeVersion = System.Diagnostics.FileVersionInfo.GetVersionInfo(exeName);
-                versionNum = exeVersion.ProductMinorPart;
-                updateNum  = exeVersion.ProductBuildPart;
-            }
 
             switch (version)
             {
@@ -137,6 +170,7 @@ namespace FalconBMS.Launcher
                     bms_Version = BMS_Version.BMS432;
                     break;
                 default:
+                    bms_Version = BMS_Version.UNDEFINED;
                     break;
             }
 
@@ -181,7 +215,7 @@ namespace FalconBMS.Launcher
                         bms_Version = BMS_Version.BMS437I;
                         break;
                     default:
-                        bms_Version = BMS_Version.BMS435;
+                        bms_Version = BMS_Version.UNDEFINED;
                         break;
                 }
             }

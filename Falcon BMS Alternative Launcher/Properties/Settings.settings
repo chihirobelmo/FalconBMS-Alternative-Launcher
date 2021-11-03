@@ -65,5 +65,8 @@
     <Setting Name="Third_F4RADAR" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:\</Value>
     </Setting>
+    <Setting Name="BMS_Version" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Falcon BMS 4.35</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
