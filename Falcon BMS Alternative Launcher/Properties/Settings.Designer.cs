@@ -277,7 +277,7 @@ namespace FalconBMS.Launcher.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Falcon BMS 4.35")]
+        [global::System.Configuration.DefaultSettingValueAttribute("DCS World")]
         public string BMS_Version {
             get {
                 return ((string)(this["BMS_Version"]));

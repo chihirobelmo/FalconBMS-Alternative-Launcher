@@ -39,13 +39,18 @@ namespace FalconBMS.Launcher
         public AppRegInfo(MainWindow mainWindow)
         {
             bool flg = true;
-            string version = "Falcon BMS 4.35";
-            string v = "Falcon BMS 4.35";
+            string version = "DCS World";
+            string v = "DCS World";
 
             if (Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.37 (Internal)", false) != null)
             {
                 version = "Falcon BMS 4.37 (Internal)";
                 mainWindow.ListBox_BMS.Items.Add(version);
+                if (flg)
+                {
+                    v = version;
+                    flg = false;
+                }
                 if (version == Properties.Settings.Default.BMS_Version)
                 {
                     v = version;
@@ -56,6 +61,11 @@ namespace FalconBMS.Launcher
             {
                 version = "Falcon BMS 4.36 (Internal)";
                 mainWindow.ListBox_BMS.Items.Add(version);
+                if (flg)
+                {
+                    v = version;
+                    flg = false;
+                }
                 if (version == Properties.Settings.Default.BMS_Version)
                 {
                     v = version;
@@ -66,6 +76,11 @@ namespace FalconBMS.Launcher
             {
                 version = "Falcon BMS 4.37";
                 mainWindow.ListBox_BMS.Items.Add(version);
+                if (flg)
+                {
+                    v = version;
+                    flg = false;
+                }
                 if (version == Properties.Settings.Default.BMS_Version)
                 {
                     v = version;
@@ -76,6 +91,11 @@ namespace FalconBMS.Launcher
             {
                 version = "Falcon BMS 4.36";
                 mainWindow.ListBox_BMS.Items.Add(version);
+                if (flg)
+                {
+                    v = version;
+                    flg = false;
+                }
                 if (version == Properties.Settings.Default.BMS_Version)
                 {
                     v = version;
@@ -86,6 +106,11 @@ namespace FalconBMS.Launcher
             {
                 version = "Falcon BMS 4.35";
                 mainWindow.ListBox_BMS.Items.Add(version);
+                if (flg)
+                {
+                    v = version;
+                    flg = false;
+                }
                 if (version == Properties.Settings.Default.BMS_Version)
                 {
                     v = version;
@@ -96,6 +121,11 @@ namespace FalconBMS.Launcher
             {
                 version = "Falcon BMS 4.34";
                 mainWindow.ListBox_BMS.Items.Add(version);
+                if (flg)
+                {
+                    v = version;
+                    flg = false;
+                }
                 if (version == Properties.Settings.Default.BMS_Version)
                 {
                     v = version;
@@ -106,6 +136,11 @@ namespace FalconBMS.Launcher
             {
                 version = "Falcon BMS 4.33 U1";
                 mainWindow.ListBox_BMS.Items.Add(version);
+                if (flg)
+                {
+                    v = version;
+                    flg = false;
+                }
                 if (version == Properties.Settings.Default.BMS_Version)
                 {
                     v = version;
@@ -116,6 +151,11 @@ namespace FalconBMS.Launcher
             {
                 version = "Falcon BMS 4.33";
                 mainWindow.ListBox_BMS.Items.Add(version);
+                if (flg)
+                {
+                    v = version;
+                    flg = false;
+                }
                 if (version == Properties.Settings.Default.BMS_Version)
                 {
                     v = version;
@@ -126,6 +166,11 @@ namespace FalconBMS.Launcher
             {
                 version = "Falcon BMS 4.32";
                 mainWindow.ListBox_BMS.Items.Add(version);
+                if (flg)
+                {
+                    v = version;
+                    flg = false;
+                }
                 if (version == Properties.Settings.Default.BMS_Version)
                 {
                     v = version;
