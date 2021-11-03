@@ -137,6 +137,8 @@ namespace FalconBMS.Launcher.Windows
 
         private void Reset()
         {
+            LargeTab.SelectedIndex = 0;
+
             // Read Theater List
             TheaterList.PopulateAndSave(appReg, Dropdown_TheaterList);
 
@@ -471,8 +473,33 @@ namespace FalconBMS.Launcher.Windows
                         break;
                     case "Launch_F4WX":
                         target = "\\F4Wx.exe";
-                        downloadlink = "https://www.benchmarksims.org/forum/showthread.php?29203";
+                        downloadlink = "https://forum.falcon-bms.com/topic/8267/f4wx-real-weather-converter";
                         installexe = Properties.Settings.Default.Third_F4WX + target;
+                        if (File.Exists(installexe) == false)
+                        {
+                            System.Windows.Forms.FolderBrowserDialog fbd = new System.Windows.Forms.FolderBrowserDialog
+                            {
+                                Description = "Select Install Directory",
+                                RootFolder = Environment.SpecialFolder.MyComputer,
+                                ShowNewFolderButton = false
+                            };
+
+                            System.Windows.Forms.DialogResult dirResult = fbd.ShowDialog();
+
+                            installexe = fbd.SelectedPath + target;
+                            if (File.Exists(installexe))
+                                Properties.Settings.Default.Third_F4WX = fbd.SelectedPath;
+                            else
+                            {
+                                System.Diagnostics.Process.Start(downloadlink);
+                                return;
+                            }
+                        }
+                        System.Diagnostics.Process.Start(installexe);
+                        break;
+                    case "Launch_F4RADAR":
+                        downloadlink = "https://forum.falcon-bms.com/topic/18356/f4radar-lightweight-standalone-radar-application";
+                        installexe = Properties.Settings.Default.Third_F4RADAR;
                         if (File.Exists(installexe) == false)
                         {
                             System.Windows.Forms.FolderBrowserDialog fbd = new System.Windows.Forms.FolderBrowserDialog

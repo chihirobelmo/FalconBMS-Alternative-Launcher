@@ -306,6 +306,14 @@ namespace FalconBMS.Launcher
                     process = System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Config.exe");
                     mainWindow.minimizeWindowUntilProcessEnds(process);
                     break;
+                case "Launch_RTTC":
+                    Directory.SetCurrentDirectory(appReg.GetInstallDir() + "/Tools/RTTRemote/");
+                    System.Diagnostics.Process.Start("RTTClient64.exe");
+                    break;
+                case "Launch_RTTS":
+                    Directory.SetCurrentDirectory(appReg.GetInstallDir() + "/Tools/RTTRemote/");
+                    System.Diagnostics.Process.Start("RTTServer64.exe");
+                    break;
                 case "Launch_IVCC":
                     Directory.SetCurrentDirectory(appReg.GetInstallDir() + "/Bin/x64/IVC/");
                     System.Diagnostics.Process.Start("IVC Client.exe");
@@ -379,6 +387,14 @@ namespace FalconBMS.Launcher
                 case "Launch_CFG":
                     process = System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Config.exe");
                     mainWindow.minimizeWindowUntilProcessEnds(process);
+                    break;
+                case "Launch_RTTC":
+                    Directory.SetCurrentDirectory(appReg.GetInstallDir() + "/Tools/RTTRemote/");
+                    System.Diagnostics.Process.Start("RTTClient64.exe");
+                    break;
+                case "Launch_RTTS":
+                    Directory.SetCurrentDirectory(appReg.GetInstallDir() + "/Tools/RTTRemote/");
+                    System.Diagnostics.Process.Start("RTTServer64.exe");
                     break;
                 case "Launch_IVCC":
                     Directory.SetCurrentDirectory(appReg.GetInstallDir() + "/Bin/x64/IVC/");

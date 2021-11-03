@@ -1,5 +1,5 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="FalconBMS_Alternative_Launcher_Cs.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="FalconBMS.Launcher.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
     <Setting Name="Platform" Type="System.Boolean" Scope="User">
@@ -61,6 +61,9 @@
     </Setting>
     <Setting Name="Misc_PilotModel" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="Third_F4RADAR" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\</Value>
     </Setting>
   </Settings>
 </SettingsFile>

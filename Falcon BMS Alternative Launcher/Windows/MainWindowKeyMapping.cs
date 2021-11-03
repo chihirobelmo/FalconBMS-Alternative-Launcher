@@ -185,10 +185,7 @@ namespace FalconBMS.Launcher.Windows
                                 Select_PinkyShift.IsChecked = true;
 
                             if (neutralButtons[i] == null)
-                            {
-                                statusAssign = Status.GetNeutralPos;
                                 break; // KEY SEARCH WILL NOT WORK IF ENTER HERE
-                            }
                             if (buttons[ii] == neutralButtons[i].buttons[ii])
                                 continue;
                             statusAssign = Status.GetNeutralPos;
@@ -219,10 +216,7 @@ namespace FalconBMS.Launcher.Windows
                         for (int ii = 0; ii < 4; ii++)
                         {
                             if (neutralButtons[i] == null)
-                            {
-                                statusAssign = Status.GetNeutralPos;
                                 break; // KEY SEARCH WILL NOT WORK IF ENTER HERE
-                            }
                             if (povs[ii] == neutralButtons[i].povs[ii])
                                 continue;
                             statusAssign = Status.GetNeutralPos;
