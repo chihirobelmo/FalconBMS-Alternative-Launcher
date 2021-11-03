@@ -21,6 +21,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_0D76A6FF08064EF983546AF182CF1F65"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_0E737BBE9420CB8E48A5E52CCB810216"
         "OwnerKey" = "8:_04E227D7ADB543A1A0AF937DB2463E53"
         "MsmSig" = "8:_UNDEFINED"
@@ -65,6 +71,12 @@
         {
         "MsmKey" = "8:_9966E2069C8BCB55F009A524B690F757"
         "OwnerKey" = "8:_04E227D7ADB543A1A0AF937DB2463E53"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_A49C7D2F32FB46EFB7FF033EE8BA9961"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -214,6 +226,26 @@
         }
         "File"
         {
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_0D76A6FF08064EF983546AF182CF1F65"
+            {
+            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\Stock\\Setup.v100.Throttle - HOTAS Warthog {Stock}.xml"
+            "TargetName" = "8:Setup.v100.Throttle - HOTAS Warthog {Stock}.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_8999A80A273E4282A29CCEA8B3BC5967"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_0E737BBE9420CB8E48A5E52CCB810216"
             {
             "AssemblyRegister" = "3:1"
@@ -389,6 +421,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A49C7D2F32FB46EFB7FF033EE8BA9961"
+            {
+            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\Stock\\Setup.v100.Joystick - HOTAS Warthog {Stock}.xml"
+            "TargetName" = "8:Setup.v100.Joystick - HOTAS Warthog {Stock}.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_8999A80A273E4282A29CCEA8B3BC5967"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_E806F7801094051D7F182C9854B765EA"
             {
             "AssemblyRegister" = "3:1"
@@ -488,7 +540,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Falcon_BMS_Alternative_Launcher"
         "ProductCode" = "8:{49C0EB52-08C3-4CE1-92C8-85CE76E548AF}"
-        "PackageCode" = "8:{DC93995D-0B5C-4C0B-AA50-68BB29C56B57}"
+        "PackageCode" = "8:{AD152230-6802-47AA-8997-ECB5FFB2064B}"
         "UpgradeCode" = "8:{C399361A-EE09-493C-AB28-E9E162BE3C0C}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"

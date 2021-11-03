@@ -58,7 +58,7 @@ namespace FalconBMS.Launcher.Input
                 }
                 else
                 {
-                    stockFileName = appReg.GetInstallDir() + "/User/Config/Setup.v100." + joyAssign[i].GetProductName().Replace("/", "-")
+                    stockFileName = Directory.GetCurrentDirectory() + "/Setup.v100." + joyAssign[i].GetProductName().Replace("/", "-")
                     + " {Stock}.xml";
                     if (File.Exists(stockFileName))
                     {
@@ -85,13 +85,9 @@ namespace FalconBMS.Launcher.Input
                         joyAssign[ii].ImportStockSetup(appReg, joyStick.Length, joyStick[ii].Caps.NumberPointOfViews, ii);
                 }
             }
-            catch (FileNotFoundException ex)
+            catch (System.Exception ex)
             {
-                System.Console.WriteLine(ex.Message);
-
-                StreamWriter sw = new StreamWriter(appReg.GetInstallDir() + "\\Error.txt", false, System.Text.Encoding.GetEncoding("shift_jis"));
-                sw.Write(ex.Message);
-                sw.Close();
+                Diagnostics.WriteLogFile(ex);
             }
             
             // Load MouseWheel .xml file.

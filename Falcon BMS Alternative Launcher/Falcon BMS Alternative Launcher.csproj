@@ -253,6 +253,10 @@
   <ItemGroup>
     <Resource Include="Resources\RTTServer64.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Stock\Setup.v100.Joystick - HOTAS Warthog {Stock}.xml" />
+    <Resource Include="Stock\Setup.v100.Throttle - HOTAS Warthog {Stock}.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterResolveReferences">
     <ItemGroup>
