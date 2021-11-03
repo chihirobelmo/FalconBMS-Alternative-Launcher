@@ -612,6 +612,7 @@ namespace FalconBMS.Launcher.Windows
         private void ListBox_BMS_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             appReg.Init(this, this.ListBox_BMS.SelectedItem.ToString());
+            appReg.GetTheater();
             Reset();
         }
     }

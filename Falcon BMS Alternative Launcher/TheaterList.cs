@@ -43,6 +43,9 @@ namespace FalconBMS.Launcher
                 }
             }
 
+            Combo.SelectedIndex = -1;
+            Combo.Items.Clear();
+
             for (int ii = 0; ii < theaters.Count; ii++)
             {
                 Combo.Items.Add(theaters[ii]);

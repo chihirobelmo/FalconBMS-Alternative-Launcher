@@ -310,12 +310,22 @@ namespace FalconBMS.Launcher
             regkey.Close();
         }
 
+        public void GetTheater()
+        {
+            regkey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(regName, false);
+            currentTheater = (string)regkey.GetValue("curTheater");
+            regkey.Close();
+        }
+
         /// <summary>
         /// Rewrite Theater setting in the registry.
         /// </summary>
         /// <param name="combobox"></param>
         public void ChangeTheater(ComboBox combobox)
         {
+            if (combobox.SelectedIndex == -1)
+                return;
+
             regkey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(regName, true);
             regkey.SetValue("curTheater", combobox.Items[combobox.SelectedIndex].ToString());
             regkey.Close();
