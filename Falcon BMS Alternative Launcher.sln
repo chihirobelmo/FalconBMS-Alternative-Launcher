@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Falcon BMS Alternative Launcher", "Falcon BMS Alternative Launcher\Falcon BMS Alternative Launcher.csproj", "{F410A784-8F9E-4698-A45B-0D4FEAB404B0}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Falcon_BMS_Alternative_Launcher_Setup", "Falcon_BMS_Alternative_Launcher_Setup\Falcon_BMS_Alternative_Launcher_Setup.vdproj", "{07DFD5F7-1EBA-4628-8311-1F4468377327}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Falcon BMS Alternative Launcher Setup", "Falcon BMS Alternative Launcher Setup\Falcon BMS Alternative Launcher Setup.vdproj", "{476CFD8D-0EBB-4CAC-A053-77480B27ABDC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,8 +17,8 @@ Global
 		{F410A784-8F9E-4698-A45B-0D4FEAB404B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F410A784-8F9E-4698-A45B-0D4FEAB404B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F410A784-8F9E-4698-A45B-0D4FEAB404B0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{07DFD5F7-1EBA-4628-8311-1F4468377327}.Debug|Any CPU.ActiveCfg = Debug
-		{07DFD5F7-1EBA-4628-8311-1F4468377327}.Release|Any CPU.ActiveCfg = Release
+		{476CFD8D-0EBB-4CAC-A053-77480B27ABDC}.Debug|Any CPU.ActiveCfg = Debug
+		{476CFD8D-0EBB-4CAC-A053-77480B27ABDC}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

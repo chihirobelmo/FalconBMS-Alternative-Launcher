@@ -58,7 +58,7 @@ namespace FalconBMS.Launcher.Input
                 }
                 else
                 {
-                    stockFileName = Directory.GetCurrentDirectory() + "/Setup.v100." + joyAssign[i].GetProductName().Replace("/", "-")
+                    stockFileName = Directory.GetCurrentDirectory() + "/Stock/Setup.v100." + joyAssign[i].GetProductName().Replace("/", "-")
                     + " {Stock}.xml";
                     if (File.Exists(stockFileName))
                     {

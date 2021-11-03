@@ -190,9 +190,6 @@
     <Resource Include="Resources\CFG.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\BackGroundAxis.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\MAINICON.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -224,16 +221,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="LICENSE" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Noise.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\LOGO_BACK.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\TabControl_1_BackGround.png" />
-    <Resource Include="Resources\TabControl_2_BackGround.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\web_banner.png" />
