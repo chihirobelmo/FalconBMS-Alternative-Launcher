@@ -13,12 +13,12 @@
         AllowDrop="False" ShowTitleBar="False" IsWindowDraggable="False" WindowStyle="None" Background="#bfc7cf">
     <Window.Resources>
         <Style TargetType="Label">
-            <Setter Property="Foreground" Value="#FF191919" />
+            <Setter Property="Foreground" Value="#D0191919" />
         </Style>
         <Style TargetType="Controls:MetroProgressBar">
             <Setter Property="Background" Value="#80F0F0F0" />
             <Setter Property="Foreground" Value="#803878A8" />
-            <Setter Property="BorderBrush" Value="#FF191919" />
+            <Setter Property="BorderBrush" Value="#D0191919" />
             <Setter Property="BorderThickness" Value="1" />
         </Style>
     </Window.Resources>
@@ -62,6 +62,6 @@
             <TextBlock Text=" Medium"/>
             <TextBlock Text=" Large"/>
         </ComboBox>
-        <Label x:Name="check_ABIDLE" Content="AB" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="128,52,0,0" VerticalAlignment="Top" Foreground="#FF191919" FontSize="11" Width="256"/>
+        <Label x:Name="check_ABIDLE" Content="AB" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="128,52,0,0" VerticalAlignment="Top" FontSize="11" Width="256"/>
     </Grid>
 </Controls:MetroWindow>
