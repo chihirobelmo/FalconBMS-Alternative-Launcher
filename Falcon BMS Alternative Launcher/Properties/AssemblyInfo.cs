@@ -8,9 +8,9 @@ using System.Windows;
 [assembly: AssemblyTitle("Falcon BMS Alternative Launcher")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("BenchmarkSims")]
+[assembly: AssemblyCompany("Benchmark Sims")]
 [assembly: AssemblyProduct("Falcon BMS Alternative Launcher")]
-[assembly: AssemblyCopyright("chihirobelmo")]
+[assembly: AssemblyCopyright("Benchmark Sims")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -49,5 +49,5 @@ using System.Windows;
 // すべての値を指定するか、次を使用してビルド番号とリビジョン番号を既定に設定できます
 // 既定値にすることができます:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.7.1.0")]
-[assembly: AssemblyFileVersion("1.7.1.0")]
+[assembly: AssemblyVersion("1.7.2.0")]
+[assembly: AssemblyFileVersion("1.7.2.0")]

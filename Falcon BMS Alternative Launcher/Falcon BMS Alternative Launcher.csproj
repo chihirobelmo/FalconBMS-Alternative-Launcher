@@ -110,6 +110,9 @@
     <Compile Include="Input\DxAssgn.cs" />
     <Compile Include="Input\InGameAxAssgn.cs" />
     <Compile Include="Input\KeyFile.cs" />
+    <Compile Include="Windows\CallsignWindow.xaml.cs">
+      <DependentUpon>CallsignWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\KeyMappingWindow.xaml.cs">
       <DependentUpon>KeyMappingWindow.xaml</DependentUpon>
     </Compile>
@@ -120,6 +123,10 @@
     <Compile Include="TheaterList.cs" />
     <Compile Include="Input\ThrottlePosition.cs" />
     <Page Include="Windows\AxisAssignWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\CallsignWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -243,6 +250,18 @@
   <ItemGroup>
     <Resource Include="Stock\Setup.v100.Joystick - HOTAS Warthog {Stock}.xml" />
     <Resource Include="Stock\Setup.v100.Throttle - HOTAS Warthog {Stock}.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\NewPilot.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Stock\Setup.v100.T-Rudder {Stock}.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Stock\Setup.v100.Saitek X65F Flight Controller {Stock}.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Stock\Setup.v100.MFG Crosswind V2 {Stock}.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterResolveReferences">
