@@ -2,6 +2,8 @@
 using System.IO;
 using System.Text;
 
+using System.Text.RegularExpressions;
+
 using Microsoft.DirectX.DirectInput;
 
 namespace FalconBMS.Launcher.Input
@@ -90,6 +92,9 @@ namespace FalconBMS.Launcher.Input
             productGUID = otherInstance.productGUID;
             productName = otherInstance.productName;
             instanceGUID = otherInstance.instanceGUID;
+
+            productName = Regex.Replace(productName, "[^A-Z|a-z|0-9|~|`|\\[|\\]|\\{|\\}|\\-|_|\\=|\\'|\\s]", String.Empty);
+
             for (int i = 0; i < axis.Length; i++)
                 axis[i] = otherInstance.axis[i].Clone();
             for (int i = 0; i < pov.Length; i++)
@@ -106,6 +111,8 @@ namespace FalconBMS.Launcher.Input
             productGUID = deviceInstance.ProductGuid;
             productName = deviceInstance.ProductName;
             instanceGUID = deviceInstance.InstanceGuid;
+
+            productName = Regex.Replace(productName, "[^A-Z|a-z|0-9|~|`|\\[|\\]|\\{|\\}|\\-|_|\\=|\\'|\\s]", String.Empty);
         }
 
         /// <summary>
