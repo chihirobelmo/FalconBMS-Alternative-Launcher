@@ -389,6 +389,63 @@ namespace FalconBMS.Launcher
             regkey.Close();
         }
 
+        public bool isNameDefined()
+        {
+            regkey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(regName, false);
+            if (regkey == null)
+            {
+                regkey.Close();
+                return true;
+            }
+            if (regkey.GetValue("PilotCallsign") == null)
+                return false;
+            if (regkey.GetValue("PilotName") == null)
+                return false;
+            if (Encoding.UTF8.GetString((byte[])regkey.GetValue("PilotCallsign")) == "Viper\0\0\0\0\0\0\0")
+                return false;
+            if (Encoding.UTF8.GetString((byte[])regkey.GetValue("PilotName")) == "Joe Pilot\0\0\0\0\0\0\0\0\0\0\0")
+                return false;
+            return true;
+        }
+
+        public void ChangeName(string callSign, string pilotName)
+        {
+            regkey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(regName, true);
+            if (regkey == null)
+            {
+                regkey.Close();
+                return;
+            }
+
+            byte[] bs = new byte[12];
+            byte[] bCallsign = Encoding.ASCII.GetBytes(callSign);
+            for (int i = 0; i < bs.Length; i++)
+            {
+                if (i >= bCallsign.Length)
+                {
+                    bs[i] = 0x00;
+                    continue;
+                }
+                bs[i] = bCallsign[i];
+            }
+            regkey.SetValue("PilotCallsign", bs);
+
+            byte[] bs2 = new byte[20];
+            byte[] bPilotName = Encoding.ASCII.GetBytes(pilotName);
+            for (int i = 0; i < bs2.Length; i++)
+            {
+                if (i >= bPilotName.Length)
+                {
+                    bs2[i] = 0x00;
+                    continue;
+                }
+                bs2[i] = bPilotName[i];
+            }
+            regkey.SetValue("PilotName", bs2);
+
+            regkey.Close();
+        }
+
         public void GetTheater()
         {
             regkey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(regName, false);

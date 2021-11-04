@@ -41,10 +41,12 @@
         </Grid.Background>
         <TextBox HorizontalAlignment="Left" Height="23" Margin="109,82,0,0" TextWrapping="Wrap" Text="Viper" VerticalAlignment="Top" Width="304" Background="#7FFFFFFF" x:Name="TextBox_Callsign" TextChanged="Callsign_Changed"/>
         <TextBox HorizontalAlignment="Left" Height="23" Margin="109,147,0,0" TextWrapping="Wrap" Text="Joe Pilot" VerticalAlignment="Top" Width="304" Background="#7FFFFFFF" x:Name="TextBox_PilotName" TextChanged="PilotName_Changed"/>
-        <Label Content="Callsign" HorizontalAlignment="Left" Margin="109,48,0,0" VerticalAlignment="Top" FontWeight="Bold" FontStyle="Italic" FontSize="14"/>
-        <Label Content="Pilot Name" HorizontalAlignment="Left" Margin="109,113,0,0" VerticalAlignment="Top" FontWeight="Bold" FontStyle="Italic" FontSize="14"/>
+        <Label Content="Callsign" HorizontalAlignment="Left" Margin="109,53,0,0" VerticalAlignment="Top" FontWeight="Bold" FontStyle="Italic" FontSize="14"/>
+        <Label Content="Pilot Name" HorizontalAlignment="Left" Margin="109,118,0,0" VerticalAlignment="Top" FontWeight="Bold" FontStyle="Italic" FontSize="14"/>
         <Label Content="Welcome New Pilot" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontWeight="Bold" FontStyle="Italic" FontSize="18"/>
-        <Button Content="Register" HorizontalAlignment="Left" Margin="338,195,0,0" VerticalAlignment="Top" Width="75" Background="#FF70CBFF" x:Name="Button_Register" MouseLeftButtonDown="Button_Register_MouseLeftButtonDown"/>
+        <Button Content="Register" HorizontalAlignment="Left" Margin="338,195,0,0" VerticalAlignment="Top" Width="75" Background="#FF70CBFF" x:Name="Button_Register" Click="Button_Register_Click"/>
+        <Label x:Name="Label_Error_Callsign" Content="How about more unique callsign ? ;)" HorizontalContentAlignment="Right" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="5.105,1.962" Margin="213,55,0,0"/>
+        <Label x:Name="Label_Error_PilotName" Content="Seriously your name is &quot;Joe Pilot&quot; !?" HorizontalContentAlignment="Right" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="5.105,1.962" Margin="215,120,0,0"/>
     </Grid>
 </Controls:MetroWindow>
 

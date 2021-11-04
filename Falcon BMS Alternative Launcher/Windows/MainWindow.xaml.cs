@@ -29,7 +29,7 @@ namespace FalconBMS.Launcher.Windows
 
         public static DeviceControl deviceControl;
 
-        private AppRegInfo appReg;
+        public AppRegInfo appReg;
         private KeyFile keyFile;
 
         private AppProperties appProperties;
@@ -46,8 +46,6 @@ namespace FalconBMS.Launcher.Windows
         /// <param name="e"></param>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            // CallsignWindow.ShowCallsignWindow();
-
             try
             {
                 // load command line.
@@ -317,6 +315,10 @@ namespace FalconBMS.Launcher.Windows
         {
             try
             {
+                // if (!appReg.isNameDefined())
+                //     if (CallsignWindow.ShowCallsignWindow(appReg))
+                //         return;
+
                 appReg.getLauncher().execute(sender);
             }
             catch (FileNotFoundException ex)
