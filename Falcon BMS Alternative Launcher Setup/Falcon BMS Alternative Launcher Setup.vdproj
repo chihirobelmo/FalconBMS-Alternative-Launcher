@@ -27,7 +27,19 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_38FEDC70E298408B8F9173313DCFD9BA"
+        "MsmKey" = "8:_20455F6C3DB4461ABF2279FD0B4C2497"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_44EFAA052CDE4AD7A94B3D4AD58E17B0"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_4C73EE0A15DB459CB58F2C80A323372D"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -39,13 +51,19 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_72351A0B9B024C5E95BE9ED1E2B39305"
+        "MsmKey" = "8:_5F6F06A077AD45599EB8FE7BA5FF3FD0"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_72837DE857B14C4D8E9ACC406CCCB844"
+        "MsmKey" = "8:_6B879BD1855E4C81AA42EE2E5A53C406"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_71DDA2B742C34CCC823C184D67D5CD23"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -57,13 +75,13 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_8AB7076865D14E6D88488C43E3864D67"
+        "MsmKey" = "8:_827CE55C73614A09B3A334122610A175"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_8E6527C1D025407E8ED0CB4E7B7EBDAD"
+        "MsmKey" = "8:_8AB7076865D14E6D88488C43E3864D67"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -93,6 +111,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_A1D0531EC5AD4DFCAE9B3D0357787936"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_AA59046CB3C1A3D8D56CE4E082380C87"
         "OwnerKey" = "8:_95D9AB91892E45249B8FD06F8E892BD9"
         "MsmSig" = "8:_UNDEFINED"
@@ -101,6 +125,24 @@
         {
         "MsmKey" = "8:_AEC3ACA04DE7700D3D070BCBB8EF7FE5"
         "OwnerKey" = "8:_95D9AB91892E45249B8FD06F8E892BD9"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B51DBB7FC5F347DE95F7654E2F6E7996"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B628FD9FC6894043A23C0BAE6B5F591F"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B656F3DD12C14BDA8BBD6749E83555FD"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -117,8 +159,26 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_806B8EF06C3C3E96263CE3E2DFF3108C"
+        "MsmKey" = "8:_E7B2F5F81AC94C5497DE3671C5B2D550"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F259578D4FA547F0A3F1BF4D71737A6A"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F27A898EE0E441D3AE08F771FFBEB86C"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F2B0B3605DFC4806960C9DC4FC3D0C28"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -157,6 +217,12 @@
         "OwnerKey" = "8:_95B5E247B070F3B65F5A371D8FA27E8B"
         "MsmSig" = "8:_UNDEFINED"
         }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_806B8EF06C3C3E96263CE3E2DFF3108C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
     }
     "Configurations"
     {
@@ -175,6 +241,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
@@ -191,6 +265,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
     }
     "Deployable"
@@ -251,10 +333,50 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_38FEDC70E298408B8F9173313DCFD9BA"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_20455F6C3DB4461ABF2279FD0B4C2497"
             {
-            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\Stock\\Setup.v100.MFG Crosswind V2 {Stock}.xml"
-            "TargetName" = "8:Setup.v100.MFG Crosswind V2 {Stock}.xml"
+            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\Stock\\Setup.v100.Saitek Pro Flight Combat Rudder Pedals {Stock}.xml"
+            "TargetName" = "8:Setup.v100.Saitek Pro Flight Combat Rudder Pedals {Stock}.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_B1B01F01701141248BD6FD0195551B06"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_44EFAA052CDE4AD7A94B3D4AD58E17B0"
+            {
+            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\Stock\\Setup.v100.Throttle - HOTAS Warthog {Stock}.xml"
+            "TargetName" = "8:Setup.v100.Throttle - HOTAS Warthog {Stock}.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_B1B01F01701141248BD6FD0195551B06"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4C73EE0A15DB459CB58F2C80A323372D"
+            {
+            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\Stock\\Setup.v100.CH Pro Throttle USB {Stock}.xml"
+            "TargetName" = "8:Setup.v100.CH Pro Throttle USB {Stock}.xml"
             "Tag" = "8:"
             "Folder" = "8:_B1B01F01701141248BD6FD0195551B06"
             "Condition" = "8:"
@@ -291,10 +413,10 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_72351A0B9B024C5E95BE9ED1E2B39305"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5F6F06A077AD45599EB8FE7BA5FF3FD0"
             {
-            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\Stock\\Setup.v100.Throttle - HOTAS Warthog {Stock}.xml"
-            "TargetName" = "8:Setup.v100.Throttle - HOTAS Warthog {Stock}.xml"
+            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\Stock\\Setup.v100.TWCS Throttle {Stock}.xml"
+            "TargetName" = "8:Setup.v100.TWCS Throttle {Stock}.xml"
             "Tag" = "8:"
             "Folder" = "8:_B1B01F01701141248BD6FD0195551B06"
             "Condition" = "8:"
@@ -311,10 +433,30 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_72837DE857B14C4D8E9ACC406CCCB844"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6B879BD1855E4C81AA42EE2E5A53C406"
             {
-            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\Stock\\Setup.v100.Joystick - HOTAS Warthog {Stock}.xml"
-            "TargetName" = "8:Setup.v100.Joystick - HOTAS Warthog {Stock}.xml"
+            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\Stock\\Setup.v100.Saitek X52 Pro Flight Controller {Stock}.xml"
+            "TargetName" = "8:Setup.v100.Saitek X52 Pro Flight Controller {Stock}.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_B1B01F01701141248BD6FD0195551B06"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_71DDA2B742C34CCC823C184D67D5CD23"
+            {
+            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\Stock\\Setup.v100.MFG Crosswind V2 {Stock}.xml"
+            "TargetName" = "8:Setup.v100.MFG Crosswind V2 {Stock}.xml"
             "Tag" = "8:"
             "Folder" = "8:_B1B01F01701141248BD6FD0195551B06"
             "Condition" = "8:"
@@ -362,10 +504,10 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8AB7076865D14E6D88488C43E3864D67"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_827CE55C73614A09B3A334122610A175"
             {
-            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\Stock\\Setup.v100.Saitek X65F Flight Controller {Stock}.xml"
-            "TargetName" = "8:Setup.v100.Saitek X65F Flight Controller {Stock}.xml"
+            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\Stock\\Setup.v100.T.16000M {Stock}.xml"
+            "TargetName" = "8:Setup.v100.T.16000M {Stock}.xml"
             "Tag" = "8:"
             "Folder" = "8:_B1B01F01701141248BD6FD0195551B06"
             "Condition" = "8:"
@@ -382,10 +524,10 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8E6527C1D025407E8ED0CB4E7B7EBDAD"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8AB7076865D14E6D88488C43E3864D67"
             {
-            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\Stock\\Setup.v100.T-Rudder {Stock}.xml"
-            "TargetName" = "8:Setup.v100.T-Rudder {Stock}.xml"
+            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\Stock\\Setup.v100.Saitek X65F Flight Controller {Stock}.xml"
+            "TargetName" = "8:Setup.v100.Saitek X65F Flight Controller {Stock}.xml"
             "Tag" = "8:"
             "Folder" = "8:_B1B01F01701141248BD6FD0195551B06"
             "Condition" = "8:"
@@ -431,6 +573,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A1D0531EC5AD4DFCAE9B3D0357787936"
+            {
+            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\Stock\\Setup.v100.Saitek Pro Flight Rudder Pedals {Stock}.xml"
+            "TargetName" = "8:Setup.v100.Saitek Pro Flight Rudder Pedals {Stock}.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_B1B01F01701141248BD6FD0195551B06"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_AA59046CB3C1A3D8D56CE4E082380C87"
@@ -495,6 +657,66 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B51DBB7FC5F347DE95F7654E2F6E7996"
+            {
+            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\Stock\\Setup.v100.Saitek X52 H.O.T.A.S. {Stock}.xml"
+            "TargetName" = "8:Setup.v100.Saitek X52 H.O.T.A.S. {Stock}.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_B1B01F01701141248BD6FD0195551B06"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B628FD9FC6894043A23C0BAE6B5F591F"
+            {
+            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\Stock\\Setup.v100.CH Fighterstick USB {Stock}.xml"
+            "TargetName" = "8:Setup.v100.CH Fighterstick USB {Stock}.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_B1B01F01701141248BD6FD0195551B06"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B656F3DD12C14BDA8BBD6749E83555FD"
+            {
+            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\Stock\\Setup.v100.Joystick - HOTAS Warthog {Stock}.xml"
+            "TargetName" = "8:Setup.v100.Joystick - HOTAS Warthog {Stock}.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_B1B01F01701141248BD6FD0195551B06"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_E5925710036771A16AAED36657DEB6C0"
             {
             "AssemblyRegister" = "3:1"
@@ -524,6 +746,86 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E7B2F5F81AC94C5497DE3671C5B2D550"
+            {
+            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\Stock\\Setup.v100.Saitek Pro Flight X-56 Rhino Stick {Stock}.xml"
+            "TargetName" = "8:Setup.v100.Saitek Pro Flight X-56 Rhino Stick {Stock}.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_B1B01F01701141248BD6FD0195551B06"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F259578D4FA547F0A3F1BF4D71737A6A"
+            {
+            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\Stock\\Setup.v100.Saitek Pro Flight X-56 Rhino Throttle {Stock}.xml"
+            "TargetName" = "8:Setup.v100.Saitek Pro Flight X-56 Rhino Throttle {Stock}.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_B1B01F01701141248BD6FD0195551B06"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F27A898EE0E441D3AE08F771FFBEB86C"
+            {
+            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\Stock\\Setup.v100.T-Rudder {Stock}.xml"
+            "TargetName" = "8:Setup.v100.T-Rudder {Stock}.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_B1B01F01701141248BD6FD0195551B06"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F2B0B3605DFC4806960C9DC4FC3D0C28"
+            {
+            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\Stock\\Setup.v100.FSSB R3 Warthog {Stock}.xml"
+            "TargetName" = "8:Setup.v100.FSSB R3 Warthog {Stock}.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_B1B01F01701141248BD6FD0195551B06"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
         }

@@ -263,6 +263,25 @@
   <ItemGroup>
     <Resource Include="Stock\Setup.v100.MFG Crosswind V2 {Stock}.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Stock\Setup.v100.CH Fighterstick USB {Stock}.xml" />
+    <Resource Include="Stock\Setup.v100.CH Pro Throttle USB {Stock}.xml" />
+    <Resource Include="Stock\Setup.v100.Saitek Pro Flight Combat Rudder Pedals {Stock}.xml" />
+    <Resource Include="Stock\Setup.v100.Saitek Pro Flight X-56 Rhino Stick {Stock}.xml" />
+    <Resource Include="Stock\Setup.v100.Saitek Pro Flight X-56 Rhino Throttle {Stock}.xml" />
+    <Resource Include="Stock\Setup.v100.Saitek X52 Pro Flight Controller {Stock}.xml" />
+    <Resource Include="Stock\Setup.v100.T.16000M {Stock}.xml" />
+    <Resource Include="Stock\Setup.v100.TWCS Throttle {Stock}.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Stock\Setup.v100.Saitek Pro Flight Rudder Pedals {Stock}.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Stock\Setup.v100.Saitek X52 H.O.T.A.S. {Stock}.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Stock\Setup.v100.FSSB R3 Warthog {Stock}.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterResolveReferences">
     <ItemGroup>
