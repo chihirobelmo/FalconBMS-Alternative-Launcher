@@ -282,6 +282,15 @@
   <ItemGroup>
     <Resource Include="Stock\Setup.v100.FSSB R3 Warthog {Stock}.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Stock\Setup.v100.TPR T.Pendular Rudder {Stock}.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Stock\Setup.v100.Flight Control Rudder {Stock}.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Stock\Setup.v100. VKB-Sim Gladiator NXT R   {Stock}.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterResolveReferences">
     <ItemGroup>

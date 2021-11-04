@@ -39,6 +39,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_49B155971ED447AEA19EC3E100DF2FB6"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_4C73EE0A15DB459CB58F2C80A323372D"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -64,6 +70,12 @@
         "Entry"
         {
         "MsmKey" = "8:_71DDA2B742C34CCC823C184D67D5CD23"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_7C960197D104449C86E3D50958CC23BA"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -142,6 +154,12 @@
         "Entry"
         {
         "MsmKey" = "8:_B656F3DD12C14BDA8BBD6749E83555FD"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_CDD1C6DFE05445C6BC4FBA6EC34A4FF2"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -248,6 +266,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
         "Release"
@@ -272,6 +298,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
     }
@@ -373,6 +407,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_49B155971ED447AEA19EC3E100DF2FB6"
+            {
+            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\Stock\\Setup.v100.TPR T.Pendular Rudder {Stock}.xml"
+            "TargetName" = "8:Setup.v100.TPR T.Pendular Rudder {Stock}.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_B1B01F01701141248BD6FD0195551B06"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4C73EE0A15DB459CB58F2C80A323372D"
             {
             "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\Stock\\Setup.v100.CH Pro Throttle USB {Stock}.xml"
@@ -457,6 +511,26 @@
             {
             "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\Stock\\Setup.v100.MFG Crosswind V2 {Stock}.xml"
             "TargetName" = "8:Setup.v100.MFG Crosswind V2 {Stock}.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_B1B01F01701141248BD6FD0195551B06"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_7C960197D104449C86E3D50958CC23BA"
+            {
+            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\Stock\\Setup.v100.Flight Control Rudder {Stock}.xml"
+            "TargetName" = "8:Setup.v100.Flight Control Rudder {Stock}.xml"
             "Tag" = "8:"
             "Folder" = "8:_B1B01F01701141248BD6FD0195551B06"
             "Condition" = "8:"
@@ -701,6 +775,26 @@
             {
             "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\Stock\\Setup.v100.Joystick - HOTAS Warthog {Stock}.xml"
             "TargetName" = "8:Setup.v100.Joystick - HOTAS Warthog {Stock}.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_B1B01F01701141248BD6FD0195551B06"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_CDD1C6DFE05445C6BC4FBA6EC34A4FF2"
+            {
+            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\Stock\\Setup.v100. VKB-Sim Gladiator NXT R   {Stock}.xml"
+            "TargetName" = "8:Setup.v100. VKB-Sim Gladiator NXT R   {Stock}.xml"
             "Tag" = "8:"
             "Folder" = "8:_B1B01F01701141248BD6FD0195551B06"
             "Condition" = "8:"
