@@ -6,6 +6,8 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Threading;
 
+using System.Runtime.InteropServices;
+
 namespace FalconBMS.Launcher
 {
     public class Program

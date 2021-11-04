@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -19,6 +20,9 @@ namespace FalconBMS.Launcher.Windows
     /// </summary>
     public partial class MainWindow
     {
+        [DllImport("Falcon BMS Logbook Generator.dll")]
+        public static extern void Test();
+
         public MainWindow()
         {
             RenderOptions.ProcessRenderMode = System.Windows.Interop.RenderMode.SoftwareOnly;
@@ -46,6 +50,7 @@ namespace FalconBMS.Launcher.Windows
         /// <param name="e"></param>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            //Test();
             try
             {
                 // load command line.
