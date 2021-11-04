@@ -46,6 +46,8 @@ namespace FalconBMS.Launcher.Windows
         /// <param name="e"></param>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            // CallsignWindow.ShowCallsignWindow();
+
             try
             {
                 // load command line.

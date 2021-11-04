@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
-        Title="FalconBMS Alternative Launcher" Height="768" Width="1024" MinHeight="768" MinWidth="1024"
+        Title="FalconBMS Alternative Launcher" Height="768" Width="1024" MinHeight="768" MinWidth="1024" BorderThickness="0"
         Loaded="Window_Loaded" Closed="Window_Closed" MouseDown="MetroWindow_MouseDown"
         FontSize="12" WindowStartupLocation="CenterScreen" ShowTitleBar="False" WindowStyle="None" Background="#a4a9ac">
     <Window.Resources>
@@ -210,7 +210,7 @@
                             <Label x:Name="Label_EDIT" Content="Editor" HorizontalAlignment="Left" Margin="708,70,0,0" VerticalAlignment="Top" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
                         </Grid>
                     </Border>
-                    <CheckBox x:Name="ApplicationOverride" Content="Launch without any setup override." HorizontalAlignment="Left" Margin="140,0,0,290.333" VerticalAlignment="Bottom" Background="#FFECFF71" Grid.Row="1" />
+                    <CheckBox x:Name="ApplicationOverride" Content="Launch without any setup override." HorizontalAlignment="Left" Margin="145,0,0,292" VerticalAlignment="Bottom" Background="#FFECFF71" />
 
 
                     <Border BorderThickness="1" HorizontalAlignment="Left" Height="128" Margin="48,0,0,20.333" VerticalAlignment="Bottom" Width="503" Grid.Row="1">
@@ -591,7 +591,7 @@
         </TabControl>
         <Image x:Name="LOGO000" HorizontalAlignment="Left" VerticalAlignment="Top" Height="49" Source="/Resources/web_banner.png" Stretch="Uniform" Width="363" Margin="24,10,0,0"/>
         <Label x:Name="Version_Number" Content="4.36 (I)" HorizontalAlignment="Left" Margin="392,0,0,703.333" VerticalAlignment="Top" Foreground="#FFC4C4C4" FontSize="36"/>
-        <Label Content="FalconBMS Alternative Launcher v1.7.0" HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontWeight="Bold" Margin="0,0,10.333,0.333"/>
+        <Label Content="FalconBMS Alternative Launcher v1.7.2" HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontWeight="Bold" Margin="0,0,10.333,0.333"/>
 
         <Button x:Name="Button_Apply_YAME64" Visibility="Hidden" Content="Apply" HorizontalAlignment="Right" Margin="0,31,10,0" VerticalAlignment="top" Width="128" Style="{StaticResource AccentedSquareButtonStyle}" Controls:ControlsHelper.ContentCharacterCasing="Normal" Click="Apply_YAME64"/>
 
