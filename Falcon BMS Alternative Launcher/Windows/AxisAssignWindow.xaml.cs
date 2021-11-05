@@ -51,9 +51,8 @@ namespace FalconBMS.Launcher.Windows
         private int invertNum;
         private int wheelValue;
 
-        const int MAXIN = 65536;
-        private int AB = MAXIN;
-        private int IDLE;
+        private int AB   = CommonConstants.AXISMAX;
+        private int IDLE = CommonConstants.AXISMIN;
 
         private Status status = Status.GetNeutralPosition;
 
@@ -177,9 +176,9 @@ namespace FalconBMS.Launcher.Windows
                     break;
             }
 
-            AxisValueProgress.Value = 0;
-            AxisValueProgress.Minimum = 0;
-            AxisValueProgress.Maximum = MAXIN;
+            AxisValueProgress.Value   = CommonConstants.AXISMIN;
+            AxisValueProgress.Minimum = CommonConstants.AXISMIN;
+            AxisValueProgress.Maximum = CommonConstants.AXISMAX;
 
             Saturation.SelectedIndex = (int)axisAssign.GetSaturation();
             DeadZone.SelectedIndex = (int)axisAssign.GetDeadzone();
@@ -233,8 +232,8 @@ namespace FalconBMS.Launcher.Windows
                 {
                     for (int ii = 0; ii < 8; ii++)
                     {
-                        if (MainWindow.deviceControl.JoyAxisState(i, ii) < Joynum[i].NeutralValue[ii] + MAXIN / 4 &
-                            MainWindow.deviceControl.JoyAxisState(i, ii) > Joynum[i].NeutralValue[ii] - MAXIN / 4)
+                        if (MainWindow.deviceControl.JoyAxisState(i, ii) < Joynum[i].NeutralValue[ii] + CommonConstants.AXISMAX / 4 &
+                            MainWindow.deviceControl.JoyAxisState(i, ii) > Joynum[i].NeutralValue[ii] - CommonConstants.AXISMAX / 4)
                             continue;
                         devNumTmp = i;
                         phyAxNumTmp = ii;
@@ -293,13 +292,13 @@ namespace FalconBMS.Launcher.Windows
                 }
                 if (invertNum == 1)
                 {
-                    AxisValueProgress.Minimum = 0;
-                    AxisValueProgress.Maximum = MAXIN;
+                    AxisValueProgress.Minimum = CommonConstants.AXISMIN;
+                    AxisValueProgress.Maximum = CommonConstants.AXISMAX;
                 }
                 else
                 {
-                    AxisValueProgress.Minimum = -MAXIN;
-                    AxisValueProgress.Maximum = 0;
+                    AxisValueProgress.Minimum = -CommonConstants.AXISMAX;
+                    AxisValueProgress.Maximum =  CommonConstants.AXISMIN;
                 }
 
                 if (devNumTmp == -2)
@@ -324,13 +323,13 @@ namespace FalconBMS.Launcher.Windows
                     return;
                 AxisValueProgress.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 0x38, 0x78, 0xA8));
                 check_ABIDLE.Visibility = Visibility.Hidden;
-                if (MAXIN + AxisValueProgress.Value < IDLE)
+                if (CommonConstants.AXISMAX + AxisValueProgress.Value < IDLE)
                 {
                     AxisValueProgress.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 240, 0, 0));
                     check_ABIDLE.Visibility = Visibility.Visible;
                     check_ABIDLE.Content = "IDLE CUTOFF";
                 }
-                if (MAXIN + AxisValueProgress.Value > AB)
+                if (CommonConstants.AXISMAX + AxisValueProgress.Value > AB)
                 {
                     AxisValueProgress.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 0, 240, 0));
                     check_ABIDLE.Visibility = Visibility.Visible;
@@ -344,13 +343,13 @@ namespace FalconBMS.Launcher.Windows
             status = Status.GetNeutralPosition;
             AssignedJoystick.Content = "   AWAITING INPUTS";
 
-            AxisValueProgress.Minimum = 0;
-            AxisValueProgress.Maximum = MAXIN;
-            AxisValueProgress.Value = 0;
+            AxisValueProgress.Minimum = CommonConstants.AXISMIN;
+            AxisValueProgress.Maximum = CommonConstants.AXISMAX;
+            AxisValueProgress.Value   = CommonConstants.AXISMIN;
 
             Retry.Visibility = Visibility.Hidden;
             SetAB.Visibility = Visibility.Hidden;
-            Idle.Visibility = Visibility.Hidden;
+            Idle.Visibility  = Visibility.Hidden;
 
             wheelValue = 0;
         }
@@ -432,10 +431,12 @@ namespace FalconBMS.Launcher.Windows
             if (status != Status.ShowAxisStatus)
                 return;
             int ABposition;
-            ABposition = MAXIN - MainWindow.deviceControl.JoyAxisState(devNumTmp, phyAxNumTmp);
-            if (MainWindow.deviceControl.JoyAxisState(devNumTmp, phyAxNumTmp) > MAXIN)
-                ABposition = MAXIN;
+            ABposition = CommonConstants.AXISMAX - MainWindow.deviceControl.JoyAxisState(devNumTmp, phyAxNumTmp);
+            if (MainWindow.deviceControl.JoyAxisState(devNumTmp, phyAxNumTmp) > CommonConstants.AXISMAX)
+                ABposition = CommonConstants.AXISMAX;
             AB = ABposition;
+            if (AB > CommonConstants.AXISMAX - CommonConstants.AXISMAX / 128)
+                AB = CommonConstants.AXISMAX;
         }
 
         private void SetIDLE_Click(object sender, RoutedEventArgs e)
@@ -443,10 +444,12 @@ namespace FalconBMS.Launcher.Windows
             if (status != Status.ShowAxisStatus)
                 return;
             int IDLEposition;
-            IDLEposition = MAXIN - MainWindow.deviceControl.JoyAxisState(devNumTmp, phyAxNumTmp);
+            IDLEposition = CommonConstants.AXISMAX - MainWindow.deviceControl.JoyAxisState(devNumTmp, phyAxNumTmp);
             if (MainWindow.deviceControl.JoyAxisState(devNumTmp, phyAxNumTmp) < 0)
-                IDLEposition = 0;
+                IDLEposition = CommonConstants.AXISMIN;
             IDLE = IDLEposition;
+            if (IDLE < CommonConstants.AXISMAX / 128)
+                IDLE = CommonConstants.AXISMIN;
         }
         
         private void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e)

@@ -1,23 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <JoyAssgn xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <detentPosition>
+    <AB>45153</AB>
+    <IDLE>0</IDLE>
+  </detentPosition>
   <axis>
     <AxAssgn>
       <AxisName>Cursor_X</AxisName>
-      <AssgnDate>2021-11-03T15:45:45.1915282+09:00</AssgnDate>
+      <AssgnDate>2021-10-23T18:36:10.4045136+09:00</AssgnDate>
       <Invert>false</Invert>
       <Saturation>None</Saturation>
-      <Deadzone>None</Deadzone>
+      <Deadzone>Small</Deadzone>
     </AxAssgn>
     <AxAssgn>
       <AxisName>Cursor_Y</AxisName>
-      <AssgnDate>2021-11-03T15:45:47.5825258+09:00</AssgnDate>
+      <AssgnDate>2021-10-23T18:36:43.7085589+09:00</AssgnDate>
       <Invert>true</Invert>
       <Saturation>None</Saturation>
-      <Deadzone>None</Deadzone>
+      <Deadzone>Small</Deadzone>
     </AxAssgn>
     <AxAssgn>
       <AxisName>Throttle_Right</AxisName>
-      <AssgnDate>2021-11-03T15:45:29.6428855+09:00</AssgnDate>
+      <AssgnDate>2021-11-06T02:29:37.7970357+09:00</AssgnDate>
       <Invert>false</Invert>
       <Saturation>None</Saturation>
       <Deadzone>None</Deadzone>
@@ -38,7 +42,7 @@
     </AxAssgn>
     <AxAssgn>
       <AxisName>Throttle</AxisName>
-      <AssgnDate>2021-11-04T00:57:49.3037368+09:00</AssgnDate>
+      <AssgnDate>2021-11-06T02:47:37.4168524+09:00</AssgnDate>
       <Invert>false</Invert>
       <Saturation>None</Saturation>
       <Deadzone>None</Deadzone>
@@ -1072,7 +1076,7 @@
     <DxAssgn>
       <assign>
         <Assgn>
-          <Callback>SimThrottleIdleDetentBack</Callback>
+          <Callback>SimDoNothing</Callback>
           <Invoke>Default</Invoke>
           <SoundID>0</SoundID>
         </Assgn>
@@ -1082,8 +1086,8 @@
           <SoundID>0</SoundID>
         </Assgn>
         <Assgn>
-          <Callback>SimThrottleIdleDetentForward</Callback>
-          <Invoke>Down</Invoke>
+          <Callback>SimDoNothing</Callback>
+          <Invoke>Default</Invoke>
           <SoundID>0</SoundID>
         </Assgn>
         <Assgn>
@@ -1096,7 +1100,7 @@
     <DxAssgn>
       <assign>
         <Assgn>
-          <Callback>SimDoNothing</Callback>
+          <Callback>SimThrottleIdleDetentBack</Callback>
           <Invoke>Default</Invoke>
           <SoundID>0</SoundID>
         </Assgn>
@@ -1106,8 +1110,8 @@
           <SoundID>0</SoundID>
         </Assgn>
         <Assgn>
-          <Callback>SimDoNothing</Callback>
-          <Invoke>Default</Invoke>
+          <Callback>SimThrottleIdleDetentForward</Callback>
+          <Invoke>Down</Invoke>
           <SoundID>0</SoundID>
         </Assgn>
         <Assgn>
