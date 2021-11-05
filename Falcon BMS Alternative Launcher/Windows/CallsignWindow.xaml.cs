@@ -116,11 +116,15 @@ namespace FalconBMS.Launcher.Windows
                 Label_Error_PilotName.Visibility = Visibility.Visible;
                 return;
             }
+
             appReg.ChangeName(TextBox_Callsign.Text, TextBox_PilotName.Text);
+
+            DateTime dt = DateTime.Now;
+
             if (Environment.Is64BitProcess)
-                CreateLbk_64(appReg.GetInstallDir() + "\\User\\Config\\" + TextBox_Callsign.Text + ".lbk", TextBox_Callsign.Text, TextBox_PilotName.Text, "01/01/01");
+                CreateLbk_64(appReg.GetInstallDir() + "\\User\\Config\\" + TextBox_Callsign.Text + ".lbk", TextBox_Callsign.Text, TextBox_PilotName.Text, dt.ToString("dd/MM/yy"));
             else
-                CreateLbk_32(appReg.GetInstallDir() + "\\User\\Config\\" + TextBox_Callsign.Text + ".lbk", TextBox_Callsign.Text, TextBox_PilotName.Text, "01/01/01");
+                CreateLbk_32(appReg.GetInstallDir() + "\\User\\Config\\" + TextBox_Callsign.Text + ".lbk", TextBox_Callsign.Text, TextBox_PilotName.Text, dt.ToString("dd/MM/yy"));
             Close();
         }
     }
