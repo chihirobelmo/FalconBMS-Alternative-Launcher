@@ -20,8 +20,6 @@ namespace FalconBMS.Launcher.Windows
     /// </summary>
     public partial class MainWindow
     {
-        [DllImport("Falcon BMS Logbook Generator.dll")]
-        public static extern void Test();
 
         public MainWindow()
         {
@@ -50,7 +48,7 @@ namespace FalconBMS.Launcher.Windows
         /// <param name="e"></param>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            //Test();
+
             try
             {
                 // load command line.
@@ -320,9 +318,9 @@ namespace FalconBMS.Launcher.Windows
         {
             try
             {
-                // if (!appReg.isNameDefined())
-                //     if (CallsignWindow.ShowCallsignWindow(appReg))
-                //         return;
+                if (!appReg.isNameDefined())
+                    if (CallsignWindow.ShowCallsignWindow(appReg))
+                        return;
 
                 appReg.getLauncher().execute(sender);
             }

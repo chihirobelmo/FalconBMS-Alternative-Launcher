@@ -6,7 +6,7 @@
 
 #pragma warning(disable : 4244)  // for all the short += short's
 
-class LogBookData LogBook;
+//class LogBookData LogBook;
 
 #define _USE_REGISTRY_ 1
 #define BAD_READ 2
@@ -19,53 +19,58 @@ void EncryptBuffer(uchar startkey, uchar* buffer, long length);
 
 char FalconDataDirectory[260];
 
-void Test()
+void CreateLbk(const char* fname, const char* callsign, const char* pilotname, const char* date)
 {
-    LogBookData UI_logbk;
-    UI_logbk.SaveData();
+    LogBookData UI_logbk(callsign, pilotname, date);
+    UI_logbk.SaveData(fname, callsign);
 }
 
-LogBookData::LogBookData(void)
+LogBookData::LogBookData(const char* callsign, const char* pilotname, const char* date)
 {
-    Initialize();
+    Initialize(callsign, pilotname, date);
 }
 
-void LogBookData::Initialize(void)
+void LogBookData::Initialize(const char* callsign, const char* pilotname, const char* date)
 {
-    wcscpy_s(Pilot.Name, _T("Joe Pilot"));
-    wcscpy_s(Pilot.Callsign, _T("Viper"));
+    wcscpy_s(Pilot.Name,        _T("%s", pilotname));
+    wcscpy_s(Pilot.Callsign,    _T("%s", callsign));
     wcscpy_s(Pilot.OptionsFile, _T("Default"));
-    wcscpy_s(Pilot.Password, _T(""));
+    wcscpy_s(Pilot.Password,    _T(""));
+
     EncryptPwd();
-    Pilot.Rank = SEC_LT;
-    Pilot.AceFactor = 1.0f;
+
+    Pilot.Rank        = SEC_LT;
+    Pilot.AceFactor   = 1.0f;
     Pilot.FlightHours = 0.0F;
+
     memset(&Pilot.Campaign, 0, sizeof(CAMP_STATS));
     memset(&Pilot.Dogfight, 0, sizeof(DF_STATS));
-    memset(Pilot.Medals, 0, sizeof(uchar) * NUM_MEDALS);
-    Pilot.Picture[0] = 0;
+    memset(Pilot.Medals,    0, sizeof(uchar) * NUM_MEDALS);
+
+    Pilot.Picture[0]      = 0;
     Pilot.PictureResource = NOFACE;
-    Pilot.Patch[0] = 0;
-    Pilot.PatchResource = NOPATCH;
-    Pilot.Personal[0] = 0;
-    Pilot.Squadron[0] = 0;
-    Pilot.voice = 0;
+    Pilot.Patch[0]        = 0;
+    Pilot.PatchResource   = NOPATCH;
+    Pilot.Personal[0]     = 0;
+    Pilot.Squadron[0]     = 0;
+    Pilot.voice           = 0;
+
+    wcscpy_s(Pilot.Commissioned, _T("%s", date));
 
     Pilot.CheckSum = 0;
 }
 
-void LogBookData::SaveData(void)
+void LogBookData::SaveData(const char* fname, const char* callsign)
 {
     FILE* fp;
     _TCHAR path[260];
 
-    swprintf_s(path, _T("Viper.lbk"));
+    swprintf_s(path, _T("%s.lbk",callsign));
 
-    char* fname{};
     char* mode{};
     int flag{};
 
-    fp = _fsopen(fname, mode, flag);
+    fp = _fsopen(fname, "w", _SH_DENYNO);
 
     EncryptBuffer(0x58, (uchar*)&Pilot, sizeof(LB_PILOT));
 

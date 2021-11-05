@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using System.Text.RegularExpressions;
 
 using FalconBMS.Launcher.Input;
+using System.Runtime.InteropServices;
 
 namespace FalconBMS.Launcher.Windows
 {
@@ -34,6 +35,12 @@ namespace FalconBMS.Launcher.Windows
     /// </summary>
     public partial class CallsignWindow
     {
+        [DllImport("Falcon BMS Logbook Generator x86.dll", EntryPoint = "CreateLbk", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void CreateLbk_32(string fname, string callsign, string pilotname, string date);
+
+        [DllImport("Falcon BMS Logbook Generator x64.dll", EntryPoint = "CreateLbk", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void CreateLbk_64(string fname, string callsign, string pilotname, string date);
+
         private AppRegInfo appReg;
         public CallsignWindow(AppRegInfo appReg)
         {
@@ -110,6 +117,10 @@ namespace FalconBMS.Launcher.Windows
                 return;
             }
             appReg.ChangeName(TextBox_Callsign.Text, TextBox_PilotName.Text);
+            if (Environment.Is64BitProcess)
+                CreateLbk_64(appReg.GetInstallDir() + "\\User\\Config\\" + TextBox_Callsign.Text + ".lbk", TextBox_Callsign.Text, TextBox_PilotName.Text, "01/01/01");
+            else
+                CreateLbk_32(appReg.GetInstallDir() + "\\User\\Config\\" + TextBox_Callsign.Text + ".lbk", TextBox_Callsign.Text, TextBox_PilotName.Text, "01/01/01");
             Close();
         }
     }

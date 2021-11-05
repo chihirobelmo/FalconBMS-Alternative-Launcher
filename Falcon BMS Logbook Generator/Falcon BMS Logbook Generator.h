@@ -5,11 +5,11 @@
 #include "apisetcconv.h"
 #include <stdio.h>
 
-#define DllExport   __declspec( dllexport )
+#define DllExport __declspec( dllexport )
 
 extern "C"
 {
-    DllExport void Test();
+    DllExport void CreateLbk(const char* fname, const char* callsign, const char* pilotname, const char* date);
 }
 
 typedef unsigned short ushort;
@@ -180,9 +180,9 @@ private:
 public:
     LB_PILOT Pilot;
 
-    LogBookData(void);
-    void Initialize(void);
-    void SaveData(void);
+    LogBookData(const char* callsign, const char* pilotname, const char* date);
+    void Initialize(const char* callsign, const char* pilotname, const char* date);
+    void SaveData(const char* fname, const char* callsign);
 
     CAMP_STATS* GetCampaign(void)
     {
@@ -293,7 +293,6 @@ public:
     void SetAceFactor(float Factor)
     {
         Pilot.AceFactor = Factor;
-        SaveData();
     }
 
     _TCHAR* Commissioned(void)
