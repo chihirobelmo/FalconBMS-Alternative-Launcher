@@ -26,5 +26,8 @@ namespace FalconBMS.Launcher.Input
 
         public static readonly int POV360   = 36000;
         public static readonly int POV45    = 36000 / 8;
+
+        public static readonly int AXISMIN = 0;
+        public static readonly int AXISMAX = 65536;
     }
 }

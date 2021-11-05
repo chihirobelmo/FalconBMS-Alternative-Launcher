@@ -12,19 +12,15 @@ namespace FalconBMS.Launcher.Input
     {
         public void Load(JoyAssgn j)
         {
-            productName  = j.productName;
-            productGUID  = j.productGUID;
-            instanceGUID = j.instanceGUID;
-            axis         = j.axis;
-            pov          = j.pov;
-            for (int i = 0; i < CommonConstants.DX32; i++)
+            detentPosition = j.detentPosition;
+
+            axis = j.axis;
+            pov  = j.pov;
+
+            for (int i = 0; i < j.dx.Length; i++)
             {
-                dx[i] = j.dx[i];
-            }
-            if (j.dx.Length <= CommonConstants.DX32)
-                return;
-            for (int i = CommonConstants.DX32; i < CommonConstants.DX128; i++)
-            {
+                if (i >= dx.Length)
+                    return;
                 dx[i] = j.dx[i];
             }
         }
@@ -38,6 +34,11 @@ namespace FalconBMS.Launcher.Input
         public string GetProductName() { return productName; }
         public Guid GetProductGUID() { return productGUID; }
         public Guid GetInstanceGUID() { return instanceGUID; }
+
+        /// <summary>
+        /// Detent Position
+        /// </summary>
+        public DetentPosition detentPosition = new DetentPosition();
 
         /// <summary>
         /// [0]=X
@@ -92,6 +93,8 @@ namespace FalconBMS.Launcher.Input
             productGUID = otherInstance.productGUID;
             productName = otherInstance.productName;
             instanceGUID = otherInstance.instanceGUID;
+
+            detentPosition = otherInstance.detentPosition;
 
             productName = Regex.Replace(productName, "[^A-Z|a-z|0-9|~|`|\\[|\\]|\\{|\\}|\\-|_|\\=|\\'|\\s]", String.Empty);
 

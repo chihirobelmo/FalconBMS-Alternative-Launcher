@@ -136,14 +136,6 @@ namespace FalconBMS.Launcher
             serializer.Serialize(sw, deviceControl.mouseWheelAssign);
 
             sw.Close();
-            
-            fileName = appReg.GetInstallDir() + "/User/Config/Setup.v100.ThrottlePosition.xml";
-
-            serializer = new XmlSerializer(typeof(ThrottlePosition));
-            sw = new StreamWriter(fileName, false, new UTF8Encoding(false));
-            serializer.Serialize(sw, deviceControl.throttlePos);
-
-            sw.Close();
         }
 
         /// <summary>
@@ -446,25 +438,23 @@ namespace FalconBMS.Launcher
 
                     if (nme == AxisName.Throttle)
                     {
-                        double iAB = deviceControl.throttlePos.GetAB();
-                        double iIdle = deviceControl.throttlePos.GetIDLE();
+                        if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() >= 0)
+                        {
+                            double iAB   = deviceControl.joyAssign[((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber()].detentPosition.GetAB();
+                            double iIdle = deviceControl.joyAssign[((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber()].detentPosition.GetIDLE();
 
-                        const double MAXIN = 65536;
-                        const double MAXOUT = 14848;
+                            const double MAXIN  = 65536;
+                            const double MAXOUT = 14848;
 
-                        iAB = -iAB * (MAXOUT / MAXIN) + MAXOUT;
-                        iIdle = -iIdle * (MAXOUT / MAXIN) + MAXOUT;
+                            iAB   = -iAB   * (MAXOUT / MAXIN) + MAXOUT;
+                            iIdle = -iIdle * (MAXOUT / MAXIN) + MAXOUT;
 
-                        byte[] ab = BitConverter.GetBytes((int)iAB);
-                        byte[] idle = BitConverter.GetBytes((int)iIdle);
-                        
-                        bs[1] = ab[1];
-                        bs[5] = idle[1];
+                            byte[] ab   = BitConverter.GetBytes((int)iAB);
+                            byte[] idle = BitConverter.GetBytes((int)iIdle);
 
-                        if (deviceControl.throttlePos.GetAB() > 65536 - 256)
-                            bs[1] = 0x00;
-                        if (deviceControl.throttlePos.GetIDLE() < 256)
-                            bs[5] = 0x3A;
+                            bs[1] = ab[1];
+                            bs[5] = idle[1];
+                        }
                     }
                 }
                 if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetInvert())
@@ -951,25 +941,23 @@ namespace FalconBMS.Launcher
 
                     if (nme == AxisName.Throttle)
                     {
-                        double iAB = deviceControl.throttlePos.GetAB();
-                        double iIdle = deviceControl.throttlePos.GetIDLE();
+                        if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() >= 0)
+                        {
+                            double iAB   = deviceControl.joyAssign[((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber()].detentPosition.GetAB();
+                            double iIdle = deviceControl.joyAssign[((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber()].detentPosition.GetIDLE();
 
-                        const double MAXIN = 65536;
-                        const double MAXOUT = 14848;
+                            const double MAXIN  = 65536;
+                            const double MAXOUT = 14848;
 
-                        iAB = -iAB * (MAXOUT / MAXIN) + MAXOUT;
-                        iIdle = -iIdle * (MAXOUT / MAXIN) + MAXOUT;
+                            iAB   = -iAB   * (MAXOUT / MAXIN) + MAXOUT;
+                            iIdle = -iIdle * (MAXOUT / MAXIN) + MAXOUT;
 
-                        byte[] ab = BitConverter.GetBytes((int)iAB);
-                        byte[] idle = BitConverter.GetBytes((int)iIdle);
+                            byte[] ab   = BitConverter.GetBytes((int)iAB);
+                            byte[] idle = BitConverter.GetBytes((int)iIdle);
 
-                        bs[1] = ab[1];
-                        bs[5] = idle[1];
-
-                        if (deviceControl.throttlePos.GetAB() > 65536 - 256)
-                            bs[1] = 0x00;
-                        if (deviceControl.throttlePos.GetIDLE() < 256)
-                            bs[5] = 0x3A;
+                            bs[1] = ab[1];
+                            bs[5] = idle[1];
+                        }
                     }
                 }
                 if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetInvert())

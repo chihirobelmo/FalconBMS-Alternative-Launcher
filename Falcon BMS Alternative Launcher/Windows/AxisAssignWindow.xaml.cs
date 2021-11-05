@@ -191,12 +191,16 @@ namespace FalconBMS.Launcher.Windows
                 status = Status.ShowAxisStatus;
                 Retry.Content = "CLEAR";
                 Retry.Visibility = Visibility.Visible;
-                if (whoCalledWindow == "Throttle" | whoCalledWindow == "Throttle_Right")
+                if (whoCalledWindow == "Throttle")
                 {
                     SetAB.Visibility = Visibility.Visible;
-                    Idle.Visibility = Visibility.Visible;
-                    AB = MainWindow.deviceControl.throttlePos.GetAB();
-                    IDLE = MainWindow.deviceControl.throttlePos.GetIDLE();
+                    Idle.Visibility  = Visibility.Visible;
+
+                    if (((InGameAxAssgn)MainWindow.inGameAxis[whoCalledWindow]).GetDeviceNumber() >= 0)
+                    {
+                        AB   = MainWindow.deviceControl.joyAssign[((InGameAxAssgn)MainWindow.inGameAxis[whoCalledWindow]).GetDeviceNumber()].detentPosition.GetAB();
+                        IDLE = MainWindow.deviceControl.joyAssign[((InGameAxAssgn)MainWindow.inGameAxis[whoCalledWindow]).GetDeviceNumber()].detentPosition.GetIDLE();
+                    }
                 }
             }
 
@@ -238,12 +242,16 @@ namespace FalconBMS.Launcher.Windows
                         Retry.Content = "RETRY";
                         Retry.Visibility = Visibility.Visible;
 
-                        if (whoCalledWindow != "Throttle" & whoCalledWindow != "Throttle_Right")
+                        if (whoCalledWindow != "Throttle")
                             continue;
                         SetAB.Visibility = Visibility.Visible;
-                        Idle.Visibility = Visibility.Visible;
-                        AB = MainWindow.deviceControl.throttlePos.GetAB();
-                        IDLE = MainWindow.deviceControl.throttlePos.GetIDLE();
+                        Idle.Visibility  = Visibility.Visible;
+
+                        if (((InGameAxAssgn)MainWindow.inGameAxis[whoCalledWindow]).GetDeviceNumber() >= 0)
+                        {
+                            AB   = MainWindow.deviceControl.joyAssign[((InGameAxAssgn)MainWindow.inGameAxis[whoCalledWindow]).GetDeviceNumber()].detentPosition.GetAB();
+                            IDLE = MainWindow.deviceControl.joyAssign[((InGameAxAssgn)MainWindow.inGameAxis[whoCalledWindow]).GetDeviceNumber()].detentPosition.GetIDLE();
+                        }
                     }
                 }
                 if (sw.ElapsedMilliseconds > 1000)
@@ -353,8 +361,6 @@ namespace FalconBMS.Launcher.Windows
             {
                 AxAssgn axisInfo = new AxAssgn();
                 axisAssign = new InGameAxAssgn(-1, -1, axisInfo);
-                if (whoCalledWindow == "Throttle" | whoCalledWindow == "Throttle_Right")
-                    MainWindow.deviceControl.throttlePos = new ThrottlePosition();
             }
             if (status == Status.ShowAxisStatus)
             {
@@ -367,7 +373,8 @@ namespace FalconBMS.Launcher.Windows
                         (AxCurve)Saturation.SelectedIndex
                     );
                 if (whoCalledWindow == "Throttle" | whoCalledWindow == "Throttle_Right")
-                    MainWindow.deviceControl.throttlePos = new ThrottlePosition(AB,IDLE);
+                    if (devNumTmp >= 0)
+                        MainWindow.deviceControl.joyAssign[devNumTmp].detentPosition = new DetentPosition(AB,IDLE);
             }
             AxisDetectionTimer.Stop();
             sw.Stop();

@@ -2,11 +2,11 @@
 
 namespace FalconBMS.Launcher.Input
 {
-    public class ThrottlePosition
+    public class DetentPosition
     {
         // Member
-        protected int aB = MainWindow.MAXIN;
-        protected int iDLE;
+        protected int aB   = CommonConstants.AXISMAX;
+        protected int iDLE = CommonConstants.AXISMIN;
 
         // Property for XML
         public int AB { get => aB;
@@ -17,8 +17,8 @@ namespace FalconBMS.Launcher.Input
         }
 
         // Constructor
-        public ThrottlePosition(int aB, int iDLE) { this.aB = aB; this.iDLE = iDLE; }
-        public ThrottlePosition() { }
+        public DetentPosition(int aB, int iDLE) { this.aB = aB; this.iDLE = iDLE; }
+        public DetentPosition() { }
 
         // Method
         public int GetAB() { return aB; }

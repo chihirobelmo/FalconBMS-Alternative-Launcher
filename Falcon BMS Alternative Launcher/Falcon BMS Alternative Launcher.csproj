@@ -121,7 +121,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Launcher.cs" />
     <Compile Include="TheaterList.cs" />
-    <Compile Include="Input\ThrottlePosition.cs" />
+    <Compile Include="Input\DetentPosition.cs" />
     <Page Include="Windows\AxisAssignWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

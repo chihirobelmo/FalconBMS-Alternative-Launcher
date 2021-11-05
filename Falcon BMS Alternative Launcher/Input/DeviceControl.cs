@@ -12,7 +12,6 @@ namespace FalconBMS.Launcher.Input
         public Device[] joyStick;
         public JoyAssgn[] joyAssign;
         public AxAssgn mouseWheelAssign = new AxAssgn();
-        public ThrottlePosition throttlePos = new ThrottlePosition();
 
         /// <summary>
         /// Get Devices.
@@ -97,16 +96,6 @@ namespace FalconBMS.Launcher.Input
             {
                 sr = new StreamReader(fileName, new System.Text.UTF8Encoding(false));
                 mouseWheelAssign = (AxAssgn)serializer.Deserialize(sr);
-                sr.Close();
-            }
-
-            // Load ThrottlePosition .xml file.
-            serializer = new System.Xml.Serialization.XmlSerializer(typeof(ThrottlePosition));
-            fileName = appReg.GetInstallDir() + "/User/Config/Setup.v100.throttlePosition.xml";
-            if (File.Exists(fileName))
-            {
-                sr = new StreamReader(fileName, new System.Text.UTF8Encoding(false));
-                throttlePos = (ThrottlePosition)serializer.Deserialize(sr);
                 sr.Close();
             }
         }

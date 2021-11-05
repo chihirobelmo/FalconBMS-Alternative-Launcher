@@ -72,12 +72,8 @@ namespace FalconBMS.Launcher.Windows
         /// </summary>
         private Label tblabel;
         private Label tblabelab;
-        private ProgressBar tbprogressbar;
 
-        /// <summary>
-        /// MAX INPUT = 16bit
-        /// </summary>
-        public const int MAXIN = 65536;
+        private ProgressBar tbprogressbar;
 
         /// <summary>
         /// Checks and shows each device each axis inputs 60 times per seconds.
@@ -125,18 +121,18 @@ namespace FalconBMS.Launcher.Windows
                     }
                     if (invertNum == 1)
                     {
-                        tbprogressbar.Minimum = 0;
-                        tbprogressbar.Maximum = MAXIN;
+                        tbprogressbar.Minimum = CommonConstants.AXISMIN;
+                        tbprogressbar.Maximum = CommonConstants.AXISMAX;
                     }
                     else
                     {
-                        tbprogressbar.Minimum = -MAXIN;
-                        tbprogressbar.Maximum = 0;
+                        tbprogressbar.Minimum = -CommonConstants.AXISMAX;
+                        tbprogressbar.Maximum =  CommonConstants.AXISMIN;
                     }
 
                     if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() == -2)
                     {
-                        tbprogressbar.Value = (MAXIN / 2 + wheelValue * 1024 / 120) * invertNum;
+                        tbprogressbar.Value = (CommonConstants.AXISMAX / 2 + wheelValue * 1024 / 120) * invertNum;
                         tblabel.Content = "MOUSE : WH";
                         continue;
                     }
@@ -215,17 +211,21 @@ namespace FalconBMS.Launcher.Windows
                     tblabelab.Visibility = Visibility.Hidden;
 
                     tbprogressbar.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 0x38, 0x78, 0xA8));
-                    if (MAXIN + tbprogressbar.Value < deviceControl.throttlePos.GetIDLE())
+
+                    if (((InGameAxAssgn)MainWindow.inGameAxis[AxisName.Throttle.ToString()]).GetDeviceNumber() >= 0)
                     {
-                        tbprogressbar.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 240, 0, 0));
-                        tblabelab.Visibility = Visibility.Visible;
-                        tblabelab.Content = "IDLE CUTOFF";
-                    }
-                    if (MAXIN + tbprogressbar.Value > deviceControl.throttlePos.GetAB())
-                    {
-                        tbprogressbar.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 0, 240, 0));
-                        tblabelab.Visibility = Visibility.Visible;
-                        tblabelab.Content = "AB";
+                        if (CommonConstants.AXISMAX + tbprogressbar.Value < deviceControl.joyAssign[((InGameAxAssgn)MainWindow.inGameAxis[AxisName.Throttle.ToString()]).GetDeviceNumber()].detentPosition.GetIDLE())
+                        {
+                            tbprogressbar.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 240, 0, 0));
+                            tblabelab.Visibility = Visibility.Visible;
+                            tblabelab.Content = "IDLE CUTOFF";
+                        }
+                        if (CommonConstants.AXISMAX + tbprogressbar.Value > deviceControl.joyAssign[((InGameAxAssgn)MainWindow.inGameAxis[AxisName.Throttle.ToString()]).GetDeviceNumber()].detentPosition.GetAB())
+                        {
+                            tbprogressbar.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 0, 240, 0));
+                            tblabelab.Visibility = Visibility.Visible;
+                            tblabelab.Content = "AB";
+                        }
                     }
                 }
             }
@@ -258,20 +258,20 @@ namespace FalconBMS.Launcher.Windows
             switch (deadzone)
             {
                 case AxCurve.None:
-                    x2 = MAXIN / 2;
-                    x3 = MAXIN / 2;
+                    x2 = CommonConstants.AXISMAX / 2;
+                    x3 = CommonConstants.AXISMAX / 2;
                     break;
                 case AxCurve.Small:
-                    x2 = MAXIN / 2 - MAXIN / 2 * 0.01;
-                    x3 = MAXIN / 2 + MAXIN / 2 * 0.01;
+                    x2 = CommonConstants.AXISMAX / 2 - CommonConstants.AXISMAX / 2 * 0.01;
+                    x3 = CommonConstants.AXISMAX / 2 + CommonConstants.AXISMAX / 2 * 0.01;
                     break;
                 case AxCurve.Medium:
-                    x2 = MAXIN / 2 - MAXIN / 2 * 0.05;
-                    x3 = MAXIN / 2 + MAXIN / 2 * 0.05;
+                    x2 = CommonConstants.AXISMAX / 2 - CommonConstants.AXISMAX / 2 * 0.05;
+                    x3 = CommonConstants.AXISMAX / 2 + CommonConstants.AXISMAX / 2 * 0.05;
                     break;
                 case AxCurve.Large:
-                    x2 = MAXIN / 2 - MAXIN / 2 * 0.1;
-                    x3 = MAXIN / 2 + MAXIN / 2 * 0.1;
+                    x2 = CommonConstants.AXISMAX / 2 - CommonConstants.AXISMAX / 2 * 0.1;
+                    x3 = CommonConstants.AXISMAX / 2 + CommonConstants.AXISMAX / 2 * 0.1;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(deadzone), deadzone, null); // TODO: Add error message to pass to console/logs here.
@@ -279,45 +279,45 @@ namespace FalconBMS.Launcher.Windows
             switch (saturation)
             {
                 case AxCurve.None:
-                    x1 = 0;
-                    x4 = MAXIN;
+                    x1 = CommonConstants.AXISMIN;
+                    x4 = CommonConstants.AXISMAX;
                     break;
                 case AxCurve.Small:
-                    x1 = 0 + MAXIN / 2 * 0.01;
-                    x4 = MAXIN - MAXIN / 2 * 0.01;
+                    x1 = CommonConstants.AXISMIN + CommonConstants.AXISMAX / 2 * 0.01;
+                    x4 = CommonConstants.AXISMAX - CommonConstants.AXISMAX / 2 * 0.01;
                     break;
                 case AxCurve.Medium:
-                    x1 = 0 + MAXIN / 2 * 0.05;
-                    x4 = MAXIN - MAXIN / 2 * 0.05;
+                    x1 = CommonConstants.AXISMIN + CommonConstants.AXISMAX / 2 * 0.05;
+                    x4 = CommonConstants.AXISMAX - CommonConstants.AXISMAX / 2 * 0.05;
                     break;
                 case AxCurve.Large:
-                    x1 = 0 + MAXIN / 2 * 0.1;
-                    x4 = MAXIN - MAXIN / 2 * 0.1;
+                    x1 = CommonConstants.AXISMIN + CommonConstants.AXISMAX / 2 * 0.1;
+                    x4 = CommonConstants.AXISMAX - CommonConstants.AXISMAX / 2 * 0.1;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(saturation), saturation, null); // TODO: Add error message to pass to console/logs here.
             }
 
-            a1 = MAXIN / 2 / (x2 - x1);
+            a1 = CommonConstants.AXISMAX / 2 / (x2 - x1);
             b1 = -a1 * x1;
-            a2 = MAXIN / 2 / (x4 - x3);
-            b2 = MAXIN / 2 - a2 * x3;
+            a2 = CommonConstants.AXISMAX / 2 / (x4 - x3);
+            b2 = CommonConstants.AXISMAX / 2 - a2 * x3;
 
-            if (input < MAXIN / 2)
+            if (input < CommonConstants.AXISMAX / 2)
             {
                 y = a1 * x + b1;
-                if (y < 0)
-                    y = 0;
-                if (y > MAXIN / 2)
-                    y = MAXIN / 2;
+                if (y < CommonConstants.AXISMIN)
+                    y = CommonConstants.AXISMIN;
+                if (y > CommonConstants.AXISMAX / 2)
+                    y = CommonConstants.AXISMAX / 2;
             }
-            if (input >= MAXIN / 2)
+            if (input >= CommonConstants.AXISMAX / 2)
             {
                 y = a2 * x + b2;
-                if (y < MAXIN / 2)
-                    y = MAXIN / 2;
-                if (y > MAXIN)
-                    y = MAXIN;
+                if (y < CommonConstants.AXISMAX / 2)
+                    y = CommonConstants.AXISMAX / 2;
+                if (y > CommonConstants.AXISMAX)
+                    y = CommonConstants.AXISMAX;
             }
 
             int output = (int)y;
@@ -402,9 +402,9 @@ namespace FalconBMS.Launcher.Windows
                 tblabel.Content = nme.ToString().Replace("_", " ") + " :";
                 tblabel.Content = "";
 
-                tbprogressbar.Value = 0;
-                tbprogressbar.Minimum = 0;
-                tbprogressbar.Maximum = MAXIN;
+                tbprogressbar.Value   = CommonConstants.AXISMIN;
+                tbprogressbar.Minimum = CommonConstants.AXISMIN;
+                tbprogressbar.Maximum = CommonConstants.AXISMAX;
             }
         }
         
