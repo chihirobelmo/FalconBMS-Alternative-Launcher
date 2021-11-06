@@ -81,6 +81,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_61204AC5B8CF4BDDAA4AC1A021631C1E"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_6B879BD1855E4C81AA42EE2E5A53C406"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -141,7 +147,19 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_97F28FCB16F0829941816A1C31205583"
+        "OwnerKey" = "8:_95D9AB91892E45249B8FD06F8E892BD9"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_A1D0531EC5AD4DFCAE9B3D0357787936"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_A5D591F6E8CB4B37ABA8B12400B1DC27"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -149,6 +167,12 @@
         {
         "MsmKey" = "8:_AA59046CB3C1A3D8D56CE4E082380C87"
         "OwnerKey" = "8:_95D9AB91892E45249B8FD06F8E892BD9"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_ACEF68594C654A1C91F062193A957367"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -213,6 +237,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_ED8A40230444403C8F53991B1053504A"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_F259578D4FA547F0A3F1BF4D71737A6A"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -263,6 +293,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_95B5E247B070F3B65F5A371D8FA27E8B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_97F28FCB16F0829941816A1C31205583"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -591,6 +627,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_61204AC5B8CF4BDDAA4AC1A021631C1E"
+            {
+            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\bin\\Debug\\Falcon BMS Logbook Generator x64.lib"
+            "TargetName" = "8:Falcon BMS Logbook Generator x64.lib"
+            "Tag" = "8:"
+            "Folder" = "8:_C7487B96F8014EB3919EA405642D5247"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6B879BD1855E4C81AA42EE2E5A53C406"
             {
             "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\Stock\\Setup.v100.Saitek X52 Pro Flight Controller {Stock}.xml"
@@ -753,12 +809,63 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_97F28FCB16F0829941816A1C31205583"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:AutoUpdater.NET, Version=1.7.0.0, Culture=neutral, PublicKeyToken=501435c91b35f4bc, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_97F28FCB16F0829941816A1C31205583"
+                    {
+                    "Name" = "8:AutoUpdater.NET.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:AutoUpdater.NET.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_C7487B96F8014EB3919EA405642D5247"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A1D0531EC5AD4DFCAE9B3D0357787936"
             {
             "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\Stock\\Setup.v100.Saitek Pro Flight Rudder Pedals {Stock}.xml"
             "TargetName" = "8:Setup.v100.Saitek Pro Flight Rudder Pedals {Stock}.xml"
             "Tag" = "8:"
             "Folder" = "8:_B1B01F01701141248BD6FD0195551B06"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A5D591F6E8CB4B37ABA8B12400B1DC27"
+            {
+            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\bin\\Debug\\Falcon BMS Logbook Generator x64.pdb"
+            "TargetName" = "8:Falcon BMS Logbook Generator x64.pdb"
+            "Tag" = "8:"
+            "Folder" = "8:_C7487B96F8014EB3919EA405642D5247"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -802,6 +909,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_ACEF68594C654A1C91F062193A957367"
+            {
+            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\bin\\Debug\\Falcon BMS Logbook Generator x64.exp"
+            "TargetName" = "8:Falcon BMS Logbook Generator x64.exp"
+            "Tag" = "8:"
+            "Folder" = "8:_C7487B96F8014EB3919EA405642D5247"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_AEC3ACA04DE7700D3D070BCBB8EF7FE5"
@@ -1006,6 +1133,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_ED8A40230444403C8F53991B1053504A"
+            {
+            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\bin\\Debug\\Falcon BMS Logbook Generator x64.dll"
+            "TargetName" = "8:Falcon BMS Logbook Generator x64.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_C7487B96F8014EB3919EA405642D5247"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F259578D4FA547F0A3F1BF4D71737A6A"
             {
             "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\Stock\\Setup.v100.Saitek Pro Flight X-56 Rhino Throttle {Stock}.xml"
@@ -1107,7 +1254,7 @@
             }
             "{3C67513D-01DD-4637-8A68-80971EB9504F}:_C7487B96F8014EB3919EA405642D5247"
             {
-            "DefaultLocation" = "8:[ProgramFilesFolder][Manufacturer]\\[ProductName]"
+            "DefaultLocation" = "8:[ProgramFiles64Folder][Manufacturer]\\[ProductName]"
             "Name" = "8:#1925"
             "AlwaysCreate" = "11:TRUE"
             "Condition" = "8:"
@@ -1144,15 +1291,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Falcon BMS Alternative Launcher"
-        "ProductCode" = "8:{EE2BA4EC-FEA6-47B2-813A-C4491C9D834A}"
-        "PackageCode" = "8:{766F2F4B-FDFC-4116-AECE-31272C38030C}"
+        "ProductCode" = "8:{DC7313E5-BDC8-456E-97D7-562708CAB74A}"
+        "PackageCode" = "8:{925E8F0F-235E-499B-A470-7379612C797C}"
         "UpgradeCode" = "8:{BE40C548-F318-43E4-99B8-21F48DC42145}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.9.0"
+        "ProductVersion" = "8:2.0.0"
         "Manufacturer" = "8:Benchmark Sims"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -1166,7 +1313,7 @@
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"
         "UseSystemSearchPath" = "11:TRUE"
-        "TargetPlatform" = "3:0"
+        "TargetPlatform" = "3:1"
         "PreBuildEvent" = "8:"
         "PostBuildEvent" = "8:"
         "RunPostBuildEvent" = "3:0"
@@ -1306,7 +1453,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_681F18EC497B499097876F6D7169DC60"
                     {
                     "Sequence" = "3:100"
-                    "DisplayName" = "8:進行状況"
+                    "DisplayName" = "8:Progress"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdAdminProgressDlg.wid"
@@ -1351,7 +1498,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_8219D34C649D4D2E9188E003FA7395FF"
                     {
                     "Sequence" = "3:200"
-                    "DisplayName" = "8:インストール フォルダー"
+                    "DisplayName" = "8:Installation Folder"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdFolderDlg.wid"
@@ -1396,7 +1543,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_BB1D4ED85AEC42209890824F5E905176"
                     {
                     "Sequence" = "3:100"
-                    "DisplayName" = "8:進行状況"
+                    "DisplayName" = "8:Progress"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdProgressDlg.wid"
@@ -1441,7 +1588,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_D2DCF7C165E44FEE9BB6A8785D74EEC3"
                     {
                     "Sequence" = "3:100"
-                    "DisplayName" = "8:完了"
+                    "DisplayName" = "8:Finished"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdAdminFinishedDlg.wid"
@@ -1473,7 +1620,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_BB8F1F7986E74C9583946B46CA8B17FA"
                     {
                     "Sequence" = "3:100"
-                    "DisplayName" = "8:完了"
+                    "DisplayName" = "8:Finished"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdFinishedDlg.wid"
@@ -1530,7 +1677,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_2EA11E82615C4CE19D139288321CE7CE"
                     {
                     "Sequence" = "3:200"
-                    "DisplayName" = "8:インストール フォルダー"
+                    "DisplayName" = "8:Installation Folder"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdAdminFolderDlg.wid"

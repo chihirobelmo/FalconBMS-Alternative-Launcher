@@ -14,6 +14,7 @@ using FalconBMS.Launcher.Input;
 using MahApps.Metro.Controls;
 
 using AutoUpdaterDotNET;
+using System.Reflection;
 
 namespace FalconBMS.Launcher.Windows
 {
@@ -50,10 +51,12 @@ namespace FalconBMS.Launcher.Windows
         /// <param name="e"></param>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            AutoUpdater.Start("https://raw.githubusercontent.com/chihirobelmo/FalconBMS-Alternative-Launcher/master/Falcon%20BMS%20Alternative%20Launcher/AutoUpdate.xml");
 
             System.Reflection.Assembly asm = System.Reflection.Assembly.GetExecutingAssembly();
             System.Version ver = asm.GetName().Version;
+
+            AutoUpdater.Mandatory = true;
+            AutoUpdater.Start("https://raw.githubusercontent.com/chihirobelmo/FalconBMS-Alternative-Launcher/master/Falcon%20BMS%20Alternative%20Launcher/AutoUpdate.xml", asm);
 
             AL_Version_Number.Content = "FalconBMS Alternative Launcher v" + "." + ver.Major + "." + ver.Minor + "." + ver.Build;
 
