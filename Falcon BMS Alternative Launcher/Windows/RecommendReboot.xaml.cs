@@ -26,14 +26,18 @@ namespace FalconBMS.Launcher.Windows
             InitializeComponent();
         }
 
-        public static void ShowRecommendReboot()
+        public bool flg = false;
+
+        public static bool ShowRecommendReboot()
         {
             RecommendReboot ownWindow = new RecommendReboot();
             ownWindow.ShowDialog();
+            return ownWindow.flg;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            flg = true;
             Close();
         }
     }

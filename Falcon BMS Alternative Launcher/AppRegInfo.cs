@@ -12,10 +12,15 @@ namespace FalconBMS.Launcher
     {
         // Member
         private Microsoft.Win32.RegistryKey regkey;
+
         private string regName = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.35";
+
         private Platform platform = Platform.OS_64bit;
+
         private BMS_Version bms_Version = BMS_Version.BMS435;
+
         private OverrideSetting overRideSetting;
+
         private Launcher launcher;
 
         private string installDir;
@@ -24,7 +29,9 @@ namespace FalconBMS.Launcher
 
         private MainWindow mainWindow;
 
-        public string keyFileName = "BMS - Full.key";
+        public string keyFileName     = "BMS - Full.key";
+        public string keyFileNameAuto = "BMS - Auto.key";
+
         public string theaterOwnConfig = "";
 
         // Method
@@ -32,6 +39,7 @@ namespace FalconBMS.Launcher
         public string GetCurrentTheater() { return currentTheater; }
         public string GetPilotCallsign() { return pilotCallsign; }
         public string getKeyFileName() { return keyFileName; }
+        public string getAutoKeyFileName() { return keyFileNameAuto; }
         public OverrideSetting getOverrideWriter() { return overRideSetting; }
         public BMS_Version getBMSVersion() { return bms_Version; }
         public Launcher getLauncher() { return launcher; }

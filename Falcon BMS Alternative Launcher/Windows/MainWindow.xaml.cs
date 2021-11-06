@@ -165,8 +165,11 @@ namespace FalconBMS.Launcher.Windows
             ResetAssgnWindow();
 
             // Read BMS-FULL.key
-            string fname = appReg.GetInstallDir() + "\\User\\Config\\" + appReg.getKeyFileName();
-            keyFile = new KeyFile(fname, appReg);
+            string fname     = appReg.GetInstallDir() + "\\User\\Config\\" + appReg.getKeyFileName();
+            string fnameauto = appReg.GetInstallDir() + "\\User\\Config\\" + appReg.getAutoKeyFileName();
+            if (!File.Exists(fnameauto))
+                File.Copy(fname, fnameauto);
+            keyFile = new KeyFile(fnameauto, appReg);
 
             // Write Data Grid
             WriteDataGrid();
@@ -330,8 +333,8 @@ namespace FalconBMS.Launcher.Windows
 
                 if (!appReg.isNameDefined())
                 {
-                    RecommendReboot.ShowRecommendReboot();
-                    appReg.getLauncher().execute(sender, true);
+                    if (RecommendReboot.ShowRecommendReboot())
+                        appReg.getLauncher().execute(sender, true);
                     return;
                 }
 

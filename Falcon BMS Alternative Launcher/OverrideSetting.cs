@@ -204,10 +204,7 @@ namespace FalconBMS.Launcher
         /// </summary>
         protected virtual void SaveKeyMapping(Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile)
         {
-            string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.getKeyFileName();
-            string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/" + appReg.getKeyFileName();
-            if (!File.Exists(fbackupname) & File.Exists(filename))
-                File.Copy(filename, fbackupname, true);
+            string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.getAutoKeyFileName();
 
             if (File.Exists(filename))
                 File.SetAttributes(filename, File.GetAttributes(filename) & ~FileAttributes.ReadOnly);
@@ -541,7 +538,7 @@ namespace FalconBMS.Launcher
             fs.Close();
 
             // Set Keyfile selected.
-            byte[] keyFileName = Encoding.ASCII.GetBytes(appReg.getKeyFileName().Replace(".key", ""));
+            byte[] keyFileName = Encoding.ASCII.GetBytes(appReg.getAutoKeyFileName().Replace(".key", ""));
             for (int i = 0; i <= 15; i++)
             {
                 if (i >= keyFileName.Length)
@@ -707,7 +704,7 @@ namespace FalconBMS.Launcher
             fs.Close();
 
             // Set Keyfile selected.
-            byte[] keyFileName = Encoding.ASCII.GetBytes(appReg.getKeyFileName().Replace(".key", ""));
+            byte[] keyFileName = Encoding.ASCII.GetBytes(appReg.getAutoKeyFileName().Replace(".key", ""));
             for (int i = 0; i <= 15; i++)
             {
                 if (i >= keyFileName.Length)
@@ -864,10 +861,7 @@ namespace FalconBMS.Launcher
 
         protected override void SaveKeyMapping(Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile)
         {
-            string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.getKeyFileName();
-            string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/" + appReg.getKeyFileName();
-            if (!File.Exists(fbackupname) & File.Exists(filename))
-                File.Copy(filename, fbackupname, true);
+            string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.getAutoKeyFileName();
 
             if (File.Exists(filename))
                 File.SetAttributes(filename, File.GetAttributes(filename) & ~FileAttributes.ReadOnly);
@@ -1021,7 +1015,7 @@ namespace FalconBMS.Launcher
             fs.Close();
 
             // Set Keyfile selected.
-            byte[] keyFileName = Encoding.ASCII.GetBytes(appReg.getKeyFileName().Replace(".key", ""));
+            byte[] keyFileName = Encoding.ASCII.GetBytes(appReg.getAutoKeyFileName().Replace(".key", ""));
             for (int i = 0; i <= 15; i++)
             {
                 if (i >= keyFileName.Length)
@@ -1210,7 +1204,7 @@ namespace FalconBMS.Launcher
             fs.Close();
 
             // Set Keyfile selected.
-            byte[] keyFileName = Encoding.ASCII.GetBytes(appReg.getKeyFileName().Replace(".key", ""));
+            byte[] keyFileName = Encoding.ASCII.GetBytes(appReg.getAutoKeyFileName().Replace(".key", ""));
             for (int i = 0; i <= 15; i++)
             {
                 if (i >= keyFileName.Length)

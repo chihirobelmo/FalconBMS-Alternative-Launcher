@@ -491,7 +491,7 @@ namespace FalconBMS.Launcher
                     // OVERRIDE SETTINGS.
                     mainWindow.executeOverride();
 
-                    string appPlatform = appReg.GetInstallDir() + "/Launcher.exe";
+                    string appPlatform = appReg.GetInstallDir() + "/Bin/x86//Hub.exe";
                     process = System.Diagnostics.Process.Start(appPlatform, strCmdText);
                     if (flg)
                         mainWindow.minimizeWindowUntilProcessEnds(process);
