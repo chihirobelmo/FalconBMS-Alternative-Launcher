@@ -386,16 +386,36 @@ namespace FalconBMS.Launcher
 
             installDir     = (string)regkey.GetValue("baseDir");
             currentTheater = (string)regkey.GetValue("curTheater");
-            pilotCallsign  = Encoding.UTF8.GetString((byte[])regkey.GetValue("PilotCallsign")).Replace("\0", "");
 
-            setDPIOverride(installDir);
+            pilotCallsign = ReadPilotCallsign((byte[])regkey.GetValue("PilotCallsign"));
+
+            //setDPIOverride(installDir);
 
             regkey.Close();
         }
 
+        public string ReadPilotCallsign(Byte[] bt)
+        {
+            Byte[] bts = new byte[0];
+
+            for (int i = 0; i < bt.Length; i++)
+            {
+                if (bt[i] == 0x00)
+                {
+                    return Encoding.UTF8.GetString(bts);
+                }
+                else
+                {
+                    System.Array.Resize(ref bts, bts.Length + 1);
+                    bts[bts.Length - 1] = bt[i];
+                }
+            }
+
+            return Encoding.UTF8.GetString(bts);
+        }
+
         public void setDPIOverride(string auth)
         {
-            return;
             string regName = "Software\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\Layers";
             Microsoft.Win32.RegistryKey regkey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(regName, true);
             regkey.SetValue(auth, "~HIGHDPIAWARE");
@@ -414,9 +434,9 @@ namespace FalconBMS.Launcher
                 return false;
             if (regkey.GetValue("PilotName") == null)
                 return false;
-            if (Encoding.UTF8.GetString((byte[])regkey.GetValue("PilotCallsign")) == "Viper\0\0\0\0\0\0\0")
+            if (ReadPilotCallsign((byte[])regkey.GetValue("PilotCallsign")) == "Viper")
                 return false;
-            if (Encoding.UTF8.GetString((byte[])regkey.GetValue("PilotName")) == "Joe Pilot\0\0\0\0\0\0\0\0\0\0\0")
+            if (ReadPilotCallsign((byte[])regkey.GetValue("PilotName")) == "Joe Pilot")
                 return false;
             return true;
         }

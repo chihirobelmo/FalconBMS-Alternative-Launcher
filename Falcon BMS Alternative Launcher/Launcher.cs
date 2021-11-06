@@ -16,7 +16,11 @@ namespace FalconBMS.Launcher
             this.mainWindow = mainWindow;
         }
 
-        public virtual void execute(object sender) { }
+        public virtual void execute(object sender) 
+        {
+            execute(sender, false);
+        }
+        public virtual void execute(object sender, bool flg) { }
 
         public virtual string getCommandLine()
         {
@@ -208,7 +212,7 @@ namespace FalconBMS.Launcher
             mainWindow.Version_Number.Content = "4.32";
         }
 
-        public override void execute(object sender)
+        public override void execute(object sender, bool flg)
         {
             System.Diagnostics.Process process;
             switch (((System.Windows.Controls.Button)sender).Name)
@@ -222,7 +226,8 @@ namespace FalconBMS.Launcher
 
                     string appPlatform = appReg.GetInstallDir() + "/Bin/x86/Falcon BMS.exe";
                     process = System.Diagnostics.Process.Start(appPlatform, strCmdText);
-                    mainWindow.Close();
+                    if (flg)
+                        mainWindow.minimizeWindowUntilProcessEnds(process);
                     break;
                 case "Launch_CFG":
                     process = System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Config.exe");
@@ -263,7 +268,7 @@ namespace FalconBMS.Launcher
             mainWindow.Version_Number.Content = "4.33";
         }
 
-        public override void execute(object sender)
+        public override void execute(object sender, bool flg)
         {
             System.Diagnostics.Process process;
             switch (((System.Windows.Controls.Button)sender).Name)
@@ -289,7 +294,8 @@ namespace FalconBMS.Launcher
                     if (File.Exists(appPlatform) == false)
                         return;
                     process = System.Diagnostics.Process.Start(appPlatform, strCmdText);
-                    mainWindow.Close();
+                    if (flg)
+                        mainWindow.minimizeWindowUntilProcessEnds(process);
                     break;
                 case "Launch_CFG":
                     process = System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Config.exe");
@@ -307,7 +313,8 @@ namespace FalconBMS.Launcher
                     break;
                 case "Launch_AVC":
                     Directory.SetCurrentDirectory(appReg.GetInstallDir() + "/Bin/x86/");
-                    System.Diagnostics.Process.Start("Avionics Configurator.exe");
+                    process = System.Diagnostics.Process.Start("Avionics Configurator.exe");
+                    mainWindow.minimizeWindowUntilProcessEnds(process);
                     break;
                 case "Launch_EDIT":
                     System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Bin/x86/Editor.exe");
@@ -332,7 +339,7 @@ namespace FalconBMS.Launcher
             mainWindow.Version_Number.Content = "4.34";
         }
 
-        public override void execute(object sender)
+        public override void execute(object sender, bool flg)
         {
             System.Diagnostics.Process process;
             switch (((System.Windows.Controls.Button)sender).Name)
@@ -346,7 +353,8 @@ namespace FalconBMS.Launcher
                         
                     string appPlatform = appReg.GetInstallDir() + "/Bin/x64/Falcon BMS.exe";
                     process = System.Diagnostics.Process.Start(appPlatform, strCmdText);
-                    mainWindow.Close();
+                    if (flg)
+                        mainWindow.minimizeWindowUntilProcessEnds(process);
                     break;
                 case "Launch_CFG":
                     process = System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Config.exe");
@@ -364,7 +372,8 @@ namespace FalconBMS.Launcher
                     break;
                 case "Launch_AVC":
                     Directory.SetCurrentDirectory(appReg.GetInstallDir() + "/Bin/x86/");
-                    System.Diagnostics.Process.Start("Avionics Configurator.exe");
+                    process = System.Diagnostics.Process.Start("Avionics Configurator.exe");
+                    mainWindow.minimizeWindowUntilProcessEnds(process);
                     break;
                 case "Launch_EDIT":
                     System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Bin/x64/Editor.exe");
@@ -389,7 +398,7 @@ namespace FalconBMS.Launcher
             mainWindow.Version_Number.Content = "4.35";
         }
 
-        public override void execute(object sender)
+        public override void execute(object sender, bool flg)
         {
             System.Diagnostics.Process process;
             switch (((System.Windows.Controls.Button)sender).Name)
@@ -403,7 +412,8 @@ namespace FalconBMS.Launcher
 
                     string appPlatform = appReg.GetInstallDir() + "/Bin/x64/Falcon BMS.exe";
                     process = System.Diagnostics.Process.Start(appPlatform, strCmdText);
-                    mainWindow.Close();
+                    if (flg)
+                        mainWindow.minimizeWindowUntilProcessEnds(process);
                     break;
                 case "Launch_CFG":
                     process = System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Config.exe");
@@ -426,7 +436,8 @@ namespace FalconBMS.Launcher
                     break;
                 case "Launch_AVC":
                     Directory.SetCurrentDirectory(appReg.GetInstallDir() + "/Bin/x86/");
-                    System.Diagnostics.Process.Start("Avionics Configurator.exe");
+                    process = System.Diagnostics.Process.Start("Avionics Configurator.exe");
+                    mainWindow.minimizeWindowUntilProcessEnds(process);
                     break;
                 case "Launch_EDIT":
                     System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Bin/x64/Editor.exe");
@@ -468,7 +479,7 @@ namespace FalconBMS.Launcher
             mainWindow.Version_Number.Content = "4.36 I";
         }
 
-        public override void execute(object sender)
+        public override void execute(object sender, bool flg)
         {
             System.Diagnostics.Process process;
             switch (((System.Windows.Controls.Button)sender).Name)
@@ -482,7 +493,8 @@ namespace FalconBMS.Launcher
 
                     string appPlatform = appReg.GetInstallDir() + "/Launcher.exe";
                     process = System.Diagnostics.Process.Start(appPlatform, strCmdText);
-                    mainWindow.Close();
+                    if (flg)
+                        mainWindow.minimizeWindowUntilProcessEnds(process);
                     break;
                 case "Launch_CFG":
                     process = System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Config.exe");
@@ -505,7 +517,8 @@ namespace FalconBMS.Launcher
                     break;
                 case "Launch_AVC":
                     Directory.SetCurrentDirectory(appReg.GetInstallDir() + "/Bin/x86/");
-                    System.Diagnostics.Process.Start("Avionics Configurator.exe");
+                    process = System.Diagnostics.Process.Start("Avionics Configurator.exe");
+                    mainWindow.minimizeWindowUntilProcessEnds(process);
                     break;
                 case "Launch_EDIT":
                     System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Bin/x64/Editor.exe");

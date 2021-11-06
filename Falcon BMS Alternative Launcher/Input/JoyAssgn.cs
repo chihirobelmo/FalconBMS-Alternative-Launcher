@@ -369,6 +369,9 @@ namespace FalconBMS.Launcher.Input
         /// </summary>
         public void ImportStockSetup(AppRegInfo appReg, int devcount, int povnum, int joynum)
         {
+            // Seems this option is not working properly. I'll disable it for now.
+            return;
+
             Invoke invokeStatus = Invoke.UI;
             Behaviour behaviourStatus = Behaviour.Press;
 

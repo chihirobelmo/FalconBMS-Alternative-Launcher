@@ -328,7 +328,15 @@ namespace FalconBMS.Launcher.Windows
                 //  if (CallsignWindow.ShowCallsignWindow(appReg))
                 //      return;
 
+                if (!appReg.isNameDefined())
+                {
+                    RecommendReboot.ShowRecommendReboot();
+                    appReg.getLauncher().execute(sender, true);
+                    return;
+                }
+
                 appReg.getLauncher().execute(sender);
+                Close();
             }
             catch (FileNotFoundException ex)
             {
