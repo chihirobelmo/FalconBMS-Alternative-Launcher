@@ -313,6 +313,9 @@
   <ItemGroup>
     <Resource Include="Resources\BackGround_Header_Installer.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="AutoUpdate.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterResolveReferences">
     <ItemGroup>
