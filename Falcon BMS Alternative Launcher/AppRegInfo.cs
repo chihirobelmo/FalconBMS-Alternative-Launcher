@@ -140,7 +140,7 @@ namespace FalconBMS.Launcher
                     mainWindow.ListBox_BMS.SelectedIndex = mainWindow.ListBox_BMS.Items.Count - 1;
                 }
             }
-            if (Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.33 U1", false) != null)
+            if (Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.33 U1", false) != null || Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\Benchmark Sims\\Falcon BMS 4.33 U1", false) != null)
             {
                 version = "Falcon BMS 4.33 U1";
                 mainWindow.ListBox_BMS.Items.Add(version);
@@ -155,7 +155,7 @@ namespace FalconBMS.Launcher
                     mainWindow.ListBox_BMS.SelectedIndex = mainWindow.ListBox_BMS.Items.Count - 1;
                 }
             }
-            if (Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.33", false) != null)
+            if (Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.33", false) != null || Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\Benchmark Sims\\Falcon BMS 4.33", false) != null)
             {
                 version = "Falcon BMS 4.33";
                 mainWindow.ListBox_BMS.Items.Add(version);
@@ -170,7 +170,7 @@ namespace FalconBMS.Launcher
                     mainWindow.ListBox_BMS.SelectedIndex = mainWindow.ListBox_BMS.Items.Count - 1;
                 }
             }
-            if (Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.34", false) != null)
+            if (Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\Benchmark Sims\\Falcon BMS 4.32", false) != null)
             {
                 version = "Falcon BMS 4.32";
                 mainWindow.ListBox_BMS.Items.Add(version);
@@ -338,9 +338,11 @@ namespace FalconBMS.Launcher
                     break;
 
                 case BMS_Version.UNDEFINED:
+                    Properties.Settings.Default.BMS_Version = "Falcon4.0";
                     throw new ArgumentOutOfRangeException(); // Just to be explicit.
 
                 default:
+                    Properties.Settings.Default.BMS_Version = "Falcon4.0";
                     throw new ArgumentOutOfRangeException();
             }
 
@@ -368,6 +370,7 @@ namespace FalconBMS.Launcher
             }
             if (regkey == null)
             {
+                Properties.Settings.Default.BMS_Version = "Falcon4.0";
                 MessageBox.Show("Could not find FalconBMS Installed.");
                 mainWindow.Close();
                 return;
