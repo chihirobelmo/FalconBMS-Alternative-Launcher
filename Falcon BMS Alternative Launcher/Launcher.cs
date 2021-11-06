@@ -228,6 +228,8 @@ namespace FalconBMS.Launcher
                     process = System.Diagnostics.Process.Start(appPlatform, strCmdText);
                     if (flg)
                         mainWindow.minimizeWindowUntilProcessEnds(process);
+                    else
+                        mainWindow.Close();
                     break;
                 case "Launch_CFG":
                     process = System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Config.exe");
@@ -296,6 +298,8 @@ namespace FalconBMS.Launcher
                     process = System.Diagnostics.Process.Start(appPlatform, strCmdText);
                     if (flg)
                         mainWindow.minimizeWindowUntilProcessEnds(process);
+                    else
+                        mainWindow.Close();
                     break;
                 case "Launch_CFG":
                     process = System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Config.exe");
@@ -355,6 +359,8 @@ namespace FalconBMS.Launcher
                     process = System.Diagnostics.Process.Start(appPlatform, strCmdText);
                     if (flg)
                         mainWindow.minimizeWindowUntilProcessEnds(process);
+                    else
+                        mainWindow.Close();
                     break;
                 case "Launch_CFG":
                     process = System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Config.exe");
@@ -414,6 +420,8 @@ namespace FalconBMS.Launcher
                     process = System.Diagnostics.Process.Start(appPlatform, strCmdText);
                     if (flg)
                         mainWindow.minimizeWindowUntilProcessEnds(process);
+                    else
+                        mainWindow.Close();
                     break;
                 case "Launch_CFG":
                     process = System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Config.exe");
@@ -495,6 +503,8 @@ namespace FalconBMS.Launcher
                     process = System.Diagnostics.Process.Start(appPlatform, strCmdText);
                     if (flg)
                         mainWindow.minimizeWindowUntilProcessEnds(process);
+                    else
+                        mainWindow.Close();
                     break;
                 case "Launch_CFG":
                     process = System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Config.exe");

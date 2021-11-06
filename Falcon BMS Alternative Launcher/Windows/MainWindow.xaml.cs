@@ -346,7 +346,6 @@ namespace FalconBMS.Launcher.Windows
                 }
 
                 appReg.getLauncher().execute(sender);
-                Close();
             }
             catch (FileNotFoundException ex)
             {
