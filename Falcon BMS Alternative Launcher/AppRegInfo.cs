@@ -47,8 +47,8 @@ namespace FalconBMS.Launcher
         public AppRegInfo(MainWindow mainWindow)
         {
             bool flg = true;
-            string version = "DCS World";
-            string v = "DCS World";
+            string version = "Falcon4.0";
+            string v = "Falcon4.0";
 
             if (Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.37 (Internal)", false) != null)
             {
