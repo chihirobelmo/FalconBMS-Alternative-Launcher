@@ -56,6 +56,9 @@
   <PropertyGroup>
     <StartupObject>FalconBMS.Launcher.Program</StartupObject>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
@@ -73,6 +76,7 @@
     </Reference>
     <Reference Include="Microsoft.VisualC" />
     <Reference Include="System" />
+    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
@@ -100,6 +104,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CustomAction.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="AppProperties.cs" />
     <Compile Include="AppRegInfo.cs" />
     <Compile Include="Input\AxAssgn.cs" />
@@ -172,6 +179,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="app.manifest" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

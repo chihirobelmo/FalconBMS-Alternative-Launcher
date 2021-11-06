@@ -591,7 +591,7 @@
         </TabControl>
         <Image x:Name="LOGO000" HorizontalAlignment="Left" VerticalAlignment="Top" Height="49" Source="/Resources/web_banner.png" Stretch="Uniform" Width="363" Margin="24,10,0,0"/>
         <Label x:Name="Version_Number" Content="4.36 (I)" HorizontalAlignment="Left" Margin="392,0,0,703.333" VerticalAlignment="Top" Foreground="#FFC4C4C4" FontSize="36"/>
-        <Label Content="FalconBMS Alternative Launcher v1.7.2" HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontWeight="Bold" Margin="0,0,10.333,0.333"/>
+        <Label x:Name="AL_Version_Number" Content="FalconBMS Alternative Launcher vX.X.X" HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontWeight="Bold" Margin="0,0,10.333,0.333"/>
 
         <Button x:Name="Button_Apply_YAME64" Visibility="Hidden" Content="Apply" HorizontalAlignment="Right" Margin="0,31,10,0" VerticalAlignment="top" Width="128" Style="{StaticResource AccentedSquareButtonStyle}" Controls:ControlsHelper.ContentCharacterCasing="Normal" Click="Apply_YAME64"/>
 

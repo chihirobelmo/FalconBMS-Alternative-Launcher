@@ -15,6 +15,18 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_03EFBB9E128349B1B980EE4C810677DE"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_084A8C1DEAC446C6ACD857557A14B529"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_19BB0D57442CCBBE821E4A5862FF8413"
         "OwnerKey" = "8:_95D9AB91892E45249B8FD06F8E892BD9"
         "MsmSig" = "8:_UNDEFINED"
@@ -34,6 +46,12 @@
         "Entry"
         {
         "MsmKey" = "8:_44EFAA052CDE4AD7A94B3D4AD58E17B0"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_461BD9941A4F40DAB5D8C2A021693948"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -160,6 +178,12 @@
         "Entry"
         {
         "MsmKey" = "8:_CDD1C6DFE05445C6BC4FBA6EC34A4FF2"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_D77A8CEEBDF64F9F8EC7D9A88432FC73"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -313,6 +337,20 @@
     {
         "CustomAction"
         {
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_5620EBF9221A44CCB3103526676ACB33"
+            {
+            "Name" = "8:プライマリ出力 from Falcon BMS Alternative Launcher (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_95D9AB91892E45249B8FD06F8E892BD9"
+            "FileType" = "3:2"
+            "InstallAction" = "3:1"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:1"
+            "Identifier" = "8:_7CB9BB4A_D75E_42EC_AAC5_FD1400419624"
+            "InstallerClass" = "11:TRUE"
+            "CustomActionData" = "8:/args=\"ARGS\""
+            }
         }
         "DefaultFeature"
         {
@@ -336,6 +374,46 @@
         }
         "File"
         {
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_03EFBB9E128349B1B980EE4C810677DE"
+            {
+            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\bin\\Debug\\Falcon BMS Logbook Generator x86.lib"
+            "TargetName" = "8:Falcon BMS Logbook Generator x86.lib"
+            "Tag" = "8:"
+            "Folder" = "8:_C7487B96F8014EB3919EA405642D5247"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_084A8C1DEAC446C6ACD857557A14B529"
+            {
+            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\bin\\Debug\\Falcon BMS Logbook Generator x86.exp"
+            "TargetName" = "8:Falcon BMS Logbook Generator x86.exp"
+            "Tag" = "8:"
+            "Folder" = "8:_C7487B96F8014EB3919EA405642D5247"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_19BB0D57442CCBBE821E4A5862FF8413"
             {
             "AssemblyRegister" = "3:1"
@@ -407,6 +485,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_461BD9941A4F40DAB5D8C2A021693948"
+            {
+            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\bin\\Debug\\Falcon BMS Logbook Generator x86.pdb"
+            "TargetName" = "8:Falcon BMS Logbook Generator x86.pdb"
+            "Tag" = "8:"
+            "Folder" = "8:_C7487B96F8014EB3919EA405642D5247"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_49B155971ED447AEA19EC3E100DF2FB6"
             {
             "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\Stock\\Setup.v100.TPR T.Pendular Rudder {Stock}.xml"
@@ -463,7 +561,7 @@
             "SharedLegacy" = "11:FALSE"
             "PackageAs" = "3:1"
             "Register" = "3:1"
-            "Exclude" = "11:FALSE"
+            "Exclude" = "11:TRUE"
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
@@ -811,6 +909,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D77A8CEEBDF64F9F8EC7D9A88432FC73"
+            {
+            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\bin\\Debug\\Falcon BMS Logbook Generator x86.dll"
+            "TargetName" = "8:Falcon BMS Logbook Generator x86.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_C7487B96F8014EB3919EA405642D5247"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_E5925710036771A16AAED36657DEB6C0"
             {
             "AssemblyRegister" = "3:1"
@@ -1000,15 +1118,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Falcon BMS Alternative Launcher"
-        "ProductCode" = "8:{A2B2E041-2AE4-4708-A841-2878C726F37C}"
-        "PackageCode" = "8:{4E8ACE83-8ED9-4E66-9232-C675C7EE08F4}"
+        "ProductCode" = "8:{07D0DE85-02D3-4978-9F7D-6CADF99B222D}"
+        "PackageCode" = "8:{76431DE0-DF0C-4D3D-9C20-6ECDC88345E8}"
         "UpgradeCode" = "8:{BE40C548-F318-43E4-99B8-21F48DC42145}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.7.2"
+        "ProductVersion" = "8:1.8.1"
         "Manufacturer" = "8:Benchmark Sims"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -1018,7 +1136,7 @@
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:"
         "ARPURLINFOABOUT" = "8:"
-        "ARPPRODUCTICON" = "8:"
+        "ARPPRODUCTICON" = "8:_599A0165EA6A4A8E91763176BDA10F6A"
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"
         "UseSystemSearchPath" = "11:TRUE"

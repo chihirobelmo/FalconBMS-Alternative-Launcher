@@ -20,7 +20,7 @@ namespace FalconBMS.Launcher
             mainWindow.CMD_NOMOVIE.IsChecked               = Properties.Settings.Default.CMD_NOMOVIE;
             mainWindow.CMD_EF.IsChecked                    = Properties.Settings.Default.CMD_EF;
             mainWindow.CMD_MONO.IsChecked                  = Properties.Settings.Default.CMD_MONO;
-            bandWidthDefault                          = Properties.Settings.Default.CMD_BW;
+            bandWidthDefault                               = Properties.Settings.Default.CMD_BW;
             mainWindow.ApplicationOverride.IsChecked       = Properties.Settings.Default.NoOverride;
             mainWindow.Misc_RollLinkedNWS.IsChecked        = Properties.Settings.Default.Misc_RLNWS;
             mainWindow.Misc_MouseCursorAnchor.IsChecked    = Properties.Settings.Default.Misc_MouseCursorAnchor;

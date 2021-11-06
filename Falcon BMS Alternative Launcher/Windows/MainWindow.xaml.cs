@@ -48,6 +48,10 @@ namespace FalconBMS.Launcher.Windows
         /// <param name="e"></param>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            System.Reflection.Assembly asm = System.Reflection.Assembly.GetExecutingAssembly();
+            System.Version ver = asm.GetName().Version;
+
+            AL_Version_Number.Content = "FalconBMS Alternative Launcher v" + "." + ver.Major + "." + ver.Minor + "." + ver.Build;
 
             try
             {
@@ -140,6 +144,8 @@ namespace FalconBMS.Launcher.Windows
 
         private void Reset()
         {
+            statusAssign = Status.GetNeutralPos;
+
             LargeTab.SelectedIndex = 0;
 
             // Read Theater List
@@ -318,9 +324,9 @@ namespace FalconBMS.Launcher.Windows
         {
             try
             {
-                if (!appReg.isNameDefined())
-                    if (CallsignWindow.ShowCallsignWindow(appReg))
-                        return;
+                //if (!appReg.isNameDefined())
+                //  if (CallsignWindow.ShowCallsignWindow(appReg))
+                //      return;
 
                 appReg.getLauncher().execute(sender);
             }
