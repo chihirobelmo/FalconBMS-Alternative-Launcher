@@ -60,6 +60,8 @@ namespace FalconBMS.Launcher.Windows
 
             AL_Version_Number.Content = "FalconBMS Alternative Launcher v" + "." + ver.Major + "." + ver.Minor + "." + ver.Build;
 
+            RSSReader.Read("https://www.falcon-bms.com/news/feed/");
+
             try
             {
                 // load command line.
