@@ -17,15 +17,23 @@ namespace FalconBMS.Launcher.Windows
     public class RSSReader
     {
         private static Article[] article = new Article[0];
-        public static void Read(string url)
+        public static void Read(string url, System.Windows.Controls.TextBlock tb)
         {
-            XmlReader rdr = XmlReader.Create(url);
-            SyndicationFeed feed = SyndicationFeed.Load(rdr);
-
-            foreach (SyndicationItem item in feed.Items)
+            try
             {
-                Array.Resize(ref article, article.Length + 1);
-                article[article.Length - 1] = new Article(item);
+                XmlReader rdr = XmlReader.Create(url);
+                SyndicationFeed feed = SyndicationFeed.Load(rdr);
+
+                foreach (SyndicationItem item in feed.Items)
+                {
+                    Array.Resize(ref article, article.Length + 1);
+                    article[article.Length - 1] = new Article(item);
+                }
+            }
+            catch
+            {
+                tb.Inlines.Add("Web Access Error");
+                return;
             }
         }
         public static void Write(System.Windows.Controls.TextBlock textblock)
@@ -52,17 +60,16 @@ namespace FalconBMS.Launcher.Windows
 
             public void Write(System.Windows.Controls.TextBlock tb)
             {
-                tb.Inlines.Add(new Run(title) { FontWeight = FontWeights.Bold });
+                tb.Inlines.Add(new Run(title) { FontWeight = FontWeights.Bold, FontSize = 18 });
                 tb.Inlines.Add("\n");
                 tb.Inlines.Add("\n");
-                tb.Inlines.Add(new Run(summary) { FontStyle = FontStyles.Italic });
+                tb.Inlines.Add(new Run(summary) { FontStyle = FontStyles.Italic, FontSize = 14 });
                 tb.Inlines.Add("\n");
                 tb.Inlines.Add("\n");
-                Hyperlink hyperLink = new Hyperlink() {NavigateUri = new Uri(link)}; 
-                hyperLink.Inlines.Add("Read More");
+                Hyperlink hyperLink = new Hyperlink() {NavigateUri = new Uri(link)};
+                hyperLink.Inlines.Add(new Run(">> Read More") { Foreground = Brushes.Aquamarine, FontSize = 12 });
                 hyperLink.RequestNavigate += Try_RequestNavigate;
                 tb.Inlines.Add(hyperLink);
-                tb.Inlines.Add("\n");
                 tb.Inlines.Add("\n");
                 tb.Inlines.Add("\n");
                 tb.Inlines.Add("\n");

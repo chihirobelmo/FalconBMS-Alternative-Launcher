@@ -252,33 +252,34 @@
                             </Style>
                         </ListBox.Resources>
                     </ListBox>
-                    <Grid HorizontalAlignment="Left" Height="205" Margin="48,0,0,20.333" VerticalAlignment="Bottom" Width="953">
-                        <Label Content="Theater :" HorizontalAlignment="Left" Margin="576,102,0,0" VerticalAlignment="Top" FontWeight="Bold" />
-                        <ComboBox x:Name="Dropdown_TheaterList" Background="#80F0F0F0" Foreground="#FF191919" HorizontalAlignment="Left" Margin="639,106,0,0" VerticalAlignment="Top" Width="239" SelectionChanged="Dropdown_TheaterList_SelectionChanged"/>
+                    <Grid HorizontalAlignment="Left" Height="127" Margin="46,0,0,191.333" VerticalAlignment="Bottom" Width="953">
+                        <Label Content="Theater :" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" />
+                        <ComboBox x:Name="Dropdown_TheaterList" Background="#80F0F0F0" Foreground="#FF191919" HorizontalAlignment="Left" Margin="180,4,0,0" VerticalAlignment="Top" Width="239" SelectionChanged="Dropdown_TheaterList_SelectionChanged"/>
 
-                        <Button x:Name="Launch_TheaterConfig" Content="Theater Config" Style="{StaticResource AccentedSquareButtonStyle}" Controls:ControlsHelper.ContentCharacterCasing="Normal" Margin="883,105,0,0" VerticalAlignment="Top" Click="Launch_TheaterConfig_Click" FontSize="8" RenderTransformOrigin="-0.033,0.5"/>
+                        <Button x:Name="Launch_TheaterConfig" Content="Theater Config" Style="{StaticResource AccentedSquareButtonStyle}" Controls:ControlsHelper.ContentCharacterCasing="Normal" Margin="424,2,458,0" VerticalAlignment="Top" Click="Launch_TheaterConfig_Click" FontSize="8" RenderTransformOrigin="-0.033,0.5"/>
 
-                        <Label Content="Command Line :" HorizontalAlignment="Left" Margin="453,10,0,0" VerticalAlignment="Top" FontWeight="Bold" RenderTransformOrigin="1,0.564" />
+                        <Label Content="Command Line :" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" Margin="0,96,0,-27" />
 
 
-                        <Controls:ToggleSwitch x:Name="Misc_Platform" OnLabel="64bit" OffLabel="32bit" HorizontalAlignment="Left" Margin="654,68,0,0" VerticalAlignment="Top" Background="#80FFFFFF" FontSize="12"/>
-                        <Label x:Name="Label_Platform" Content="Platform :" HorizontalAlignment="Left" Margin="576,72,0,0" VerticalAlignment="Top" FontWeight="Bold" RenderTransformOrigin="0.672,0.628" />
+                        <Controls:ToggleSwitch x:Name="Misc_Platform" OnLabel="64bit" OffLabel="32bit" HorizontalAlignment="Left" Margin="191,60,0,0" VerticalAlignment="Top" Background="#80FFFFFF" FontSize="12"/>
+                        <Label x:Name="Label_Platform" Content="Platform :" HorizontalAlignment="Left" Margin="0,64,0,0" VerticalAlignment="Top" FontWeight="Bold" RenderTransformOrigin="0.672,0.628" />
 
-                        <Label x:Name="Label_Secret" Content="Secret:" HorizontalAlignment="Left" Margin="576,72,0,0" VerticalAlignment="Top" FontWeight="Bold" />
-                        <Controls:ToggleSwitch x:Name="Misc_Secret" OnLabel="Enable" OffLabel="Disable" HorizontalAlignment="Left" Margin="642,68,0,0" VerticalAlignment="Top" Background="#80FFFFFF" FontSize="12"/>
-                        <Label Content="Documentation and Manuals :" HorizontalAlignment="Left" Margin="576,45,0,0" VerticalAlignment="Top" FontWeight="Bold" />
-                        <Button x:Name="OpenDocs" Content="Open Docs Folder" Style="{StaticResource AccentedSquareButtonStyle}" Controls:ControlsHelper.ContentCharacterCasing="Normal" HorizontalAlignment="Left" Margin="761,47,0,0" VerticalAlignment="Top" Width="141" Click="OpenDocs_Click" FontSize="8" Height="10"/>
+                        <Label x:Name="Label_Secret" Content="Secret:" HorizontalAlignment="Left" Margin="0,64,0,0" VerticalAlignment="Top" FontWeight="Bold" />
+                        <Controls:ToggleSwitch x:Name="Misc_Secret" OnLabel="Enable" OffLabel="Disable" HorizontalAlignment="Left" Margin="179,60,0,0" VerticalAlignment="Top" Background="#80FFFFFF" FontSize="12"/>
+                        <Label Content="Documentation and Manuals :" HorizontalAlignment="Left" Margin="0,32,0,0" VerticalAlignment="Top" FontWeight="Bold" />
+                        <Button x:Name="OpenDocs" Content="Open Docs Folder" Style="{StaticResource AccentedSquareButtonStyle}" Controls:ControlsHelper.ContentCharacterCasing="Normal" HorizontalAlignment="Left" Margin="179,34,0,0" VerticalAlignment="Top" Width="141" Click="OpenDocs_Click" FontSize="8" Height="10"/>
 
-                        <ToggleButton x:Name="CMD_ACMI" Content="ACMI" HorizontalAlignment="Left" Margin="559,10,0,0" VerticalAlignment="Top" Width="64"/>
-                        <ToggleButton x:Name="CMD_WINDOW" Content="WINDOW" HorizontalAlignment="Left" Margin="641,10,0,0" VerticalAlignment="Top" Width="64" Click="CMD_WINDOW_Click"/>
-                        <ToggleButton x:Name="CMD_NOMOVIE" Content="NOMOVIE" HorizontalAlignment="Left" Margin="723,10,0,0" VerticalAlignment="Top" Width="64"/>
-                        <ToggleButton x:Name="CMD_EF" Content="EYEFLY" HorizontalAlignment="Left" Margin="806,10,0,0" VerticalAlignment="Top" Width="64"/>
-                        <ToggleButton x:Name="CMD_MONO" Content="DEBUG" HorizontalAlignment="Left" Margin="888,10,0,0" VerticalAlignment="Top" Width="64"/>
-                        <Button x:Name="CMD_BW" Content="BW : 1024" HorizontalAlignment="Left" Margin="974,10,-85,0" VerticalAlignment="Top" Width="64" Click="CMD_BW_Click"/>
+                        <ToggleButton x:Name="CMD_ACMI" Content="ACMI" HorizontalAlignment="Left" Margin="178,96,0,0" VerticalAlignment="Top" Width="64"/>
+                        <ToggleButton x:Name="CMD_WINDOW" Content="WINDOW" HorizontalAlignment="Left" Margin="260,96,0,0" VerticalAlignment="Top" Width="64" Click="CMD_WINDOW_Click"/>
+                        <ToggleButton x:Name="CMD_NOMOVIE" Content="NOMOVIE" HorizontalAlignment="Left" Margin="342,96,0,0" VerticalAlignment="Top" Width="64"/>
+                        <ToggleButton x:Name="CMD_EF" Content="EYEFLY" HorizontalAlignment="Left" Margin="425,96,0,0" VerticalAlignment="Top" Width="64"/>
+                        <ToggleButton x:Name="CMD_MONO" Content="DEBUG" HorizontalAlignment="Left" Margin="507,96,0,0" VerticalAlignment="Top" Width="64"/>
+                        <Button x:Name="CMD_BW" Content="BW : 1024" HorizontalAlignment="Left" Margin="593,96,0,0" VerticalAlignment="Top" Width="64" Click="CMD_BW_Click"/>
                     </Grid>
-                    <ScrollViewer x:Name ="LogTextScroll" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="60,32,512,320">
-                        <TextBlock x:Name="News" HorizontalAlignment="Left" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="2048" Width="400" Margin="0,0,0,0" />
+                    <ScrollViewer x:Name ="LogTextScroll" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="48,57,563.667,349.333" Background="#54000000">
+                        <TextBlock x:Name="News" HorizontalAlignment="Left" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="Auto" Width="350" Margin="20,20,0,0" />
                     </ScrollViewer>
+                    <Label Content="News" HorizontalAlignment="Left" Margin="48,10,0,0" VerticalAlignment="Top" FontSize="24" FontWeight="Bold" FontStyle="Italic"/>
                 </Grid>
             </TabItem>
             <TabItem Header="AXISASSIGN" Margin="535.333,-40,-535,40.333">
