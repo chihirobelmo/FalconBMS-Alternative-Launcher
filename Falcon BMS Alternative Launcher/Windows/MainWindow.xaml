@@ -276,6 +276,9 @@
                         <ToggleButton x:Name="CMD_MONO" Content="DEBUG" HorizontalAlignment="Left" Margin="888,10,0,0" VerticalAlignment="Top" Width="64"/>
                         <Button x:Name="CMD_BW" Content="BW : 1024" HorizontalAlignment="Left" Margin="974,10,-85,0" VerticalAlignment="Top" Width="64" Click="CMD_BW_Click"/>
                     </Grid>
+                    <ScrollViewer x:Name ="LogTextScroll" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="60,32,512,320">
+                        <TextBlock x:Name="News" HorizontalAlignment="Left" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="2048" Width="400" Margin="0,0,0,0" />
+                    </ScrollViewer>
                 </Grid>
             </TabItem>
             <TabItem Header="AXISASSIGN" Margin="535.333,-40,-535,40.333">
@@ -596,7 +599,6 @@
         <Label x:Name="AL_Version_Number" Content="FalconBMS Alternative Launcher vX.X.X" HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontWeight="Bold" Margin="0,0,10.333,0.333"/>
 
         <Button x:Name="Button_Apply_YAME64" Visibility="Hidden" Content="Apply" HorizontalAlignment="Right" Margin="0,31,10,0" VerticalAlignment="top" Width="128" Style="{StaticResource AccentedSquareButtonStyle}" Controls:ControlsHelper.ContentCharacterCasing="Normal" Click="Apply_YAME64"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="1272,407,-374.667,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
 
 
 
