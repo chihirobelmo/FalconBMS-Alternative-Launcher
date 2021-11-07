@@ -327,6 +327,9 @@
   <ItemGroup>
     <Resource Include="Update\BMS4.37.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Update\BMS_Latest.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterResolveReferences">
     <ItemGroup>

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Diagnostics;
 
 using FalconBMS.Launcher.Windows;
 
@@ -23,7 +25,9 @@ namespace FalconBMS.Launcher
 
         private Launcher launcher;
 
+        private int updateVersion;
         private string installDir;
+        private string exeDir;
         private string currentTheater;
         private string pilotCallsign;
 
@@ -43,6 +47,7 @@ namespace FalconBMS.Launcher
         public OverrideSetting getOverrideWriter() { return overRideSetting; }
         public BMS_Version getBMSVersion() { return bms_Version; }
         public Launcher getLauncher() { return launcher; }
+        public int getUpdateVersion() { return updateVersion; }
 
         public AppRegInfo(MainWindow mainWindow)
         {
@@ -400,9 +405,25 @@ namespace FalconBMS.Launcher
 
             pilotCallsign = ReadPilotCallsign((byte[])regkey.GetValue("PilotCallsign"));
 
+            if (platform == Platform.OS_64bit)
+                exeDir = installDir + "\\bin\\x64\\Falcon BMS.exe";
+            if (platform == Platform.OS_32bit)
+                exeDir = installDir + "\\bin\\x86\\Falcon BMS.exe";
+
+            updateVersion = CheckUpdateVersion();
+            launcher.checkForUpdate();
+
             //setDPIOverride(installDir);
 
             regkey.Close();
+        }
+
+        public int CheckUpdateVersion()
+        {
+            if (!File.Exists(@exeDir))
+                return 256;
+            FileVersionInfo vi = FileVersionInfo.GetVersionInfo(@exeDir);
+            return vi.ProductBuildPart;
         }
 
         public string ReadPilotCallsign(Byte[] bt)

@@ -15,6 +15,7 @@ using MahApps.Metro.Controls;
 
 using AutoUpdaterDotNET;
 using System.Reflection;
+using System.Xml;
 
 namespace FalconBMS.Launcher.Windows
 {
@@ -150,6 +151,8 @@ namespace FalconBMS.Launcher.Windows
 
                 Close();
             }
+
+            CheckForMajorUpdate(ListBox_BMS);
         }
 
         private void Reset()
@@ -679,6 +682,27 @@ namespace FalconBMS.Launcher.Windows
             Properties.Settings.Default.BMS_Version = this.ListBox_BMS.SelectedItem.ToString();
             appReg.Init(this, this.ListBox_BMS.SelectedItem.ToString());
             Reset();
+        }
+
+        public virtual void CheckForMajorUpdate(ListBox lb)
+        {
+            try
+            {
+                XmlDocument xmlDoc = new XmlDocument();
+                xmlDoc.Load(@"https://raw.githubusercontent.com/chihirobelmo/FalconBMS-Alternative-Launcher/master/Falcon%20BMS%20Alternative%20Launcher/Update/BMS_Latest.xml");
+
+                var item = xmlDoc.SelectNodes("item/release");
+                string release = item[0].InnerText;
+
+                if (release == "true")
+                {
+                    var update = xmlDoc.SelectNodes("item/name");
+                    string name = update[0].InnerText;
+                }
+            }
+            catch
+            {
+            }
         }
     }
 }
