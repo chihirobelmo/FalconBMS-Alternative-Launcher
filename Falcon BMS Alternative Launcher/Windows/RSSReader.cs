@@ -38,9 +38,15 @@ namespace FalconBMS.Launcher.Windows
         }
         public static void Write(System.Windows.Controls.TextBlock textblock)
         {
-            foreach (Article art in article)
+            try
             {
-                art.Write(textblock);
+                foreach (Article art in article)
+                    art.Write(textblock);
+            }
+            catch
+            {
+                textblock.Inlines.Add("Rss Writing Error");
+                return;
             }
         }
         private class Article

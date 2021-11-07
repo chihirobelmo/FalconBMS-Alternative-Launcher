@@ -256,7 +256,7 @@
                         <Label Content="Theater :" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" />
                         <ComboBox x:Name="Dropdown_TheaterList" Background="#80F0F0F0" Foreground="#FF191919" HorizontalAlignment="Left" Margin="180,4,0,0" VerticalAlignment="Top" Width="239" SelectionChanged="Dropdown_TheaterList_SelectionChanged"/>
 
-                        <Button x:Name="Launch_TheaterConfig" Content="Theater Config" Style="{StaticResource AccentedSquareButtonStyle}" Controls:ControlsHelper.ContentCharacterCasing="Normal" Margin="424,2,458,0" VerticalAlignment="Top" Click="Launch_TheaterConfig_Click" FontSize="8" RenderTransformOrigin="-0.033,0.5"/>
+                        <Button x:Name="Launch_TheaterConfig" Content="Theater Config" Style="{StaticResource AccentedSquareButtonStyle}" Controls:ControlsHelper.ContentCharacterCasing="Normal" Margin="424,2,429,0" VerticalAlignment="Top" Click="Launch_TheaterConfig_Click" FontSize="10" RenderTransformOrigin="-0.033,0.5"/>
 
                         <Label Content="Command Line :" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" Margin="0,96,0,-27" />
 
@@ -267,7 +267,7 @@
                         <Label x:Name="Label_Secret" Content="Secret:" HorizontalAlignment="Left" Margin="0,64,0,0" VerticalAlignment="Top" FontWeight="Bold" />
                         <Controls:ToggleSwitch x:Name="Misc_Secret" OnLabel="Enable" OffLabel="Disable" HorizontalAlignment="Left" Margin="179,60,0,0" VerticalAlignment="Top" Background="#80FFFFFF" FontSize="12"/>
                         <Label Content="Documentation and Manuals :" HorizontalAlignment="Left" Margin="0,32,0,0" VerticalAlignment="Top" FontWeight="Bold" />
-                        <Button x:Name="OpenDocs" Content="Open Docs Folder" Style="{StaticResource AccentedSquareButtonStyle}" Controls:ControlsHelper.ContentCharacterCasing="Normal" HorizontalAlignment="Left" Margin="179,34,0,0" VerticalAlignment="Top" Width="141" Click="OpenDocs_Click" FontSize="8" Height="10"/>
+                        <Button x:Name="OpenDocs" Content="Open Docs Folder" Style="{StaticResource AccentedSquareButtonStyle}" Controls:ControlsHelper.ContentCharacterCasing="Normal" HorizontalAlignment="Left" Margin="179,34,0,0" VerticalAlignment="Top" Width="141" Click="OpenDocs_Click" FontSize="10" Height="10"/>
 
                         <ToggleButton x:Name="CMD_ACMI" Content="ACMI" HorizontalAlignment="Left" Margin="178,96,0,0" VerticalAlignment="Top" Width="64"/>
                         <ToggleButton x:Name="CMD_WINDOW" Content="WINDOW" HorizontalAlignment="Left" Margin="260,96,0,0" VerticalAlignment="Top" Width="64" Click="CMD_WINDOW_Click"/>

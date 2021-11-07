@@ -1,6 +1,7 @@
 ﻿using System.IO;
+using System.ServiceModel.Syndication;
 using System.Windows;
-
+using System.Xml;
 using FalconBMS.Launcher.Windows;
 
 namespace FalconBMS.Launcher
@@ -21,6 +22,8 @@ namespace FalconBMS.Launcher
             execute(sender, false);
         }
         public virtual void execute(object sender, bool flg) { }
+        public virtual void checkForUpdate(string url) 
+        { }
 
         public virtual string getCommandLine()
         {
@@ -392,6 +395,8 @@ namespace FalconBMS.Launcher
     {
         public Launcher435(AppRegInfo appReg, MainWindow mainWindow) : base(appReg, mainWindow)
         {
+            checkForUpdate("");
+
             Bandwidth(false);
             NewAxisFrom433(true);
             PlatformChangeSince433(AvailablePlatform.X64);
