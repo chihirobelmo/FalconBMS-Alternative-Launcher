@@ -696,8 +696,20 @@ namespace FalconBMS.Launcher.Windows
 
                 if (release == "true")
                 {
-                    var update = xmlDoc.SelectNodes("item/name");
-                    string name = update[0].InnerText;
+                    var name = xmlDoc.SelectNodes("item/name");
+                    string nameString = name[0].InnerText;
+
+                    if (lb.Items.IndexOf(nameString) == -1)
+                    {
+                        var tutorial = xmlDoc.SelectNodes("item/tutorial");
+                        string tutorialLink = tutorial[0].InnerText;
+
+                        var setup = xmlDoc.SelectNodes("item/setup");
+                        string setupLink = setup[0].InnerText;
+
+                        System.Diagnostics.Process.Start(tutorialLink);
+                        System.Diagnostics.Process.Start(setupLink);
+                    }
                 }
             }
             catch
