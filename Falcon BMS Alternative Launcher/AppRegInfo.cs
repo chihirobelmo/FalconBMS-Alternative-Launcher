@@ -411,7 +411,6 @@ namespace FalconBMS.Launcher
                 exeDir = installDir + "\\bin\\x86\\Falcon BMS.exe";
 
             updateVersion = CheckUpdateVersion();
-            launcher.checkForUpdate();
 
             //setDPIOverride(installDir);
 

@@ -16,6 +16,7 @@ using MahApps.Metro.Controls;
 using AutoUpdaterDotNET;
 using System.Reflection;
 using System.Xml;
+using System.Threading.Tasks;
 
 namespace FalconBMS.Launcher.Windows
 {
@@ -51,16 +52,13 @@ namespace FalconBMS.Launcher.Windows
         /// <param name="e"></param>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-
-            Torrent.Main();
-
             System.Reflection.Assembly asm = System.Reflection.Assembly.GetExecutingAssembly();
             System.Version ver = asm.GetName().Version;
 
             AutoUpdater.Mandatory = true;
             AutoUpdater.Start("https://raw.githubusercontent.com/chihirobelmo/FalconBMS-Alternative-Launcher/master/Falcon%20BMS%20Alternative%20Launcher/AutoUpdate.xml", asm);
 
-            AL_Version_Number.Content = "FalconBMS Alternative Launcher v" + "." + ver.Major + "." + ver.Minor + "." + ver.Build;
+            AL_Version_Number.Content = "FalconBMS Alternative Launcher v" +  ver.Major + "." + ver.Minor + "." + ver.Build;
 
             RSSReader.Read("https://www.falcon-bms.com/news/feed/", News);
             RSSReader.Write(News);
@@ -152,8 +150,6 @@ namespace FalconBMS.Launcher.Windows
 
                 Close();
             }
-
-            CheckForMajorUpdate(ListBox_BMS);
         }
 
         private void Reset()
@@ -196,6 +192,7 @@ namespace FalconBMS.Launcher.Windows
         /// <param name="e"></param>
         private void Window_Closed(object sender, EventArgs e)
         {
+            Torrent.status = false;
             try
             {
                 if (appReg == null)
@@ -683,39 +680,6 @@ namespace FalconBMS.Launcher.Windows
             Properties.Settings.Default.BMS_Version = this.ListBox_BMS.SelectedItem.ToString();
             appReg.Init(this, this.ListBox_BMS.SelectedItem.ToString());
             Reset();
-        }
-
-        public virtual void CheckForMajorUpdate(ListBox lb)
-        {
-            try
-            {
-                XmlDocument xmlDoc = new XmlDocument();
-                xmlDoc.Load(@"https://raw.githubusercontent.com/chihirobelmo/FalconBMS-Alternative-Launcher/master/Falcon%20BMS%20Alternative%20Launcher/Update/BMS_Latest.xml");
-
-                var item = xmlDoc.SelectNodes("item/release");
-                string release = item[0].InnerText;
-
-                if (release == "true")
-                {
-                    var name = xmlDoc.SelectNodes("item/name");
-                    string nameString = name[0].InnerText;
-
-                    if (lb.Items.IndexOf(nameString) == -1)
-                    {
-                        var tutorial = xmlDoc.SelectNodes("item/tutorial");
-                        string tutorialLink = tutorial[0].InnerText;
-
-                        var setup = xmlDoc.SelectNodes("item/setup");
-                        string setupLink = setup[0].InnerText;
-
-                        System.Diagnostics.Process.Start(tutorialLink);
-                        System.Diagnostics.Process.Start(setupLink);
-                    }
-                }
-            }
-            catch
-            {
-            }
         }
     }
 }

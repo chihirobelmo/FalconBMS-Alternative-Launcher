@@ -25,36 +25,6 @@ namespace FalconBMS.Launcher
             execute(sender, false);
         }
         public virtual void execute(object sender, bool flg) { }
-        public virtual void checkForUpdate()
-        {
-            try
-            {
-                XmlDocument xmlDoc = new XmlDocument();
-                xmlDoc.Load(@url);
-
-                var item = xmlDoc.SelectNodes("item/release");
-                string release = item[0].InnerText;
-
-                if (release == "true")
-                {
-                    var update = xmlDoc.SelectNodes("item/update");
-                    if (update.Count > appReg.getUpdateVersion())
-                    {
-                        var tutorial = xmlDoc.SelectNodes("item/tutorial");
-                        System.Diagnostics.Process.Start(tutorial[0].InnerText);
-
-                        for (int i = appReg.getUpdateVersion(); i < update.Count; i++)
-                        {
-                            release = update[i].InnerText;
-                            System.Diagnostics.Process.Start(release);
-                        }
-                    }
-                }
-            }
-            catch
-            {
-            }
-        }
 
         public virtual string getCommandLine()
         {
@@ -426,8 +396,6 @@ namespace FalconBMS.Launcher
     {
         public Launcher435(AppRegInfo appReg, MainWindow mainWindow) : base(appReg, mainWindow)
         {
-            url = "https://raw.githubusercontent.com/chihirobelmo/FalconBMS-Alternative-Launcher/master/Falcon%20BMS%20Alternative%20Launcher/Update/BMS4.35.xml";
-
             Bandwidth(false);
             NewAxisFrom433(true);
             PlatformChangeSince433(AvailablePlatform.X64);
@@ -494,8 +462,6 @@ namespace FalconBMS.Launcher
     {
         public Launcher436(AppRegInfo appReg, MainWindow mainWindow) : base(appReg, mainWindow)
         {
-            url = "https://raw.githubusercontent.com/chihirobelmo/FalconBMS-Alternative-Launcher/master/Falcon%20BMS%20Alternative%20Launcher/Update/BMS4.36.xml";
-
             Bandwidth(false);
             NewAxisFrom433(true);
             PlatformChangeSince433(AvailablePlatform.X64);
@@ -579,8 +545,6 @@ namespace FalconBMS.Launcher
     {
         public Launcher437(AppRegInfo appReg, MainWindow mainWindow) : base(appReg, mainWindow)
         {
-            url = "https://raw.githubusercontent.com/chihirobelmo/FalconBMS-Alternative-Launcher/master/Falcon%20BMS%20Alternative%20Launcher/Update/BMS4.37.xml";
-
             Bandwidth(false);
             NewAxisFrom433(true);
             PlatformChangeSince433(AvailablePlatform.X64);
