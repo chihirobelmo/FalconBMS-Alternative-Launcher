@@ -1,9 +1,37 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <item>
   <release>true</release>
-  <version>4.35</version>
-  <name>Falcon BMS 4.35</name>
-  <download>https://www.falcon-bms.com/downloads/</download>
-  <tutorial>https://wiki.falcon-bms.com/start-with-falcon-bms/install-update#installation</tutorial>
-  <setup>https://www.falcon-bms.com/wp-content/uploads/2021/08/Falcon_BMS_4.35_Setup.zip</setup>
+  <version>4.35.3</version>
+  <tutorial>
+    <download>https://www.falcon-bms.com/downloads/</download>
+    <install>https://wiki.falcon-bms.com/start-with-falcon-bms/install-update#installation</install>
+    <update>https://wiki.falcon-bms.com/start-with-falcon-bms/install-update#update-remove</update>
+  </tutorial>
+  <registory>Falcon BMS 4.35</registory>
+  <destination>C:\\Falcon BMS 4.35 Setup</destination>
+  <setup>
+    <zip>Falcon_BMS_4.35_Setup.zip</zip>
+    <size>2493499666</size>
+    <exe>Setup.exe</exe>
+    <tracker>udp://tracker.opentrackr.org:1337/announce</tracker>
+    <hash>E801A422857FAC77B5D94B893E56EEDF1BDFC3C6</hash>
+  </setup>
+  <update>
+    <exe>Falcon_BMS_4.35.1_Incremental.exe</exe>
+    <size>82567337</size>
+    <tracker>udp://tracker.opentrackr.org:1337/announce</tracker>
+    <hash>AADE99207C7CAD327381AE2704F95A3AAB07C1C9</hash>
+  </update>
+  <update>
+    <exe>Falcon_BMS_4.35.2_Incremental.exe</exe>
+    <size>115381889</size>
+    <tracker>udp://tracker.opentrackr.org:1337/announce</tracker>
+    <hash>0FC8E2D609458B2A559C92AE3C63008E090D521C</hash>
+  </update>
+  <update>
+    <exe>Falcon_BMS_4.35.3_Incremental.exe</exe>
+    <size>195158728</size>
+    <tracker>udp://tracker.opentrackr.org:1337/announce</tracker>
+    <hash>BA5DA8EFC007C2A57FF4F234625EDE94464C90A0</hash>
+  </update>
 </item>
