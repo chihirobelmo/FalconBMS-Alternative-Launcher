@@ -143,6 +143,7 @@
     <Compile Include="Launcher.cs" />
     <Compile Include="TheaterList.cs" />
     <Compile Include="Input\DetentPosition.cs" />
+    <Compile Include="Windows\LatestBMSStatus.cs" />
     <Compile Include="Windows\RecommendReboot.xaml.cs">
       <DependentUpon>RecommendReboot.xaml</DependentUpon>
     </Compile>

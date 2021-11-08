@@ -124,6 +124,26 @@ namespace FalconBMS.Launcher.Windows
                 return;
             }
 
+            if (Torrent.CheckMajorUpdate(ListBox_BMS))
+                UPDATE_AVAILABLE.Visibility = Visibility.Hidden;
+            else
+            {
+                try
+                {
+                    DownloadWindow.ShowDownloadWindow(this, appReg, ListBox_BMS);
+
+                    appReg = new AppRegInfo(this);
+                    Reset();
+                }
+                catch (Exception ex5)
+                {
+                    Diagnostics.Log(ex5);
+                    Diagnostics.WriteLogFile();
+                    Close();
+                    return;
+                }
+            }
+
             if (appReg.getBMSVersion() == BMS_Version.UNDEFINED)
             {
                 Diagnostics.Log("Could Not Find BMS");
@@ -131,6 +151,15 @@ namespace FalconBMS.Launcher.Windows
                 Close();
                 return;
             }
+
+            if (Torrent.CheckMinorUpdate(appReg))
+                UPDATE_AVAILABLE.Visibility = Visibility.Hidden;
+            else
+            {
+                UPDATE_AVAILABLE.Visibility = Visibility.Visible;
+                DownloadWindow.ShowDownloadWindow(this, appReg, ListBox_BMS);
+            }
+
 
             try
             {

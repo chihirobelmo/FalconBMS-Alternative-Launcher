@@ -10,6 +10,7 @@ namespace FalconBMS.Launcher.Windows
     public class LatestBMSStatus
     {
         public string release;
+        public string registory;
         public string tutorialUpdate;
         public string tutorialInstall;
 
@@ -40,6 +41,9 @@ namespace FalconBMS.Launcher.Windows
 
                 var item = xmlDoc.SelectNodes("item/release");
                 release = item[0].InnerText;
+
+                var registoryNode = xmlDoc.SelectNodes("item/registory");
+                registory = registoryNode[0].InnerText;
 
                 var tutorial = xmlDoc.SelectNodes("item/tutorial/update");
                 tutorialUpdate = tutorial[0].InnerText;
