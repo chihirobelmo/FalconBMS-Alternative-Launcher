@@ -4,6 +4,7 @@ using Leak.Client.Swarm;
 using Leak.Common;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -18,17 +19,6 @@ namespace FalconBMS.Launcher
     {
         public static bool status;
 
-        public static void Test2()
-        {
-            string destination = "c:\\Falcon BMS 4.35 Setup";
-            NotificationCallback callback = Console.WriteLine;
-
-            string tracker = "udp://tracker.opentrackr.org:1337/announce";
-            FileHash hash = FileHash.Parse("AADE99207C7CAD327381AE2704F95A3AAB07C1C9");
-
-            SwarmHelper.Download(destination, hash, tracker, callback);
-        }
-
         public static async Task Test()
         {
             string[] tracker = {"udp://tracker.opentrackr.org:1337/announce",
@@ -38,87 +28,39 @@ namespace FalconBMS.Launcher
                                 "udp://thetracker.org:80/announce",
                                 "udp://tracker.torrent.eu.org:451/announce"};
 
-            FileHash hash = FileHash.Parse("AADE99207C7CAD327381AE2704F95A3AAB07C1C9");
-
-            int c = 0;
-
-            using (SwarmClient client = new SwarmClient())
-            {
-                Leak.Client.Notification notification = null;
-                SwarmSession session = await client.ConnectAsync(hash, tracker);
-
-                session.Seed("c:\\Falcon BMS 4.35 Setup");
-
-                Console.WriteLine("StartPeerConnecting");
-                do
-                {
-                    Console.WriteLine("PeerConnecting");
-                    notification = await session.NextAsync();
-                }
-                while (notification.Type != Leak.Client.NotificationType.PeerConnected);
-                Console.WriteLine("PeerConnected");
-
-                Console.WriteLine("StartAsync");
-                do
-                {
-                    Console.WriteLine("Asyncing   " + c.ToString());
-                    notification = await session.NextAsync();
-                    c += 1;
-                }
-                while (notification.Type != Leak.Client.NotificationType.DataCompleted);
-                Console.WriteLine("AsyncComplete");
-            }
+            string hash = "AADE99207C7CAD327381AE2704F95A3AAB07C1C9";
 
             return;
         }
 
-        public static async Task Download(DownloadWindow dl, string trackerSt, string hashSt, string exest, string destination)
+        public static async Task Download(DownloadWindow dl, string hashSt, string exest, string destination)
         {
             if (!Directory.Exists(destination))
                 Directory.CreateDirectory(destination);
 
-            string tracker = trackerSt;
-            FileHash hash = FileHash.Parse(hashSt);
+            dl.syncStatus("Downloading : " + exest);
 
-            int c = 0;
+            string command = " --fc \"" + destination + "\" --fi \"" + destination + "\" --ft \"" + destination + "\" --fs \"" + destination + "\" " + hashSt + "\"";
+            string check = ".\\bitswarm.exe" + command;
+            ProcessStartInfo processStartInfo = new ProcessStartInfo(".\\bitswarm.exe", command);
 
-            using (SwarmClient client = new SwarmClient())
+            processStartInfo.CreateNoWindow = false;
+            processStartInfo.UseShellExecute = true;
+
+            Process process;
+
+            try
             {
-                Leak.Client.Notification notification = null;
-                SwarmSession session = await client.ConnectAsync(hash, tracker);
+                process = Process.Start(processStartInfo);
 
-                session.Download(destination);
+                string standardOutput = process.StandardOutput.ReadToEnd();
+                string standardError = process.StandardError.ReadToEnd();
+                int exitCode = process.ExitCode;
 
-                dl.syncStatus("StartPeerConnecting");
-                do
-                {
-                    dl.syncStatus("PeerConnecting");
-                    notification = await session.NextAsync();
-                    if (!status)
-                        return;
-                }
-                while (notification.Type != Leak.Client.NotificationType.PeerConnected);
-                dl.syncStatus("PeerConnected");
-
-                dl.syncStatus("Start Async : " + exest);
-                do
-                {
-                    if (c % 100 == 0)
-                        dl.syncStatus("Asyncing : " + exest + " : " + (c / 100).ToString());
-                    notification = await session.NextAsync();
-                    if (!status)
-                        return;
-                    c += 1;
-                }
-                while (notification.Type != Leak.Client.NotificationType.DataCompleted);
-                dl.syncStatus("Async Complete : " + exest);
-
-                if (File.Exists(destination + "\\" + hashSt + "\\" + exest))
-                {
-                    File.Move(destination + "\\" + hashSt + "\\" + exest, destination + "\\" + exest);
-                    Directory.Delete(destination + "\\" + hashSt);
-                }
+                process.Close();
             }
+            catch
+            { }
 
             return;
         }
@@ -139,13 +81,13 @@ namespace FalconBMS.Launcher
             if (lbs.release != "true")
                 return;
 
-            for (int i = 0; i < lbs.setupCount; i++)
+            for (int i = 0; i < lbs.updateCount; i++)
             {
                 if (!File.Exists(lbs.destination + "\\" + lbs.updateExe[i].InnerText))
                 {
                     status = true;
 
-                    Download(dl, lbs.updateTracker[i].InnerText, lbs.updateHash[i].InnerText, lbs.updateExe[i].InnerText, lbs.destination);
+                    Download(dl, lbs.updateHash[i].InnerText, lbs.updateExe[i].InnerText, lbs.destination);
                 }
             }
         }
@@ -190,7 +132,7 @@ namespace FalconBMS.Launcher
 
             status = true;
 
-            Download(dl, lbs.setupTracker[0].InnerText, lbs.setupHash[0].InnerText, lbs.setupZip[0].InnerText, dlpath);
+            Download(dl, lbs.setupHash[0].InnerText, lbs.setupZip[0].InnerText, dlpath);
         }
 
         public static void DoMajorUpdate(MainWindow mainWindow)

@@ -15,14 +15,14 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_03EFBB9E128349B1B980EE4C810677DE"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_0152DEE75F8098FD868EEADEC8F4DD49"
+        "OwnerKey" = "8:_95D9AB91892E45249B8FD06F8E892BD9"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_084A8C1DEAC446C6ACD857557A14B529"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_0C68EC679E2AF278BB459E764B39486F"
+        "OwnerKey" = "8:_95D9AB91892E45249B8FD06F8E892BD9"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -34,7 +34,7 @@
         "Entry"
         {
         "MsmKey" = "8:_19BB0D57442CCBBE821E4A5862FF8413"
-        "OwnerKey" = "8:_AEC3ACA04DE7700D3D070BCBB8EF7FE5"
+        "OwnerKey" = "8:_89A1A94EF8C4C543C5D54A6176542202"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -45,13 +45,13 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_44EFAA052CDE4AD7A94B3D4AD58E17B0"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_3CFE77431E69CC9EED9210453BD37819"
+        "OwnerKey" = "8:_0152DEE75F8098FD868EEADEC8F4DD49"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_461BD9941A4F40DAB5D8C2A021693948"
+        "MsmKey" = "8:_44EFAA052CDE4AD7A94B3D4AD58E17B0"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -81,12 +81,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_61204AC5B8CF4BDDAA4AC1A021631C1E"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_6B879BD1855E4C81AA42EE2E5A53C406"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -105,14 +99,14 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_806B8EF06C3C3E96263CE3E2DFF3108C"
-        "OwnerKey" = "8:_95D9AB91892E45249B8FD06F8E892BD9"
+        "MsmKey" = "8:_827CE55C73614A09B3A334122610A175"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_827CE55C73614A09B3A334122610A175"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_89A1A94EF8C4C543C5D54A6176542202"
+        "OwnerKey" = "8:_95D9AB91892E45249B8FD06F8E892BD9"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -130,7 +124,7 @@
         "Entry"
         {
         "MsmKey" = "8:_95B5E247B070F3B65F5A371D8FA27E8B"
-        "OwnerKey" = "8:_AEC3ACA04DE7700D3D070BCBB8EF7FE5"
+        "OwnerKey" = "8:_89A1A94EF8C4C543C5D54A6176542202"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -153,31 +147,19 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_9ED8DDE38FBC4F58A50DC38109EFDB6F"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_A1D0531EC5AD4DFCAE9B3D0357787936"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_A5D591F6E8CB4B37ABA8B12400B1DC27"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_AA59046CB3C1A3D8D56CE4E082380C87"
-        "OwnerKey" = "8:_95D9AB91892E45249B8FD06F8E892BD9"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_ACEF68594C654A1C91F062193A957367"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_AEC3ACA04DE7700D3D070BCBB8EF7FE5"
         "OwnerKey" = "8:_95D9AB91892E45249B8FD06F8E892BD9"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -213,12 +195,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_D77A8CEEBDF64F9F8EC7D9A88432FC73"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_E5925710036771A16AAED36657DEB6C0"
         "OwnerKey" = "8:_AA59046CB3C1A3D8D56CE4E082380C87"
         "MsmSig" = "8:_UNDEFINED"
@@ -237,8 +213,8 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_ED8A40230444403C8F53991B1053504A"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_F0D6A5BE47525A62AF02931414D5BBD5"
+        "OwnerKey" = "8:_95D9AB91892E45249B8FD06F8E892BD9"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -280,7 +256,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_AEC3ACA04DE7700D3D070BCBB8EF7FE5"
+        "OwnerKey" = "8:_89A1A94EF8C4C543C5D54A6176542202"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_0C68EC679E2AF278BB459E764B39486F"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -304,7 +286,19 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_806B8EF06C3C3E96263CE3E2DFF3108C"
+        "OwnerKey" = "8:_F0D6A5BE47525A62AF02931414D5BBD5"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_0152DEE75F8098FD868EEADEC8F4DD49"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_3CFE77431E69CC9EED9210453BD37819"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -416,10 +410,21 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_03EFBB9E128349B1B980EE4C810677DE"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_0152DEE75F8098FD868EEADEC8F4DD49"
             {
-            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\bin\\Debug\\Falcon BMS Logbook Generator x86.lib"
-            "TargetName" = "8:Falcon BMS Logbook Generator x86.lib"
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:System.IO.Compression.FileSystem, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+                "ScatterAssemblies"
+                {
+                    "_0152DEE75F8098FD868EEADEC8F4DD49"
+                    {
+                    "Name" = "8:System.IO.Compression.FileSystem.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:System.IO.Compression.FileSystem.dll"
+            "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_C7487B96F8014EB3919EA405642D5247"
             "Condition" = "8:"
@@ -433,13 +438,24 @@
             "PackageAs" = "3:1"
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_084A8C1DEAC446C6ACD857557A14B529"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_0C68EC679E2AF278BB459E764B39486F"
             {
-            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\bin\\Debug\\Falcon BMS Logbook Generator x86.exp"
-            "TargetName" = "8:Falcon BMS Logbook Generator x86.exp"
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Leak.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_0C68EC679E2AF278BB459E764B39486F"
+                    {
+                    "Name" = "8:Leak.Core.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Leak.Core.dll"
+            "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_C7487B96F8014EB3919EA405642D5247"
             "Condition" = "8:"
@@ -453,7 +469,7 @@
             "PackageAs" = "3:1"
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_19BB0D57442CCBBE821E4A5862FF8413"
@@ -507,12 +523,23 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_44EFAA052CDE4AD7A94B3D4AD58E17B0"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_3CFE77431E69CC9EED9210453BD37819"
             {
-            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\Stock\\Setup.v100.Throttle - HOTAS Warthog {Stock}.xml"
-            "TargetName" = "8:Setup.v100.Throttle - HOTAS Warthog {Stock}.xml"
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:TRUE"
+            "AssemblyAsmDisplayName" = "8:System.IO.Compression, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_3CFE77431E69CC9EED9210453BD37819"
+                    {
+                    "Name" = "8:System.IO.Compression.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:System.IO.Compression.dll"
+            "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_B1B01F01701141248BD6FD0195551B06"
+            "Folder" = "8:_C7487B96F8014EB3919EA405642D5247"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -524,15 +551,15 @@
             "PackageAs" = "3:1"
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_461BD9941A4F40DAB5D8C2A021693948"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_44EFAA052CDE4AD7A94B3D4AD58E17B0"
             {
-            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\bin\\Debug\\Falcon BMS Logbook Generator x86.pdb"
-            "TargetName" = "8:Falcon BMS Logbook Generator x86.pdb"
+            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\Stock\\Setup.v100.Throttle - HOTAS Warthog {Stock}.xml"
+            "TargetName" = "8:Setup.v100.Throttle - HOTAS Warthog {Stock}.xml"
             "Tag" = "8:"
-            "Folder" = "8:_C7487B96F8014EB3919EA405642D5247"
+            "Folder" = "8:_B1B01F01701141248BD6FD0195551B06"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -627,26 +654,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_61204AC5B8CF4BDDAA4AC1A021631C1E"
-            {
-            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\bin\\Debug\\Falcon BMS Logbook Generator x64.lib"
-            "TargetName" = "8:Falcon BMS Logbook Generator x64.lib"
-            "Tag" = "8:"
-            "Folder" = "8:_C7487B96F8014EB3919EA405642D5247"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6B879BD1855E4C81AA42EE2E5A53C406"
             {
             "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\Stock\\Setup.v100.Saitek X52 Pro Flight Controller {Stock}.xml"
@@ -707,37 +714,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_806B8EF06C3C3E96263CE3E2DFF3108C"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:System.Net.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
-                "ScatterAssemblies"
-                {
-                    "_806B8EF06C3C3E96263CE3E2DFF3108C"
-                    {
-                    "Name" = "8:System.Net.Http.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:System.Net.Http.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_C7487B96F8014EB3919EA405642D5247"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_827CE55C73614A09B3A334122610A175"
             {
             "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\Stock\\Setup.v100.T.16000M {Stock}.xml"
@@ -756,6 +732,37 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_89A1A94EF8C4C543C5D54A6176542202"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_89A1A94EF8C4C543C5D54A6176542202"
+                    {
+                    "Name" = "8:MahApps.Metro.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:MahApps.Metro.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_C7487B96F8014EB3919EA405642D5247"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8AB7076865D14E6D88488C43E3864D67"
@@ -840,12 +847,12 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A1D0531EC5AD4DFCAE9B3D0357787936"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9ED8DDE38FBC4F58A50DC38109EFDB6F"
             {
-            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\Stock\\Setup.v100.Saitek Pro Flight Rudder Pedals {Stock}.xml"
-            "TargetName" = "8:Setup.v100.Saitek Pro Flight Rudder Pedals {Stock}.xml"
+            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\bitswarm.exe"
+            "TargetName" = "8:bitswarm.exe"
             "Tag" = "8:"
-            "Folder" = "8:_B1B01F01701141248BD6FD0195551B06"
+            "Folder" = "8:_C7487B96F8014EB3919EA405642D5247"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -860,12 +867,12 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A5D591F6E8CB4B37ABA8B12400B1DC27"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A1D0531EC5AD4DFCAE9B3D0357787936"
             {
-            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\bin\\Debug\\Falcon BMS Logbook Generator x64.pdb"
-            "TargetName" = "8:Falcon BMS Logbook Generator x64.pdb"
+            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\Stock\\Setup.v100.Saitek Pro Flight Rudder Pedals {Stock}.xml"
+            "TargetName" = "8:Setup.v100.Saitek Pro Flight Rudder Pedals {Stock}.xml"
             "Tag" = "8:"
-            "Folder" = "8:_C7487B96F8014EB3919EA405642D5247"
+            "Folder" = "8:_B1B01F01701141248BD6FD0195551B06"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -894,57 +901,6 @@
                     }
                 }
             "SourcePath" = "8:Microsoft.DirectX.DirectInput.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_C7487B96F8014EB3919EA405642D5247"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_ACEF68594C654A1C91F062193A957367"
-            {
-            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\bin\\Debug\\Falcon BMS Logbook Generator x64.exp"
-            "TargetName" = "8:Falcon BMS Logbook Generator x64.exp"
-            "Tag" = "8:"
-            "Folder" = "8:_C7487B96F8014EB3919EA405642D5247"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_AEC3ACA04DE7700D3D070BCBB8EF7FE5"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_AEC3ACA04DE7700D3D070BCBB8EF7FE5"
-                    {
-                    "Name" = "8:MahApps.Metro.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:MahApps.Metro.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_C7487B96F8014EB3919EA405642D5247"
@@ -1062,26 +1018,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D77A8CEEBDF64F9F8EC7D9A88432FC73"
-            {
-            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\bin\\Debug\\Falcon BMS Logbook Generator x86.dll"
-            "TargetName" = "8:Falcon BMS Logbook Generator x86.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_C7487B96F8014EB3919EA405642D5247"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_E5925710036771A16AAED36657DEB6C0"
             {
             "AssemblyRegister" = "3:1"
@@ -1133,10 +1069,21 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_ED8A40230444403C8F53991B1053504A"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_F0D6A5BE47525A62AF02931414D5BBD5"
             {
-            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\bin\\Debug\\Falcon BMS Logbook Generator x64.dll"
-            "TargetName" = "8:Falcon BMS Logbook Generator x64.dll"
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:System.Net.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
+                "ScatterAssemblies"
+                {
+                    "_F0D6A5BE47525A62AF02931414D5BBD5"
+                    {
+                    "Name" = "8:System.Net.Http.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:System.Net.Http.dll"
+            "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_C7487B96F8014EB3919EA405642D5247"
             "Condition" = "8:"
@@ -1150,7 +1097,7 @@
             "PackageAs" = "3:1"
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F259578D4FA547F0A3F1BF4D71737A6A"
