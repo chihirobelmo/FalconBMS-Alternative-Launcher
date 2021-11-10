@@ -124,7 +124,7 @@ namespace FalconBMS.Launcher.Windows
                 return;
             }
 
-            if (Torrent.CheckMajorUpdate(ListBox_BMS))
+            if (DownloadWindow.CheckMajorUpdate(ListBox_BMS))
                 UPDATE_AVAILABLE.Visibility = Visibility.Hidden;
             else
             {
@@ -152,7 +152,7 @@ namespace FalconBMS.Launcher.Windows
                 return;
             }
 
-            if (Torrent.CheckMinorUpdate(appReg))
+            if (DownloadWindow.CheckMinorUpdate(appReg))
                 UPDATE_AVAILABLE.Visibility = Visibility.Hidden;
             else
             {

@@ -85,7 +85,9 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
@@ -128,6 +130,7 @@
     <Compile Include="Input\InGameAxAssgn.cs" />
     <Compile Include="Input\KeyFile.cs" />
     <Compile Include="Torrent.cs" />
+    <Compile Include="Update\Update.cs" />
     <Compile Include="Windows\CallsignWindow.xaml.cs">
       <DependentUpon>CallsignWindow.xaml</DependentUpon>
     </Compile>
@@ -346,6 +349,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="bitswarm.exe" />
+    <Resource Include="Update\UpdateBMS.xml" />
+    <Resource Include="Update\UpdateBMSTest.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterResolveReferences">
