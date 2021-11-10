@@ -29,7 +29,7 @@ namespace FalconBMS.Launcher.Windows
         private MainWindow mainWindow;
         private AppRegInfo appReg;
         private ListBox lb;
-        public Update.Update up;
+        public static Update.Update update;
         public DownloadWindow(MainWindow mainWindow, AppRegInfo appReg, ListBox lb)
         {
             this.mainWindow = mainWindow;
@@ -39,30 +39,24 @@ namespace FalconBMS.Launcher.Windows
             InitializeComponent();
         }
 
+        public static void CheckUpdateInformation()
+        {
+            if (update != null)
+                return;
+
+            System.Xml.Serialization.XmlSerializer serializer;
+            serializer = new System.Xml.Serialization.XmlSerializer(typeof(Update.Update));
+
+            string fileName = "UpdateBMS.xml";
+            StreamReader sr = new StreamReader(fileName, new System.Text.UTF8Encoding(false));
+            update = (Update.Update)serializer.Deserialize(sr);
+            sr.Close();
+        }
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            //System.Xml.Serialization.XmlSerializer serializer;
-            //serializer = new System.Xml.Serialization.XmlSerializer(typeof(Update.Update));
-            //
-            //string fileName = "UpdateBMS.xml";
-            //StreamReader sr = new StreamReader(fileName, new System.Text.UTF8Encoding(false));
-            //up = (Update.Update)serializer.Deserialize(sr);
-            //sr.Close();
-
-            LatestBMSStatus lbs = new LatestBMSStatus();
-
-            if (appReg.getUpdateVersion() - 3 == lbs.updateCount)
-                Button_Download_Minor.IsEnabled = false;
-
-            if (File.Exists(lbs.destination + "\\" + lbs.setupExe[0].InnerText))
-                Button_Download_Major.IsEnabled = false;
-
-            for (int i = appReg.getUpdateVersion(); i < lbs.updateCount; i++)
-                if (!File.Exists(lbs.destination + "\\" + lbs.updateExe[i].InnerText))
-                    Button_Install_Minor.IsEnabled = false;
-
-            if (!File.Exists(lbs.destination + "\\" + lbs.setupExe[0].InnerText))
-                Button_Download_Major.IsEnabled = false;
+            status = true;
+            CheckUpdateInformation();
         }
 
         public static bool ShowDownloadWindow(MainWindow mainWindow, AppRegInfo ap, ListBox lb)
@@ -79,35 +73,26 @@ namespace FalconBMS.Launcher.Windows
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            Torrent.status = false;
+            status = false;
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
+            status = false;
             Close();
         }
 
-        private void Major_Download_Click(object sender, RoutedEventArgs e)
+        private async void Download_Click(object sender, RoutedEventArgs e)
         {
-            DownloadMajorUpdate(this);
+            DownloadMajorUpdate();
+            UnzipMajorUpdate();
+            DownloadMinorUpdate();
         }
 
-        private async void Minor_Download_Click(object sender, RoutedEventArgs e)
+        private async void Install_Click(object sender, RoutedEventArgs e)
         {
-            await DownloadMajorUpdate(this);
-            await UnzipMajorUpdate();
-            await DownloadMinorUpdate(this);
-        }
-
-        private void Major_Install_Click(object sender, RoutedEventArgs e)
-        {
-            DoMajorUpdate(mainWindow);
-        }
-
-        private void Minor_Install_Click(object sender, RoutedEventArgs e)
-        {
-            DoMinorUpdate(mainWindow, appReg);
-            DoMajorUpdate(mainWindow);
+            DoMinorUpdate();
+            DoMajorUpdate();
         }
 
         public void syncStatus(string args)
@@ -127,157 +112,92 @@ namespace FalconBMS.Launcher.Windows
                 // Do Not Set Diagnostics.Log nor Output here!
             }
         }
-
-        static readonly HashAlgorithm hashProvider = new MD5CryptoServiceProvider();
-
-        public static string ComputeFileHash(string filePath)
-        {
-            using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-            {
-                var bs = hashProvider.ComputeHash(fs);
-                return BitConverter.ToString(bs).ToLower().Replace("-", "");
-            }
-        }
-
         public static bool CheckMinorUpdate(AppRegInfo appReg)
         {
-            LatestBMSStatus lbs = new LatestBMSStatus();
+            CheckUpdateInformation();
 
-            return (appReg.getUpdateVersion() - 3 == lbs.updateCount);  // -3 for debug
-        }
-
-        public static async Task<bool> DownloadMinorUpdate(DownloadWindow dl)
-        {
-            LatestBMSStatus lbs = new LatestBMSStatus();
-
-            Torrent.Delete(lbs.destination);
-
-            System.Diagnostics.Process process;
-
-            if (lbs.release != "true")
-                return false;
-
-            for (int i = 0; i < lbs.updateCount; i++)
-            {
-                if (!File.Exists(lbs.destination + "\\" + lbs.updateExe[i].InnerText))
-                {
-                    Torrent.status = true;
-
-                    Torrent.Download(dl, lbs.updateHash[i].InnerText, lbs.updateExe[i].InnerText, lbs.destination);
-                }
-            }
-            return true;
-        }
-
-        public static void DoMinorUpdate(MainWindow mainWindow, AppRegInfo appReg)
-        {
-            LatestBMSStatus lbs = new LatestBMSStatus();
-
-            System.Diagnostics.Process process;
-
-            for (int i = appReg.getUpdateVersion() - 3; i < lbs.updateCount; i++)  // -3 for debug
-            {
-                if (File.Exists(lbs.destination + "\\" + lbs.updateExe[i].InnerText))
-                {
-                    process = System.Diagnostics.Process.Start(lbs.destination + "\\" + lbs.updateExe[i].InnerText);
-                    mainWindow.minimizeWindowUntilProcessEnds(process);
-                    continue;
-                }
-            }
+            return appReg.getUpdateVersion() == update.bms.inclementalUpdate.Length;  
         }
 
         public static bool CheckMajorUpdate(ListBox lb)
         {
-            LatestBMSStatus lbs = new LatestBMSStatus();
+            CheckUpdateInformation();
 
-            string version = lbs.registory;
-
-            return (lb.Items.IndexOf(version) != -1);
+            return lb.Items.IndexOf(update.bms.registry.name) != -1;
         }
 
-        public static async Task<bool> DownloadMajorUpdate(DownloadWindow dl)
+        public bool DownloadMinorUpdate()
         {
-            LatestBMSStatus lbs = new LatestBMSStatus();
 
-            if (lbs.release != "true")
+            if (!update.bms.release)
                 return false;
+            if (!update.bms.installer.DestinationExist())
+                Directory.CreateDirectory(update.bms.installer.exe.destination);
 
-            if (File.Exists(lbs.destination + "\\" + lbs.setupExe[0].InnerText))
-                return false;
-
-            string dlpath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads";
-
-            Torrent.Delete(dlpath);
-
-            Torrent.status = true;
-
-            bool task = await Torrent.Download(dl, lbs.setupHash[0].InnerText, lbs.setupZip[0].InnerText, dlpath);
-
-            return task;
-        }
-
-        public static void DoMajorUpdate(MainWindow mainWindow)
-        {
-            LatestBMSStatus lbs = new LatestBMSStatus();
-
-            if (!Directory.Exists(lbs.destination))
-                return;
-            if (!File.Exists(lbs.destination + "\\" + lbs.setupExe[0].InnerText))
-                return;
-
-            System.Diagnostics.Process process;
-            process = System.Diagnostics.Process.Start(lbs.destination + "\\" + lbs.setupExe[0].InnerText);
-            mainWindow.minimizeWindowUntilProcessEnds(process);
-        }
-
-        public static async Task<bool> UnzipMajorUpdate()
-        {
-            LatestBMSStatus lbs = new LatestBMSStatus();
-
-            string dlpath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads";
-
-            if (!Directory.Exists(lbs.destination))
-                Directory.CreateDirectory(lbs.destination);
-            if (!File.Exists(dlpath + "\\" + lbs.setupZip[0].InnerText))
-                return false;
-            else
+            for (int i = 0; i < update.bms.inclementalUpdate.Length; i++)
             {
-                if (!File.Exists(lbs.destination + "\\" + lbs.setupExe[0].InnerText))
+                update.bms.inclementalUpdate[i].DeleteBsf();
+                if (!update.bms.inclementalUpdate[i].Exist())
                 {
-                    FileStream zipStream = File.OpenRead(dlpath + "\\" + lbs.setupZip[0].InnerText);
-                    using (ZipArchive archive = new ZipArchive(zipStream))
-                        ExtractToDirectory(archive, "C:\\", true);
+                    if (!status)
+                        return false;
+                    update.bms.inclementalUpdate[i].Download(this);
                 }
             }
             return true;
         }
-        public static void ExtractToDirectory(ZipArchive archive, string destinationDirectoryName, bool overwrite)
+
+        public bool DownloadMajorUpdate()
         {
-            if (!overwrite)
-            {
-                archive.ExtractToDirectory(destinationDirectoryName);
-                return;
-            }
+            update.bms.installer.DeleteBsf();
 
-            DirectoryInfo di = Directory.CreateDirectory(destinationDirectoryName);
-            string destinationDirectoryFullPath = di.FullName;
+            if (!update.bms.release)
+                return false;
+            if (!update.bms.installer.exe.DestinationExist())
+                Directory.CreateDirectory(update.bms.installer.exe.destination);
+            if (update.bms.installer.exe.Exist())
+                return false;
+            if (update.bms.installer.Exist())
+                return false;
 
-            foreach (ZipArchiveEntry file in archive.Entries)
-            {
-                string completeFileName = Path.GetFullPath(Path.Combine(destinationDirectoryFullPath, file.FullName));
+            Torrent.status = true;
 
-                if (!completeFileName.StartsWith(destinationDirectoryFullPath, StringComparison.OrdinalIgnoreCase))
-                {
-                    throw new IOException("Trying to extract file outside of destination directory. See this link for more info: https://snyk.io/research/zip-slip-vulnerability");
-                }
+            if (!status)
+                return false;
 
-                if (file.Name == "")
-                {// Assuming Empty for Directory
-                    Directory.CreateDirectory(Path.GetDirectoryName(completeFileName));
-                    continue;
-                }
-                file.ExtractToFile(completeFileName, true);
-            }
+            update.bms.installer.Download(this);
+
+            return true;
+        }
+
+        public static void DoMinorUpdate()
+        {
+            if (!update.bms.installer.exe.DestinationExist())
+                Directory.CreateDirectory(update.bms.installer.exe.destination);
+
+            System.Diagnostics.Process process;
+
+            for (int i = 0; i < update.bms.inclementalUpdate.Length; i++)  // -3 for debug
+                if (update.bms.inclementalUpdate[i].Exist())
+                    update.bms.inclementalUpdate[i].Execute();
+        }
+
+        public void DoMajorUpdate()
+        {
+            if (update.bms.installer.exe.Exist())
+                update.bms.installer.exe.Execute();
+        }
+
+        public bool UnzipMajorUpdate()
+        {
+            if (!Directory.Exists(update.bms.installer.exe.destination))
+                Directory.CreateDirectory(update.bms.installer.exe.destination);
+            if (update.bms.installer.exe.Exist())
+                return false;
+            else
+                if (!update.bms.installer.exe.Exist())
+                    update.bms.installer.ExtractToDirectory();
+            return true;
         }
     }
 }

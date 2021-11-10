@@ -18,7 +18,7 @@ namespace FalconBMS.Launcher
     public class Torrent
     {
         public static bool status;
-        public static async Task<bool> BitSwarm(string command)
+        public static bool BitSwarm(string command)
         {
             ProcessStartInfo processStartInfo = new ProcessStartInfo(".\\bitswarm.exe", command);
 
@@ -45,7 +45,7 @@ namespace FalconBMS.Launcher
             }
         }
 
-        public static async Task<bool> Download(DownloadWindow dl, string hashSt, string exest, string destination)
+        public static bool Download(DownloadWindow dl, string hashSt, string exest, string destination)
         {
             if (!Directory.Exists(destination))
                 Directory.CreateDirectory(destination);
@@ -53,14 +53,12 @@ namespace FalconBMS.Launcher
             dl.syncStatus("Downloading: " + exest);
 
             string command = " --fc \"" + destination + "\" --fi \"" + destination + "\" --ft \"" + destination + "\" --fs \"" + destination + "\" " + hashSt + "\"";
-            string check = ".\\bitswarm.exe" + command;
 
-            bool task = await BitSwarm(command);
+            BitSwarm(command);
 
-            if (task)
-                dl.syncStatus("Download Complete: " + exest);
+            dl.syncStatus("Download Complete: " + exest);
 
-            return task;
+            return true;
         }
 
         public static void Delete(string folderFrom)

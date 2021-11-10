@@ -17,25 +17,39 @@
       <path>SOFTWARE\WOW6432Node\Benchmark Sims\Falcon BMS 4.35</path>
     </registry>
     <installer>
-      <zip>
-        <name>Falcon_BMS_4.35_Setup.zip</name>
+      <name>Falcon_BMS_4.35_Setup.zip</name>
+      <overwrite>false</overwrite>
+      <destination>Falcon BMS 4.35 Setup</destination>
+      <extraction>c:\\</extraction>
+      <size>2493499666</size>
+      <tracker>
+        <string>udp://tracker.opentrackr.org:1337/announce</string>
+        <string>udp://tracker.torrent.eu.org:451/announce</string>
+      </tracker>
+      <hash>E801A422857FAC77B5D94B893E56EEDF1BDFC3C6</hash>
+      <md5>fdbb052517ef6282ae767485753d1c8a</md5>
+      <magnet />
+      <exe>
+        <name>Setup.exe</name>
+        <destination>Falcon BMS 4.35 Setup</destination>
+        <extraction>c:\\</extraction>
         <overwrite>false</overwrite>
-        <destination>None</destination>
-        <size>2493499666</size>
-        <tracker>
-          <string>udp://tracker.opentrackr.org:1337/announce</string>
-          <string>udp://tracker.torrent.eu.org:451/announce</string>
-        </tracker>
-        <hash>E801A422857FAC77B5D94B893E56EEDF1BDFC3C6</hash>
-        <md5>fdbb052517ef6282ae767485753d1c8a</md5>
-        <magnet>None</magnet>
-        <dir>
+        <destination />
+        <size>0</size>
+        <tracker />
+        <hash />
+        <md5 />
+        <magnet />
+      </exe>
+      <dir>
+        <Dir>
           <name>Falcon BMS 4.35 Setup</name>
           <file>
             <TorrentFile>
               <name>Setup.exe</name>
               <overwrite>false</overwrite>
-              <destination />
+              <destination>Falcon BMS 4.35 Setup</destination>
+              <extraction>c:\\</extraction>
               <size>0</size>
               <tracker />
               <hash />
@@ -45,7 +59,8 @@
             <TorrentFile>
               <name>unrar.dll</name>
               <overwrite>false</overwrite>
-              <destination />
+              <destination>Falcon BMS 4.35 Setup</destination>
+              <extraction>c:\\</extraction>
               <size>0</size>
               <tracker />
               <hash />
@@ -54,160 +69,153 @@
             </TorrentFile>
           </file>
           <dir>
-            <name>data</name>
-            <file>
-              <TorrentFile>
-                <name>4.35.0_Part_1.file</name>
-                <overwrite>false</overwrite>
-                <destination />
-                <size>0</size>
-                <tracker />
-                <hash />
-                <md5 />
-                <magnet />
-              </TorrentFile>
-            </file>
-            <file>
-              <TorrentFile>
-                <name>4.35.0_Part_2.file</name>
-                <overwrite>false</overwrite>
-                <destination />
-                <size>0</size>
-                <tracker />
-                <hash />
-                <md5 />
-                <magnet />
-              </TorrentFile>
-            </file>
-            <file>
-              <TorrentFile>
-                <name>4.35.0_Part_3.file</name>
-                <overwrite>false</overwrite>
-                <destination />
-                <size>0</size>
-                <tracker />
-                <hash />
-                <md5 />
-                <magnet />
-              </TorrentFile>
-            </file>
-            <file>
-              <TorrentFile>
-                <name>4.35.0_Part_4.file</name>
-                <overwrite>false</overwrite>
-                <destination />
-                <size>0</size>
-                <tracker />
-                <hash />
-                <md5 />
-                <magnet />
-              </TorrentFile>
-            </file>
-            <file>
-              <TorrentFile>
-                <name>4.35.0_Part_5.file</name>
-                <overwrite>false</overwrite>
-                <destination />
-                <size>0</size>
-                <tracker />
-                <hash />
-                <md5 />
-                <magnet />
-              </TorrentFile>
-            </file>
-            <file>
-              <TorrentFile>
-                <name>7z.dll</name>
-                <overwrite>false</overwrite>
-                <destination />
-                <size>0</size>
-                <tracker />
-                <hash />
-                <md5 />
-                <magnet />
-              </TorrentFile>
-            </file>
-            <file>
-              <TorrentFile>
-                <name>7z.exe</name>
-                <overwrite>false</overwrite>
-                <destination />
-                <size>0</size>
-                <tracker />
-                <hash />
-                <md5 />
-                <magnet />
-              </TorrentFile>
-            </file>
-            <file>
-              <TorrentFile>
-                <name>directx_Jun2010_redist.file</name>
-                <overwrite>false</overwrite>
-                <destination />
-                <size>0</size>
-                <tracker />
-                <hash />
-                <md5 />
-                <magnet />
-              </TorrentFile>
-            </file>
-            <file>
-              <TorrentFile>
-                <name>license.txt</name>
-                <overwrite>true</overwrite>
-                <destination />
-                <size>0</size>
-                <tracker />
-                <hash />
-                <md5 />
-                <magnet />
-              </TorrentFile>
-            </file>
-            <file>
-              <TorrentFile>
-                <name>local.ver</name>
-                <overwrite>true</overwrite>
-                <destination />
-                <size>0</size>
-                <tracker />
-                <hash />
-                <md5 />
-                <magnet />
-              </TorrentFile>
-            </file>
-            <file>
-              <TorrentFile>
-                <name>setup.cfg</name>
-                <overwrite>false</overwrite>
-                <destination />
-                <size>0</size>
-                <tracker />
-                <hash />
-                <md5 />
-                <magnet />
-              </TorrentFile>
-            </file>
-            <file>
-              <TorrentFile>
-                <name>x264vfw_full.file</name>
-                <overwrite>false</overwrite>
-                <destination />
-                <size>0</size>
-                <tracker />
-                <hash />
-                <md5 />
-                <magnet />
-              </TorrentFile>
-            </file>
+            <Dir>
+              <name>data</name>
+              <file>
+                <TorrentFile>
+                  <name>4.35.0_Part_1.file</name>
+                  <overwrite>false</overwrite>
+                  <destination>Falcon BMS 4.35 Setup\data</destination>
+                  <extraction>c:\\</extraction>
+                  <size>0</size>
+                  <tracker />
+                  <hash />
+                  <md5 />
+                  <magnet />
+                </TorrentFile>
+                <TorrentFile>
+                  <name>4.35.0_Part_2.file</name>
+                  <overwrite>false</overwrite>
+                  <destination>Falcon BMS 4.35 Setup\data</destination>
+                  <extraction>c:\\</extraction>
+                  <size>0</size>
+                  <tracker />
+                  <hash />
+                  <md5 />
+                  <magnet />
+                </TorrentFile>
+                <TorrentFile>
+                  <name>4.35.0_Part_3.file</name>
+                  <overwrite>false</overwrite>
+                  <destination>Falcon BMS 4.35 Setup\data</destination>
+                  <extraction>c:\\</extraction>
+                  <size>0</size>
+                  <tracker />
+                  <hash />
+                  <md5 />
+                  <magnet />
+                </TorrentFile>
+                <TorrentFile>
+                  <name>4.35.0_Part_4.file</name>
+                  <overwrite>false</overwrite>
+                  <destination>Falcon BMS 4.35 Setup\data</destination>
+                  <extraction>c:\\</extraction>
+                  <size>0</size>
+                  <tracker />
+                  <hash />
+                  <md5 />
+                  <magnet />
+                </TorrentFile>
+                <TorrentFile>
+                  <name>4.35.0_Part_5.file</name>
+                  <overwrite>false</overwrite>
+                  <destination>Falcon BMS 4.35 Setup\data</destination>
+                  <extraction>c:\\</extraction>
+                  <size>0</size>
+                  <tracker />
+                  <hash />
+                  <md5 />
+                  <magnet />
+                </TorrentFile>
+                <TorrentFile>
+                  <name>7z.dll</name>
+                  <overwrite>false</overwrite>
+                  <destination>Falcon BMS 4.35 Setup\data</destination>
+                  <extraction>c:\\</extraction>
+                  <size>0</size>
+                  <tracker />
+                  <hash />
+                  <md5 />
+                  <magnet />
+                </TorrentFile>
+                <TorrentFile>
+                  <name>7z.exe</name>
+                  <overwrite>false</overwrite>
+                  <destination>Falcon BMS 4.35 Setup\data</destination>
+                  <extraction>c:\\</extraction>
+                  <size>0</size>
+                  <tracker />
+                  <hash />
+                  <md5 />
+                  <magnet />
+                </TorrentFile>
+                <TorrentFile>
+                  <name>directx_Jun2010_redist.file</name>
+                  <overwrite>false</overwrite>
+                  <destination>Falcon BMS 4.35 Setup\data</destination>
+                  <extraction>c:\\</extraction>
+                  <size>0</size>
+                  <tracker />
+                  <hash />
+                  <md5 />
+                  <magnet />
+                </TorrentFile>
+                <TorrentFile>
+                  <name>license.txt</name>
+                  <overwrite>true</overwrite>
+                  <destination>Falcon BMS 4.35 Setup\data</destination>
+                  <extraction>c:\\</extraction>
+                  <size>0</size>
+                  <tracker />
+                  <hash />
+                  <md5 />
+                  <magnet />
+                </TorrentFile>
+                <TorrentFile>
+                  <name>local.ver</name>
+                  <overwrite>true</overwrite>
+                  <destination>Falcon BMS 4.35 Setup\data</destination>
+                  <extraction>c:\\</extraction>
+                  <size>0</size>
+                  <tracker />
+                  <hash />
+                  <md5 />
+                  <magnet />
+                </TorrentFile>
+                <TorrentFile>
+                  <name>setup.cfg</name>
+                  <overwrite>false</overwrite>
+                  <destination>Falcon BMS 4.35 Setup\data</destination>
+                  <extraction>c:\\</extraction>
+                  <size>0</size>
+                  <tracker />
+                  <hash />
+                  <md5 />
+                  <magnet />
+                </TorrentFile>
+                <TorrentFile>
+                  <name>x264vfw_full.file</name>
+                  <overwrite>false</overwrite>
+                  <destination>Falcon BMS 4.35 Setup\data</destination>
+                  <extraction>c:\\</extraction>
+                  <size>0</size>
+                  <tracker />
+                  <hash />
+                  <md5 />
+                  <magnet />
+                </TorrentFile>
+              </file>
+            </Dir>
           </dir>
-        </dir>
-      </zip>
+        </Dir>
+      </dir>
     </installer>
     <inclementalUpdate>
       <InclementalUpdate>
         <name>Falcon_BMS_4.35.1_Incremental.exe</name>
         <overwrite>false</overwrite>
-        <destination>c:\\Falcon BMS 4.35 Setup</destination>
+        <destination>Falcon BMS 4.35 Setup</destination>
+        <extraction>c:\\</extraction>
         <size>82567337</size>
         <tracker>
           <string>udp://tracker.opentrackr.org:1337/announce</string>
@@ -215,36 +223,36 @@
         <hash>AADE99207C7CAD327381AE2704F95A3AAB07C1C9</hash>
         <md5 />
         <magnet />
-        <dir>
-          <name>data</name>
-          <file>
-            <TorrentFile>
-              <name>4.35.1_Part_1.bsf</name>
-              <overwrite>false</overwrite>
-              <destination />
-              <size>0</size>
-              <tracker />
-              <hash />
-              <md5 />
-              <magnet />
-            </TorrentFile>
-            <TorrentFile>
-              <name>local.ver</name>
-              <overwrite>true</overwrite>
-              <destination />
-              <size>0</size>
-              <tracker />
-              <hash />
-              <md5 />
-              <magnet />
-            </TorrentFile>
-          </file>
-        </dir>
+        <file>
+          <TorrentFile>
+            <name>4.35.1_Part_1.bsf</name>
+            <overwrite>false</overwrite>
+            <destination>Falcon BMS 4.35 Setup\data</destination>
+            <extraction>c:\\</extraction>
+            <size>0</size>
+            <tracker />
+            <hash />
+            <md5 />
+            <magnet />
+          </TorrentFile>
+          <TorrentFile>
+            <name>local.ver</name>
+            <overwrite>true</overwrite>
+            <destination>Falcon BMS 4.35 Setup\data</destination>
+            <extraction>c:\\</extraction>
+            <size>0</size>
+            <tracker />
+            <hash />
+            <md5 />
+            <magnet />
+          </TorrentFile>
+        </file>
       </InclementalUpdate>
       <InclementalUpdate>
         <name>Falcon_BMS_4.35.2_Incremental.exe</name>
         <overwrite>false</overwrite>
-        <destination>c:\\Falcon BMS 4.35 Setup</destination>
+        <destination>Falcon BMS 4.35 Setup</destination>
+        <extraction>c:\\</extraction>
         <size>115381889</size>
         <tracker>
           <string>udp://tracker.opentrackr.org:1337/announce</string>
@@ -252,36 +260,36 @@
         <hash>0FC8E2D609458B2A559C92AE3C63008E090D521C</hash>
         <md5 />
         <magnet />
-        <dir>
-          <name>data</name>
-          <file>
-            <TorrentFile>
-              <name>4.35.2_Part_1.bsf</name>
-              <overwrite>false</overwrite>
-              <destination />
-              <size>0</size>
-              <tracker />
-              <hash />
-              <md5 />
-              <magnet />
-            </TorrentFile>
-            <TorrentFile>
-              <name>local.ver</name>
-              <overwrite>true</overwrite>
-              <destination />
-              <size>0</size>
-              <tracker />
-              <hash />
-              <md5 />
-              <magnet />
-            </TorrentFile>
-          </file>
-        </dir>
+        <file>
+          <TorrentFile>
+            <name>4.35.2_Part_1.bsf</name>
+            <overwrite>false</overwrite>
+            <destination>Falcon BMS 4.35 Setup\data</destination>
+            <extraction>c:\\</extraction>
+            <size>0</size>
+            <tracker />
+            <hash />
+            <md5 />
+            <magnet />
+          </TorrentFile>
+          <TorrentFile>
+            <name>local.ver</name>
+            <overwrite>true</overwrite>
+            <destination>Falcon BMS 4.35 Setup\data</destination>
+            <extraction>c:\\</extraction>
+            <size>0</size>
+            <tracker />
+            <hash />
+            <md5 />
+            <magnet />
+          </TorrentFile>
+        </file>
       </InclementalUpdate>
       <InclementalUpdate>
         <name>Falcon_BMS_4.35.3_Incremental.exe</name>
         <overwrite>false</overwrite>
-        <destination>c:\\Falcon BMS 4.35 Setup</destination>
+        <destination>Falcon BMS 4.35 Setup</destination>
+        <extraction>c:\\</extraction>
         <size>195158728</size>
         <tracker>
           <string>udp://tracker.opentrackr.org:1337/announce</string>
@@ -289,31 +297,30 @@
         <hash>BA5DA8EFC007C2A57FF4F234625EDE94464C90A0</hash>
         <md5 />
         <magnet />
-        <dir>
-          <name>data</name>
-          <file>
-            <TorrentFile>
-              <name>4.35.3_Part_1.bsf</name>
-              <overwrite>false</overwrite>
-              <destination />
-              <size>0</size>
-              <tracker />
-              <hash />
-              <md5 />
-              <magnet />
-            </TorrentFile>
-            <TorrentFile>
-              <name>local.ver</name>
-              <overwrite>true</overwrite>
-              <destination />
-              <size>0</size>
-              <tracker />
-              <hash />
-              <md5 />
-              <magnet />
-            </TorrentFile>
-          </file>
-        </dir>
+        <file>
+          <TorrentFile>
+            <name>4.35.3_Part_1.bsf</name>
+            <overwrite>false</overwrite>
+            <destination>Falcon BMS 4.35 Setup\data</destination>
+            <extraction>c:\\</extraction>
+            <size>0</size>
+            <tracker />
+            <hash />
+            <md5 />
+            <magnet />
+          </TorrentFile>
+          <TorrentFile>
+            <name>local.ver</name>
+            <overwrite>true</overwrite>
+            <destination>Falcon BMS 4.35 Setup\data</destination>
+            <extraction>c:\\</extraction>
+            <size>0</size>
+            <tracker />
+            <hash />
+            <md5 />
+            <magnet />
+          </TorrentFile>
+        </file>
       </InclementalUpdate>
     </inclementalUpdate>
   </bms>

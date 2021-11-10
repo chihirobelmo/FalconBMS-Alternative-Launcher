@@ -44,9 +44,7 @@
         <Border BorderBrush="#D0FFFFFF" BorderThickness="1" HorizontalAlignment="Center" Height="28" Margin="33,48,32,0" VerticalAlignment="Top" Width="447">
             <Label x:Name="Label_Status" Content="Status" HorizontalContentAlignment="Center"/>
         </Border>
-        <Button x:Name="Button_Download_Major" Content="Download Major Update" HorizontalAlignment="Left" Margin="33,90,0,0" VerticalAlignment="Top" Width="169" Background="#FF70CBFF" Click="Major_Download_Click" RenderTransformOrigin="0.199,-0.183"/>
-        <Button x:Name="Button_Download_Minor" Content="Download Minor Update" HorizontalAlignment="Left" Margin="218,90,0,0" VerticalAlignment="Top" Width="169" Background="#FF70CBFF" Click="Minor_Download_Click" RenderTransformOrigin="0.199,-0.183"/>
-        <Button x:Name="Button_Install_Major" Content="Install Major Update" HorizontalAlignment="Left" Margin="33,123,0,0" VerticalAlignment="Top" Width="169" Background="#FF70CBFF" Click="Major_Install_Click" RenderTransformOrigin="0.199,-0.183"/>
-        <Button x:Name="Button_Install_Minor"  Content="Install Minor Update" HorizontalAlignment="Left" Margin="218,123,0,0" VerticalAlignment="Top" Width="169" Background="#FF70CBFF" Click="Minor_Install_Click" RenderTransformOrigin="0.199,-0.183"/>
+        <Button x:Name="Button_Download" Content="Download BMS Installer and Update Patch" HorizontalAlignment="Left" Margin="33,90,0,0" VerticalAlignment="Top" Width="354" Background="#FF70CBFF" Click="Download_Click" RenderTransformOrigin="0.199,-0.183"/>
+        <Button x:Name="Button_Install"  Content="Install BMS and Update" HorizontalAlignment="Left" Margin="33,123,0,0" VerticalAlignment="Top" Width="354" Background="#FF70CBFF" Click="Install_Click" RenderTransformOrigin="0.199,-0.183"/>
     </Grid>
 </Controls:MetroWindow>
