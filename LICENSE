@@ -1,74 +1,51 @@
-﻿using FalconBMS.Launcher.Windows;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.IO.Compression;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using System.Xml;
+﻿MIT License (MIT)
 
-namespace FalconBMS.Launcher
-{
-    public class Torrent
-    {
-        public static bool status;
-        public static bool BitSwarm(string command)
-        {
-            ProcessStartInfo processStartInfo = new ProcessStartInfo(".\\bitswarm.exe", command);
+Copyright (c) 2016 MahApps
 
-            processStartInfo.CreateNoWindow = false;
-            processStartInfo.UseShellExecute = true;
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-            Process process;
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-            try
-            {
-                process = Process.Start(processStartInfo);
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
-                string standardOutput = process.StandardOutput.ReadToEnd();
-                string standardError = process.StandardError.ReadToEnd();
-                int exitCode = process.ExitCode;
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
-                process.Close();
+The MIT License (MIT)
 
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
+Copyright (c) 2015 Jan Karger, Bastian Schmidt
 
-        public static bool Download(DownloadWindow dl, string hashSt, string exest, string destination)
-        {
-            if (!Directory.Exists(destination))
-                Directory.CreateDirectory(destination);
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-            dl.syncStatus("Downloading: " + exest);
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-            string command = " --fc \"" + destination + "\" --fi \"" + destination + "\" --ft \"" + destination + "\" --fs \"" + destination + "\" " + hashSt + "\"";
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
-            BitSwarm(command);
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
-            dl.syncStatus("Download Complete: " + exest);
-
-            return true;
-        }
-
-        public static void Delete(string folderFrom)
-        {
-            foreach (string pathFrom in System.IO.Directory.EnumerateFiles(folderFrom, "*.bsf"))
-                File.Delete(pathFrom);
-            foreach (string pathFrom in System.IO.Directory.EnumerateFiles(folderFrom, "*.torrent"))
-                File.Delete(pathFrom);
-        }
-    }
-}
-
-/*
                    GNU LESSER GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
 
@@ -234,4 +211,3 @@ whether future versions of the GNU Lesser General Public License shall
 apply, that proxy's public statement of acceptance of any version is
 permanent authorization for you to choose that version for the
 Library.
-*/

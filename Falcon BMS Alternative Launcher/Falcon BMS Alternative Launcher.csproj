@@ -67,9 +67,6 @@
     <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
     </Reference>
-    <Reference Include="Leak.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Leak.Core.4.7.2\lib\net45\Leak.Core.dll</HintPath>
-    </Reference>
     <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.6.5\lib\net46\MahApps.Metro.dll</HintPath>
     </Reference>
@@ -146,7 +143,6 @@
     <Compile Include="Launcher.cs" />
     <Compile Include="TheaterList.cs" />
     <Compile Include="Input\DetentPosition.cs" />
-    <Compile Include="Windows\LatestBMSStatus.cs" />
     <Compile Include="Windows\RecommendReboot.xaml.cs">
       <DependentUpon>RecommendReboot.xaml</DependentUpon>
     </Compile>
@@ -334,18 +330,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="AutoUpdate.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Update\BMS4.35.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Update\BMS4.36.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Update\BMS4.37.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Update\BMS_Latest.xml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="bitswarm.exe" />

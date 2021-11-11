@@ -1,0 +1,50 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Company>SuRGeoNix</Company>
+    <Authors>SuRGeoNix</Authors>
+    <PackageLicenseExpression>LGPL-3.0-or-later</PackageLicenseExpression>
+    <Description>Bittorrent library for clients &amp; streaming purposes</Description>
+    <PackageLicenseFile></PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/SuRGeoNix/BitSwarm</PackageProjectUrl>
+    <PackageIcon>BitSwarm.png</PackageIcon>
+    <RepositoryUrl>https://github.com/SuRGeoNix/BitSwarm</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>bitswarm bittorrent torrent client streaming dht</PackageTags>
+    <Copyright>© SuRGeoNix 2020</Copyright>
+    <Version>2.3.4</Version>
+    <PackageReleaseNotes>- Finalizing stream support
+- Fixing an issue with zero-size files
+- Updating APF library</PackageReleaseNotes>
+    <FileVersion>2.3.4.0</FileVersion>
+    <AssemblyVersion>2.3.4.0</AssemblyVersion>
+    <RootNamespace>SuRGeoNix.BitSwarmLib</RootNamespace>
+    <Product>BitSwarm</Product>
+    <AssemblyName>BitSwarmLib</AssemblyName>
+    <PackageId>BitSwarm</PackageId>
+	<GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="APF" Version="1.3.0" />
+    <PackageReference Include="BencodeNET" Version="3.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\Images\BitSwarm.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
