@@ -28,7 +28,10 @@ The appearance of U.S. Department of Defense (DoD) visual information does not i
   
   - DirectX Software Development Kit: https://www.microsoft.com/en-us/download/details.aspx?id=6812
   - Microsoft Visual Studio Installer Projects: https://marketplace.visualstudio.com/items?itemName=visualstudioclient.MicrosoftVisualStudio2017InstallerProjects
-  - MonoTorrent: https://www.mono-project.com/download/stable/
+  
+  - BitSwarm.exe from https://github.com/SuRGeoNix/BitSwarm
+  
+Put bitswarm.exe and BMSUpdate.xml at bin/Debug or bin/Release
   
 Restore NuGet packages and update "references" for first launch .sln after git clone.
 Also uncheck Managed Debugging Assistants -> LoaderLock.
