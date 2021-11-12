@@ -133,7 +133,7 @@ namespace FalconBMS.Launcher.Override
 
             serializer = new XmlSerializer(typeof(AxAssgn));
             sw = new StreamWriter(fileName, false, new UTF8Encoding(false));
-            serializer.Serialize(sw, deviceControl.mouseWheelAssign);
+            serializer.Serialize(sw, deviceControl.mouse.GetMouseAxis());
 
             sw.Close();
         }

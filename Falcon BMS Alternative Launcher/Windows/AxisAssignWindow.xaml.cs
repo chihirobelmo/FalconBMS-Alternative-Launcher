@@ -359,21 +359,38 @@ namespace FalconBMS.Launcher.Windows
             if (status == Status.WaitInput)
             {
                 AxAssgn axisInfo = new AxAssgn();
-                axisAssign = new InGameAxAssgn(-1, -1, axisInfo);
+                axisAssign = new InGameAxAssgn(new JoyAssgn(), -1, axisInfo);
             }
             if (status == Status.ShowAxisStatus)
             {
-                AxAssgn axisInfo = new AxAssgn();
-                axisAssign = new InGameAxAssgn(
-                        devNumTmp, 
-                        phyAxNumTmp, 
-                        (bool)Invert.IsChecked, 
-                        (AxCurve)DeadZone.SelectedIndex, 
-                        (AxCurve)Saturation.SelectedIndex
-                    );
-                if (whoCalledWindow == "Throttle" | whoCalledWindow == "Throttle_Right")
-                    if (devNumTmp >= 0)
-                        MainWindow.deviceControl.joyAssign[devNumTmp].detentPosition = new DetentPosition(AB,IDLE);
+                if (devNumTmp > 0)
+                {
+                    AxAssgn axisInfo = new AxAssgn();
+                    axisAssign = new InGameAxAssgn(
+                            MainWindow.deviceControl.joyAssign[devNumTmp],
+                            phyAxNumTmp,
+                            (bool)Invert.IsChecked,
+                            (AxCurve)DeadZone.SelectedIndex,
+                            (AxCurve)Saturation.SelectedIndex
+                        );
+                    if (whoCalledWindow == "Throttle")
+                        if (devNumTmp >= 0)
+                            MainWindow.deviceControl.joyAssign[devNumTmp].detentPosition = new DetentPosition(AB, IDLE);
+                }
+                else if (devNumTmp == -2)
+                {
+                    AxAssgn axisInfo = new AxAssgn();
+                    axisAssign = new InGameAxAssgn(
+                            MainWindow.deviceControl.mouse,
+                            0,
+                            (bool)Invert.IsChecked,
+                            (AxCurve)DeadZone.SelectedIndex,
+                            (AxCurve)Saturation.SelectedIndex
+                        );
+                    if (whoCalledWindow == "Throttle")
+                        if (devNumTmp >= 0)
+                            MainWindow.deviceControl.mouse.detentPosition = new DetentPosition(AB, IDLE);
+                }
             }
             AxisDetectionTimer.Stop();
             sw.Stop();

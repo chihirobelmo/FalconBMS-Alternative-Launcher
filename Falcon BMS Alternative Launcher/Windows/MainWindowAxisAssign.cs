@@ -343,8 +343,8 @@ namespace FalconBMS.Launcher.Windows
             // In case of axis has been unassigned and saved.
             for (int i = 0; i < deviceControl.devList.Count; i++)
                 deviceControl.joyAssign[i].ResetPreviousAxis(whocalledwindow);
-            if (deviceControl.mouseWheelAssign.GetAxisName() == whocalledwindow)
-                deviceControl.mouseWheelAssign = new AxAssgn();
+            if (deviceControl.mouse.GetMouseAxis().GetAxisName() == whocalledwindow)
+                deviceControl.mouse.LoadAx(new AxAssgn());
 
             // When axis has been assigned.
             if (axisAssign.GetDeviceNumber() > -1)
@@ -353,7 +353,7 @@ namespace FalconBMS.Launcher.Windows
             if (axisAssign.GetDeviceNumber() == -2)
             {
                 wheelValue = 0;
-                deviceControl.mouseWheelAssign = new AxAssgn(whocalledwindow, axisAssign);
+                deviceControl.mouse.LoadAx(new AxAssgn(whocalledwindow, axisAssign));
             }
 
             joyAssign_2_inGameAxis();
@@ -379,14 +379,14 @@ namespace FalconBMS.Launcher.Windows
                         continue;
                     if (((InGameAxAssgn)inGameAxis[deviceControl.joyAssign[i].axis[ii].GetAxisName()]).getDate() > deviceControl.joyAssign[i].axis[ii].GetAssignDate())
                         continue;
-                    inGameAxis[deviceControl.joyAssign[i].axis[ii].GetAxisName()] = new InGameAxAssgn(i, ii, deviceControl.joyAssign[i].axis[ii]);
+                    inGameAxis[deviceControl.joyAssign[i].axis[ii].GetAxisName()] = new InGameAxAssgn(MainWindow.deviceControl.joyAssign[i], ii, deviceControl.joyAssign[i].axis[ii]);
                 }
             }
-            if (ReferenceEquals(deviceControl.mouseWheelAssign.GetAxisName(), ""))
+            if (ReferenceEquals(deviceControl.mouse.GetMouseAxis().GetAxisName(), ""))
                 return;
-            if (((InGameAxAssgn)inGameAxis[deviceControl.mouseWheelAssign.GetAxisName()]).getDate() > deviceControl.mouseWheelAssign.GetAssignDate())
+            if (((InGameAxAssgn)inGameAxis[deviceControl.mouse.GetMouseAxis().GetAxisName()]).getDate() > deviceControl.mouse.GetMouseAxis().GetAssignDate())
                 return;
-            inGameAxis[deviceControl.mouseWheelAssign.GetAxisName()] = new InGameAxAssgn(-2, -1, deviceControl.mouseWheelAssign);
+            inGameAxis[deviceControl.mouse.GetMouseAxis().GetAxisName()] = new InGameAxAssgn(deviceControl.mouse, -1, deviceControl.mouse.GetMouseAxis());
         }
         
         /// <summary>
@@ -435,7 +435,7 @@ namespace FalconBMS.Launcher.Windows
         /// <param name="e"></param>
         private void Detect_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            if (deviceControl.mouseWheelAssign.GetAxisName() != "")
+            if (deviceControl.mouse.GetMouseAxis().GetAxisName() != "")
             {
                 wheelValue += e.Delta;
                 // (32768 * 120 / 1240 ) = 3840 

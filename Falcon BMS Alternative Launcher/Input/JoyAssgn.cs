@@ -24,6 +24,14 @@ namespace FalconBMS.Launcher.Input
                 dx[i] = j.dx[i];
             }
         }
+        public void LoadAx(AxAssgn a)
+        {
+            axis[0] = a;
+        }
+        public AxAssgn GetMouseAxis()
+        {
+            return axis[0];
+        }
 
         // Member
         protected string productName = "";
@@ -362,143 +370,6 @@ namespace FalconBMS.Launcher.Input
                 }
             }
             return result;
-        }
-
-        /// <summary>
-        /// Make new instance.
-        /// </summary>
-        public void ImportStockSetup(AppRegInfo appReg, int devcount, int povnum, int joynum)
-        {
-            // Seems this option is not working properly. I'll disable it for now.
-            return;
-
-            Invoke invokeStatus = Invoke.UI;
-            Behaviour behaviourStatus = Behaviour.Press;
-
-            string deviceSorting = appReg.GetInstallDir() + "/User/Config/DeviceSorting.txt";
-            if (Path.GetFileName(deviceSorting) != "DeviceSorting.txt")
-                return;
-            if (File.Exists(deviceSorting) == false)
-                return;
-            string[] lines = File.ReadAllLines(deviceSorting, Encoding.UTF8);
-            int currentID = -1;
-            for (int i = 0; i < lines.Length; i++)
-            {
-                if (lines[i] == GetDeviceSortingLine().Replace("\r\n", ""))
-                    currentID = i;
-            }
-            if (currentID == -1)
-                return;
-            string keyfile = appReg.GetInstallDir() + "/User/Config/" + appReg.getKeyFileName();
-            string[] Klines = File.ReadAllLines(keyfile, Encoding.UTF8);
-            foreach (string stBuffer in Klines)
-            {
-                string[] stArrayData = stBuffer.Split(' ');
-                if (stArrayData.Length < 7)
-                    continue;
-                if (stBuffer.Substring(0, 1) == "#")
-                    continue;
-                if (stArrayData[3] == "-2" | stArrayData[3] == "-3")
-                {
-                    if (stArrayData[2] == "-1")
-                        invokeStatus = Invoke.Default;
-                    if (stArrayData[2] == "-2")
-                        invokeStatus = Invoke.Down;
-                    if (stArrayData[2] == "-4")
-                        invokeStatus = Invoke.Up;
-                    if (stArrayData[2] == "8")
-                        invokeStatus = Invoke.UI;
-                    if (stArrayData[3] == "0")
-                        behaviourStatus = Behaviour.Press;
-                    if (stArrayData[3] == "0x42")
-                        behaviourStatus = Behaviour.Release;
-                }
-                // Import DX Setup
-                if (stArrayData[3] == "-2")
-                {
-                    for (int i = 0; i < CommonConstants.DX32; i++)
-                    {
-                        if (int.Parse(stArrayData[1]) == i + currentID * CommonConstants.DX32)
-                            dx[i].Assign(stArrayData[0], Pinky.UnShift, behaviourStatus, invokeStatus, 0);
-                        if (int.Parse(stArrayData[1]) == i + currentID * CommonConstants.DX32 + devcount * CommonConstants.DX32) // Okay This has to be the problem. I have to read FalconBMS.cfg for
-                            dx[i].Assign(stArrayData[0], Pinky.Shift, behaviourStatus, invokeStatus, 0);
-                    }
-                }
-                // Import POV Setup
-                if (stArrayData[3] == "-3")
-                {
-                    for (int i = 0; i < 4; i++)
-                    {
-                        if (int.Parse(stArrayData[1]) != i)
-                            continue;
-                        if (povnum < 3)
-                        {
-                            if (i == 0 | i == 1)
-                                pov[i].direction[int.Parse(stArrayData[4])].Assign(stArrayData[0], Pinky.UnShift, 0);
-                            if (i == 2 | i == 3)
-                                pov[i - 2].direction[int.Parse(stArrayData[4])].Assign(stArrayData[0], Pinky.Shift, 0);
-                            continue;
-                        }
-                        pov[i].direction[int.Parse(stArrayData[4])].Assign(stArrayData[0], Pinky.UnShift, 0);
-                    }
-                }
-                // Import Axis Setup
-                string filename = appReg.GetInstallDir() + "/User/Config/axismapping.dat";
-                if (!File.Exists(filename))
-                    return;
-                FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read);
-                byte[] ad = new byte[fs.Length];
-                fs.Read(ad, 0, ad.Length);
-                fs.Close();
-
-                filename = appReg.GetInstallDir() + "/User/Config/joystick.cal";
-                if (!File.Exists(filename))
-                    return;
-                fs = new FileStream(filename, FileMode.Open, FileAccess.Read);
-                byte[] jc = new byte[fs.Length];
-                fs.Read(jc, 0, jc.Length);
-                fs.Close();
-
-                AxisName[] axisMappingList = appReg.getOverrideWriter().getAxisMappingList();
-                AxisName[] joystickCalList = appReg.getOverrideWriter().getJoystickCalList();
-                for (int i = 0; i < axisMappingList.Length; i++)
-                {
-                    for (int ii = 0; ii < devcount; ii++)
-                    {
-                        if (ad[24 + i * 16] == currentID + 2)
-                        {
-                            int axisNum = ad[24 + i * 16 + 4];
-                            AxCurve deadzone = AxCurve.None;
-                            if (ad[24 + i * 16 + 8] == 0x64)
-                                deadzone = AxCurve.Small;
-                            if (ad[24 + i * 16 + 8] == 0xF4)
-                                deadzone = AxCurve.Medium;
-                            if (ad[24 + i * 16 + 8] == 0xE8)
-                                deadzone = AxCurve.Large;
-                            AxCurve saturation = AxCurve.None;
-                            if (ad[24 + i * 16 + 12] == 0x1C)
-                                saturation = AxCurve.Small;
-                            if (ad[24 + i * 16 + 12] == 0x28)
-                                saturation = AxCurve.Medium;
-                            if (ad[24 + i * 16 + 12] == 0x34)
-                                saturation = AxCurve.Large;
-                            bool invert = false;
-
-                            for (int iii = 0; iii < joystickCalList.Length; iii++)
-                            {
-                                // read joystick.cal
-                                if (axisMappingList[i] != joystickCalList[iii])
-                                    continue;
-                                if (jc[iii * 28 + 20] == 0x01)
-                                    invert = true;
-                            }
-
-                            InGameAxAssgn inGameAxAssgn = new InGameAxAssgn(currentID, axisNum, invert, deadzone, saturation);
-                            axis[axisNum] = new AxAssgn(axisMappingList[i].ToString(), inGameAxAssgn);
-                        }
-                    }
-                }
-            }
         }
 
         object ICloneable.Clone() => Clone();

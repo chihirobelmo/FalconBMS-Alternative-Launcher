@@ -1,10 +1,11 @@
 ﻿using System;
+using FalconBMS.Launcher.Windows;
 
 namespace FalconBMS.Launcher.Input
 {
     public class InGameAxAssgn
     {
-        protected int devNum = -1;      // DeviceNumber(-2=MouseWheel)
+        protected JoyAssgn joy;      // DeviceNumber(-2=MouseWheel)
         protected int phyAxNum = -1;    // PhysicalAxisNumber
                                         // 0=X 1=Y 2=Z 3=Rx 4=Ry 5=Rz 6=Slider0 7=Slider1
         protected bool invert;
@@ -14,9 +15,9 @@ namespace FalconBMS.Launcher.Input
 
         public InGameAxAssgn() { }
 
-        public InGameAxAssgn(int devNum, int phyAxNum, AxAssgn axis)
+        public InGameAxAssgn(JoyAssgn joy, int phyAxNum, AxAssgn axis)
         {
-            this.devNum = devNum;
+            this.joy = joy;
             this.phyAxNum = phyAxNum;
             invert = axis.GetInvert();
             saturation = axis.GetSaturation();
@@ -24,16 +25,24 @@ namespace FalconBMS.Launcher.Input
             assgnDate = axis.GetAssignDate();
         }
 
-        public InGameAxAssgn(int devNum, int phyAxNum, bool invert, AxCurve deadzone, AxCurve saturation)
+        public InGameAxAssgn(JoyAssgn joy, int phyAxNum, bool invert, AxCurve deadzone, AxCurve saturation)
         {
-            this.devNum = devNum;
+            this.joy = joy;
             this.phyAxNum = phyAxNum;
             this.invert = invert;
             this.deadzone = deadzone;
             this.saturation = saturation;
         }
 
-        public int GetDeviceNumber() { return devNum; }
+        public int GetDeviceNumber() 
+        {
+            for (int i = 0; i < MainWindow.deviceControl.joyAssign.Length; i++)
+                if (MainWindow.deviceControl.joyAssign[i] == joy)
+                    return i;
+            if (MainWindow.deviceControl.mouse == joy)
+                return -2;
+            return -1; 
+        }
         public int GetPhysicalNumber() { return phyAxNum; }
         public bool GetInvert() { return invert; }
         public AxCurve GetDeadzone() { return deadzone; }

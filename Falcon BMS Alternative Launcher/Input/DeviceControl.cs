@@ -11,7 +11,8 @@ namespace FalconBMS.Launcher.Input
         public DeviceList devList;
         public Device[] joyStick;
         public JoyAssgn[] joyAssign;
-        public AxAssgn mouseWheelAssign = new AxAssgn();
+        //public AxAssgn mouseWheelAssign = new AxAssgn();
+        public JoyAssgn mouse = new JoyAssgn();
 
         /// <summary>
         /// Get Devices.
@@ -72,22 +73,6 @@ namespace FalconBMS.Launcher.Input
                 joyAssign[i].SetDeviceInstance(dev);
                 i += 1;
             }
-
-            // Import stock BMS Setup if .xml save file for the joystick does not exist. 
-            try
-            {
-                for (int ii = 0; ii < joyAssign.Length; ii++)
-                {
-                    fileName = appReg.GetInstallDir() + "/User/Config/Setup.v100." + joyAssign[ii].GetProductName().Replace("/", "-")
-                       + " {" + joyAssign[ii].GetInstanceGUID().ToString().ToUpper() + "}.xml";
-                    if (File.Exists(fileName) == false)
-                        joyAssign[ii].ImportStockSetup(appReg, joyStick.Length, joyStick[ii].Caps.NumberPointOfViews, ii);
-                }
-            }
-            catch (System.Exception ex)
-            {
-                Diagnostics.WriteLogFile(ex);
-            }
             
             // Load MouseWheel .xml file.
             serializer = new System.Xml.Serialization.XmlSerializer(typeof(AxAssgn));
@@ -95,7 +80,7 @@ namespace FalconBMS.Launcher.Input
             if (File.Exists(fileName))
             {
                 sr = new StreamReader(fileName, new System.Text.UTF8Encoding(false));
-                mouseWheelAssign = (AxAssgn)serializer.Deserialize(sr);
+                mouse.LoadAx((AxAssgn)serializer.Deserialize(sr));
                 sr.Close();
             }
         }
