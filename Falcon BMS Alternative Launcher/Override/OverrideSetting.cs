@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 
@@ -40,6 +41,8 @@ namespace FalconBMS.Launcher.Override
             if (!Directory.Exists(appReg.GetInstallDir() + "/User/Config/Backup/"))
                 Directory.CreateDirectory(appReg.GetInstallDir() + "/User/Config/Backup/");
 
+            SortDevice();
+
             SaveAxisMapping(inGameAxis, deviceControl);
             SaveJoystickCal(inGameAxis, deviceControl);
             SaveDeviceSorting(deviceControl);
@@ -49,6 +52,11 @@ namespace FalconBMS.Launcher.Override
             SavePop();
             SaveWindowConfig();
             SaveJoyAssignStatus(deviceControl);
+        }
+
+        public virtual void SortDevice()
+        {
+            MainWindow.deviceControl.joyAssign = MainWindow.deviceControl.joyAssign.OrderByDescending(j => j.GetAssignedNumber()).ToArray();
         }
 
         protected void SaveWindowConfig()

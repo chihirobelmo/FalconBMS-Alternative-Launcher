@@ -1,4 +1,6 @@
-﻿namespace FalconBMS.Launcher.Input
+﻿using System.Linq;
+
+namespace FalconBMS.Launcher.Input
 {
 
     /// <summary>
@@ -35,6 +37,11 @@
         public DxAssgn Clone()
         {
             return new DxAssgn(this);
+        }
+
+        public int GetAssignedNumber()
+        {
+            return assign.Count(a => a.Callback != "SimDoNothing");
         }
     }
 

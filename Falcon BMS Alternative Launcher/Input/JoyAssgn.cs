@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 using System.Text.RegularExpressions;
@@ -31,6 +32,10 @@ namespace FalconBMS.Launcher.Input
         public AxAssgn GetMouseAxis()
         {
             return axis[0];
+        }
+        public int GetAssignedNumber()
+        {
+            return dx.Count(d => d.GetAssignedNumber() > 0);
         }
 
         // Member
