@@ -126,6 +126,21 @@
     <Compile Include="Input\DxAssgn.cs" />
     <Compile Include="Input\InGameAxAssgn.cs" />
     <Compile Include="Input\KeyFile.cs" />
+    <Compile Include="Starter\Starter436I.cs" />
+    <Compile Include="Starter\Starter437I.cs" />
+    <Compile Include="Starter\Starter437.cs" />
+    <Compile Include="Starter\Starter436.cs" />
+    <Compile Include="Starter\Starter435.cs" />
+    <Compile Include="Starter\Starter434.cs" />
+    <Compile Include="Starter\Starter433.cs" />
+    <Compile Include="Starter\Starter432.cs" />
+    <Compile Include="Override\OverrideSettingFor432.cs" />
+    <Compile Include="Override\OverrideSettingFor433.cs" />
+    <Compile Include="Override\OverrideSettingFor434.cs" />
+    <Compile Include="Override\OverrideSettingFor434U1.cs" />
+    <Compile Include="Override\OverrideSettingFor435.cs" />
+    <Compile Include="Override\OverrideSettingFor436.cs" />
+    <Compile Include="Override\OverrideSettingFor437.cs" />
     <Compile Include="Torrent.cs" />
     <Compile Include="Update\Update.cs" />
     <Compile Include="Windows\CallsignWindow.xaml.cs">
@@ -137,10 +152,10 @@
     <Compile Include="Windows\KeyMappingWindow.xaml.cs">
       <DependentUpon>KeyMappingWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="OverrideSetting.cs" />
+    <Compile Include="Override\OverrideSetting.cs" />
     <Compile Include="Input\PovAssgn.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Launcher.cs" />
+    <Compile Include="Starter\AbstractStarter.cs" />
     <Compile Include="TheaterList.cs" />
     <Compile Include="Input\DetentPosition.cs" />
     <Compile Include="Windows\RecommendReboot.xaml.cs">
@@ -259,9 +274,6 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="LICENSE" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\web_banner.png" />

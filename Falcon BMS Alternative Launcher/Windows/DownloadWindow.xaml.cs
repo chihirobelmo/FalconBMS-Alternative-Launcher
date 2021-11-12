@@ -43,14 +43,20 @@ namespace FalconBMS.Launcher.Windows
         {
             if (update != null)
                 return;
+            try
+            {
+                System.Xml.Serialization.XmlSerializer serializer;
+                serializer = new System.Xml.Serialization.XmlSerializer(typeof(Update.Update));
 
-            System.Xml.Serialization.XmlSerializer serializer;
-            serializer = new System.Xml.Serialization.XmlSerializer(typeof(Update.Update));
-
-            string fileName = "UpdateBMS.xml";
-            StreamReader sr = new StreamReader(fileName, new System.Text.UTF8Encoding(false));
-            update = (Update.Update)serializer.Deserialize(sr);
-            sr.Close();
+                string fileName = "UpdateBMS.xml";
+                StreamReader sr = new StreamReader(fileName, new System.Text.UTF8Encoding(false));
+                update = (Update.Update)serializer.Deserialize(sr);
+                sr.Close();
+            }
+            catch 
+            { 
+                // WIP
+            }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -114,6 +120,9 @@ namespace FalconBMS.Launcher.Windows
         }
         public static bool CheckMinorUpdate(AppRegInfo appReg)
         {
+            if (update == null)
+                return true;
+
             CheckUpdateInformation();
 
             return appReg.getUpdateVersion() == update.bms.inclementalUpdate.Length;  
@@ -121,6 +130,9 @@ namespace FalconBMS.Launcher.Windows
 
         public static bool CheckMajorUpdate(ListBox lb)
         {
+            if (update == null)
+                return true;
+
             CheckUpdateInformation();
 
             return lb.Items.IndexOf(update.bms.registry.name) != -1;
@@ -128,6 +140,8 @@ namespace FalconBMS.Launcher.Windows
 
         public bool DownloadMinorUpdate()
         {
+            if (update == null)
+                return true;
 
             if (!update.bms.release)
                 return false;
@@ -149,6 +163,9 @@ namespace FalconBMS.Launcher.Windows
 
         public bool DownloadMajorUpdate()
         {
+            if (update == null)
+                return true;
+
             update.bms.installer.DeleteBsf();
 
             if (!update.bms.release)
@@ -172,6 +189,9 @@ namespace FalconBMS.Launcher.Windows
 
         public static void DoMinorUpdate()
         {
+            if (update == null)
+                return;
+
             if (!update.bms.installer.exe.DestinationExist())
                 Directory.CreateDirectory(update.bms.installer.exe.destination);
 
@@ -184,12 +204,18 @@ namespace FalconBMS.Launcher.Windows
 
         public void DoMajorUpdate()
         {
+            if (update == null)
+                return;
+
             if (update.bms.installer.exe.Exist())
                 update.bms.installer.exe.Execute();
         }
 
         public bool UnzipMajorUpdate()
         {
+            if (update == null)
+                return true;
+
             if (!Directory.Exists(update.bms.installer.exe.destination))
                 Directory.CreateDirectory(update.bms.installer.exe.destination);
             if (update.bms.installer.exe.Exist())

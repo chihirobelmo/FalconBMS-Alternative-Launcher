@@ -17,15 +17,15 @@ namespace FalconBMS.Launcher
         public static bool status;
         public static bool BitSwarm(string command)
         {
-            ProcessStartInfo processStartInfo = new ProcessStartInfo(".\\bitswarm.exe", command);
-
-            processStartInfo.CreateNoWindow = false;
-            processStartInfo.UseShellExecute = true;
-
-            Process process;
-
             try
             {
+                ProcessStartInfo processStartInfo = new ProcessStartInfo(".\\bitswarm.exe", command);
+
+                processStartInfo.CreateNoWindow = false;
+                processStartInfo.UseShellExecute = true;
+
+                Process process;
+
                 process = Process.Start(processStartInfo);
 
                 string standardOutput = process.StandardOutput.ReadToEnd();
