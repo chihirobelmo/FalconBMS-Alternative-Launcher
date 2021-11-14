@@ -43,6 +43,8 @@ namespace FalconBMS.Launcher.Windows
             var temp = KeyMappingGrid.ItemsSource;
             KeyMappingGrid.ItemsSource = null;
             KeyMappingGrid.ItemsSource = temp;
+
+            statusAssign = Status.GetNeutralPos;
         }
 
         /// <summary>
@@ -90,6 +92,7 @@ namespace FalconBMS.Launcher.Windows
         private void DataGrid_MouseButtonDoubleClick(object sender, MouseButtonEventArgs e)
         {
             KeyMappingTimer.Stop();
+            NewDeviceDetectTimer.Stop();
 
             KeyAssgn selectedItem = (KeyAssgn)KeyMappingGrid.SelectedItem;
             if (selectedItem == null)
@@ -101,10 +104,11 @@ namespace FalconBMS.Launcher.Windows
             if (selectedItem.GetCallback() == "SimDoNothing")
                 return;
 
-            KeyMappingWindow.ShowKeyMappingWindow(selectedItem, keyFile, deviceControl, sender);
+            KeyMappingWindow.ShowKeyMappingWindow(this, selectedItem, keyFile, deviceControl, sender);
             KeyMappingGrid.Items.Refresh();
             KeyMappingGrid.UnselectAllCells();
 
+            NewDeviceDetectTimer.Start();
             KeyMappingTimer.Start();
         }
         

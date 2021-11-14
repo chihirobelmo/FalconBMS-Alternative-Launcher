@@ -48,7 +48,7 @@ namespace FalconBMS.Launcher.Input
         {
             for (int i = 0; i < MainWindow.deviceControl.joyAssign.Length; i++)
                 if (MainWindow.deviceControl.joyAssign[i] == joy)
-                    return joy.GetDevicce();
+                    return joy.GetDevice();
             return null;
         }
         public JoyAssgn GetJoy()

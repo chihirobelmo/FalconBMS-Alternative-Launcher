@@ -430,7 +430,7 @@ namespace FalconBMS.Launcher.Input
         {
             return dx.Sum(d => d.GetAssignedNumber());
         }
-        public Device GetDevicce()
+        public Device GetDevice()
         {
             return device;
         }
