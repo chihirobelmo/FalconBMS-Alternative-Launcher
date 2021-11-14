@@ -115,7 +115,8 @@ namespace FalconBMS.Launcher.Windows
                 // Read Registry
                 appReg = new AppRegInfo(this);
 
-                Reset();
+                BMSChanged();
+                ReloadDevices();
             }
             catch (Exception ex3)
             {
@@ -134,7 +135,9 @@ namespace FalconBMS.Launcher.Windows
                     DownloadWindow.ShowDownloadWindow(this, appReg, ListBox_BMS);
 
                     appReg = new AppRegInfo(this);
-                    Reset();
+
+                    BMSChanged();
+                    ReloadDevices();
                 }
                 catch (Exception ex5)
                 {
@@ -189,21 +192,18 @@ namespace FalconBMS.Launcher.Windows
 
         private void NewDeviceDetectTimer_Tick(object sender, EventArgs e)
         {
-            Microsoft.DirectX.DirectInput.DeviceList devList = Microsoft.DirectX.DirectInput.Manager.GetDevices(Microsoft.DirectX.DirectInput.DeviceClass.GameControl, Microsoft.DirectX.DirectInput.EnumDevicesFlags.AttachedOnly);
+            Microsoft.DirectX.DirectInput.DeviceList devList = 
+                Microsoft.DirectX.DirectInput.Manager.GetDevices(
+                    Microsoft.DirectX.DirectInput.DeviceClass.GameControl, 
+                    Microsoft.DirectX.DirectInput.EnumDevicesFlags.AttachedOnly
+                    );
+            
             if (deviceControl.devList.Count != devList.Count)
             {
                 AxisMovingTimer.Stop();
                 KeyMappingTimer.Stop();
 
-                statusAssign = Status.GetNeutralPos;
-                deviceControl = new DeviceControl(appReg);
-                neutralButtons = new NeutralButtons[deviceControl.joyAssign.Length];
-                AquireAll(true);
-                foreach (AxisName nme in axisNameList)
-                    inGameAxis[nme.ToString()] = new InGameAxAssgn();
-                joyAssign_2_inGameAxis();
-                ResetAssgnWindow();
-                WriteDataGrid();
+                ReloadDevices();
 
                 int value = LargeTab.SelectedIndex;
                 if (value == 1)
@@ -216,7 +216,7 @@ namespace FalconBMS.Launcher.Windows
             }
         }
 
-        private void Reset()
+        private void BMSChanged()
         {
             statusAssign = Status.GetNeutralPos;
 
@@ -225,6 +225,19 @@ namespace FalconBMS.Launcher.Windows
             // Read Theater List
             TheaterList.PopulateAndSave(appReg, Dropdown_TheaterList);
 
+            // Read BMS-FULL.key
+            string fname = appReg.GetInstallDir() + "\\User\\Config\\" + appReg.getKeyFileName();
+            string fnameauto = appReg.GetInstallDir() + "\\User\\Config\\" + appReg.getAutoKeyFileName();
+            if (!File.Exists(fnameauto))
+                File.Copy(fname, fnameauto);
+            keyFile = new KeyFile(fnameauto, appReg);
+
+            // Write Data Grid
+            WriteDataGrid();
+        }
+
+        public void ReloadDevices()
+        {
             // Get Devices
             deviceControl = new DeviceControl(appReg);
             neutralButtons = new NeutralButtons[deviceControl.joyAssign.Length];
@@ -237,16 +250,6 @@ namespace FalconBMS.Launcher.Windows
                 inGameAxis[nme.ToString()] = new InGameAxAssgn();
             joyAssign_2_inGameAxis();
             ResetAssgnWindow();
-
-            // Read BMS-FULL.key
-            string fname     = appReg.GetInstallDir() + "\\User\\Config\\" + appReg.getKeyFileName();
-            string fnameauto = appReg.GetInstallDir() + "\\User\\Config\\" + appReg.getAutoKeyFileName();
-            if (!File.Exists(fnameauto))
-                File.Copy(fname, fnameauto);
-            keyFile = new KeyFile(fnameauto, appReg);
-
-            // Write Data Grid
-            WriteDataGrid();
         }
         
         /// <summary>
@@ -742,7 +745,9 @@ namespace FalconBMS.Launcher.Windows
 
             Properties.Settings.Default.BMS_Version = this.ListBox_BMS.SelectedItem.ToString();
             appReg.Init(this, this.ListBox_BMS.SelectedItem.ToString());
-            Reset();
+
+            BMSChanged();
+            ReloadDevices();
         }
     }
 }

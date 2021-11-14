@@ -82,6 +82,11 @@ namespace FalconBMS.Launcher.Windows
         /// <param name="e"></param>
         public void AxisMovingTimer_Tick(object sender, EventArgs e)
         {
+            UpdateAxisStatus();
+        }
+
+        public void UpdateAxisStatus()
+        {
             try
             {
                 if (inGameAxis.Count == 0)
@@ -139,9 +144,9 @@ namespace FalconBMS.Launcher.Windows
 
                     int output = ApplyDeadZone
                         (
-                            ( (InGameAxAssgn)inGameAxis[nme.ToString()] ).GetJoy().JoyAxisState( ( (InGameAxAssgn)inGameAxis[nme.ToString()] ).GetPhysicalNumber() ),
-                            ( (InGameAxAssgn)inGameAxis[nme.ToString()] ).GetDeadzone(),
-                            ( (InGameAxAssgn)inGameAxis[nme.ToString()] ).GetSaturation()
+                            ((InGameAxAssgn)inGameAxis[nme.ToString()]).GetJoy().JoyAxisState(((InGameAxAssgn)inGameAxis[nme.ToString()]).GetPhysicalNumber()),
+                            ((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeadzone(),
+                            ((InGameAxAssgn)inGameAxis[nme.ToString()]).GetSaturation()
                         );
                     tbprogressbar.Value = output * invertNum;
 
@@ -332,12 +337,11 @@ namespace FalconBMS.Launcher.Windows
         private void Assign_Click(object sender, RoutedEventArgs e)
         {
             AxisMovingTimer.Stop();
+            NewDeviceDetectTimer.Stop();
 
             string whocalledwindow = ((System.Windows.Controls.Button)sender).Name;
 
-            InGameAxAssgn axisAssign = new InGameAxAssgn();
-
-            axisAssign = AxisAssignWindow.ShowAxisAssignWindow((InGameAxAssgn)inGameAxis[whocalledwindow], sender);
+            InGameAxAssgn axisAssign = AxisAssignWindow.ShowAxisAssignWindow(this, (InGameAxAssgn)inGameAxis[whocalledwindow], sender);
 
             // Reset PhysicalAxis previously assigned to same axis
             // In case of axis has been unassigned and saved.
@@ -359,6 +363,7 @@ namespace FalconBMS.Launcher.Windows
             joyAssign_2_inGameAxis();
             ResetAssgnWindow();
 
+            NewDeviceDetectTimer.Start();
             AxisMovingTimer.Start();
         }
         
