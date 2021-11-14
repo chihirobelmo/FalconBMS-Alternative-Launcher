@@ -1,5 +1,6 @@
 ﻿using System;
 using FalconBMS.Launcher.Windows;
+using Microsoft.DirectX.DirectInput;
 
 namespace FalconBMS.Launcher.Input
 {
@@ -41,7 +42,18 @@ namespace FalconBMS.Launcher.Input
                     return i;
             if (MainWindow.deviceControl.mouse == joy)
                 return -2;
-            return -1; 
+            return -1;
+        }
+        public Device GetDevice()
+        {
+            for (int i = 0; i < MainWindow.deviceControl.joyAssign.Length; i++)
+                if (MainWindow.deviceControl.joyAssign[i] == joy)
+                    return joy.GetDevicce();
+            return null;
+        }
+        public JoyAssgn GetJoy()
+        {
+            return joy;
         }
         public int GetPhysicalNumber() { return phyAxNum; }
         public bool GetInvert() { return invert; }

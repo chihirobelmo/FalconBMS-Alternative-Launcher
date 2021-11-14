@@ -192,7 +192,7 @@ namespace FalconBMS.Launcher.Windows
 
             // Get Devices
             deviceControl = new DeviceControl(appReg);
-            neutralButtons = new NeutralButtons[deviceControl.devList.Count];
+            neutralButtons = new NeutralButtons[deviceControl.joyAssign.Length];
 
             // Aquire joySticks
             AquireAll(true);
@@ -669,7 +669,7 @@ namespace FalconBMS.Launcher.Windows
 
         private void Apply_YAME64(object sender, RoutedEventArgs e)
         {
-            appReg.getOverrideWriter().Execute(inGameAxis, deviceControl, keyFile);
+            //appReg.getOverrideWriter().Execute(inGameAxis, deviceControl, keyFile);
             Close();
         }
 

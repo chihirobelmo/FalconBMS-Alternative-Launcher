@@ -49,10 +49,10 @@ namespace FalconBMS.Launcher.Windows
             this.keyFile       = keyFile;
             this.deviceControl = deviceControl;
 
-            neutralButtons = new NeutralButtons[deviceControl.devList.Count];
+            neutralButtons = new NeutralButtons[deviceControl.joyAssign.Length];
 
-            tmpJoyStick = new JoyAssgn[deviceControl.devList.Count];
-            for (int i = 0; i < deviceControl.devList.Count; i++)
+            tmpJoyStick = new JoyAssgn[deviceControl.joyAssign.Length];
+            for (int i = 0; i < deviceControl.joyAssign.Length; i++)
             {
                 tmpJoyStick[i] = deviceControl.joyAssign[i].Clone();
             }
@@ -75,7 +75,7 @@ namespace FalconBMS.Launcher.Windows
 
         private void getNeutralPosition()
         {
-            for (int i = 0; i < deviceControl.devList.Count; i++)
+            for (int i = 0; i < deviceControl.joyAssign.Length; i++)
                 neutralButtons[i] = new NeutralButtons(deviceControl.joyStick[i]);
         }
 
@@ -92,7 +92,7 @@ namespace FalconBMS.Launcher.Windows
             str += tmpCallback.GetKeyAssignmentStatus() + "; ";
             if (str == "; ")
                 str = "";
-            for (int i = 0; i < deviceControl.devList.Count; i++)
+            for (int i = 0; i < deviceControl.joyAssign.Length; i++)
                 str += tmpCallback.ReadJoyAssignment(i, tmpJoyStick);
             MappedButton.Content = str;
 
@@ -115,7 +115,7 @@ namespace FalconBMS.Launcher.Windows
 
         private void JoystickButtonMonitor()
         {
-            for (int i = 0; i < deviceControl.devList.Count; i++)
+            for (int i = 0; i < deviceControl.joyAssign.Length; i++)
             {
                 byte[] buttons;
                 int[] povs;
@@ -280,7 +280,7 @@ namespace FalconBMS.Launcher.Windows
 
         private void ClearDX_Click(object sender, RoutedEventArgs e)
         {
-            for (int i = 0; i < deviceControl.devList.Count; i++)
+            for (int i = 0; i < deviceControl.joyAssign.Length; i++)
             {
                 tmpJoyStick[i] = deviceControl.joyAssign[i].Clone();
             }

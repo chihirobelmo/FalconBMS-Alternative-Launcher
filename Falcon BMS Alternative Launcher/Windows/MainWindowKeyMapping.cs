@@ -66,7 +66,7 @@ namespace FalconBMS.Launcher.Windows
             if (!e.PropertyName.Contains("Z_Joy_"))
                 return;
             int target = int.Parse(e.PropertyName.Replace("Z_Joy_", ""));
-            if (target >= deviceControl.devList.Count)
+            if (target >= deviceControl.joyAssign.Length)
             {
                 e.Cancel = true;
                 return;
@@ -169,12 +169,12 @@ namespace FalconBMS.Launcher.Windows
             switch (statusAssign)
             {
                 case Status.GetNeutralPos:
-                    for (int i = 0; i < deviceControl.devList.Count; i++)
+                    for (int i = 0; i < deviceControl.joyAssign.Length; i++)
                         neutralButtons[i] = new NeutralButtons(deviceControl.joyStick[i]);
                     statusAssign = Status.WaitingforInput;
                     break;
                 case Status.WaitingforInput:
-                    for (int i = 0; i < deviceControl.devList.Count; i++)
+                    for (int i = 0; i < deviceControl.joyAssign.Length; i++)
                     {
                         buttons = deviceControl.joyStick[i].CurrentJoystickState.GetButtons();
                         for (int ii = 0; ii < CommonConstants.DX128; ii++)

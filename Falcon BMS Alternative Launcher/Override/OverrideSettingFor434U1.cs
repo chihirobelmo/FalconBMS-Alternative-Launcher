@@ -40,7 +40,7 @@ namespace FalconBMS.Launcher.Override
             StreamWriter cfg = new StreamWriter
                 (filename, false, Encoding.GetEncoding("shift_jis"));
             cfg.Write(stResult);
-            cfg.Write("set g_nHotasPinkyShiftMagnitude " + deviceControl.devList.Count * CommonConstants.DX32
+            cfg.Write("set g_nHotasPinkyShiftMagnitude " + deviceControl.joyAssign.Length * CommonConstants.DX32
                 + "          // SETUP OVERRIDE\r\n");
             cfg.Write("set g_bHotasDgftSelfCancel " + Convert.ToInt32(mainWindow.Misc_OverrideSelfCancel.IsChecked)
                 + "          // SETUP OVERRIDE\r\n");
@@ -70,9 +70,9 @@ namespace FalconBMS.Launcher.Override
                 (filename, false, Encoding.GetEncoding("utf-8"));
             for (int i = 0; i < keyFile.keyAssign.Length; i++)
                 sw.Write(keyFile.keyAssign[i].GetKeyLine());
-            for (int i = 0; i < deviceControl.devList.Count; i++)
+            for (int i = 0; i < deviceControl.joyAssign.Length; i++)
             {
-                sw.Write(deviceControl.joyAssign[i].GetKeyLineDX(i, deviceControl.devList.Count));
+                sw.Write(deviceControl.joyAssign[i].GetKeyLineDX(i, deviceControl.joyAssign.Length));
                 // PRIMARY DEVICE POV
                 if (((InGameAxAssgn)inGameAxis["Roll"]).GetDeviceNumber() == i && ((InGameAxAssgn)inGameAxis["Roll"]).GetDeviceNumber() == ((InGameAxAssgn)inGameAxis["Throttle"]).GetDeviceNumber())
                 {

@@ -139,9 +139,9 @@ namespace FalconBMS.Launcher.Windows
 
                     int output = ApplyDeadZone
                         (
-                            deviceControl.JoyAxisState(((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber(), ((InGameAxAssgn)inGameAxis[nme.ToString()]).GetPhysicalNumber()),
-                            ((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeadzone(),
-                            ((InGameAxAssgn)inGameAxis[nme.ToString()]).GetSaturation()
+                            ( (InGameAxAssgn)inGameAxis[nme.ToString()] ).GetJoy().JoyAxisState( ( (InGameAxAssgn)inGameAxis[nme.ToString()] ).GetPhysicalNumber() ),
+                            ( (InGameAxAssgn)inGameAxis[nme.ToString()] ).GetDeadzone(),
+                            ( (InGameAxAssgn)inGameAxis[nme.ToString()] ).GetSaturation()
                         );
                     tbprogressbar.Value = output * invertNum;
 
@@ -341,7 +341,7 @@ namespace FalconBMS.Launcher.Windows
 
             // Reset PhysicalAxis previously assigned to same axis
             // In case of axis has been unassigned and saved.
-            for (int i = 0; i < deviceControl.devList.Count; i++)
+            for (int i = 0; i < deviceControl.joyAssign.Length; i++)
                 deviceControl.joyAssign[i].ResetPreviousAxis(whocalledwindow);
             if (deviceControl.mouse.GetMouseAxis().GetAxisName() == whocalledwindow)
                 deviceControl.mouse.LoadAx(new AxAssgn());
@@ -369,7 +369,7 @@ namespace FalconBMS.Launcher.Windows
         {
             foreach (AxisName nme in axisNameList)
                 inGameAxis[nme.ToString()] = new InGameAxAssgn();
-            for (int i = 0; i <= deviceControl.joyAssign.Length - 1; i++)
+            for (int i = 0; i < deviceControl.joyAssign.Length; i++)
             {
                 for (int ii = 0; ii <= 7; ii++)
                 {
@@ -416,13 +416,13 @@ namespace FalconBMS.Launcher.Windows
         {
             if (FLG)
             {
-                for (int i = 0; i < deviceControl.devList.Count; i++)
+                for (int i = 0; i < deviceControl.joyAssign.Length; i++)
                 {
                     deviceControl.joyStick[i].Acquire();
                 }
                 return;
             }
-            for (int i = 0; i < deviceControl.devList.Count; i++)
+            for (int i = 0; i < deviceControl.joyAssign.Length; i++)
             {
                 deviceControl.joyStick[i].Unacquire();
             }

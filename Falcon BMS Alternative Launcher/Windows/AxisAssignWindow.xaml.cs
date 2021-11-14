@@ -203,11 +203,11 @@ namespace FalconBMS.Launcher.Windows
                 }
             }
 
-            Joynum = new JoyAxisNeutralValue[MainWindow.deviceControl.devList.Count];
-            for (int i = 0; i < MainWindow.deviceControl.devList.Count; i++)
-            {
+            Joynum = new JoyAxisNeutralValue[MainWindow.deviceControl.joyAssign.Length];
+            for (int i = 0; i < MainWindow.deviceControl.joyAssign.Length; i++)
                 Joynum[i] = new JoyAxisNeutralValue();
-            }
+
+            devNumTmp = ((InGameAxAssgn)MainWindow.inGameAxis[whoCalledWindow]).GetDeviceNumber();
 
             AxisDetectionTimer.Tick += AxisDetectionTimerCode;
             AxisDetectionTimer.Interval = new TimeSpan(0, 0, 0, 0, 16);
@@ -219,21 +219,21 @@ namespace FalconBMS.Launcher.Windows
         {
             if (status == Status.GetNeutralPosition)
             {
-                for (int i = 0; i <= MainWindow.deviceControl.devList.Count - 1; i++)
+                for (int i = 0; i < MainWindow.deviceControl.joyAssign.Length; i++)
                     for (int ii = 0; ii < 8; ii++)
-                        Joynum[i].NeutralValue[ii] = MainWindow.deviceControl.JoyAxisState(i, ii);
+                        Joynum[i].NeutralValue[ii] = MainWindow.deviceControl.joyAssign[i].JoyAxisState(ii);
                 status = Status.WaitInput;
                 AssignedJoystick.Content = "   AWAITING INPUTS";
                 sw.Start();
             }
             else if (status == Status.WaitInput)
             {
-                for (int i = 0; i <= MainWindow.deviceControl.devList.Count - 1; i++)
+                for (int i = 0; i < MainWindow.deviceControl.joyAssign.Length; i++)
                 {
                     for (int ii = 0; ii < 8; ii++)
                     {
-                        if (MainWindow.deviceControl.JoyAxisState(i, ii) < Joynum[i].NeutralValue[ii] + CommonConstants.AXISMAX / 4 &
-                            MainWindow.deviceControl.JoyAxisState(i, ii) > Joynum[i].NeutralValue[ii] - CommonConstants.AXISMAX / 4)
+                        if (MainWindow.deviceControl.joyAssign[i].JoyAxisState(ii) < Joynum[i].NeutralValue[ii] + CommonConstants.AXISMAX / 4 &
+                            MainWindow.deviceControl.joyAssign[i].JoyAxisState(ii) > Joynum[i].NeutralValue[ii] - CommonConstants.AXISMAX / 4)
                             continue;
                         devNumTmp = i;
                         phyAxNumTmp = ii;
@@ -310,7 +310,7 @@ namespace FalconBMS.Launcher.Windows
 
                 int output = MainWindow.ApplyDeadZone
                     (
-                        MainWindow.deviceControl.JoyAxisState(devNumTmp, phyAxNumTmp), 
+                        MainWindow.deviceControl.joyAssign[devNumTmp].JoyAxisState(phyAxNumTmp),
                         (AxCurve)DeadZone.SelectedIndex, 
                         (AxCurve)Saturation.SelectedIndex
                     );
@@ -363,9 +363,8 @@ namespace FalconBMS.Launcher.Windows
             }
             if (status == Status.ShowAxisStatus)
             {
-                if (devNumTmp > 0)
+                if (devNumTmp >= 0)
                 {
-                    AxAssgn axisInfo = new AxAssgn();
                     axisAssign = new InGameAxAssgn(
                             MainWindow.deviceControl.joyAssign[devNumTmp],
                             phyAxNumTmp,
@@ -374,12 +373,10 @@ namespace FalconBMS.Launcher.Windows
                             (AxCurve)Saturation.SelectedIndex
                         );
                     if (whoCalledWindow == "Throttle")
-                        if (devNumTmp >= 0)
-                            MainWindow.deviceControl.joyAssign[devNumTmp].detentPosition = new DetentPosition(AB, IDLE);
+                        MainWindow.deviceControl.joyAssign[devNumTmp].detentPosition = new DetentPosition(AB, IDLE);
                 }
                 else if (devNumTmp == -2)
                 {
-                    AxAssgn axisInfo = new AxAssgn();
                     axisAssign = new InGameAxAssgn(
                             MainWindow.deviceControl.mouse,
                             0,
@@ -388,8 +385,7 @@ namespace FalconBMS.Launcher.Windows
                             (AxCurve)Saturation.SelectedIndex
                         );
                     if (whoCalledWindow == "Throttle")
-                        if (devNumTmp >= 0)
-                            MainWindow.deviceControl.mouse.detentPosition = new DetentPosition(AB, IDLE);
+                        MainWindow.deviceControl.mouse.detentPosition = new DetentPosition(AB, IDLE);
                 }
             }
             AxisDetectionTimer.Stop();
@@ -448,8 +444,8 @@ namespace FalconBMS.Launcher.Windows
             if (status != Status.ShowAxisStatus)
                 return;
             int ABposition;
-            ABposition = CommonConstants.AXISMAX - MainWindow.deviceControl.JoyAxisState(devNumTmp, phyAxNumTmp);
-            if (MainWindow.deviceControl.JoyAxisState(devNumTmp, phyAxNumTmp) > CommonConstants.AXISMAX)
+            ABposition = CommonConstants.AXISMAX - MainWindow.deviceControl.joyAssign[devNumTmp].JoyAxisState(phyAxNumTmp);
+            if (MainWindow.deviceControl.joyAssign[devNumTmp].JoyAxisState(phyAxNumTmp) > CommonConstants.AXISMAX)
                 ABposition = CommonConstants.AXISMAX;
             AB = ABposition;
             if (AB > CommonConstants.AXISMAX - CommonConstants.AXISMAX / 128)
@@ -461,8 +457,8 @@ namespace FalconBMS.Launcher.Windows
             if (status != Status.ShowAxisStatus)
                 return;
             int IDLEposition;
-            IDLEposition = CommonConstants.AXISMAX - MainWindow.deviceControl.JoyAxisState(devNumTmp, phyAxNumTmp);
-            if (MainWindow.deviceControl.JoyAxisState(devNumTmp, phyAxNumTmp) < 0)
+            IDLEposition = CommonConstants.AXISMAX - MainWindow.deviceControl.joyAssign[devNumTmp].JoyAxisState(phyAxNumTmp);
+            if (MainWindow.deviceControl.joyAssign[devNumTmp].JoyAxisState(phyAxNumTmp) < 0)
                 IDLEposition = CommonConstants.AXISMIN;
             IDLE = IDLEposition;
             if (IDLE < CommonConstants.AXISMAX / 128)
@@ -478,7 +474,7 @@ namespace FalconBMS.Launcher.Windows
             }
             catch
             {
-
+                // Don't write anything here.
             }
         }
     }

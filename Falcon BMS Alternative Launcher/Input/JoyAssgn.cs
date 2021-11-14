@@ -11,32 +11,7 @@ namespace FalconBMS.Launcher.Input
 {
     public class JoyAssgn : ICloneable
     {
-        public void Load(JoyAssgn j)
-        {
-            detentPosition = j.detentPosition;
-
-            axis = j.axis;
-            pov  = j.pov;
-
-            for (int i = 0; i < j.dx.Length; i++)
-            {
-                if (i >= dx.Length)
-                    return;
-                dx[i] = j.dx[i];
-            }
-        }
-        public void LoadAx(AxAssgn a)
-        {
-            axis[0] = a;
-        }
-        public AxAssgn GetMouseAxis()
-        {
-            return axis[0];
-        }
-        public int GetAssignedNumber()
-        {
-            return dx.Sum(d => d.GetAssignedNumber());
-        }
+        protected Device device;
 
         // Member
         protected string productName = "";
@@ -101,6 +76,17 @@ namespace FalconBMS.Launcher.Input
             for (int i = 0; i < dx.Length; i++)
                 dx[i] = new DxAssgn();
         }
+        public JoyAssgn(Device device)
+        {
+            this.device = device;
+
+            for (int i = 0; i < axis.Length; i++)
+                axis[i] = new AxAssgn();
+            for (int i = 0; i < pov.Length; i++)
+                pov[i] = new PovAssgn();
+            for (int i = 0; i < dx.Length; i++)
+                dx[i] = new DxAssgn();
+        }
         public JoyAssgn(JoyAssgn otherInstance)
         {
             productGUID = otherInstance.productGUID;
@@ -129,6 +115,41 @@ namespace FalconBMS.Launcher.Input
             instanceGUID = deviceInstance.InstanceGuid;
 
             productName = Regex.Replace(productName, "[^A-Z|a-z|0-9|~|`|\\[|\\]|\\{|\\}|\\-|_|\\=|\\'|\\s]", String.Empty);
+        }
+
+        public int JoyAxisState(int joyAxisNumber)
+        {
+            int input = 0;
+            if (device == null)
+                return 0;
+            switch (joyAxisNumber)
+            {
+                case 0:
+                    input = device.CurrentJoystickState.X;
+                    break;
+                case 1:
+                    input = device.CurrentJoystickState.Y;
+                    break;
+                case 2:
+                    input = device.CurrentJoystickState.Z;
+                    break;
+                case 3:
+                    input = device.CurrentJoystickState.Rx;
+                    break;
+                case 4:
+                    input = device.CurrentJoystickState.Ry;
+                    break;
+                case 5:
+                    input = device.CurrentJoystickState.Rz;
+                    break;
+                case 6:
+                    input = device.CurrentJoystickState.GetSlider()[0];
+                    break;
+                case 7:
+                    input = device.CurrentJoystickState.GetSlider()[1];
+                    break;
+            }
+            return input;
         }
 
         /// <summary>
@@ -375,6 +396,36 @@ namespace FalconBMS.Launcher.Input
                 }
             }
             return result;
+        }
+        public void Load(JoyAssgn j)
+        {
+            detentPosition = j.detentPosition;
+
+            axis = j.axis;
+            pov = j.pov;
+
+            for (int i = 0; i < j.dx.Length; i++)
+            {
+                if (i >= dx.Length)
+                    return;
+                dx[i] = j.dx[i];
+            }
+        }
+        public void LoadAx(AxAssgn a)
+        {
+            axis[0] = a;
+        }
+        public AxAssgn GetMouseAxis()
+        {
+            return axis[0];
+        }
+        public int GetAssignedNumber()
+        {
+            return dx.Sum(d => d.GetAssignedNumber());
+        }
+        public Device GetDevicce()
+        {
+            return device;
         }
 
         object ICloneable.Clone() => Clone();

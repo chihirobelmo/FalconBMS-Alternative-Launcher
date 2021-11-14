@@ -32,14 +32,14 @@ namespace FalconBMS.Launcher.Input
 
             System.Xml.Serialization.XmlSerializer serializer;
             StreamReader sr;
-            string fileName = "";
-            string stockFileName = "";
+            string fileName;
+            string stockFileName;
             int i = 0;
 
             foreach (DeviceInstance dev in devList)
             {
                 joyStick[i] = new Device(dev.InstanceGuid);
-                joyAssign[i] = new JoyAssgn();
+                joyAssign[i] = new JoyAssgn(joyStick[i]);
 
                 joyAssign[i].SetDeviceInstance(dev);
                 int povnum = joyStick[i].Caps.NumberPointOfViews;
@@ -83,39 +83,6 @@ namespace FalconBMS.Launcher.Input
                 mouse.LoadAx((AxAssgn)serializer.Deserialize(sr));
                 sr.Close();
             }
-        }
-
-        public int JoyAxisState(int joyNumber, int joyAxisNumber)
-        {
-            int input = 0;
-            switch (joyAxisNumber)
-            {
-                case 0:
-                    input = joyStick[joyNumber].CurrentJoystickState.X;
-                    break;
-                case 1:
-                    input = joyStick[joyNumber].CurrentJoystickState.Y;
-                    break;
-                case 2:
-                    input = joyStick[joyNumber].CurrentJoystickState.Z;
-                    break;
-                case 3:
-                    input = joyStick[joyNumber].CurrentJoystickState.Rx;
-                    break;
-                case 4:
-                    input = joyStick[joyNumber].CurrentJoystickState.Ry;
-                    break;
-                case 5:
-                    input = joyStick[joyNumber].CurrentJoystickState.Rz;
-                    break;
-                case 6:
-                    input = joyStick[joyNumber].CurrentJoystickState.GetSlider()[0];
-                    break;
-                case 7:
-                    input = joyStick[joyNumber].CurrentJoystickState.GetSlider()[1];
-                    break;
-            }
-            return input;
         }
     }
 }

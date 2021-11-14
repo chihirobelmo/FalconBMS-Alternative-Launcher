@@ -116,7 +116,7 @@ namespace FalconBMS.Launcher.Override
             XmlSerializer serializer;
             StreamWriter sw;
 
-            for (int i = 0; i < deviceControl.devList.Count; i++)
+            for (int i = 0; i < deviceControl.joyAssign.Length; i++)
             {
                 fileName = appReg.GetInstallDir() + "/User/Config/Setup.v100." + deviceControl.joyAssign[i].GetProductName().Replace("/", "-")
                 + " {" + deviceControl.joyAssign[i].GetInstanceGUID().ToString().ToUpper() + "}.xml";
@@ -174,7 +174,7 @@ namespace FalconBMS.Launcher.Override
             StreamWriter cfg = new StreamWriter
                 (filename, false, Encoding.GetEncoding("shift_jis"));
             cfg.Write(stResult);
-            cfg.Write("set g_nHotasPinkyShiftMagnitude " + deviceControl.devList.Count * CommonConstants.DX32
+            cfg.Write("set g_nHotasPinkyShiftMagnitude " + deviceControl.joyAssign.Length * CommonConstants.DX32
                 + "          // SETUP OVERRIDE\r\n");
             cfg.Write("set g_bHotasDgftSelfCancel " + Convert.ToInt32(mainWindow.Misc_OverrideSelfCancel.IsChecked)
                 + "          // SETUP OVERRIDE\r\n");
@@ -189,7 +189,7 @@ namespace FalconBMS.Launcher.Override
         protected void SaveDeviceSorting(DeviceControl deviceControl)
         {
             string deviceSort = "";
-            for (int i = 0; i < deviceControl.devList.Count; i++)
+            for (int i = 0; i < deviceControl.joyAssign.Length; i++)
                 deviceSort += deviceControl.joyAssign[i].GetDeviceSortingLine();
 
             // BMS overwrites DeviceSorting.txt if was written in UTF-8.
@@ -221,9 +221,9 @@ namespace FalconBMS.Launcher.Override
                 (filename, false, Encoding.GetEncoding("utf-8"));
             for (int i = 0; i < keyFile.keyAssign.Length; i++)
                 sw.Write(keyFile.keyAssign[i].GetKeyLine());
-            for (int i = 0; i < deviceControl.devList.Count; i++)
+            for (int i = 0; i < deviceControl.joyAssign.Length; i++)
             {
-                sw.Write(deviceControl.joyAssign[i].GetKeyLineDX(i, deviceControl.devList.Count));
+                sw.Write(deviceControl.joyAssign[i].GetKeyLineDX(i, deviceControl.joyAssign.Length));
                 // PRIMARY DEVICE POV
                 if (((InGameAxAssgn)inGameAxis["Roll"]).GetDeviceNumber() == i) 
                     sw.Write(deviceControl.joyAssign[i].GetKeyLinePOV());
@@ -323,7 +323,7 @@ namespace FalconBMS.Launcher.Override
                     .GetInstanceGUID().ToByteArray();
                 fs.Write(bs, 0, bs.Length);
 
-                bs = new byte[] { (byte)deviceControl.devList.Count, 0x00, 0x00, 0x00 };
+                bs = new byte[] { (byte)deviceControl.joyAssign.Length, 0x00, 0x00, 0x00 };
                 fs.Write(bs, 0, bs.Length);
             }
             else
@@ -334,7 +334,7 @@ namespace FalconBMS.Launcher.Override
                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
                 };
-                bs[20] = (byte)deviceControl.devList.Count;
+                bs[20] = (byte)deviceControl.joyAssign.Length;
                 fs.Write(bs, 0, bs.Length);
             }
 
