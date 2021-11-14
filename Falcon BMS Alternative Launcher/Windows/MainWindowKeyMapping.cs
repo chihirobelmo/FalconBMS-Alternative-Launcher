@@ -38,6 +38,12 @@ namespace FalconBMS.Launcher.Windows
 
             KeyMappingGrid.ItemsSource = keyFile.keyAssign;
         }
+        public void ResetJoystickColumn()
+        {
+            var temp = KeyMappingGrid.ItemsSource;
+            KeyMappingGrid.ItemsSource = null;
+            KeyMappingGrid.ItemsSource = temp;
+        }
 
         /// <summary>
         /// Initialize Datagrid Columns.

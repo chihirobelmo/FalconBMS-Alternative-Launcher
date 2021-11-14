@@ -250,6 +250,7 @@ namespace FalconBMS.Launcher.Windows
                 inGameAxis[nme.ToString()] = new InGameAxAssgn();
             joyAssign_2_inGameAxis();
             ResetAssgnWindow();
+            ResetJoystickColumn();
         }
         
         /// <summary>
