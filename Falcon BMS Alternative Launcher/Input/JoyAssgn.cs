@@ -35,7 +35,7 @@ namespace FalconBMS.Launcher.Input
         }
         public int GetAssignedNumber()
         {
-            return dx.Count(d => d.GetAssignedNumber() > 0);
+            return dx.Sum(d => d.GetAssignedNumber());
         }
 
         // Member
