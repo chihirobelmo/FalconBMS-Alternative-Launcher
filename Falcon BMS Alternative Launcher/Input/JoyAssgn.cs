@@ -122,34 +122,41 @@ namespace FalconBMS.Launcher.Input
             int input = 0;
             if (device == null)
                 return 0;
-            switch (joyAxisNumber)
+            try
             {
-                case 0:
-                    input = device.CurrentJoystickState.X;
-                    break;
-                case 1:
-                    input = device.CurrentJoystickState.Y;
-                    break;
-                case 2:
-                    input = device.CurrentJoystickState.Z;
-                    break;
-                case 3:
-                    input = device.CurrentJoystickState.Rx;
-                    break;
-                case 4:
-                    input = device.CurrentJoystickState.Ry;
-                    break;
-                case 5:
-                    input = device.CurrentJoystickState.Rz;
-                    break;
-                case 6:
-                    input = device.CurrentJoystickState.GetSlider()[0];
-                    break;
-                case 7:
-                    input = device.CurrentJoystickState.GetSlider()[1];
-                    break;
+                switch (joyAxisNumber)
+                {
+                    case 0:
+                        input = device.CurrentJoystickState.X;
+                        break;
+                    case 1:
+                        input = device.CurrentJoystickState.Y;
+                        break;
+                    case 2:
+                        input = device.CurrentJoystickState.Z;
+                        break;
+                    case 3:
+                        input = device.CurrentJoystickState.Rx;
+                        break;
+                    case 4:
+                        input = device.CurrentJoystickState.Ry;
+                        break;
+                    case 5:
+                        input = device.CurrentJoystickState.Rz;
+                        break;
+                    case 6:
+                        input = device.CurrentJoystickState.GetSlider()[0];
+                        break;
+                    case 7:
+                        input = device.CurrentJoystickState.GetSlider()[1];
+                        break;
+                }
+                return input;
             }
-            return input;
+            catch
+            {
+                return 0;
+            }
         }
 
         /// <summary>

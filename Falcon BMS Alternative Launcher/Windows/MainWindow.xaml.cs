@@ -42,7 +42,8 @@ namespace FalconBMS.Launcher.Windows
 
         private DispatcherTimer AxisMovingTimer = new DispatcherTimer();
         private DispatcherTimer KeyMappingTimer = new DispatcherTimer();
-        
+        private DispatcherTimer NewDeviceDetectTimer = new DispatcherTimer();
+
         public static bool FLG_YAME64;
 
         /// <summary>
@@ -165,10 +166,15 @@ namespace FalconBMS.Launcher.Windows
             {
                 // Set Timer
                 AxisMovingTimer.Tick += AxisMovingTimer_Tick;
-                AxisMovingTimer.Interval = new TimeSpan(0, 0, 0, 0, 16);
+                AxisMovingTimer.Interval = new TimeSpan(0, 0, 0, 0, 32);
 
                 KeyMappingTimer.Tick += KeyMappingTimer_Tick;
-                KeyMappingTimer.Interval = new TimeSpan(0, 0, 0, 0, 16);
+                KeyMappingTimer.Interval = new TimeSpan(0, 0, 0, 0, 32);
+
+                NewDeviceDetectTimer.Tick += NewDeviceDetectTimer_Tick;
+                NewDeviceDetectTimer.Interval = new TimeSpan(0, 0, 0, 0, 32);
+
+                NewDeviceDetectTimer.Start();
 
                 //System.Diagnostics.PresentationTraceSources.DataBindingSource.Switch.Level = System.Diagnostics.SourceLevels.Critical;
             }
@@ -178,6 +184,35 @@ namespace FalconBMS.Launcher.Windows
                 Diagnostics.WriteLogFile();
 
                 Close();
+            }
+        }
+
+        private void NewDeviceDetectTimer_Tick(object sender, EventArgs e)
+        {
+            Microsoft.DirectX.DirectInput.DeviceList devList = Microsoft.DirectX.DirectInput.Manager.GetDevices(Microsoft.DirectX.DirectInput.DeviceClass.GameControl, Microsoft.DirectX.DirectInput.EnumDevicesFlags.AttachedOnly);
+            if (deviceControl.devList.Count != devList.Count)
+            {
+                AxisMovingTimer.Stop();
+                KeyMappingTimer.Stop();
+
+                statusAssign = Status.GetNeutralPos;
+                deviceControl = new DeviceControl(appReg);
+                neutralButtons = new NeutralButtons[deviceControl.joyAssign.Length];
+                AquireAll(true);
+                foreach (AxisName nme in axisNameList)
+                    inGameAxis[nme.ToString()] = new InGameAxAssgn();
+                joyAssign_2_inGameAxis();
+                ResetAssgnWindow();
+                WriteDataGrid();
+
+                int value = LargeTab.SelectedIndex;
+                if (value == 1)
+                    AxisMovingTimer.Start();
+                if (value == 2)
+                {
+                    KeyMappingTimer.Start();
+                    KeyMappingGrid.Items.Refresh();
+                }
             }
         }
 
@@ -275,7 +310,6 @@ namespace FalconBMS.Launcher.Windows
 
                 Close();
             }
-
         }
         
         /// <summary>
