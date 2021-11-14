@@ -138,7 +138,7 @@ namespace FalconBMS.Launcher.Windows
                 byte[] buttons;
                 int[] povs;
 
-                buttons = MainWindow.deviceControl.joyStick[i].CurrentJoystickState.GetButtons();
+                buttons = MainWindow.deviceControl.joyAssign[i].GetDevice().CurrentJoystickState.GetButtons();
                 for (int ii = 0; ii < CommonConstants.DX32; ii++)
                 {
                     if (buttons[ii] == CommonConstants.PRS128 && MainWindow.deviceControl.joyAssign[i].dx[ii].assign[CommonConstants.DX_PRESS].GetCallback() == "SimHotasPinkyShift" && pressedByHand == false)
@@ -182,13 +182,13 @@ namespace FalconBMS.Launcher.Windows
                     }
                     //while (buttons[ii] != neutralButtons[i].buttons[ii])
                     //{
-                    //    buttons = deviceControl.joyStick[i].CurrentJoystickState.GetButtons();
+                    //    buttons = deviceControl.joyAssign[i].GetDevice().CurrentJoystickState.GetButtons();
                     //}
                     getNeutralPosition();
                     return;
                 }
-                povs = MainWindow.deviceControl.joyStick[i].CurrentJoystickState.GetPointOfView();
-                buttons = MainWindow.deviceControl.joyStick[i].CurrentJoystickState.GetButtons();
+                povs = MainWindow.deviceControl.joyAssign[i].GetDevice().CurrentJoystickState.GetPointOfView();
+                buttons = MainWindow.deviceControl.joyAssign[i].GetDevice().CurrentJoystickState.GetButtons();
                 for (int ii = 0; ii < 4; ii++)
                 {
                     if (povs[ii] == neutralButtons[i].povs[ii])
@@ -207,7 +207,7 @@ namespace FalconBMS.Launcher.Windows
                     tmpJoyStick[i].pov[ii].Assign(povs[ii], tmpCallback.GetCallback(), pinkyStatus, 0);
                     //while (povs[ii] != neutralButtons[i].povs[ii])
                     //{
-                    //    povs = deviceControl.joyStick[i].CurrentJoystickState.GetPointOfView();
+                    //    povs = deviceControl.joyAssign[i].GetDevice().CurrentJoystickState.GetPointOfView();
                     //}
                     getNeutralPosition();
                     return;

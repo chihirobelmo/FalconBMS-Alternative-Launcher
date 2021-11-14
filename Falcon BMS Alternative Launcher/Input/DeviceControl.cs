@@ -42,8 +42,6 @@ namespace FalconBMS.Launcher.Input
                 joyAssign[i] = new JoyAssgn(joyStick[i]);
 
                 joyAssign[i].SetDeviceInstance(dev);
-                int povnum = joyStick[i].Caps.NumberPointOfViews;
-                joyStick.Count();
 
                 fileName = appReg.GetInstallDir() + "/User/Config/Setup.v100." + joyAssign[i].GetProductName().Replace("/", "-")
                 + " {" + joyAssign[i].GetInstanceGUID().ToString().ToUpper() + "}.xml";

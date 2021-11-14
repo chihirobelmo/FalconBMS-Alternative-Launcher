@@ -423,13 +423,13 @@ namespace FalconBMS.Launcher.Windows
             {
                 for (int i = 0; i < deviceControl.joyAssign.Length; i++)
                 {
-                    deviceControl.joyStick[i].Acquire();
+                    deviceControl.joyAssign[i].GetDevice().Acquire();
                 }
                 return;
             }
             for (int i = 0; i < deviceControl.joyAssign.Length; i++)
             {
-                deviceControl.joyStick[i].Unacquire();
+                deviceControl.joyAssign[i].GetDevice().Unacquire();
             }
         }
         

@@ -89,6 +89,8 @@ namespace FalconBMS.Launcher.Input
         }
         public JoyAssgn(JoyAssgn otherInstance)
         {
+            device = otherInstance.device;
+
             productGUID = otherInstance.productGUID;
             productName = otherInstance.productName;
             instanceGUID = otherInstance.instanceGUID;
