@@ -61,7 +61,8 @@ namespace FalconBMS.Launcher.Windows
 
             AL_Version_Number.Content = "FalconBMS Alternative Launcher v" +  ver.Major + "." + ver.Minor + "." + ver.Build;
 
-            RSSReader.Read("https://www.falcon-bms.com/news/feed/", News);
+            RSSReader.Read("https://www.falcon-bms.com/news/feed/", "https://www.falcon-bms.com");
+            RSSReader.Read("https://www.falcon-lounge.com/news/feed/", "https://www.falcon-lounge.com");
             RSSReader.Write(News);
 
             try
@@ -240,11 +241,18 @@ namespace FalconBMS.Launcher.Windows
         {
             // Get Devices
             deviceControl = new DeviceControl(appReg);
+            deviceControl.SortDevice();
+
             neutralButtons = new NeutralButtons[deviceControl.joyAssign.Length];
 
             // Aquire joySticks
             AquireAll(true);
 
+            ResortDevices();
+        }
+
+        public void ResortDevices()
+        {
             // Reset All Axis Settings
             foreach (AxisName nme in axisNameList)
                 inGameAxis[nme.ToString()] = new InGameAxAssgn();

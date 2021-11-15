@@ -80,7 +80,7 @@ namespace FalconBMS.Launcher.Windows
                 return;
             }
             e.Column.Header = deviceControl.joyAssign[target].GetProductName();
-            e.Column.Width = 128;
+            //e.Column.Width = 128;
             e.Column.DisplayIndex = 3 + target;
         }
         
@@ -105,6 +105,10 @@ namespace FalconBMS.Launcher.Windows
                 return;
 
             KeyMappingWindow.ShowKeyMappingWindow(this, selectedItem, keyFile, deviceControl, sender);
+
+            deviceControl.SortDevice();
+            ResortDevices();
+
             KeyMappingGrid.Items.Refresh();
             KeyMappingGrid.UnselectAllCells();
 
@@ -124,10 +128,10 @@ namespace FalconBMS.Launcher.Windows
             public byte[] buttons { get; set; }
             public int[] povs { get; set; }
 
-            public NeutralButtons(Device joyStick)
+            public NeutralButtons(JoyAssgn joyStick)
             {
-                buttons = joyStick.CurrentJoystickState.GetButtons();
-                povs = joyStick.CurrentJoystickState.GetPointOfView();
+                buttons = joyStick.GetButtons();
+                povs = joyStick.GetPointOfView();
             }
         }
         
@@ -180,7 +184,7 @@ namespace FalconBMS.Launcher.Windows
             {
                 case Status.GetNeutralPos:
                     for (int i = 0; i < deviceControl.joyAssign.Length; i++)
-                        neutralButtons[i] = new NeutralButtons(deviceControl.joyAssign[i].GetDevice());
+                        neutralButtons[i] = new NeutralButtons(deviceControl.joyAssign[i]);
                     statusAssign = Status.WaitingforInput;
                     break;
                 case Status.WaitingforInput:

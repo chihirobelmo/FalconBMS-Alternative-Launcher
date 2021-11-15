@@ -41,7 +41,7 @@ namespace FalconBMS.Launcher.Override
             if (!Directory.Exists(appReg.GetInstallDir() + "/User/Config/Backup/"))
                 Directory.CreateDirectory(appReg.GetInstallDir() + "/User/Config/Backup/");
 
-            SortDevice();
+            MainWindow.deviceControl.SortDevice();
 
             SaveAxisMapping(inGameAxis, deviceControl);
             SaveJoystickCal(inGameAxis, deviceControl);
@@ -52,11 +52,6 @@ namespace FalconBMS.Launcher.Override
             SavePop();
             SaveWindowConfig();
             SaveJoyAssignStatus(deviceControl);
-        }
-
-        public virtual void SortDevice()
-        {
-            MainWindow.deviceControl.joyAssign = MainWindow.deviceControl.joyAssign.OrderByDescending(j => j.GetAssignedNumber()).ToArray();
         }
 
         protected void SaveWindowConfig()

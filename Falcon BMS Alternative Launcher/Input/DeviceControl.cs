@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
-
+using FalconBMS.Launcher.Windows;
 using Microsoft.DirectX.DirectInput;
 
 namespace FalconBMS.Launcher.Input
@@ -81,6 +81,11 @@ namespace FalconBMS.Launcher.Input
                 mouse.LoadAx((AxAssgn)serializer.Deserialize(sr));
                 sr.Close();
             }
+        }
+
+        public void SortDevice()
+        {
+            joyAssign = joyAssign.OrderByDescending(j => j.GetAssignedNumber()).ToArray();
         }
     }
 }
