@@ -186,7 +186,7 @@ namespace FalconBMS.Launcher.Windows
                 case Status.WaitingforInput:
                     for (int i = 0; i < deviceControl.joyAssign.Length; i++)
                     {
-                        buttons = deviceControl.joyAssign[i].GetDevice().CurrentJoystickState.GetButtons();
+                        buttons = deviceControl.joyAssign[i].GetButtons();
                         for (int ii = 0; ii < CommonConstants.DX128; ii++)
                         {
                             if (buttons[ii] == CommonConstants.PRS128 && deviceControl.joyAssign[i].dx[ii].assign[CommonConstants.DX_PRESS].GetCallback() == "SimHotasPinkyShift" && pressedByHand == false)
@@ -222,7 +222,7 @@ namespace FalconBMS.Launcher.Windows
                                 Label_AssgnStatus.Content = "DX" + (ii + 1) + "\t: " + deviceControl.joyAssign[i].GetProductName();
                             }
                         }
-                        povs = deviceControl.joyAssign[i].GetDevice().CurrentJoystickState.GetPointOfView();
+                        povs = deviceControl.joyAssign[i].GetPointOfView();
                         for (int ii = 0; ii < 4; ii++)
                         {
                             if (neutralButtons[i] == null)

@@ -184,7 +184,7 @@ namespace FalconBMS.Launcher.Windows
             Reset();
 
             AxisDetectionTimer.Tick += AxisDetectionTimerCode;
-            AxisDetectionTimer.Interval = new TimeSpan(0, 0, 0, 0, 32);
+            AxisDetectionTimer.Interval = new TimeSpan(0, 0, 0, 0, 16);
             AxisDetectionTimer.Start();
             
         }
@@ -231,17 +231,23 @@ namespace FalconBMS.Launcher.Windows
 
         private void AxisDetectionTimerCode(object sender, EventArgs e)
         {
-            Microsoft.DirectX.DirectInput.DeviceList devList =
-                Microsoft.DirectX.DirectInput.Manager.GetDevices(
-                    Microsoft.DirectX.DirectInput.DeviceClass.GameControl,
-                    Microsoft.DirectX.DirectInput.EnumDevicesFlags.AttachedOnly
-                    );
-
-            if (devList.Count != MainWindow.deviceControl.joyAssign.Length)
+            if (sw.ElapsedMilliseconds > 1666)
             {
-                mainWindow.ReloadDevices();
-                Reset();
-                mainWindow.UpdateAxisStatus();
+                Microsoft.DirectX.DirectInput.DeviceList devList =
+                    Microsoft.DirectX.DirectInput.Manager.GetDevices(
+                        Microsoft.DirectX.DirectInput.DeviceClass.GameControl,
+                        Microsoft.DirectX.DirectInput.EnumDevicesFlags.AttachedOnly
+                        );
+
+                if (devList.Count != MainWindow.deviceControl.joyAssign.Length)
+                {
+                    mainWindow.ReloadDevices();
+                    Reset();
+                    mainWindow.UpdateAxisStatus();
+                }
+
+                sw.Reset();
+                sw.Start();
             }
 
             try

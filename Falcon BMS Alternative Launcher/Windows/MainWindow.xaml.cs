@@ -169,13 +169,13 @@ namespace FalconBMS.Launcher.Windows
             {
                 // Set Timer
                 AxisMovingTimer.Tick += AxisMovingTimer_Tick;
-                AxisMovingTimer.Interval = new TimeSpan(0, 0, 0, 0, 32);
+                AxisMovingTimer.Interval = new TimeSpan(0, 0, 0, 0, 16);
 
                 KeyMappingTimer.Tick += KeyMappingTimer_Tick;
                 KeyMappingTimer.Interval = new TimeSpan(0, 0, 0, 0, 32);
 
                 NewDeviceDetectTimer.Tick += NewDeviceDetectTimer_Tick;
-                NewDeviceDetectTimer.Interval = new TimeSpan(0, 0, 0, 0, 32);
+                NewDeviceDetectTimer.Interval = new TimeSpan(0, 0, 0, 1, 0);
 
                 NewDeviceDetectTimer.Start();
 

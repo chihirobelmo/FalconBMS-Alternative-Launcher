@@ -63,14 +63,14 @@ namespace FalconBMS.Launcher.Windows
         {
             getNeutralPosition();
             KeyMappingTimer.Tick += KeyMappingtimerCode;
-            KeyMappingTimer.Interval = new TimeSpan(0, 0, 0, 0, 16);
+            KeyMappingTimer.Interval = new TimeSpan(0, 0, 0, 0, 32);
             KeyMappingTimer.Start();
         }
 
         private void getNeutralPosition()
         {
             for (int i = 0; i < MainWindow.deviceControl.joyAssign.Length; i++)
-                neutralButtons[i] = new NeutralButtons(MainWindow.deviceControl.joyAssign[i].GetDevice());
+                neutralButtons[i] = new NeutralButtons(MainWindow.deviceControl.joyAssign[i]);
         }
         private void Reset()
         {
@@ -86,17 +86,23 @@ namespace FalconBMS.Launcher.Windows
 
         private void KeyMappingtimerCode(object sender, EventArgs e)
         {
-            Microsoft.DirectX.DirectInput.DeviceList devList =
+            if (sw.ElapsedMilliseconds > 1666)
+            {
+                Microsoft.DirectX.DirectInput.DeviceList devList =
                 Microsoft.DirectX.DirectInput.Manager.GetDevices(
                     Microsoft.DirectX.DirectInput.DeviceClass.GameControl,
                     Microsoft.DirectX.DirectInput.EnumDevicesFlags.AttachedOnly
                     );
 
-            if (devList.Count != MainWindow.deviceControl.joyAssign.Length)
-            {
-                mainWindow.ReloadDevices();
-                Reset();
-                getNeutralPosition();
+                if (devList.Count != MainWindow.deviceControl.joyAssign.Length)
+                {
+                    mainWindow.ReloadDevices();
+                    Reset();
+                    getNeutralPosition();
+                }
+
+                sw.Reset();
+                sw.Start();
             }
 
             KeyboardButtonMonitor();
@@ -138,7 +144,7 @@ namespace FalconBMS.Launcher.Windows
                 byte[] buttons;
                 int[] povs;
 
-                buttons = MainWindow.deviceControl.joyAssign[i].GetDevice().CurrentJoystickState.GetButtons();
+                buttons = MainWindow.deviceControl.joyAssign[i].GetButtons();
                 for (int ii = 0; ii < CommonConstants.DX32; ii++)
                 {
                     if (buttons[ii] == CommonConstants.PRS128 && MainWindow.deviceControl.joyAssign[i].dx[ii].assign[CommonConstants.DX_PRESS].GetCallback() == "SimHotasPinkyShift" && pressedByHand == false)
@@ -182,13 +188,13 @@ namespace FalconBMS.Launcher.Windows
                     }
                     //while (buttons[ii] != neutralButtons[i].buttons[ii])
                     //{
-                    //    buttons = deviceControl.joyAssign[i].GetDevice().CurrentJoystickState.GetButtons();
+                    //    buttons = deviceControl.joyAssign[i].GetDeviceState().GetButtons();
                     //}
                     getNeutralPosition();
                     return;
                 }
-                povs = MainWindow.deviceControl.joyAssign[i].GetDevice().CurrentJoystickState.GetPointOfView();
-                buttons = MainWindow.deviceControl.joyAssign[i].GetDevice().CurrentJoystickState.GetButtons();
+                povs = MainWindow.deviceControl.joyAssign[i].GetPointOfView();
+                buttons = MainWindow.deviceControl.joyAssign[i].GetButtons();
                 for (int ii = 0; ii < 4; ii++)
                 {
                     if (povs[ii] == neutralButtons[i].povs[ii])
@@ -207,7 +213,7 @@ namespace FalconBMS.Launcher.Windows
                     tmpJoyStick[i].pov[ii].Assign(povs[ii], tmpCallback.GetCallback(), pinkyStatus, 0);
                     //while (povs[ii] != neutralButtons[i].povs[ii])
                     //{
-                    //    povs = deviceControl.joyAssign[i].GetDevice().CurrentJoystickState.GetPointOfView();
+                    //    povs = deviceControl.joyAssign[i].GetDeviceState().GetPointOfView();
                     //}
                     getNeutralPosition();
                     return;
@@ -273,10 +279,10 @@ namespace FalconBMS.Launcher.Windows
             public byte[] buttons { get; set; }
             public int[] povs { get; set; }
 
-            public NeutralButtons(Device joyStick)
+            public NeutralButtons(JoyAssgn joyStick)
             {
-                buttons = joyStick.CurrentJoystickState.GetButtons();
-                povs = joyStick.CurrentJoystickState.GetPointOfView();
+                buttons = joyStick.GetButtons();
+                povs = joyStick.GetPointOfView();
             }
         }
 

@@ -436,6 +436,39 @@ namespace FalconBMS.Launcher.Input
         {
             return device;
         }
+        public JoystickState GetDeviceState()
+        {
+            try
+            {
+                return device.CurrentJoystickState;
+            }
+            catch 
+            {
+                return new JoystickState();
+            }
+        }
+        public byte[] GetButtons()
+        {
+            try
+            {
+                return device.CurrentJoystickState.GetButtons();
+            }
+            catch 
+            {
+                return new byte[128];
+            }
+        }
+        public int[] GetPointOfView()
+        {
+            try
+            {
+                return device.CurrentJoystickState.GetPointOfView();
+            }
+            catch
+            {
+                return new int[8];
+            }
+        }
 
         object ICloneable.Clone() => Clone();
 
