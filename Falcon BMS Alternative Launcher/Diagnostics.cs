@@ -19,9 +19,9 @@ namespace FalconBMS.Launcher
 
         internal static string logData;
 
-        public static readonly string AppDataPath = $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData, Environment.SpecialFolderOption.Create)}" + "\\FalconBMSAlternativeLauncher";
+        public static readonly string AppDataPath = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData, Environment.SpecialFolderOption.Create)}" + "\\Benchmark_Sims";
 
-        public static readonly string LogFilePath = $"{AppDataPath}" + "\\Log.txt";
+        public static readonly string LogFilePath = $"{AppDataPath}" + "\\Launcher_Log.txt";
 
         #endregion
 
@@ -30,120 +30,50 @@ namespace FalconBMS.Launcher
         public static void Log(string message)
         {
             string message2 = $"[{DateTime.Now}] [INFO] :: {message}";
-            logData = logData + message2 + "/r/n";
+            logData = logData + message2 + "\r\n";
             //WriteLogFile(logData);
         }
 
         public static void Log(string message, LogLevels logLevel)
         {
             string message2 = $"[{DateTime.Now}] [{GetLogLevelText(logLevel)}] :: {message}";
-            logData = logData + message2 + "/r/n";
+            logData = logData + message2 + "\r\n";
             //WriteLogFile(logData);
         }
 
         public static void Log(Exception exception)
         {
-            string message2 = $"[{DateTime.Now}] [EXCEPTION] {exception.Message}:: \n \n Source: {exception.Source} \n Target Site: {exception.TargetSite} \n Message: {exception.Message} \n Details: {exception.InnerException} \n \n Exception Data: {exception.Data} \n \n Stack Trace: {exception.StackTrace} \n ============ \n";
-            logData = logData + message2 + "/r/n";
+            string message2 = $"[{DateTime.Now}] [EXCEPTION] {exception.Message}:: \r\n \r\n Source: {exception.Source} \r\n Target Site: {exception.TargetSite} \r\n Message: {exception.Message} \r\n Details: {exception.InnerException} \r\n \r\n Exception Data: {exception.Data} \r\n \r\n Stack Trace: {exception.StackTrace} \r\n ============ \r\n";
+            logData = logData + message2 + "\r\n";
             //WriteLogFile(logData);
         }
 
         public static void Log(Exception exception, string message)
         {
-            string message2 = $"[{DateTime.Now}] [EXCEPTION] {exception.Message} \n {message} \n Source: {exception.Source} \n Target Site: {exception.TargetSite} \n Message: {exception.Message} \n Details: {exception.InnerException} \n \n Exception Data: {exception.Data} \n \n Stack Trace: {exception.StackTrace} \n ============ \n";
-            logData = logData + message2 + "/r/n";
+            string message2 = $"[{DateTime.Now}] [EXCEPTION] {exception.Message} \r\n {message} \r\n Source: {exception.Source} \r\n Target Site: {exception.TargetSite} \r\n Message: {exception.Message} \r\n Details: {exception.InnerException} \r\n \r\n Exception Data: {exception.Data} \r\n \r\n Stack Trace: {exception.StackTrace} \r\n ============ \r\n";
+            logData = logData + message2 + "\r\n";
             //WriteLogFile(logData);
         }
 
         public static void WriteLogFile()
         {
-            try
-            {
-                if (!Directory.Exists(AppDataPath))
-                {
-                    Directory.CreateDirectory(AppDataPath);
-                }
-
-                DirectoryInfo dirInfo = new DirectoryInfo(AppDataPath);
-                dirInfo.Attributes = dirInfo.Attributes & ~FileAttributes.ReadOnly;
-
-                if (!File.Exists(LogFilePath))
-                {
-                    File.Create(AppDataPath);
-                    File.SetCreationTimeUtc(LogFilePath, DateTime.UtcNow);
-                }
-
-                StreamWriter file = new StreamWriter(LogFilePath, true, Encoding.Default);
-
-                file.Write($"{logData}");
-                file.Close();
-            }
-            catch
-            {
-                MessageBox.Show($"{logData}");
-            }
+            WriteLogFile(false, logData);
         }
 
         public static void WriteLogFile(Exception e)
         {
-            try
-            {
-                if (!Directory.Exists(AppDataPath))
-                {
-                    Directory.CreateDirectory(AppDataPath);
-                }
-
-                DirectoryInfo dirInfo = new DirectoryInfo(AppDataPath);
-                dirInfo.Attributes = dirInfo.Attributes & ~FileAttributes.ReadOnly;
-
-                if (!File.Exists(LogFilePath))
-                {
-                    File.Create(AppDataPath);
-                    File.SetCreationTimeUtc(LogFilePath, DateTime.UtcNow);
-                }
-
-                StreamWriter file = new StreamWriter(LogFilePath, true, Encoding.Default);
-
-                file.Write($"{logData}");
-                file.Close();
-            }
-            catch
-            {
-                MessageBox.Show($"{e}");
-            }
-        }
-
-        public static void WriteLogFile(bool append)
-        {
-            try
-            {
-                if (!Directory.Exists(AppDataPath))
-                {
-                    Directory.CreateDirectory(AppDataPath);
-                }
-
-                DirectoryInfo dirInfo = new DirectoryInfo(AppDataPath);
-                dirInfo.Attributes = dirInfo.Attributes & ~FileAttributes.ReadOnly;
-
-                if (!File.Exists(LogFilePath))
-                {
-                    File.Create(AppDataPath);
-                    File.SetCreationTimeUtc(LogFilePath, DateTime.UtcNow);
-                }
-
-                StreamWriter file = new StreamWriter(LogFilePath, append, Encoding.Default);
-
-                file.Write($"{logData}");
-                file.Close();
-            }
-            catch
-            {
-                MessageBox.Show($"{logData}");
-            }
+            WriteLogFile(false, $"{e}");
+            MessageBox.Show("Error Log Saved to " + LogFilePath);
         }
 
         public static void WriteLogFile(bool append, Exception e)
         {
+            WriteLogFile(append, $"{e}");
+            MessageBox.Show("Error Log Saved to " + LogFilePath);
+        }
+
+        public static void WriteLogFile(bool append, string args)
+        {
             try
             {
                 if (!Directory.Exists(AppDataPath))
@@ -156,18 +86,19 @@ namespace FalconBMS.Launcher
 
                 if (!File.Exists(LogFilePath))
                 {
-                    File.Create(AppDataPath);
+                    FileStream fs = File.Create(LogFilePath);
+                    fs.Close();
                     File.SetCreationTimeUtc(LogFilePath, DateTime.UtcNow);
                 }
 
                 StreamWriter file = new StreamWriter(LogFilePath, append, Encoding.Default);
 
-                file.Write($"{logData}");
+                file.Write(args);
                 file.Close();
             }
             catch
             {
-                MessageBox.Show($"{e}");
+                MessageBox.Show(args);
             }
         }
 
