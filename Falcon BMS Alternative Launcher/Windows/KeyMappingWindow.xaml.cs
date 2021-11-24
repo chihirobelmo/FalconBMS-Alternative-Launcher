@@ -359,7 +359,10 @@ namespace FalconBMS.Launcher.Windows
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.deviceControl.joyAssign = tmpJoyStick;
+            for (int i = 0; i < tmpJoyStick.Length; i++)
+            {
+                MainWindow.deviceControl.joyAssign[i].Load(tmpJoyStick[i]);
+            }
             SelectedCallback.getOtherKeyInstance(tmpCallback);
 
             // Unassign the previous mapping that was assigned to this key/key combo.
