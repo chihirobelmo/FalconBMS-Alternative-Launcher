@@ -19,21 +19,7 @@ namespace FalconBMS.Launcher.Windows
         private static Article[] article = new Article[0];
         public static void Read(string url)
         {
-            try
-            {
-                XmlReader rdr = XmlReader.Create(url);
-                SyndicationFeed feed = SyndicationFeed.Load(rdr);
-
-                foreach (SyndicationItem item in feed.Items)
-                {
-                    Array.Resize(ref article, article.Length + 1);
-                    article[article.Length - 1] = new Article(item);
-                }
-            }
-            catch
-            {
-                return;
-            }
+            Read(url, null);
         }
         public static void Read(string url, string top)
         {
@@ -48,8 +34,9 @@ namespace FalconBMS.Launcher.Windows
                     article[article.Length - 1] = new Article(item, top);
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Diagnostics.Log(ex);
                 return;
             }
         }
@@ -64,9 +51,10 @@ namespace FalconBMS.Launcher.Windows
                 for (int i = 0; i < 10; i++)
                     article[i].Write(textblock);
             }
-            catch
+            catch (Exception ex)
             {
-                textblock.Inlines.Add("Rss Writing Error");
+                Diagnostics.Log(ex);
+                textblock.Inlines.Add("RSS Writing Error");
                 return;
             }
         }
@@ -92,9 +80,9 @@ namespace FalconBMS.Launcher.Windows
             {
                 this.webSite = website;
 
-                title = item.Title.Text;
-                summary = item.Summary.Text;
-                link = item.Id;
+                title    = item.Title.Text;
+                summary  = item.Summary.Text;
+                link     = item.Id;
                 dateTime = item.PublishDate.DateTime;
             }
 

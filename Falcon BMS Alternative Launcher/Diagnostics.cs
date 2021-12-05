@@ -62,7 +62,7 @@ namespace FalconBMS.Launcher
 
         public static void WriteLogFile(Exception e)
         {
-            WriteLogFile(false, $"{e}");
+            WriteLogFile(false, logData + $"{e}");
             MessageBox.Show("Error Log Saved to " + LogFilePath);
         }
 
@@ -94,7 +94,7 @@ namespace FalconBMS.Launcher
                 StreamWriter file = new StreamWriter(LogFilePath, append, Encoding.Default);
 
                 file.Write(args);
-                file.Close();
+                file.Close(); 
             }
             catch
             {

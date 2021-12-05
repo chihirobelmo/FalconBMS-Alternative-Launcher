@@ -27,10 +27,17 @@ namespace FalconBMS.Launcher.Windows
     {
         public MainWindow()
         {
-            RenderOptions.ProcessRenderMode = System.Windows.Interop.RenderMode.SoftwareOnly;
-            InitializeComponent();
+            try
+            {
+                RenderOptions.ProcessRenderMode = System.Windows.Interop.RenderMode.SoftwareOnly;
+                InitializeComponent();
 
-            MouseWheel += Detect_MouseWheel;
+                MouseWheel += Detect_MouseWheel;
+            }
+            catch (Exception ex)
+            {
+                Diagnostics.WriteLogFile(ex);
+            }
         }
 
         public static DeviceControl deviceControl;
@@ -53,59 +60,37 @@ namespace FalconBMS.Launcher.Windows
         /// <param name="e"></param>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            System.Reflection.Assembly asm = System.Reflection.Assembly.GetExecutingAssembly();
-            System.Version ver = asm.GetName().Version;
+            try
+            {
+                System.Reflection.Assembly asm = System.Reflection.Assembly.GetExecutingAssembly();
+                System.Version ver = asm.GetName().Version;
 
-            AutoUpdater.Mandatory = true;
-            AutoUpdater.Start("https://raw.githubusercontent.com/chihirobelmo/FalconBMS-Alternative-Launcher/master/Falcon%20BMS%20Alternative%20Launcher/AutoUpdate.xml", asm);
+                AutoUpdater.Mandatory = true;
+                AutoUpdater.Start("https://raw.githubusercontent.com/chihirobelmo/FalconBMS-Alternative-Launcher/master/Falcon%20BMS%20Alternative%20Launcher/AutoUpdate.xml", asm);
 
-            AL_Version_Number.Content = "FalconBMS Alternative Launcher v" +  ver.Major + "." + ver.Minor + "." + ver.Build;
+                Diagnostics.Log("Launcher Update Checked");
 
-            RSSReader.Read("https://www.falcon-bms.com/news/feed/", "https://www.falcon-bms.com");
-            RSSReader.Read("https://www.falcon-lounge.com/news/feed/", "https://www.falcon-lounge.com");
-            RSSReader.Write(News);
+                string BMS_Launcher_version = "FalconBMS Alternative Launcher v" + ver.Major + "." + ver.Minor + "." + ver.Build;
+                AL_Version_Number.Content = BMS_Launcher_version;
+
+                Diagnostics.Log(BMS_Launcher_version);
+            }
+            catch (Exception ex001)
+            {
+                Diagnostics.WriteLogFile(ex001);
+            }
 
             try
             {
-                // load command line.
-                string[] args = Environment.GetCommandLineArgs();
+                RSSReader.Read("https://www.falcon-bms.com/news/feed/",    "https://www.falcon-bms.com"   );
+                RSSReader.Read("https://www.falcon-lounge.com/news/feed/", "https://www.falcon-lounge.com");
+                RSSReader.Write(News);
 
-                if (args.Length % 2 == 1)
-                {
-                    Dictionary<string, string> option = new Dictionary<string, string>();
-                    for (int index = 1; index < args.Length; index += 2)
-                    {
-                        option.Add(args[index], args[index + 1]);
-                    }
-                    if (option.ContainsKey("/yame"))
-                        if (option["/yame"] == "true")
-                            FLG_YAME64 = true;
-
-                    if (FLG_YAME64)
-                    {
-                        LargeTab.SelectedIndex = 1;
-                        Tab_Launcher.Visibility = Visibility.Collapsed;
-
-                        Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
-                        BackGroundBox1.Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
-                        BackGroundBox2.Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
-                        BackGroundBox4.Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
-                        BackGroundImage.Opacity = 0;
-
-                        Button_Apply_YAME64.Visibility = Visibility.Visible;
-                    }
-                    else
-                    {
-                        Button_Apply_YAME64.Visibility = Visibility.Hidden;
-                    }
-                }
+                Diagnostics.Log("RSS Read and Write Finished");
             }
-            catch (Exception ex)
+            catch (Exception ex002)
             {
-                Diagnostics.Log(ex);
-                Diagnostics.WriteLogFile();
-
-                Close();
+                Diagnostics.WriteLogFile(ex002);
             }
 
             try
@@ -119,19 +104,18 @@ namespace FalconBMS.Launcher.Windows
                 BMSChanged();
                 ReloadDevices();
             }
-            catch (Exception ex3)
+            catch (Exception ex003)
             {
-                Diagnostics.Log(ex3);
-                Diagnostics.WriteLogFile();
+                Diagnostics.WriteLogFile(ex003);
                 Close();
                 return;
             }
 
-            if (DownloadWindow.CheckMajorUpdate(ListBox_BMS))
-                UPDATE_AVAILABLE.Visibility = Visibility.Hidden;
-            else
+            try
             {
-                try
+                if (DownloadWindow.CheckMajorUpdate(ListBox_BMS))
+                    UPDATE_AVAILABLE.Visibility = Visibility.Hidden;
+                else
                 {
                     DownloadWindow.ShowDownloadWindow(this, appReg, ListBox_BMS);
 
@@ -140,31 +124,47 @@ namespace FalconBMS.Launcher.Windows
                     BMSChanged();
                     ReloadDevices();
                 }
-                catch (Exception ex5)
+            }
+            catch (Exception ex004)
+            {
+                Diagnostics.WriteLogFile(ex004);
+                Close();
+                return;
+            }
+
+            try
+            {
+                if (appReg.getBMSVersion() == BMS_Version.UNDEFINED)
                 {
-                    Diagnostics.Log(ex5);
+                    MessageBox.Show("Could Not Find BMS");
                     Diagnostics.WriteLogFile();
                     Close();
                     return;
                 }
             }
-
-            if (appReg.getBMSVersion() == BMS_Version.UNDEFINED)
+            catch (Exception ex005)
             {
-                Diagnostics.Log("Could Not Find BMS");
-                Diagnostics.WriteLogFile();
+                Diagnostics.WriteLogFile(ex005);
                 Close();
                 return;
             }
 
-            if (DownloadWindow.CheckMinorUpdate(appReg))
-                UPDATE_AVAILABLE.Visibility = Visibility.Hidden;
-            else
+            try
             {
-                UPDATE_AVAILABLE.Visibility = Visibility.Visible;
-                DownloadWindow.ShowDownloadWindow(this, appReg, ListBox_BMS);
+                if (DownloadWindow.CheckMinorUpdate(appReg))
+                    UPDATE_AVAILABLE.Visibility = Visibility.Hidden;
+                else
+                {
+                    UPDATE_AVAILABLE.Visibility = Visibility.Visible;
+                    DownloadWindow.ShowDownloadWindow(this, appReg, ListBox_BMS);
+                }
             }
-
+            catch (Exception ex006)
+            {
+                Diagnostics.WriteLogFile(ex006);
+                Close();
+                return;
+            }
 
             try
             {
@@ -179,86 +179,123 @@ namespace FalconBMS.Launcher.Windows
                 NewDeviceDetectTimer.Interval = new TimeSpan(0, 0, 0, 1, 0);
 
                 NewDeviceDetectTimer.Start();
-
-                //System.Diagnostics.PresentationTraceSources.DataBindingSource.Switch.Level = System.Diagnostics.SourceLevels.Critical;
             }
-            catch (Exception ex2)
+            catch (Exception ex007)
             {
-                Diagnostics.Log(ex2);
-                Diagnostics.WriteLogFile();
-
+                Diagnostics.WriteLogFile(ex007);
                 Close();
+                return;
             }
         }
 
         private void NewDeviceDetectTimer_Tick(object sender, EventArgs e)
         {
-            Microsoft.DirectX.DirectInput.DeviceList devList = 
-                Microsoft.DirectX.DirectInput.Manager.GetDevices(
-                    Microsoft.DirectX.DirectInput.DeviceClass.GameControl, 
-                    Microsoft.DirectX.DirectInput.EnumDevicesFlags.AttachedOnly
-                    );
-            
-            if (deviceControl.devList.Count != devList.Count)
+            try
             {
-                AxisMovingTimer.Stop();
-                KeyMappingTimer.Stop();
+                Microsoft.DirectX.DirectInput.DeviceList devList =
+                    Microsoft.DirectX.DirectInput.Manager.GetDevices(
+                        Microsoft.DirectX.DirectInput.DeviceClass.GameControl,
+                        Microsoft.DirectX.DirectInput.EnumDevicesFlags.AttachedOnly
+                        );
 
-                ReloadDevices();
-
-                int value = LargeTab.SelectedIndex;
-                if (value == 1)
-                    AxisMovingTimer.Start();
-                if (value == 2)
+                try
                 {
-                    KeyMappingTimer.Start();
-                    KeyMappingGrid.Items.Refresh();
+                    if (deviceControl.devList.Count != devList.Count)
+                    {
+                        AxisMovingTimer.Stop();
+                        KeyMappingTimer.Stop();
+
+                        ReloadDevices();
+
+                        int value = LargeTab.SelectedIndex;
+                        if (value == 1)
+                            AxisMovingTimer.Start();
+                        if (value == 2)
+                        {
+                            KeyMappingTimer.Start();
+                            KeyMappingGrid.Items.Refresh();
+                        }
+                    }
                 }
+                catch (Exception ex001)
+                {
+                    Diagnostics.WriteLogFile(ex001);
+                    Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Diagnostics.Log(ex);
             }
         }
 
         private void BMSChanged()
         {
-            statusAssign = Status.GetNeutralPos;
+            try
+            {
+                statusAssign = Status.GetNeutralPos;
 
-            LargeTab.SelectedIndex = 0;
+                LargeTab.SelectedIndex = 0;
 
-            // Read Theater List
-            TheaterList.PopulateAndSave(appReg, Dropdown_TheaterList);
+                // Read Theater List
+                TheaterList.PopulateAndSave(appReg, Dropdown_TheaterList);
 
-            // Read BMS-FULL.key
-            string fname = appReg.GetInstallDir() + "\\User\\Config\\" + appReg.getKeyFileName();
-            string fnameauto = appReg.GetInstallDir() + "\\User\\Config\\" + appReg.getAutoKeyFileName();
-            if (!File.Exists(fnameauto))
-                File.Copy(fname, fnameauto);
-            keyFile = new KeyFile(fnameauto, appReg);
+                // Read BMS-FULL.key
+                string fname = appReg.GetInstallDir() + "\\User\\Config\\" + appReg.getKeyFileName();
+                string fnameauto = appReg.GetInstallDir() + "\\User\\Config\\" + appReg.getAutoKeyFileName();
+                if (!File.Exists(fnameauto))
+                    File.Copy(fname, fnameauto);
+                keyFile = new KeyFile(fnameauto, appReg);
 
-            // Write Data Grid
-            WriteDataGrid();
+                // Write Data Grid
+                WriteDataGrid();
+            }
+            catch (Exception ex)
+            {
+                Diagnostics.WriteLogFile(ex);
+                Close();
+            }
         }
 
         public void ReloadDevices()
         {
-            // Get Devices
-            deviceControl = new DeviceControl(appReg);
-            deviceControl.SortDevice();
+            try
+            {
+                // Get Devices
+                deviceControl = new DeviceControl(appReg);
+                deviceControl.SortDevice();
 
-            neutralButtons = new NeutralButtons[deviceControl.joyAssign.Length];
+                neutralButtons = new NeutralButtons[deviceControl.joyAssign.Length];
 
-            // Aquire joySticks
-            AquireAll(true);
+                // Aquire joySticks
+                AquireAll(true);
 
-            ResortDevices();
+                ResortDevices();
+            }
+            catch (Exception ex)
+            {
+                Diagnostics.WriteLogFile(ex);
+                Close();
+            }
         }
 
         public void ResortDevices()
         {
-            // Reset All Axis Settings
-            foreach (AxisName nme in axisNameList)
-                inGameAxis[nme.ToString()] = new InGameAxAssgn();
-            joyAssign_2_inGameAxis();
-            ResetAssgnWindow();
-            ResetJoystickColumn();
+            try
+            {
+                // Reset All Axis Settings
+                foreach (AxisName nme in axisNameList)
+                    inGameAxis[nme.ToString()] = new InGameAxAssgn();
+
+                joyAssign_2_inGameAxis();
+                ResetAssgnWindow();
+                ResetJoystickColumn();
+            }
+            catch (Exception ex)
+            {
+                Diagnostics.WriteLogFile(ex);
+                Close();
+            }
         }
         
         /// <summary>
@@ -268,9 +305,10 @@ namespace FalconBMS.Launcher.Windows
         /// <param name="e"></param>
         private void Window_Closed(object sender, EventArgs e)
         {
-            Torrent.status = false;
             try
             {
+                Torrent.status = false;
+
                 if (appReg == null)
                     return;
 
@@ -281,9 +319,7 @@ namespace FalconBMS.Launcher.Windows
             }
             catch (Exception ex)
             {
-                Diagnostics.Log(ex);
-                Diagnostics.WriteLogFile();
-
+                Diagnostics.WriteLogFile(ex);
                 Close();
             }
         }
@@ -317,9 +353,7 @@ namespace FalconBMS.Launcher.Windows
             }
             catch (Exception ex)
             {
-                Diagnostics.Log(ex);
-                Diagnostics.WriteLogFile();
-
+                Diagnostics.WriteLogFile(ex);
                 Close();
             }
         }
@@ -337,9 +371,7 @@ namespace FalconBMS.Launcher.Windows
             }
             catch (Exception ex)
             {
-                Diagnostics.Log(ex);
-                Diagnostics.WriteLogFile();
-
+                Diagnostics.WriteLogFile(ex);
                 Close();
             }
         }
@@ -357,9 +389,7 @@ namespace FalconBMS.Launcher.Windows
             }
             catch (Exception ex)
             {
-                Diagnostics.Log(ex);
-                Diagnostics.WriteLogFile();
-
+                Diagnostics.WriteLogFile(ex);
                 Close();
             }
         }
@@ -377,9 +407,7 @@ namespace FalconBMS.Launcher.Windows
             }
             catch (Exception ex)
             {
-                Diagnostics.Log(ex);
-                Diagnostics.WriteLogFile();
-
+                Diagnostics.WriteLogFile(ex);
                 Close();
             }
         }
@@ -397,9 +425,7 @@ namespace FalconBMS.Launcher.Windows
             }
             catch (Exception ex)
             {
-                Diagnostics.Log(ex);
-                Diagnostics.WriteLogFile();
-
+                Diagnostics.WriteLogFile(ex);
                 Close();
             }
         }
@@ -428,9 +454,7 @@ namespace FalconBMS.Launcher.Windows
             }
             catch (FileNotFoundException ex)
             {
-                Diagnostics.Log(ex);
-                Diagnostics.WriteLogFile();
-
+                Diagnostics.WriteLogFile(ex);
                 Close();
             }
         }
@@ -464,17 +488,10 @@ namespace FalconBMS.Launcher.Windows
             }
             catch (Exception ex)
             {
-                Diagnostics.Log(ex);
-                Diagnostics.WriteLogFile();
-
+                Diagnostics.WriteLogFile(ex);
                 Close();
             }
         }
-
-        /// <summary>
-        /// As the name implies.
-        /// </summary>
-        /// <param name="process"></param>
         public void minimizeWindowUntilProcessEnds(System.Diagnostics.Process process)
         {
             process.Exited += window_Normal;
@@ -482,11 +499,6 @@ namespace FalconBMS.Launcher.Windows
             WindowState = WindowState.Minimized;
         }
 
-        /// <summary>
-        /// Something I need to launch BMS.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void window_Normal(object sender, EventArgs e)
         {
             this.Invoke(() => { WindowState = WindowState.Normal; });
@@ -501,10 +513,9 @@ namespace FalconBMS.Launcher.Windows
         {
             try
             {
-
-                string target = "";
+                string target       = "";
                 string downloadlink = "";
-                string installexe = "";
+                string installexe   = "";
 
                 switch (((Button)sender).Name)
                 {
@@ -635,9 +646,7 @@ namespace FalconBMS.Launcher.Windows
             }
             catch (Exception ex)
             {
-                Diagnostics.Log(ex);
-                Diagnostics.WriteLogFile();
-
+                Diagnostics.WriteLogFile(ex);
                 Close();
             }
         }
@@ -649,23 +658,30 @@ namespace FalconBMS.Launcher.Windows
         /// <param name="e"></param>
         private void MouseEnterLauncher(object sender, EventArgs e)
         {
-            string nme = ((Button)sender).Name;
-
-            if (nme.Contains("Launch_"))
+            try
             {
-                if (nme.Contains("Launch_TheaterConfig"))
-                    return;
-                Button tbButton = FindName(nme) as Button;
-                if (tbButton == null)
-                    return;
-                tbButton.BorderBrush = new SolidColorBrush(Colors.LightBlue);
-                tbButton.BorderThickness = new Thickness(1);
+                string nme = ((Button)sender).Name;
 
-                nme = nme.Replace("Launch_", "");
-                Label tblabel = FindName("Label_" + nme) as Label;
-                if (tblabel == null)
-                    return;
-                tblabel.Foreground = new SolidColorBrush(Color.FromArgb(255, 128, 255, 255));
+                if (nme.Contains("Launch_"))
+                {
+                    if (nme.Contains("Launch_TheaterConfig"))
+                        return;
+                    Button tbButton = FindName(nme) as Button;
+                    if (tbButton == null)
+                        return;
+                    tbButton.BorderBrush = new SolidColorBrush(Colors.LightBlue);
+                    tbButton.BorderThickness = new Thickness(1);
+
+                    nme = nme.Replace("Launch_", "");
+                    Label tblabel = FindName("Label_" + nme) as Label;
+                    if (tblabel == null)
+                        return;
+                    tblabel.Foreground = new SolidColorBrush(Color.FromArgb(255, 128, 255, 255));
+                }
+            }
+            catch (Exception ex)
+            {
+                Diagnostics.Log(ex);
             }
         }
 
@@ -676,22 +692,29 @@ namespace FalconBMS.Launcher.Windows
         /// <param name="e"></param>
         private void MouseLeaveLauncher(object sender, EventArgs e)
         {
-            string nme = ((Button)sender).Name;
-
-            if (nme.Contains("Launch_"))
+            try
             {
-                if (nme.Contains("Launch_TheaterConfig"))
-                    return;
-                Button tbButton = FindName(nme) as Button;
-                if (tbButton == null)
-                    return;
-                tbButton.BorderThickness = new Thickness(0);
+                string nme = ((Button)sender).Name;
 
-                nme = nme.Replace("Launch_", "");
-                Label tblabel = FindName("Label_" + nme) as Label;
-                if (tblabel == null)
-                    return;
-                tblabel.Foreground = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
+                if (nme.Contains("Launch_"))
+                {
+                    if (nme.Contains("Launch_TheaterConfig"))
+                        return;
+                    Button tbButton = FindName(nme) as Button;
+                    if (tbButton == null)
+                        return;
+                    tbButton.BorderThickness = new Thickness(0);
+
+                    nme = nme.Replace("Launch_", "");
+                    Label tblabel = FindName("Label_" + nme) as Label;
+                    if (tblabel == null)
+                        return;
+                    tblabel.Foreground = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
+                }
+            }
+            catch (Exception ex)
+            {
+                Diagnostics.Log(ex);
             }
         }
         
@@ -709,7 +732,7 @@ namespace FalconBMS.Launcher.Windows
             }
             catch (Exception ex)
             {
-                // Do Not Set Diagnostics.Log nor Output here!
+                Diagnostics.Log(ex);
             }
         }
 
@@ -721,12 +744,26 @@ namespace FalconBMS.Launcher.Windows
 
         private void WDP_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
-            System.Diagnostics.Process.Start("http://www.weapondeliveryplanner.nl/");
+            try
+            {
+                System.Diagnostics.Process.Start("http://www.weapondeliveryplanner.nl/");
+            }
+            catch (Exception ex)
+            {
+                Diagnostics.Log(ex);
+            }
         }
 
         private void Serfoss2003_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
-            System.Diagnostics.Process.Start("https://apps.dtic.mil/docs/citations/ADA414893");
+            try
+            {
+                System.Diagnostics.Process.Start("https://apps.dtic.mil/docs/citations/ADA414893");
+            }
+            catch (Exception ex)
+            {
+                Diagnostics.Log(ex);
+            }
         }
 
         private void CMD_WINDOW_Click(object sender, RoutedEventArgs e)
@@ -747,16 +784,24 @@ namespace FalconBMS.Launcher.Windows
 
         private void ListBox_BMS_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (!e.Source.Equals(ListBox_BMS))
-                return;
-            if (appReg == null)
-                return;
+            try
+            {
+                if (!e.Source.Equals(ListBox_BMS))
+                    return;
+                if (appReg == null)
+                    return;
 
-            Properties.Settings.Default.BMS_Version = this.ListBox_BMS.SelectedItem.ToString();
-            appReg.Init(this, this.ListBox_BMS.SelectedItem.ToString());
+                Properties.Settings.Default.BMS_Version = this.ListBox_BMS.SelectedItem.ToString();
+                appReg.Init(this, this.ListBox_BMS.SelectedItem.ToString());
 
-            BMSChanged();
-            ReloadDevices();
+                BMSChanged();
+                ReloadDevices();
+            }
+            catch (Exception ex)
+            {
+                Diagnostics.WriteLogFile(ex);
+                Close();
+            }
         }
     }
 }
