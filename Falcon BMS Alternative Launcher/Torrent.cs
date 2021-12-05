@@ -42,6 +42,18 @@ namespace FalconBMS.Launcher
             }
         }
 
+        public static bool Download(string hashSt, string destination)
+        {
+            if (!Directory.Exists(destination))
+                Directory.CreateDirectory(destination);
+
+            string command = " --fc \"" + destination + "\" --fi \"" + destination + "\" --ft \"" + destination + "\" --fs \"" + destination + "\" " + hashSt + "\"";
+
+            BitSwarm(command);
+
+            return true;
+        }
+
         public static bool Download(DownloadWindow dl, string hashSt, string exest, string destination)
         {
             if (!Directory.Exists(destination))
