@@ -7,6 +7,10 @@ device order before BMS find them changed and initialize your setup. You don't h
 about SETUP mixing up DX order nor resets axis setups even if device sort or numbers have
 been changed.
 
+### Install
+Extract all files to "Falcon BMS 4.XX/bin/x86"
+
+
 # Pay attention before use.
 
 The app will overwrite following setup files and the Registry of Falcon BMS.
