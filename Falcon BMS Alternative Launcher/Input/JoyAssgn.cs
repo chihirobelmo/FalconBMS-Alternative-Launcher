@@ -212,7 +212,7 @@ namespace FalconBMS.Launcher.Input
                         if (ii != 0)
                             continue;
                         assign += dx[i].assign[ii].GetCallback();
-                        assign += " " + (joynum * CommonConstants.DX32 + i);
+                        assign += " " + (joynum * CommonConstants.DX128 + i);
                         assign += " " + (int)Invoke.Default;
                         assign += " " + "-2";
                         assign += " " + "0";
@@ -220,7 +220,7 @@ namespace FalconBMS.Launcher.Input
                         assign += " " + dx[i].assign[ii].GetSoundID();
                         assign += "\n";
                         assign += dx[i].assign[ii].GetCallback();
-                        assign += " " + (numOfDevices * CommonConstants.DX32 + joynum * CommonConstants.DX32 + i);
+                        assign += " " + (numOfDevices * CommonConstants.DX128 + joynum * CommonConstants.DX128 + i);
                         assign += " " + (int)Invoke.Default;
                         assign += " " + "-2";
                         assign += " " + "0";
@@ -233,9 +233,9 @@ namespace FalconBMS.Launcher.Input
                     assign += dx[i].assign[ii].GetCallback();
 
                     if (ii == CommonConstants.DX_PRESS | ii == CommonConstants.DX_RELEASE)
-                        assign += " " + (joynum * CommonConstants.DX32 + i);
+                        assign += " " + (joynum * CommonConstants.DX128 + i);
                     if (ii == CommonConstants.DX_PRESS_SHIFT | ii == CommonConstants.DX_RELEASE_SHIFT)
-                        assign += " " + (numOfDevices * CommonConstants.DX32 + joynum * CommonConstants.DX32 + i);
+                        assign += " " + (numOfDevices * CommonConstants.DX128 + joynum * CommonConstants.DX128 + i);
 
                     assign += " " + (int)dx[i].assign[ii].GetInvoke();
                     assign += " " + "-2";

@@ -145,7 +145,7 @@ namespace FalconBMS.Launcher.Windows
                 int[] povs;
 
                 buttons = MainWindow.deviceControl.joyAssign[i].GetButtons();
-                for (int ii = 0; ii < CommonConstants.DX32; ii++)
+                for (int ii = 0; ii < CommonConstants.DX128; ii++)
                 {
                     if (buttons[ii] == CommonConstants.PRS128 && MainWindow.deviceControl.joyAssign[i].dx[ii].assign[CommonConstants.DX_PRESS].GetCallback() == "SimHotasPinkyShift" && pressedByHand == false)
                     {
