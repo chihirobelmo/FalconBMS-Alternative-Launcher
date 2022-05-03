@@ -229,6 +229,139 @@ namespace FalconBMS.Launcher.Windows
                     Joynum[i].NeutralValue[ii] = MainWindow.deviceControl.joyAssign[i].JoyAxisState(ii);
         }
 
+        private void GetNeutralPosition()
+        {
+            Reset();
+
+            status = Status.WaitInput;
+            AssignedJoystick.Content = "   AWAITING INPUTS";
+            sw.Start();
+        }
+
+        private void WaitInput()
+        {
+            for (int i = 0; i < MainWindow.deviceControl.joyAssign.Length; i++)
+            {
+                for (int ii = 0; ii < 8; ii++)
+                {
+                    if (MainWindow.deviceControl.joyAssign[i].JoyAxisState(ii) < Joynum[i].NeutralValue[ii] + CommonConstants.AXISMAX / 4 &
+                        MainWindow.deviceControl.joyAssign[i].JoyAxisState(ii) > Joynum[i].NeutralValue[ii] - CommonConstants.AXISMAX / 4)
+                        continue;
+                    devNumTmp = i;
+                    phyAxNumTmp = ii;
+                    status = Status.ShowAxisStatus;
+                    Retry.Content = "RETRY";
+                    Retry.Visibility = Visibility.Visible;
+
+                    if (whoCalledWindow != "Throttle")
+                        continue;
+                    SetAB.Visibility = Visibility.Visible;
+                    Idle.Visibility = Visibility.Visible;
+
+                    if (((InGameAxAssgn)MainWindow.inGameAxis[whoCalledWindow]).GetDeviceNumber() >= 0)
+                    {
+                        AB = MainWindow.deviceControl.joyAssign[((InGameAxAssgn)MainWindow.inGameAxis[whoCalledWindow]).GetDeviceNumber()].detentPosition.GetAB();
+                        IDLE = MainWindow.deviceControl.joyAssign[((InGameAxAssgn)MainWindow.inGameAxis[whoCalledWindow]).GetDeviceNumber()].detentPosition.GetIDLE();
+                    }
+                }
+            }
+            if (sw.ElapsedMilliseconds > 1000)
+                AssignedJoystick.Content = "";
+            if (sw.ElapsedMilliseconds > 1666)
+            {
+                AssignedJoystick.Content = "   AWAITING INPUTS";
+                sw.Reset();
+                sw.Start();
+            }
+        }
+
+        private void InvertAxisDisp()
+        {
+            switch (whoCalledWindow)
+            {
+                case "Throttle":
+                case "Throttle_Right":
+                case "Toe_Brake":
+                case "Toe_Brake_Right":
+                case "Intercom":
+                case "COMM_Channel_1":
+                case "COMM_Channel_2":
+                case "MSL_Volume":
+                case "Threat_Volume":
+                case "AI_vs_IVC":
+                    if (Invert.IsChecked == false || Invert.IsChecked == null)
+                        invertNum = -1;
+                    else
+                        invertNum = 1;
+                    break;
+                default:
+                    if (Invert.IsChecked == false || Invert.IsChecked == null)
+                        invertNum = 1;
+                    else
+                        invertNum = -1;
+                    break;
+            }
+
+            if (invertNum == 1)
+            {
+                AxisValueProgress.Minimum = CommonConstants.AXISMIN;
+                AxisValueProgress.Maximum = CommonConstants.AXISMAX;
+            }
+            else
+            {
+                AxisValueProgress.Minimum = -CommonConstants.AXISMAX;
+                AxisValueProgress.Maximum = CommonConstants.AXISMIN;
+            }
+        }
+
+        private void ShowAxisStatus()
+        {
+            // no joystick assigned
+            if (devNumTmp == -1)
+            {
+                status = Status.GetNeutralPosition;
+                return;
+            }
+
+            InvertAxisDisp();
+
+            // mouse wheel assigned
+            if (devNumTmp == -2)
+            {
+                AxisValueProgress.Value = (32768 + wheelValue * 1024 / 120) * invertNum;
+                AssignedJoystick.Content = "   MouseWheel";
+                return;
+            }
+
+            int output = MainWindow.ApplyDeadZone
+                            (
+                                MainWindow.deviceControl.joyAssign[devNumTmp].JoyAxisState(phyAxNumTmp),
+                                (AxCurve)DeadZone.SelectedIndex,
+                                (AxCurve)Saturation.SelectedIndex
+                            );
+            AxisValueProgress.Value = output * invertNum;
+            AssignedJoystick.Content = "   "
+                + ((AxisNumName)phyAxNumTmp).ToString().Replace('_', ' ') + " : "
+                + MainWindow.deviceControl.joyStick[devNumTmp].DeviceInformation.ProductName;
+
+            if (whoCalledWindow != "Throttle" & whoCalledWindow != "Throttle_Right")
+                return;
+            AxisValueProgress.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 0x38, 0x78, 0xA8));
+            check_ABIDLE.Visibility = Visibility.Hidden;
+            if (CommonConstants.AXISMAX + AxisValueProgress.Value < IDLE)
+            {
+                AxisValueProgress.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 240, 0, 0));
+                check_ABIDLE.Visibility = Visibility.Visible;
+                check_ABIDLE.Content = "IDLE CUTOFF";
+            }
+            if (CommonConstants.AXISMAX + AxisValueProgress.Value > AB)
+            {
+                AxisValueProgress.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 0, 240, 0));
+                check_ABIDLE.Visibility = Visibility.Visible;
+                check_ABIDLE.Content = "AB";
+            }
+        }
+
         private void AxisDetectionTimerCode(object sender, EventArgs e)
         {
             if (sw.ElapsedMilliseconds > 1666)
@@ -256,129 +389,19 @@ namespace FalconBMS.Launcher.Windows
                 {
                     case Status.GetNeutralPosition:
 
-                        Reset();
-
-                        status = Status.WaitInput;
-                        AssignedJoystick.Content = "   AWAITING INPUTS";
-                        sw.Start();
+                        GetNeutralPosition();
 
                         break;
 
                     case Status.WaitInput:
 
-                        for (int i = 0; i < MainWindow.deviceControl.joyAssign.Length; i++)
-                        {
-                            for (int ii = 0; ii < 8; ii++)
-                            {
-                                if (MainWindow.deviceControl.joyAssign[i].JoyAxisState(ii) < Joynum[i].NeutralValue[ii] + CommonConstants.AXISMAX / 4 &
-                                    MainWindow.deviceControl.joyAssign[i].JoyAxisState(ii) > Joynum[i].NeutralValue[ii] - CommonConstants.AXISMAX / 4)
-                                    continue;
-                                devNumTmp = i;
-                                phyAxNumTmp = ii;
-                                status = Status.ShowAxisStatus;
-                                Retry.Content = "RETRY";
-                                Retry.Visibility = Visibility.Visible;
-
-                                if (whoCalledWindow != "Throttle")
-                                    continue;
-                                SetAB.Visibility = Visibility.Visible;
-                                Idle.Visibility = Visibility.Visible;
-
-                                if (((InGameAxAssgn)MainWindow.inGameAxis[whoCalledWindow]).GetDeviceNumber() >= 0)
-                                {
-                                    AB = MainWindow.deviceControl.joyAssign[((InGameAxAssgn)MainWindow.inGameAxis[whoCalledWindow]).GetDeviceNumber()].detentPosition.GetAB();
-                                    IDLE = MainWindow.deviceControl.joyAssign[((InGameAxAssgn)MainWindow.inGameAxis[whoCalledWindow]).GetDeviceNumber()].detentPosition.GetIDLE();
-                                }
-                            }
-                        }
-                        if (sw.ElapsedMilliseconds > 1000)
-                            AssignedJoystick.Content = "";
-                        if (sw.ElapsedMilliseconds > 1666)
-                        {
-                            AssignedJoystick.Content = "   AWAITING INPUTS";
-                            sw.Reset();
-                            sw.Start();
-                        }
+                        WaitInput();
 
                         break;
 
                     case Status.ShowAxisStatus:
 
-                        if (devNumTmp == -1)
-                        {
-                            status = Status.GetNeutralPosition;
-                            return;
-                        }
-
-                        switch (whoCalledWindow)
-                        {
-                            case "Throttle":
-                            case "Throttle_Right":
-                            case "Toe_Brake":
-                            case "Toe_Brake_Right":
-                            case "Intercom":
-                            case "COMM_Channel_1":
-                            case "COMM_Channel_2":
-                            case "MSL_Volume":
-                            case "Threat_Volume":
-                            case "AI_vs_IVC":
-                                if (Invert.IsChecked == false || Invert.IsChecked == null)
-                                    invertNum = -1;
-                                else
-                                    invertNum = 1;
-                                break;
-                            default:
-                                if (Invert.IsChecked == false || Invert.IsChecked == null)
-                                    invertNum = 1;
-                                else
-                                    invertNum = -1;
-                                break;
-                        }
-                        if (invertNum == 1)
-                        {
-                            AxisValueProgress.Minimum = CommonConstants.AXISMIN;
-                            AxisValueProgress.Maximum = CommonConstants.AXISMAX;
-                        }
-                        else
-                        {
-                            AxisValueProgress.Minimum = -CommonConstants.AXISMAX;
-                            AxisValueProgress.Maximum = CommonConstants.AXISMIN;
-                        }
-
-                        if (devNumTmp == -2)
-                        {
-                            AxisValueProgress.Value = (32768 + wheelValue * 1024 / 120) * invertNum;
-                            AssignedJoystick.Content = "   MouseWheel";
-                            return;
-                        }
-
-                        int output = MainWindow.ApplyDeadZone
-                            (
-                                MainWindow.deviceControl.joyAssign[devNumTmp].JoyAxisState(phyAxNumTmp),
-                                (AxCurve)DeadZone.SelectedIndex,
-                                (AxCurve)Saturation.SelectedIndex
-                            );
-                        AxisValueProgress.Value = output * invertNum;
-                        AssignedJoystick.Content = "   "
-                            + ((AxisNumName)phyAxNumTmp).ToString().Replace('_', ' ') + " : "
-                            + MainWindow.deviceControl.joyStick[devNumTmp].DeviceInformation.ProductName;
-
-                        if (whoCalledWindow != "Throttle" & whoCalledWindow != "Throttle_Right")
-                            return;
-                        AxisValueProgress.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 0x38, 0x78, 0xA8));
-                        check_ABIDLE.Visibility = Visibility.Hidden;
-                        if (CommonConstants.AXISMAX + AxisValueProgress.Value < IDLE)
-                        {
-                            AxisValueProgress.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 240, 0, 0));
-                            check_ABIDLE.Visibility = Visibility.Visible;
-                            check_ABIDLE.Content = "IDLE CUTOFF";
-                        }
-                        if (CommonConstants.AXISMAX + AxisValueProgress.Value > AB)
-                        {
-                            AxisValueProgress.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 0, 240, 0));
-                            check_ABIDLE.Visibility = Visibility.Visible;
-                            check_ABIDLE.Content = "AB";
-                        }
+                        ShowAxisStatus();
 
                         break;
 
