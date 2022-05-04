@@ -139,22 +139,35 @@ namespace FalconBMS.Launcher.Windows
 
         private void JoystickButtonMonitor()
         {
+            byte[] buttons;
+            int[] povs;
+
+            bool EitherOneOfShiftPressed = false;
+
             for (int i = 0; i < MainWindow.deviceControl.joyAssign.Length; i++)
             {
-                byte[] buttons;
-                int[] povs;
-
                 buttons = MainWindow.deviceControl.joyAssign[i].GetButtons();
+
                 for (int ii = 0; ii < CommonConstants.DX128; ii++)
                 {
-                    if (buttons[ii] == CommonConstants.PRS128 && MainWindow.deviceControl.joyAssign[i].dx[ii].assign[CommonConstants.DX_PRESS].GetCallback() == "SimHotasPinkyShift" && pressedByHand == false)
+                    if (buttons[ii] == CommonConstants.PRS128 && MainWindow.deviceControl.joyAssign[i].dx[ii].assign[CommonConstants.DX_PRESS].GetCallback() == "SimHotasPinkyShift" && pressedByHand == false ||
+                        buttons[ii] == CommonConstants.PRS128 && MainWindow.deviceControl.joyAssign[i].dx[ii].assign[CommonConstants.DX_PRESS].GetCallback() == "SimHotasShift"      && pressedByHand == false)
                     {
+                        EitherOneOfShiftPressed = true;
+                    }
+                }
+            }
+
+            for (int i = 0; i < MainWindow.deviceControl.joyAssign.Length; i++)
+            {
+                buttons = MainWindow.deviceControl.joyAssign[i].GetButtons();
+
+                for (int ii = 0; ii < CommonConstants.DX128; ii++)
+                {
+                    if (EitherOneOfShiftPressed)
                         Select_PinkyShift.IsChecked = false;
-                    }
-                    if (buttons[ii] == CommonConstants.PRS0   && MainWindow.deviceControl.joyAssign[i].dx[ii].assign[CommonConstants.DX_PRESS].GetCallback() == "SimHotasPinkyShift" && pressedByHand == false)
-                    {
+                    else
                         Select_PinkyShift.IsChecked = true;
-                    }
 
                     if (buttons[ii] == neutralButtons[i].buttons[ii])
                         continue;
@@ -164,7 +177,8 @@ namespace FalconBMS.Launcher.Windows
                         continue;
                     }
 
-                    if (MainWindow.deviceControl.joyAssign[i].dx[ii].assign[CommonConstants.DX_PRESS].GetCallback() == "SimHotasPinkyShift" && pressedByHand == false)
+                    if (MainWindow.deviceControl.joyAssign[i].dx[ii].assign[CommonConstants.DX_PRESS].GetCallback() == "SimHotasPinkyShift" && pressedByHand == false ||
+                        MainWindow.deviceControl.joyAssign[i].dx[ii].assign[CommonConstants.DX_PRESS].GetCallback() == "SimHotasShift"      && pressedByHand == false)
                     {
                         continue;
                     }
@@ -177,7 +191,7 @@ namespace FalconBMS.Launcher.Windows
                         behaviourStatus = Behaviour.Release;
 
                     // Construct DX button instance.
-                    if (tmpCallback.GetCallback() == "SimHotasPinkyShift")
+                    if (tmpCallback.GetCallback() == "SimHotasPinkyShift" || tmpCallback.GetCallback() == "SimHotasShift")
                     {
                         tmpJoyStick[i].dx[ii].Assign(tmpCallback.GetCallback(), Pinky.UnShift, Behaviour.Press, Invoke.Default, 0);
                         tmpJoyStick[i].dx[ii].Assign(tmpCallback.GetCallback(), Pinky.Shift, Behaviour.Press, Invoke.Default, 0);
@@ -186,10 +200,7 @@ namespace FalconBMS.Launcher.Windows
                     {
                         tmpJoyStick[i].dx[ii].Assign(tmpCallback.GetCallback(), pinkyStatus, behaviourStatus, invokeStatus, 0);
                     }
-                    //while (buttons[ii] != neutralButtons[i].buttons[ii])
-                    //{
-                    //    buttons = deviceControl.joyAssign[i].GetDeviceState().GetButtons();
-                    //}
+
                     getNeutralPosition();
                     return;
                 }
@@ -211,10 +222,7 @@ namespace FalconBMS.Launcher.Windows
 
                     // Construct POV button instance.
                     tmpJoyStick[i].pov[ii].Assign(povs[ii], tmpCallback.GetCallback(), pinkyStatus, 0);
-                    //while (povs[ii] != neutralButtons[i].povs[ii])
-                    //{
-                    //    povs = deviceControl.joyAssign[i].GetDeviceState().GetPointOfView();
-                    //}
+
                     getNeutralPosition();
                     return;
                 }

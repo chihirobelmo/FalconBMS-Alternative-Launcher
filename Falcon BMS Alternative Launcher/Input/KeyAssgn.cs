@@ -68,7 +68,7 @@ namespace FalconBMS.Launcher.Input
                 for (int i = 9; i < stArrayData.Length; i++)
                     description += " " + stArrayData[i];
 
-            if (callback == "SimHotasPinkyShift")
+            if (callback == "SimHotasPinkyShift" || callback == "SimHotasShift")
                 visibility = "White";
             if (description == "\"======== 2.19     THROTTLE QUADRANT SYSTEM ==\"")
                 description = "\"======== 2.19     THROTTLE QUADRANT SYSTEM ========\"";

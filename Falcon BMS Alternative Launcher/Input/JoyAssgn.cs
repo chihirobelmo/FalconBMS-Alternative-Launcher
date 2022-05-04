@@ -207,7 +207,7 @@ namespace FalconBMS.Launcher.Input
                 {
                     if (dx[i].assign[ii].GetCallback() == "SimDoNothing")
                         continue;
-                    if (dx[i].assign[ii].GetCallback() == "SimHotasPinkyShift")
+                    if (dx[i].assign[ii].GetCallback() == "SimHotasPinkyShift" || dx[i].assign[ii].GetCallback() == "SimHotasShift")
                     {
                         if (ii != 0)
                             continue;
