@@ -108,7 +108,6 @@ namespace FalconBMS.Launcher.Windows
                 case "Throttle_Right":
                     DirectionDecrease.Content = "Afterward";
                     DirectionIncrease.Content = "Forward";
-                    Invert.Visibility = Visibility.Collapsed;
                     DeadZone.Visibility = Visibility.Collapsed;
                     Label_DeadZone.Visibility = Visibility.Collapsed;
                     break;
@@ -348,13 +347,13 @@ namespace FalconBMS.Launcher.Windows
                 return;
             AxisValueProgress.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 0x38, 0x78, 0xA8));
             check_ABIDLE.Visibility = Visibility.Hidden;
-            if (CommonConstants.AXISMAX + AxisValueProgress.Value < IDLE)
+            if ( (Invert.IsChecked == false && CommonConstants.AXISMAX + AxisValueProgress.Value < IDLE) || (Invert.IsChecked == true && CommonConstants.AXISMIN + AxisValueProgress.Value < IDLE))
             {
                 AxisValueProgress.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 240, 0, 0));
                 check_ABIDLE.Visibility = Visibility.Visible;
                 check_ABIDLE.Content = "IDLE CUTOFF";
             }
-            if (CommonConstants.AXISMAX + AxisValueProgress.Value > AB)
+            if ( (Invert.IsChecked == false && CommonConstants.AXISMAX + AxisValueProgress.Value > AB) || (Invert.IsChecked == true && CommonConstants.AXISMIN + AxisValueProgress.Value > AB) )
             {
                 AxisValueProgress.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 0, 240, 0));
                 check_ABIDLE.Visibility = Visibility.Visible;

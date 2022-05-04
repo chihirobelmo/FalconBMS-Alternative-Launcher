@@ -219,13 +219,15 @@ namespace FalconBMS.Launcher.Windows
 
                     if (((InGameAxAssgn)MainWindow.inGameAxis[AxisName.Throttle.ToString()]).GetDeviceNumber() >= 0)
                     {
-                        if (CommonConstants.AXISMAX + tbprogressbar.Value < deviceControl.joyAssign[((InGameAxAssgn)MainWindow.inGameAxis[AxisName.Throttle.ToString()]).GetDeviceNumber()].detentPosition.GetIDLE())
+                        if ( !((InGameAxAssgn)inGameAxis[nme.ToString()]).GetInvert() && CommonConstants.AXISMAX + tbprogressbar.Value < deviceControl.GetIDLE(AxisName.Throttle) ||
+                              ((InGameAxAssgn)inGameAxis[nme.ToString()]).GetInvert() && CommonConstants.AXISMIN + tbprogressbar.Value < deviceControl.GetIDLE(AxisName.Throttle) ) 
                         {
                             tbprogressbar.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 240, 0, 0));
                             tblabelab.Visibility = Visibility.Visible;
                             tblabelab.Content = "IDLE CUTOFF";
                         }
-                        if (CommonConstants.AXISMAX + tbprogressbar.Value > deviceControl.joyAssign[((InGameAxAssgn)MainWindow.inGameAxis[AxisName.Throttle.ToString()]).GetDeviceNumber()].detentPosition.GetAB())
+                        if ( !((InGameAxAssgn)inGameAxis[nme.ToString()]).GetInvert() && CommonConstants.AXISMAX + tbprogressbar.Value > deviceControl.GetAB(AxisName.Throttle) ||
+                              ((InGameAxAssgn)inGameAxis[nme.ToString()]).GetInvert() && CommonConstants.AXISMIN + tbprogressbar.Value > deviceControl.GetAB(AxisName.Throttle) )
                         {
                             tbprogressbar.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 0, 240, 0));
                             tblabelab.Visibility = Visibility.Visible;

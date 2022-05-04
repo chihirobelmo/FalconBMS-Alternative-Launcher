@@ -87,5 +87,15 @@ namespace FalconBMS.Launcher.Input
         {
             joyAssign = joyAssign.OrderByDescending(j => j.GetAssignedNumber()).ToArray();
         }
+
+        public int GetAB(AxisName name)
+        {
+            return joyAssign[((InGameAxAssgn)MainWindow.inGameAxis[name.ToString()]).GetDeviceNumber()].detentPosition.GetAB();
+        }
+
+        public int GetIDLE(AxisName name)
+        {
+            return joyAssign[((InGameAxAssgn)MainWindow.inGameAxis[name.ToString()]).GetDeviceNumber()].detentPosition.GetIDLE();
+        }
     }
 }
