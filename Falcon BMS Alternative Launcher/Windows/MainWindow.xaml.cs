@@ -74,23 +74,16 @@ namespace FalconBMS.Launcher.Windows
                 AL_Version_Number.Content = BMS_Launcher_version;
 
                 Diagnostics.Log(BMS_Launcher_version);
-            }
-            catch (Exception ex001)
-            {
-                Diagnostics.WriteLogFile(ex001);
-            }
 
-            try
-            {
-                RSSReader.Read("https://www.falcon-bms.com/news/feed/",    "https://www.falcon-bms.com"   );
+                RSSReader.Read("https://www.falcon-bms.com/news/feed/", "https://www.falcon-bms.com");
                 RSSReader.Read("https://www.falcon-lounge.com/news/feed/", "https://www.falcon-lounge.com");
                 RSSReader.Write(News);
 
                 Diagnostics.Log("RSS Read and Write Finished");
             }
-            catch (Exception ex002)
+            catch (Exception expass)
             {
-                Diagnostics.WriteLogFile(ex002);
+                Diagnostics.WriteLogFile(expass);
             }
 
             try
@@ -103,16 +96,9 @@ namespace FalconBMS.Launcher.Windows
 
                 BMSChanged();
                 ReloadDevices();
-            }
-            catch (Exception ex003)
-            {
-                Diagnostics.WriteLogFile(ex003);
-                Close();
-                return;
-            }
 
-            try
-            {
+                Diagnostics.Log("Init Devices.");
+
                 if (DownloadWindow.CheckMajorUpdate(ListBox_BMS))
                     UPDATE_AVAILABLE.Visibility = Visibility.Hidden;
                 else
@@ -124,16 +110,9 @@ namespace FalconBMS.Launcher.Windows
                     BMSChanged();
                     ReloadDevices();
                 }
-            }
-            catch (Exception ex004)
-            {
-                Diagnostics.WriteLogFile(ex004);
-                Close();
-                return;
-            }
 
-            try
-            {
+                Diagnostics.Log("Update Checked.");
+
                 if (appReg.getBMSVersion() == BMS_Version.UNDEFINED)
                 {
                     MessageBox.Show("Could Not Find BMS");
@@ -141,16 +120,9 @@ namespace FalconBMS.Launcher.Windows
                     Close();
                     return;
                 }
-            }
-            catch (Exception ex005)
-            {
-                Diagnostics.WriteLogFile(ex005);
-                Close();
-                return;
-            }
 
-            try
-            {
+                Diagnostics.Log("BMS found.");
+
                 if (DownloadWindow.CheckMinorUpdate(appReg))
                     UPDATE_AVAILABLE.Visibility = Visibility.Hidden;
                 else
@@ -158,16 +130,9 @@ namespace FalconBMS.Launcher.Windows
                     UPDATE_AVAILABLE.Visibility = Visibility.Visible;
                     DownloadWindow.ShowDownloadWindow(this, appReg, ListBox_BMS);
                 }
-            }
-            catch (Exception ex006)
-            {
-                Diagnostics.WriteLogFile(ex006);
-                Close();
-                return;
-            }
 
-            try
-            {
+                Diagnostics.Log("Update Visiblity check.");
+
                 // Set Timer
                 AxisMovingTimer.Tick += AxisMovingTimer_Tick;
                 AxisMovingTimer.Interval = new TimeSpan(0, 0, 0, 0, 16);
@@ -179,10 +144,12 @@ namespace FalconBMS.Launcher.Windows
                 NewDeviceDetectTimer.Interval = new TimeSpan(0, 0, 0, 1, 0);
 
                 NewDeviceDetectTimer.Start();
+
+                Diagnostics.Log("Timer Started.");
             }
-            catch (Exception ex007)
+            catch (Exception exclose)
             {
-                Diagnostics.WriteLogFile(ex007);
+                Diagnostics.WriteLogFile(exclose);
                 Close();
                 return;
             }
@@ -225,6 +192,7 @@ namespace FalconBMS.Launcher.Windows
             }
             catch (Exception ex)
             {
+                // need this as some error might happen when detected a new device.
                 Diagnostics.Log(ex);
             }
         }
