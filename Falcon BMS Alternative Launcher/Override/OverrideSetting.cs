@@ -449,8 +449,8 @@ namespace FalconBMS.Launcher.Override
                             iAB   = -iAB   * (MAXOUT / MAXIN) + MAXOUT;
                             iIdle = -iIdle * (MAXOUT / MAXIN) + MAXOUT;
 
-                            byte[] ab   = BitConverter.GetBytes((int)iAB);
-                            byte[] idle = BitConverter.GetBytes((int)iIdle);
+                            byte[] ab   = BitConverter.GetBytes((int)iAB).Reverse().ToArray();
+                            byte[] idle = BitConverter.GetBytes((int)iIdle).Reverse().ToArray();
 
                             bs[1] = ab[1];
                             bs[5] = idle[1];
