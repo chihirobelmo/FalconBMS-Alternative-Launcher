@@ -345,8 +345,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="bitswarm.exe" />
-    <Resource Include="Update\UpdateBMS.xml" />
-    <Resource Include="Update\UpdateBMSTest.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterResolveReferences">
