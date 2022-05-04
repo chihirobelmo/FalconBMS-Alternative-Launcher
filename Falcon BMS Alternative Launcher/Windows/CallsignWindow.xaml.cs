@@ -15,6 +15,7 @@ using System.Text.RegularExpressions;
 
 using FalconBMS.Launcher.Input;
 using System.Runtime.InteropServices;
+using System.Diagnostics;
 
 namespace FalconBMS.Launcher.Windows
 {
@@ -119,12 +120,8 @@ namespace FalconBMS.Launcher.Windows
 
             appReg.ChangeName(TextBox_Callsign.Text, TextBox_PilotName.Text);
 
-            DateTime dt = DateTime.Now;
+            Process.Start("bms-logcat.exe", "-o \"" + appReg.GetInstallDir() + "\\User\\Config\\" + TextBox_Callsign.Text + ".lbk\" write-default --name \"" + TextBox_PilotName.Text + "\" --callsign \"" + TextBox_Callsign.Text + "\"");
 
-            if (Environment.Is64BitProcess)
-                CreateLbk_64(appReg.GetInstallDir() + "\\User\\Config\\" + TextBox_Callsign.Text + ".lbk", TextBox_Callsign.Text, TextBox_PilotName.Text, dt.ToString("dd/MM/yy"));
-            else
-                CreateLbk_32(appReg.GetInstallDir() + "\\User\\Config\\" + TextBox_Callsign.Text + ".lbk", TextBox_Callsign.Text, TextBox_PilotName.Text, dt.ToString("dd/MM/yy"));
             Close();
         }
     }
