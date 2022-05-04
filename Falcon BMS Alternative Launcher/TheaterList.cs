@@ -25,6 +25,9 @@ namespace FalconBMS.Launcher
             var theaterFiles = Directory.GetFiles(appReg.GetInstallDir() + "/Data", "*.tdf", SearchOption.AllDirectories);
             System.Array.Sort(theaterFiles);
 
+            // KoreaKTO should be at the Top or MC will have a problem. I'd say MC should fix this!
+            theaterFiles = theaterFiles.OrderByDescending(y => y.EndsWith("Data\\TerrData\\TheaterDefinition\\Korea KTO.tdf")).ToArray();
+
             // Write all TDFs to the theater list, slicing the install dir off.
             var dataDirLength = appReg.GetInstallDir().Length + "/Data/".Length;
             File.WriteAllLines(filename, theaterFiles.Select(t => t.Substring(dataDirLength)).ToArray());
