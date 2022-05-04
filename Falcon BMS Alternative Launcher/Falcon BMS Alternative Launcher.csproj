@@ -343,9 +343,6 @@
   <ItemGroup>
     <Resource Include="AutoUpdate.xml" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="bitswarm.exe" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterResolveReferences">
     <ItemGroup>

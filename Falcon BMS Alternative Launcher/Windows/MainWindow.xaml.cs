@@ -17,7 +17,6 @@ using AutoUpdaterDotNET;
 using System.Reflection;
 using System.Xml;
 using System.Threading.Tasks;
-using System.Diagnostics;
 
 namespace FalconBMS.Launcher.Windows
 {
@@ -61,7 +60,6 @@ namespace FalconBMS.Launcher.Windows
         /// <param name="e"></param>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-
             try
             {
                 System.Reflection.Assembly asm = System.Reflection.Assembly.GetExecutingAssembly();
@@ -101,6 +99,7 @@ namespace FalconBMS.Launcher.Windows
 
                 Diagnostics.Log("Init Devices.");
 
+                /*
                 if (DownloadWindow.CheckMajorUpdate(ListBox_BMS))
                     UPDATE_AVAILABLE.Visibility = Visibility.Hidden;
                 else
@@ -112,9 +111,10 @@ namespace FalconBMS.Launcher.Windows
                     BMSChanged();
                     ReloadDevices();
                 }
+                */
 
                 Diagnostics.Log("Update Checked.");
-
+                
                 if (appReg.getBMSVersion() == BMS_Version.UNDEFINED)
                 {
                     MessageBox.Show("Could Not Find BMS");
@@ -125,6 +125,7 @@ namespace FalconBMS.Launcher.Windows
 
                 Diagnostics.Log("BMS found.");
 
+                /*
                 if (DownloadWindow.CheckMinorUpdate(appReg))
                     UPDATE_AVAILABLE.Visibility = Visibility.Hidden;
                 else
@@ -132,6 +133,7 @@ namespace FalconBMS.Launcher.Windows
                     UPDATE_AVAILABLE.Visibility = Visibility.Visible;
                     DownloadWindow.ShowDownloadWindow(this, appReg, ListBox_BMS);
                 }
+                */
 
                 Diagnostics.Log("Update Visiblity check.");
 
@@ -409,9 +411,13 @@ namespace FalconBMS.Launcher.Windows
         {
             try
             {
+                //if (!appReg.isNameDefined())
+                //  if (CallsignWindow.ShowCallsignWindow(appReg))
+                //      return;
+
                 if (!appReg.isNameDefined())
                 {
-                    if (!CallsignWindow.ShowCallsignWindow(appReg))
+                    if (RecommendReboot.ShowRecommendReboot())
                         appReg.getLauncher().execute(sender, true);
                     return;
                 }

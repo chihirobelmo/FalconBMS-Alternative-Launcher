@@ -21,12 +21,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_0C68EC679E2AF278BB459E764B39486F"
-        "OwnerKey" = "8:_95D9AB91892E45249B8FD06F8E892BD9"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_19BB0D57442CCBBE821E4A5862FF8413"
         "OwnerKey" = "8:_95D9AB91892E45249B8FD06F8E892BD9"
         "MsmSig" = "8:_UNDEFINED"
@@ -41,12 +35,6 @@
         {
         "MsmKey" = "8:_20455F6C3DB4461ABF2279FD0B4C2497"
         "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_3CFE77431E69CC9EED9210453BD37819"
-        "OwnerKey" = "8:_0152DEE75F8098FD868EEADEC8F4DD49"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -81,6 +69,18 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_643F562E9F738CF7087E005C162D5AB0"
+        "OwnerKey" = "8:_95D9AB91892E45249B8FD06F8E892BD9"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_643F562E9F738CF7087E005C162D5AB0"
+        "OwnerKey" = "8:_0152DEE75F8098FD868EEADEC8F4DD49"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_6B879BD1855E4C81AA42EE2E5A53C406"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -105,6 +105,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_8733B5B119BA486AA1C273D63FC46822"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_89A1A94EF8C4C543C5D54A6176542202"
         "OwnerKey" = "8:_95D9AB91892E45249B8FD06F8E892BD9"
         "MsmSig" = "8:_UNDEFINED"
@@ -112,6 +118,12 @@
         "Entry"
         {
         "MsmKey" = "8:_8AB7076865D14E6D88488C43E3864D67"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_9121E6C0AF0C43A493ED31E31AED9EE1"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -143,12 +155,6 @@
         {
         "MsmKey" = "8:_97F28FCB16F0829941816A1C31205583"
         "OwnerKey" = "8:_95D9AB91892E45249B8FD06F8E892BD9"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_9ED8DDE38FBC4F58A50DC38109EFDB6F"
-        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -262,12 +268,6 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_0C68EC679E2AF278BB459E764B39486F"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_19BB0D57442CCBBE821E4A5862FF8413"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -298,7 +298,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_3CFE77431E69CC9EED9210453BD37819"
+        "OwnerKey" = "8:_643F562E9F738CF7087E005C162D5AB0"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -441,37 +441,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_0C68EC679E2AF278BB459E764B39486F"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Leak.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_0C68EC679E2AF278BB459E764B39486F"
-                    {
-                    "Name" = "8:Leak.Core.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:Leak.Core.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_C7487B96F8014EB3919EA405642D5247"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_19BB0D57442CCBBE821E4A5862FF8413"
             {
             "AssemblyRegister" = "3:1"
@@ -521,37 +490,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_3CFE77431E69CC9EED9210453BD37819"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:TRUE"
-            "AssemblyAsmDisplayName" = "8:System.IO.Compression, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_3CFE77431E69CC9EED9210453BD37819"
-                    {
-                    "Name" = "8:System.IO.Compression.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:System.IO.Compression.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_C7487B96F8014EB3919EA405642D5247"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_44EFAA052CDE4AD7A94B3D4AD58E17B0"
@@ -654,6 +592,37 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_643F562E9F738CF7087E005C162D5AB0"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:System.IO.Compression, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+                "ScatterAssemblies"
+                {
+                    "_643F562E9F738CF7087E005C162D5AB0"
+                    {
+                    "Name" = "8:System.IO.Compression.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:System.IO.Compression.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_C7487B96F8014EB3919EA405642D5247"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6B879BD1855E4C81AA42EE2E5A53C406"
             {
             "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\Stock\\Setup.v100.Saitek X52 Pro Flight Controller {Stock}.xml"
@@ -734,6 +703,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8733B5B119BA486AA1C273D63FC46822"
+            {
+            "SourcePath" = "8:..\\bin\\Release\\bms-logcat.exe"
+            "TargetName" = "8:bms-logcat.exe"
+            "Tag" = "8:"
+            "Folder" = "8:_C7487B96F8014EB3919EA405642D5247"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_89A1A94EF8C4C543C5D54A6176542202"
             {
             "AssemblyRegister" = "3:1"
@@ -771,6 +760,26 @@
             "TargetName" = "8:Setup.v100.Saitek X65F Flight Controller {Stock}.xml"
             "Tag" = "8:"
             "Folder" = "8:_B1B01F01701141248BD6FD0195551B06"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9121E6C0AF0C43A493ED31E31AED9EE1"
+            {
+            "SourcePath" = "8:..\\bin\\Release\\bitswarm.exe"
+            "TargetName" = "8:bitswarm.exe"
+            "Tag" = "8:"
+            "Folder" = "8:_C7487B96F8014EB3919EA405642D5247"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -845,26 +854,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9ED8DDE38FBC4F58A50DC38109EFDB6F"
-            {
-            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\bitswarm.exe"
-            "TargetName" = "8:bitswarm.exe"
-            "Tag" = "8:"
-            "Folder" = "8:_C7487B96F8014EB3919EA405642D5247"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A1D0531EC5AD4DFCAE9B3D0357787936"
