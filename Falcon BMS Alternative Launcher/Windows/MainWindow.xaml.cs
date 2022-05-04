@@ -99,6 +99,7 @@ namespace FalconBMS.Launcher.Windows
 
                 Diagnostics.Log("Init Devices.");
 
+                UPDATE_AVAILABLE.Visibility = Visibility.Hidden;
                 /*
                 if (DownloadWindow.CheckMajorUpdate(ListBox_BMS))
                     UPDATE_AVAILABLE.Visibility = Visibility.Hidden;
