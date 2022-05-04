@@ -276,6 +276,8 @@ namespace FalconBMS.Launcher
 
         public void ChangeName(string callSign, string pilotName)
         {
+            pilotCallsign = callSign;
+
             regkey = Registry.LocalMachine.OpenSubKey(regName, true);
             if (regkey == null)
             {

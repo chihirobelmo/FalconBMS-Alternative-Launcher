@@ -17,6 +17,7 @@ using AutoUpdaterDotNET;
 using System.Reflection;
 using System.Xml;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace FalconBMS.Launcher.Windows
 {
@@ -60,6 +61,7 @@ namespace FalconBMS.Launcher.Windows
         /// <param name="e"></param>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+
             try
             {
                 System.Reflection.Assembly asm = System.Reflection.Assembly.GetExecutingAssembly();
@@ -407,13 +409,9 @@ namespace FalconBMS.Launcher.Windows
         {
             try
             {
-                //if (!appReg.isNameDefined())
-                //  if (CallsignWindow.ShowCallsignWindow(appReg))
-                //      return;
-
                 if (!appReg.isNameDefined())
                 {
-                    if (RecommendReboot.ShowRecommendReboot())
+                    if (!CallsignWindow.ShowCallsignWindow(appReg))
                         appReg.getLauncher().execute(sender, true);
                     return;
                 }

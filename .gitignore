@@ -1,7 +1,14 @@
 #ignore vs files
 .vs/
 packages/
-bin/
+bin/Debug/*
+bin/Release/*
+!bin/Debug/bitswarm.exe
+!bin/Debug/bms-logcat.exe
+!bin/Debug/UpdateBMS.xml
+!bin/Release/bitswarm.exe
+!bin/Release/bms-logcat.exe
+!bin/Release/UpdateBMS.xml
 obj/
 Debug/
 Release/
