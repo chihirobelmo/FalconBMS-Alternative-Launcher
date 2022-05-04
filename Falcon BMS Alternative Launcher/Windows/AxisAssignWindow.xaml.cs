@@ -362,27 +362,27 @@ namespace FalconBMS.Launcher.Windows
                 AssignedJoystick.Content = "   AWAITING INPUTS";
             }
 
-            if (sw.ElapsedMilliseconds > 1666)
-            {
-                Microsoft.DirectX.DirectInput.DeviceList devList =
-                    Microsoft.DirectX.DirectInput.Manager.GetDevices(
-                        Microsoft.DirectX.DirectInput.DeviceClass.GameControl,
-                        Microsoft.DirectX.DirectInput.EnumDevicesFlags.AttachedOnly
-                        );
-
-                if (devList.Count != MainWindow.deviceControl.joyAssign.Length)
-                {
-                    mainWindow.ReloadDevices();
-                    Reset();
-                    mainWindow.UpdateAxisStatus();
-                }
-
-                sw.Reset();
-                sw.Start();
-            }
-
             try
             {
+                if (sw.ElapsedMilliseconds > 1666)
+                {
+                    Microsoft.DirectX.DirectInput.DeviceList devList =
+                    Microsoft.DirectX.DirectInput.Manager.GetDevices(
+                    Microsoft.DirectX.DirectInput.DeviceClass.GameControl,
+                    Microsoft.DirectX.DirectInput.EnumDevicesFlags.AttachedOnly
+                    );
+
+                    if (devList.Count != MainWindow.deviceControl.joyAssign.Length)
+                    {
+                        mainWindow.ReloadDevices();
+                        Reset();
+                        mainWindow.UpdateAxisStatus();
+                    }
+
+                    sw.Reset();
+                    sw.Start();
+                }
+
                 switch (status)
                 {
                     case Status.GetNeutralPosition:

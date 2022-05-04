@@ -91,28 +91,35 @@ namespace FalconBMS.Launcher.Windows
             if (sw.ElapsedMilliseconds > 1666)
                 AwaitingInputs.Content = "   AWAITING INPUTS";
 
-            if (sw.ElapsedMilliseconds > 1666)
+            try
             {
-                Microsoft.DirectX.DirectInput.DeviceList devList =
-                Microsoft.DirectX.DirectInput.Manager.GetDevices(
+                if (sw.ElapsedMilliseconds > 1666)
+                {
+                    Microsoft.DirectX.DirectInput.DeviceList devList =
+                    Microsoft.DirectX.DirectInput.Manager.GetDevices(
                     Microsoft.DirectX.DirectInput.DeviceClass.GameControl,
                     Microsoft.DirectX.DirectInput.EnumDevicesFlags.AttachedOnly
                     );
 
-                if (devList.Count != MainWindow.deviceControl.joyAssign.Length)
-                {
-                    mainWindow.ReloadDevices();
-                    Reset();
-                    getNeutralPosition();
+                    if (devList.Count != MainWindow.deviceControl.joyAssign.Length)
+                    {
+                        mainWindow.ReloadDevices();
+                        Reset();
+                        getNeutralPosition();
+                    }
+
+                    sw.Reset();
+                    sw.Start();
                 }
 
-                sw.Reset();
-                sw.Start();
+                KeyboardButtonMonitor();
+                JoystickButtonMonitor();
+                ShowAssignedStatus();
             }
-
-            KeyboardButtonMonitor();
-            JoystickButtonMonitor();
-            ShowAssignedStatus();
+            catch (Exception ex)
+            {
+                Diagnostics.WriteLogFile(ex);
+            }
         }
 
         private void ShowAssignedStatus()
