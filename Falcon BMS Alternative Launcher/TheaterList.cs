@@ -35,6 +35,10 @@ namespace FalconBMS.Launcher
             List<string> theaters = new List<string>();
             foreach (string tdf in theaterFiles)
             {
+                // For EMF theater
+                if (tdf.Contains("F4Patch"))
+                    continue;
+
                 IEnumerable<string> lines = File.ReadLines(tdf, Encoding.UTF8);
                 foreach (string str in lines)
                 {
