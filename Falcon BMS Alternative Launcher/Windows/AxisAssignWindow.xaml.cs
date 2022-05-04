@@ -264,14 +264,6 @@ namespace FalconBMS.Launcher.Windows
                     }
                 }
             }
-            if (sw.ElapsedMilliseconds > 1000)
-                AssignedJoystick.Content = "";
-            if (sw.ElapsedMilliseconds > 1666)
-            {
-                AssignedJoystick.Content = "   AWAITING INPUTS";
-                sw.Reset();
-                sw.Start();
-            }
         }
 
         private void InvertAxisDisp()
@@ -363,6 +355,13 @@ namespace FalconBMS.Launcher.Windows
 
         private void AxisDetectionTimerCode(object sender, EventArgs e)
         {
+            if (sw.ElapsedMilliseconds > 1000)
+                AssignedJoystick.Content = "";
+            if (sw.ElapsedMilliseconds > 1666)
+            {
+                AssignedJoystick.Content = "   AWAITING INPUTS";
+            }
+
             if (sw.ElapsedMilliseconds > 1666)
             {
                 Microsoft.DirectX.DirectInput.DeviceList devList =
