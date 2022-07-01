@@ -196,8 +196,9 @@ namespace FalconBMS.Launcher.Input
 
         /// <summary>
         /// Get whole DX button assignment line to write a key file.
+        /// DXnumber: total DXnumber per device BMS can handle.
         /// </summary>
-        public string GetKeyLineDX(int joynum, int numOfDevices, int DXnumber)
+        public string GetKeyLineDX(int joynum, int numOfDevices, int DXnumber) 
         {
             string assign = "";
             assign += "\n#======== " + GetProductName() + " ========\n";
