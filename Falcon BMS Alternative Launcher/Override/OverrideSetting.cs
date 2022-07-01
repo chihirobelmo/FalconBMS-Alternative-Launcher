@@ -41,8 +41,6 @@ namespace FalconBMS.Launcher.Override
             if (!Directory.Exists(appReg.GetInstallDir() + "/User/Config/Backup/"))
                 Directory.CreateDirectory(appReg.GetInstallDir() + "/User/Config/Backup/");
 
-            MainWindow.deviceControl.SortDevice();
-
             SaveAxisMapping(inGameAxis, deviceControl);
             SaveJoystickCal(inGameAxis, deviceControl);
             SaveDeviceSorting(deviceControl);

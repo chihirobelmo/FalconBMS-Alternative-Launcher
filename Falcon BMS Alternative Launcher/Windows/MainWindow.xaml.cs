@@ -236,7 +236,6 @@ namespace FalconBMS.Launcher.Windows
             {
                 // Get Devices
                 deviceControl = new DeviceControl(appReg);
-                deviceControl.SortDevice();
 
                 neutralButtons = new NeutralButtons[deviceControl.joyAssign.Length];
 
