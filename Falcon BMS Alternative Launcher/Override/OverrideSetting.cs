@@ -41,8 +41,6 @@ namespace FalconBMS.Launcher.Override
             if (!Directory.Exists(appReg.GetInstallDir() + "/User/Config/Backup/"))
                 Directory.CreateDirectory(appReg.GetInstallDir() + "/User/Config/Backup/");
 
-            MainWindow.deviceControl.SortDevice();
-
             SaveAxisMapping(inGameAxis, deviceControl);
             SaveJoystickCal(inGameAxis, deviceControl);
             SaveDeviceSorting(deviceControl);
@@ -202,10 +200,7 @@ namespace FalconBMS.Launcher.Override
             ds.Close();
         }
 
-        /// <summary>
-        /// As the name implies...
-        /// </summary>
-        protected virtual void SaveKeyMapping(Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile)
+        protected virtual void SaveKeyMapping(Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile, int DXnumber)
         {
             string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.getAutoKeyFileName();
 
@@ -218,12 +213,17 @@ namespace FalconBMS.Launcher.Override
                 sw.Write(keyFile.keyAssign[i].GetKeyLine());
             for (int i = 0; i < deviceControl.joyAssign.Length; i++)
             {
-                sw.Write(deviceControl.joyAssign[i].GetKeyLineDX(i, deviceControl.joyAssign.Length));
+                sw.Write(deviceControl.joyAssign[i].GetKeyLineDX(i, deviceControl.joyAssign.Length, DXnumber));
                 // PRIMARY DEVICE POV
                 if (((InGameAxAssgn)inGameAxis["Roll"]).GetDeviceNumber() == i) 
                     sw.Write(deviceControl.joyAssign[i].GetKeyLinePOV());
             }
             sw.Close();
+        }
+
+        protected virtual void SaveKeyMapping(Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile)
+        {
+            SaveKeyMapping(inGameAxis, deviceControl, keyFile, CommonConstants.DX32);
         }
 
         /// <summary>
@@ -443,17 +443,20 @@ namespace FalconBMS.Launcher.Override
                             double iAB   = deviceControl.joyAssign[((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber()].detentPosition.GetAB();
                             double iIdle = deviceControl.joyAssign[((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber()].detentPosition.GetIDLE();
 
-                            const double MAXIN  = 65536;
-                            const double MAXOUT = 14848;
+                            iAB   = iAB   * CommonConstants.BINAXISMAX / CommonConstants.AXISMAX;
+                            iIdle = iIdle * CommonConstants.BINAXISMAX / CommonConstants.AXISMAX;
 
-                            iAB   = -iAB   * (MAXOUT / MAXIN) + MAXOUT;
-                            iIdle = -iIdle * (MAXOUT / MAXIN) + MAXOUT;
+                            if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetInvert() == false)
+                            {
+                                iAB   = CommonConstants.BINAXISMAX - iAB;
+                                iIdle = CommonConstants.BINAXISMAX - iIdle;
+                            }
 
                             byte[] ab   = BitConverter.GetBytes((int)iAB).Reverse().ToArray();
                             byte[] idle = BitConverter.GetBytes((int)iIdle).Reverse().ToArray();
 
-                            bs[1] = ab[1];
-                            bs[5] = idle[1];
+                            bs[1] = ab[2];
+                            bs[5] = idle[2];
                         }
                     }
                 }

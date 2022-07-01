@@ -105,8 +105,6 @@ namespace FalconBMS.Launcher.Windows
                 return;
 
             KeyMappingWindow.ShowKeyMappingWindow(this, selectedItem, keyFile, deviceControl, sender);
-
-            deviceControl.SortDevice();
             ResortDevices();
 
             KeyMappingGrid.Items.Refresh();

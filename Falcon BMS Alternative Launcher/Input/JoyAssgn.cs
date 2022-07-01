@@ -196,8 +196,9 @@ namespace FalconBMS.Launcher.Input
 
         /// <summary>
         /// Get whole DX button assignment line to write a key file.
+        /// DXnumber: total DXnumber per device BMS can handle.
         /// </summary>
-        public string GetKeyLineDX(int joynum, int numOfDevices)
+        public string GetKeyLineDX(int joynum, int numOfDevices, int DXnumber) 
         {
             string assign = "";
             assign += "\n#======== " + GetProductName() + " ========\n";
@@ -212,7 +213,7 @@ namespace FalconBMS.Launcher.Input
                         if (ii != 0)
                             continue;
                         assign += dx[i].assign[ii].GetCallback();
-                        assign += " " + (joynum * CommonConstants.DX128 + i);
+                        assign += " " + (joynum * DXnumber + i);
                         assign += " " + (int)Invoke.Default;
                         assign += " " + "-2";
                         assign += " " + "0";
@@ -220,7 +221,7 @@ namespace FalconBMS.Launcher.Input
                         assign += " " + dx[i].assign[ii].GetSoundID();
                         assign += "\n";
                         assign += dx[i].assign[ii].GetCallback();
-                        assign += " " + (numOfDevices * CommonConstants.DX128 + joynum * CommonConstants.DX128 + i);
+                        assign += " " + (numOfDevices * DXnumber + joynum * DXnumber + i);
                         assign += " " + (int)Invoke.Default;
                         assign += " " + "-2";
                         assign += " " + "0";
@@ -233,9 +234,9 @@ namespace FalconBMS.Launcher.Input
                     assign += dx[i].assign[ii].GetCallback();
 
                     if (ii == CommonConstants.DX_PRESS | ii == CommonConstants.DX_RELEASE)
-                        assign += " " + (joynum * CommonConstants.DX128 + i);
+                        assign += " " + (joynum * DXnumber + i);
                     if (ii == CommonConstants.DX_PRESS_SHIFT | ii == CommonConstants.DX_RELEASE_SHIFT)
-                        assign += " " + (numOfDevices * CommonConstants.DX128 + joynum * CommonConstants.DX128 + i);
+                        assign += " " + (numOfDevices * DXnumber + joynum * DXnumber + i);
 
                     assign += " " + (int)dx[i].assign[ii].GetInvoke();
                     assign += " " + "-2";
