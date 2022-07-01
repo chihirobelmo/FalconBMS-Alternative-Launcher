@@ -65,6 +65,12 @@ namespace FalconBMS.Launcher.Override
                             iAB   = iAB   * 15000 / 65536;
                             iIdle = iIdle * 15000 / 65536;
 
+                            if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetInvert())
+                            {
+                                iAB =   15000 - iAB;
+                                iIdle = 15000 - iIdle;
+                            }
+
                             byte[] ab   = BitConverter.GetBytes((int)iAB).Reverse().ToArray();
                             byte[] idle = BitConverter.GetBytes((int)iIdle).Reverse().ToArray();
 
