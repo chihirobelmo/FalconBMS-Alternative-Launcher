@@ -523,6 +523,11 @@ namespace FalconBMS.Launcher.Windows
                 AB = CommonConstants.AXISMIN + MainWindow.deviceControl.joyAssign[devNumTmp].JoyAxisState(phyAxNumTmp);
             else
                 AB = CommonConstants.AXISMAX - MainWindow.deviceControl.joyAssign[devNumTmp].JoyAxisState(phyAxNumTmp);
+
+            if (AB > CommonConstants.AXISMAX)
+                AB = CommonConstants.AXISMAX;
+            if (AB < CommonConstants.AXISMIN)
+                AB = CommonConstants.AXISMIN;
         }
 
         private void SetIDLE_Click(object sender, RoutedEventArgs e)
@@ -534,6 +539,11 @@ namespace FalconBMS.Launcher.Windows
                 IDLE = CommonConstants.AXISMIN + MainWindow.deviceControl.joyAssign[devNumTmp].JoyAxisState(phyAxNumTmp);
             else
                 IDLE = CommonConstants.AXISMAX - MainWindow.deviceControl.joyAssign[devNumTmp].JoyAxisState(phyAxNumTmp);
+
+            if (IDLE > CommonConstants.AXISMAX)
+                IDLE = CommonConstants.AXISMAX;
+            if (IDLE < CommonConstants.AXISMIN)
+                IDLE = CommonConstants.AXISMIN;
         }
         
         private void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e)
