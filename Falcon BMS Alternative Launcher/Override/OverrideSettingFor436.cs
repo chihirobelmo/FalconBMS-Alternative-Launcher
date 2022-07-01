@@ -60,5 +60,34 @@ namespace FalconBMS.Launcher.Override
             cfg.Write("set g_nPOV2ID 0         // SETUP OVERRIDE\r\n");
             cfg.Close();
         }
+
+        // please DRY later.
+        protected override void SaveKeyMapping(Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile)
+        {
+            string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.getAutoKeyFileName();
+
+            if (File.Exists(filename))
+                File.SetAttributes(filename, File.GetAttributes(filename) & ~FileAttributes.ReadOnly);
+
+            StreamWriter sw = new StreamWriter
+                (filename, false, Encoding.GetEncoding("utf-8"));
+            for (int i = 0; i < keyFile.keyAssign.Length; i++)
+                sw.Write(keyFile.keyAssign[i].GetKeyLine());
+            for (int i = 0; i < deviceControl.joyAssign.Length; i++)
+            {
+                sw.Write(deviceControl.joyAssign[i].GetKeyLineDX(i, deviceControl.joyAssign.Length, CommonConstants.DX128));
+                // PRIMARY DEVICE POV
+                if (((InGameAxAssgn)inGameAxis["Roll"]).GetDeviceNumber() == i && ((InGameAxAssgn)inGameAxis["Roll"]).GetDeviceNumber() == ((InGameAxAssgn)inGameAxis["Throttle"]).GetDeviceNumber())
+                {
+                    sw.Write(deviceControl.joyAssign[i].GetKeyLinePOV());
+                    continue;
+                }
+                if (((InGameAxAssgn)inGameAxis["Roll"]).GetDeviceNumber() == i)
+                    sw.Write(deviceControl.joyAssign[i].GetKeyLinePOV(0));
+                if (((InGameAxAssgn)inGameAxis["Throttle"]).GetDeviceNumber() == i)
+                    sw.Write(deviceControl.joyAssign[i].GetKeyLinePOV(1));
+            }
+            sw.Close();
+        }
     }
 }

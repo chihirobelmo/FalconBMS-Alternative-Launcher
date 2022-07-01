@@ -218,7 +218,7 @@ namespace FalconBMS.Launcher.Override
                 sw.Write(keyFile.keyAssign[i].GetKeyLine());
             for (int i = 0; i < deviceControl.joyAssign.Length; i++)
             {
-                sw.Write(deviceControl.joyAssign[i].GetKeyLineDX(i, deviceControl.joyAssign.Length));
+                sw.Write(deviceControl.joyAssign[i].GetKeyLineDX(i, deviceControl.joyAssign.Length, CommonConstants.DX32));
                 // PRIMARY DEVICE POV
                 if (((InGameAxAssgn)inGameAxis["Roll"]).GetDeviceNumber() == i) 
                     sw.Write(deviceControl.joyAssign[i].GetKeyLinePOV());
