@@ -440,20 +440,17 @@ namespace FalconBMS.Launcher.Override
                     {
                         if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() >= 0)
                         {
-                            double iAB   = deviceControl.joyAssign[((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber()].detentPosition.GetAB();
+                            double iAB = deviceControl.joyAssign[((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber()].detentPosition.GetAB();
                             double iIdle = deviceControl.joyAssign[((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber()].detentPosition.GetIDLE();
 
-                            const double MAXIN  = 65536;
-                            const double MAXOUT = 14848;
+                            iAB = iAB * 15000 / 65536;
+                            iIdle = iIdle * 15000 / 65536;
 
-                            iAB   = -iAB   * (MAXOUT / MAXIN) + MAXOUT;
-                            iIdle = -iIdle * (MAXOUT / MAXIN) + MAXOUT;
-
-                            byte[] ab   = BitConverter.GetBytes((int)iAB).Reverse().ToArray();
+                            byte[] ab = BitConverter.GetBytes((int)iAB).Reverse().ToArray();
                             byte[] idle = BitConverter.GetBytes((int)iIdle).Reverse().ToArray();
 
-                            bs[1] = ab[1];
-                            bs[5] = idle[1];
+                            bs[5] = ab[2];
+                            bs[1] = idle[2];
                         }
                     }
                 }
