@@ -518,26 +518,22 @@ namespace FalconBMS.Launcher.Windows
         {
             if (status != Status.ShowAxisStatus)
                 return;
-            int ABposition;
-            ABposition = CommonConstants.AXISMAX - MainWindow.deviceControl.joyAssign[devNumTmp].JoyAxisState(phyAxNumTmp);
-            if (MainWindow.deviceControl.joyAssign[devNumTmp].JoyAxisState(phyAxNumTmp) > CommonConstants.AXISMAX)
-                ABposition = CommonConstants.AXISMAX;
-            AB = ABposition;
-            if (AB > CommonConstants.AXISMAX - CommonConstants.AXISMAX / 128)
-                AB = CommonConstants.AXISMAX;
+            
+            if (Invert.IsChecked == true)
+                AB = CommonConstants.AXISMIN + MainWindow.deviceControl.joyAssign[devNumTmp].JoyAxisState(phyAxNumTmp);
+            else
+                AB = CommonConstants.AXISMAX - MainWindow.deviceControl.joyAssign[devNumTmp].JoyAxisState(phyAxNumTmp);
         }
 
         private void SetIDLE_Click(object sender, RoutedEventArgs e)
         {
             if (status != Status.ShowAxisStatus)
                 return;
-            int IDLEposition;
-            IDLEposition = CommonConstants.AXISMAX - MainWindow.deviceControl.joyAssign[devNumTmp].JoyAxisState(phyAxNumTmp);
-            if (MainWindow.deviceControl.joyAssign[devNumTmp].JoyAxisState(phyAxNumTmp) < 0)
-                IDLEposition = CommonConstants.AXISMIN;
-            IDLE = IDLEposition;
-            if (IDLE < CommonConstants.AXISMAX / 128)
-                IDLE = CommonConstants.AXISMIN;
+
+            if (Invert.IsChecked == true)
+                IDLE = CommonConstants.AXISMIN + MainWindow.deviceControl.joyAssign[devNumTmp].JoyAxisState(phyAxNumTmp);
+            else
+                IDLE = CommonConstants.AXISMAX - MainWindow.deviceControl.joyAssign[devNumTmp].JoyAxisState(phyAxNumTmp);
         }
         
         private void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e)
