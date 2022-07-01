@@ -60,5 +60,10 @@ namespace FalconBMS.Launcher.Override
             cfg.Write("set g_nPOV2ID 0         // SETUP OVERRIDE\r\n");
             cfg.Close();
         }
+
+        protected override void SaveKeyMapping(Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile)
+        {
+            SaveKeyMapping(inGameAxis, deviceControl, keyFile, CommonConstants.DX128);
+        }
     }
 }

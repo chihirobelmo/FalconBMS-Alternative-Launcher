@@ -202,10 +202,7 @@ namespace FalconBMS.Launcher.Override
             ds.Close();
         }
 
-        /// <summary>
-        /// As the name implies...
-        /// </summary>
-        protected virtual void SaveKeyMapping(Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile)
+        protected virtual void SaveKeyMapping(Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile, int DXnumber)
         {
             string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.getAutoKeyFileName();
 
@@ -218,12 +215,17 @@ namespace FalconBMS.Launcher.Override
                 sw.Write(keyFile.keyAssign[i].GetKeyLine());
             for (int i = 0; i < deviceControl.joyAssign.Length; i++)
             {
-                sw.Write(deviceControl.joyAssign[i].GetKeyLineDX(i, deviceControl.joyAssign.Length));
+                sw.Write(deviceControl.joyAssign[i].GetKeyLineDX(i, deviceControl.joyAssign.Length, DXnumber));
                 // PRIMARY DEVICE POV
                 if (((InGameAxAssgn)inGameAxis["Roll"]).GetDeviceNumber() == i) 
                     sw.Write(deviceControl.joyAssign[i].GetKeyLinePOV());
             }
             sw.Close();
+        }
+
+        protected virtual void SaveKeyMapping(Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile)
+        {
+            SaveKeyMapping(inGameAxis, deviceControl, keyFile, CommonConstants.DX32);
         }
 
         /// <summary>
