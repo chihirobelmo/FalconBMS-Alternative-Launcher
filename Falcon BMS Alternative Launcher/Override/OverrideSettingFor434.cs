@@ -51,7 +51,7 @@ namespace FalconBMS.Launcher.Override
                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
                 };
-                if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() != -1)
+                if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() != -1 && !isRollLinkedNWSEnabled(nme))
                 {
                     bs[12] = 0x01;
 

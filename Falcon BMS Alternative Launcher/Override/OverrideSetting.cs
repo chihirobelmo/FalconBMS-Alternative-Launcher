@@ -336,7 +336,7 @@ namespace FalconBMS.Launcher.Override
             AxisName[] localAxisMappingList = getAxisMappingList();
             foreach (AxisName nme in localAxisMappingList)
             {
-                if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() == -1)
+                if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() == -1 || isRollLinkedNWSEnabled(nme))
                 {
                     bs = new byte[] 
                     {
@@ -348,7 +348,7 @@ namespace FalconBMS.Launcher.Override
                     fs.Write(bs, 0, bs.Length);
                     continue;
                 }
-                if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() > -1)
+                if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() > -1 && !isRollLinkedNWSEnabled(nme))
                 {
                     bs = new byte[] 
                     {
@@ -383,6 +383,8 @@ namespace FalconBMS.Launcher.Override
                         bs = new byte[] { 0xE8, 0x03, 0x00, 0x00 };
                         break;
                 }
+                if (isRollLinkedNWSEnabled(nme))
+                    bs = new byte[] { 0x00, 0x00, 0x00, 0x00 };
                 fs.Write(bs, 0, bs.Length);
                 switch (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetSaturation())
                 {
@@ -399,6 +401,8 @@ namespace FalconBMS.Launcher.Override
                         bs = new byte[] { 0x34, 0x21, 0x00, 0x00 };
                         break;
                 }
+                if (isRollLinkedNWSEnabled(nme))
+                    bs = new byte[] { 0x00, 0x00, 0x00, 0x00 };
                 fs.Write(bs, 0, bs.Length);
             }
             fs.Close();
@@ -432,7 +436,7 @@ namespace FalconBMS.Launcher.Override
                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
                     0x00, 0x00, 0x00, 0x00
                 };
-                if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() != -1)
+                if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() != -1 && !isRollLinkedNWSEnabled(nme))
                 {
                     bs[12] = 0x01;
 
@@ -467,6 +471,11 @@ namespace FalconBMS.Launcher.Override
                 fs.Write(bs, 0, bs.Length);
             }
             fs.Close();
+        }
+
+        protected bool isRollLinkedNWSEnabled(AxisName nme)
+        {
+            return mainWindow.Misc_RollLinkedNWS.IsChecked == true && ( nme == AxisName.Yaw );
         }
 
         public virtual AxisName[] getAxisMappingList() { return axisMappingList; }
