@@ -173,10 +173,18 @@ namespace FalconBMS.Launcher.Windows
 
                     if (buttons[ii] == neutralButtons[i].buttons[ii])
                         continue;
+
                     if (buttons[ii] == CommonConstants.PRS0)
                     {
-                        getNeutralPosition();
-                        continue;
+                        if (ii + 1 < CommonConstants.DX128 && buttons[ii + 1] == CommonConstants.PRS0)
+                        {
+                            getNeutralPosition();
+                            continue;
+                        }
+                        else
+                        {
+                            continue;
+                        }
                     }
 
                     if (MainWindow.deviceControl.joyAssign[i].dx[ii].assign[CommonConstants.DX_PRESS].GetCallback() == "SimHotasPinkyShift" && pressedByHand == false ||
