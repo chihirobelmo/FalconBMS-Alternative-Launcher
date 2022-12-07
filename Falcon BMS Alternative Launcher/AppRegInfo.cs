@@ -112,7 +112,7 @@ namespace FalconBMS.Launcher
                 case "Falcon BMS 4.36 (Internal)":
                     bms_Version     = BMS_Version.BMS436I;
                     keyFileName     = "BMS - Full.key";
-                    overRideSetting = new OverrideSettingFor436(this.mainWindow, this);
+                    overRideSetting = new OverrideSettingFor437(this.mainWindow, this);
                     starter         = new Starter436Internal(this, this.mainWindow);
                     break;
                 case "Falcon BMS 4.37":
