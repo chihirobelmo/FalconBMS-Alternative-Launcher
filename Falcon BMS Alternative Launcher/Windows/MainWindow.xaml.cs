@@ -70,7 +70,7 @@ namespace FalconBMS.Launcher.Windows
 
                 Diagnostics.Log("Launcher Update Checked");
 
-                string BMS_Launcher_version = "FalconBMS Alternative Launcher v" + ver.Major + "." + ver.Minor + "." + ver.Build;
+                string BMS_Launcher_version = "FalconBMS Launcher v" + ver.Major + "." + ver.Minor + "." + ver.Build;
                 AL_Version_Number.Content = BMS_Launcher_version;
 
                 Diagnostics.Log(BMS_Launcher_version);
