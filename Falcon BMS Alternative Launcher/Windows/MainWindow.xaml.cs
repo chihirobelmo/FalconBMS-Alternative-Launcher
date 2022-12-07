@@ -25,6 +25,7 @@ namespace FalconBMS.Launcher.Windows
     /// </summary>
     public partial class MainWindow
     {
+        static SteamVR steamVR = new SteamVR();
         public MainWindow()
         {
             try
@@ -135,6 +136,10 @@ namespace FalconBMS.Launcher.Windows
                     DownloadWindow.ShowDownloadWindow(this, appReg, ListBox_BMS);
                 }
                 */
+
+                if ((bool)Misc_VR.IsVisible)
+                    if ((bool)Misc_VR.IsChecked)
+                        steamVR.Start();
 
                 Diagnostics.Log("Update Visiblity check.");
 
@@ -770,6 +775,14 @@ namespace FalconBMS.Launcher.Windows
                 Diagnostics.WriteLogFile(ex);
                 Close();
             }
+        }
+
+        private void Misc_VR_Click(object sender, RoutedEventArgs e)
+        {
+            if ((bool)Misc_VR.IsChecked)
+                steamVR.Start();
+            else
+                steamVR.Stop();
         }
     }
 }

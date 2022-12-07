@@ -30,6 +30,7 @@ namespace FalconBMS.Launcher
             mainWindow.Misc_SmartScalingOverride.IsChecked = Properties.Settings.Default.Misc_SmartScalingOverride;
             mainWindow.Misc_NaturalHeadMovement.IsChecked  = Properties.Settings.Default.Misc_NaturalHeadMovement;
             mainWindow.Misc_PilotModel.IsChecked           = Properties.Settings.Default.Misc_PilotModel;
+            mainWindow.Misc_VR.IsChecked                   = Properties.Settings.Default.Misc_VR;
 
             // Button Status Default
             mainWindow.Select_DX_Release.IsChecked  = true;
@@ -57,6 +58,7 @@ namespace FalconBMS.Launcher
             Properties.Settings.Default.Misc_SmartScalingOverride = (bool)mainWindow.Misc_SmartScalingOverride.IsChecked;
             Properties.Settings.Default.Misc_NaturalHeadMovement  = (bool)mainWindow.Misc_NaturalHeadMovement.IsChecked;
             Properties.Settings.Default.Misc_PilotModel           = (bool)mainWindow.Misc_PilotModel.IsChecked;
+            Properties.Settings.Default.Misc_VR                   = (bool)mainWindow.Misc_VR.IsChecked;
             Properties.Settings.Default.Save();
         }
 

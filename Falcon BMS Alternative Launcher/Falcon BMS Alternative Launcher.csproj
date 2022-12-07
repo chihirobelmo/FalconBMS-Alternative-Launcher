@@ -143,6 +143,7 @@
     <Compile Include="Override\OverrideSettingFor435.cs" />
     <Compile Include="Override\OverrideSettingFor436.cs" />
     <Compile Include="Override\OverrideSettingFor437.cs" />
+    <Compile Include="SteamVR.cs" />
     <Compile Include="Torrent.cs" />
     <Compile Include="Update\Update.cs" />
     <Compile Include="Windows\CallsignWindow.xaml.cs">
