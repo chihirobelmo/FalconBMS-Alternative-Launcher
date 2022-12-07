@@ -18,7 +18,7 @@ namespace FalconBMS.Launcher.Starter
             DISXuntil434(true);
             RTTsince435(false);
             NewAxisFrom435(false);
-            SecretStartsFrom437(false);
+            VRsince437(false);
 
             mainWindow.Version_Number.Content = "4.32";
         }

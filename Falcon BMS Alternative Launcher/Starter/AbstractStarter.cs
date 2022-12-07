@@ -92,7 +92,7 @@ namespace FalconBMS.Launcher.Starter
             }
         }
 
-        public void SecretStartsFrom437(bool flg)
+        public void VRsince437(bool flg)
         {
             if (flg)
             {

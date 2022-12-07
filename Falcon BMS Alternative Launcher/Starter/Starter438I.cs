@@ -7,9 +7,9 @@ using FalconBMS.Launcher.Windows;
 
 namespace FalconBMS.Launcher.Starter
 {
-    public class Starter436 : Starter435
+    public class Starter438Internal : Starter437Internal
     {
-        public Starter436(AppRegInfo appReg, MainWindow mainWindow) : base(appReg, mainWindow)
+        public Starter438Internal(AppRegInfo appReg, MainWindow mainWindow) : base(appReg, mainWindow)
         {
             Bandwidth(false);
             NewAxisFrom433(true);
@@ -18,10 +18,9 @@ namespace FalconBMS.Launcher.Starter
             DISXuntil434(false);
             RTTsince435(true);
             NewAxisFrom435(true);
-            VRsince437(false);
+            VRsince437(true);
 
-            mainWindow.Version_Number.Content = "4.36";
+            mainWindow.Version_Number.Content = "4.37 I";
         }
     }
-
 }

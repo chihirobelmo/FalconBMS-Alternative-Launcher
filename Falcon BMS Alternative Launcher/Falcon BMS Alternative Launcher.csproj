@@ -126,7 +126,9 @@
     <Compile Include="Input\DxAssgn.cs" />
     <Compile Include="Input\InGameAxAssgn.cs" />
     <Compile Include="Input\KeyFile.cs" />
+    <Compile Include="Override\OverrideSettingFor438.cs" />
     <Compile Include="Starter\Starter436I.cs" />
+    <Compile Include="Starter\Starter438I.cs" />
     <Compile Include="Starter\Starter437I.cs" />
     <Compile Include="Starter\Starter437.cs" />
     <Compile Include="Starter\Starter436.cs" />

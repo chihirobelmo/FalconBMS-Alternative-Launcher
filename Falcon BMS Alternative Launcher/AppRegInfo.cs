@@ -54,6 +54,7 @@ namespace FalconBMS.Launcher
 
         public string[] availableBMSVersions =
         {
+            "Falcon BMS 4.38 (Internal)",
             "Falcon BMS 4.37 (Internal)",
             "Falcon BMS 4.37",
             "Falcon BMS 4.36 (Internal)",
@@ -96,6 +97,12 @@ namespace FalconBMS.Launcher
 
             switch (version)
             {
+                case "Falcon BMS 4.38 (Internal)":
+                    bms_Version = BMS_Version.BMS438I;
+                    keyFileName = "BMS - Full.key";
+                    overRideSetting = new OverrideSettingFor438(this.mainWindow, this);
+                    starter = new Starter438Internal(this, this.mainWindow);
+                    break;
                 case "Falcon BMS 4.37 (Internal)":
                     bms_Version     = BMS_Version.BMS437I;
                     keyFileName     = "BMS - Full.key";
@@ -374,6 +381,8 @@ namespace FalconBMS.Launcher
         BMS436I,
         BMS436,
         BMS437I,
-        BMS437
+        BMS437,
+        BMS438I,
+        BMS438
     }
 }
