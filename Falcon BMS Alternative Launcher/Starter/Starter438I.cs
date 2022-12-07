@@ -20,7 +20,7 @@ namespace FalconBMS.Launcher.Starter
             NewAxisFrom435(true);
             VRsince437(true);
 
-            mainWindow.Version_Number.Content = "4.37 I";
+            mainWindow.Version_Number.Content = "4.38 I";
         }
     }
 }
