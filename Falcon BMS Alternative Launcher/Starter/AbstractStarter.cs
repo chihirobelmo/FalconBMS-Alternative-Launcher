@@ -96,13 +96,13 @@ namespace FalconBMS.Launcher.Starter
         {
             if (flg)
             {
-                mainWindow.Label_Secret.Visibility = Visibility.Visible;
-                mainWindow.Misc_Secret.Visibility  = Visibility.Visible;
+                mainWindow.Label_VR.Visibility = Visibility.Visible;
+                mainWindow.Misc_VR.Visibility  = Visibility.Visible;
             }
             else
             {
-                mainWindow.Label_Secret.Visibility = Visibility.Hidden;
-                mainWindow.Misc_Secret.Visibility  = Visibility.Hidden;
+                mainWindow.Label_VR.Visibility = Visibility.Hidden;
+                mainWindow.Misc_VR.Visibility  = Visibility.Hidden;
             }
         }
 

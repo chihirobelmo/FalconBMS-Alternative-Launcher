@@ -264,8 +264,8 @@
                         <Controls:ToggleSwitch x:Name="Misc_Platform" OnLabel="64bit" OffLabel="32bit" HorizontalAlignment="Left" Margin="191,60,0,0" VerticalAlignment="Top" Background="#80FFFFFF" FontSize="12"/>
                         <Label x:Name="Label_Platform" Content="Platform :" HorizontalAlignment="Left" Margin="0,64,0,0" VerticalAlignment="Top" FontWeight="Bold" RenderTransformOrigin="0.672,0.628" />
 
-                        <Label x:Name="Label_Secret" Content="Secret:" HorizontalAlignment="Left" Margin="0,64,0,0" VerticalAlignment="Top" FontWeight="Bold" />
-                        <Controls:ToggleSwitch x:Name="Misc_Secret" OnLabel="Enable" OffLabel="Disable" HorizontalAlignment="Left" Margin="179,60,0,0" VerticalAlignment="Top" Background="#80FFFFFF" FontSize="12"/>
+                        <Label x:Name="Label_VR" Content="Virtual Reality:" HorizontalAlignment="Left" Margin="0,64,0,0" VerticalAlignment="Top" FontWeight="Bold" />
+                        <Controls:ToggleSwitch x:Name="Misc_VR" OnLabel="Enable" OffLabel="Disable" HorizontalAlignment="Left" Margin="179,60,0,0" VerticalAlignment="Top" Background="#80FFFFFF" FontSize="12"/>
                         <Label Content="Documentation and Manuals :" HorizontalAlignment="Left" Margin="0,32,0,0" VerticalAlignment="Top" FontWeight="Bold" />
                         <Button x:Name="OpenDocs" Content="Open Docs Folder" Style="{StaticResource AccentedSquareButtonStyle}" Controls:ControlsHelper.ContentCharacterCasing="Normal" HorizontalAlignment="Left" Margin="179,34,0,0" VerticalAlignment="Top" Width="141" Click="OpenDocs_Click" FontSize="10" Height="10"/>
 
@@ -597,7 +597,7 @@
         </TabControl>
         <Image x:Name="LOGO000" HorizontalAlignment="Left" VerticalAlignment="Top" Height="49" Source="/Resources/web_banner.png" Stretch="Uniform" Width="363" Margin="24,10,0,0"/>
         <Label x:Name="Version_Number" Content="4.37" HorizontalAlignment="Left" Margin="392,0,0,703.333" VerticalAlignment="Top" Foreground="#FFC4C4C4" FontSize="36"/>
-        <Label x:Name="AL_Version_Number" Content="FalconBMS Alternative Launcher vX.X.X" HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontWeight="Bold" Margin="0,0,10.333,0.333"/>
+        <Label x:Name="AL_Version_Number" Content="FalconBMS Launcher vX.X.X" HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontWeight="Bold" Margin="0,0,10.333,0.333"/>
 
         <Button x:Name="Button_Apply_YAME64" Visibility="Hidden" Content="Apply" HorizontalAlignment="Right" Margin="0,31,10,0" VerticalAlignment="top" Width="128" Style="{StaticResource AccentedSquareButtonStyle}" Controls:ControlsHelper.ContentCharacterCasing="Normal" Click="Apply_YAME64"/>
         <Label  x:Name="UPDATE_AVAILABLE" Content="UPDATE AVAILABLE !" HorizontalAlignment="Left" Margin="392,41,0,0" VerticalAlignment="Top" Width="160"/>
