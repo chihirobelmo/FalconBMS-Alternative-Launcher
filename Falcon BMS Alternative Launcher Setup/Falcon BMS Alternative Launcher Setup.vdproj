@@ -153,6 +153,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_BE58B02EE31A4457B7D1E0AE986D42F5"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_C27A4D249AFC4D57B28DAE339B0E6E65"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -879,6 +885,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_BE58B02EE31A4457B7D1E0AE986D42F5"
+            {
+            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\Stock\\Setup.v100.WINWING Orion Throttle Base II  TGRIP-F16 {Stock}.xml"
+            "TargetName" = "8:Setup.v100.WINWING Orion Throttle Base II  TGRIP-F16 {Stock}.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_B1B01F01701141248BD6FD0195551B06"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C27A4D249AFC4D57B28DAE339B0E6E65"
             {
             "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\Resources\\BackGround_Header_Installer.jpg"
@@ -1202,7 +1228,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Falcon BMS Launcher"
         "ProductCode" = "8:{A8D796F5-9308-4AB4-9621-91AA8E53F38F}"
-        "PackageCode" = "8:{5B15F628-69B5-44E8-BCB9-6C5211DD8CC5}"
+        "PackageCode" = "8:{334DA45E-CAB9-4D49-BD8F-184709AB694E}"
         "UpgradeCode" = "8:{BE40C548-F318-43E4-99B8-21F48DC42145}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
