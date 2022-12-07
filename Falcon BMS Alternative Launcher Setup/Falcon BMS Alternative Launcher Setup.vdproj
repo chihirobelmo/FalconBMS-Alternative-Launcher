@@ -1350,7 +1350,7 @@
         {
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_6D26FCFE04224ADD9BC36112CBA234F9"
             {
-            "Name" = "8:Falcon BMS Alternative Launcher"
+            "Name" = "8:Falcon BMS Launcher"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
@@ -1364,7 +1364,7 @@
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_7D56462384E24BA7BC2C2B5349660B48"
             {
-            "Name" = "8:Falcon BMS Alternative Launcher"
+            "Name" = "8:Falcon BMS Launcher"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
