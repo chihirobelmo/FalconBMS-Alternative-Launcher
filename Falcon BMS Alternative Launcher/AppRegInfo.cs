@@ -75,12 +75,18 @@ namespace FalconBMS.Launcher
             {
                 if (Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\Wow6432Node\\Benchmark Sims\\" + version, false) == null)
                     continue;
-                mainWindow.ListBox_BMS.Items.Add(version);
+
+                if (BMSExists(version)) 
+                    mainWindow.ListBox_BMS.Items.Add(version); 
+                else 
+                    continue; 
+
                 if (flg)
                 {
                     selectedVersion = version;
                     flg = false;
                 }
+
                 if (version == Properties.Settings.Default.BMS_Version)
                 {
                     selectedVersion = version;
@@ -89,6 +95,68 @@ namespace FalconBMS.Launcher
             }
 
             Init(mainWindow, selectedVersion);
+        }
+
+        public bool BMSExists(string version)
+        {
+            string regName64 = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\" + version;
+            string regName32 = "SOFTWARE\\Benchmark Sims\\" + version;
+
+            RegistryKey regkey64 = Registry.LocalMachine.OpenSubKey(regName64, true);
+            RegistryKey regkey32 = Registry.LocalMachine.OpenSubKey(regName32, true);
+
+            // Read Registry
+            if (regkey64 == null)
+            {
+                if (regkey32 == null)
+                {
+                    Properties.Settings.Default.BMS_Version = "Falcon4.0";
+                    MessageBox.Show("Could not find FalconBMS Installed.");
+                    mainWindow.Close();
+                    return false;
+                }
+
+                platform = Platform.OS_32bit;
+                mainWindow.Misc_Platform.IsChecked = false;
+                mainWindow.Misc_Platform.IsEnabled = false;
+
+                regName = regName32;
+                regkey = regkey32;
+            }
+            else
+            {
+                regName = regName64;
+                regkey = regkey64;
+            }
+
+            byte[] bs;
+
+            if (regkey.GetValue("PilotName") == null)
+            {
+                bs = Encoding.ASCII.GetBytes("Joe Pilot\0\0\0\0\0\0\0\0\0\0\0");
+                regkey.SetValue("PilotName", bs);
+            }
+            if (regkey.GetValue("PilotCallsign") == null)
+            {
+                bs = Encoding.ASCII.GetBytes("Viper\0\0\0\0\0\0\0");
+                regkey.SetValue("PilotCallsign", bs);
+            }
+            if (regkey.GetValue("curTheater") == null)
+            {
+                regkey.SetValue("curTheater", "Korea KTO");
+            }
+
+            installDir = (string)regkey.GetValue("baseDir");
+            currentTheater = (string)regkey.GetValue("curTheater");
+
+            pilotCallsign = ReadPilotCallsign((byte[])regkey.GetValue("PilotCallsign"));
+
+            if (platform == Platform.OS_64bit)
+                exeDir = installDir + "\\bin\\x64\\Falcon BMS.exe";
+            if (platform == Platform.OS_32bit)
+                exeDir = installDir + "\\bin\\x86\\Falcon BMS.exe";
+
+            return File.Exists(exeDir);
         }
 
         public void Init(MainWindow mainWindow, string version)
@@ -164,62 +232,7 @@ namespace FalconBMS.Launcher
                     break;
             }
 
-            string regName64 = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\" + version;
-            string regName32 = "SOFTWARE\\Benchmark Sims\\"              + version;
-
-            RegistryKey regkey64 = Registry.LocalMachine.OpenSubKey(regName64, true);
-            RegistryKey regkey32 = Registry.LocalMachine.OpenSubKey(regName32, true);
-
-            // Read Registry
-            if (regkey64 == null)
-            {
-                if (regkey32 == null)
-                {
-                    Properties.Settings.Default.BMS_Version = "Falcon4.0";
-                    MessageBox.Show("Could not find FalconBMS Installed.");
-                    mainWindow.Close();
-                    return;
-                }
-
-                platform = Platform.OS_32bit;
-                mainWindow.Misc_Platform.IsChecked = false;
-                mainWindow.Misc_Platform.IsEnabled = false;
-
-                regName = regName32;
-                regkey  = regkey32;
-            }
-            else
-            {
-                regName = regName64;
-                regkey  = regkey64;
-            }
-
-            byte[] bs;
-
-            if (regkey.GetValue("PilotName") == null)
-            {
-                bs = Encoding.ASCII.GetBytes("Joe Pilot\0\0\0\0\0\0\0\0\0\0\0");
-                regkey.SetValue("PilotName", bs);
-            }
-            if (regkey.GetValue("PilotCallsign") == null)
-            {
-                bs = Encoding.ASCII.GetBytes("Viper\0\0\0\0\0\0\0");
-                regkey.SetValue("PilotCallsign", bs);
-            }
-            if (regkey.GetValue("curTheater") == null)
-            {
-                regkey.SetValue("curTheater", "Korea KTO");
-            }
-
-            installDir     = (string)regkey.GetValue("baseDir");
-            currentTheater = (string)regkey.GetValue("curTheater");
-
-            pilotCallsign = ReadPilotCallsign((byte[])regkey.GetValue("PilotCallsign"));
-
-            if (platform == Platform.OS_64bit)
-                exeDir = installDir + "\\bin\\x64\\Falcon BMS.exe";
-            if (platform == Platform.OS_32bit)
-                exeDir = installDir + "\\bin\\x86\\Falcon BMS.exe";
+            BMSExists(version);
 
             updateVersion = CheckUpdateVersion();
 
