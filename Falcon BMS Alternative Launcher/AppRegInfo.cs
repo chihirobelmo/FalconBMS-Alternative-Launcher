@@ -102,31 +102,40 @@ namespace FalconBMS.Launcher
             string regName64 = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\" + version;
             string regName32 = "SOFTWARE\\Benchmark Sims\\" + version;
 
-            RegistryKey regkey64 = Registry.LocalMachine.OpenSubKey(regName64, true);
-            RegistryKey regkey32 = Registry.LocalMachine.OpenSubKey(regName32, true);
-
-            // Read Registry
-            if (regkey64 == null)
+            try
             {
-                if (regkey32 == null)
+                RegistryKey regkey64 = Registry.LocalMachine.OpenSubKey(regName64, true);
+                regName = regName64;
+                regkey = regkey64;
+            }
+            catch
+            {
+                try
+                {
+                    RegistryKey regkey32 = Registry.LocalMachine.OpenSubKey(regName32, true);
+
+                    platform = Platform.OS_32bit;
+                    mainWindow.Misc_Platform.IsChecked = false;
+                    mainWindow.Misc_Platform.IsEnabled = false;
+
+                    regName = regName32;
+                    regkey = regkey32;
+                }
+                catch
                 {
                     Properties.Settings.Default.BMS_Version = "Falcon4.0";
                     MessageBox.Show("Could not find FalconBMS Installed.");
                     mainWindow.Close();
                     return false;
                 }
-
-                platform = Platform.OS_32bit;
-                mainWindow.Misc_Platform.IsChecked = false;
-                mainWindow.Misc_Platform.IsEnabled = false;
-
-                regName = regName32;
-                regkey = regkey32;
             }
-            else
+
+            if (regkey == null)
             {
-                regName = regName64;
-                regkey = regkey64;
+                Properties.Settings.Default.BMS_Version = "Falcon4.0";
+                MessageBox.Show("Could not find FalconBMS Installed.");
+                mainWindow.Close();
+                return false; 
             }
 
             byte[] bs;
