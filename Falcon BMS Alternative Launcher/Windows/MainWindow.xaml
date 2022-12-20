@@ -182,7 +182,7 @@
                                     </ControlTemplate>
                                 </Button.Template>
                             </Button>
-                            <Label x:Name="Label_BMS" Content="Update&#xA;" HorizontalAlignment="Left" Margin="18,0,0,0" VerticalAlignment="Bottom" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold" FontSize="8"/>
+                            <Label x:Name="Label_UPD" Content="Update&#xA;" HorizontalAlignment="Left" Margin="18,0,0,0" VerticalAlignment="Bottom" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold" FontSize="8"/>
                             <Label x:Name="Label_CFG" Content="Config&#xD;&#xA;" HorizontalAlignment="Left" Margin="88,0,0,0" VerticalAlignment="Bottom" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold" FontSize="8"/>
                             <Label x:Name="Label_DISX" Content="Cockpit Display&#10;   Extraction" HorizontalAlignment="Left" Margin="142,0,0,0" VerticalAlignment="Bottom" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold" FontSize="8"/>
                             <Label x:Name="Label_RTTC" Content="       RTTR Client&#10;(Display Extraction)" HorizontalAlignment="Left" Margin="134,0,0,0" VerticalAlignment="Bottom" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold" FontSize="8"/>
