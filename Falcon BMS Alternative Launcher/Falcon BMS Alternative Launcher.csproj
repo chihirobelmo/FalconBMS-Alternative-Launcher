@@ -349,6 +349,9 @@
   <ItemGroup>
     <Resource Include="Stock\Setup.v100.WINWING Orion Throttle Base II  TGRIP-F16 {Stock}.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\UPD.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterResolveReferences">
     <ItemGroup>

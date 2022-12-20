@@ -28,7 +28,10 @@ namespace FalconBMS.Launcher.Starter
             System.Diagnostics.Process process;
             switch (((System.Windows.Controls.Button)sender).Name)
             {
-                case "Launch_BMS":
+                case "Launch_UPD":
+                    process = System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Updater.exe");
+                    mainWindow.minimizeWindowUntilProcessEnds(process);
+                    break;
                 case "Launch_BMS_Large":
                     string strCmdText = getCommandLine();
 

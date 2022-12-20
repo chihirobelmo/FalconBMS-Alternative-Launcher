@@ -108,8 +108,9 @@ namespace FalconBMS.Launcher
                 regName = regName64;
                 regkey = regkey64;
             }
-            catch
+            catch (Exception ex1)
             {
+                Diagnostics.Log(ex1);
                 try
                 {
                     RegistryKey regkey32 = Registry.LocalMachine.OpenSubKey(regName32, true);
@@ -121,20 +122,16 @@ namespace FalconBMS.Launcher
                     regName = regName32;
                     regkey = regkey32;
                 }
-                catch
+                catch (Exception ex2)
                 {
-                    Properties.Settings.Default.BMS_Version = "Falcon4.0";
-                    MessageBox.Show("Could not find FalconBMS Installed.");
-                    mainWindow.Close();
+                    Diagnostics.Log(ex2);
                     return false;
                 }
             }
 
             if (regkey == null)
             {
-                Properties.Settings.Default.BMS_Version = "Falcon4.0";
-                MessageBox.Show("Could not find FalconBMS Installed.");
-                mainWindow.Close();
+                Diagnostics.Log("No BMS registries found.");
                 return false; 
             }
 
