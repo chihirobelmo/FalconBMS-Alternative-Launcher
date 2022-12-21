@@ -96,14 +96,22 @@ namespace FalconBMS.Launcher.Starter
         {
             if (flg && SteamVR.HasSteamVR)
             {
-                mainWindow.Label_VR.Visibility = Visibility.Visible;
-                mainWindow.Misc_VR.Visibility  = Visibility.Visible;
+                if (SteamVR.HasSteamVR)
+                {
+                    mainWindow.Label_VR.Visibility = Visibility.Visible;
+                    mainWindow.Misc_VR.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    mainWindow.Label_VR.Visibility = Visibility.Hidden;
+                    mainWindow.Misc_VR.Visibility = Visibility.Hidden;
+                    mainWindow.Misc_VR.IsChecked = false;
+                }
             }
             else
             {
                 mainWindow.Label_VR.Visibility = Visibility.Hidden;
                 mainWindow.Misc_VR.Visibility  = Visibility.Hidden;
-                mainWindow.Misc_VR.IsChecked = false;
             }
         }
 
