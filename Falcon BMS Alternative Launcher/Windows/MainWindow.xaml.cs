@@ -261,7 +261,7 @@ namespace FalconBMS.Launcher.Windows
 
                 joyAssign_2_inGameAxis();
                 ResetAssgnWindow();
-                ResetJoystickColumn();
+                RefreshJoystickColumn();
             }
             catch (Exception ex)
             {
