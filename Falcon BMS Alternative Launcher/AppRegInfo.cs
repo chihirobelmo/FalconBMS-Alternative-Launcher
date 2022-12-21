@@ -111,9 +111,19 @@ namespace FalconBMS.Launcher
             catch (Exception ex1)
             {
                 Diagnostics.Log(ex1);
+            }
+
+            if (regkey == null)
+            {
                 try
                 {
                     RegistryKey regkey32 = Registry.LocalMachine.OpenSubKey(regName32, true);
+
+                    if (regkey == null)
+                    {
+                        Diagnostics.Log("No BMS registries found.");
+                        return false;
+                    }
 
                     platform = Platform.OS_32bit;
                     mainWindow.Misc_Platform.IsChecked = false;
@@ -127,12 +137,12 @@ namespace FalconBMS.Launcher
                     Diagnostics.Log(ex2);
                     return false;
                 }
-            }
 
-            if (regkey == null)
-            {
-                Diagnostics.Log("No BMS registries found.");
-                return false; 
+                if (regkey == null)
+                {
+                    Diagnostics.Log("No BMS registries found.");
+                    return false;
+                }
             }
 
             byte[] bs;
