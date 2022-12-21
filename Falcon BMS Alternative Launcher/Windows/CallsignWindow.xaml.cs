@@ -120,7 +120,9 @@ namespace FalconBMS.Launcher.Windows
 
             appReg.ChangeName(TextBox_Callsign.Text, TextBox_PilotName.Text);
 
-            Process.Start("bms-logcat.exe", "-o \"" + appReg.GetInstallDir() + "\\User\\Config\\" + TextBox_Callsign.Text + ".lbk\" write-default --name \"" + TextBox_PilotName.Text + "\" --callsign \"" + TextBox_Callsign.Text + "\"");
+            string command = "-o \"" + appReg.GetInstallDir() + "\\User\\Config\\" + TextBox_Callsign.Text + ".lbk\" write-default --name \"" + TextBox_PilotName.Text + "\" --callsign \"" + TextBox_Callsign.Text + "\"";
+            Diagnostics.Log(command);
+            Process.Start("bms-logcat.exe", command);
 
             Close();
         }

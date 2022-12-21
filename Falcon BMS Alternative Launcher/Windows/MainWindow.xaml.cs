@@ -282,6 +282,8 @@ namespace FalconBMS.Launcher.Windows
         /// <param name="e"></param>
         private void Window_Closed(object sender, EventArgs e)
         {
+            Diagnostics.WriteLogFile();
+
             try
             {
                 Torrent.status = false;
@@ -296,7 +298,6 @@ namespace FalconBMS.Launcher.Windows
             }
             catch (Exception ex)
             {
-                Diagnostics.WriteLogFile(ex);
                 Close();
             }
         }

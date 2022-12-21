@@ -110,6 +110,7 @@ namespace FalconBMS.Launcher
             }
             catch (Exception ex1)
             {
+                Diagnostics.Log(regName64);
                 Diagnostics.Log(ex1);
             }
 
@@ -134,6 +135,7 @@ namespace FalconBMS.Launcher
                 }
                 catch (Exception ex2)
                 {
+                    Diagnostics.Log(regName32);
                     Diagnostics.Log(ex2);
                     return false;
                 }
