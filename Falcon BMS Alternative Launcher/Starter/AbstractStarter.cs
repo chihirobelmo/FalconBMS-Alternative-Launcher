@@ -94,7 +94,7 @@ namespace FalconBMS.Launcher.Starter
 
         public void VRsince437(bool flg)
         {
-            if (flg)
+            if (flg && SteamVR.HasSteamVR)
             {
                 mainWindow.Label_VR.Visibility = Visibility.Visible;
                 mainWindow.Misc_VR.Visibility  = Visibility.Visible;
@@ -103,6 +103,7 @@ namespace FalconBMS.Launcher.Starter
             {
                 mainWindow.Label_VR.Visibility = Visibility.Hidden;
                 mainWindow.Misc_VR.Visibility  = Visibility.Hidden;
+                mainWindow.Misc_VR.IsChecked = false;
             }
         }
 

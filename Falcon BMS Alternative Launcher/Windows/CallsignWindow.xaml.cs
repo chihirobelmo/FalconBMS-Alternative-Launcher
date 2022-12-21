@@ -51,8 +51,6 @@ namespace FalconBMS.Launcher.Windows
 
         public static bool ShowCallsignWindow(AppRegInfo appReg)
         {
-            return false; // TODO FIX with MAX
-
             CallsignWindow ownWindow = new CallsignWindow(appReg);
             ownWindow.ShowDialog();
             return (ownWindow.TextBox_Callsign.Text == "Viper") || (ownWindow.TextBox_PilotName.Text == "Joe Pilot");
