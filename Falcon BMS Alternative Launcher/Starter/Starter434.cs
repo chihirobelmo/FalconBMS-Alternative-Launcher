@@ -18,7 +18,7 @@ namespace FalconBMS.Launcher.Starter
             DISXuntil434(true);
             RTTsince435(false);
             NewAxisFrom435(false);
-            SecretStartsFrom437(false);
+            VRsince437(false);
 
             mainWindow.Version_Number.Content = "4.34";
         }
@@ -28,7 +28,10 @@ namespace FalconBMS.Launcher.Starter
             System.Diagnostics.Process process;
             switch (((System.Windows.Controls.Button)sender).Name)
             {
-                case "Launch_BMS":
+                case "Launch_UPD":
+                    process = System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Updater.exe");
+                    mainWindow.minimizeWindowUntilProcessEnds(process);
+                    break;
                 case "Launch_BMS_Large":
                     string strCmdText = getCommandLine();
 

@@ -34,6 +34,8 @@ namespace FalconBMS.Launcher
 
                 MessageBox.Show("An unknown error has occured. Contact support if this problem persists.", "Error",
                     MessageBoxButton.OK, MessageBoxImage.Error);
+                Diagnostics.Log(e.Exception);
+                Diagnostics.WriteLogFile();
 
                 e.Handled = true;
             }

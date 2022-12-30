@@ -76,6 +76,10 @@
         </Style>
     </Window.Resources>
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="651*"/>
+            <RowDefinition Height="110*"/>
+        </Grid.RowDefinitions>
         <Grid.Background>
             <ImageBrush ImageSource="/Resources/BackGround.jpg" Stretch="UniformToFill" x:Name="BackGroundImage">
                 <ImageBrush.RelativeTransform>
@@ -88,7 +92,7 @@
                 </ImageBrush.RelativeTransform>
             </ImageBrush>
         </Grid.Background>
-        <Border BorderThickness="1" Height="111" Margin="-10,-10,-10,0" VerticalAlignment="Top" HorizontalAlignment="Stretch" Width="auto">
+        <Border BorderThickness="1" Height="111" Margin="-10,-10,-9.667,0" VerticalAlignment="Top" HorizontalAlignment="Stretch" Width="auto">
             <Border.Background>
                 <ImageBrush ImageSource="/Resources/BackGround_Header.jpg" Stretch="UniformToFill">
                     <ImageBrush.RelativeTransform>
@@ -103,7 +107,7 @@
             </Border.Background>
             <Grid HorizontalAlignment="Stretch" Height="auto" Margin="0,0,0,0" VerticalAlignment="Stretch" Width="auto"/>
         </Border>
-        <TabControl x:Name="LargeTab" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="TabControl_SelectionChanged" Margin="0,64,0.333,0.333" Background="{x:Null}">
+        <TabControl x:Name="LargeTab" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="TabControl_SelectionChanged" Margin="0,64,0.333,0.334" Background="{x:Null}" Grid.RowSpan="2">
             <TabItem Header="LAUNCHER" x:Name="Tab_Launcher" HorizontalAlignment="Center" Margin="535,-40,-535.333,40.333">
                 <Grid>
 
@@ -115,10 +119,10 @@
                             </LinearGradientBrush>
                         </Border.Background>
                         <Grid HorizontalAlignment="Stretch" Height="auto" Margin="0,0,0,0" VerticalAlignment="Stretch" Width="auto">
-                            <Button x:Name="Launch_BMS" BorderThickness="10" BorderBrush="Black" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20,0,0,33.333" Height="32" Width="32" Click="Launch_Click" MouseEnter="MouseEnterLauncher" MouseLeave="MouseLeaveLauncher">
+                            <Button x:Name="Launch_UPD" BorderThickness="10" BorderBrush="Black" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20,0,0,33.333" Height="32" Width="32" Click="Launch_Click" MouseEnter="MouseEnterLauncher" MouseLeave="MouseLeaveLauncher">
                                 <Button.Template>
                                     <ControlTemplate>
-                                        <Image Source="/Resources/BMS.png"/>
+                                        <Image Source="/Resources/UPD.png"/>
                                     </ControlTemplate>
                                 </Button.Template>
                             </Button>
@@ -178,7 +182,7 @@
                                     </ControlTemplate>
                                 </Button.Template>
                             </Button>
-                            <Label x:Name="Label_BMS" Content="Launch&#xD;&#xA;" HorizontalAlignment="Left" Margin="18,0,0,0" VerticalAlignment="Bottom" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold" FontSize="8"/>
+                            <Label x:Name="Label_UPD" Content="Update&#xA;" HorizontalAlignment="Left" Margin="18,0,0,0" VerticalAlignment="Bottom" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold" FontSize="8"/>
                             <Label x:Name="Label_CFG" Content="Config&#xD;&#xA;" HorizontalAlignment="Left" Margin="88,0,0,0" VerticalAlignment="Bottom" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold" FontSize="8"/>
                             <Label x:Name="Label_DISX" Content="Cockpit Display&#10;   Extraction" HorizontalAlignment="Left" Margin="142,0,0,0" VerticalAlignment="Bottom" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold" FontSize="8"/>
                             <Label x:Name="Label_RTTC" Content="       RTTR Client&#10;(Display Extraction)" HorizontalAlignment="Left" Margin="134,0,0,0" VerticalAlignment="Bottom" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold" FontSize="8"/>
@@ -189,7 +193,7 @@
                             <Label x:Name="Label_EDIT" Content="Editor&#xD;&#xA;" HorizontalAlignment="Left" Margin="509,0,0,0" VerticalAlignment="Bottom" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold" FontSize="8"/>
                         </Grid>
                     </Border>
-                    <CheckBox x:Name="ApplicationOverride" Content="Launch without any setup override." HorizontalAlignment="Left" Margin="793,0,0,-36.667" VerticalAlignment="Bottom" Background="#FFECFF71" />
+                    <CheckBox x:Name="ApplicationOverride" Content="Launch without any setup override" HorizontalAlignment="Left" Margin="793,0,0,97.667" VerticalAlignment="Bottom" Background="#FFECFF71" />
 
 
                     <Border BorderThickness="1" HorizontalAlignment="Left" Height="72" Margin="48,0,0,20.333" VerticalAlignment="Bottom" Width="503">
@@ -264,8 +268,8 @@
                         <Controls:ToggleSwitch x:Name="Misc_Platform" OnLabel="64bit" OffLabel="32bit" HorizontalAlignment="Left" Margin="191,60,0,0" VerticalAlignment="Top" Background="#80FFFFFF" FontSize="12"/>
                         <Label x:Name="Label_Platform" Content="Platform :" HorizontalAlignment="Left" Margin="0,64,0,0" VerticalAlignment="Top" FontWeight="Bold" RenderTransformOrigin="0.672,0.628" />
 
-                        <Label x:Name="Label_Secret" Content="Secret:" HorizontalAlignment="Left" Margin="0,64,0,0" VerticalAlignment="Top" FontWeight="Bold" />
-                        <Controls:ToggleSwitch x:Name="Misc_Secret" OnLabel="Enable" OffLabel="Disable" HorizontalAlignment="Left" Margin="179,60,0,0" VerticalAlignment="Top" Background="#80FFFFFF" FontSize="12"/>
+                        <Label x:Name="Label_VR" Content="Virtual Reality:" HorizontalAlignment="Left" Margin="0,64,0,0" VerticalAlignment="Top" FontWeight="Bold" />
+                        <Controls:ToggleSwitch x:Name="Misc_VR" OnLabel="Enable" OffLabel="Disable" HorizontalAlignment="Left" Margin="179,60,0,0" VerticalAlignment="Top" Background="#80FFFFFF" FontSize="12" Click="Misc_VR_Click"/>
                         <Label Content="Documentation and Manuals :" HorizontalAlignment="Left" Margin="0,32,0,0" VerticalAlignment="Top" FontWeight="Bold" />
                         <Button x:Name="OpenDocs" Content="Open Docs Folder" Style="{StaticResource AccentedSquareButtonStyle}" Controls:ControlsHelper.ContentCharacterCasing="Normal" HorizontalAlignment="Left" Margin="179,34,0,0" VerticalAlignment="Top" Width="141" Click="OpenDocs_Click" FontSize="10" Height="10"/>
 
@@ -596,10 +600,10 @@
             </TabItem>
         </TabControl>
         <Image x:Name="LOGO000" HorizontalAlignment="Left" VerticalAlignment="Top" Height="49" Source="/Resources/web_banner.png" Stretch="Uniform" Width="363" Margin="24,10,0,0"/>
-        <Label x:Name="Version_Number" Content="4.37" HorizontalAlignment="Left" Margin="392,0,0,703.333" VerticalAlignment="Top" Foreground="#FFC4C4C4" FontSize="36"/>
-        <Label x:Name="AL_Version_Number" Content="FalconBMS Alternative Launcher vX.X.X" HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontWeight="Bold" Margin="0,0,10.333,0.333"/>
+        <Label x:Name="Version_Number" Content="4.37" HorizontalAlignment="Left" Margin="392,0,0,0" VerticalAlignment="Top" Foreground="#FFC4C4C4" FontSize="36"/>
+        <Label x:Name="AL_Version_Number" Content="FalconBMS Launcher vX.X.X" HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontWeight="Bold" Margin="0,0,10.333,0.334" Grid.Row="1"/>
 
-        <Button x:Name="Button_Apply_YAME64" Visibility="Hidden" Content="Apply" HorizontalAlignment="Right" Margin="0,31,10,0" VerticalAlignment="top" Width="128" Style="{StaticResource AccentedSquareButtonStyle}" Controls:ControlsHelper.ContentCharacterCasing="Normal" Click="Apply_YAME64"/>
+        <Button x:Name="Button_Apply_YAME64" Visibility="Hidden" Content="Apply" HorizontalAlignment="Right" Margin="0,31,10.333,0" VerticalAlignment="top" Width="128" Style="{StaticResource AccentedSquareButtonStyle}" Controls:ControlsHelper.ContentCharacterCasing="Normal" Click="Apply_YAME64"/>
         <Label  x:Name="UPDATE_AVAILABLE" Content="UPDATE AVAILABLE !" HorizontalAlignment="Left" Margin="392,41,0,0" VerticalAlignment="Top" Width="160"/>
 
 

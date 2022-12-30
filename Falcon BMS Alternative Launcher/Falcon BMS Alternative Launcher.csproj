@@ -126,7 +126,9 @@
     <Compile Include="Input\DxAssgn.cs" />
     <Compile Include="Input\InGameAxAssgn.cs" />
     <Compile Include="Input\KeyFile.cs" />
+    <Compile Include="Override\OverrideSettingFor438.cs" />
     <Compile Include="Starter\Starter436I.cs" />
+    <Compile Include="Starter\Starter438I.cs" />
     <Compile Include="Starter\Starter437I.cs" />
     <Compile Include="Starter\Starter437.cs" />
     <Compile Include="Starter\Starter436.cs" />
@@ -141,6 +143,7 @@
     <Compile Include="Override\OverrideSettingFor435.cs" />
     <Compile Include="Override\OverrideSettingFor436.cs" />
     <Compile Include="Override\OverrideSettingFor437.cs" />
+    <Compile Include="SteamVR.cs" />
     <Compile Include="Torrent.cs" />
     <Compile Include="Update\Update.cs" />
     <Compile Include="Windows\CallsignWindow.xaml.cs">
@@ -342,6 +345,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="AutoUpdate.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Stock\Setup.v100.WINWING Orion Throttle Base II  TGRIP-F16 {Stock}.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\UPD.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterResolveReferences">

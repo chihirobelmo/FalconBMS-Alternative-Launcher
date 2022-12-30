@@ -27,14 +27,8 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_2A68CFF486D4EB6CEC409246F308EAEE"
+        "MsmKey" = "8:_27BF635D41B78AEE796D3CF1118ACD41"
         "OwnerKey" = "8:_95D9AB91892E45249B8FD06F8E892BD9"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_2A68CFF486D4EB6CEC409246F308EAEE"
-        "OwnerKey" = "8:_FD15546A546217628BEAE83CA853B8EE"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -117,14 +111,14 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_9121E6C0AF0C43A493ED31E31AED9EE1"
+        "MsmKey" = "8:_95D9AB91892E45249B8FD06F8E892BD9"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_95D9AB91892E45249B8FD06F8E892BD9"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_A129B453DBFF73E759FD02AE126AAB05"
+        "OwnerKey" = "8:_95D9AB91892E45249B8FD06F8E892BD9"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -159,6 +153,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_BE58B02EE31A4457B7D1E0AE986D42F5"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_C27A4D249AFC4D57B28DAE339B0E6E65"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -167,12 +167,6 @@
         {
         "MsmKey" = "8:_CDD1C6DFE05445C6BC4FBA6EC34A4FF2"
         "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_D89750F2D1234E1A26FA5C5BE5986074"
-        "OwnerKey" = "8:_95D9AB91892E45249B8FD06F8E892BD9"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -191,6 +185,18 @@
         {
         "MsmKey" = "8:_E7B2F5F81AC94C5497DE3671C5B2D550"
         "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_EA3E113FC26F74C114B46FFA27A314E2"
+        "OwnerKey" = "8:_95D9AB91892E45249B8FD06F8E892BD9"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_EA3E113FC26F74C114B46FFA27A314E2"
+        "OwnerKey" = "8:_27BF635D41B78AEE796D3CF1118ACD41"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -219,25 +225,19 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_FD15546A546217628BEAE83CA853B8EE"
-        "OwnerKey" = "8:_95D9AB91892E45249B8FD06F8E892BD9"
+        "MsmKey" = "8:_FBD1B81E38B4DD0A817853E29979981F"
+        "OwnerKey" = "8:_EA3E113FC26F74C114B46FFA27A314E2"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_FE75FBB13F05364CB199DF6E17EDF96B"
-        "OwnerKey" = "8:_2A68CFF486D4EB6CEC409246F308EAEE"
+        "MsmKey" = "8:_FBD1B81E38B4DD0A817853E29979981F"
+        "OwnerKey" = "8:_27BF635D41B78AEE796D3CF1118ACD41"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_FE75FBB13F05364CB199DF6E17EDF96B"
-        "OwnerKey" = "8:_FD15546A546217628BEAE83CA853B8EE"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_FE75FBB13F05364CB199DF6E17EDF96B"
+        "MsmKey" = "8:_FBD1B81E38B4DD0A817853E29979981F"
         "OwnerKey" = "8:_95D9AB91892E45249B8FD06F8E892BD9"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -262,25 +262,25 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_FD15546A546217628BEAE83CA853B8EE"
+        "OwnerKey" = "8:_27BF635D41B78AEE796D3CF1118ACD41"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_2A68CFF486D4EB6CEC409246F308EAEE"
+        "OwnerKey" = "8:_EA3E113FC26F74C114B46FFA27A314E2"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_FE75FBB13F05364CB199DF6E17EDF96B"
+        "OwnerKey" = "8:_FBD1B81E38B4DD0A817853E29979981F"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_D89750F2D1234E1A26FA5C5BE5986074"
+        "OwnerKey" = "8:_A129B453DBFF73E759FD02AE126AAB05"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -309,7 +309,7 @@
         "DisplayName" = "8:Debug"
         "IsDebugOnly" = "11:TRUE"
         "IsReleaseOnly" = "11:FALSE"
-        "OutputFilename" = "8:Debug\\Falcon BMS Alternative Launcher Setup.msi"
+        "OutputFilename" = "8:Debug\\Falcon BMS Launcher Setup.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -461,20 +461,20 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_2A68CFF486D4EB6CEC409246F308EAEE"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_27BF635D41B78AEE796D3CF1118ACD41"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_2A68CFF486D4EB6CEC409246F308EAEE"
+                    "_27BF635D41B78AEE796D3CF1118ACD41"
                     {
-                    "Name" = "8:ControlzEx.dll"
+                    "Name" = "8:MahApps.Metro.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:ControlzEx.dll"
+            "SourcePath" = "8:MahApps.Metro.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_C7487B96F8014EB3919EA405642D5247"
@@ -743,10 +743,21 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9121E6C0AF0C43A493ED31E31AED9EE1"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_A129B453DBFF73E759FD02AE126AAB05"
             {
-            "SourcePath" = "8:..\\bin\\Release\\bitswarm.exe"
-            "TargetName" = "8:bitswarm.exe"
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:AutoUpdater.NET, Version=1.7.0.0, Culture=neutral, PublicKeyToken=501435c91b35f4bc, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_A129B453DBFF73E759FD02AE126AAB05"
+                    {
+                    "Name" = "8:AutoUpdater.NET.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:AutoUpdater.NET.dll"
+            "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_C7487B96F8014EB3919EA405642D5247"
             "Condition" = "8:"
@@ -760,7 +771,7 @@
             "PackageAs" = "3:1"
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A1D0531EC5AD4DFCAE9B3D0357787936"
@@ -874,6 +885,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_BE58B02EE31A4457B7D1E0AE986D42F5"
+            {
+            "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\Stock\\Setup.v100.WINWING Orion Throttle Base II  TGRIP-F16 {Stock}.xml"
+            "TargetName" = "8:Setup.v100.WINWING Orion Throttle Base II  TGRIP-F16 {Stock}.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_B1B01F01701141248BD6FD0195551B06"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C27A4D249AFC4D57B28DAE339B0E6E65"
             {
             "SourcePath" = "8:..\\Falcon BMS Alternative Launcher\\Resources\\BackGround_Header_Installer.jpg"
@@ -912,37 +943,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_D89750F2D1234E1A26FA5C5BE5986074"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:AutoUpdater.NET, Version=1.7.0.0, Culture=neutral, PublicKeyToken=501435c91b35f4bc, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_D89750F2D1234E1A26FA5C5BE5986074"
-                    {
-                    "Name" = "8:AutoUpdater.NET.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:AutoUpdater.NET.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_C7487B96F8014EB3919EA405642D5247"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_E5925710036771A16AAED36657DEB6C0"
@@ -994,6 +994,37 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_EA3E113FC26F74C114B46FFA27A314E2"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_EA3E113FC26F74C114B46FFA27A314E2"
+                    {
+                    "Name" = "8:ControlzEx.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:ControlzEx.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_C7487B96F8014EB3919EA405642D5247"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_F0D6A5BE47525A62AF02931414D5BBD5"
@@ -1087,45 +1118,14 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_FD15546A546217628BEAE83CA853B8EE"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_FD15546A546217628BEAE83CA853B8EE"
-                    {
-                    "Name" = "8:MahApps.Metro.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:MahApps.Metro.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_C7487B96F8014EB3919EA405642D5247"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_FE75FBB13F05364CB199DF6E17EDF96B"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_FBD1B81E38B4DD0A817853E29979981F"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_FE75FBB13F05364CB199DF6E17EDF96B"
+                    "_FBD1B81E38B4DD0A817853E29979981F"
                     {
                     "Name" = "8:System.Windows.Interactivity.dll"
                     "Attributes" = "3:512"
@@ -1226,20 +1226,20 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:Falcon BMS Alternative Launcher"
-        "ProductCode" = "8:{C704B9A4-59DC-41E6-A44F-8892969E3E21}"
-        "PackageCode" = "8:{AC173F4B-8032-4DE9-8B95-8708F8DA54E4}"
+        "ProductName" = "8:Falcon BMS Launcher"
+        "ProductCode" = "8:{A8D796F5-9308-4AB4-9621-91AA8E53F38F}"
+        "PackageCode" = "8:{334DA45E-CAB9-4D49-BD8F-184709AB694E}"
         "UpgradeCode" = "8:{BE40C548-F318-43E4-99B8-21F48DC42145}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:2.1.3"
+        "ProductVersion" = "8:2.2.0"
         "Manufacturer" = "8:Benchmark Sims"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
-        "Title" = "8:Falcon BMS Alternative Launcher Setup"
+        "Title" = "8:Falcon BMS Launcher Setup"
         "Subject" = "8:"
         "ARPCONTACT" = "8:Benchmark Sims"
         "Keywords" = "8:"
@@ -1350,7 +1350,7 @@
         {
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_6D26FCFE04224ADD9BC36112CBA234F9"
             {
-            "Name" = "8:Falcon BMS Alternative Launcher"
+            "Name" = "8:Falcon BMS Launcher"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
@@ -1364,7 +1364,7 @@
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_7D56462384E24BA7BC2C2B5349660B48"
             {
-            "Name" = "8:Falcon BMS Alternative Launcher"
+            "Name" = "8:Falcon BMS Launcher"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"

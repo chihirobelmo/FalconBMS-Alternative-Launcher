@@ -25,6 +25,7 @@ namespace FalconBMS.Launcher.Windows
     /// </summary>
     public partial class MainWindow
     {
+        static SteamVR steamVR = new SteamVR();
         public MainWindow()
         {
             try
@@ -70,7 +71,7 @@ namespace FalconBMS.Launcher.Windows
 
                 Diagnostics.Log("Launcher Update Checked");
 
-                string BMS_Launcher_version = "FalconBMS Alternative Launcher v" + ver.Major + "." + ver.Minor + "." + ver.Build;
+                string BMS_Launcher_version = "FalconBMS Launcher v" + ver.Major + "." + ver.Minor + "." + ver.Build;
                 AL_Version_Number.Content = BMS_Launcher_version;
 
                 Diagnostics.Log(BMS_Launcher_version);
@@ -135,6 +136,10 @@ namespace FalconBMS.Launcher.Windows
                     DownloadWindow.ShowDownloadWindow(this, appReg, ListBox_BMS);
                 }
                 */
+
+                if ((bool)Misc_VR.IsVisible)
+                    if ((bool)Misc_VR.IsChecked)
+                        steamVR.Start();
 
                 Diagnostics.Log("Update Visiblity check.");
 
@@ -277,6 +282,8 @@ namespace FalconBMS.Launcher.Windows
         /// <param name="e"></param>
         private void Window_Closed(object sender, EventArgs e)
         {
+            Diagnostics.WriteLogFile();
+
             try
             {
                 Torrent.status = false;
@@ -291,7 +298,6 @@ namespace FalconBMS.Launcher.Windows
             }
             catch (Exception ex)
             {
-                Diagnostics.WriteLogFile(ex);
                 Close();
             }
         }
@@ -770,6 +776,14 @@ namespace FalconBMS.Launcher.Windows
                 Diagnostics.WriteLogFile(ex);
                 Close();
             }
+        }
+
+        private void Misc_VR_Click(object sender, RoutedEventArgs e)
+        {
+            if ((bool)Misc_VR.IsChecked)
+                steamVR.Start();
+            else
+                steamVR.Stop();
         }
     }
 }

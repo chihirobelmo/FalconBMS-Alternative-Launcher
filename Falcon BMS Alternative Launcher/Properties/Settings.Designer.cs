@@ -286,5 +286,17 @@ namespace FalconBMS.Launcher.Properties {
                 this["BMS_Version"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool Misc_VR {
+            get {
+                return ((bool)(this["Misc_VR"]));
+            }
+            set {
+                this["Misc_VR"] = value;
+            }
+        }
     }
 }

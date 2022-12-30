@@ -16,6 +16,7 @@ using System.Text.RegularExpressions;
 using FalconBMS.Launcher.Input;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
+using System.IO;
 
 namespace FalconBMS.Launcher.Windows
 {
@@ -51,6 +52,8 @@ namespace FalconBMS.Launcher.Windows
 
         public static bool ShowCallsignWindow(AppRegInfo appReg)
         {
+            return false; // TODO FIX
+
             CallsignWindow ownWindow = new CallsignWindow(appReg);
             ownWindow.ShowDialog();
             return (ownWindow.TextBox_Callsign.Text == "Viper") || (ownWindow.TextBox_PilotName.Text == "Joe Pilot");
@@ -120,7 +123,18 @@ namespace FalconBMS.Launcher.Windows
 
             appReg.ChangeName(TextBox_Callsign.Text, TextBox_PilotName.Text);
 
-            Process.Start("bms-logcat.exe", "-o \"" + appReg.GetInstallDir() + "\\User\\Config\\" + TextBox_Callsign.Text + ".lbk\" write-default --name \"" + TextBox_PilotName.Text + "\" --callsign \"" + TextBox_Callsign.Text + "\"");
+            string command = "-o \"" + appReg.GetInstallDir() + "\\User\\Config\\" + TextBox_Callsign.Text + ".lbk\" write-default --name \"" + TextBox_PilotName.Text + "\" --callsign \"" + TextBox_Callsign.Text + "\"";
+            Diagnostics.Log(command);
+
+            if (File.Exists("bms-logcat.exe"))
+            {
+                Process.Start("bms-logcat.exe", command);
+            }
+            else
+            {
+                Diagnostics.Log(System.Environment.CurrentDirectory);
+                Diagnostics.WriteLogFile();
+            }
 
             Close();
         }
