@@ -48,7 +48,7 @@ namespace FalconBMS.Launcher.Override
                 + "          // SETUP OVERRIDE\r\n");
             cfg.Write("set g_b3DClickableCursorAnchored " + Convert.ToInt32(mainWindow.Misc_MouseCursorAnchor.IsChecked)
                 + "          // SETUP OVERRIDE\r\n");
-            cfg.Write("set g_nFakeVROption " + Convert.ToInt32(mainWindow.Misc_VR.IsChecked)
+            cfg.Write("set g_nVRHMD " + Convert.ToInt32(mainWindow.Misc_VR.IsChecked)
                 + "          // SETUP OVERRIDE\r\n");
             if (((InGameAxAssgn)inGameAxis["Roll"]).GetDeviceNumber() == ((InGameAxAssgn)inGameAxis["Throttle"]).GetDeviceNumber())
             {
