@@ -10,6 +10,7 @@ using FalconBMS.Launcher.Windows;
 using FalconBMS.Launcher.Override;
 using FalconBMS.Launcher.Starter;
 using Microsoft.Win32;
+using FalconBMS.Launcher.Input;
 
 namespace FalconBMS.Launcher
 {
@@ -36,8 +37,8 @@ namespace FalconBMS.Launcher
 
         private MainWindow mainWindow;
 
-        public string keyFileName     = "BMS - Full.key";
-        public string keyUserFileName = "BMS - Auto.key";
+        public string keyFileName     = CommonConstants.DEFAULTKEY + ".key";
+        public string keyUserFileName = CommonConstants.USERKEY + ".key";
 
         public string theaterOwnConfig = "";
 
@@ -190,56 +191,56 @@ namespace FalconBMS.Launcher
             switch (version)
             {
                 case "Falcon BMS 4.38 (Internal)":
-                    bms_Version = BMS_Version.BMS438I;
-                    keyFileName = "BMS - Full.key";
+                    bms_Version     = BMS_Version.BMS438I;
+                    keyFileName     = CommonConstants.DEFAULTKEY + ".key";
                     overRideSetting = new OverrideSettingFor438(this.mainWindow, this);
-                    starter = new Starter438Internal(this, this.mainWindow);
+                    starter         = new Starter438Internal(this, this.mainWindow);
                     break;
                 case "Falcon BMS 4.37 (Internal)":
                     bms_Version     = BMS_Version.BMS437I;
-                    keyFileName     = "BMS - Full.key";
+                    keyFileName     = CommonConstants.DEFAULTKEY + ".key";
                     overRideSetting = new OverrideSettingFor437(this.mainWindow, this);
                     starter         = new Starter437Internal(this, this.mainWindow);
                     break;
                 case "Falcon BMS 4.36 (Internal)":
                     bms_Version     = BMS_Version.BMS436I;
-                    keyFileName     = "BMS - Full.key";
+                    keyFileName     = CommonConstants.DEFAULTKEY + ".key";
                     overRideSetting = new OverrideSettingFor437(this.mainWindow, this);
                     starter         = new Starter436Internal(this, this.mainWindow);
                     break;
                 case "Falcon BMS 4.37":
                     bms_Version     = BMS_Version.BMS437;
-                    keyFileName     = "BMS - Full.key";
+                    keyFileName     = CommonConstants.DEFAULTKEY + ".key";
                     overRideSetting = new OverrideSettingFor437(this.mainWindow, this);
                     starter         = new Starter437(this, this.mainWindow);
                     break;
                 case "Falcon BMS 4.36":
                     bms_Version     = BMS_Version.BMS436;
-                    keyFileName     = "BMS - Full.key";
+                    keyFileName     = CommonConstants.DEFAULTKEY + ".key";
                     overRideSetting = new OverrideSettingFor436(this.mainWindow, this);
                     starter         = new Starter436(this, this.mainWindow);
                     break;
                 case "Falcon BMS 4.35":
                     bms_Version     = BMS_Version.BMS435;
-                    keyFileName     = "BMS - Full.key";
+                    keyFileName = CommonConstants.DEFAULTKEY + ".key";
                     overRideSetting = new OverrideSettingFor435(this.mainWindow, this);
                     starter         = new Starter435(this, this.mainWindow);
                     break;
                 case "Falcon BMS 4.34":
                     bms_Version     = BMS_Version.BMS434U1;
-                    keyFileName     = "BMS - Full.key";
+                    keyFileName     = CommonConstants.DEFAULTKEY + ".key";
                     overRideSetting = new OverrideSettingFor434U1(this.mainWindow, this);
                     starter         = new Starter434(this, this.mainWindow);
                     break;
                 case "Falcon BMS 4.33 U1":
                     bms_Version     = BMS_Version.BMS433U1;
-                    keyFileName     = "BMS - Full.key";
+                    keyFileName     = CommonConstants.DEFAULTKEY + ".key";
                     overRideSetting = new OverrideSettingFor433(this.mainWindow, this);
                     starter         = new Starter433(this, this.mainWindow);
                     break;
                 case "Falcon BMS 4.33":
                     bms_Version     = BMS_Version.BMS433;
-                    keyFileName     = "BMS - Full.key";
+                    keyFileName     = CommonConstants.DEFAULTKEY + ".key";
                     overRideSetting = new OverrideSettingFor433(this.mainWindow, this);
                     starter         = new Starter433(this, this.mainWindow);
                     break;

@@ -32,5 +32,8 @@ namespace FalconBMS.Launcher.Input
 
         public static readonly int BINAXISMIN = 0;
         public static readonly int BINAXISMAX = 15000;
+
+        public static readonly string DEFAULTKEY = "BMS - Full";
+        public static readonly string USERKEY    = "BMS - Auto";
     }
 }

@@ -41,7 +41,7 @@ namespace FalconBMS.Launcher.Windows
 
         public void SetDefaultKeyFile()
         {
-            Properties.Settings.Default.SelectedKeyFileName = "BMS - Auto";
+            Properties.Settings.Default.SelectedKeyFileName = CommonConstants.USERKEY;
         }
 
         public void KeyFileSelect_SelectKeyFile()
@@ -55,7 +55,7 @@ namespace FalconBMS.Launcher.Windows
                     return;
                 }
             }
-            Properties.Settings.Default.SelectedKeyFileName = "BMS - Full";
+            Properties.Settings.Default.SelectedKeyFileName = CommonConstants.DEFAULTKEY;
         }
 
         private void KeyFileSelect_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -461,7 +461,7 @@ namespace FalconBMS.Launcher.Windows
             switch (Category.SelectedIndex)
             {
                 case 0:
-                    target = "BMS - Full";
+                    target = (string)KeyFileSelect.SelectedItem;
                     break;
                 case 1:
                     target = "1. UI & 3RD PARTY SOFTWARE";
