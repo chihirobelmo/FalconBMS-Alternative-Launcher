@@ -40,6 +40,7 @@ namespace FalconBMS.Launcher.Windows
                 if (KeyFileList[i] == Properties.Settings.Default.SelectedKeyFileName)
                 {
                     KeyFileSelect.SelectedIndex = i;
+                    appReg.SetAutoKeyFileName((string)KeyFileSelect.SelectedItem);
                 }
             }
         }

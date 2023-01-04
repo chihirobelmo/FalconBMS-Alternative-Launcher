@@ -96,6 +96,7 @@ namespace FalconBMS.Launcher.Windows
                 // Read Registry
                 appReg = new AppRegInfo(this);
 
+                FillKeyFileList();
                 BMSChanged();
                 ReloadDevices();
 
@@ -137,8 +138,6 @@ namespace FalconBMS.Launcher.Windows
                     DownloadWindow.ShowDownloadWindow(this, appReg, ListBox_BMS);
                 }
                 */
-
-                FillKeyFileList();
 
                 if ((bool)Misc_VR.IsVisible)
                     if ((bool)Misc_VR.IsChecked)
@@ -223,10 +222,7 @@ namespace FalconBMS.Launcher.Windows
 
                 // Read BMS-FULL.key
                 string fname = appReg.GetInstallDir() + "\\User\\Config\\" + appReg.getKeyFileName();
-                string fnameauto = appReg.GetInstallDir() + "\\User\\Config\\" + appReg.getAutoKeyFileName();
-                if (!File.Exists(fnameauto))
-                    File.Copy(fname, fnameauto);
-                keyFile = new KeyFile(fnameauto, appReg);
+                keyFile = new KeyFile(fname, appReg);
 
                 // Write Data Grid
                 WriteDataGrid();
