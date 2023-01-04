@@ -71,5 +71,8 @@
     <Setting Name="Misc_VR" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="SelectedKeyFileName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">BMS - Full</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

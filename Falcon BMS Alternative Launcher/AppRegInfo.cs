@@ -47,6 +47,7 @@ namespace FalconBMS.Launcher
         public string GetPilotCallsign() { return pilotCallsign; }
         public string getKeyFileName() { return keyFileName; }
         public string getAutoKeyFileName() { return keyFileNameAuto; }
+        public void SetAutoKeyFileName(string newkey) { keyFileNameAuto = newkey; }
         public OverrideSetting getOverrideWriter() { return overRideSetting; }
         public BMS_Version getBMSVersion() { return bms_Version; }
         public AbstractStarter getLauncher() { return starter; }

@@ -17,6 +17,7 @@ using AutoUpdaterDotNET;
 using System.Reflection;
 using System.Xml;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
 namespace FalconBMS.Launcher.Windows
 {
@@ -136,6 +137,8 @@ namespace FalconBMS.Launcher.Windows
                     DownloadWindow.ShowDownloadWindow(this, appReg, ListBox_BMS);
                 }
                 */
+
+                FillKeyFileList();
 
                 if ((bool)Misc_VR.IsVisible)
                     if ((bool)Misc_VR.IsChecked)

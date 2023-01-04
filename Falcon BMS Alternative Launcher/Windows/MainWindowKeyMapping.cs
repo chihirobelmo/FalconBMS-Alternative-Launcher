@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,6 +18,32 @@ namespace FalconBMS.Launcher.Windows
     /// </summary>
     public partial class MainWindow
     {
+        public ObservableCollection<string> KeyFileList { get; set; }
+
+        private void FillKeyFileList()
+        {
+            KeyFileList = new ObservableCollection<string>();
+
+            string[] keyfileList = Directory.GetFiles(appReg.GetInstallDir() + "/User/config/", "*.key", System.IO.SearchOption.AllDirectories);
+
+            foreach (string Key in keyfileList)
+            {
+                KeyFileList.Add(Path.GetFileName(Key).Replace(".key",""));
+            }
+
+            KeyFileSelect.ItemsSource = KeyFileList;
+
+            Diagnostics.Log("Key List Filled.");
+
+            for (int i = 0; i < KeyFileList.Count(); i++)
+            {
+                if (KeyFileList[i] == Properties.Settings.Default.SelectedKeyFileName)
+                {
+                    KeyFileSelect.SelectedIndex = i;
+                }
+            }
+        }
+
         /// <summary>
         /// Let's write DataGrid cells at KeyMapping page a keyfile informarion.
         /// </summary>
