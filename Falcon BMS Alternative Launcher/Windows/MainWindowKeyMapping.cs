@@ -49,8 +49,7 @@ namespace FalconBMS.Launcher.Windows
         {
             appReg.SetAutoKeyFileName((string)KeyFileSelect.SelectedItem);
             ReloadKeyFile();
-            ReloadDevices();
-            ResetJoystickColumn();
+            ResetKeyMappingGrid();
             WriteDataGrid();
         }
 
@@ -84,11 +83,15 @@ namespace FalconBMS.Launcher.Windows
         }
         public void ResetJoystickColumn()
         {
+            ResetKeyMappingGrid();
+
+            statusAssign = Status.GetNeutralPos;
+        }
+        public void ResetKeyMappingGrid()
+        {
             var temp = KeyMappingGrid.ItemsSource;
             KeyMappingGrid.ItemsSource = null;
             KeyMappingGrid.ItemsSource = temp;
-
-            statusAssign = Status.GetNeutralPos;
         }
 
         /// <summary>
