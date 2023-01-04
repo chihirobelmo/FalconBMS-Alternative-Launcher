@@ -52,8 +52,6 @@ namespace FalconBMS.Launcher.Windows
 
         public static bool ShowCallsignWindow(AppRegInfo appReg)
         {
-            return false; // TODO FIX
-
             CallsignWindow ownWindow = new CallsignWindow(appReg);
             ownWindow.ShowDialog();
             return (ownWindow.TextBox_Callsign.Text == "Viper") || (ownWindow.TextBox_PilotName.Text == "Joe Pilot");
@@ -129,11 +127,14 @@ namespace FalconBMS.Launcher.Windows
             if (File.Exists("bms-logcat.exe"))
             {
                 Process.Start("bms-logcat.exe", command);
+                Close();
+                return;
             }
-            else
+            if (File.Exists(appReg.GetInstallDir() + "/Launcher/bms-logcat.exe"))
             {
-                Diagnostics.Log(System.Environment.CurrentDirectory);
-                Diagnostics.WriteLogFile();
+                Process.Start(appReg.GetInstallDir() + "/Launcher/bms-logcat.exe", command);
+                Close();
+                return;
             }
 
             Close();

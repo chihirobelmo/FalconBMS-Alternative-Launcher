@@ -56,8 +56,17 @@ namespace FalconBMS.Launcher.Input
                 }
                 else
                 {
-                    stockFileName = Directory.GetCurrentDirectory() + "/Stock/Setup.v100." + joyAssign[i].GetProductName().Replace("/", "-")
-                    + " {Stock}.xml";
+                    stockFileName = Directory.GetCurrentDirectory() 
+                        + "/Stock/Setup.v100." 
+                        + joyAssign[i].GetProductName().Replace("/", "-")
+                        + " {Stock}.xml";
+                    if (!File.Exists(stockFileName))
+                    {
+                        stockFileName = appReg.GetInstallDir() + "/Launcher"
+                            + "/Stock/Setup.v100."
+                            + joyAssign[i].GetProductName().Replace("/", "-")
+                            + " {Stock}.xml";
+                    }
                     if (File.Exists(stockFileName))
                     {
                         File.Copy(stockFileName, fileName);
