@@ -50,8 +50,8 @@ namespace FalconBMS.Launcher.Windows
             appReg.SetAutoKeyFileName((string)KeyFileSelect.SelectedItem);
             ReloadKeyFile();
             ReloadDevices();
+            ResetJoystickColumn();
             WriteDataGrid();
-            KeyMappingGrid.Items.Refresh();
         }
 
         /// <summary>
