@@ -17,6 +17,7 @@ using AutoUpdaterDotNET;
 using System.Reflection;
 using System.Xml;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
 namespace FalconBMS.Launcher.Windows
 {
@@ -95,6 +96,7 @@ namespace FalconBMS.Launcher.Windows
                 // Read Registry
                 appReg = new AppRegInfo(this);
 
+                FillKeyFileList();
                 BMSChanged();
                 ReloadDevices();
 
@@ -219,11 +221,7 @@ namespace FalconBMS.Launcher.Windows
                 TheaterList.PopulateAndSave(appReg, Dropdown_TheaterList);
 
                 // Read BMS-FULL.key
-                string fname = appReg.GetInstallDir() + "\\User\\Config\\" + appReg.getKeyFileName();
-                string fnameauto = appReg.GetInstallDir() + "\\User\\Config\\" + appReg.getAutoKeyFileName();
-                if (!File.Exists(fnameauto))
-                    File.Copy(fname, fnameauto);
-                keyFile = new KeyFile(fnameauto, appReg);
+                ReloadKeyFile();
 
                 // Write Data Grid
                 WriteDataGrid();
@@ -233,6 +231,12 @@ namespace FalconBMS.Launcher.Windows
                 Diagnostics.WriteLogFile(ex);
                 Close();
             }
+        }
+
+        private void ReloadKeyFile()
+        {
+            string fname = appReg.GetInstallDir() + "\\User\\Config\\" + appReg.getKeyFileName();
+            keyFile = new KeyFile(fname, appReg);
         }
 
         public void ReloadDevices()
@@ -266,6 +270,25 @@ namespace FalconBMS.Launcher.Windows
 
                 joyAssign_2_inGameAxis();
                 ResetAssgnWindow();
+                ResetJoystickColumn();
+            }
+            catch (Exception ex)
+            {
+                Diagnostics.WriteLogFile(ex);
+                Close();
+            }
+        }
+
+        public void RefreshDevices()
+        {
+            try
+            {
+                // Reset All Axis Settings
+                foreach (AxisName nme in axisNameList)
+                    inGameAxis[nme.ToString()] = new InGameAxAssgn();
+
+                joyAssign_2_inGameAxis();
+                ResetAssgnWindow();
                 RefreshJoystickColumn();
             }
             catch (Exception ex)
@@ -274,7 +297,7 @@ namespace FalconBMS.Launcher.Windows
                 Close();
             }
         }
-        
+
         /// <summary>
         /// Execute when quiting this app.
         /// </summary>

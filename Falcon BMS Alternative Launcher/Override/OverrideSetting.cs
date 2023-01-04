@@ -202,7 +202,10 @@ namespace FalconBMS.Launcher.Override
 
         protected virtual void SaveKeyMapping(Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile, int DXnumber)
         {
-            string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.getAutoKeyFileName();
+            string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.getKeyUserFileName();
+            appReg.SetUserKeyFileName(appReg.getKeyUserFileName());
+            mainWindow.SetDefaultKeyFile();
+            mainWindow.KeyFileSelect_SelectKeyFile();
 
             if (File.Exists(filename))
                 File.SetAttributes(filename, File.GetAttributes(filename) & ~FileAttributes.ReadOnly);

@@ -544,10 +544,13 @@
             <TabItem Header="KEYMAPPING" Margin="535,-40,-536,40.333">
                 <Grid Margin="0,1,-0.333,0.333">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
+                        <ColumnDefinition Width="334*"/>
+                        <ColumnDefinition Width="677*"/>
                     </Grid.ColumnDefinitions>
+                    <Label Content="KeyFile:" HorizontalAlignment="Left" Margin="16,-43,0,0" VerticalAlignment="Top" Height="26" HorizontalContentAlignment="Right" Foreground="White"/>
+                    <ComboBox x:Name="KeyFileSelect" HorizontalAlignment="Left" Margin="80,-41,0,0" VerticalAlignment="Top" Width="128" BorderBrush="Black" Background="#80F0F0F0" Foreground="#FF191919" SelectionChanged="KeyFileSelect_SelectionChanged"  Height="26"/>
                     <Label Content="Category:" HorizontalAlignment="Left" Margin="223,-43,0,0" VerticalAlignment="Top" Height="26" Width="64" HorizontalContentAlignment="Right" Foreground="White"/>
-                    <ComboBox x:Name="Category" HorizontalAlignment="Left" Margin="300,-41,0,0" VerticalAlignment="Top" Width="256" BorderBrush="Black" Background="#80F0F0F0" Foreground="#FF191919" SelectionChanged="Category_SelectionChanged" Height="26">
+                    <ComboBox x:Name="Category" HorizontalAlignment="Left" Margin="300,-41,0,0" VerticalAlignment="Top" Width="256" BorderBrush="Black" Background="#80F0F0F0" Foreground="#FF191919" SelectionChanged="Category_SelectionChanged" Height="26" Grid.ColumnSpan="2">
                         <TextBlock Text=" TOP" FontWeight="Bold" Foreground="#FF000000"/>
                         <TextBlock Text=" UI &amp; 3RD PARTY SOFTWARE" Foreground="#FF00C001"/>
                         <TextBlock Text=" LEFT CONSOLE" Foreground="#FF000000"/>
@@ -562,7 +565,7 @@
                         <TextBlock Text=" VIEWS" Foreground="#FF000000"/>
                         <TextBlock Text=" RADIO COMMS" Foreground="#FF000000"/>
                     </ComboBox>
-                    <DataGrid x:Name="KeyMappingGrid" HorizontalAlignment="Stretch" Height="auto" Margin="10,10,9.667,64" 
+                    <DataGrid x:Name="KeyMappingGrid" HorizontalAlignment="Stretch" Height="auto" Margin="10,10,9.666,64.334" 
                               EnableColumnVirtualization="True" EnableRowVirtualization="True" VirtualizingPanel.IsVirtualizingWhenGrouping="True"
                               RowStyle="{StaticResource MyDataGridStyle}"
                               AutoGenerateColumns="True" 
@@ -576,28 +579,29 @@
                               SelectionMode="Single"
                               GridLinesVisibility="Vertical"
                               VerticalGridLinesBrush="LightGray" Background="#7F202020"
-                              MouseDoubleClick="DataGrid_MouseButtonDoubleClick">
+                              MouseDoubleClick="DataGrid_MouseButtonDoubleClick" Grid.ColumnSpan="2">
                         <!-- Below column is needed to refresh datagrid because of the following BUG: 
                         https://connect.microsoft.com/VisualStudio/feedback/details/778456/click-on-datagridrowheader-raise-an-argumentoutofrange-exception-when-there-is-no-columns -->
                         <DataGrid.Columns>
                             <DataGridTemplateColumn Visibility="Hidden" />
                         </DataGrid.Columns>
                     </DataGrid>
-                    <Label Content="ASSIGNMENT " VerticalContentAlignment="Top" HorizontalAlignment="Left" Margin="10,0,0,32" VerticalAlignment="Bottom" RenderTransformOrigin="-4.878,1.143" FontWeight="Bold" Height="26" Width="89"/>
-                    <Label x:Name="Label_AssgnStatus" Content="KEYSEARCH MODE" VerticalContentAlignment="Top" HorizontalAlignment="Left" Margin="114,0,0,32" VerticalAlignment="Bottom" RenderTransformOrigin="-4.878,1.143" FontStyle="Italic" Height="26" Width="886"/>
+                    <Label Content="ASSIGNMENT " VerticalContentAlignment="Top" HorizontalAlignment="Left" Margin="10,0,0,32.334" VerticalAlignment="Bottom" RenderTransformOrigin="-4.878,1.143" FontWeight="Bold" Height="26" Width="89"/>
+                    <Label x:Name="Label_AssgnStatus" Content="KEYSEARCH MODE" VerticalContentAlignment="Top" HorizontalAlignment="Left" Margin="114,0,0,32.334" VerticalAlignment="Bottom" RenderTransformOrigin="-4.878,1.143" FontStyle="Italic" Height="26" Width="886" Grid.ColumnSpan="2"/>
 
-                    <ToggleButton x:Name="Select_PinkyShift" Visibility="Hidden" Content="KEYCOMBO / PINKYSHIFT" HorizontalAlignment="Right" Margin="0,12,253,0" VerticalAlignment="Top" Width="160" Height="27" Click="Select_PinkyShift_Click"/>
-                    <ToggleButton x:Name="Select_DX_Release" Visibility="Hidden" Content="RELEASE" HorizontalAlignment="Right" Margin="0,12,164,0" VerticalAlignment="Top" Width="64" Height="27"/>
-                    <Button x:Name="Select_Invoke" Visibility="Hidden" Content="Invoke Both" HorizontalAlignment="Right" Margin="0,12,10,0" VerticalAlignment="Top" Width="129" Click="Select_Invoke_Click" Height="27"/>
-                    <CheckBox x:Name="Misc_OverrideSelfCancel" Content="Use 3-Way ON-OFF-ON Switch for TQS: DOGFIGHT" FontSize="11" HorizontalAlignment="Left" Margin="10,0,0,9" VerticalAlignment="Bottom" Height="18" Width="272"/>
-                    <CheckBox x:Name="Misc_MouseCursorAnchor" Content="Anchor the Mouse Cursor to Clickable Switches or Dials." HorizontalAlignment="Left" Margin="300,0,0,9" VerticalAlignment="Bottom" Height="18" Width="318"/>
+                    <ToggleButton x:Name="Select_PinkyShift" Visibility="Hidden" Content="KEYCOMBO / PINKYSHIFT" HorizontalAlignment="Right" Margin="0,12,252.666,0" VerticalAlignment="Top" Width="160" Height="27" Click="Select_PinkyShift_Click" Grid.Column="1"/>
+                    <ToggleButton x:Name="Select_DX_Release" Visibility="Hidden" Content="RELEASE" HorizontalAlignment="Right" Margin="0,12,163.666,0" VerticalAlignment="Top" Width="64" Height="27" Grid.Column="1"/>
+                    <Button x:Name="Select_Invoke" Visibility="Hidden" Content="Invoke Both" HorizontalAlignment="Right" Margin="0,12,9.666,0" VerticalAlignment="Top" Width="129" Click="Select_Invoke_Click" Height="27" Grid.Column="1"/>
+                    <CheckBox x:Name="Misc_OverrideSelfCancel" Content="Use 3-Way ON-OFF-ON Switch for TQS: DOGFIGHT" FontSize="11" HorizontalAlignment="Left" Margin="10,0,0,9.334" VerticalAlignment="Bottom" Height="18" Width="272"/>
+                    <CheckBox x:Name="Misc_MouseCursorAnchor" Content="Anchor the Mouse Cursor to Clickable Switches or Dials." HorizontalAlignment="Left" Margin="300,0,0,9.334" VerticalAlignment="Bottom" Height="18" Width="318" Grid.ColumnSpan="2"/>
 
-                    <Label Content="Filter:" HorizontalAlignment="Left" Margin="561,-43,0,0" VerticalAlignment="Top" Width="43" HorizontalContentAlignment="Right" Foreground="White"/>
-                    <TextBox x:Name="SearchBox" HorizontalAlignment="Left" Height="23" Margin="616,-41,0,0" VerticalAlignment="Top" Width="384" Background="#80F0F0F0" Foreground="#FF191919" Controls:TextBoxHelper.ClearTextButton="True" TextChanged="SearchBox_TextChanged"/>
+                    <Label Content="Filter:" HorizontalAlignment="Left" Margin="227.167,-43,0,0" VerticalAlignment="Top" Width="43" HorizontalContentAlignment="Right" Foreground="White" Grid.Column="1"/>
+                    <TextBox x:Name="SearchBox" HorizontalAlignment="Left" Height="23" Margin="282.167,-41,0,0" VerticalAlignment="Top" Width="384" Background="#80F0F0F0" Foreground="#FF191919" Controls:TextBoxHelper.ClearTextButton="True" TextChanged="SearchBox_TextChanged" Grid.Column="1"/>
 
-                    <Label Content="* Double Click a cell to Assign keys." HorizontalContentAlignment="Right" HorizontalAlignment="Right" Margin="0,0,9.667,30" VerticalAlignment="Bottom" Width="596" Height="29"/>
+                    <Label Content="* Double Click a cell to Assign keys." HorizontalContentAlignment="Right" HorizontalAlignment="Right" Margin="0,0,9.666,30.334" VerticalAlignment="Bottom" Width="596" Height="29" Grid.Column="1"/>
                 </Grid>
             </TabItem>
+            <TextBox Height="23" TextWrapping="Wrap" Text="TextBox" Width="120"/>
         </TabControl>
         <Image x:Name="LOGO000" HorizontalAlignment="Left" VerticalAlignment="Top" Height="49" Source="/Resources/web_banner.png" Stretch="Uniform" Width="363" Margin="24,10,0,0"/>
         <Label x:Name="Version_Number" Content="4.37" HorizontalAlignment="Left" Margin="392,0,0,0" VerticalAlignment="Top" Foreground="#FFC4C4C4" FontSize="36"/>
