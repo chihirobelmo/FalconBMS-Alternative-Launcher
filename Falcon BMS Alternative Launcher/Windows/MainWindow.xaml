@@ -548,7 +548,7 @@
                         <ColumnDefinition Width="677*"/>
                     </Grid.ColumnDefinitions>
                     <Label Content="KeyFile:" HorizontalAlignment="Left" Margin="16,-43,0,0" VerticalAlignment="Top" Height="26" HorizontalContentAlignment="Right" Foreground="White"/>
-                    <ComboBox x:Name="KeyFileSelect" HorizontalAlignment="Left" Margin="80,-41,0,0" VerticalAlignment="Top" Width="128" BorderBrush="Black" Background="#80F0F0F0" Foreground="#FF191919" SelectionChanged="Category_SelectionChanged" Height="26"/>
+                    <ComboBox x:Name="KeyFileSelect" HorizontalAlignment="Left" Margin="80,-41,0,0" VerticalAlignment="Top" Width="128" BorderBrush="Black" Background="#80F0F0F0" Foreground="#FF191919" SelectionChanged="KeyFileSelect_SelectionChanged"  Height="26"/>
                     <Label Content="Category:" HorizontalAlignment="Left" Margin="223,-43,0,0" VerticalAlignment="Top" Height="26" Width="64" HorizontalContentAlignment="Right" Foreground="White"/>
                     <ComboBox x:Name="Category" HorizontalAlignment="Left" Margin="300,-41,0,0" VerticalAlignment="Top" Width="256" BorderBrush="Black" Background="#80F0F0F0" Foreground="#FF191919" SelectionChanged="Category_SelectionChanged" Height="26" Grid.ColumnSpan="2">
                         <TextBlock Text=" TOP" FontWeight="Bold" Foreground="#FF000000"/>

@@ -45,6 +45,15 @@ namespace FalconBMS.Launcher.Windows
             }
         }
 
+        private void KeyFileSelect_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            appReg.SetAutoKeyFileName((string)KeyFileSelect.SelectedItem);
+            ReloadKeyFile();
+            ReloadDevices();
+            WriteDataGrid();
+            KeyMappingGrid.Items.Refresh();
+        }
+
         /// <summary>
         /// Let's write DataGrid cells at KeyMapping page a keyfile informarion.
         /// </summary>
@@ -70,6 +79,14 @@ namespace FalconBMS.Launcher.Windows
         public void RefreshJoystickColumn()
         {
             KeyMappingGrid.Items.Refresh();
+
+            statusAssign = Status.GetNeutralPos;
+        }
+        public void ResetJoystickColumn()
+        {
+            var temp = KeyMappingGrid.ItemsSource;
+            KeyMappingGrid.ItemsSource = null;
+            KeyMappingGrid.ItemsSource = temp;
 
             statusAssign = Status.GetNeutralPos;
         }
@@ -132,7 +149,7 @@ namespace FalconBMS.Launcher.Windows
                 return;
 
             KeyMappingWindow.ShowKeyMappingWindow(this, selectedItem, keyFile, deviceControl, sender);
-            ResortDevices();
+            RefreshDevices();
 
             KeyMappingGrid.Items.Refresh();
             KeyMappingGrid.UnselectAllCells();
