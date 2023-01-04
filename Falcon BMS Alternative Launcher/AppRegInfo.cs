@@ -37,6 +37,7 @@ namespace FalconBMS.Launcher
         private MainWindow mainWindow;
 
         public string keyFileName     = "BMS - Full.key";
+        public string keyUserFileName = "BMS - Auto.key";
 
         public string theaterOwnConfig = "";
 
@@ -45,7 +46,13 @@ namespace FalconBMS.Launcher
         public string GetCurrentTheater() { return currentTheater; }
         public string GetPilotCallsign() { return pilotCallsign; }
         public string getKeyFileName() { return keyFileName; }
-        public void SetAutoKeyFileName(string newkey) { keyFileName = newkey + ".key"; }
+        public string getKeyUserFileName() { return keyUserFileName; }
+
+        public void SetUserKeyFileName(string newkey) 
+        { 
+            keyFileName = newkey + ".key";
+        }
+
         public OverrideSetting getOverrideWriter() { return overRideSetting; }
         public BMS_Version getBMSVersion() { return bms_Version; }
         public AbstractStarter getLauncher() { return starter; }

@@ -28,26 +28,39 @@ namespace FalconBMS.Launcher.Windows
 
             foreach (string Key in keyfileList)
             {
-                KeyFileList.Add(Path.GetFileName(Key).Replace(".key",""));
+                KeyFileList.Add(Path.GetFileName(Key).Replace(".key", ""));
             }
 
             KeyFileSelect.ItemsSource = KeyFileList;
 
             Diagnostics.Log("Key List Filled.");
 
+            KeyFileSelect_SelectKeyFile();
+            KeyFileSelect_SelectKeyFile();   // Search BMS - Full.key if Last Selected keyfile does not found. thus call this twice.
+        }
+
+        public void SetDefaultKeyFile()
+        {
+            Properties.Settings.Default.SelectedKeyFileName = "BMS - Auto";
+        }
+
+        public void KeyFileSelect_SelectKeyFile()
+        {
             for (int i = 0; i < KeyFileList.Count(); i++)
             {
                 if (KeyFileList[i] == Properties.Settings.Default.SelectedKeyFileName)
                 {
                     KeyFileSelect.SelectedIndex = i;
-                    appReg.SetAutoKeyFileName((string)KeyFileSelect.SelectedItem);
+                    appReg.SetUserKeyFileName((string)KeyFileSelect.SelectedItem);
+                    return;
                 }
             }
+            Properties.Settings.Default.SelectedKeyFileName = "BMS - Full";
         }
 
         private void KeyFileSelect_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            appReg.SetAutoKeyFileName((string)KeyFileSelect.SelectedItem);
+            appReg.SetUserKeyFileName((string)KeyFileSelect.SelectedItem);
             ReloadKeyFile();
             ResetKeyMappingGrid();
             WriteDataGrid();
