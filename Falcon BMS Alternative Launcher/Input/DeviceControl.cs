@@ -43,7 +43,7 @@ namespace FalconBMS.Launcher.Input
 
                 joyAssign[i].SetDeviceInstance(dev);
 
-                fileName = appReg.GetInstallDir() + CommonConstants.CONFIGFOLDER + CommonConstants.SETUPV100 + joyAssign[i].GetProductName().Replace("/", "-")
+                fileName = appReg.GetInstallDir() + CommonConstants.CONFIGFOLDER + CommonConstants.SETUPV100 + joyAssign[i].GetProductFileName()
                 + " {" + joyAssign[i].GetInstanceGUID().ToString().ToUpper() + "}.xml";
 
                 // Load existing .xml files.
@@ -58,13 +58,13 @@ namespace FalconBMS.Launcher.Input
                 {
                     stockFileName = Directory.GetCurrentDirectory() 
                         + CommonConstants.STOCKFOLDER + CommonConstants.SETUPV100
-                        + joyAssign[i].GetProductName().Replace("/", "-")
+                        + joyAssign[i].GetProductFileName()
                         + CommonConstants.STOCKXML;
                     if (!File.Exists(stockFileName))
                     {
                         stockFileName = appReg.GetInstallDir() + CommonConstants.LAUNCHERFOLDER
                             + CommonConstants.STOCKFOLDER + CommonConstants.SETUPV100
-                            + joyAssign[i].GetProductName().Replace("/", "-")
+                            + joyAssign[i].GetProductFileName()
                             + CommonConstants.STOCKXML;
                     }
                     if (File.Exists(stockFileName))

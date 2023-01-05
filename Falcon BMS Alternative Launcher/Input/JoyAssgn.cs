@@ -20,6 +20,7 @@ namespace FalconBMS.Launcher.Input
 
         // Method
         public string GetProductName() { return productName; }
+        public string GetProductFileName() { return productName.Replace("/", "-"); }
         public Guid GetProductGUID() { return productGUID; }
         public Guid GetInstanceGUID() { return instanceGUID; }
 

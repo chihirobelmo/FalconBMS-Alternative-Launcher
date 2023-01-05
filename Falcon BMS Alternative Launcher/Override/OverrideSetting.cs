@@ -111,7 +111,7 @@ namespace FalconBMS.Launcher.Override
 
             for (int i = 0; i < deviceControl.joyAssign.Length; i++)
             {
-                fileName = appReg.GetInstallDir() + CommonConstants.CONFIGFOLDER + CommonConstants.SETUPV100 + deviceControl.joyAssign[i].GetProductName().Replace("/", "-")
+                fileName = appReg.GetInstallDir() + CommonConstants.CONFIGFOLDER + CommonConstants.SETUPV100 + deviceControl.joyAssign[i].GetProductFileName()
                 + " {" + deviceControl.joyAssign[i].GetInstanceGUID().ToString().ToUpper() + "}.xml";
 
                 try
