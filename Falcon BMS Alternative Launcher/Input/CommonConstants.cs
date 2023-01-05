@@ -49,6 +49,8 @@ namespace FalconBMS.Launcher.Input
         public static readonly string STOCKXML = " {Stock}.xml";
         public static readonly string MOUSEXML = " Mousewheel.xml";
         public static readonly string LOGCAT = "bms-logcat.exe";
+        public static readonly string CFGFILE = "Falcon BMS.cfg";
+        public static readonly string USERCFGFILE = "Falcon BMS User.cfg";
 
         public static readonly string STOCKFOLDER = "/Stock/";
         public static readonly string CONFIGFOLDER = "/User/Config/";
