@@ -309,8 +309,6 @@ namespace FalconBMS.Launcher.Windows
 
             try
             {
-                Torrent.status = false;
-
                 if (appReg == null)
                     return;
 
