@@ -41,7 +41,7 @@ namespace FalconBMS.Launcher.Input
 
         public int GetAssignedNumber()
         {
-            return assign.Count(a => a.Callback != "SimDoNothing");
+            return assign.Count(a => a.Callback != CommonConstants.SIMDONOTHING);
         }
     }
 
@@ -52,7 +52,7 @@ namespace FalconBMS.Launcher.Input
     public class Assgn
     {
         // Member
-        protected string callback = "SimDoNothing";
+        protected string callback = CommonConstants.SIMDONOTHING;
         protected Invoke invoke = Invoke.Default;
         protected int soundID;
 

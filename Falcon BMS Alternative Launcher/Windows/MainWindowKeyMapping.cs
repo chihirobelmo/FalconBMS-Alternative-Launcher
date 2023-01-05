@@ -161,7 +161,7 @@ namespace FalconBMS.Launcher.Windows
                 return;
             if (selectedItem.GetVisibility() != "White")
                 return;
-            if (selectedItem.GetCallback() == "SimDoNothing")
+            if (selectedItem.GetCallback() == CommonConstants.SIMDONOTHING)
                 return;
 
             KeyMappingWindow.ShowKeyMappingWindow(this, selectedItem, keyFile, deviceControl, sender);
@@ -292,7 +292,7 @@ namespace FalconBMS.Launcher.Windows
                                 behaviourStatus = Behaviour.Release;
 
                             target = deviceControl.joyAssign[i].dx[ii].assign[(int)pinkyStatus + (int)behaviourStatus].GetCallback();
-                            if (target == "SimDoNothing" && behaviourStatus == Behaviour.Release)
+                            if (target == CommonConstants.SIMDONOTHING && behaviourStatus == Behaviour.Release)
                             { }
                             else
                             {
@@ -324,7 +324,7 @@ namespace FalconBMS.Launcher.Windows
             }
             if (target == "")
                 return;
-            if (target == "SimDoNothing")
+            if (target == CommonConstants.SIMDONOTHING)
                 return;
             // If the key assignment was found, jump to the mapping for it and highlight it.
             KeyAssgn key = keyFile.keyAssign.FirstOrDefault(x => x.GetCallback() == target);

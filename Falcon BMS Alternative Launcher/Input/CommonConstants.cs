@@ -57,5 +57,7 @@ namespace FalconBMS.Launcher.Input
         public static readonly string BACKUPFOLDER = "/User/Config/Backup/";
         public static readonly string LAUNCHERFOLDER = "/Launcher";
         public static readonly string CONFIGFOLDERBACKSLASH = "\\User\\Config\\";
+
+        public static readonly string SIMDONOTHING = "SimDoNothing";
     }
 }

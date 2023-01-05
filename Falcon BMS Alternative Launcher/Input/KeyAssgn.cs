@@ -8,7 +8,7 @@ namespace FalconBMS.Launcher.Input
 {
     public class KeyAssgn : ICloneable
     {
-        protected string callback = "SimDoNothing";            // 1st: callback(ex: "SimDoNothing")
+        protected string callback = CommonConstants.SIMDONOTHING;            // 1st: callback(ex: CommonConstants.SIMDONOTHING)
         protected string soundID = "-1";                       // 2nd: -1
         protected string none = "0";                           // 3rd: 0 
         protected string keyboard = "0xFFFFFFFF";              // 4th: Scancode(ex: 0x1E => 30 => A).
