@@ -39,6 +39,10 @@ namespace FalconBMS.Launcher.Starter
                 strCmdText += "-ef ";
             if (mainWindow.CMD_MONO.IsChecked == false)
                 strCmdText += "-mono ";
+            if (mainWindow.Misc_VR.IsVisible == true && mainWindow.Misc_VR.IsChecked == true)
+                strCmdText += "-vr ";
+            else
+                strCmdText += "-novr ";
             return strCmdText;
         }
 
