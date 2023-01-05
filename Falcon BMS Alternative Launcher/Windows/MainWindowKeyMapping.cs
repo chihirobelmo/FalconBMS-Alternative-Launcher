@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,6 +18,54 @@ namespace FalconBMS.Launcher.Windows
     /// </summary>
     public partial class MainWindow
     {
+        public ObservableCollection<string> KeyFileList { get; set; }
+
+        private void FillKeyFileList()
+        {
+            KeyFileList = new ObservableCollection<string>();
+
+            string[] keyfileList = Directory.GetFiles(appReg.GetInstallDir() + "/User/config/", "*.key", System.IO.SearchOption.AllDirectories);
+
+            foreach (string Key in keyfileList)
+            {
+                KeyFileList.Add(Path.GetFileName(Key).Replace(".key", ""));
+            }
+
+            KeyFileSelect.ItemsSource = KeyFileList;
+
+            Diagnostics.Log("Key List Filled.");
+
+            KeyFileSelect_SelectKeyFile();
+            KeyFileSelect_SelectKeyFile();   // Search BMS - Full.key if Last Selected keyfile does not found. thus call this twice.
+        }
+
+        public void SetDefaultKeyFile()
+        {
+            Properties.Settings.Default.SelectedKeyFileName = CommonConstants.USERKEY;
+        }
+
+        public void KeyFileSelect_SelectKeyFile()
+        {
+            for (int i = 0; i < KeyFileList.Count(); i++)
+            {
+                if (KeyFileList[i] == Properties.Settings.Default.SelectedKeyFileName)
+                {
+                    KeyFileSelect.SelectedIndex = i;
+                    appReg.SetUserKeyFileName((string)KeyFileSelect.SelectedItem);
+                    return;
+                }
+            }
+            Properties.Settings.Default.SelectedKeyFileName = CommonConstants.DEFAULTKEY;
+        }
+
+        private void KeyFileSelect_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            appReg.SetUserKeyFileName((string)KeyFileSelect.SelectedItem);
+            ReloadKeyFile();
+            ResetKeyMappingGrid();
+            WriteDataGrid();
+        }
+
         /// <summary>
         /// Let's write DataGrid cells at KeyMapping page a keyfile informarion.
         /// </summary>
@@ -43,6 +93,18 @@ namespace FalconBMS.Launcher.Windows
             KeyMappingGrid.Items.Refresh();
 
             statusAssign = Status.GetNeutralPos;
+        }
+        public void ResetJoystickColumn()
+        {
+            ResetKeyMappingGrid();
+
+            statusAssign = Status.GetNeutralPos;
+        }
+        public void ResetKeyMappingGrid()
+        {
+            var temp = KeyMappingGrid.ItemsSource;
+            KeyMappingGrid.ItemsSource = null;
+            KeyMappingGrid.ItemsSource = temp;
         }
 
         /// <summary>
@@ -103,7 +165,7 @@ namespace FalconBMS.Launcher.Windows
                 return;
 
             KeyMappingWindow.ShowKeyMappingWindow(this, selectedItem, keyFile, deviceControl, sender);
-            ResortDevices();
+            RefreshDevices();
 
             KeyMappingGrid.Items.Refresh();
             KeyMappingGrid.UnselectAllCells();
@@ -399,7 +461,7 @@ namespace FalconBMS.Launcher.Windows
             switch (Category.SelectedIndex)
             {
                 case 0:
-                    target = "BMS - Full";
+                    target = (string)KeyFileSelect.SelectedItem;
                     break;
                 case 1:
                     target = "1. UI & 3RD PARTY SOFTWARE";

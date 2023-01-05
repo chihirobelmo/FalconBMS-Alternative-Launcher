@@ -59,6 +59,7 @@ namespace FalconBMS.Launcher
             Properties.Settings.Default.Misc_NaturalHeadMovement  = (bool)mainWindow.Misc_NaturalHeadMovement.IsChecked;
             Properties.Settings.Default.Misc_PilotModel           = (bool)mainWindow.Misc_PilotModel.IsChecked;
             Properties.Settings.Default.Misc_VR                   = (bool)mainWindow.Misc_VR.IsChecked;
+            Properties.Settings.Default.SelectedKeyFileName       = (string)mainWindow.KeyFileSelect.SelectedItem;
             Properties.Settings.Default.Save();
         }
 
