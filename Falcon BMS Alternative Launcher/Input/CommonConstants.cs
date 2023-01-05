@@ -39,5 +39,7 @@ namespace FalconBMS.Launcher.Input
         public static readonly int JOYNUMOFFSET = 2;
         public static readonly int JOYNUMUNASSIGNED = -1;
         public static readonly int JOYNUMMOUSEWHEEL = -2;
+
+        public static readonly string CFGOVERRIDECOMMENT = "// SETUP OVERRIDE";
     }
 }

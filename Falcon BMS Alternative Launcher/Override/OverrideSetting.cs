@@ -158,7 +158,7 @@ namespace FalconBMS.Launcher.Override
             while (cReader.Peek() >= 0)
             {
                 string stBuffer = cReader.ReadLine();
-                if (stBuffer.Contains("// SETUP OVERRIDE"))
+                if (stBuffer.Contains(CommonConstants.CFGOVERRIDECOMMENT))
                     continue;
                 stResult += stBuffer + "\r\n";
             }
@@ -167,14 +167,34 @@ namespace FalconBMS.Launcher.Override
             StreamWriter cfg = new StreamWriter
                 (filename, false, Encoding.GetEncoding("shift_jis"));
             cfg.Write(stResult);
-            cfg.Write("set g_nHotasPinkyShiftMagnitude " + deviceControl.joyAssign.Length * CommonConstants.DX32
-                + "          // SETUP OVERRIDE\r\n");
+
+            OverrideButtonsPerDevice(cfg, deviceControl);
+            OverrideHotasPinkyShiftMagnitude(cfg, deviceControl);
+            OverrideVRHMD(cfg);
+
             cfg.Write("set g_bHotasDgftSelfCancel " + Convert.ToInt32(mainWindow.Misc_OverrideSelfCancel.IsChecked)
-                + "          // SETUP OVERRIDE\r\n");
+                + CommonConstants.CFGOVERRIDECOMMENT + "\r\n");
             cfg.Write("set g_b3DClickableCursorAnchored " + Convert.ToInt32(mainWindow.Misc_MouseCursorAnchor.IsChecked)
-                + "          // SETUP OVERRIDE\r\n");
+                + CommonConstants.CFGOVERRIDECOMMENT + "\r\n");
+
+            OverridePovDeviceIDs(cfg, inGameAxis);
+
             cfg.Close();
         }
+
+        protected virtual void OverridePovDeviceIDs(StreamWriter cfg, Hashtable inGameAxis) { }
+
+        protected virtual void OverrideHotasPinkyShiftMagnitude(StreamWriter cfg, DeviceControl deviceControl) { }
+
+        protected virtual void OverrideButtonsPerDevice(StreamWriter cfg, DeviceControl deviceControl)
+        {
+            cfg.Write(
+                "set g_nButtonsPerDevice "
+                + CommonConstants.DX32
+                + CommonConstants.CFGOVERRIDECOMMENT + "\r\n");
+        }
+
+        protected virtual void OverrideVRHMD(StreamWriter cfg) { }
 
         /// <summary>
         /// As the name implies...
