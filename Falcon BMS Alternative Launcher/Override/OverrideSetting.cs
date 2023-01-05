@@ -237,60 +237,6 @@ namespace FalconBMS.Launcher.Override
         }
 
         /// <summary>
-        /// Overwrite callsign.plc and callsign.lbk file. (Perhaps this might be only valid for 4.34)
-        /// </summary>
-        protected void SavePlcLbk()
-        {
-            string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.GetPilotCallsign() + ".plc";
-            if (!File.Exists(filename))
-            {
-                byte[] nbs = {
-                    0x9C, 0x02, 0x91, 0x0D, 0x9D, 0x0C, 0xD3, 0x45, 0xC9, 0x16, 0x90, 0x00, 0x8A, 0x07, 0xD8, 0x6A,
-                    0xF4, 0x78, 0xF3, 0x69, 0xE4, 0x5D, 0xC3, 0xAF
-                };
-                FileStream nfs = new FileStream
-                    (filename, FileMode.Create, FileAccess.Write);
-                nfs.Write(nbs, 0, nbs.Length);
-                nfs.Close();
-            }
-
-            filename = appReg.GetInstallDir() + "/User/Config/" + appReg.GetPilotCallsign() + ".lbk";
-            if (!File.Exists(filename))
-            {
-                byte[] nbs = {
-                    0x54, 0x5A, 0x53, 0x10, 0x2F, 0x28, 0x64, 0x62, 0x65, 0x45, 0x3C, 0x53, 0x26, 0x54, 0x74, 0x39,
-                    0x58, 0x2B, 0x5F, 0x3A, 0x48, 0x58, 0x50, 0x4C, 0x4A, 0x57, 0x39, 0x19, 0x70, 0x03, 0x23, 0x5A,
-                    0x35, 0x40, 0x37, 0x17, 0x5A, 0x3B, 0x48, 0x3C, 0x59, 0x2B, 0x6D, 0x0C, 0x60, 0x33, 0x69, 0x28,
-                    0x38, 0x60, 0x3C, 0x2D, 0x6D, 0x02, 0x77, 0x05, 0x25, 0x68, 0x5F, 0x45, 0x41, 0x41, 0x41, 0x07,
-                    0x12, 0x7E, 0x1D, 0x72, 0x1C, 0x3C, 0x55, 0x26, 0x06, 0x7F, 0x10, 0x65, 0x17, 0x37, 0xFA, 0xA4,
-                    0xD7, 0xA3, 0xC6, 0xB4, 0xF2, 0x93, 0xFF, 0x9C, 0xF3, 0x9D, 0xBD, 0xD4, 0xA7, 0x87, 0xFE, 0x91,
-                    0xE4, 0x96, 0xB6, 0xFB, 0x9A, 0xE9, 0x9D, 0xF8, 0x8A, 0xCC, 0xAD, 0xC1, 0xA2, 0xCD, 0xA3, 0x83,
-                    0xEA, 0x99, 0xB9, 0xC0, 0xAF, 0xDA, 0xA8, 0x88, 0xC5, 0xA4, 0xD7, 0xA3, 0xC6, 0xB4, 0xF2, 0x93,
-                    0xFF, 0x9C, 0xF3, 0x9D, 0xBD, 0xD4, 0xA7, 0x87, 0xFE, 0x91, 0xE4, 0x96, 0xB6, 0xFB, 0x9A, 0xE9,
-                    0x9D, 0xF8, 0x8A, 0xCC, 0xCD, 0x4B, 0x28, 0x47, 0x29, 0x09, 0x60, 0x13, 0x33, 0x4A, 0x25, 0x50,
-                    0x22, 0x02, 0x4F, 0x2E, 0x5D, 0x29, 0x4C, 0x3E, 0x78, 0x19, 0x75, 0x16, 0x79, 0x17, 0x37, 0x5E,
-                    0x2D, 0x0D, 0x74, 0x1B, 0x6E, 0x1C, 0x3C, 0x71, 0x10, 0x63, 0x17, 0x72, 0xA2, 0xF5, 0x95, 0xF9,
-                    0x9A, 0xF5, 0x9B, 0xBB, 0xD2, 0xA1, 0x81, 0xF8, 0x97, 0xE2, 0x90, 0xB0, 0xFD, 0x9C, 0xEF, 0x9B,
-                    0xFE, 0x8C, 0xCA, 0xAB, 0xC7, 0xA4, 0xCB, 0xA5, 0x85, 0xEC, 0x9F, 0xBF, 0xC6, 0xA9, 0xDC, 0xAE,
-                    0x8E, 0xC3, 0xA2, 0xD1, 0xA5, 0xC0, 0xB2, 0xF4, 0x95, 0xF9, 0x9A, 0xF5, 0x9B, 0xBB, 0xD2, 0xA1,
-                    0x81, 0xF8, 0x97, 0xE2, 0x90, 0xB0, 0xFD, 0x9C, 0xEF, 0x9B, 0xFE, 0x8C, 0xCA, 0xAB, 0xC7, 0xA4,
-                    0xCB, 0xA5, 0x85, 0xEC, 0x9F, 0xBF, 0xC6, 0xA9, 0xDC, 0xAE, 0x8E, 0xC3, 0xA2, 0xD1, 0xA5, 0xC0,
-                    0xB2, 0xF4, 0x95, 0xF9, 0x9A, 0xF5, 0x9B, 0xBB, 0xD2, 0xA1, 0x81, 0xF8, 0x97, 0xE2, 0x90, 0xB0,
-                    0xFD, 0x9C, 0xEF, 0x9B, 0xFE, 0x8C, 0xCA, 0xAB, 0xC7, 0xA4, 0xCB, 0xA5, 0x85, 0xEC, 0x9F, 0xBF,
-                    0xC6, 0xA9, 0xDC, 0xAE, 0x8E, 0xC3, 0xA2, 0xD1, 0xA5, 0xC0, 0xB2, 0xF4, 0x95, 0xF9, 0x9A, 0xF5,
-                    0x9B, 0xBB, 0xD2, 0xA1, 0x81, 0xF8, 0x97, 0xE2, 0x90, 0xB0, 0xFD, 0x9C, 0xEF, 0x9B, 0xFE, 0x8C,
-                    0xCA, 0xAB, 0xC7, 0xA4, 0xCB, 0xA5, 0x85, 0xEC, 0x9F, 0xBF, 0xC6, 0xA9, 0xDC, 0xAE, 0x8E, 0xC3,
-                    0xA2, 0xD1, 0xA5, 0xC0, 0xB2, 0xF4, 0x95, 0xF9, 0x9A, 0xF5, 0x9B, 0xBB, 0xD2, 0xA1, 0x81, 0xF8,
-                    0x97, 0xE2, 0x90, 0xB0
-                };
-                FileStream nfs = new FileStream
-                    (filename, FileMode.Create, FileAccess.Write);
-                nfs.Write(nbs, 0, nbs.Length);
-                nfs.Close();
-            }
-        }
-
-        /// <summary>
         /// As the name inplies...
         /// </summary>
         protected void SaveAxisMapping(Hashtable inGameAxis, DeviceControl deviceControl)
@@ -344,8 +290,7 @@ namespace FalconBMS.Launcher.Override
             {
                 InGameAxAssgn currentAxis = (InGameAxAssgn)inGameAxis[nme.ToString()];
 
-                if (currentAxis.GetDeviceNumber() == CommonConstants.JOYNUMUNASSIGNED 
-                    || isRollLinkedNWSEnabled(nme))
+                if (!currentAxis.IsAssigned() || isRollLinkedNWSEnabled(nme))
                 {
                     bs = new byte[] 
                     {
@@ -357,7 +302,7 @@ namespace FalconBMS.Launcher.Override
                     fs.Write(bs, 0, bs.Length);
                     continue;
                 }
-                if (currentAxis.GetDeviceNumber() > CommonConstants.JOYNUMUNASSIGNED && 
+                if (currentAxis.IsJoyAssigned() && 
                     !isRollLinkedNWSEnabled(nme))
                 {
                     bs = new byte[] 
@@ -373,7 +318,7 @@ namespace FalconBMS.Launcher.Override
                     };
                     fs.Write(bs, 0, bs.Length);
                 }
-                if (currentAxis.GetDeviceNumber() == CommonConstants.JOYNUMMOUSEWHEEL)
+                if (currentAxis.IsMoushWheelAssigned())
                 {
                     bs = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
                     fs.Write(bs, 0, bs.Length);
@@ -394,7 +339,7 @@ namespace FalconBMS.Launcher.Override
             fs.Close();
         }
 
-        protected byte[] GetAxDeadZoneByte(AxCurve axCurve)
+        private byte[] GetAxDeadZoneByte(AxCurve axCurve)
         {
             var bs = new byte[] { 0x00, 0x00, 0x00, 0x00 };
             switch (axCurve)
@@ -415,7 +360,7 @@ namespace FalconBMS.Launcher.Override
             return bs;
         }
 
-        protected byte[] GetAxSaturationByte(AxCurve axCurve)
+        private byte[] GetAxSaturationByte(AxCurve axCurve)
         { 
             var bs = new byte[] { 0x00, 0x00, 0x00, 0x00 };
             switch (axCurve)
@@ -443,6 +388,7 @@ namespace FalconBMS.Launcher.Override
         {
             string filename = appReg.GetInstallDir() + "/User/Config/joystick.cal";
             string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/joystick.cal";
+
             if (!File.Exists(fbackupname) & File.Exists(filename))
                 File.Copy(filename, fbackupname, true);
 
@@ -455,8 +401,11 @@ namespace FalconBMS.Launcher.Override
             byte[] bs;
 
             AxisName[] localJoystickCalList = appReg.getOverrideWriter().getJoystickCalList();
+
             foreach (AxisName nme in localJoystickCalList)
             {
+                InGameAxAssgn currentAxis = (InGameAxAssgn)inGameAxis[nme.ToString()];
+
                 bs = new byte[] 
                 {
                     0x00, 0x00, 0x00, 0x00, 0x98, 0x3A, 0x00, 0x00,
@@ -464,16 +413,16 @@ namespace FalconBMS.Launcher.Override
                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
                     0x00, 0x00, 0x00, 0x00
                 };
-                if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() != -1 && !isRollLinkedNWSEnabled(nme))
+                if (currentAxis.IsAssigned() && !isRollLinkedNWSEnabled(nme))
                 {
                     bs[12] = 0x01;
 
                     if (nme == AxisName.Throttle)
                     {
-                        if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() >= 0)
+                        if (currentAxis.IsJoyAssigned())
                         {
-                            double iAB   = deviceControl.joyAssign[((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber()].detentPosition.GetAB();
-                            double iIdle = deviceControl.joyAssign[((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber()].detentPosition.GetIDLE();
+                            double iAB   = deviceControl.joyAssign[currentAxis.GetDeviceNumber()].detentPosition.GetAB();
+                            double iIdle = deviceControl.joyAssign[currentAxis.GetDeviceNumber()].detentPosition.GetIDLE();
 
                             iAB   = iAB   * CommonConstants.BINAXISMAX / CommonConstants.AXISMAX;
                             iIdle = iIdle * CommonConstants.BINAXISMAX / CommonConstants.AXISMAX;
@@ -492,7 +441,7 @@ namespace FalconBMS.Launcher.Override
                         }
                     }
                 }
-                if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetInvert())
+                if (currentAxis.GetInvert())
                 {
                     bs[20] = 0x01;
                 }

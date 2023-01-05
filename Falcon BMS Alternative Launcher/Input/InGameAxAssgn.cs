@@ -35,6 +35,19 @@ namespace FalconBMS.Launcher.Input
             this.saturation = saturation;
         }
 
+        public bool IsAssigned()
+        {
+            return GetDeviceNumber() != CommonConstants.JOYNUMUNASSIGNED;
+        }
+        public bool IsJoyAssigned()
+        {
+            return GetDeviceNumber() > CommonConstants.JOYNUMUNASSIGNED;
+        }
+        public bool IsMoushWheelAssigned()
+        {
+            return GetDeviceNumber() == CommonConstants.JOYNUMMOUSEWHEEL;
+        }
+
         public int GetDeviceNumber() 
         {
             for (int i = 0; i < MainWindow.deviceControl.joyAssign.Length; i++)
