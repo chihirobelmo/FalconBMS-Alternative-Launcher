@@ -144,8 +144,8 @@ namespace FalconBMS.Launcher.Override
         /// </summary>
         protected virtual void SaveConfigfile(Hashtable inGameAxis, DeviceControl deviceControl)
         {
-            string filename = appReg.GetInstallDir() + CommonConstants.CONFIGFOLDER + CommonConstants.CFGFILE;
-            string fbackupname = appReg.GetInstallDir() + CommonConstants.BACKUPFOLDER + CommonConstants.CFGFILE;
+            string filename = appReg.GetInstallDir() + CommonConstants.CONFIGFOLDER + CommonConstants.USERCFGFILE;
+            string fbackupname = appReg.GetInstallDir() + CommonConstants.BACKUPFOLDER + CommonConstants.USERCFGFILE;
             if (!File.Exists(fbackupname) & File.Exists(filename))
                 File.Copy(filename, fbackupname, true);
 
