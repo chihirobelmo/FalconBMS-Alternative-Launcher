@@ -59,32 +59,27 @@ namespace FalconBMS.Launcher.Override
             cfg.Close();
         }
 
-        protected override void SaveKeyMapping(Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile, int DXnumber)
+        protected override void WriteKeyLines(string filename, Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile, int DXnumber)
         {
-            string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.getKeyUserFileName();
-            appReg.SetUserKeyFileName(appReg.getKeyUserFileName());
-            mainWindow.SetDefaultKeyFile();
-            mainWindow.KeyFileSelect_SelectKeyFile();
-
-            if (File.Exists(filename))
-                File.SetAttributes(filename, File.GetAttributes(filename) & ~FileAttributes.ReadOnly);
-
             StreamWriter sw = new StreamWriter
                 (filename, false, Encoding.GetEncoding("utf-8"));
             for (int i = 0; i < keyFile.keyAssign.Length; i++)
                 sw.Write(keyFile.keyAssign[i].GetKeyLine());
             for (int i = 0; i < deviceControl.joyAssign.Length; i++)
             {
+                InGameAxAssgn rollAxis = (InGameAxAssgn)inGameAxis["Roll"];
+                InGameAxAssgn throttleAxis = (InGameAxAssgn)inGameAxis["Throttle"];
+
                 sw.Write(deviceControl.joyAssign[i].GetKeyLineDX(i, deviceControl.joyAssign.Length, DXnumber));
                 // PRIMARY DEVICE POV
-                if (((InGameAxAssgn)inGameAxis["Roll"]).GetDeviceNumber() == i && ((InGameAxAssgn)inGameAxis["Roll"]).GetDeviceNumber() == ((InGameAxAssgn)inGameAxis["Throttle"]).GetDeviceNumber())
+                if (rollAxis.GetDeviceNumber() == i && rollAxis.GetDeviceNumber() == throttleAxis.GetDeviceNumber())
                 {
                     sw.Write(deviceControl.joyAssign[i].GetKeyLinePOV());
                     continue;
                 }
-                if (((InGameAxAssgn)inGameAxis["Roll"]).GetDeviceNumber() == i)
+                if (rollAxis.GetDeviceNumber() == i)
                     sw.Write(deviceControl.joyAssign[i].GetKeyLinePOV(0));
-                if (((InGameAxAssgn)inGameAxis["Throttle"]).GetDeviceNumber() == i)
+                if (throttleAxis.GetDeviceNumber() == i)
                     sw.Write(deviceControl.joyAssign[i].GetKeyLinePOV(1));
             }
             sw.Close();

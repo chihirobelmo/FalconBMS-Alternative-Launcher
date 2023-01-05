@@ -210,15 +210,22 @@ namespace FalconBMS.Launcher.Override
             if (File.Exists(filename))
                 File.SetAttributes(filename, File.GetAttributes(filename) & ~FileAttributes.ReadOnly);
 
+            WriteKeyLines(filename, inGameAxis, deviceControl, keyFile, DXnumber);
+        }
+
+        protected virtual void WriteKeyLines(string filename, Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile, int DXnumber)
+        {
             StreamWriter sw = new StreamWriter
                 (filename, false, Encoding.GetEncoding("utf-8"));
             for (int i = 0; i < keyFile.keyAssign.Length; i++)
                 sw.Write(keyFile.keyAssign[i].GetKeyLine());
             for (int i = 0; i < deviceControl.joyAssign.Length; i++)
             {
+                InGameAxAssgn rollAxis = (InGameAxAssgn)inGameAxis["Roll"];
+
                 sw.Write(deviceControl.joyAssign[i].GetKeyLineDX(i, deviceControl.joyAssign.Length, DXnumber));
                 // PRIMARY DEVICE POV
-                if (((InGameAxAssgn)inGameAxis["Roll"]).GetDeviceNumber() == i) 
+                if (rollAxis.GetDeviceNumber() == i)
                     sw.Write(deviceControl.joyAssign[i].GetKeyLinePOV());
             }
             sw.Close();
