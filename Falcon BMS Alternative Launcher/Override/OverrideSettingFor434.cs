@@ -24,69 +24,20 @@ namespace FalconBMS.Launcher.Override
         {
         }
 
-        /// <summary>
-        /// As the name implies...
-        /// </summary>
-        protected override void SaveJoystickCal(Hashtable inGameAxis, DeviceControl deviceControl)
+        protected override void SetJoyCalDefaultByte(ref byte[] bs)
         {
-            string filename = appReg.GetInstallDir() + "/User/Config/joystick.cal";
-            string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/joystick.cal";
-            if (!File.Exists(fbackupname) & File.Exists(filename))
-                File.Copy(filename, fbackupname, true);
-
-            if (File.Exists(filename))
-                File.SetAttributes(filename, File.GetAttributes(filename) & ~FileAttributes.ReadOnly);
-
-            FileStream fs = new FileStream
-                (filename, FileMode.Create, FileAccess.Write);
-
-            byte[] bs;
-
-            AxisName[] localJoystickCalList = appReg.getOverrideWriter().getJoystickCalList();
-            foreach (AxisName nme in localJoystickCalList)
+            bs = new byte[]
             {
-                bs = new byte[]
-                {
-                    0x00, 0x00, 0x00, 0x00, 0x98, 0x3A, 0x00, 0x00,
-                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-                };
-                if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() != -1 && !isRollLinkedNWSEnabled(nme))
-                {
-                    bs[12] = 0x01;
+                0x00, 0x00, 0x00, 0x00, 0x98, 0x3A, 0x00, 0x00,
+                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+            };
+        }
 
-                    if (nme == AxisName.Throttle)
-                    {
-                        if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() >= 0)
-                        {
-                            double iAB   = deviceControl.joyAssign[((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber()].detentPosition.GetAB();
-                            double iIdle = deviceControl.joyAssign[((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber()].detentPosition.GetIDLE();
-
-                            iAB   = iAB   * CommonConstants.BINAXISMAX / CommonConstants.AXISMAX;
-                            iIdle = iIdle * CommonConstants.BINAXISMAX / CommonConstants.AXISMAX;
-
-                            if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetInvert() == false)
-                            {
-                                iAB   = CommonConstants.BINAXISMAX - iAB;
-                                iIdle = CommonConstants.BINAXISMAX - iIdle;
-                            }
-
-                            byte[] ab   = BitConverter.GetBytes((int)iAB).Reverse().ToArray();
-                            byte[] idle = BitConverter.GetBytes((int)iIdle).Reverse().ToArray();
-
-                            bs[1] = ab[2];
-                            bs[5] = idle[2];
-                        }
-                    }
-                }
-                if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetInvert())
-                {
-                    bs[20] = 0x01;
-                    bs[21] = 0x01;
-                }
-                fs.Write(bs, 0, bs.Length);
-            }
-            fs.Close();
+        protected override void SetJoyCalInvertByte(ref byte[] bs)
+        {
+            bs[20] = 0x01;
+            bs[21] = 0x01;
         }
 
         protected override void SavePop()

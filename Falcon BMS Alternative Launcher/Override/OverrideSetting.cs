@@ -398,7 +398,7 @@ namespace FalconBMS.Launcher.Override
             FileStream fs = new FileStream
                 (filename, FileMode.Create, FileAccess.Write);
 
-            byte[] bs;
+            byte[] bs = new byte[] { 0x00 };
 
             AxisName[] localJoystickCalList = appReg.getOverrideWriter().getJoystickCalList();
 
@@ -406,48 +406,56 @@ namespace FalconBMS.Launcher.Override
             {
                 InGameAxAssgn currentAxis = (InGameAxAssgn)inGameAxis[nme.ToString()];
 
-                bs = new byte[] 
-                {
-                    0x00, 0x00, 0x00, 0x00, 0x98, 0x3A, 0x00, 0x00,
-                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                    0x00, 0x00, 0x00, 0x00
-                };
+                SetJoyCalDefaultByte(ref bs);
+
                 if (currentAxis.IsAssigned() && !isRollLinkedNWSEnabled(nme))
                 {
                     bs[12] = 0x01;
 
-                    if (nme == AxisName.Throttle)
+                    if (nme == AxisName.Throttle && currentAxis.IsJoyAssigned())
                     {
-                        if (currentAxis.IsJoyAssigned())
+                        double iAB = deviceControl.joyAssign[currentAxis.GetDeviceNumber()].detentPosition.GetAB();
+                        double iIdle = deviceControl.joyAssign[currentAxis.GetDeviceNumber()].detentPosition.GetIDLE();
+
+                        iAB = iAB * CommonConstants.BINAXISMAX / CommonConstants.AXISMAX;
+                        iIdle = iIdle * CommonConstants.BINAXISMAX / CommonConstants.AXISMAX;
+
+                        if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetInvert() == false)
                         {
-                            double iAB   = deviceControl.joyAssign[currentAxis.GetDeviceNumber()].detentPosition.GetAB();
-                            double iIdle = deviceControl.joyAssign[currentAxis.GetDeviceNumber()].detentPosition.GetIDLE();
-
-                            iAB   = iAB   * CommonConstants.BINAXISMAX / CommonConstants.AXISMAX;
-                            iIdle = iIdle * CommonConstants.BINAXISMAX / CommonConstants.AXISMAX;
-
-                            if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetInvert() == false)
-                            {
-                                iAB   = CommonConstants.BINAXISMAX - iAB;
-                                iIdle = CommonConstants.BINAXISMAX - iIdle;
-                            }
-
-                            byte[] ab   = BitConverter.GetBytes((int)iAB).Reverse().ToArray();
-                            byte[] idle = BitConverter.GetBytes((int)iIdle).Reverse().ToArray();
-
-                            bs[1] = ab[2];
-                            bs[5] = idle[2];
+                            iAB = CommonConstants.BINAXISMAX - iAB;
+                            iIdle = CommonConstants.BINAXISMAX - iIdle;
                         }
+
+                        byte[] ab = BitConverter.GetBytes((int)iAB).Reverse().ToArray();
+                        byte[] idle = BitConverter.GetBytes((int)iIdle).Reverse().ToArray();
+
+                        bs[1] = ab[2];
+                        bs[5] = idle[2];
                     }
                 }
                 if (currentAxis.GetInvert())
                 {
-                    bs[20] = 0x01;
+                    SetJoyCalInvertByte(ref bs);
                 }
                 fs.Write(bs, 0, bs.Length);
             }
             fs.Close();
+        }
+
+        protected virtual void SetJoyCalDefaultByte(ref byte[] bs)
+        {
+            bs = new byte[]
+            {
+                0x00, 0x00, 0x00, 0x00, 0x98, 0x3A, 0x00, 0x00,
+                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                0x00, 0x00, 0x00, 0x00
+            };
+        }
+
+        protected virtual void SetJoyCalInvertByte(ref byte[] bs)
+        {
+            bs[20] = 0x01;
         }
 
         protected bool isRollLinkedNWSEnabled(AxisName nme)
