@@ -42,7 +42,7 @@ namespace FalconBMS.Launcher.Override
 
         protected override void SavePop()
         {
-            string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.GetPilotCallsign() + ".pop";
+            string filename = appReg.GetInstallDir() + CommonConstants.CONFIGFOLDER + appReg.GetPilotCallsign() + ".pop";
             if (!File.Exists(filename))
             {
                 byte[] nbs = {
@@ -78,7 +78,7 @@ namespace FalconBMS.Launcher.Override
                 nfs.Write(nbs, 0, nbs.Length);
                 nfs.Close();
             }
-            string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/" + appReg.GetPilotCallsign() + ".pop";
+            string fbackupname = appReg.GetInstallDir() + CommonConstants.BACKUPFOLDER + appReg.GetPilotCallsign() + ".pop";
             if (!File.Exists(fbackupname))
                 File.Copy(filename, fbackupname, true);
 

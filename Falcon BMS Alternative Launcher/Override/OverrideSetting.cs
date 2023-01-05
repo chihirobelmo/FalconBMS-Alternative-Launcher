@@ -38,8 +38,8 @@ namespace FalconBMS.Launcher.Override
         /// <param name="visualAcuity"></param>
         public void Execute(Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile)
         {
-            if (!Directory.Exists(appReg.GetInstallDir() + "/User/Config/Backup/"))
-                Directory.CreateDirectory(appReg.GetInstallDir() + "/User/Config/Backup/");
+            if (!Directory.Exists(appReg.GetInstallDir() + CommonConstants.BACKUPFOLDER))
+                Directory.CreateDirectory(appReg.GetInstallDir() + CommonConstants.BACKUPFOLDER);
 
             SaveAxisMapping(inGameAxis, deviceControl);
             SaveJoystickCal(inGameAxis, deviceControl);
@@ -54,8 +54,8 @@ namespace FalconBMS.Launcher.Override
 
         protected void SaveWindowConfig()
         {
-            string filename = appReg.GetInstallDir() + "/User/Config/windowconfig.dat";
-            string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/windowconfig.dat";
+            string filename = appReg.GetInstallDir() + CommonConstants.CONFIGFOLDER + "windowconfig.dat";
+            string fbackupname = appReg.GetInstallDir() + CommonConstants.BACKUPFOLDER + "windowconfig.dat";
             if (!File.Exists(fbackupname) & File.Exists(filename))
                 File.Copy(filename, fbackupname, true);
             if (File.Exists(filename))
@@ -111,7 +111,7 @@ namespace FalconBMS.Launcher.Override
 
             for (int i = 0; i < deviceControl.joyAssign.Length; i++)
             {
-                fileName = appReg.GetInstallDir() + "/User/Config/Setup.v100." + deviceControl.joyAssign[i].GetProductName().Replace("/", "-")
+                fileName = appReg.GetInstallDir() + CommonConstants.CONFIGFOLDER + CommonConstants.SETUPV100 + deviceControl.joyAssign[i].GetProductName().Replace("/", "-")
                 + " {" + deviceControl.joyAssign[i].GetInstanceGUID().ToString().ToUpper() + "}.xml";
 
                 try
@@ -130,7 +130,7 @@ namespace FalconBMS.Launcher.Override
                 }
 
             }
-            fileName = appReg.GetInstallDir() + "/User/Config/Setup.v100.MouseWheel.xml";
+            fileName = appReg.GetInstallDir() + CommonConstants.CONFIGFOLDER + CommonConstants.SETUPV100 + CommonConstants.MOUSEXML;
 
             serializer = new XmlSerializer(typeof(AxAssgn));
             sw = new StreamWriter(fileName, false, new UTF8Encoding(false));
@@ -144,8 +144,8 @@ namespace FalconBMS.Launcher.Override
         /// </summary>
         protected virtual void SaveConfigfile(Hashtable inGameAxis, DeviceControl deviceControl)
         {
-            string filename = appReg.GetInstallDir() + "/User/Config/falcon bms.cfg";
-            string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/falcon bms.cfg";
+            string filename = appReg.GetInstallDir() + CommonConstants.CONFIGFOLDER + "falcon bms.cfg";
+            string fbackupname = appReg.GetInstallDir() + CommonConstants.BACKUPFOLDER + "falcon bms.cfg";
             if (!File.Exists(fbackupname) & File.Exists(filename))
                 File.Copy(filename, fbackupname, true);
 
@@ -207,7 +207,7 @@ namespace FalconBMS.Launcher.Override
 
             // BMS overwrites DeviceSorting.txt if was written in UTF-8.
             string filename = appReg.GetInstallDir() + "/User/Config/DeviceSorting.txt";
-            string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/DeviceSorting.txt";
+            string fbackupname = appReg.GetInstallDir() + CommonConstants.BACKUPFOLDER + "DeviceSorting.txt";
             if (!File.Exists(fbackupname) & File.Exists(filename))
                 File.Copy(filename, fbackupname, true);
 
@@ -222,7 +222,7 @@ namespace FalconBMS.Launcher.Override
 
         protected virtual void SaveKeyMapping(Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile, int DXnumber)
         {
-            string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.getKeyUserFileName();
+            string filename = appReg.GetInstallDir() + CommonConstants.CONFIGFOLDER + appReg.getKeyUserFileName();
             appReg.SetUserKeyFileName(appReg.getKeyUserFileName());
             mainWindow.SetDefaultKeyFile();
             mainWindow.KeyFileSelect_SelectKeyFile();
@@ -268,8 +268,8 @@ namespace FalconBMS.Launcher.Override
         /// </summary>
         protected void SaveAxisMapping(Hashtable inGameAxis, DeviceControl deviceControl)
         {
-            string filename = appReg.GetInstallDir() + "/User/Config/axismapping.dat";
-            string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/axismapping.dat";
+            string filename = appReg.GetInstallDir() + CommonConstants.CONFIGFOLDER + "axismapping.dat";
+            string fbackupname = appReg.GetInstallDir() + CommonConstants.BACKUPFOLDER + "axismapping.dat";
 
             if (!File.Exists(fbackupname) & File.Exists(filename))
                 File.Copy(filename, fbackupname, true);
@@ -413,8 +413,8 @@ namespace FalconBMS.Launcher.Override
         /// </summary>
         protected virtual void SaveJoystickCal(Hashtable inGameAxis, DeviceControl deviceControl)
         {
-            string filename = appReg.GetInstallDir() + "/User/Config/joystick.cal";
-            string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/joystick.cal";
+            string filename = appReg.GetInstallDir() + CommonConstants.CONFIGFOLDER + "joystick.cal";
+            string fbackupname = appReg.GetInstallDir() + CommonConstants.BACKUPFOLDER + "joystick.cal";
 
             if (!File.Exists(fbackupname) & File.Exists(filename))
                 File.Copy(filename, fbackupname, true);

@@ -41,5 +41,19 @@ namespace FalconBMS.Launcher.Input
         public static readonly int JOYNUMMOUSEWHEEL = -2;
 
         public static readonly string CFGOVERRIDECOMMENT = "// SETUP OVERRIDE";
+
+        public static readonly string DEFAULTPILOTNAME = "Joe Pilot";
+        public static readonly string DEFAULTCALLSIGN = "Viper";
+
+        public static readonly string SETUPV100 = "Setup.v100.";
+        public static readonly string STOCKXML = " {Stock}.xml";
+        public static readonly string MOUSEXML = " Mousewheel.xml";
+        public static readonly string LOGCAT = "bms-logcat.exe";
+
+        public static readonly string STOCKFOLDER = "/Stock/";
+        public static readonly string CONFIGFOLDER = "/User/Config/";
+        public static readonly string BACKUPFOLDER = "/User/Config/Backup/";
+        public static readonly string LAUNCHERFOLDER = "/Launcher";
+        public static readonly string CONFIGFOLDERBACKSLASH = "\\User\\Config\\";
     }
 }

@@ -24,7 +24,7 @@ namespace FalconBMS.Launcher.Windows
         {
             KeyFileList = new ObservableCollection<string>();
 
-            string[] keyfileList = Directory.GetFiles(appReg.GetInstallDir() + "/User/config/", "*.key", System.IO.SearchOption.AllDirectories);
+            string[] keyfileList = Directory.GetFiles(appReg.GetInstallDir() + CommonConstants.CONFIGFOLDER, "*.key", System.IO.SearchOption.AllDirectories);
 
             foreach (string Key in keyfileList)
             {
