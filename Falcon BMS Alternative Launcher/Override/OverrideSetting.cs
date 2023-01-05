@@ -297,6 +297,7 @@ namespace FalconBMS.Launcher.Override
         {
             string filename = appReg.GetInstallDir() + "/User/Config/axismapping.dat";
             string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/axismapping.dat";
+
             if (!File.Exists(fbackupname) & File.Exists(filename))
                 File.Copy(filename, fbackupname, true);
 
@@ -307,18 +308,19 @@ namespace FalconBMS.Launcher.Override
                 (filename, FileMode.Create, FileAccess.Write);
 
             byte[] bs;
-            
-            if (((InGameAxAssgn)inGameAxis["Pitch"]).GetDeviceNumber() > -1)
+
+            InGameAxAssgn pitchAxis = (InGameAxAssgn)inGameAxis["Pitch"];
+
+            if (pitchAxis.GetDeviceNumber() > CommonConstants.JOYNUMUNASSIGNED)
             {
                 bs = new byte[] 
                 {
-                    (byte)(((InGameAxAssgn)inGameAxis["Pitch"]).GetDeviceNumber()+2),
+                    (byte)(pitchAxis.GetDeviceNumber() + CommonConstants.JOYNUMOFFSET),
                     0x00, 0x00, 0x00
                 };
                 fs.Write(bs, 0, bs.Length);
 
-                bs = deviceControl.joyAssign[(byte)((InGameAxAssgn)inGameAxis["Pitch"]).GetDeviceNumber()]
-                    .GetInstanceGUID().ToByteArray();
+                bs = deviceControl.joyAssign[pitchAxis.GetDeviceNumber()].GetInstanceGUID().ToByteArray();
                 fs.Write(bs, 0, bs.Length);
 
                 bs = new byte[] { (byte)deviceControl.joyAssign.Length, 0x00, 0x00, 0x00 };
@@ -337,9 +339,13 @@ namespace FalconBMS.Launcher.Override
             }
 
             AxisName[] localAxisMappingList = getAxisMappingList();
+
             foreach (AxisName nme in localAxisMappingList)
             {
-                if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() == -1 || isRollLinkedNWSEnabled(nme))
+                InGameAxAssgn currentAxis = (InGameAxAssgn)inGameAxis[nme.ToString()];
+
+                if (currentAxis.GetDeviceNumber() == CommonConstants.JOYNUMUNASSIGNED 
+                    || isRollLinkedNWSEnabled(nme))
                 {
                     bs = new byte[] 
                     {
@@ -351,64 +357,83 @@ namespace FalconBMS.Launcher.Override
                     fs.Write(bs, 0, bs.Length);
                     continue;
                 }
-                if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() > -1 && !isRollLinkedNWSEnabled(nme))
+                if (currentAxis.GetDeviceNumber() > CommonConstants.JOYNUMUNASSIGNED && 
+                    !isRollLinkedNWSEnabled(nme))
                 {
                     bs = new byte[] 
                     {
-                        (byte)(((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber()+2),
+                        (byte)(currentAxis.GetDeviceNumber() + CommonConstants.JOYNUMOFFSET),
                         0x00, 0x00, 0x00
                     };
                     fs.Write(bs, 0, bs.Length);
                     bs = new byte[] 
                     {
-                        (byte)((InGameAxAssgn)inGameAxis[nme.ToString()]).GetPhysicalNumber(),
+                        (byte)currentAxis.GetPhysicalNumber(),
                         0x00, 0x00, 0x00
                     };
                     fs.Write(bs, 0, bs.Length);
                 }
-                if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() == -2)
+                if (currentAxis.GetDeviceNumber() == CommonConstants.JOYNUMMOUSEWHEEL)
                 {
                     bs = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
                     fs.Write(bs, 0, bs.Length);
                 }
-                switch (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeadzone())
-                {
-                    case AxCurve.None:
-                        bs = new byte[] { 0x00, 0x00, 0x00, 0x00 };
-                        break;
-                    case AxCurve.Small:
-                        bs = new byte[] { 0x64, 0x00, 0x00, 0x00 };
-                        break;
-                    case AxCurve.Medium:
-                        bs = new byte[] { 0xF4, 0x01, 0x00, 0x00 };
-                        break;
-                    case AxCurve.Large:
-                        bs = new byte[] { 0xE8, 0x03, 0x00, 0x00 };
-                        break;
-                }
-                if (isRollLinkedNWSEnabled(nme))
-                    bs = new byte[] { 0x00, 0x00, 0x00, 0x00 };
+
+                bs = isRollLinkedNWSEnabled(nme) ?
+                    new byte[] { 0x00, 0x00, 0x00, 0x00 } :
+                    GetAxDeadZoneByte(currentAxis.GetDeadzone());
+
                 fs.Write(bs, 0, bs.Length);
-                switch (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetSaturation())
-                {
-                    case AxCurve.None:
-                        bs = new byte[] { 0xFF, 0xFF, 0xFF, 0xFF };
-                        break;
-                    case AxCurve.Small:
-                        bs = new byte[] { 0x1C, 0x25, 0x00, 0x00 };
-                        break;
-                    case AxCurve.Medium:
-                        bs = new byte[] { 0x28, 0x23, 0x00, 0x00 };
-                        break;
-                    case AxCurve.Large:
-                        bs = new byte[] { 0x34, 0x21, 0x00, 0x00 };
-                        break;
-                }
-                if (isRollLinkedNWSEnabled(nme))
-                    bs = new byte[] { 0x00, 0x00, 0x00, 0x00 };
+
+                bs = isRollLinkedNWSEnabled(nme) ? 
+                    new byte[] { 0x00, 0x00, 0x00, 0x00 } :
+                    GetAxSaturationByte(currentAxis.GetSaturation());
+
                 fs.Write(bs, 0, bs.Length);
             }
             fs.Close();
+        }
+
+        protected byte[] GetAxDeadZoneByte(AxCurve axCurve)
+        {
+            var bs = new byte[] { 0x00, 0x00, 0x00, 0x00 };
+            switch (axCurve)
+            {
+                case AxCurve.None:
+                    bs = new byte[] { 0x00, 0x00, 0x00, 0x00 };
+                    break;
+                case AxCurve.Small:
+                    bs = new byte[] { 0x64, 0x00, 0x00, 0x00 };
+                    break;
+                case AxCurve.Medium:
+                    bs = new byte[] { 0xF4, 0x01, 0x00, 0x00 };
+                    break;
+                case AxCurve.Large:
+                    bs = new byte[] { 0xE8, 0x03, 0x00, 0x00 };
+                    break;
+            }
+            return bs;
+        }
+
+        protected byte[] GetAxSaturationByte(AxCurve axCurve)
+        { 
+            var bs = new byte[] { 0x00, 0x00, 0x00, 0x00 };
+            switch (axCurve)
+            {
+                case AxCurve.None:
+                    bs = new byte[] { 0xFF, 0xFF, 0xFF, 0xFF };
+                    break;
+                case AxCurve.Small:
+                    bs = new byte[] { 0x1C, 0x25, 0x00, 0x00 };
+                    break;
+                case AxCurve.Medium:
+                    bs = new byte[] { 0x28, 0x23, 0x00, 0x00 };
+                    break;
+                case AxCurve.Large:
+                    bs = new byte[] { 0x34, 0x21, 0x00, 0x00 };
+                    break;
+            }
+            return bs;
         }
 
         /// <summary>

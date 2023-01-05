@@ -35,5 +35,9 @@ namespace FalconBMS.Launcher.Input
 
         public static readonly string DEFAULTKEY = "BMS - Full";
         public static readonly string USERKEY    = "BMS - Auto";
+
+        public static readonly int JOYNUMOFFSET = 2;
+        public static readonly int JOYNUMUNASSIGNED = -1;
+        public static readonly int JOYNUMMOUSEWHEEL = -2;
     }
 }

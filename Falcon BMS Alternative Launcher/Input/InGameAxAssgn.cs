@@ -40,9 +40,11 @@ namespace FalconBMS.Launcher.Input
             for (int i = 0; i < MainWindow.deviceControl.joyAssign.Length; i++)
                 if (MainWindow.deviceControl.joyAssign[i] == joy)
                     return i;
+
             if (MainWindow.deviceControl.mouse == joy)
-                return -2;
-            return -1;
+                return CommonConstants.JOYNUMMOUSEWHEEL;
+
+            return CommonConstants.JOYNUMUNASSIGNED;
         }
         public Device GetDevice()
         {
