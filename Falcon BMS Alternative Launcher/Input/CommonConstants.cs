@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace FalconBMS.Launcher.Input
 {
@@ -29,6 +30,9 @@ namespace FalconBMS.Launcher.Input
 
         public static readonly int AXISMIN = 0;
         public static readonly int AXISMAX = 65536;
+
+        public static readonly int FLUSHTIME1 = 1000;
+        public static readonly int FLUSHTIME2 = 1666;
 
         public static readonly int BINAXISMIN = 0;
         public static readonly int BINAXISMAX = 15000;
@@ -59,5 +63,12 @@ namespace FalconBMS.Launcher.Input
         public static readonly string CONFIGFOLDERBACKSLASH = "\\User\\Config\\";
 
         public static readonly string SIMDONOTHING = "SimDoNothing";
+
+        public static readonly SolidColorBrush LIGHTBLUE  = new SolidColorBrush(Color.FromArgb(0x80, 0x38, 0x78, 0xA8));
+        public static readonly SolidColorBrush LIGHTRED   = new SolidColorBrush(Color.FromArgb(0x80, 240, 0, 0));
+        public static readonly SolidColorBrush LIGHTGREEN = new SolidColorBrush(Color.FromArgb(0x80, 0, 240, 0));
+        public static readonly SolidColorBrush GREYBLUE   = new SolidColorBrush(Color.FromArgb(0xFF, 0x99, 0xD9, 0xEA));
+        public static readonly SolidColorBrush WHITEILUM  = new SolidColorBrush(Color.FromArgb(0xFF, 0xF7, 0xF7, 0xF7));
+        public static readonly SolidColorBrush BLUEILUM   = new SolidColorBrush(Color.FromArgb(255, 128, 255, 255));
     }
 }

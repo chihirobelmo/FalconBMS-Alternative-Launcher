@@ -435,17 +435,17 @@ namespace FalconBMS.Launcher.Windows
                 case Invoke.Default:
                     invokeStatus = Invoke.Down;
                     Select_Invoke.Content = "INVOKE KEYDN";
-                    Select_Invoke.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x99, 0xD9, 0xEA));
+                    Select_Invoke.Background = CommonConstants.GREYBLUE;
                     break;
                 case Invoke.Down:
                     invokeStatus = Invoke.Up;
                     Select_Invoke.Content = "INVOKE KEYUP";
-                    Select_Invoke.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x99, 0xD9, 0xEA));
+                    Select_Invoke.Background = CommonConstants.GREYBLUE;
                     break;
                 case Invoke.Up:
                     invokeStatus = Invoke.Default;
                     Select_Invoke.Content = "INVOKE BOTH";
-                    Select_Invoke.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xF7, 0xF7, 0xF7));
+                    Select_Invoke.Background = CommonConstants.WHITEILUM;
                     break;
             }
         }

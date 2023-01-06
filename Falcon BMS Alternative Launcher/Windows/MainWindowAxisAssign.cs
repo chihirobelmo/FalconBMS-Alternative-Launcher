@@ -216,7 +216,7 @@ namespace FalconBMS.Launcher.Windows
                     tblabelab = FindName("AB_" + nme) as Label;
                     tblabelab.Visibility = Visibility.Hidden;
 
-                    tbprogressbar.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 0x38, 0x78, 0xA8));
+                    tbprogressbar.Foreground = CommonConstants.LIGHTBLUE;
 
                     InGameAxAssgn throttleAxis = (InGameAxAssgn)MainWindow.inGameAxis[AxisName.Throttle.ToString()];
                     if (throttleAxis.GetDeviceNumber() >= 0)
@@ -224,14 +224,14 @@ namespace FalconBMS.Launcher.Windows
                         if ( !axis.GetInvert() && CommonConstants.AXISMAX + tbprogressbar.Value < deviceControl.GetIDLE(AxisName.Throttle) ||
                               axis.GetInvert() && CommonConstants.AXISMIN + tbprogressbar.Value < deviceControl.GetIDLE(AxisName.Throttle) ) 
                         {
-                            tbprogressbar.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 240, 0, 0));
+                            tbprogressbar.Foreground = CommonConstants.LIGHTRED;
                             tblabelab.Visibility = Visibility.Visible;
                             tblabelab.Content = "IDLE CUTOFF";
                         }
                         if ( !axis.GetInvert() && CommonConstants.AXISMAX + tbprogressbar.Value > deviceControl.GetAB(AxisName.Throttle) ||
                               axis.GetInvert() && CommonConstants.AXISMIN + tbprogressbar.Value > deviceControl.GetAB(AxisName.Throttle) )
                         {
-                            tbprogressbar.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 0, 240, 0));
+                            tbprogressbar.Foreground = CommonConstants.LIGHTGREEN;
                             tblabelab.Visibility = Visibility.Visible;
                             tblabelab.Content = "AB";
                         }

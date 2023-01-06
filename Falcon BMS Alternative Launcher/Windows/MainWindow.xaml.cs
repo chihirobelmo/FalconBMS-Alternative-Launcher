@@ -664,14 +664,14 @@ namespace FalconBMS.Launcher.Windows
                     Button tbButton = FindName(nme) as Button;
                     if (tbButton == null)
                         return;
-                    tbButton.BorderBrush = new SolidColorBrush(Colors.LightBlue);
+                    tbButton.BorderBrush = CommonConstants.LIGHTBLUE;
                     tbButton.BorderThickness = new Thickness(1);
 
                     nme = nme.Replace("Launch_", "");
                     Label tblabel = FindName("Label_" + nme) as Label;
                     if (tblabel == null)
                         return;
-                    tblabel.Foreground = new SolidColorBrush(Color.FromArgb(255, 128, 255, 255));
+                    tblabel.Foreground = CommonConstants.BLUEILUM;
                 }
             }
             catch (Exception ex)
@@ -704,7 +704,7 @@ namespace FalconBMS.Launcher.Windows
                     Label tblabel = FindName("Label_" + nme) as Label;
                     if (tblabel == null)
                         return;
-                    tblabel.Foreground = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
+                    tblabel.Foreground = CommonConstants.WHITEILUM;
                 }
             }
             catch (Exception ex)
