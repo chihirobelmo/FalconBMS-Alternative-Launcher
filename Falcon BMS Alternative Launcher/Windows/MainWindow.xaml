@@ -193,7 +193,7 @@
                             <Label x:Name="Label_EDIT" Content="Editor&#xD;&#xA;" HorizontalAlignment="Left" Margin="509,0,0,0" VerticalAlignment="Bottom" Foreground="#FFF0F0F0" HorizontalContentAlignment="Center" FontWeight="Bold" FontSize="8"/>
                         </Grid>
                     </Border>
-                    <CheckBox x:Name="ApplicationOverride" Content="Launch without any setup override" HorizontalAlignment="Left" Margin="793,0,0,97.667" VerticalAlignment="Bottom" Background="#FFECFF71" />
+                    <CheckBox x:Name="ApplicationOverride" Content="Launch without any setup override" HorizontalAlignment="Right" Margin="0,0,14.667,97.667" VerticalAlignment="Bottom" Background="#FFECFF71" />
 
 
                     <Border BorderThickness="1" HorizontalAlignment="Left" Height="72" Margin="48,0,0,20.333" VerticalAlignment="Bottom" Width="503">
