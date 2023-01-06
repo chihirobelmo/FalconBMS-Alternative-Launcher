@@ -763,6 +763,7 @@ namespace FalconBMS.Launcher.Windows
 
         private void CMD_WINDOW_Click(object sender, RoutedEventArgs e)
         {
+            return;
             if (CMD_WINDOW.IsChecked == true)
                 MessageBox.Show("FalconBMS crashes when Alt+TAB in FullScreen Mode. Recommend Enabling Window Mode.\n(WINDOW button turning on light)", "WARNING", MessageBoxButton.OK, MessageBoxImage.Information);
         }
