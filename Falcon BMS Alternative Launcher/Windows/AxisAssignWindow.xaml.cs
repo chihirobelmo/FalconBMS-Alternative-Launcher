@@ -79,7 +79,7 @@ namespace FalconBMS.Launcher.Windows
 
             check_ABIDLE.Visibility = Visibility.Hidden;
 
-            AxisName.Content = whoCalledWindow.Replace("_", " ");
+            Label_AxisName.Content = whoCalledWindow.Replace("_", " ");
 
             switch (whoCalledWindow)
             {
@@ -199,7 +199,7 @@ namespace FalconBMS.Launcher.Windows
                 status = Status.ShowAxisStatus;
                 Retry.Content = "CLEAR";
                 Retry.Visibility = Visibility.Visible;
-                if (whoCalledWindow == "Throttle")
+                if (whoCalledWindow == AxisName.Throttle.ToString())
                 {
                     SetAB.Visibility = Visibility.Visible;
                     Idle.Visibility = Visibility.Visible;
@@ -252,7 +252,7 @@ namespace FalconBMS.Launcher.Windows
                     Retry.Content = "RETRY";
                     Retry.Visibility = Visibility.Visible;
 
-                    if (whoCalledWindow != "Throttle")
+                    if (whoCalledWindow != AxisName.Throttle.ToString())
                         continue;
                     SetAB.Visibility = Visibility.Visible;
                     Idle.Visibility = Visibility.Visible;
@@ -336,7 +336,7 @@ namespace FalconBMS.Launcher.Windows
                 + ((AxisNumName)phyAxNumTmp).ToString().Replace('_', ' ') + " : "
                 + MainWindow.deviceControl.joyStick[devNumTmp].DeviceInformation.ProductName;
 
-            if (whoCalledWindow != "Throttle" & whoCalledWindow != "Throttle_Right")
+            if (whoCalledWindow != AxisName.Throttle.ToString() & whoCalledWindow != AxisName.Throttle_Right.ToString())
                 return;
             AxisValueProgress.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 0x38, 0x78, 0xA8));
             check_ABIDLE.Visibility = Visibility.Hidden;
@@ -448,7 +448,7 @@ namespace FalconBMS.Launcher.Windows
                             (AxCurve)DeadZone.SelectedIndex,
                             (AxCurve)Saturation.SelectedIndex
                         );
-                    if (whoCalledWindow == "Throttle")
+                    if (whoCalledWindow == AxisName.Throttle.ToString())
                         MainWindow.deviceControl.joyAssign[devNumTmp].detentPosition = new DetentPosition(AB, IDLE);
                 }
                 else if (devNumTmp == -2)
@@ -460,7 +460,7 @@ namespace FalconBMS.Launcher.Windows
                             (AxCurve)DeadZone.SelectedIndex,
                             (AxCurve)Saturation.SelectedIndex
                         );
-                    if (whoCalledWindow == "Throttle")
+                    if (whoCalledWindow == AxisName.Throttle.ToString())
                         MainWindow.deviceControl.mouse.detentPosition = new DetentPosition(AB, IDLE);
                 }
             }

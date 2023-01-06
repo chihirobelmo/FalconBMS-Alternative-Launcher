@@ -17,8 +17,8 @@ namespace FalconBMS.Launcher.Override
 
         protected override void OverridePovDeviceIDs(StreamWriter cfg, Hashtable inGameAxis)
         {
-            InGameAxAssgn rollAxis = (InGameAxAssgn)inGameAxis["Roll"];
-            InGameAxAssgn throttleAxis = (InGameAxAssgn)inGameAxis["Throttle"];
+            InGameAxAssgn rollAxis = (InGameAxAssgn)inGameAxis[AxisName.Roll.ToString()];
+            InGameAxAssgn throttleAxis = (InGameAxAssgn)inGameAxis[AxisName.Throttle.ToString()];
 
             if (rollAxis.GetDeviceNumber() == throttleAxis.GetDeviceNumber())
             {
@@ -39,8 +39,8 @@ namespace FalconBMS.Launcher.Override
                 sw.Write(keyFile.keyAssign[i].GetKeyLine());
             for (int i = 0; i < deviceControl.joyAssign.Length; i++)
             {
-                InGameAxAssgn rollAxis = (InGameAxAssgn)inGameAxis["Roll"];
-                InGameAxAssgn throttleAxis = (InGameAxAssgn)inGameAxis["Throttle"];
+                InGameAxAssgn rollAxis = (InGameAxAssgn)inGameAxis[AxisName.Roll.ToString()];
+                InGameAxAssgn throttleAxis = (InGameAxAssgn)inGameAxis[AxisName.Throttle.ToString()];
 
                 sw.Write(deviceControl.joyAssign[i].GetKeyLineDX(i, deviceControl.joyAssign.Length, DXnumber));
                 // PRIMARY DEVICE POV

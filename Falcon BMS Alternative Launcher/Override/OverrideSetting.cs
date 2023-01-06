@@ -241,7 +241,7 @@ namespace FalconBMS.Launcher.Override
                 sw.Write(keyFile.keyAssign[i].GetKeyLine());
             for (int i = 0; i < deviceControl.joyAssign.Length; i++)
             {
-                InGameAxAssgn rollAxis = (InGameAxAssgn)inGameAxis["Roll"];
+                InGameAxAssgn rollAxis = (InGameAxAssgn)inGameAxis[AxisName.Roll.ToString()];
 
                 sw.Write(deviceControl.joyAssign[i].GetKeyLineDX(i, deviceControl.joyAssign.Length, DXnumber));
                 // PRIMARY DEVICE POV
@@ -282,7 +282,7 @@ namespace FalconBMS.Launcher.Override
 
             byte[] bs;
 
-            InGameAxAssgn pitchAxis = (InGameAxAssgn)inGameAxis["Pitch"];
+            InGameAxAssgn pitchAxis = (InGameAxAssgn)inGameAxis[AxisName.Pitch.ToString()];
 
             if (pitchAxis.GetDeviceNumber() > CommonConstants.JOYNUMUNASSIGNED)
             {
