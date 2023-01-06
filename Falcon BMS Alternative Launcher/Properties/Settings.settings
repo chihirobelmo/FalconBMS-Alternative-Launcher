@@ -74,5 +74,8 @@
     <Setting Name="SelectedKeyFileName" Type="System.String" Scope="User">
       <Value Profile="(Default)">BMS - Full</Value>
     </Setting>
+    <Setting Name="FirstTimeNonOverride" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

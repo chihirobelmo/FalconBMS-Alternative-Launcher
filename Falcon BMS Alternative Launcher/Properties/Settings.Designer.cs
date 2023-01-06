@@ -310,5 +310,17 @@ namespace FalconBMS.Launcher.Properties {
                 this["SelectedKeyFileName"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool FirstTimeNonOverride {
+            get {
+                return ((bool)(this["FirstTimeNonOverride"]));
+            }
+            set {
+                this["FirstTimeNonOverride"] = value;
+            }
+        }
     }
 }
