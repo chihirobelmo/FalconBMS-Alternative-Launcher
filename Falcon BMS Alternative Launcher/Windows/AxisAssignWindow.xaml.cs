@@ -356,16 +356,16 @@ namespace FalconBMS.Launcher.Windows
 
         private void AxisDetectionTimerCode(object sender, EventArgs e)
         {
-            if (sw.ElapsedMilliseconds > 1000)
+            if (sw.ElapsedMilliseconds > CommonConstants.FLUSHTIME1)
                 AssignedJoystick.Content = "";
-            if (sw.ElapsedMilliseconds > 1666)
+            if (sw.ElapsedMilliseconds > CommonConstants.FLUSHTIME2)
             {
                 AssignedJoystick.Content = "   AWAITING INPUTS";
             }
 
             try
             {
-                if (sw.ElapsedMilliseconds > 1666)
+                if (sw.ElapsedMilliseconds > CommonConstants.FLUSHTIME2)
                 {
                     Microsoft.DirectX.DirectInput.DeviceList devList =
                     Microsoft.DirectX.DirectInput.Manager.GetDevices(
@@ -439,7 +439,7 @@ namespace FalconBMS.Launcher.Windows
             }
             if (status == Status.ShowAxisStatus)
             {
-                if (devNumTmp >= 0)
+                if (devNumTmp > CommonConstants.JOYNUMUNASSIGNED)
                 {
                     axisAssign = new InGameAxAssgn(
                             MainWindow.deviceControl.joyAssign[devNumTmp],
@@ -451,7 +451,7 @@ namespace FalconBMS.Launcher.Windows
                     if (whoCalledWindow == AxisName.Throttle.ToString())
                         MainWindow.deviceControl.joyAssign[devNumTmp].detentPosition = new DetentPosition(AB, IDLE);
                 }
-                else if (devNumTmp == -2)
+                else if (devNumTmp == CommonConstants.JOYNUMMOUSEWHEEL)
                 {
                     axisAssign = new InGameAxAssgn(
                             MainWindow.deviceControl.mouse,

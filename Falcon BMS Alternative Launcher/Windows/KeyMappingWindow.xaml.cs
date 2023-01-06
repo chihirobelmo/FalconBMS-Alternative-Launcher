@@ -86,14 +86,14 @@ namespace FalconBMS.Launcher.Windows
 
         private void KeyMappingtimerCode(object sender, EventArgs e)
         {
-            if (sw.ElapsedMilliseconds > 1000)
+            if (sw.ElapsedMilliseconds > CommonConstants.FLUSHTIME1)
                 AwaitingInputs.Content = "";
-            if (sw.ElapsedMilliseconds > 1666)
+            if (sw.ElapsedMilliseconds > CommonConstants.FLUSHTIME2)
                 AwaitingInputs.Content = "   AWAITING INPUTS";
 
             try
             {
-                if (sw.ElapsedMilliseconds > 1666)
+                if (sw.ElapsedMilliseconds > CommonConstants.FLUSHTIME2)
                 {
                     Microsoft.DirectX.DirectInput.DeviceList devList =
                     Microsoft.DirectX.DirectInput.Manager.GetDevices(
