@@ -88,26 +88,9 @@ namespace FalconBMS.Launcher.Windows
 
             try
             {
-                Diagnostics.Log("Start Reading Launcher Settings.");
-
-                // Load UI Properties(Like Button Status).
                 appProperties = new AppProperties(this);
-
-                Diagnostics.Log("Finished Reading Launcher Settings.");
-                Diagnostics.Log("Start Reading Registry.");
-
-                // Read Registry
                 appReg = new AppRegInfo(this);
-
-                Diagnostics.Log("Finished Reading Registry.");
-                Diagnostics.Log("Start Init Devices.");
-
-                FillKeyFileList();
-                BMSChanged();
-                ReloadDevices();
-
-                Diagnostics.Log("Finished Init Devices.");
-                Diagnostics.Log("Start Check BMS Installs.");
+                InitDeveices();
 
                 if (appReg.getBMSVersion() == BMS_Version.UNDEFINED)
                 {
@@ -117,29 +100,8 @@ namespace FalconBMS.Launcher.Windows
                     return;
                 }
 
-                Diagnostics.Log("Finished Check BMS Installs.");
-                Diagnostics.Log("Start VR Check.");
-
-                if ((bool)Misc_VR.IsVisible)
-                    if ((bool)Misc_VR.IsChecked)
-                        steamVR.Start();
-
-                Diagnostics.Log("Finished VR Check.");
-                Diagnostics.Log("Start Timers.");
-
-                // Set Timer
-                AxisMovingTimer.Tick += AxisMovingTimer_Tick;
-                AxisMovingTimer.Interval = new TimeSpan(0, 0, 0, 0, 16);
-
-                KeyMappingTimer.Tick += KeyMappingTimer_Tick;
-                KeyMappingTimer.Interval = new TimeSpan(0, 0, 0, 0, 32);
-
-                NewDeviceDetectTimer.Tick += NewDeviceDetectTimer_Tick;
-                NewDeviceDetectTimer.Interval = new TimeSpan(0, 0, 0, 1, 0);
-
-                NewDeviceDetectTimer.Start();
-
-                Diagnostics.Log("Timers Started.");
+                StartVR();
+                StartTimers();
             }
             catch (Exception exclose)
             {
@@ -147,6 +109,47 @@ namespace FalconBMS.Launcher.Windows
                 Close();
                 return;
             }
+        }
+
+        private void StartTimers()
+        {
+            Diagnostics.Log("Start Timers.");
+
+            // Set Timer
+            AxisMovingTimer.Tick += AxisMovingTimer_Tick;
+            AxisMovingTimer.Interval = new TimeSpan(0, 0, 0, 0, 16);
+
+            KeyMappingTimer.Tick += KeyMappingTimer_Tick;
+            KeyMappingTimer.Interval = new TimeSpan(0, 0, 0, 0, 32);
+
+            NewDeviceDetectTimer.Tick += NewDeviceDetectTimer_Tick;
+            NewDeviceDetectTimer.Interval = new TimeSpan(0, 0, 0, 1, 0);
+
+            NewDeviceDetectTimer.Start();
+
+            Diagnostics.Log("Timers Started.");
+        }
+
+        private void StartVR()
+        {
+            Diagnostics.Log("Start VR Check.");
+
+            if ((bool)Misc_VR.IsVisible)
+                if ((bool)Misc_VR.IsChecked)
+                    steamVR.Start();
+
+            Diagnostics.Log("Finished VR Check.");
+        }
+
+        private void InitDeveices()
+        {
+            Diagnostics.Log("Start Init Devices.");
+
+            FillKeyFileList();
+            BMSChanged();
+            ReloadDevices();
+
+            Diagnostics.Log("Finished Init Devices.");
         }
 
         private void NewDeviceDetectTimer_Tick(object sender, EventArgs e)

@@ -75,6 +75,8 @@ namespace FalconBMS.Launcher
 
         public AppRegInfo(MainWindow mainWindow)
         {
+            Diagnostics.Log("Start Reading Registry.");
+
             bool flg = true;
             string selectedVersion = "Falcon4.0";
 
@@ -102,6 +104,8 @@ namespace FalconBMS.Launcher
             }
 
             Init(mainWindow, selectedVersion);
+
+            Diagnostics.Log("Finished Reading Registry.");
         }
 
         public bool BMSExists(string version)

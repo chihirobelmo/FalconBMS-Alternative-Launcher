@@ -11,6 +11,8 @@ namespace FalconBMS.Launcher
 
         public AppProperties(MainWindow mainWindow)
         {
+            Diagnostics.Log("Start Reading Launcher Settings.");
+
             this.mainWindow = mainWindow;
 
             // Load Buttons
@@ -38,6 +40,8 @@ namespace FalconBMS.Launcher
             mainWindow.CMD_BW.Content               = "BW : " + bandWidthDefault;
             mainWindow.AB_Throttle.Visibility       = Visibility.Hidden;
             mainWindow.AB_Throttle_Right.Visibility = Visibility.Hidden;
+
+            Diagnostics.Log("Finished Reading Launcher Settings.");
         }
 
         public void SaveUISetup()
