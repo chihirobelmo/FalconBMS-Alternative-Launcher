@@ -99,12 +99,14 @@ namespace FalconBMS.Launcher.Input
 
         public int GetAB(AxisName name)
         {
-            return joyAssign[((InGameAxAssgn)MainWindow.inGameAxis[name.ToString()]).GetDeviceNumber()].detentPosition.GetAB();
+            InGameAxAssgn axis = (InGameAxAssgn)MainWindow.inGameAxis[name.ToString()];
+            return joyAssign[axis.GetDeviceNumber()].detentPosition.GetAB();
         }
 
         public int GetIDLE(AxisName name)
         {
-            return joyAssign[((InGameAxAssgn)MainWindow.inGameAxis[name.ToString()]).GetDeviceNumber()].detentPosition.GetIDLE();
+            InGameAxAssgn axis = (InGameAxAssgn)MainWindow.inGameAxis[name.ToString()];
+            return joyAssign[axis.GetDeviceNumber()].detentPosition.GetIDLE();
         }
     }
 }

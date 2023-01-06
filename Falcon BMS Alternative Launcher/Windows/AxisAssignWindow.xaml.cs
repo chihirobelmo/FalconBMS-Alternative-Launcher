@@ -204,10 +204,10 @@ namespace FalconBMS.Launcher.Windows
                     SetAB.Visibility = Visibility.Visible;
                     Idle.Visibility = Visibility.Visible;
 
-                    if (((InGameAxAssgn)MainWindow.inGameAxis[whoCalledWindow]).GetDeviceNumber() >= 0)
+                    if (axisAssign.GetDeviceNumber() >= 0)
                     {
-                        AB = MainWindow.deviceControl.joyAssign[((InGameAxAssgn)MainWindow.inGameAxis[whoCalledWindow]).GetDeviceNumber()].detentPosition.GetAB();
-                        IDLE = MainWindow.deviceControl.joyAssign[((InGameAxAssgn)MainWindow.inGameAxis[whoCalledWindow]).GetDeviceNumber()].detentPosition.GetIDLE();
+                        AB = MainWindow.deviceControl.joyAssign[axisAssign.GetDeviceNumber()].detentPosition.GetAB();
+                        IDLE = MainWindow.deviceControl.joyAssign[axisAssign.GetDeviceNumber()].detentPosition.GetIDLE();
                     }
                 }
             }
@@ -257,10 +257,11 @@ namespace FalconBMS.Launcher.Windows
                     SetAB.Visibility = Visibility.Visible;
                     Idle.Visibility = Visibility.Visible;
 
-                    if (((InGameAxAssgn)MainWindow.inGameAxis[whoCalledWindow]).GetDeviceNumber() >= 0)
+                    InGameAxAssgn axis = (InGameAxAssgn)MainWindow.inGameAxis[whoCalledWindow];
+                    if (axis.GetDeviceNumber() >= 0)
                     {
-                        AB = MainWindow.deviceControl.joyAssign[((InGameAxAssgn)MainWindow.inGameAxis[whoCalledWindow]).GetDeviceNumber()].detentPosition.GetAB();
-                        IDLE = MainWindow.deviceControl.joyAssign[((InGameAxAssgn)MainWindow.inGameAxis[whoCalledWindow]).GetDeviceNumber()].detentPosition.GetIDLE();
+                        AB = MainWindow.deviceControl.joyAssign[axis.GetDeviceNumber()].detentPosition.GetAB();
+                        IDLE = MainWindow.deviceControl.joyAssign[axis.GetDeviceNumber()].detentPosition.GetIDLE();
                     }
                 }
             }

@@ -447,7 +447,8 @@ namespace FalconBMS.Launcher.Override
                         iAB = iAB * CommonConstants.BINAXISMAX / CommonConstants.AXISMAX;
                         iIdle = iIdle * CommonConstants.BINAXISMAX / CommonConstants.AXISMAX;
 
-                        if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetInvert() == false)
+                        InGameAxAssgn axis = (InGameAxAssgn)MainWindow.inGameAxis[nme.ToString()];
+                        if (axis.GetInvert() == false)
                         {
                             iAB = CommonConstants.BINAXISMAX - iAB;
                             iIdle = CommonConstants.BINAXISMAX - iIdle;
