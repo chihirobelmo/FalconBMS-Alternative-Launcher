@@ -100,21 +100,6 @@ namespace FalconBMS.Launcher.Windows
 
                 Diagnostics.Log("Init Devices.");
 
-                UPDATE_AVAILABLE.Visibility = Visibility.Hidden;
-                /*
-                if (DownloadWindow.CheckMajorUpdate(ListBox_BMS))
-                    UPDATE_AVAILABLE.Visibility = Visibility.Hidden;
-                else
-                {
-                    DownloadWindow.ShowDownloadWindow(this, appReg, ListBox_BMS);
-
-                    appReg = new AppRegInfo(this);
-
-                    BMSChanged();
-                    ReloadDevices();
-                }
-                */
-
                 Diagnostics.Log("Update Checked.");
                 
                 if (appReg.getBMSVersion() == BMS_Version.UNDEFINED)
@@ -126,16 +111,6 @@ namespace FalconBMS.Launcher.Windows
                 }
 
                 Diagnostics.Log("BMS found.");
-
-                /*
-                if (DownloadWindow.CheckMinorUpdate(appReg))
-                    UPDATE_AVAILABLE.Visibility = Visibility.Hidden;
-                else
-                {
-                    UPDATE_AVAILABLE.Visibility = Visibility.Visible;
-                    DownloadWindow.ShowDownloadWindow(this, appReg, ListBox_BMS);
-                }
-                */
 
                 if ((bool)Misc_VR.IsVisible)
                     if ((bool)Misc_VR.IsChecked)

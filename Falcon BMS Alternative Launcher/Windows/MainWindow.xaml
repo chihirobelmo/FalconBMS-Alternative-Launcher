@@ -608,7 +608,6 @@
         <Label x:Name="AL_Version_Number" Content="FalconBMS Launcher vX.X.X" HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontWeight="Bold" Margin="0,0,10.333,0.334" Grid.Row="1"/>
 
         <Button x:Name="Button_Apply_YAME64" Visibility="Hidden" Content="Apply" HorizontalAlignment="Right" Margin="0,31,10.333,0" VerticalAlignment="top" Width="128" Style="{StaticResource AccentedSquareButtonStyle}" Controls:ControlsHelper.ContentCharacterCasing="Normal" Click="Apply_YAME64"/>
-        <Label  x:Name="UPDATE_AVAILABLE" Content="UPDATE AVAILABLE !" HorizontalAlignment="Left" Margin="392,41,0,0" VerticalAlignment="Top" Width="160"/>
 
 
 
