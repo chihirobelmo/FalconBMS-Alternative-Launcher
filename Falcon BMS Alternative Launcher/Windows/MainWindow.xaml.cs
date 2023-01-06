@@ -88,20 +88,27 @@ namespace FalconBMS.Launcher.Windows
 
             try
             {
+                Diagnostics.Log("Start Reading Launcher Settings.");
+
                 // Load UI Properties(Like Button Status).
                 appProperties = new AppProperties(this);
 
+                Diagnostics.Log("Finished Reading Launcher Settings.");
+                Diagnostics.Log("Start Reading Registry.");
+
                 // Read Registry
                 appReg = new AppRegInfo(this);
+
+                Diagnostics.Log("Finished Reading Registry.");
+                Diagnostics.Log("Start Init Devices.");
 
                 FillKeyFileList();
                 BMSChanged();
                 ReloadDevices();
 
-                Diagnostics.Log("Init Devices.");
+                Diagnostics.Log("Finished Init Devices.");
+                Diagnostics.Log("Start Check BMS Installs.");
 
-                Diagnostics.Log("Update Checked.");
-                
                 if (appReg.getBMSVersion() == BMS_Version.UNDEFINED)
                 {
                     MessageBox.Show("Could Not Find BMS");
@@ -110,13 +117,15 @@ namespace FalconBMS.Launcher.Windows
                     return;
                 }
 
-                Diagnostics.Log("BMS found.");
+                Diagnostics.Log("Finished Check BMS Installs.");
+                Diagnostics.Log("Start VR Check.");
 
                 if ((bool)Misc_VR.IsVisible)
                     if ((bool)Misc_VR.IsChecked)
                         steamVR.Start();
 
-                Diagnostics.Log("Update Visiblity check.");
+                Diagnostics.Log("Finished VR Check.");
+                Diagnostics.Log("Start Timers.");
 
                 // Set Timer
                 AxisMovingTimer.Tick += AxisMovingTimer_Tick;
@@ -130,7 +139,7 @@ namespace FalconBMS.Launcher.Windows
 
                 NewDeviceDetectTimer.Start();
 
-                Diagnostics.Log("Timer Started.");
+                Diagnostics.Log("Timers Started.");
             }
             catch (Exception exclose)
             {
