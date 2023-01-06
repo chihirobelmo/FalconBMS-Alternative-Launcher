@@ -29,15 +29,31 @@ namespace FalconBMS.Launcher
                 return;
             }
 
-            installPath += "\\steamapps\\common\\SteamVR\\bin\\win64\\vrstartup.exe";
+            string vrstartpath = installPath + "\\steamapps\\common\\SteamVR\\bin\\win64\\vrstartup.exe";
 
-            HasSteamVR = File.Exists(installPath);
+            HasSteamVR = File.Exists(vrstartpath);
+
+            // legacy path
+            if (HasSteamVR == false)
+            {
+                vrstartpath = installPath + "\\steamapps\\common\\OpenVR\\bin\\win64\\vrstartup.exe";
+
+                HasSteamVR = File.Exists(vrstartpath);
+            }
+
+            if (HasSteamVR == true)
+            {
+                installPath = vrstartpath;
+            }
 
             regkey.Close();
         }
         public void Start()
         {
-            process = Process.Start(installPath);
+            if (File.Exists(installPath))
+            {
+                process = Process.Start(installPath);
+            }
         }
         public void Stop()
         {
