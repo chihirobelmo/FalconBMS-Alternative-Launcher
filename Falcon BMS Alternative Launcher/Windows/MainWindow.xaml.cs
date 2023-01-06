@@ -53,8 +53,6 @@ namespace FalconBMS.Launcher.Windows
         private DispatcherTimer KeyMappingTimer = new DispatcherTimer();
         private DispatcherTimer NewDeviceDetectTimer = new DispatcherTimer();
 
-        public static bool FLG_YAME64;
-
         /// <summary>
         /// Execute when launching this app.
         /// </summary>
