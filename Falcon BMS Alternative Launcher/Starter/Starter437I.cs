@@ -7,7 +7,7 @@ using FalconBMS.Launcher.Windows;
 
 namespace FalconBMS.Launcher.Starter
 {
-    public class Starter437Internal : Starter436Internal
+    public class Starter437Internal : Starter437
     {
         public Starter437Internal(AppRegInfo appReg, MainWindow mainWindow) : base(appReg, mainWindow)
         {

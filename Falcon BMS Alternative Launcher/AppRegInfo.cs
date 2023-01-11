@@ -59,9 +59,11 @@ namespace FalconBMS.Launcher
         public AbstractStarter getLauncher() { return starter; }
         public int getUpdateVersion() { return updateVersion; }
 
+        // This will list teh available BMS versions to the launcher list.
         public string[] availableBMSVersions =
         {
             "Falcon BMS 4.38 (Internal)",
+            "Falcon BMS 4.37 U1 (internal)",
             "Falcon BMS 4.37 (Internal)",
             "Falcon BMS 4.37",
             "Falcon BMS 4.36 (Internal)",
@@ -200,6 +202,7 @@ namespace FalconBMS.Launcher
                     overRideSetting = new OverrideSettingFor438(this.mainWindow, this);
                     starter         = new Starter438Internal(this, this.mainWindow);
                     break;
+                case "Falcon BMS 4.37 U1 (internal)":
                 case "Falcon BMS 4.37 (Internal)":
                     bms_Version     = BMS_Version.BMS437I;
                     keyFileName     = CommonConstants.DEFAULTKEY + ".key";
