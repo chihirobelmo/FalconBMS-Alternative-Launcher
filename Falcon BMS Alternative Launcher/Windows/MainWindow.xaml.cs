@@ -299,8 +299,6 @@ namespace FalconBMS.Launcher.Windows
 
                 // Save UI Properties(Like Button Status).
                 appProperties.SaveUISetup();
-                if (ApplicationOverride.IsChecked == false)
-                    appReg.getOverrideWriter().Execute(inGameAxis, deviceControl, keyFile);
             }
             catch (Exception ex)
             {
@@ -427,10 +425,13 @@ namespace FalconBMS.Launcher.Windows
                 {
                     if (!CallsignWindow.ShowCallsignWindow(appReg))
                         appReg.getLauncher().execute(sender, true);
-                    return;
+                    Close();
                 }
-
-                appReg.getLauncher().execute(sender);
+                else
+                {
+                    appReg.getLauncher().execute(sender);
+                    Close();
+                }
             }
             catch (FileNotFoundException ex)
             {
