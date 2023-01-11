@@ -223,11 +223,12 @@ namespace FalconBMS.Launcher.Override
         public virtual void SaveKeyMapping(Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile, int DXnumber)
         {
             string filename = appReg.GetInstallDir() + CommonConstants.CONFIGFOLDER + appReg.getKeyUserFileName();
-            appReg.SetUserKeyFileName(appReg.getKeyUserFileName());
 
-            // SET BMS - AUTO.key for the next launch
-            mainWindow.SetDefaultKeyFile(CommonConstants.USERKEY);
+            // Save To BMS - AUTO.key
             appReg.SetUserKeyFileName(CommonConstants.USERKEY);
+
+            // Set BMS - AUTO.key default for the next launch
+            mainWindow.SetDefaultKeyFile(CommonConstants.USERKEY);
 
             if (File.Exists(filename))
                 File.SetAttributes(filename, File.GetAttributes(filename) & ~FileAttributes.ReadOnly);
