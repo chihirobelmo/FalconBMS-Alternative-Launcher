@@ -425,8 +425,10 @@ namespace FalconBMS.Launcher.Windows
                 if (!appReg.isNameDefined())
                 {
                     if (!CallsignWindow.ShowCallsignWindow(appReg))
+                    {
                         appReg.getLauncher().execute(sender, true);
-                    Close();
+                        Close();
+                    }
                 }
                 else
                 {
