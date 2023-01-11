@@ -31,7 +31,7 @@ namespace FalconBMS.Launcher.Override
                 + CommonConstants.CFGOVERRIDECOMMENT + "\r\n");
         }
 
-        protected override void SaveKeyMapping(Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile)
+        public override void SaveKeyMapping(Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile)
         {
             SaveKeyMapping(inGameAxis, deviceControl, keyFile, CommonConstants.DX128);
         }

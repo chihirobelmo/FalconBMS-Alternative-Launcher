@@ -220,12 +220,14 @@ namespace FalconBMS.Launcher.Override
             ds.Close();
         }
 
-        protected virtual void SaveKeyMapping(Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile, int DXnumber)
+        public virtual void SaveKeyMapping(Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile, int DXnumber)
         {
             string filename = appReg.GetInstallDir() + CommonConstants.CONFIGFOLDER + appReg.getKeyUserFileName();
             appReg.SetUserKeyFileName(appReg.getKeyUserFileName());
-            mainWindow.SetDefaultKeyFile();
-            mainWindow.KeyFileSelect_SelectKeyFile();
+
+            // SET BMS - AUTO.key for the next launch
+            mainWindow.SetDefaultKeyFile(CommonConstants.USERKEY);
+            appReg.SetUserKeyFileName(CommonConstants.USERKEY);
 
             if (File.Exists(filename))
                 File.SetAttributes(filename, File.GetAttributes(filename) & ~FileAttributes.ReadOnly);
@@ -251,7 +253,7 @@ namespace FalconBMS.Launcher.Override
             sw.Close();
         }
 
-        protected virtual void SaveKeyMapping(Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile)
+        public virtual void SaveKeyMapping(Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile)
         {
             SaveKeyMapping(inGameAxis, deviceControl, keyFile, CommonConstants.DX32);
         }

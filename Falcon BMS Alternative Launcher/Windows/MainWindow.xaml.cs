@@ -299,6 +299,7 @@ namespace FalconBMS.Launcher.Windows
 
                 // Save UI Properties(Like Button Status).
                 appProperties.SaveUISetup();
+                appReg.getOverrideWriter().SaveKeyMapping(inGameAxis, deviceControl, keyFile);
                 appReg.getOverrideWriter().SaveJoyAssignStatus(deviceControl);
             }
             catch (Exception ex)

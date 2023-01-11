@@ -39,9 +39,10 @@ namespace FalconBMS.Launcher.Windows
             KeyFileSelect_SelectKeyFile();   // Search BMS - Full.key if Last Selected keyfile does not found. thus call this twice.
         }
 
-        public void SetDefaultKeyFile()
+        public void SetDefaultKeyFile(string defaultkey)
         {
-            Properties.Settings.Default.SelectedKeyFileName = CommonConstants.USERKEY;
+            Properties.Settings.Default.SelectedKeyFileName = defaultkey;
+            Properties.Settings.Default.Save();
         }
 
         public void KeyFileSelect_SelectKeyFile()
