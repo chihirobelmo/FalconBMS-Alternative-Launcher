@@ -386,7 +386,7 @@ namespace FalconBMS.Launcher
             {
                 case "Israel":
                     mainWindow.Launch_TheaterConfig.Visibility = Visibility.Visible;
-                    theaterOwnConfig = GetInstallDir() + "\\Data\\Add-On Israel\\Israeli Theater Settings.exe";
+                    theaterOwnConfig = GetInstallDir() + "\\Data\\Add-On Israel\\Israel Theater Settings.exe";
                     return;
                 case "Ikaros":
                     mainWindow.Launch_TheaterConfig.Visibility = Visibility.Visible;
@@ -395,15 +395,6 @@ namespace FalconBMS.Launcher
                 default:
                     mainWindow.Launch_TheaterConfig.Visibility = Visibility.Collapsed;
                     break;
-            }
-            if (mainWindow.Dropdown_TheaterList.SelectedItem.ToString().Contains("Korea Training"))
-            {
-                mainWindow.Launch_TheaterConfig.Visibility = Visibility.Visible;
-                theaterOwnConfig = GetInstallDir() + "\\Data\\Add-On " + mainWindow.Dropdown_TheaterList.SelectedItem.ToString() + "\\Korea Training Theater Settings.exe";
-            }
-            else
-            {
-                mainWindow.Launch_TheaterConfig.Visibility = Visibility.Collapsed;
             }
         }
     }
