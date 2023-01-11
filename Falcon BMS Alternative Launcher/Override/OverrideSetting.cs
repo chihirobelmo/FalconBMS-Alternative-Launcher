@@ -103,7 +103,7 @@ namespace FalconBMS.Launcher.Override
         /// <summary>
         /// As the name implies...
         /// </summary>
-        protected void SaveJoyAssignStatus(DeviceControl deviceControl)
+        public void SaveJoyAssignStatus(DeviceControl deviceControl)
         {
             string fileName;
             XmlSerializer serializer;
