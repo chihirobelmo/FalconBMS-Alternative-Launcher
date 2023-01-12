@@ -461,12 +461,14 @@ namespace FalconBMS.Launcher.Windows
             try
             {
                 // throw new Exception("An exception occurs.");
-                if (ApplicationOverride.IsChecked == true && Properties.Settings.Default.FirstTimeNonOverride)
+                if (ApplicationOverride.IsChecked == true)
                 {
-                    string textMessage = "You are going to launch BMS without any setup override from AxisAssign and KeyMapping section.";
-                    MessageBox.Show(textMessage, "WARNING", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                    Properties.Settings.Default.FirstTimeNonOverride = false;
+                    if (Properties.Settings.Default.FirstTimeNonOverride)
+                    {
+                        string textMessage = "You are going to launch BMS without any setup override from AxisAssign and KeyMapping section.";
+                        MessageBox.Show(textMessage, "WARNING", MessageBoxButton.OK, MessageBoxImage.Information);
+                        Properties.Settings.Default.FirstTimeNonOverride = false;
+                    }
                 }
                 else
                 {
