@@ -246,7 +246,7 @@ namespace FalconBMS.Launcher.Input
                 assignmentStatus += int2enum + "\t: ";
             }
 
-            if (keyboard.Remove(0, 2) != "FFFFFFFF")
+            if (keyboard != "0xFFFFFFFF")
             {
                 // modifier //
                 switch (modifier)
@@ -277,11 +277,14 @@ namespace FalconBMS.Launcher.Input
                         break;
                 }
 
-                string scancodestr = keyboard.Remove(0, 2);
+                string scancodestr = keyboard.Replace("0x","");
                 int scancode10 = Convert.ToInt32(scancodestr, 16);
 
                 // int -> enum
                 Key int2enum = (Key)scancode10;
+
+                if (int2enum.ToString() == "-1")
+                { return assignmentStatus; }
 
                 assignmentStatus += int2enum.ToString();
             }
