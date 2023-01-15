@@ -593,7 +593,7 @@
                     <ToggleButton x:Name="Select_DX_Release" Visibility="Hidden" Content="RELEASE" HorizontalAlignment="Right" Margin="0,12,163.666,0" VerticalAlignment="Top" Width="64" Height="27" Grid.Column="1"/>
                     <Button x:Name="Select_Invoke" Visibility="Hidden" Content="Invoke Both" HorizontalAlignment="Right" Margin="0,12,9.666,0" VerticalAlignment="Top" Width="129" Click="Select_Invoke_Click" Height="27" Grid.Column="1"/>
                     <CheckBox x:Name="Misc_OverrideSelfCancel" Content="Use 3-Way ON-OFF-ON Switch for TQS: DOGFIGHT" FontSize="11" HorizontalAlignment="Left" Margin="10,0,0,9.334" VerticalAlignment="Bottom" Height="18" Width="272" Visibility="Hidden"/>
-                    <CheckBox x:Name="Misc_3DClickableCursorFixToCenter" Content="Center Cursor to center of the screen." FontSize="11" HorizontalAlignment="Left" Margin="10,0,0,9.334" VerticalAlignment="Bottom" Height="18" Width="272"/>
+                    <CheckBox x:Name="Misc_3DClickableCursorFixToCenter" Content="Center Cursor to the screen." FontSize="11" HorizontalAlignment="Left" Margin="10,0,0,9.334" VerticalAlignment="Bottom" Height="18" Width="272"/>
                     <CheckBox x:Name="Misc_MouseCursorAnchor" Content="Anchor the Mouse Cursor to Clickable Switches or Dials." HorizontalAlignment="Left" Margin="300,0,0,9.334" VerticalAlignment="Bottom" Height="18" Width="318" Grid.ColumnSpan="2"/>
 
                     <Label Content="Filter:" HorizontalAlignment="Left" Margin="227.167,-43,0,0" VerticalAlignment="Top" Width="43" HorizontalContentAlignment="Right" Foreground="White" Grid.Column="1"/>
