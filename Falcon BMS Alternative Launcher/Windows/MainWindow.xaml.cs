@@ -428,13 +428,11 @@ namespace FalconBMS.Launcher.Windows
                     if (!CallsignWindow.ShowCallsignWindow(appReg))
                     {
                         appReg.getLauncher().execute(sender, true);
-                        Close();
                     }
                 }
                 else
                 {
                     appReg.getLauncher().execute(sender);
-                    Close();
                 }
             }
             catch (FileNotFoundException ex)
