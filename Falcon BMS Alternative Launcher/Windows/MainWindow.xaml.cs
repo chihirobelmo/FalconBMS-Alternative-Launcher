@@ -205,6 +205,8 @@ namespace FalconBMS.Launcher.Windows
                 // Read Theater List
                 TheaterList.PopulateAndSave(appReg, Dropdown_TheaterList);
 
+                appReg.ChangeCfgPath();
+
                 // Read BMS-FULL.key
                 ReloadKeyFile();
 

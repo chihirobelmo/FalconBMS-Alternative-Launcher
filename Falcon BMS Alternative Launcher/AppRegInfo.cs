@@ -190,6 +190,21 @@ namespace FalconBMS.Launcher
             return File.Exists(exeDir);
         }
 
+        public void ChangeCfgPath()
+        {
+            try
+            {
+                RegistryKey regkeyCFG = Registry.CurrentUser.OpenSubKey("SOFTWARE\\F4Patch\\Settings", true);
+                regkeyCFG.SetValue("F4Exe", installDir + "\\Launcher.exe");
+                regkeyCFG.Close();
+            }
+            catch (Exception exCFG)
+            {
+                Diagnostics.Log(exCFG);
+                return;
+            }
+        }
+
         public void Init(MainWindow mainWindow, string version)
         {
             this.mainWindow = mainWindow;
