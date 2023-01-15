@@ -33,6 +33,7 @@ namespace FalconBMS.Launcher
             mainWindow.Misc_NaturalHeadMovement.IsChecked  = Properties.Settings.Default.Misc_NaturalHeadMovement;
             mainWindow.Misc_PilotModel.IsChecked           = Properties.Settings.Default.Misc_PilotModel;
             mainWindow.Misc_VR.IsChecked                   = Properties.Settings.Default.Misc_VR;
+            mainWindow.Misc_3DClickableCursorFixToCenter.IsChecked = Properties.Settings.Default.Misc_3DClickableCursorFixToCenter;
 
             // Button Status Default
             mainWindow.Select_DX_Release.IsChecked  = true;
@@ -64,6 +65,7 @@ namespace FalconBMS.Launcher
             Properties.Settings.Default.Misc_PilotModel           = (bool)mainWindow.Misc_PilotModel.IsChecked;
             Properties.Settings.Default.Misc_VR                   = (bool)mainWindow.Misc_VR.IsChecked;
             Properties.Settings.Default.SelectedKeyFileName       = (string)mainWindow.KeyFileSelect.SelectedItem;
+            Properties.Settings.Default.Misc_3DClickableCursorFixToCenter = (bool)mainWindow.Misc_3DClickableCursorFixToCenter.IsChecked;
             Properties.Settings.Default.Save();
         }
 

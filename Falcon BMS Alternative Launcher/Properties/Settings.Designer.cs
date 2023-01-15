@@ -322,5 +322,17 @@ namespace FalconBMS.Launcher.Properties {
                 this["FirstTimeNonOverride"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool Misc_3DClickableCursorFixToCenter {
+            get {
+                return ((bool)(this["Misc_3DClickableCursorFixToCenter"]));
+            }
+            set {
+                this["Misc_3DClickableCursorFixToCenter"] = value;
+            }
+        }
     }
 }

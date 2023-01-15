@@ -144,8 +144,29 @@ namespace FalconBMS.Launcher.Override
         /// </summary>
         protected virtual void SaveConfigfile(Hashtable inGameAxis, DeviceControl deviceControl)
         {
-            string filename = appReg.GetInstallDir() + CommonConstants.CONFIGFOLDER + CommonConstants.USERCFGFILE;
-            string fbackupname = appReg.GetInstallDir() + CommonConstants.BACKUPFOLDER + CommonConstants.USERCFGFILE;
+            StreamWriter cfgo = OverwriteCfg(CommonConstants.CFGFILE);
+            cfgo.Close();
+
+            StreamWriter cfg = OverwriteCfg(CommonConstants.USERCFGFILE);
+
+            OverrideButtonsPerDevice(cfg, deviceControl);
+            OverrideHotasPinkyShiftMagnitude(cfg, deviceControl);
+            OverrideVRHMD(cfg);
+
+            cfg.Write("set g_b3DClickableCursorFixToCenter " + Convert.ToInt32(mainWindow.Misc_3DClickableCursorFixToCenter.IsChecked)
+                + CommonConstants.CFGOVERRIDECOMMENT + "\r\n");
+            cfg.Write("set g_b3DClickableCursorAnchored " + Convert.ToInt32(mainWindow.Misc_MouseCursorAnchor.IsChecked)
+                + CommonConstants.CFGOVERRIDECOMMENT + "\r\n");
+
+            OverridePovDeviceIDs(cfg, inGameAxis);
+
+            cfg.Close();
+        }
+
+        private StreamWriter OverwriteCfg(string fname)
+        {
+            string filename = appReg.GetInstallDir() + CommonConstants.CONFIGFOLDER + fname;
+            string fbackupname = appReg.GetInstallDir() + CommonConstants.BACKUPFOLDER + fname;
             if (!File.Exists(fbackupname) & File.Exists(filename))
                 File.Copy(filename, fbackupname, true);
 
@@ -163,23 +184,12 @@ namespace FalconBMS.Launcher.Override
                 stResult += stBuffer + "\r\n";
             }
             cReader.Close();
-            
+
             StreamWriter cfg = new StreamWriter
                 (filename, false, Encoding.GetEncoding("shift_jis"));
             cfg.Write(stResult);
 
-            OverrideButtonsPerDevice(cfg, deviceControl);
-            OverrideHotasPinkyShiftMagnitude(cfg, deviceControl);
-            OverrideVRHMD(cfg);
-
-            cfg.Write("set g_bHotasDgftSelfCancel " + Convert.ToInt32(mainWindow.Misc_OverrideSelfCancel.IsChecked)
-                + CommonConstants.CFGOVERRIDECOMMENT + "\r\n");
-            cfg.Write("set g_b3DClickableCursorAnchored " + Convert.ToInt32(mainWindow.Misc_MouseCursorAnchor.IsChecked)
-                + CommonConstants.CFGOVERRIDECOMMENT + "\r\n");
-
-            OverridePovDeviceIDs(cfg, inGameAxis);
-
-            cfg.Close();
+            return cfg;
         }
 
         protected virtual void OverridePovDeviceIDs(StreamWriter cfg, Hashtable inGameAxis) { }
