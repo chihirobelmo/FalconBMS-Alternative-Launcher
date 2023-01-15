@@ -40,10 +40,7 @@ namespace FalconBMS.Launcher.Starter
 
                     string appPlatform = appReg.GetInstallDir() + "/Bin/x86//Hub.exe";
                     process = System.Diagnostics.Process.Start(appPlatform, strCmdText);
-                    if (flg)
-                        mainWindow.minimizeWindowUntilProcessEnds(process);
-                    else
-                        mainWindow.Close();
+                    mainWindow.Close();
                     break;
                 case "Launch_CFG":
                     process = System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Config.exe");
