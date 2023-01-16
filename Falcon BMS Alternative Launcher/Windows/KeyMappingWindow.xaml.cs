@@ -203,12 +203,12 @@ namespace FalconBMS.Launcher.Windows
                     // Construct DX button instance.
                     if (tmpCallback.GetCallback() == "SimHotasPinkyShift" || tmpCallback.GetCallback() == "SimHotasShift")
                     {
-                        tmpJoyStick[i].dx[ii].Assign(tmpCallback.GetCallback(), Pinky.UnShift, Behaviour.Press, Invoke.Default, 0);
-                        tmpJoyStick[i].dx[ii].Assign(tmpCallback.GetCallback(), Pinky.Shift, Behaviour.Press, Invoke.Default, 0);
+                        tmpJoyStick[i].dx[ii].Assign(tmpCallback.GetCallback(), Pinky.UnShift, Behaviour.Press, Invoke.Default, tmpCallback.GetSoundID());
+                        tmpJoyStick[i].dx[ii].Assign(tmpCallback.GetCallback(), Pinky.Shift, Behaviour.Press, Invoke.Default, tmpCallback.GetSoundID());
                     }
                     else
                     {
-                        tmpJoyStick[i].dx[ii].Assign(tmpCallback.GetCallback(), pinkyStatus, behaviourStatus, invokeStatus, 0);
+                        tmpJoyStick[i].dx[ii].Assign(tmpCallback.GetCallback(), pinkyStatus, behaviourStatus, invokeStatus, tmpCallback.GetSoundID());
                     }
 
                     getNeutralPosition();

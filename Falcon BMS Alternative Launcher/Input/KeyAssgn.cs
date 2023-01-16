@@ -31,6 +31,7 @@ namespace FalconBMS.Launcher.Input
         public string GetKeycombo() { return keycombo; }
         public string GetKeycomboMod() { return keycomboMod; }
         public string GetKeyDescription() { return description; }
+        public int GetSoundID() { return Int32.Parse(soundID); }
 
         /// <summary>
         /// Save given key file code line in "BMS - FULL.key" and split them to parts.
