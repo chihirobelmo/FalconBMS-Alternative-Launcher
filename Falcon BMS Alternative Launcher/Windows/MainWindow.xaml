@@ -6,7 +6,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
-        Title="FalconBMS Alternative Launcher" Height="768" Width="1024" MinHeight="768" MinWidth="1024" BorderThickness="0"
+        xmlns:bms="clr-namespace:FalconBMS.Launcher"
+        xmlns:bms_windows="clr-namespace:FalconBMS.Launcher.Windows"
+        xmlns:bms_servers="clr-namespace:FalconBMS.Launcher.Servers"
+        Title="FalconBMS Alternative Launcher" Height="768" Width="1150" MinHeight="768" MinWidth="1150" BorderThickness="0"
         Loaded="Window_Loaded" Closed="Window_Closed" MouseDown="MetroWindow_MouseDown"
         FontSize="12" WindowStartupLocation="CenterScreen" ShowTitleBar="False" WindowStyle="None" Background="#a4a9ac">
     <Window.Resources>
@@ -285,6 +288,122 @@
                     </ScrollViewer>
                     <Label Content="News" HorizontalAlignment="Left" Margin="48,10,0,0" VerticalAlignment="Top" FontSize="24" FontWeight="Bold" FontStyle="Italic"/>
                 </Grid>
+            </TabItem>
+            <TabItem Header="SERVERS" Margin="535,-40,-536,40.333">
+                <Grid Margin="0,1,-0.333,0.333">
+
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition>
+                        </RowDefinition>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <Grid HorizontalAlignment="Left" Height="46" Margin="10,0,0,269" VerticalAlignment="Top" Width="953">
+                        <Button x:Name="Button_Refresh_Servers" Content="Refresh" HorizontalAlignment="Left" VerticalAlignment="Center" Width="74" Click="Refresh_Click" Height="27" RenderTransformOrigin="0.216,1.519"/>
+                    </Grid>
+
+
+                    <DataGrid x:Name="ServerGrid" Height="auto" Margin="10,51,10,130" 
+                              EnableColumnVirtualization="True" EnableRowVirtualization="True" VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+                              AutoGenerateColumns="False" Width="auto" 
+                              ItemsSource="{Binding}"
+                              IsReadOnly="False" 
+                              CanUserSortColumns="False" 
+                              CanUserReorderColumns="False" 
+                              FrozenColumnCount="1"
+                              SelectionMode="Single"
+                              GridLinesVisibility="Horizontal"
+                              VerticalGridLinesBrush="LightGray" Background="#7F202020"
+                              Grid.RowSpan="2"
+                              SelectionChanged="ServerGrid_SelectionChanged"
+                              RowEditEnding="ServerGrid_RowEditEnding"
+                              >
+
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Status" Binding="{Binding Status}" IsReadOnly="True" />
+                            <DataGridTextColumn Header="Name" Binding="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <DataGridTextColumn Header="IP" Binding="{Binding BmsIp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <DataGridTextColumn Header="IVC IP" Binding="{Binding IvcIp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <DataGridTextColumn Header="IVC Password" Binding="{Binding IvcPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Download BW" Binding="{Binding BandwidthDown, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="Hidden" />
+                            <DataGridTextColumn Header="Upload BW" Binding="{Binding BandwidthUp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="Hidden" />
+                            <DataGridTextColumn Header="Download (Mbps)" Binding="{Binding BandwidthDownMbps, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <DataGridTextColumn Header="Upload (Mbps)" Binding="{Binding BandwidthUpMbps, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <DataGridComboBoxColumn Header="Theater" ItemsSource="{Binding Source={x:Static bms:TheaterList.AvailableTheaters}, UpdateSourceTrigger=PropertyChanged}" SelectedItemBinding="{Binding TheaterName, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Players" Binding="{Binding PilotsOnline}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="INI File" Binding="{Binding IniFileName}" IsReadOnly="True"/>
+
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Delete" Command="{Binding Path=DataContext.RemoveCommand,RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" 
+                                        CommandParameter="{Binding}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <!-- <DataGridTemplateColumn Header="Mail To">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Name="textblock" HorizontalAlignment="Center"  VerticalAlignment="Center" >
+                                <Underline>
+                                  <Run Text="{Binding ServerInfoUrl}" MouseLeftButtonDown="Server_Grid_Server_Info_Click">                                     
+                                  </Run>
+                                </Underline>
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property= "Foreground" Value="Blue"/>
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Border.Cursor" Value="Hand"/>
+                                                            <Setter Property="Foreground" Value="Red"></Setter>
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+-->
+
+
+
+
+                            <DataGridTemplateColumn Visibility="Hidden" />
+                            
+                        </DataGrid.Columns>
+
+                       <!-- <DataGrid.RowDetailsTemplate>
+                            <DataTemplate>
+
+                                <WebBrowser bms_windows:BrowserBehavior.Html="{Binding ServerInfoHtml}" MaxHeight="200" Margin="10">
+                                    <WebBrowser.Style>
+                                        <Style TargetType="WebBrowser">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ServerInfoHtml}" Value="" >
+                                                    <Setter Property="Visibility" Value="Hidden"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </WebBrowser.Style>
+
+                                </WebBrowser>
+                                
+                            </DataTemplate>
+                        </DataGrid.RowDetailsTemplate>
+-->
+                    </DataGrid>
+
+                    <Label x:Name="Download_Label" Content="Downloading 551.ini..." Margin="926,206,10,92" Grid.Row="1" FontWeight="Bold" Visibility="Hidden"/>
+                    <Button x:Name="Launch_BMS_Multiplayer" Content="LAUNCH" Style="{StaticResource AccentedSquareButtonStyle}" Controls:ControlsHelper.ContentCharacterCasing="Normal" HorizontalAlignment="Right" Margin="0,0,9.667,20.333" VerticalAlignment="Bottom" Width="208" Click="Launch_Multiplayer_Click" Height="72" Background="#CC2494FF" BorderBrush="{x:Null}" FontSize="24" Grid.Row="1" IsEnabled="False"/>
+                </Grid>
+
             </TabItem>
             <TabItem Header="AXISASSIGN" Margin="535.333,-40,-535,40.333">
                 <Grid>

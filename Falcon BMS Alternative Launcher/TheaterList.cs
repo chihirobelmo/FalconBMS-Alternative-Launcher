@@ -3,11 +3,17 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Controls;
+using System.Collections.ObjectModel;
+using System.Threading;
+using System.Collections.Concurrent;
 
 namespace FalconBMS.Launcher
 {
     public class TheaterList
     {
+        public static ObservableCollection<string> AvailableTheaters { get; set; } = new ObservableCollection<string>();
+        public static ConcurrentDictionary<string, string> AvailableTheatersCampaignDirs { get; set; } = new ConcurrentDictionary<string, string>();
+
         /// <summary>
         /// Read theater.lst and apply the list to Combobox.
         /// </summary>
@@ -40,21 +46,34 @@ namespace FalconBMS.Launcher
                     continue;
 
                 IEnumerable<string> lines = File.ReadLines(tdf, Encoding.UTF8);
+                string theaterName ="", campaignDir ="";
                 foreach (string str in lines)
                 {
                     if (str.Contains("name "))
                     {
-                        theaters.Add(str.Replace("name ", "").Trim());
+                        theaterName = str.Replace("name ", "").Trim();
+                    }
+                    if(str.Contains("campaigndir "))
+                    {
+                        campaignDir = str.Replace("campaigndir ", "").Trim();
+                    }
+
+                    if (!string.IsNullOrEmpty(theaterName) && !string.IsNullOrEmpty(campaignDir))
+                    {
+                        theaters.Add(theaterName);
+                        AvailableTheatersCampaignDirs.TryAdd(theaterName, campaignDir);
                         break;
                     }
                 }
             }
 
+            AvailableTheaters.Clear();
             Combo.SelectedIndex = -1;
             Combo.Items.Clear();
 
             for (int ii = 0; ii < theaters.Count; ii++)
             {
+                AvailableTheaters.Add(theaters[ii]);
                 Combo.Items.Add(theaters[ii]);
                 if (theaters[ii] == appReg.GetCurrentTheater())
                     Combo.SelectedIndex = ii;
