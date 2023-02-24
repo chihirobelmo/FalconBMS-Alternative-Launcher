@@ -144,13 +144,8 @@
     <Compile Include="Override\OverrideSettingFor436.cs" />
     <Compile Include="Override\OverrideSettingFor437.cs" />
     <Compile Include="SteamVR.cs" />
-    <Compile Include="Torrent.cs" />
-    <Compile Include="Update\Update.cs" />
     <Compile Include="Windows\CallsignWindow.xaml.cs">
       <DependentUpon>CallsignWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\DownloadWindow.xaml.cs">
-      <DependentUpon>DownloadWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\KeyMappingWindow.xaml.cs">
       <DependentUpon>KeyMappingWindow.xaml</DependentUpon>
@@ -161,19 +156,12 @@
     <Compile Include="Starter\AbstractStarter.cs" />
     <Compile Include="TheaterList.cs" />
     <Compile Include="Input\DetentPosition.cs" />
-    <Compile Include="Windows\RecommendReboot.xaml.cs">
-      <DependentUpon>RecommendReboot.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Windows\RSSReader.cs" />
     <Page Include="Windows\AxisAssignWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\CallsignWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\DownloadWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -200,10 +188,6 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Windows\RecommendReboot.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

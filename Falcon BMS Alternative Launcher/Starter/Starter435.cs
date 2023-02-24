@@ -38,12 +38,17 @@ namespace FalconBMS.Launcher.Starter
                     // OVERRIDE SETTINGS.
                     mainWindow.executeOverride();
 
-                    string appPlatform = appReg.GetInstallDir() + "/Bin/x64/Falcon BMS.exe";
-                    process = System.Diagnostics.Process.Start(appPlatform, strCmdText);
-                    if (flg)
-                        mainWindow.minimizeWindowUntilProcessEnds(process);
+                    string testPlatform = appReg.GetInstallDir() + "/Bin/x64/Falcon BMS Test.exe";
+                    if (File.Exists(testPlatform) && MessageBox.Show("Start Test Exe?", "Launcher", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    {
+                        process = System.Diagnostics.Process.Start(testPlatform, strCmdText);
+                    }
                     else
-                        mainWindow.Close();
+                    {
+                        string appPlatform = appReg.GetInstallDir() + "/Bin/x64/Falcon BMS.exe";
+                        process = System.Diagnostics.Process.Start(appPlatform, strCmdText);
+                    }
+                    mainWindow.Close();
                     break;
                 case "Launch_CFG":
                     process = System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Config.exe");

@@ -8,7 +8,7 @@ namespace FalconBMS.Launcher.Input
 {
     public class KeyAssgn : ICloneable
     {
-        protected string callback = "SimDoNothing";            // 1st: callback(ex: "SimDoNothing")
+        protected string callback = CommonConstants.SIMDONOTHING;            // 1st: callback(ex: CommonConstants.SIMDONOTHING)
         protected string soundID = "-1";                       // 2nd: -1
         protected string none = "0";                           // 3rd: 0 
         protected string keyboard = "0xFFFFFFFF";              // 4th: Scancode(ex: 0x1E => 30 => A).
@@ -31,6 +31,7 @@ namespace FalconBMS.Launcher.Input
         public string GetKeycombo() { return keycombo; }
         public string GetKeycomboMod() { return keycomboMod; }
         public string GetKeyDescription() { return description; }
+        public int GetSoundID() { return Int32.Parse(soundID); }
 
         /// <summary>
         /// Save given key file code line in "BMS - FULL.key" and split them to parts.
@@ -246,7 +247,7 @@ namespace FalconBMS.Launcher.Input
                 assignmentStatus += int2enum + "\t: ";
             }
 
-            if (keyboard.Remove(0, 2) != "FFFFFFFF")
+            if (keyboard != "0xFFFFFFFF")
             {
                 // modifier //
                 switch (modifier)
@@ -277,11 +278,14 @@ namespace FalconBMS.Launcher.Input
                         break;
                 }
 
-                string scancodestr = keyboard.Remove(0, 2);
+                string scancodestr = keyboard.Replace("0x","");
                 int scancode10 = Convert.ToInt32(scancodestr, 16);
 
                 // int -> enum
                 Key int2enum = (Key)scancode10;
+
+                if (int2enum.ToString() == "-1")
+                { return assignmentStatus; }
 
                 assignmentStatus += int2enum.ToString();
             }
@@ -314,7 +318,9 @@ namespace FalconBMS.Launcher.Input
                 return "";
             ans = MainWindow.deviceControl.joyAssign[joynum].KeyMappingPreviewDX(this);
             // PRIMARY DEVICE POV
-            if (((InGameAxAssgn)MainWindow.inGameAxis["Roll"]).GetDeviceNumber() == joynum || ((InGameAxAssgn)MainWindow.inGameAxis["Throttle"]).GetDeviceNumber() == joynum)
+            InGameAxAssgn rollAxis = (InGameAxAssgn)MainWindow.inGameAxis[AxisName.Roll.ToString()];
+            InGameAxAssgn throttleAxis = (InGameAxAssgn)MainWindow.inGameAxis[AxisName.Throttle.ToString()];
+            if (rollAxis.GetDeviceNumber() == joynum || throttleAxis.GetDeviceNumber() == joynum)
             {
                 string tmp = MainWindow.deviceControl.joyAssign[joynum].KeyMappingPreviewPOV(this);
                 if (ans != "" & tmp != "")
@@ -333,7 +339,9 @@ namespace FalconBMS.Launcher.Input
             if(ans != "")
                 ans = "JOY " + joynum + " " + joyAssign[joynum].KeyMappingPreviewDX(this).Replace("\n", ", ");
             // PRIMARY DEVICE POV
-            if (((InGameAxAssgn)MainWindow.inGameAxis["Roll"]).GetDeviceNumber() == joynum || ((InGameAxAssgn)MainWindow.inGameAxis["Throttle"]).GetDeviceNumber() == joynum) 
+            InGameAxAssgn rollAxis = (InGameAxAssgn)MainWindow.inGameAxis[AxisName.Roll.ToString()];
+            InGameAxAssgn throttleAxis = (InGameAxAssgn)MainWindow.inGameAxis[AxisName.Throttle.ToString()];
+            if (rollAxis.GetDeviceNumber() == joynum || throttleAxis.GetDeviceNumber() == joynum) 
             {
                 string tmp = "";
                 tmp = joyAssign[joynum].KeyMappingPreviewPOV(this);

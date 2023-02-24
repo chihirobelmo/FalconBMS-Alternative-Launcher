@@ -52,16 +52,15 @@ namespace FalconBMS.Launcher.Windows
 
         public static bool ShowCallsignWindow(AppRegInfo appReg)
         {
-            return false; // TODO FIX
-
             CallsignWindow ownWindow = new CallsignWindow(appReg);
             ownWindow.ShowDialog();
-            return (ownWindow.TextBox_Callsign.Text == "Viper") || (ownWindow.TextBox_PilotName.Text == "Joe Pilot");
+            return ownWindow.TextBox_Callsign.Text == CommonConstants.DEFAULTCALLSIGN || 
+                   ownWindow.TextBox_PilotName.Text == CommonConstants.DEFAULTPILOTNAME;
         }
 
         private void Callsign_Changed(object sender, TextChangedEventArgs e)
         {
-            if (TextBox_Callsign.Text != "Viper")
+            if (TextBox_Callsign.Text != CommonConstants.DEFAULTCALLSIGN)
                 Label_Error_Callsign.Visibility = Visibility.Collapsed;
             if (TextBox_Callsign.Text.Length > 12)
             {
@@ -72,7 +71,7 @@ namespace FalconBMS.Launcher.Windows
 
         private void PilotName_Changed(object sender, TextChangedEventArgs e)
         {
-            if (TextBox_PilotName.Text != "Joe Pilot")
+            if (TextBox_PilotName.Text != CommonConstants.DEFAULTPILOTNAME)
                 Label_Error_PilotName.Visibility = Visibility.Collapsed;
             if (TextBox_PilotName.Text.Length > 20)
             {
@@ -105,17 +104,17 @@ namespace FalconBMS.Launcher.Windows
 
         private void Button_Register_Click(object sender, RoutedEventArgs e)
         {
-            if (TextBox_Callsign.Text == "Viper")
+            if (TextBox_Callsign.Text == CommonConstants.DEFAULTCALLSIGN)
             {
                 Label_Error_Callsign.Visibility = Visibility.Visible;
-                if (TextBox_PilotName.Text == "Joe Pilot")
+                if (TextBox_PilotName.Text == CommonConstants.DEFAULTPILOTNAME)
                 {
                     Label_Error_PilotName.Visibility = Visibility.Visible;
                     return;
                 }
                 return;
             }
-            if (TextBox_PilotName.Text == "Joe Pilot")
+            if (TextBox_PilotName.Text == CommonConstants.DEFAULTPILOTNAME)
             {
                 Label_Error_PilotName.Visibility = Visibility.Visible;
                 return;
@@ -123,17 +122,33 @@ namespace FalconBMS.Launcher.Windows
 
             appReg.ChangeName(TextBox_Callsign.Text, TextBox_PilotName.Text);
 
-            string command = "-o \"" + appReg.GetInstallDir() + "\\User\\Config\\" + TextBox_Callsign.Text + ".lbk\" write-default --name \"" + TextBox_PilotName.Text + "\" --callsign \"" + TextBox_Callsign.Text + "\"";
-            Diagnostics.Log(command);
+            string command = 
+                "-o \"" 
+                + appReg.GetInstallDir() 
+                + CommonConstants.CONFIGFOLDERBACKSLASH 
+                + TextBox_Callsign.Text 
+                + ".lbk\" write-default --name \"" 
+                + TextBox_PilotName.Text 
+                + "\" --callsign \"" 
+                + TextBox_Callsign.Text 
+                + "\"";
 
-            if (File.Exists("bms-logcat.exe"))
+            Diagnostics.Log(command);
+            
+            if (File.Exists(CommonConstants.LOGCAT))
             {
-                Process.Start("bms-logcat.exe", command);
+                Process.Start(CommonConstants.LOGCAT, command);
+                Close();
+                return;
             }
-            else
+
+            var executable = appReg.GetInstallDir() + CommonConstants.LAUNCHERFOLDER + "/" + CommonConstants.LOGCAT;
+
+            if (File.Exists(executable))
             {
-                Diagnostics.Log(System.Environment.CurrentDirectory);
-                Diagnostics.WriteLogFile();
+                Process.Start(executable, command);
+                Close();
+                return;
             }
 
             Close();

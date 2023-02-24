@@ -66,20 +66,13 @@ namespace FalconBMS.Launcher.Windows
 
         private void AssignWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            // YAME 64 VERSION
-            if (MainWindow.FLG_YAME64)
-            {
-                Background = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
-                BackGroundImage.Opacity = 0;
-            }
-
             Retry.Visibility = Visibility.Hidden;
             SetAB.Visibility = Visibility.Hidden;
             Idle.Visibility = Visibility.Hidden;
 
             check_ABIDLE.Visibility = Visibility.Hidden;
 
-            AxisName.Content = whoCalledWindow.Replace("_", " ");
+            Label_AxisName.Content = whoCalledWindow.Replace("_", " ");
 
             switch (whoCalledWindow)
             {
@@ -199,15 +192,15 @@ namespace FalconBMS.Launcher.Windows
                 status = Status.ShowAxisStatus;
                 Retry.Content = "CLEAR";
                 Retry.Visibility = Visibility.Visible;
-                if (whoCalledWindow == "Throttle")
+                if (whoCalledWindow == AxisName.Throttle.ToString())
                 {
                     SetAB.Visibility = Visibility.Visible;
                     Idle.Visibility = Visibility.Visible;
 
-                    if (((InGameAxAssgn)MainWindow.inGameAxis[whoCalledWindow]).GetDeviceNumber() >= 0)
+                    if (axisAssign.GetDeviceNumber() >= 0)
                     {
-                        AB = MainWindow.deviceControl.joyAssign[((InGameAxAssgn)MainWindow.inGameAxis[whoCalledWindow]).GetDeviceNumber()].detentPosition.GetAB();
-                        IDLE = MainWindow.deviceControl.joyAssign[((InGameAxAssgn)MainWindow.inGameAxis[whoCalledWindow]).GetDeviceNumber()].detentPosition.GetIDLE();
+                        AB = MainWindow.deviceControl.joyAssign[axisAssign.GetDeviceNumber()].detentPosition.GetAB();
+                        IDLE = MainWindow.deviceControl.joyAssign[axisAssign.GetDeviceNumber()].detentPosition.GetIDLE();
                     }
                 }
             }
@@ -252,15 +245,16 @@ namespace FalconBMS.Launcher.Windows
                     Retry.Content = "RETRY";
                     Retry.Visibility = Visibility.Visible;
 
-                    if (whoCalledWindow != "Throttle")
+                    if (whoCalledWindow != AxisName.Throttle.ToString())
                         continue;
                     SetAB.Visibility = Visibility.Visible;
                     Idle.Visibility = Visibility.Visible;
 
-                    if (((InGameAxAssgn)MainWindow.inGameAxis[whoCalledWindow]).GetDeviceNumber() >= 0)
+                    InGameAxAssgn axis = (InGameAxAssgn)MainWindow.inGameAxis[whoCalledWindow];
+                    if (axis.GetDeviceNumber() >= 0)
                     {
-                        AB = MainWindow.deviceControl.joyAssign[((InGameAxAssgn)MainWindow.inGameAxis[whoCalledWindow]).GetDeviceNumber()].detentPosition.GetAB();
-                        IDLE = MainWindow.deviceControl.joyAssign[((InGameAxAssgn)MainWindow.inGameAxis[whoCalledWindow]).GetDeviceNumber()].detentPosition.GetIDLE();
+                        AB = MainWindow.deviceControl.joyAssign[axis.GetDeviceNumber()].detentPosition.GetAB();
+                        IDLE = MainWindow.deviceControl.joyAssign[axis.GetDeviceNumber()].detentPosition.GetIDLE();
                     }
                 }
             }
@@ -335,19 +329,19 @@ namespace FalconBMS.Launcher.Windows
                 + ((AxisNumName)phyAxNumTmp).ToString().Replace('_', ' ') + " : "
                 + MainWindow.deviceControl.joyStick[devNumTmp].DeviceInformation.ProductName;
 
-            if (whoCalledWindow != "Throttle" & whoCalledWindow != "Throttle_Right")
+            if (whoCalledWindow != AxisName.Throttle.ToString() & whoCalledWindow != AxisName.Throttle_Right.ToString())
                 return;
-            AxisValueProgress.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 0x38, 0x78, 0xA8));
+            AxisValueProgress.Foreground = CommonConstants.LIGHTBLUE;
             check_ABIDLE.Visibility = Visibility.Hidden;
             if ( (Invert.IsChecked == false && CommonConstants.AXISMAX + AxisValueProgress.Value < IDLE) || (Invert.IsChecked == true && CommonConstants.AXISMIN + AxisValueProgress.Value < IDLE))
             {
-                AxisValueProgress.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 240, 0, 0));
+                AxisValueProgress.Foreground = CommonConstants.LIGHTRED;
                 check_ABIDLE.Visibility = Visibility.Visible;
                 check_ABIDLE.Content = "IDLE CUTOFF";
             }
             if ( (Invert.IsChecked == false && CommonConstants.AXISMAX + AxisValueProgress.Value > AB) || (Invert.IsChecked == true && CommonConstants.AXISMIN + AxisValueProgress.Value > AB) )
             {
-                AxisValueProgress.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 0, 240, 0));
+                AxisValueProgress.Foreground = CommonConstants.LIGHTGREEN;
                 check_ABIDLE.Visibility = Visibility.Visible;
                 check_ABIDLE.Content = "AB";
             }
@@ -355,16 +349,16 @@ namespace FalconBMS.Launcher.Windows
 
         private void AxisDetectionTimerCode(object sender, EventArgs e)
         {
-            if (sw.ElapsedMilliseconds > 1000)
+            if (sw.ElapsedMilliseconds > CommonConstants.FLUSHTIME1)
                 AssignedJoystick.Content = "";
-            if (sw.ElapsedMilliseconds > 1666)
+            if (sw.ElapsedMilliseconds > CommonConstants.FLUSHTIME2)
             {
                 AssignedJoystick.Content = "   AWAITING INPUTS";
             }
 
             try
             {
-                if (sw.ElapsedMilliseconds > 1666)
+                if (sw.ElapsedMilliseconds > CommonConstants.FLUSHTIME2)
                 {
                     Microsoft.DirectX.DirectInput.DeviceList devList =
                     Microsoft.DirectX.DirectInput.Manager.GetDevices(
@@ -438,7 +432,7 @@ namespace FalconBMS.Launcher.Windows
             }
             if (status == Status.ShowAxisStatus)
             {
-                if (devNumTmp >= 0)
+                if (devNumTmp > CommonConstants.JOYNUMUNASSIGNED)
                 {
                     axisAssign = new InGameAxAssgn(
                             MainWindow.deviceControl.joyAssign[devNumTmp],
@@ -447,10 +441,10 @@ namespace FalconBMS.Launcher.Windows
                             (AxCurve)DeadZone.SelectedIndex,
                             (AxCurve)Saturation.SelectedIndex
                         );
-                    if (whoCalledWindow == "Throttle")
+                    if (whoCalledWindow == AxisName.Throttle.ToString())
                         MainWindow.deviceControl.joyAssign[devNumTmp].detentPosition = new DetentPosition(AB, IDLE);
                 }
-                else if (devNumTmp == -2)
+                else if (devNumTmp == CommonConstants.JOYNUMMOUSEWHEEL)
                 {
                     axisAssign = new InGameAxAssgn(
                             MainWindow.deviceControl.mouse,
@@ -459,7 +453,7 @@ namespace FalconBMS.Launcher.Windows
                             (AxCurve)DeadZone.SelectedIndex,
                             (AxCurve)Saturation.SelectedIndex
                         );
-                    if (whoCalledWindow == "Throttle")
+                    if (whoCalledWindow == AxisName.Throttle.ToString())
                         MainWindow.deviceControl.mouse.detentPosition = new DetentPosition(AB, IDLE);
                 }
             }

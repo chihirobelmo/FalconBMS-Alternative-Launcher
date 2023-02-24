@@ -86,14 +86,14 @@ namespace FalconBMS.Launcher.Windows
 
         private void KeyMappingtimerCode(object sender, EventArgs e)
         {
-            if (sw.ElapsedMilliseconds > 1000)
+            if (sw.ElapsedMilliseconds > CommonConstants.FLUSHTIME1)
                 AwaitingInputs.Content = "";
-            if (sw.ElapsedMilliseconds > 1666)
+            if (sw.ElapsedMilliseconds > CommonConstants.FLUSHTIME2)
                 AwaitingInputs.Content = "   AWAITING INPUTS";
 
             try
             {
-                if (sw.ElapsedMilliseconds > 1666)
+                if (sw.ElapsedMilliseconds > CommonConstants.FLUSHTIME2)
                 {
                     Microsoft.DirectX.DirectInput.DeviceList devList =
                     Microsoft.DirectX.DirectInput.Manager.GetDevices(
@@ -203,12 +203,12 @@ namespace FalconBMS.Launcher.Windows
                     // Construct DX button instance.
                     if (tmpCallback.GetCallback() == "SimHotasPinkyShift" || tmpCallback.GetCallback() == "SimHotasShift")
                     {
-                        tmpJoyStick[i].dx[ii].Assign(tmpCallback.GetCallback(), Pinky.UnShift, Behaviour.Press, Invoke.Default, 0);
-                        tmpJoyStick[i].dx[ii].Assign(tmpCallback.GetCallback(), Pinky.Shift, Behaviour.Press, Invoke.Default, 0);
+                        tmpJoyStick[i].dx[ii].Assign(tmpCallback.GetCallback(), Pinky.UnShift, Behaviour.Press, Invoke.Default, tmpCallback.GetSoundID());
+                        tmpJoyStick[i].dx[ii].Assign(tmpCallback.GetCallback(), Pinky.Shift, Behaviour.Press, Invoke.Default, tmpCallback.GetSoundID());
                     }
                     else
                     {
-                        tmpJoyStick[i].dx[ii].Assign(tmpCallback.GetCallback(), pinkyStatus, behaviourStatus, invokeStatus, 0);
+                        tmpJoyStick[i].dx[ii].Assign(tmpCallback.GetCallback(), pinkyStatus, behaviourStatus, invokeStatus, tmpCallback.GetSoundID());
                     }
 
                     getNeutralPosition();
@@ -357,17 +357,17 @@ namespace FalconBMS.Launcher.Windows
                 case Invoke.Default:
                     invokeStatus = Invoke.Down;
                     Select_Invoke.Content = "INVOKE KEYDN";
-                    Select_Invoke.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x99, 0xD9, 0xEA));
+                    Select_Invoke.Background = CommonConstants.GREYBLUE;
                     break;
                 case Invoke.Down:
                     invokeStatus = Invoke.Up;
                     Select_Invoke.Content = "INVOKE KEYUP";
-                    Select_Invoke.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x99, 0xD9, 0xEA));
+                    Select_Invoke.Background = CommonConstants.GREYBLUE;
                     break;
                 case Invoke.Up:
                     invokeStatus = Invoke.Default;
                     Select_Invoke.Content = "INVOKE BOTH";
-                    Select_Invoke.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xF7, 0xF7, 0xF7));
+                    Select_Invoke.Background = CommonConstants.WHITEILUM;
                     break;
             }
         }
@@ -430,14 +430,14 @@ namespace FalconBMS.Launcher.Windows
                 case Press.Press:
                     pressStatus = Press.Release;
                     Select_Press.Content = "RELEASE";
-                    Select_Press.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x99, 0xD9, 0xEA));
+                    Select_Press.Background = CommonConstants.GREYBLUE;
                     invokeStatus = Invoke.Down;
                     Select_DX_Release.IsChecked = false;
                     break;
                 case Press.Release:
                     pressStatus = Press.Press;
                     Select_Press.Content = "PRESS";
-                    Select_Press.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xF7, 0xF7, 0xF7));
+                    Select_Press.Background = CommonConstants.WHITEILUM;
                     invokeStatus = Invoke.Default;
                     Select_DX_Release.IsChecked = true;
                     break;

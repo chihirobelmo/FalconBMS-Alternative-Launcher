@@ -298,5 +298,41 @@ namespace FalconBMS.Launcher.Properties {
                 this["Misc_VR"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("BMS - Full")]
+        public string SelectedKeyFileName {
+            get {
+                return ((string)(this["SelectedKeyFileName"]));
+            }
+            set {
+                this["SelectedKeyFileName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool FirstTimeNonOverride {
+            get {
+                return ((bool)(this["FirstTimeNonOverride"]));
+            }
+            set {
+                this["FirstTimeNonOverride"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool Misc_3DClickableCursorFixToCenter {
+            get {
+                return ((bool)(this["Misc_3DClickableCursorFixToCenter"]));
+            }
+            set {
+                this["Misc_3DClickableCursorFixToCenter"] = value;
+            }
+        }
     }
 }

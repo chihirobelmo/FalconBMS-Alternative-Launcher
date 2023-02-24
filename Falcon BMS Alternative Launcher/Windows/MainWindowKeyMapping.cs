@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,6 +18,55 @@ namespace FalconBMS.Launcher.Windows
     /// </summary>
     public partial class MainWindow
     {
+        public ObservableCollection<string> KeyFileList { get; set; }
+
+        private void FillKeyFileList()
+        {
+            KeyFileList = new ObservableCollection<string>();
+
+            string[] keyfileList = Directory.GetFiles(appReg.GetInstallDir() + CommonConstants.CONFIGFOLDER, "*.key", System.IO.SearchOption.AllDirectories);
+
+            foreach (string Key in keyfileList)
+            {
+                KeyFileList.Add(Path.GetFileName(Key).Replace(".key", ""));
+            }
+
+            KeyFileSelect.ItemsSource = KeyFileList;
+
+            Diagnostics.Log("Key List Filled.");
+
+            KeyFileSelect_SelectKeyFile();
+            KeyFileSelect_SelectKeyFile();   // Search BMS - Full.key if Last Selected keyfile does not found. thus call this twice.
+        }
+
+        public void SetDefaultKeyFile(string defaultkey)
+        {
+            Properties.Settings.Default.SelectedKeyFileName = defaultkey;
+            Properties.Settings.Default.Save();
+        }
+
+        public void KeyFileSelect_SelectKeyFile()
+        {
+            for (int i = 0; i < KeyFileList.Count(); i++)
+            {
+                if (KeyFileList[i] == Properties.Settings.Default.SelectedKeyFileName)
+                {
+                    KeyFileSelect.SelectedIndex = i;
+                    appReg.SetUserKeyFileName((string)KeyFileSelect.SelectedItem);
+                    return;
+                }
+            }
+            Properties.Settings.Default.SelectedKeyFileName = CommonConstants.DEFAULTKEY;
+        }
+
+        private void KeyFileSelect_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            appReg.SetUserKeyFileName((string)KeyFileSelect.SelectedItem);
+            ReloadKeyFile();
+            ResetKeyMappingGrid();
+            WriteDataGrid();
+        }
+
         /// <summary>
         /// Let's write DataGrid cells at KeyMapping page a keyfile informarion.
         /// </summary>
@@ -43,6 +94,18 @@ namespace FalconBMS.Launcher.Windows
             KeyMappingGrid.Items.Refresh();
 
             statusAssign = Status.GetNeutralPos;
+        }
+        public void ResetJoystickColumn()
+        {
+            ResetKeyMappingGrid();
+
+            statusAssign = Status.GetNeutralPos;
+        }
+        public void ResetKeyMappingGrid()
+        {
+            var temp = KeyMappingGrid.ItemsSource;
+            KeyMappingGrid.ItemsSource = null;
+            KeyMappingGrid.ItemsSource = temp;
         }
 
         /// <summary>
@@ -99,11 +162,11 @@ namespace FalconBMS.Launcher.Windows
                 return;
             if (selectedItem.GetVisibility() != "White")
                 return;
-            if (selectedItem.GetCallback() == "SimDoNothing")
+            if (selectedItem.GetCallback() == CommonConstants.SIMDONOTHING)
                 return;
 
             KeyMappingWindow.ShowKeyMappingWindow(this, selectedItem, keyFile, deviceControl, sender);
-            ResortDevices();
+            RefreshDevices();
 
             KeyMappingGrid.Items.Refresh();
             KeyMappingGrid.UnselectAllCells();
@@ -230,7 +293,7 @@ namespace FalconBMS.Launcher.Windows
                                 behaviourStatus = Behaviour.Release;
 
                             target = deviceControl.joyAssign[i].dx[ii].assign[(int)pinkyStatus + (int)behaviourStatus].GetCallback();
-                            if (target == "SimDoNothing" && behaviourStatus == Behaviour.Release)
+                            if (target == CommonConstants.SIMDONOTHING && behaviourStatus == Behaviour.Release)
                             { }
                             else
                             {
@@ -262,7 +325,7 @@ namespace FalconBMS.Launcher.Windows
             }
             if (target == "")
                 return;
-            if (target == "SimDoNothing")
+            if (target == CommonConstants.SIMDONOTHING)
                 return;
             // If the key assignment was found, jump to the mapping for it and highlight it.
             KeyAssgn key = keyFile.keyAssign.FirstOrDefault(x => x.GetCallback() == target);
@@ -373,17 +436,17 @@ namespace FalconBMS.Launcher.Windows
                 case Invoke.Default:
                     invokeStatus = Invoke.Down;
                     Select_Invoke.Content = "INVOKE KEYDN";
-                    Select_Invoke.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x99, 0xD9, 0xEA));
+                    Select_Invoke.Background = CommonConstants.GREYBLUE;
                     break;
                 case Invoke.Down:
                     invokeStatus = Invoke.Up;
                     Select_Invoke.Content = "INVOKE KEYUP";
-                    Select_Invoke.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x99, 0xD9, 0xEA));
+                    Select_Invoke.Background = CommonConstants.GREYBLUE;
                     break;
                 case Invoke.Up:
                     invokeStatus = Invoke.Default;
                     Select_Invoke.Content = "INVOKE BOTH";
-                    Select_Invoke.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xF7, 0xF7, 0xF7));
+                    Select_Invoke.Background = CommonConstants.WHITEILUM;
                     break;
             }
         }
@@ -399,7 +462,7 @@ namespace FalconBMS.Launcher.Windows
             switch (Category.SelectedIndex)
             {
                 case 0:
-                    target = "BMS - Full";
+                    target = (string)KeyFileSelect.SelectedItem;
                     break;
                 case 1:
                     target = "1. UI & 3RD PARTY SOFTWARE";

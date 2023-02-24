@@ -94,7 +94,8 @@ namespace FalconBMS.Launcher.Windows
                 invertNum = 0;
                 foreach (AxisName nme in axisNameList)
                 {
-                    if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() == -1)
+                    InGameAxAssgn axis = (InGameAxAssgn)MainWindow.inGameAxis[nme.ToString()];
+                    if (axis.GetDeviceNumber() == -1)
                         continue;
                     tblabel = FindName("Label_" + nme) as Label;
                     tbprogressbar = FindName("Axis_" + nme) as ProgressBar;
@@ -112,13 +113,13 @@ namespace FalconBMS.Launcher.Windows
                         case AxisName.Threat_Volume:
                         case AxisName.AI_vs_IVC:
                         case AxisName.ILS_Volume_Knob:
-                            if (!((InGameAxAssgn)inGameAxis[nme.ToString()]).GetInvert())
+                            if (!axis.GetInvert())
                                 invertNum = -1;
                             else
                                 invertNum = 1;
                             break;
                         default:
-                            if (!((InGameAxAssgn)inGameAxis[nme.ToString()]).GetInvert())
+                            if (!axis.GetInvert())
                                 invertNum = 1;
                             else
                                 invertNum = -1;
@@ -135,7 +136,7 @@ namespace FalconBMS.Launcher.Windows
                         tbprogressbar.Maximum =  CommonConstants.AXISMIN;
                     }
 
-                    if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() == -2)
+                    if (axis.GetDeviceNumber() == -2)
                     {
                         tbprogressbar.Value = (CommonConstants.AXISMAX / 2 + wheelValue * 1024 / 120) * invertNum;
                         tblabel.Content = "MOUSE : WH";
@@ -144,14 +145,14 @@ namespace FalconBMS.Launcher.Windows
 
                     int output = ApplyDeadZone
                         (
-                            ((InGameAxAssgn)inGameAxis[nme.ToString()]).GetJoy().JoyAxisState(((InGameAxAssgn)inGameAxis[nme.ToString()]).GetPhysicalNumber()),
-                            ((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeadzone(),
-                            ((InGameAxAssgn)inGameAxis[nme.ToString()]).GetSaturation()
+                            axis.GetJoy().JoyAxisState(axis.GetPhysicalNumber()),
+                            axis.GetDeadzone(),
+                            axis.GetSaturation()
                         );
                     tbprogressbar.Value = output * invertNum;
 
-                    string joyActualName = deviceControl.joyStick[((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber()].DeviceInformation.InstanceName;
-                    string joyName = "JOY  " + ((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber();
+                    string joyActualName = deviceControl.joyStick[axis.GetDeviceNumber()].DeviceInformation.InstanceName;
+                    string joyName = "JOY  " + axis.GetDeviceNumber();
 
                     if (joyActualName.Contains("Thrustmaster HOTAS Cougar"))
                         joyName = "HOTAS";
@@ -202,7 +203,7 @@ namespace FalconBMS.Launcher.Windows
                     if (joyActualName.ToLower().Contains("ch ") && joyActualName.ToLower().Contains("pedals"))
                         joyName = "CHPPP";
 
-                    int axisNumber = ((InGameAxAssgn)inGameAxis[nme.ToString()]).GetPhysicalNumber();
+                    int axisNumber = axis.GetPhysicalNumber();
                     tblabel.Content = joyName + " : " + ((AxisNumName)axisNumber).ToString().Replace('_', ' ');
                     tblabel.Content = ((string)tblabel.Content).Replace("Axis ", "  ");
                     tblabel.Content = ((string)tblabel.Content).Replace("Rotation ", "R");
@@ -215,21 +216,22 @@ namespace FalconBMS.Launcher.Windows
                     tblabelab = FindName("AB_" + nme) as Label;
                     tblabelab.Visibility = Visibility.Hidden;
 
-                    tbprogressbar.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 0x38, 0x78, 0xA8));
+                    tbprogressbar.Foreground = CommonConstants.LIGHTBLUE;
 
-                    if (((InGameAxAssgn)MainWindow.inGameAxis[AxisName.Throttle.ToString()]).GetDeviceNumber() >= 0)
+                    InGameAxAssgn throttleAxis = (InGameAxAssgn)MainWindow.inGameAxis[AxisName.Throttle.ToString()];
+                    if (throttleAxis.GetDeviceNumber() >= 0)
                     {
-                        if ( !((InGameAxAssgn)inGameAxis[nme.ToString()]).GetInvert() && CommonConstants.AXISMAX + tbprogressbar.Value < deviceControl.GetIDLE(AxisName.Throttle) ||
-                              ((InGameAxAssgn)inGameAxis[nme.ToString()]).GetInvert() && CommonConstants.AXISMIN + tbprogressbar.Value < deviceControl.GetIDLE(AxisName.Throttle) ) 
+                        if ( !axis.GetInvert() && CommonConstants.AXISMAX + tbprogressbar.Value < deviceControl.GetIDLE(AxisName.Throttle) ||
+                              axis.GetInvert() && CommonConstants.AXISMIN + tbprogressbar.Value < deviceControl.GetIDLE(AxisName.Throttle) ) 
                         {
-                            tbprogressbar.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 240, 0, 0));
+                            tbprogressbar.Foreground = CommonConstants.LIGHTRED;
                             tblabelab.Visibility = Visibility.Visible;
                             tblabelab.Content = "IDLE CUTOFF";
                         }
-                        if ( !((InGameAxAssgn)inGameAxis[nme.ToString()]).GetInvert() && CommonConstants.AXISMAX + tbprogressbar.Value > deviceControl.GetAB(AxisName.Throttle) ||
-                              ((InGameAxAssgn)inGameAxis[nme.ToString()]).GetInvert() && CommonConstants.AXISMIN + tbprogressbar.Value > deviceControl.GetAB(AxisName.Throttle) )
+                        if ( !axis.GetInvert() && CommonConstants.AXISMAX + tbprogressbar.Value > deviceControl.GetAB(AxisName.Throttle) ||
+                              axis.GetInvert() && CommonConstants.AXISMIN + tbprogressbar.Value > deviceControl.GetAB(AxisName.Throttle) )
                         {
-                            tbprogressbar.Foreground = new SolidColorBrush(Color.FromArgb(0x80, 0, 240, 0));
+                            tbprogressbar.Foreground = CommonConstants.LIGHTGREEN;
                             tblabelab.Visibility = Visibility.Visible;
                             tblabelab.Content = "AB";
                         }
@@ -384,14 +386,16 @@ namespace FalconBMS.Launcher.Windows
                         continue;
                     if (ReferenceEquals(deviceControl.joyAssign[i].axis[ii].GetAxisName(), ""))
                         continue;
-                    if (((InGameAxAssgn)inGameAxis[deviceControl.joyAssign[i].axis[ii].GetAxisName()]).getDate() > deviceControl.joyAssign[i].axis[ii].GetAssignDate())
+                    InGameAxAssgn axis = (InGameAxAssgn)inGameAxis[deviceControl.joyAssign[i].axis[ii].GetAxisName()];
+                    if (axis.getDate() > deviceControl.joyAssign[i].axis[ii].GetAssignDate())
                         continue;
                     inGameAxis[deviceControl.joyAssign[i].axis[ii].GetAxisName()] = new InGameAxAssgn(MainWindow.deviceControl.joyAssign[i], ii, deviceControl.joyAssign[i].axis[ii]);
                 }
             }
             if (ReferenceEquals(deviceControl.mouse.GetMouseAxis().GetAxisName(), ""))
                 return;
-            if (((InGameAxAssgn)inGameAxis[deviceControl.mouse.GetMouseAxis().GetAxisName()]).getDate() > deviceControl.mouse.GetMouseAxis().GetAssignDate())
+            InGameAxAssgn mouseAxis = (InGameAxAssgn)inGameAxis[deviceControl.mouse.GetMouseAxis().GetAxisName()];
+            if (mouseAxis.getDate() > deviceControl.mouse.GetMouseAxis().GetAssignDate())
                 return;
             inGameAxis[deviceControl.mouse.GetMouseAxis().GetAxisName()] = new InGameAxAssgn(deviceControl.mouse, -1, deviceControl.mouse.GetMouseAxis());
         }

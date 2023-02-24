@@ -17,6 +17,7 @@ using AutoUpdaterDotNET;
 using System.Reflection;
 using System.Xml;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
 namespace FalconBMS.Launcher.Windows
 {
@@ -51,8 +52,6 @@ namespace FalconBMS.Launcher.Windows
         private DispatcherTimer AxisMovingTimer = new DispatcherTimer();
         private DispatcherTimer KeyMappingTimer = new DispatcherTimer();
         private DispatcherTimer NewDeviceDetectTimer = new DispatcherTimer();
-
-        public static bool FLG_YAME64;
 
         /// <summary>
         /// Execute when launching this app.
@@ -89,34 +88,10 @@ namespace FalconBMS.Launcher.Windows
 
             try
             {
-                // Load UI Properties(Like Button Status).
                 appProperties = new AppProperties(this);
-
-                // Read Registry
                 appReg = new AppRegInfo(this);
+                InitDeveices();
 
-                BMSChanged();
-                ReloadDevices();
-
-                Diagnostics.Log("Init Devices.");
-
-                UPDATE_AVAILABLE.Visibility = Visibility.Hidden;
-                /*
-                if (DownloadWindow.CheckMajorUpdate(ListBox_BMS))
-                    UPDATE_AVAILABLE.Visibility = Visibility.Hidden;
-                else
-                {
-                    DownloadWindow.ShowDownloadWindow(this, appReg, ListBox_BMS);
-
-                    appReg = new AppRegInfo(this);
-
-                    BMSChanged();
-                    ReloadDevices();
-                }
-                */
-
-                Diagnostics.Log("Update Checked.");
-                
                 if (appReg.getBMSVersion() == BMS_Version.UNDEFINED)
                 {
                     MessageBox.Show("Could Not Find BMS");
@@ -125,37 +100,8 @@ namespace FalconBMS.Launcher.Windows
                     return;
                 }
 
-                Diagnostics.Log("BMS found.");
-
-                /*
-                if (DownloadWindow.CheckMinorUpdate(appReg))
-                    UPDATE_AVAILABLE.Visibility = Visibility.Hidden;
-                else
-                {
-                    UPDATE_AVAILABLE.Visibility = Visibility.Visible;
-                    DownloadWindow.ShowDownloadWindow(this, appReg, ListBox_BMS);
-                }
-                */
-
-                if ((bool)Misc_VR.IsVisible)
-                    if ((bool)Misc_VR.IsChecked)
-                        steamVR.Start();
-
-                Diagnostics.Log("Update Visiblity check.");
-
-                // Set Timer
-                AxisMovingTimer.Tick += AxisMovingTimer_Tick;
-                AxisMovingTimer.Interval = new TimeSpan(0, 0, 0, 0, 16);
-
-                KeyMappingTimer.Tick += KeyMappingTimer_Tick;
-                KeyMappingTimer.Interval = new TimeSpan(0, 0, 0, 0, 32);
-
-                NewDeviceDetectTimer.Tick += NewDeviceDetectTimer_Tick;
-                NewDeviceDetectTimer.Interval = new TimeSpan(0, 0, 0, 1, 0);
-
-                NewDeviceDetectTimer.Start();
-
-                Diagnostics.Log("Timer Started.");
+                StartVR();
+                StartTimers();
             }
             catch (Exception exclose)
             {
@@ -163,6 +109,47 @@ namespace FalconBMS.Launcher.Windows
                 Close();
                 return;
             }
+        }
+
+        private void StartTimers()
+        {
+            Diagnostics.Log("Start Timers.");
+
+            // Set Timer
+            AxisMovingTimer.Tick += AxisMovingTimer_Tick;
+            AxisMovingTimer.Interval = new TimeSpan(0, 0, 0, 0, 16);
+
+            KeyMappingTimer.Tick += KeyMappingTimer_Tick;
+            KeyMappingTimer.Interval = new TimeSpan(0, 0, 0, 0, 32);
+
+            NewDeviceDetectTimer.Tick += NewDeviceDetectTimer_Tick;
+            NewDeviceDetectTimer.Interval = new TimeSpan(0, 0, 0, 1, 0);
+
+            NewDeviceDetectTimer.Start();
+
+            Diagnostics.Log("Timers Started.");
+        }
+
+        private void StartVR()
+        {
+            Diagnostics.Log("Start VR Check.");
+
+            if ((bool)Misc_VR.IsVisible)
+                if ((bool)Misc_VR.IsChecked)
+                    steamVR.Start();
+
+            Diagnostics.Log("Finished VR Check.");
+        }
+
+        private void InitDeveices()
+        {
+            Diagnostics.Log("Start Init Devices.");
+
+            FillKeyFileList();
+            BMSChanged();
+            ReloadDevices();
+
+            Diagnostics.Log("Finished Init Devices.");
         }
 
         private void NewDeviceDetectTimer_Tick(object sender, EventArgs e)
@@ -218,12 +205,10 @@ namespace FalconBMS.Launcher.Windows
                 // Read Theater List
                 TheaterList.PopulateAndSave(appReg, Dropdown_TheaterList);
 
+                appReg.ChangeCfgPath();
+
                 // Read BMS-FULL.key
-                string fname = appReg.GetInstallDir() + "\\User\\Config\\" + appReg.getKeyFileName();
-                string fnameauto = appReg.GetInstallDir() + "\\User\\Config\\" + appReg.getAutoKeyFileName();
-                if (!File.Exists(fnameauto))
-                    File.Copy(fname, fnameauto);
-                keyFile = new KeyFile(fnameauto, appReg);
+                ReloadKeyFile();
 
                 // Write Data Grid
                 WriteDataGrid();
@@ -233,6 +218,12 @@ namespace FalconBMS.Launcher.Windows
                 Diagnostics.WriteLogFile(ex);
                 Close();
             }
+        }
+
+        private void ReloadKeyFile()
+        {
+            string fname = appReg.GetInstallDir() + "\\User\\Config\\" + appReg.getKeyFileName();
+            keyFile = new KeyFile(fname, appReg);
         }
 
         public void ReloadDevices()
@@ -266,6 +257,25 @@ namespace FalconBMS.Launcher.Windows
 
                 joyAssign_2_inGameAxis();
                 ResetAssgnWindow();
+                ResetJoystickColumn();
+            }
+            catch (Exception ex)
+            {
+                Diagnostics.WriteLogFile(ex);
+                Close();
+            }
+        }
+
+        public void RefreshDevices()
+        {
+            try
+            {
+                // Reset All Axis Settings
+                foreach (AxisName nme in axisNameList)
+                    inGameAxis[nme.ToString()] = new InGameAxAssgn();
+
+                joyAssign_2_inGameAxis();
+                ResetAssgnWindow();
                 RefreshJoystickColumn();
             }
             catch (Exception ex)
@@ -274,7 +284,7 @@ namespace FalconBMS.Launcher.Windows
                 Close();
             }
         }
-        
+
         /// <summary>
         /// Execute when quiting this app.
         /// </summary>
@@ -286,15 +296,13 @@ namespace FalconBMS.Launcher.Windows
 
             try
             {
-                Torrent.status = false;
-
                 if (appReg == null)
                     return;
 
                 // Save UI Properties(Like Button Status).
                 appProperties.SaveUISetup();
-                if (ApplicationOverride.IsChecked == false)
-                    appReg.getOverrideWriter().Execute(inGameAxis, deviceControl, keyFile);
+                appReg.getOverrideWriter().SaveKeyMapping(inGameAxis, deviceControl, keyFile);
+                appReg.getOverrideWriter().SaveJoyAssignStatus(deviceControl);
             }
             catch (Exception ex)
             {
@@ -420,11 +428,14 @@ namespace FalconBMS.Launcher.Windows
                 if (!appReg.isNameDefined())
                 {
                     if (!CallsignWindow.ShowCallsignWindow(appReg))
+                    {
                         appReg.getLauncher().execute(sender, true);
-                    return;
+                    }
                 }
-
-                appReg.getLauncher().execute(sender);
+                else
+                {
+                    appReg.getLauncher().execute(sender);
+                }
             }
             catch (FileNotFoundException ex)
             {
@@ -452,8 +463,12 @@ namespace FalconBMS.Launcher.Windows
                 // throw new Exception("An exception occurs.");
                 if (ApplicationOverride.IsChecked == true)
                 {
-                    string textMessage = "You are going to launch BMS without any setup override from AxisAssign and KeyMapping section.";
-                    MessageBox.Show(textMessage, "WARNING", MessageBoxButton.OK, MessageBoxImage.Information);
+                    if (Properties.Settings.Default.FirstTimeNonOverride)
+                    {
+                        string textMessage = "You are going to launch BMS without any setup override from AxisAssign and KeyMapping section.";
+                        MessageBox.Show(textMessage, "WARNING", MessageBoxButton.OK, MessageBoxImage.Information);
+                        Properties.Settings.Default.FirstTimeNonOverride = false;
+                    }
                 }
                 else
                 {
@@ -643,14 +658,14 @@ namespace FalconBMS.Launcher.Windows
                     Button tbButton = FindName(nme) as Button;
                     if (tbButton == null)
                         return;
-                    tbButton.BorderBrush = new SolidColorBrush(Colors.LightBlue);
+                    tbButton.BorderBrush = CommonConstants.LIGHTBLUE;
                     tbButton.BorderThickness = new Thickness(1);
 
                     nme = nme.Replace("Launch_", "");
                     Label tblabel = FindName("Label_" + nme) as Label;
                     if (tblabel == null)
                         return;
-                    tblabel.Foreground = new SolidColorBrush(Color.FromArgb(255, 128, 255, 255));
+                    tblabel.Foreground = CommonConstants.BLUEILUM;
                 }
             }
             catch (Exception ex)
@@ -683,7 +698,7 @@ namespace FalconBMS.Launcher.Windows
                     Label tblabel = FindName("Label_" + nme) as Label;
                     if (tblabel == null)
                         return;
-                    tblabel.Foreground = new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
+                    tblabel.Foreground = CommonConstants.WHITEILUM;
                 }
             }
             catch (Exception ex)
@@ -742,6 +757,7 @@ namespace FalconBMS.Launcher.Windows
 
         private void CMD_WINDOW_Click(object sender, RoutedEventArgs e)
         {
+            return;
             if (CMD_WINDOW.IsChecked == true)
                 MessageBox.Show("FalconBMS crashes when Alt+TAB in FullScreen Mode. Recommend Enabling Window Mode.\n(WINDOW button turning on light)", "WARNING", MessageBoxButton.OK, MessageBoxImage.Information);
         }

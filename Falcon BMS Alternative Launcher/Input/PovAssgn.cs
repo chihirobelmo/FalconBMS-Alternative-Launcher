@@ -77,7 +77,7 @@
     public class DirAssgn
     {
         // Member
-        protected string[] callback = { "SimDoNothing", "SimDoNothing" };
+        protected string[] callback = { CommonConstants.SIMDONOTHING, CommonConstants.SIMDONOTHING };
         protected int[] soundID = { 0, 0 };
         // [0]=PRESS
         // [1]=PRESS + SHIFT
@@ -112,7 +112,7 @@
 
         public void UnAssign(Pinky pinky)
         {
-            callback[(int)pinky] = "SimDoNothing";
+            callback[(int)pinky] = CommonConstants.SIMDONOTHING;
             soundID[(int)pinky] = 0;
         }
 
