@@ -38,8 +38,8 @@ namespace FalconBMS.Launcher.Override
         /// <param name="visualAcuity"></param>
         public void Execute(Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile)
         {
-            if (!Directory.Exists(appReg.GetInstallDir() + "/User/Config/Backup/"))
-                Directory.CreateDirectory(appReg.GetInstallDir() + "/User/Config/Backup/");
+            if (!Directory.Exists(appReg.GetInstallDir() + CommonConstants.BACKUPFOLDER))
+                Directory.CreateDirectory(appReg.GetInstallDir() + CommonConstants.BACKUPFOLDER);
 
             SaveAxisMapping(inGameAxis, deviceControl);
             SaveJoystickCal(inGameAxis, deviceControl);
@@ -54,8 +54,8 @@ namespace FalconBMS.Launcher.Override
 
         protected void SaveWindowConfig()
         {
-            string filename = appReg.GetInstallDir() + "/User/Config/windowconfig.dat";
-            string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/windowconfig.dat";
+            string filename = appReg.GetInstallDir() + CommonConstants.CONFIGFOLDER + "windowconfig.dat";
+            string fbackupname = appReg.GetInstallDir() + CommonConstants.BACKUPFOLDER + "windowconfig.dat";
             if (!File.Exists(fbackupname) & File.Exists(filename))
                 File.Copy(filename, fbackupname, true);
             if (File.Exists(filename))
@@ -103,7 +103,7 @@ namespace FalconBMS.Launcher.Override
         /// <summary>
         /// As the name implies...
         /// </summary>
-        protected void SaveJoyAssignStatus(DeviceControl deviceControl)
+        public void SaveJoyAssignStatus(DeviceControl deviceControl)
         {
             string fileName;
             XmlSerializer serializer;
@@ -111,7 +111,7 @@ namespace FalconBMS.Launcher.Override
 
             for (int i = 0; i < deviceControl.joyAssign.Length; i++)
             {
-                fileName = appReg.GetInstallDir() + "/User/Config/Setup.v100." + deviceControl.joyAssign[i].GetProductName().Replace("/", "-")
+                fileName = appReg.GetInstallDir() + CommonConstants.CONFIGFOLDER + CommonConstants.SETUPV100 + deviceControl.joyAssign[i].GetProductFileName()
                 + " {" + deviceControl.joyAssign[i].GetInstanceGUID().ToString().ToUpper() + "}.xml";
 
                 try
@@ -130,7 +130,7 @@ namespace FalconBMS.Launcher.Override
                 }
 
             }
-            fileName = appReg.GetInstallDir() + "/User/Config/Setup.v100.MouseWheel.xml";
+            fileName = appReg.GetInstallDir() + CommonConstants.CONFIGFOLDER + CommonConstants.SETUPV100 + CommonConstants.MOUSEXML;
 
             serializer = new XmlSerializer(typeof(AxAssgn));
             sw = new StreamWriter(fileName, false, new UTF8Encoding(false));
@@ -144,8 +144,29 @@ namespace FalconBMS.Launcher.Override
         /// </summary>
         protected virtual void SaveConfigfile(Hashtable inGameAxis, DeviceControl deviceControl)
         {
-            string filename = appReg.GetInstallDir() + "/User/Config/falcon bms.cfg";
-            string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/falcon bms.cfg";
+            StreamWriter cfgo = OverwriteCfg(CommonConstants.CFGFILE);
+            cfgo.Close();
+
+            StreamWriter cfg = OverwriteCfg(CommonConstants.USERCFGFILE);
+
+            OverrideButtonsPerDevice(cfg, deviceControl);
+            OverrideHotasPinkyShiftMagnitude(cfg, deviceControl);
+            OverrideVRHMD(cfg);
+
+            cfg.Write("set g_b3DClickableCursorFixToCenter " + Convert.ToInt32(mainWindow.Misc_3DClickableCursorFixToCenter.IsChecked)
+                + CommonConstants.CFGOVERRIDECOMMENT + "\r\n");
+            cfg.Write("set g_b3DClickableCursorAnchored " + Convert.ToInt32(mainWindow.Misc_MouseCursorAnchor.IsChecked)
+                + CommonConstants.CFGOVERRIDECOMMENT + "\r\n");
+
+            OverridePovDeviceIDs(cfg, inGameAxis);
+
+            cfg.Close();
+        }
+
+        private StreamWriter OverwriteCfg(string fname)
+        {
+            string filename = appReg.GetInstallDir() + CommonConstants.CONFIGFOLDER + fname;
+            string fbackupname = appReg.GetInstallDir() + CommonConstants.BACKUPFOLDER + fname;
             if (!File.Exists(fbackupname) & File.Exists(filename))
                 File.Copy(filename, fbackupname, true);
 
@@ -158,23 +179,32 @@ namespace FalconBMS.Launcher.Override
             while (cReader.Peek() >= 0)
             {
                 string stBuffer = cReader.ReadLine();
-                if (stBuffer.Contains("// SETUP OVERRIDE"))
+                if (stBuffer.Contains(CommonConstants.CFGOVERRIDECOMMENT))
                     continue;
                 stResult += stBuffer + "\r\n";
             }
             cReader.Close();
-            
+
             StreamWriter cfg = new StreamWriter
                 (filename, false, Encoding.GetEncoding("shift_jis"));
             cfg.Write(stResult);
-            cfg.Write("set g_nHotasPinkyShiftMagnitude " + deviceControl.joyAssign.Length * CommonConstants.DX32
-                + "          // SETUP OVERRIDE\r\n");
-            cfg.Write("set g_bHotasDgftSelfCancel " + Convert.ToInt32(mainWindow.Misc_OverrideSelfCancel.IsChecked)
-                + "          // SETUP OVERRIDE\r\n");
-            cfg.Write("set g_b3DClickableCursorAnchored " + Convert.ToInt32(mainWindow.Misc_MouseCursorAnchor.IsChecked)
-                + "          // SETUP OVERRIDE\r\n");
-            cfg.Close();
+
+            return cfg;
         }
+
+        protected virtual void OverridePovDeviceIDs(StreamWriter cfg, Hashtable inGameAxis) { }
+
+        protected virtual void OverrideHotasPinkyShiftMagnitude(StreamWriter cfg, DeviceControl deviceControl) { }
+
+        protected virtual void OverrideButtonsPerDevice(StreamWriter cfg, DeviceControl deviceControl)
+        {
+            cfg.Write(
+                "set g_nButtonsPerDevice "
+                + CommonConstants.DX32
+                + CommonConstants.CFGOVERRIDECOMMENT + "\r\n");
+        }
+
+        protected virtual void OverrideVRHMD(StreamWriter cfg) { }
 
         /// <summary>
         /// As the name implies...
@@ -187,7 +217,7 @@ namespace FalconBMS.Launcher.Override
 
             // BMS overwrites DeviceSorting.txt if was written in UTF-8.
             string filename = appReg.GetInstallDir() + "/User/Config/DeviceSorting.txt";
-            string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/DeviceSorting.txt";
+            string fbackupname = appReg.GetInstallDir() + CommonConstants.BACKUPFOLDER + "DeviceSorting.txt";
             if (!File.Exists(fbackupname) & File.Exists(filename))
                 File.Copy(filename, fbackupname, true);
 
@@ -200,28 +230,41 @@ namespace FalconBMS.Launcher.Override
             ds.Close();
         }
 
-        protected virtual void SaveKeyMapping(Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile, int DXnumber)
+        public virtual void SaveKeyMapping(Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile, int DXnumber)
         {
-            string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.getAutoKeyFileName();
+            string filename = appReg.GetInstallDir() + CommonConstants.CONFIGFOLDER + appReg.getKeyUserFileName();
+
+            // Save To BMS - AUTO.key
+            appReg.SetUserKeyFileName(CommonConstants.USERKEY);
+
+            // Set BMS - AUTO.key default for the next launch
+            mainWindow.SetDefaultKeyFile(CommonConstants.USERKEY);
 
             if (File.Exists(filename))
                 File.SetAttributes(filename, File.GetAttributes(filename) & ~FileAttributes.ReadOnly);
 
+            WriteKeyLines(filename, inGameAxis, deviceControl, keyFile, DXnumber);
+        }
+
+        protected virtual void WriteKeyLines(string filename, Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile, int DXnumber)
+        {
             StreamWriter sw = new StreamWriter
                 (filename, false, Encoding.GetEncoding("utf-8"));
             for (int i = 0; i < keyFile.keyAssign.Length; i++)
                 sw.Write(keyFile.keyAssign[i].GetKeyLine());
             for (int i = 0; i < deviceControl.joyAssign.Length; i++)
             {
+                InGameAxAssgn rollAxis = (InGameAxAssgn)inGameAxis[AxisName.Roll.ToString()];
+
                 sw.Write(deviceControl.joyAssign[i].GetKeyLineDX(i, deviceControl.joyAssign.Length, DXnumber));
                 // PRIMARY DEVICE POV
-                if (((InGameAxAssgn)inGameAxis["Roll"]).GetDeviceNumber() == i) 
+                if (rollAxis.GetDeviceNumber() == i)
                     sw.Write(deviceControl.joyAssign[i].GetKeyLinePOV());
             }
             sw.Close();
         }
 
-        protected virtual void SaveKeyMapping(Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile)
+        public virtual void SaveKeyMapping(Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile)
         {
             SaveKeyMapping(inGameAxis, deviceControl, keyFile, CommonConstants.DX32);
         }
@@ -234,66 +277,13 @@ namespace FalconBMS.Launcher.Override
         }
 
         /// <summary>
-        /// Overwrite callsign.plc and callsign.lbk file. (Perhaps this might be only valid for 4.34)
-        /// </summary>
-        protected void SavePlcLbk()
-        {
-            string filename = appReg.GetInstallDir() + "/User/Config/" + appReg.GetPilotCallsign() + ".plc";
-            if (!File.Exists(filename))
-            {
-                byte[] nbs = {
-                    0x9C, 0x02, 0x91, 0x0D, 0x9D, 0x0C, 0xD3, 0x45, 0xC9, 0x16, 0x90, 0x00, 0x8A, 0x07, 0xD8, 0x6A,
-                    0xF4, 0x78, 0xF3, 0x69, 0xE4, 0x5D, 0xC3, 0xAF
-                };
-                FileStream nfs = new FileStream
-                    (filename, FileMode.Create, FileAccess.Write);
-                nfs.Write(nbs, 0, nbs.Length);
-                nfs.Close();
-            }
-
-            filename = appReg.GetInstallDir() + "/User/Config/" + appReg.GetPilotCallsign() + ".lbk";
-            if (!File.Exists(filename))
-            {
-                byte[] nbs = {
-                    0x54, 0x5A, 0x53, 0x10, 0x2F, 0x28, 0x64, 0x62, 0x65, 0x45, 0x3C, 0x53, 0x26, 0x54, 0x74, 0x39,
-                    0x58, 0x2B, 0x5F, 0x3A, 0x48, 0x58, 0x50, 0x4C, 0x4A, 0x57, 0x39, 0x19, 0x70, 0x03, 0x23, 0x5A,
-                    0x35, 0x40, 0x37, 0x17, 0x5A, 0x3B, 0x48, 0x3C, 0x59, 0x2B, 0x6D, 0x0C, 0x60, 0x33, 0x69, 0x28,
-                    0x38, 0x60, 0x3C, 0x2D, 0x6D, 0x02, 0x77, 0x05, 0x25, 0x68, 0x5F, 0x45, 0x41, 0x41, 0x41, 0x07,
-                    0x12, 0x7E, 0x1D, 0x72, 0x1C, 0x3C, 0x55, 0x26, 0x06, 0x7F, 0x10, 0x65, 0x17, 0x37, 0xFA, 0xA4,
-                    0xD7, 0xA3, 0xC6, 0xB4, 0xF2, 0x93, 0xFF, 0x9C, 0xF3, 0x9D, 0xBD, 0xD4, 0xA7, 0x87, 0xFE, 0x91,
-                    0xE4, 0x96, 0xB6, 0xFB, 0x9A, 0xE9, 0x9D, 0xF8, 0x8A, 0xCC, 0xAD, 0xC1, 0xA2, 0xCD, 0xA3, 0x83,
-                    0xEA, 0x99, 0xB9, 0xC0, 0xAF, 0xDA, 0xA8, 0x88, 0xC5, 0xA4, 0xD7, 0xA3, 0xC6, 0xB4, 0xF2, 0x93,
-                    0xFF, 0x9C, 0xF3, 0x9D, 0xBD, 0xD4, 0xA7, 0x87, 0xFE, 0x91, 0xE4, 0x96, 0xB6, 0xFB, 0x9A, 0xE9,
-                    0x9D, 0xF8, 0x8A, 0xCC, 0xCD, 0x4B, 0x28, 0x47, 0x29, 0x09, 0x60, 0x13, 0x33, 0x4A, 0x25, 0x50,
-                    0x22, 0x02, 0x4F, 0x2E, 0x5D, 0x29, 0x4C, 0x3E, 0x78, 0x19, 0x75, 0x16, 0x79, 0x17, 0x37, 0x5E,
-                    0x2D, 0x0D, 0x74, 0x1B, 0x6E, 0x1C, 0x3C, 0x71, 0x10, 0x63, 0x17, 0x72, 0xA2, 0xF5, 0x95, 0xF9,
-                    0x9A, 0xF5, 0x9B, 0xBB, 0xD2, 0xA1, 0x81, 0xF8, 0x97, 0xE2, 0x90, 0xB0, 0xFD, 0x9C, 0xEF, 0x9B,
-                    0xFE, 0x8C, 0xCA, 0xAB, 0xC7, 0xA4, 0xCB, 0xA5, 0x85, 0xEC, 0x9F, 0xBF, 0xC6, 0xA9, 0xDC, 0xAE,
-                    0x8E, 0xC3, 0xA2, 0xD1, 0xA5, 0xC0, 0xB2, 0xF4, 0x95, 0xF9, 0x9A, 0xF5, 0x9B, 0xBB, 0xD2, 0xA1,
-                    0x81, 0xF8, 0x97, 0xE2, 0x90, 0xB0, 0xFD, 0x9C, 0xEF, 0x9B, 0xFE, 0x8C, 0xCA, 0xAB, 0xC7, 0xA4,
-                    0xCB, 0xA5, 0x85, 0xEC, 0x9F, 0xBF, 0xC6, 0xA9, 0xDC, 0xAE, 0x8E, 0xC3, 0xA2, 0xD1, 0xA5, 0xC0,
-                    0xB2, 0xF4, 0x95, 0xF9, 0x9A, 0xF5, 0x9B, 0xBB, 0xD2, 0xA1, 0x81, 0xF8, 0x97, 0xE2, 0x90, 0xB0,
-                    0xFD, 0x9C, 0xEF, 0x9B, 0xFE, 0x8C, 0xCA, 0xAB, 0xC7, 0xA4, 0xCB, 0xA5, 0x85, 0xEC, 0x9F, 0xBF,
-                    0xC6, 0xA9, 0xDC, 0xAE, 0x8E, 0xC3, 0xA2, 0xD1, 0xA5, 0xC0, 0xB2, 0xF4, 0x95, 0xF9, 0x9A, 0xF5,
-                    0x9B, 0xBB, 0xD2, 0xA1, 0x81, 0xF8, 0x97, 0xE2, 0x90, 0xB0, 0xFD, 0x9C, 0xEF, 0x9B, 0xFE, 0x8C,
-                    0xCA, 0xAB, 0xC7, 0xA4, 0xCB, 0xA5, 0x85, 0xEC, 0x9F, 0xBF, 0xC6, 0xA9, 0xDC, 0xAE, 0x8E, 0xC3,
-                    0xA2, 0xD1, 0xA5, 0xC0, 0xB2, 0xF4, 0x95, 0xF9, 0x9A, 0xF5, 0x9B, 0xBB, 0xD2, 0xA1, 0x81, 0xF8,
-                    0x97, 0xE2, 0x90, 0xB0
-                };
-                FileStream nfs = new FileStream
-                    (filename, FileMode.Create, FileAccess.Write);
-                nfs.Write(nbs, 0, nbs.Length);
-                nfs.Close();
-            }
-        }
-
-        /// <summary>
         /// As the name inplies...
         /// </summary>
         protected void SaveAxisMapping(Hashtable inGameAxis, DeviceControl deviceControl)
         {
-            string filename = appReg.GetInstallDir() + "/User/Config/axismapping.dat";
-            string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/axismapping.dat";
+            string filename = appReg.GetInstallDir() + CommonConstants.CONFIGFOLDER + "axismapping.dat";
+            string fbackupname = appReg.GetInstallDir() + CommonConstants.BACKUPFOLDER + "axismapping.dat";
+
             if (!File.Exists(fbackupname) & File.Exists(filename))
                 File.Copy(filename, fbackupname, true);
 
@@ -304,18 +294,19 @@ namespace FalconBMS.Launcher.Override
                 (filename, FileMode.Create, FileAccess.Write);
 
             byte[] bs;
-            
-            if (((InGameAxAssgn)inGameAxis["Pitch"]).GetDeviceNumber() > -1)
+
+            InGameAxAssgn pitchAxis = (InGameAxAssgn)inGameAxis[AxisName.Pitch.ToString()];
+
+            if (pitchAxis.GetDeviceNumber() > CommonConstants.JOYNUMUNASSIGNED)
             {
                 bs = new byte[] 
                 {
-                    (byte)(((InGameAxAssgn)inGameAxis["Pitch"]).GetDeviceNumber()+2),
+                    (byte)(pitchAxis.GetDeviceNumber() + CommonConstants.JOYNUMOFFSET),
                     0x00, 0x00, 0x00
                 };
                 fs.Write(bs, 0, bs.Length);
 
-                bs = deviceControl.joyAssign[(byte)((InGameAxAssgn)inGameAxis["Pitch"]).GetDeviceNumber()]
-                    .GetInstanceGUID().ToByteArray();
+                bs = deviceControl.joyAssign[pitchAxis.GetDeviceNumber()].GetInstanceGUID().ToByteArray();
                 fs.Write(bs, 0, bs.Length);
 
                 bs = new byte[] { (byte)deviceControl.joyAssign.Length, 0x00, 0x00, 0x00 };
@@ -334,9 +325,12 @@ namespace FalconBMS.Launcher.Override
             }
 
             AxisName[] localAxisMappingList = getAxisMappingList();
+
             foreach (AxisName nme in localAxisMappingList)
             {
-                if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() == -1 || isRollLinkedNWSEnabled(nme))
+                InGameAxAssgn currentAxis = (InGameAxAssgn)inGameAxis[nme.ToString()];
+
+                if (!currentAxis.IsAssigned() || isRollLinkedNWSEnabled(nme))
                 {
                     bs = new byte[] 
                     {
@@ -348,64 +342,83 @@ namespace FalconBMS.Launcher.Override
                     fs.Write(bs, 0, bs.Length);
                     continue;
                 }
-                if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() > -1 && !isRollLinkedNWSEnabled(nme))
+                if (currentAxis.IsJoyAssigned() && 
+                    !isRollLinkedNWSEnabled(nme))
                 {
                     bs = new byte[] 
                     {
-                        (byte)(((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber()+2),
+                        (byte)(currentAxis.GetDeviceNumber() + CommonConstants.JOYNUMOFFSET),
                         0x00, 0x00, 0x00
                     };
                     fs.Write(bs, 0, bs.Length);
                     bs = new byte[] 
                     {
-                        (byte)((InGameAxAssgn)inGameAxis[nme.ToString()]).GetPhysicalNumber(),
+                        (byte)currentAxis.GetPhysicalNumber(),
                         0x00, 0x00, 0x00
                     };
                     fs.Write(bs, 0, bs.Length);
                 }
-                if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() == -2)
+                if (currentAxis.IsMoushWheelAssigned())
                 {
                     bs = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
                     fs.Write(bs, 0, bs.Length);
                 }
-                switch (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeadzone())
-                {
-                    case AxCurve.None:
-                        bs = new byte[] { 0x00, 0x00, 0x00, 0x00 };
-                        break;
-                    case AxCurve.Small:
-                        bs = new byte[] { 0x64, 0x00, 0x00, 0x00 };
-                        break;
-                    case AxCurve.Medium:
-                        bs = new byte[] { 0xF4, 0x01, 0x00, 0x00 };
-                        break;
-                    case AxCurve.Large:
-                        bs = new byte[] { 0xE8, 0x03, 0x00, 0x00 };
-                        break;
-                }
-                if (isRollLinkedNWSEnabled(nme))
-                    bs = new byte[] { 0x00, 0x00, 0x00, 0x00 };
+
+                bs = isRollLinkedNWSEnabled(nme) ?
+                    new byte[] { 0x00, 0x00, 0x00, 0x00 } :
+                    GetAxDeadZoneByte(currentAxis.GetDeadzone());
+
                 fs.Write(bs, 0, bs.Length);
-                switch (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetSaturation())
-                {
-                    case AxCurve.None:
-                        bs = new byte[] { 0xFF, 0xFF, 0xFF, 0xFF };
-                        break;
-                    case AxCurve.Small:
-                        bs = new byte[] { 0x1C, 0x25, 0x00, 0x00 };
-                        break;
-                    case AxCurve.Medium:
-                        bs = new byte[] { 0x28, 0x23, 0x00, 0x00 };
-                        break;
-                    case AxCurve.Large:
-                        bs = new byte[] { 0x34, 0x21, 0x00, 0x00 };
-                        break;
-                }
-                if (isRollLinkedNWSEnabled(nme))
-                    bs = new byte[] { 0x00, 0x00, 0x00, 0x00 };
+
+                bs = isRollLinkedNWSEnabled(nme) ? 
+                    new byte[] { 0x00, 0x00, 0x00, 0x00 } :
+                    GetAxSaturationByte(currentAxis.GetSaturation());
+
                 fs.Write(bs, 0, bs.Length);
             }
             fs.Close();
+        }
+
+        private byte[] GetAxDeadZoneByte(AxCurve axCurve)
+        {
+            var bs = new byte[] { 0x00, 0x00, 0x00, 0x00 };
+            switch (axCurve)
+            {
+                case AxCurve.None:
+                    bs = new byte[] { 0x00, 0x00, 0x00, 0x00 };
+                    break;
+                case AxCurve.Small:
+                    bs = new byte[] { 0x64, 0x00, 0x00, 0x00 };
+                    break;
+                case AxCurve.Medium:
+                    bs = new byte[] { 0xF4, 0x01, 0x00, 0x00 };
+                    break;
+                case AxCurve.Large:
+                    bs = new byte[] { 0xE8, 0x03, 0x00, 0x00 };
+                    break;
+            }
+            return bs;
+        }
+
+        private byte[] GetAxSaturationByte(AxCurve axCurve)
+        { 
+            var bs = new byte[] { 0x00, 0x00, 0x00, 0x00 };
+            switch (axCurve)
+            {
+                case AxCurve.None:
+                    bs = new byte[] { 0xFF, 0xFF, 0xFF, 0xFF };
+                    break;
+                case AxCurve.Small:
+                    bs = new byte[] { 0x1C, 0x25, 0x00, 0x00 };
+                    break;
+                case AxCurve.Medium:
+                    bs = new byte[] { 0x28, 0x23, 0x00, 0x00 };
+                    break;
+                case AxCurve.Large:
+                    bs = new byte[] { 0x34, 0x21, 0x00, 0x00 };
+                    break;
+            }
+            return bs;
         }
 
         /// <summary>
@@ -413,8 +426,9 @@ namespace FalconBMS.Launcher.Override
         /// </summary>
         protected virtual void SaveJoystickCal(Hashtable inGameAxis, DeviceControl deviceControl)
         {
-            string filename = appReg.GetInstallDir() + "/User/Config/joystick.cal";
-            string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/joystick.cal";
+            string filename = appReg.GetInstallDir() + CommonConstants.CONFIGFOLDER + "joystick.cal";
+            string fbackupname = appReg.GetInstallDir() + CommonConstants.BACKUPFOLDER + "joystick.cal";
+
             if (!File.Exists(fbackupname) & File.Exists(filename))
                 File.Copy(filename, fbackupname, true);
 
@@ -424,53 +438,65 @@ namespace FalconBMS.Launcher.Override
             FileStream fs = new FileStream
                 (filename, FileMode.Create, FileAccess.Write);
 
-            byte[] bs;
+            byte[] bs = new byte[] { 0x00 };
 
             AxisName[] localJoystickCalList = appReg.getOverrideWriter().getJoystickCalList();
+
             foreach (AxisName nme in localJoystickCalList)
             {
-                bs = new byte[] 
-                {
-                    0x00, 0x00, 0x00, 0x00, 0x98, 0x3A, 0x00, 0x00,
-                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                    0x00, 0x00, 0x00, 0x00
-                };
-                if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() != -1 && !isRollLinkedNWSEnabled(nme))
+                InGameAxAssgn currentAxis = (InGameAxAssgn)inGameAxis[nme.ToString()];
+
+                SetJoyCalDefaultByte(ref bs);
+
+                if (currentAxis.IsAssigned() && !isRollLinkedNWSEnabled(nme))
                 {
                     bs[12] = 0x01;
 
-                    if (nme == AxisName.Throttle)
+                    if (nme == AxisName.Throttle && currentAxis.IsJoyAssigned())
                     {
-                        if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber() >= 0)
+                        double iAB = deviceControl.joyAssign[currentAxis.GetDeviceNumber()].detentPosition.GetAB();
+                        double iIdle = deviceControl.joyAssign[currentAxis.GetDeviceNumber()].detentPosition.GetIDLE();
+
+                        iAB = iAB * CommonConstants.BINAXISMAX / CommonConstants.AXISMAX;
+                        iIdle = iIdle * CommonConstants.BINAXISMAX / CommonConstants.AXISMAX;
+
+                        InGameAxAssgn axis = (InGameAxAssgn)MainWindow.inGameAxis[nme.ToString()];
+                        if (axis.GetInvert() == false)
                         {
-                            double iAB   = deviceControl.joyAssign[((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber()].detentPosition.GetAB();
-                            double iIdle = deviceControl.joyAssign[((InGameAxAssgn)inGameAxis[nme.ToString()]).GetDeviceNumber()].detentPosition.GetIDLE();
-
-                            iAB   = iAB   * CommonConstants.BINAXISMAX / CommonConstants.AXISMAX;
-                            iIdle = iIdle * CommonConstants.BINAXISMAX / CommonConstants.AXISMAX;
-
-                            if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetInvert() == false)
-                            {
-                                iAB   = CommonConstants.BINAXISMAX - iAB;
-                                iIdle = CommonConstants.BINAXISMAX - iIdle;
-                            }
-
-                            byte[] ab   = BitConverter.GetBytes((int)iAB).Reverse().ToArray();
-                            byte[] idle = BitConverter.GetBytes((int)iIdle).Reverse().ToArray();
-
-                            bs[1] = ab[2];
-                            bs[5] = idle[2];
+                            iAB = CommonConstants.BINAXISMAX - iAB;
+                            iIdle = CommonConstants.BINAXISMAX - iIdle;
                         }
+
+                        byte[] ab = BitConverter.GetBytes((int)iAB).Reverse().ToArray();
+                        byte[] idle = BitConverter.GetBytes((int)iIdle).Reverse().ToArray();
+
+                        bs[1] = ab[2];
+                        bs[5] = idle[2];
                     }
                 }
-                if (((InGameAxAssgn)inGameAxis[nme.ToString()]).GetInvert())
+                if (currentAxis.GetInvert())
                 {
-                    bs[20] = 0x01;
+                    SetJoyCalInvertByte(ref bs);
                 }
                 fs.Write(bs, 0, bs.Length);
             }
             fs.Close();
+        }
+
+        protected virtual void SetJoyCalDefaultByte(ref byte[] bs)
+        {
+            bs = new byte[]
+            {
+                0x00, 0x00, 0x00, 0x00, 0x98, 0x3A, 0x00, 0x00,
+                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                0x00, 0x00, 0x00, 0x00
+            };
+        }
+
+        protected virtual void SetJoyCalInvertByte(ref byte[] bs)
+        {
+            bs[20] = 0x01;
         }
 
         protected bool isRollLinkedNWSEnabled(AxisName nme)

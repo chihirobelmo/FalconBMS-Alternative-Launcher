@@ -43,7 +43,7 @@ namespace FalconBMS.Launcher.Input
 
                 joyAssign[i].SetDeviceInstance(dev);
 
-                fileName = appReg.GetInstallDir() + "/User/Config/Setup.v100." + joyAssign[i].GetProductName().Replace("/", "-")
+                fileName = appReg.GetInstallDir() + CommonConstants.CONFIGFOLDER + CommonConstants.SETUPV100 + joyAssign[i].GetProductFileName()
                 + " {" + joyAssign[i].GetInstanceGUID().ToString().ToUpper() + "}.xml";
 
                 // Load existing .xml files.
@@ -56,8 +56,17 @@ namespace FalconBMS.Launcher.Input
                 }
                 else
                 {
-                    stockFileName = Directory.GetCurrentDirectory() + "/Stock/Setup.v100." + joyAssign[i].GetProductName().Replace("/", "-")
-                    + " {Stock}.xml";
+                    stockFileName = Directory.GetCurrentDirectory() 
+                        + CommonConstants.STOCKFOLDER + CommonConstants.SETUPV100
+                        + joyAssign[i].GetProductFileName()
+                        + CommonConstants.STOCKXML;
+                    if (!File.Exists(stockFileName))
+                    {
+                        stockFileName = appReg.GetInstallDir() + CommonConstants.LAUNCHERFOLDER
+                            + CommonConstants.STOCKFOLDER + CommonConstants.SETUPV100
+                            + joyAssign[i].GetProductFileName()
+                            + CommonConstants.STOCKXML;
+                    }
                     if (File.Exists(stockFileName))
                     {
                         File.Copy(stockFileName, fileName);
@@ -74,7 +83,7 @@ namespace FalconBMS.Launcher.Input
             
             // Load MouseWheel .xml file.
             serializer = new System.Xml.Serialization.XmlSerializer(typeof(AxAssgn));
-            fileName = appReg.GetInstallDir() + "/User/Config/Setup.v100.Mousewheel.xml";
+            fileName = appReg.GetInstallDir() + CommonConstants.CONFIGFOLDER + CommonConstants.SETUPV100 + CommonConstants.MOUSEXML;
             if (File.Exists(fileName))
             {
                 sr = new StreamReader(fileName, new System.Text.UTF8Encoding(false));
@@ -90,12 +99,14 @@ namespace FalconBMS.Launcher.Input
 
         public int GetAB(AxisName name)
         {
-            return joyAssign[((InGameAxAssgn)MainWindow.inGameAxis[name.ToString()]).GetDeviceNumber()].detentPosition.GetAB();
+            InGameAxAssgn axis = (InGameAxAssgn)MainWindow.inGameAxis[name.ToString()];
+            return joyAssign[axis.GetDeviceNumber()].detentPosition.GetAB();
         }
 
         public int GetIDLE(AxisName name)
         {
-            return joyAssign[((InGameAxAssgn)MainWindow.inGameAxis[name.ToString()]).GetDeviceNumber()].detentPosition.GetIDLE();
+            InGameAxAssgn axis = (InGameAxAssgn)MainWindow.inGameAxis[name.ToString()];
+            return joyAssign[axis.GetDeviceNumber()].detentPosition.GetIDLE();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using FalconBMS.Launcher.Input;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -19,11 +20,11 @@ namespace FalconBMS.Launcher
         /// </summary>
         public static void PopulateAndSave(AppRegInfo appReg, ComboBox Combo)
         {
-            if (!Directory.Exists(appReg.GetInstallDir() + "/User/Config/Backup/"))
-                Directory.CreateDirectory(appReg.GetInstallDir() + "/User/Config/Backup/");
+            if (!Directory.Exists(appReg.GetInstallDir() + CommonConstants.BACKUPFOLDER))
+                Directory.CreateDirectory(appReg.GetInstallDir() + CommonConstants.BACKUPFOLDER);
 
             string filename = appReg.GetInstallDir() + "/Data/Terrdata/TheaterDefinition/theater.lst";
-            string fbackupname = appReg.GetInstallDir() + "/User/Config/Backup/theater.lst";
+            string fbackupname = appReg.GetInstallDir() + CommonConstants.BACKUPFOLDER + "theater.lst";
             if (!File.Exists(fbackupname) & File.Exists(filename))
                 File.Copy(filename, fbackupname, false);
             File.SetAttributes(filename, File.GetAttributes(filename) & ~FileAttributes.ReadOnly);

@@ -39,7 +39,7 @@
             </ImageBrush>
         </Grid.Background>
         <Controls:MetroProgressBar x:Name="AxisValueProgress" HorizontalAlignment="Center" Margin="124,60,124,0" VerticalAlignment="Top" Width="256" Height="10"/>
-        <Label x:Name="AxisName" Content="AxisName" HorizontalAlignment="Left" Margin="24,12,0,0" VerticalAlignment="Top" FontSize="16" FontStyle="Italic" FontWeight="Bold"/>
+        <Label x:Name="Label_AxisName" Content="AxisName" HorizontalAlignment="Left" Margin="24,12,0,0" VerticalAlignment="Top" FontSize="16" FontStyle="Italic" FontWeight="Bold"/>
         <Label x:Name="DirectionIncrease" Content="Direction" HorizontalAlignment="Left" Margin="381,52,0,0" VerticalAlignment="Top" Width="113" HorizontalContentAlignment="Left"/>
         <Label x:Name="DirectionDecrease" Content="Direction" HorizontalAlignment="Left" Margin="10,52,0,0" VerticalAlignment="Top" Width="113" HorizontalContentAlignment="Right"/>
         <Label x:Name="AssignedJoystick" HorizontalAlignment="Left" Margin="32,95,0,0" VerticalAlignment="Top" FontStyle="Italic" Height="28" Width="447"/>

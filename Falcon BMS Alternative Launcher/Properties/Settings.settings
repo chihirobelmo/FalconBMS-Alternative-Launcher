@@ -71,5 +71,14 @@
     <Setting Name="Misc_VR" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="SelectedKeyFileName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">BMS - Full</Value>
+    </Setting>
+    <Setting Name="FirstTimeNonOverride" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="Misc_3DClickableCursorFixToCenter" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

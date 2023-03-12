@@ -10,6 +10,7 @@ using FalconBMS.Launcher.Windows;
 using FalconBMS.Launcher.Override;
 using FalconBMS.Launcher.Starter;
 using Microsoft.Win32;
+using FalconBMS.Launcher.Input;
 
 namespace FalconBMS.Launcher
 {
@@ -36,8 +37,8 @@ namespace FalconBMS.Launcher
 
         private MainWindow mainWindow;
 
-        public string keyFileName     = "BMS - Full.key";
-        public string keyFileNameAuto = "BMS - Auto.key";
+        public string keyFileName     = CommonConstants.DEFAULTKEY + ".key";
+        public string keyUserFileName = CommonConstants.USERKEY + ".key";
 
         public string theaterOwnConfig = "";
 
@@ -46,15 +47,23 @@ namespace FalconBMS.Launcher
         public string GetCurrentTheater() { return currentTheater; }
         public string GetPilotCallsign() { return pilotCallsign; }
         public string getKeyFileName() { return keyFileName; }
-        public string getAutoKeyFileName() { return keyFileNameAuto; }
+        public string getKeyUserFileName() { return keyUserFileName; }
+
+        public void SetUserKeyFileName(string newkey) 
+        { 
+            keyFileName = newkey + ".key";
+        }
+
         public OverrideSetting getOverrideWriter() { return overRideSetting; }
         public BMS_Version getBMSVersion() { return bms_Version; }
         public AbstractStarter getLauncher() { return starter; }
         public int getUpdateVersion() { return updateVersion; }
 
+        // This will list teh available BMS versions to the launcher list.
         public string[] availableBMSVersions =
         {
             "Falcon BMS 4.38 (Internal)",
+            "Falcon BMS 4.37 U1 (internal)",
             "Falcon BMS 4.37 (Internal)",
             "Falcon BMS 4.37",
             "Falcon BMS 4.36 (Internal)",
@@ -68,6 +77,8 @@ namespace FalconBMS.Launcher
 
         public AppRegInfo(MainWindow mainWindow)
         {
+            Diagnostics.Log("Start Reading Registry.");
+
             bool flg = true;
             string selectedVersion = "Falcon4.0";
 
@@ -95,6 +106,8 @@ namespace FalconBMS.Launcher
             }
 
             Init(mainWindow, selectedVersion);
+
+            Diagnostics.Log("Finished Reading Registry.");
         }
 
         public bool BMSExists(string version)
@@ -177,6 +190,21 @@ namespace FalconBMS.Launcher
             return File.Exists(exeDir);
         }
 
+        public void ChangeCfgPath()
+        {
+            try
+            {
+                RegistryKey regkeyCFG = Registry.CurrentUser.OpenSubKey("SOFTWARE\\F4Patch\\Settings", true);
+                regkeyCFG.SetValue("F4Exe", installDir + "\\Launcher.exe");
+                regkeyCFG.Close();
+            }
+            catch (Exception exCFG)
+            {
+                Diagnostics.Log(exCFG);
+                return;
+            }
+        }
+
         public void Init(MainWindow mainWindow, string version)
         {
             this.mainWindow = mainWindow;
@@ -184,56 +212,57 @@ namespace FalconBMS.Launcher
             switch (version)
             {
                 case "Falcon BMS 4.38 (Internal)":
-                    bms_Version = BMS_Version.BMS438I;
-                    keyFileName = "BMS - Full.key";
+                    bms_Version     = BMS_Version.BMS438I;
+                    keyFileName     = CommonConstants.DEFAULTKEY + ".key";
                     overRideSetting = new OverrideSettingFor438(this.mainWindow, this);
-                    starter = new Starter438Internal(this, this.mainWindow);
+                    starter         = new Starter438Internal(this, this.mainWindow);
                     break;
+                case "Falcon BMS 4.37 U1 (internal)":
                 case "Falcon BMS 4.37 (Internal)":
                     bms_Version     = BMS_Version.BMS437I;
-                    keyFileName     = "BMS - Full.key";
+                    keyFileName     = CommonConstants.DEFAULTKEY + ".key";
                     overRideSetting = new OverrideSettingFor437(this.mainWindow, this);
                     starter         = new Starter437Internal(this, this.mainWindow);
                     break;
                 case "Falcon BMS 4.36 (Internal)":
                     bms_Version     = BMS_Version.BMS436I;
-                    keyFileName     = "BMS - Full.key";
+                    keyFileName     = CommonConstants.DEFAULTKEY + ".key";
                     overRideSetting = new OverrideSettingFor437(this.mainWindow, this);
                     starter         = new Starter436Internal(this, this.mainWindow);
                     break;
                 case "Falcon BMS 4.37":
                     bms_Version     = BMS_Version.BMS437;
-                    keyFileName     = "BMS - Full.key";
+                    keyFileName     = CommonConstants.DEFAULTKEY + ".key";
                     overRideSetting = new OverrideSettingFor437(this.mainWindow, this);
                     starter         = new Starter437(this, this.mainWindow);
                     break;
                 case "Falcon BMS 4.36":
                     bms_Version     = BMS_Version.BMS436;
-                    keyFileName     = "BMS - Full.key";
+                    keyFileName     = CommonConstants.DEFAULTKEY + ".key";
                     overRideSetting = new OverrideSettingFor436(this.mainWindow, this);
                     starter         = new Starter436(this, this.mainWindow);
                     break;
                 case "Falcon BMS 4.35":
                     bms_Version     = BMS_Version.BMS435;
-                    keyFileName     = "BMS - Full.key";
+                    keyFileName = CommonConstants.DEFAULTKEY + ".key";
                     overRideSetting = new OverrideSettingFor435(this.mainWindow, this);
                     starter         = new Starter435(this, this.mainWindow);
                     break;
                 case "Falcon BMS 4.34":
                     bms_Version     = BMS_Version.BMS434U1;
-                    keyFileName     = "BMS - Full.key";
+                    keyFileName     = CommonConstants.DEFAULTKEY + ".key";
                     overRideSetting = new OverrideSettingFor434U1(this.mainWindow, this);
                     starter         = new Starter434(this, this.mainWindow);
                     break;
                 case "Falcon BMS 4.33 U1":
                     bms_Version     = BMS_Version.BMS433U1;
-                    keyFileName     = "BMS - Full.key";
+                    keyFileName     = CommonConstants.DEFAULTKEY + ".key";
                     overRideSetting = new OverrideSettingFor433(this.mainWindow, this);
                     starter         = new Starter433(this, this.mainWindow);
                     break;
                 case "Falcon BMS 4.33":
                     bms_Version     = BMS_Version.BMS433;
-                    keyFileName     = "BMS - Full.key";
+                    keyFileName     = CommonConstants.DEFAULTKEY + ".key";
                     overRideSetting = new OverrideSettingFor433(this.mainWindow, this);
                     starter         = new Starter433(this, this.mainWindow);
                     break;
@@ -372,7 +401,7 @@ namespace FalconBMS.Launcher
             {
                 case "Israel":
                     mainWindow.Launch_TheaterConfig.Visibility = Visibility.Visible;
-                    theaterOwnConfig = GetInstallDir() + "\\Data\\Add-On Israel\\Israeli Theater Settings.exe";
+                    theaterOwnConfig = GetInstallDir() + "\\Data\\Add-On Israel\\Israel Theater Settings.exe";
                     return;
                 case "Ikaros":
                     mainWindow.Launch_TheaterConfig.Visibility = Visibility.Visible;
@@ -381,15 +410,6 @@ namespace FalconBMS.Launcher
                 default:
                     mainWindow.Launch_TheaterConfig.Visibility = Visibility.Collapsed;
                     break;
-            }
-            if (mainWindow.Dropdown_TheaterList.SelectedItem.ToString().Contains("Korea Training"))
-            {
-                mainWindow.Launch_TheaterConfig.Visibility = Visibility.Visible;
-                theaterOwnConfig = GetInstallDir() + "\\Data\\Add-On " + mainWindow.Dropdown_TheaterList.SelectedItem.ToString() + "\\Korea Training Theater Settings.exe";
-            }
-            else
-            {
-                mainWindow.Launch_TheaterConfig.Visibility = Visibility.Collapsed;
             }
         }
     }

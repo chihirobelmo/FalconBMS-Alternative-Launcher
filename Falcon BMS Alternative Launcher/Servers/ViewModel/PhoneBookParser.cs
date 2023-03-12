@@ -1,5 +1,4 @@
 ﻿using FalconBMS.Launcher.Servers.ViewModel;
-using FalconBMS.Launcher.Update;
 using IniParser;
 using IniParser.Model;
 using System;

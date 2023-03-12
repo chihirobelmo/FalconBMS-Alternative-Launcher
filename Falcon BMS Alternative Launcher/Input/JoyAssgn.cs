@@ -20,6 +20,7 @@ namespace FalconBMS.Launcher.Input
 
         // Method
         public string GetProductName() { return productName; }
+        public string GetProductFileName() { return productName.Replace("/", "-"); }
         public Guid GetProductGUID() { return productGUID; }
         public Guid GetInstanceGUID() { return instanceGUID; }
 
@@ -206,7 +207,7 @@ namespace FalconBMS.Launcher.Input
             {
                 for (int ii = 0; ii < dx[i].assign.Length; ii++)
                 {
-                    if (dx[i].assign[ii].GetCallback() == "SimDoNothing")
+                    if (dx[i].assign[ii].GetCallback() == CommonConstants.SIMDONOTHING)
                         continue;
                     if (dx[i].assign[ii].GetCallback() == "SimHotasPinkyShift" || dx[i].assign[ii].GetCallback() == "SimHotasShift")
                     {
@@ -269,7 +270,7 @@ namespace FalconBMS.Launcher.Input
                     {
                         if (i < 2)
                         {
-                            // if (this.pov[i].direction[ii].GetCallback((Pinky)iii) == "SimDoNothing")
+                            // if (this.pov[i].direction[ii].GetCallback((Pinky)iii) == CommonConstants.SIMDONOTHING)
                             //    continue;
                             assign += pov[i].direction[ii].GetCallback((Pinky)iii);
                             if ((Pinky)iii == Pinky.UnShift)
@@ -285,7 +286,7 @@ namespace FalconBMS.Launcher.Input
                         }
                         else
                         {
-                            if (pov[i].direction[ii].GetCallback((Pinky)iii) == "SimDoNothing" & pov[i-2].direction[ii].GetCallback((Pinky)iii) != "SimDoNothing")
+                            if (pov[i].direction[ii].GetCallback((Pinky)iii) == CommonConstants.SIMDONOTHING & pov[i-2].direction[ii].GetCallback((Pinky)iii) != CommonConstants.SIMDONOTHING)
                                 continue;
                             assign += pov[i].direction[ii].GetCallback((Pinky)iii);
                             if ((Pinky)iii == Pinky.UnShift)
@@ -315,7 +316,7 @@ namespace FalconBMS.Launcher.Input
                 {
                     for (int iii = 0; iii < 2; iii++)
                     {
-                        // if (this.pov[i].direction[ii].GetCallback((Pinky)iii) == "SimDoNothing")
+                        // if (this.pov[i].direction[ii].GetCallback((Pinky)iii) == CommonConstants.SIMDONOTHING)
                         //    continue;
                         assign += pov[i].direction[ii].GetCallback((Pinky)iii);
                         if ((Pinky)iii == Pinky.UnShift)
@@ -356,7 +357,7 @@ namespace FalconBMS.Launcher.Input
             {
                 for (int ii = 0; ii < dx[i].assign.Length; ii++)
                 {
-                    if (dx[i].assign[ii].GetCallback() == "SimDoNothing")
+                    if (dx[i].assign[ii].GetCallback() == CommonConstants.SIMDONOTHING)
                         continue;
                     if (keyAssign.GetCallback() != dx[i].assign[ii].GetCallback())
                         continue;
@@ -393,7 +394,7 @@ namespace FalconBMS.Launcher.Input
                     string direction = pov[i].GetDirection(ii);
                     for (int iii = 0; iii < 2; iii++)
                     {
-                        if (pov[i].direction[ii].GetCallback((Pinky)iii) == "SimDoNothing")
+                        if (pov[i].direction[ii].GetCallback((Pinky)iii) == CommonConstants.SIMDONOTHING)
                             continue;
                         if (keyAssign.GetCallback() != pov[i].direction[ii].GetCallback((Pinky)iii))
                             continue;
