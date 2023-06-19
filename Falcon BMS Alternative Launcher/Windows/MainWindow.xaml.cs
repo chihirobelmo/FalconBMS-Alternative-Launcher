@@ -141,11 +141,6 @@ namespace FalconBMS.Launcher.Windows
 
             Diagnostics.Log("Timers Started.");
 
-            // Read phonebook file
-            phoneBookParser = new PhoneBookParser(appReg);
-            ServerGrid.ItemsSource = phoneBookParser.ServerConnections;
-            ServerGrid.DataContext = phoneBookParser;
-
             // first arg is always the program name
             if (Environment.GetCommandLineArgs().Length > 1)
             {
@@ -225,6 +220,10 @@ namespace FalconBMS.Launcher.Windows
 
                 LargeTab.SelectedIndex = 0;
 
+                // disable the phonebook first so the theater update does not result in phonebook updates
+                ServerGrid.ItemsSource = null;
+                ServerGrid.DataContext = null;
+
                 // Read Theater List
                 TheaterList.PopulateAndSave(appReg, Dropdown_TheaterList);
 
@@ -235,18 +234,18 @@ namespace FalconBMS.Launcher.Windows
 
                 // Write Data Grid
                 WriteDataGrid();
+
+                // Refresh servers
+     
+                phoneBookParser = new PhoneBookParser(appReg);
+                ServerGrid.ItemsSource = phoneBookParser.ServerConnections;
+                ServerGrid.DataContext = phoneBookParser;
             }
             catch (Exception ex)
             {
                 Diagnostics.WriteLogFile(ex);
                 Close();
             }
-        }
-
-        private void ReloadKeyFile()
-        {
-            string fname = appReg.GetInstallDir() + "\\User\\Config\\" + appReg.getKeyFileName();
-            keyFile = new KeyFile(fname, appReg);
         }
 
         private void ReloadKeyFile()
