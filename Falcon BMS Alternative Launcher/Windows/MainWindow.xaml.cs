@@ -249,6 +249,12 @@ namespace FalconBMS.Launcher.Windows
             keyFile = new KeyFile(fname, appReg);
         }
 
+        private void ReloadKeyFile()
+        {
+            string fname = appReg.GetInstallDir() + "\\User\\Config\\" + appReg.getKeyFileName();
+            keyFile = new KeyFile(fname, appReg);
+        }
+
         public void ReloadDevices()
         {
             try
