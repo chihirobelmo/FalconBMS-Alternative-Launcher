@@ -17,7 +17,15 @@ using AutoUpdaterDotNET;
 using System.Reflection;
 using System.Xml;
 using System.Threading.Tasks;
+using FalconBMS.Launcher.Servers;
+using System.Security.Policy;
+using System.Linq;
+using ControlzEx.Standard;
+using System.Collections;
+using System.Windows.Documents;
 using System.Collections.ObjectModel;
+using MahApps.Metro.Controls.Dialogs;
+using System.Diagnostics;
 
 namespace FalconBMS.Launcher.Windows
 {
@@ -52,6 +60,10 @@ namespace FalconBMS.Launcher.Windows
         private DispatcherTimer AxisMovingTimer = new DispatcherTimer();
         private DispatcherTimer KeyMappingTimer = new DispatcherTimer();
         private DispatcherTimer NewDeviceDetectTimer = new DispatcherTimer();
+
+        private PhoneBookParser phoneBookParser;
+
+        public static bool FLG_YAME64;
 
         /// <summary>
         /// Execute when launching this app.
@@ -128,6 +140,12 @@ namespace FalconBMS.Launcher.Windows
             NewDeviceDetectTimer.Start();
 
             Diagnostics.Log("Timers Started.");
+
+            // first arg is always the program name
+            if (Environment.GetCommandLineArgs().Length > 1)
+            {
+                BringToForeground(Environment.GetCommandLineArgs().Skip(1).ToArray());
+            }
         }
 
         private void StartVR()
@@ -152,15 +170,15 @@ namespace FalconBMS.Launcher.Windows
             Diagnostics.Log("Finished Init Devices.");
         }
 
-        private void NewDeviceDetectTimer_Tick(object sender, EventArgs e)
+        private async void NewDeviceDetectTimer_Tick(object sender, EventArgs e)
         {
             try
             {
-                Microsoft.DirectX.DirectInput.DeviceList devList =
+                Microsoft.DirectX.DirectInput.DeviceList devList = await Task.Run(() =>
                     Microsoft.DirectX.DirectInput.Manager.GetDevices(
                         Microsoft.DirectX.DirectInput.DeviceClass.GameControl,
                         Microsoft.DirectX.DirectInput.EnumDevicesFlags.AttachedOnly
-                        );
+                        ));
 
                 try
                 {
@@ -202,6 +220,10 @@ namespace FalconBMS.Launcher.Windows
 
                 LargeTab.SelectedIndex = 0;
 
+                // disable the phonebook first so the theater update does not result in phonebook updates
+                ServerGrid.ItemsSource = null;
+                ServerGrid.DataContext = null;
+
                 // Read Theater List
                 TheaterList.PopulateAndSave(appReg, Dropdown_TheaterList);
 
@@ -212,6 +234,12 @@ namespace FalconBMS.Launcher.Windows
 
                 // Write Data Grid
                 WriteDataGrid();
+
+                // Refresh servers
+     
+                phoneBookParser = new PhoneBookParser(appReg);
+                ServerGrid.ItemsSource = phoneBookParser.ServerConnections;
+                ServerGrid.DataContext = phoneBookParser;
             }
             catch (Exception ex)
             {
@@ -309,7 +337,7 @@ namespace FalconBMS.Launcher.Windows
                 Close();
             }
         }
-        
+
         /// <summary>
         /// Execute/Stop timer event when changing top TAB menu (Launcher/AxisAssign/KeyMapping).
         /// </summary>
@@ -343,7 +371,7 @@ namespace FalconBMS.Launcher.Windows
                 Close();
             }
         }
-        
+
         /// <summary>
         /// Rewrite Theater setting in the registry and Show/Hide Theater own config icon.
         /// </summary>
@@ -361,7 +389,7 @@ namespace FalconBMS.Launcher.Windows
                 Close();
             }
         }
-        
+
         /// <summary>
         /// Launch Theater own config.
         /// </summary>
@@ -379,7 +407,7 @@ namespace FalconBMS.Launcher.Windows
                 Close();
             }
         }
-        
+
         /// <summary>
         /// When clicked BW button, changes BW value.
         /// </summary>
@@ -502,9 +530,9 @@ namespace FalconBMS.Launcher.Windows
         {
             try
             {
-                string target       = "";
+                string target = "";
                 string downloadlink = "";
-                string installexe   = "";
+                string installexe = "";
 
                 switch (((Button)sender).Name)
                 {
@@ -706,7 +734,7 @@ namespace FalconBMS.Launcher.Windows
                 Diagnostics.Log(ex);
             }
         }
-        
+
         /// <summary>
         /// Allow user to drag the window.
         /// </summary>
@@ -801,5 +829,149 @@ namespace FalconBMS.Launcher.Windows
             else
                 steamVR.Stop();
         }
+
+        private async void Refresh_Click(object sender, RoutedEventArgs e)
+        {
+            Button_Refresh_Servers.IsEnabled = false;
+            await phoneBookParser.RefreshAllOnline();
+            Button_Refresh_Servers.IsEnabled = true ;
+        }
+
+
+        private void Launch_Multiplayer_Click(object sender, RoutedEventArgs e)
+        {
+            ServerConnection serverConnection = (ServerConnection)ServerGrid.SelectedItem;
+            if (serverConnection != null)
+            {
+                // check the theater
+                string theaterName = serverConnection.TheaterName;
+
+                if (theaterName != "" && !Dropdown_TheaterList.Items.Contains(theaterName))
+                {
+                    MessageBox.Show(String.Format("The Theater '{0}' could not be found. Please install the Theater and try again.", theaterName), "Theater not found",
+                 MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else
+                {
+                    if (theaterName != "")
+                    {
+                        Dropdown_TheaterList.SelectedItem = theaterName;
+                    }
+
+                    if (!string.IsNullOrEmpty(serverConnection.IniFileUrl))
+                    {
+                        DownloadIniFile(serverConnection);
+                    }
+
+                    else
+                    {
+                        Launch_BMS_Large.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+                    }
+                }
+            }
+
+        }
+        private void ServerGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ServerGrid.SelectedItem != null)
+            {
+                Launch_BMS_Multiplayer.IsEnabled = true;
+            }
+            else
+            {
+                Launch_BMS_Multiplayer.IsEnabled = false;
+            }
+
+        }
+
+        private void ServerGrid_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
+        {
+            if (e.EditAction == DataGridEditAction.Commit)
+            {
+                // VERY UGLY, however inline creating a new row in datagrid does not seem to trigger PropertyUpdated
+                phoneBookParser.ForceUpdateConnectionInFile((ServerConnection)e.Row.Item, e.Row.GetIndex());
+            }
+
+        }
+
+        internal async Task BringToForeground(string[] args)
+        {
+            if (this.WindowState == WindowState.Minimized || this.Visibility == Visibility.Hidden)
+            {
+                this.Show();
+                this.WindowState = WindowState.Normal;
+            }
+
+            // According to some sources these steps gurantee that an app will be brought to foreground.
+            this.Activate();
+            this.Topmost = true;
+            this.Topmost = false;
+            this.Focus();
+
+
+            if (args.Length == 1)
+            {
+                try
+                {
+                    Uri uri = new Uri(args[0]);
+                    LargeTab.SelectedIndex = 1;
+                    phoneBookParser.AddEntry(ServerConnection.From(uri));
+
+                }
+                catch (UriFormatException ex)
+                {
+                    Diagnostics.Log("called with invalid bms URI: " + Environment.GetCommandLineArgs()[1]);
+                }
+            }
+        }
+
+        private async Task DownloadIniFile(ServerConnection serverConnection)
+        {
+            // filename != ini (security issue)
+            if (!serverConnection.IniFileName.ToLower().EndsWith(".ini"))
+            {
+                MessageBox.Show("The Launcher can only download ini files", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            // theater(dir) not found
+            string campaignDir = "";
+            if (!TheaterList.AvailableTheatersCampaignDirs.TryGetValue(serverConnection.TheaterName, out campaignDir))
+            {
+                MessageBox.Show("Theater {0} not found", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            // file exists
+            string fileName = appReg.GetInstallDir() + "/Data/" + campaignDir + "/" + serverConnection.IniFileName;
+            fileName = fileName.Replace("/", "\\");
+
+            if (File.Exists(fileName))
+            {
+                if (MessageBox.Show(string.Format("The INI file {0} already exists.\nOverwrite it?", fileName), "File exists", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+                {
+                    return;
+                }
+            }         
+
+            Download_Label.Visibility = Visibility.Visible;
+            Download_Label.Content = string.Format("Downloading {0} ...", serverConnection.IniFileName);
+
+            await F4ServerInfoService.DownloadIniFile(serverConnection, fileName);
+
+            Download_Label.Visibility = Visibility.Hidden;
+            Launch_BMS_Multiplayer.IsEnabled = true;
+            ServerGrid.IsEnabled = true;
+            Launch_BMS_Large.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+        }
+        private void Server_Grid_Server_Info_Click(object sender, RoutedEventArgs e)
+        {
+            ServerConnection serverConnection = ((FrameworkElement)sender).DataContext as ServerConnection;
+
+            Uri link = new Uri(serverConnection.ServerInfoUrl);
+            Process.Start(link.AbsoluteUri);
+        }
+
     }
 }
+

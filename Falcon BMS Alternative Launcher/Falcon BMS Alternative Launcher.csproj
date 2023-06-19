@@ -67,6 +67,9 @@
     <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
     </Reference>
+    <Reference Include="INIFileParser, Version=2.5.2.0, Culture=neutral, PublicKeyToken=79af7b307b65cf3c, processorArchitecture=MSIL">
+      <HintPath>..\packages\ini-parser.2.5.2\lib\net20\INIFileParser.dll</HintPath>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.6.5\lib\net46\MahApps.Metro.dll</HintPath>
     </Reference>
@@ -130,6 +133,11 @@
     <Compile Include="Input\InGameAxAssgn.cs" />
     <Compile Include="Input\KeyFile.cs" />
     <Compile Include="Override\OverrideSettingFor438.cs" />
+    <Compile Include="Servers\Model\ServerConnection.cs" />
+    <Compile Include="Servers\ViewModel\DelegateCommand.cs" />
+    <Compile Include="Servers\ViewModel\F4ServerInfoService.cs" />
+    <Compile Include="Servers\ViewModel\PhoneBookParser.cs" />
+    <Compile Include="Servers\ViewModel\ViewModelBase.cs" />
     <Compile Include="Starter\Starter436I.cs" />
     <Compile Include="Starter\Starter438I.cs" />
     <Compile Include="Starter\Starter437I.cs" />
