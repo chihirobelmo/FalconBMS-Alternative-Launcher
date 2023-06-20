@@ -127,7 +127,7 @@ namespace FalconBMS.Launcher.Override
             if (mainWindow.Misc_SmartScalingOverride.IsChecked == true)
                 bs[12] = 0x05;
 
-            // Smart Scaling
+            // Pilot Model
             bs[0] = 0x13;
             if (mainWindow.Misc_PilotModel.IsChecked == true)
                 bs[0] = 0x33;
