@@ -37,11 +37,12 @@ namespace FalconBMS.Launcher.Windows
     /// </summary>
     public partial class CallsignWindow
     {
-        [DllImport("Falcon BMS Logbook Generator x86.dll", EntryPoint = "CreateLbk", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CreateLbk_32(string fname, string callsign, string pilotname, string date);
+        //TODO: remove dead code?
+        //[DllImport("Falcon BMS Logbook Generator x86.dll", EntryPoint = "CreateLbk", CallingConvention = CallingConvention.Cdecl)]
+        //public static extern void CreateLbk_32(string fname, string callsign, string pilotname, string date);
 
-        [DllImport("Falcon BMS Logbook Generator x64.dll", EntryPoint = "CreateLbk", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CreateLbk_64(string fname, string callsign, string pilotname, string date);
+        //[DllImport("Falcon BMS Logbook Generator x64.dll", EntryPoint = "CreateLbk", CallingConvention = CallingConvention.Cdecl)]
+        //public static extern void CreateLbk_64(string fname, string callsign, string pilotname, string date);
 
         private AppRegInfo appReg;
         public CallsignWindow(AppRegInfo appReg)
@@ -97,61 +98,66 @@ namespace FalconBMS.Launcher.Windows
         {
         }
 
-        public static bool IsAlphabetOrNumber(char c)
-        {
-            return (c >= 'A' && c <= 'z') || (c >= '0' && c <= '9') ? true : false;
-        }
-
         private void Button_Register_Click(object sender, RoutedEventArgs e)
         {
-            if (TextBox_Callsign.Text == CommonConstants.DEFAULTCALLSIGN)
+            string pilotName = TextBox_PilotName.Text.Trim();
+            string pilotCallsign = TextBox_Callsign.Text.Trim();
+
+            bool ok = true;
+            if (0 == String.Compare(pilotCallsign, CommonConstants.DEFAULTCALLSIGN, StringComparison.OrdinalIgnoreCase))
             {
                 Label_Error_Callsign.Visibility = Visibility.Visible;
-                if (TextBox_PilotName.Text == CommonConstants.DEFAULTPILOTNAME)
-                {
-                    Label_Error_PilotName.Visibility = Visibility.Visible;
-                    return;
-                }
-                return;
+                ok = false;
             }
-            if (TextBox_PilotName.Text == CommonConstants.DEFAULTPILOTNAME)
+            if (0 == String.Compare(pilotName, CommonConstants.DEFAULTPILOTNAME, StringComparison.OrdinalIgnoreCase))
             {
                 Label_Error_PilotName.Visibility = Visibility.Visible;
-                return;
+                ok = false;
             }
+            if (!ok) return;
 
-            appReg.ChangeName(TextBox_Callsign.Text, TextBox_PilotName.Text);
+            appReg.ChangeName(pilotCallsign, pilotName);
 
-            string command = 
-                "-o \"" 
-                + appReg.GetInstallDir() 
-                + CommonConstants.CONFIGFOLDERBACKSLASH 
-                + TextBox_Callsign.Text 
-                + ".lbk\" write-default --name \"" 
-                + TextBox_PilotName.Text 
-                + "\" --callsign \"" 
-                + TextBox_Callsign.Text 
-                + "\"";
+            // Launch external tool to create logbook (lbk) file.
+            const char dq = '\"';
+            string pilotNameDQ = $"{dq}{pilotName}{dq}";
+            string pilotCallsignDQ = $"{dq}{pilotCallsign}{dq}";
+            string configFolder = appReg.GetInstallDir() + CommonConstants.CONFIGFOLDERBACKSLASH;
 
+            string lbkPath = System.IO.Path.Combine(configFolder, pilotCallsign + ".lbk");
+            string lbkPathDQ = $"{dq}{lbkPath}{dq}";
+
+            string command = $"-o {lbkPathDQ} write-default --name {pilotNameDQ} --callsign {pilotCallsignDQ}";
+            //string command = 
+            //    "-o \"" 
+            //    + appReg.GetInstallDir() 
+            //    + CommonConstants.CONFIGFOLDERBACKSLASH 
+            //    + TextBox_Callsign.Text 
+            //    + ".lbk\" write-default --name \"" 
+            //    + TextBox_PilotName.Text 
+            //    + "\" --callsign \"" 
+            //    + TextBox_Callsign.Text 
+            //    + "\"";
             Diagnostics.Log(command);
+
+            string thisExeDirectory = System.IO.Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
+            string logcatExePath = System.IO.Path.Combine(thisExeDirectory, CommonConstants.LOGCAT);
             
-            if (File.Exists(CommonConstants.LOGCAT))
+            if (!File.Exists(logcatExePath))
             {
-                Process.Start(CommonConstants.LOGCAT, command);
+                Diagnostics.Log("Could not find bms-logcat.exe", Diagnostics.LogLevels.Warning);
                 Close();
                 return;
             }
 
-            var executable = appReg.GetInstallDir() + CommonConstants.LAUNCHERFOLDER + "/" + CommonConstants.LOGCAT;
+            Process logcatExe = Process.Start(CommonConstants.LOGCAT, command);
+            logcatExe.WaitForExit();
 
-            if (File.Exists(executable))
-            {
-                Process.Start(executable, command);
-                Close();
-                return;
-            }
+            if (logcatExe.ExitCode != 0)
+                Diagnostics.Log("Error code returned from bms-logcat.exe: " +logcatExe.ExitCode, Diagnostics.LogLevels.Warning);
 
             Close();
+            return;
         }
     }
 }
