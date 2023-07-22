@@ -216,7 +216,7 @@ namespace FalconBMS.Launcher.Windows
                 }
                 povs = MainWindow.deviceControl.joyAssign[i].GetPointOfView();
                 buttons = MainWindow.deviceControl.joyAssign[i].GetButtons();
-                for (int ii = 0; ii < 4; ii++)
+                for (int ii = 0; ii < tmpJoyStick[i].pov.Length; ii++)
                 {
                     if (povs[ii] == neutralButtons[i].povs[ii])
                         continue;

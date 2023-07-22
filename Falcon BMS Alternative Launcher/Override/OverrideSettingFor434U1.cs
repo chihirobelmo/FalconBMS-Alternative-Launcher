@@ -33,27 +33,48 @@ namespace FalconBMS.Launcher.Override
 
         protected override void WriteKeyLines(string filename, Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile, int DXnumber)
         {
-            StreamWriter sw = new StreamWriter
-                (filename, false, Encoding.GetEncoding("utf-8"));
+            StreamWriter sw = new StreamWriter(filename, false, Encoding.UTF8);
+            sw.NewLine = "\n"; // probably not necessary, but for consistency with existing keyfile serialization code that hardcodes "\n" everywhere
+
             for (int i = 0; i < keyFile.keyAssign.Length; i++)
                 sw.Write(keyFile.keyAssign[i].GetKeyLine());
+
+            // Write button bindings.
             for (int i = 0; i < deviceControl.joyAssign.Length; i++)
             {
+                sw.Write(deviceControl.joyAssign[i].GetKeyLineDX(i, deviceControl.joyAssign.Length, DXnumber));
+            }
+
+            // Write pov-hat bindings, for the primary steering and/or throttle device(s).  Because BMS interprets these keyfile entries  
+            // per DeviceSorting.txt file order, we must take care to emit the pov-hat entries for stick and throttle in that same order.
+            // ie. pov-hat #0/2 for the earlier device in DeviceSorting-order; pov-hat #1/3 for the latter device in DeviceSorting-order.
+            int povBase = 0;
+            for (int i = 0; i < deviceControl.joyAssign.Length; i++)
+            {
+                JoyAssgn joy = deviceControl.joyAssign[i];
+
                 InGameAxAssgn rollAxis = (InGameAxAssgn)inGameAxis[AxisName.Roll.ToString()];
                 InGameAxAssgn throttleAxis = (InGameAxAssgn)inGameAxis[AxisName.Throttle.ToString()];
 
-                sw.Write(deviceControl.joyAssign[i].GetKeyLineDX(i, deviceControl.joyAssign.Length, DXnumber));
-                // PRIMARY DEVICE POV
-                if (rollAxis.GetDeviceNumber() == i && rollAxis.GetDeviceNumber() == throttleAxis.GetDeviceNumber())
+                if (i == rollAxis.GetDeviceNumber())
                 {
-                    sw.Write(deviceControl.joyAssign[i].GetKeyLinePOV());
-                    continue;
+                    int hatId = 0;
+                    if (povBase > 0 && throttleAxis.GetDeviceNumber() == rollAxis.GetDeviceNumber())
+                        hatId = 1;
+                    sw.Write(joy.GetKeyLinePOV(povBase++, hatId));
                 }
-                if (rollAxis.GetDeviceNumber() == i)
-                    sw.Write(deviceControl.joyAssign[i].GetKeyLinePOV(0));
-                if (throttleAxis.GetDeviceNumber() == i)
-                    sw.Write(deviceControl.joyAssign[i].GetKeyLinePOV(1));
+
+                if (i == throttleAxis.GetDeviceNumber())
+                {
+                    int hatId = 0;
+                    if (povBase > 0 && throttleAxis.GetDeviceNumber() == rollAxis.GetDeviceNumber())
+                        hatId = 1;
+                    sw.Write(joy.GetKeyLinePOV(povBase++, hatId));
+                }
+
+                if (povBase >= 2) break;
             }
+
             sw.Close();
         }
     }
