@@ -113,10 +113,13 @@ namespace FalconBMS.Launcher.Override
             if (mainWindow.Misc_SmartScalingOverride.IsChecked == true)
                 bs[12] = 0x05;
 
-            // Pilot Model
-            bs[0] = 0x13;
+            // Pilot Model -- bit #6; NB: in v4.37 and later, 'Show Mirrors' is bit #7 so don't overwrite that.
+            //TODO: consider adding separate checkbox for 'Show Mirrors'?
+			      //TODO: consider AL should get out of the business of duplicating these settings, if BMS 2d UI is not dead code?
+            bs[0] &= 0b01110011; //turn off bits 3,4 and 8.. maybe necessary if older pop file is ported forward from older BMS? not sure
+            bs[0] |= 0b00010011; //turn on bits 1,2 and 5
             if (mainWindow.Misc_PilotModel.IsChecked == true)
-                bs[0] = 0x33;
+                bs[0] |= 0b00100000; //turn on bit 6
 
             fs = new FileStream
                 (filename, FileMode.Create, FileAccess.Write);
