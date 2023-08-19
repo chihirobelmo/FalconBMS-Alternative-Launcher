@@ -53,12 +53,24 @@ namespace FalconBMS.Launcher.Windows
         private DispatcherTimer KeyMappingTimer = new DispatcherTimer();
         private DispatcherTimer NewDeviceDetectTimer = new DispatcherTimer();
 
+        private async Task FetchRSS_Async()
+        {
+            Task officialRSS = RSSReader.Read("https://www.falcon-bms.com/news/feed/", "https://www.falcon-bms.com");
+            Task loungeRSS = RSSReader.Read("https://www.falcon-lounge.com/news/feed/", "https://www.falcon-lounge.com");
+
+            await Task.WhenAll(officialRSS, loungeRSS);
+
+            RSSReader.Write(News);
+
+            Diagnostics.Log("RSS Read and Write Finished");
+        }
+
         /// <summary>
         /// Execute when launching this app.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -75,11 +87,7 @@ namespace FalconBMS.Launcher.Windows
 
                 Diagnostics.Log(BMS_Launcher_version);
 
-                RSSReader.Read("https://www.falcon-bms.com/news/feed/", "https://www.falcon-bms.com");
-                RSSReader.Read("https://www.falcon-lounge.com/news/feed/", "https://www.falcon-lounge.com");
-                RSSReader.Write(News);
-
-                Diagnostics.Log("RSS Read and Write Finished");
+                Task _ = FetchRSS_Async();
             }
             catch (Exception expass)
             {
