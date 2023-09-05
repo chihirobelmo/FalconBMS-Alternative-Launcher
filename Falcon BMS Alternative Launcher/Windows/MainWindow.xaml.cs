@@ -53,41 +53,38 @@ namespace FalconBMS.Launcher.Windows
         private DispatcherTimer KeyMappingTimer = new DispatcherTimer();
         private DispatcherTimer NewDeviceDetectTimer = new DispatcherTimer();
 
-        private async Task FetchRSS_Async()
+        protected override void OnInitialized(EventArgs e)
         {
-            Task officialRSS = RSSReader.Read("https://www.falcon-bms.com/news/feed/", "https://www.falcon-bms.com");
-            Task loungeRSS = RSSReader.Read("https://www.falcon-lounge.com/news/feed/", "https://www.falcon-lounge.com");
+            // Ensure base window object is fully initialized, before proceeding.
+            base.OnInitialized(e);
 
-            await Task.WhenAll(officialRSS, loungeRSS);
-
-            RSSReader.Write(News);
-
-            Diagnostics.Log("RSS Read and Write Finished");
+            // Schedule remaining work via PostMessage to UI thread message queue, to ensure initialization is complete
+			// for our window and for all children, before proceeding.
+            Dispatcher.BeginInvoke((Action) delegate { _Post_OnInitialized(); });
         }
 
-        /// <summary>
-        /// Execute when launching this app.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void Window_Loaded(object sender, RoutedEventArgs e)
+        private void _Post_OnInitialized()
         {
+            Diagnostics.Log("Post_OnInitialized.");
+
             try
             {
                 System.Reflection.Assembly asm = System.Reflection.Assembly.GetExecutingAssembly();
                 System.Version ver = asm.GetName().Version;
 
+                // NB: the AutoUpdaterDotNET library will create its own background (UI) thread, to do network I/O and display UI if necessary.
                 AutoUpdater.Mandatory = true;
+                AutoUpdater.Synchronous = false;
                 AutoUpdater.Start("https://raw.githubusercontent.com/chihirobelmo/FalconBMS-Alternative-Launcher/master/Falcon%20BMS%20Alternative%20Launcher/AutoUpdate.xml", asm);
-
-                Diagnostics.Log("Launcher Update Checked");
+                
+                Diagnostics.Log("AutoUpdate-check initiated.");
 
                 string BMS_Launcher_version = "FalconBMS Launcher v" + ver.Major + "." + ver.Minor + "." + ver.Build;
                 AL_Version_Number.Content = BMS_Launcher_version;
 
                 Diagnostics.Log(BMS_Launcher_version);
 
-                Task _ = FetchRSS_Async();
+                System.Threading.ThreadPool.QueueUserWorkItem(_ThreadPool_UpdateRss, this.Dispatcher);
             }
             catch (Exception expass)
             {
@@ -117,6 +114,35 @@ namespace FalconBMS.Launcher.Windows
                 Close();
                 return;
             }
+            Diagnostics.Log("Post_OnInitialized complete.");
+        }
+
+        private void _ThreadPool_UpdateRss(object state)
+        {
+            //NB: We are on a background threadpool thread -- no interaction with UI elements allowed!
+            try
+            {
+                Dispatcher thisDispatcher = (Dispatcher)state;
+
+                RSSReader.Read("https://www.falcon-bms.com/news/feed/", "https://www.falcon-bms.com");
+                RSSReader.Read("https://www.falcon-lounge.com/news/feed/", "https://www.falcon-lounge.com");
+
+                Diagnostics.Log("Completed RSS fetch on background-thread.");
+
+                // Schedule remaining work via PostMessage, back on the UI-thread's message queue.
+                thisDispatcher.BeginInvoke((Action)delegate { _Post_UpdateRss(); });
+            }
+            catch (Exception ex)
+            {
+                Diagnostics.Log(ex);
+                return;
+            }
+        }
+
+        private void _Post_UpdateRss()
+        {
+            RSSReader.Write(News);
+            Diagnostics.Log("RSS update finished.");
         }
 
         private void StartTimers()
