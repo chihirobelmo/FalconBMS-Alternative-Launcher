@@ -256,83 +256,27 @@ namespace FalconBMS.Launcher.Input
         }
 
         /// <summary>
-        /// Get each POV hat assignment line to write a key file.
+        /// Serialize the POV hat assignments to key file.
         /// </summary>
-        public string GetKeyLinePOV()
+        public string GetKeyLinePOV(int povBase, int hatId)
         {
-            string assign = "";
-            assign += "\n#======== " + GetProductName() + " : POV ========\n";
-            for (int i = 0; i < pov.Length; i++)
-            {
-                for (int ii = 0; ii < pov[i].direction.Length; ii++)
-                {
-                    for (int iii = 0; iii < 2; iii++)
-                    {
-                        if (i < 2)
-                        {
-                            // if (this.pov[i].direction[ii].GetCallback((Pinky)iii) == CommonConstants.SIMDONOTHING)
-                            //    continue;
-                            assign += pov[i].direction[ii].GetCallback((Pinky)iii);
-                            if ((Pinky)iii == Pinky.UnShift)
-                                assign += " " + i;
-                            if ((Pinky)iii == Pinky.Shift)
-                                assign += " " + (i + 2);
-                            assign += " " + "-1";
-                            assign += " " + "-3";
-                            assign += " " + ii;
-                            assign += " " + "0x0";
-                            assign += " " + pov[i].direction[ii].GetSoundID((Pinky)iii);
-                            assign += "\n";
-                        }
-                        else
-                        {
-                            if (pov[i].direction[ii].GetCallback((Pinky)iii) == CommonConstants.SIMDONOTHING & pov[i-2].direction[ii].GetCallback((Pinky)iii) != CommonConstants.SIMDONOTHING)
-                                continue;
-                            assign += pov[i].direction[ii].GetCallback((Pinky)iii);
-                            if ((Pinky)iii == Pinky.UnShift)
-                                assign += " " + i;
-                            if ((Pinky)iii == Pinky.Shift)
-                                assign += " " + (i + 2);
-                            assign += " " + "-1";
-                            assign += " " + "-3";
-                            assign += " " + ii;
-                            assign += " " + "0x0";
-                            assign += " " + pov[i].direction[ii].GetSoundID((Pinky)iii);
-                            assign += "\n";
-                        }
-                    }
-                }
-            }
-            return assign;
-        }
+            StringBuilder povBlock = new StringBuilder(2000);
+            povBlock.AppendLine("\n");
+            povBlock.AppendLine($"#======== {GetProductName()} : POV #{povBase} ========");
 
-        public string GetKeyLinePOV(int povNum)
-        {
-            string assign = "";
-            assign += "\n#======== " + GetProductName() + " : POV ========\n";
-            for (int i = 0; i < 1; i++)
+            for (int dirId = 0; dirId < pov[hatId].direction.Length; dirId++)
             {
-                for (int ii = 0; ii < pov[i].direction.Length; ii++)
+                for (int shiftState = 0; shiftState < 2; shiftState++)
                 {
-                    for (int iii = 0; iii < 2; iii++)
-                    {
-                        // if (this.pov[i].direction[ii].GetCallback((Pinky)iii) == CommonConstants.SIMDONOTHING)
-                        //    continue;
-                        assign += pov[i].direction[ii].GetCallback((Pinky)iii);
-                        if ((Pinky)iii == Pinky.UnShift)
-                            assign += " " + povNum;
-                        if ((Pinky)iii == Pinky.Shift)
-                            assign += " " + (povNum + 2);
-                        assign += " " + "-1";
-                        assign += " " + "-3";
-                        assign += " " + ii;
-                        assign += " " + "0x0";
-                        assign += " " + pov[i].direction[ii].GetSoundID((Pinky)iii);
-                        assign += "\n";
-                    }
+                    string callback = pov[hatId].direction[dirId].GetCallback((Pinky)shiftState);
+                    int povNumShifted = ((Pinky)shiftState == Pinky.Shift) ? (povBase + 2) : povBase;
+                    int povDir = dirId;
+                    int soundId = pov[hatId].direction[dirId].GetSoundID((Pinky)shiftState);
+
+                    povBlock.AppendLine($"{callback} {povNumShifted} -1 -3 {povDir} 0x0 {soundId}");
                 }
             }
-            return assign;
+            return povBlock.ToString();
         }
 
         /// <summary>

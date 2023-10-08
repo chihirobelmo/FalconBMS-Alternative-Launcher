@@ -301,7 +301,7 @@ namespace FalconBMS.Launcher.Windows
                             }
                         }
                         povs = deviceControl.joyAssign[i].GetPointOfView();
-                        for (int ii = 0; ii < 4; ii++)
+                        for (int ii = 0; ii < deviceControl.joyAssign[i].pov.Length; ii++)
                         {
                             if (neutralButtons[i] == null)
                                 break; // KEY SEARCH WILL NOT WORK IF ENTER HERE

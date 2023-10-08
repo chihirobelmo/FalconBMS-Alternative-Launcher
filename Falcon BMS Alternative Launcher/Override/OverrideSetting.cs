@@ -259,7 +259,7 @@ namespace FalconBMS.Launcher.Override
                 sw.Write(deviceControl.joyAssign[i].GetKeyLineDX(i, deviceControl.joyAssign.Length, DXnumber));
                 // PRIMARY DEVICE POV
                 if (rollAxis.GetDeviceNumber() == i)
-                    sw.Write(deviceControl.joyAssign[i].GetKeyLinePOV());
+                    sw.Write(deviceControl.joyAssign[i].GetKeyLinePOV(0, 0));
             }
             sw.Close();
         }
