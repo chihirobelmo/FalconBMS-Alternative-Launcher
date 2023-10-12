@@ -59,7 +59,7 @@ namespace FalconBMS.Launcher.Windows
             base.OnInitialized(e);
 
             // Schedule remaining work via PostMessage to UI thread message queue, to ensure initialization is complete
-			// for our window and for all children, before proceeding.
+            // for our window and for all children, before proceeding.
             Dispatcher.BeginInvoke((Action) delegate { _Post_OnInitialized(); });
         }
 
