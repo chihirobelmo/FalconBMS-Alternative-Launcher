@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 
 using System.Text.RegularExpressions;
 
@@ -9,18 +9,18 @@ using Microsoft.DirectX.DirectInput;
 
 namespace FalconBMS.Launcher.Input
 {
-    public class JoyAssgn : ICloneable
+    public class JoyAssgn
     {
-        protected Device device;
+        protected Device hwDevice = null;
 
         // Member
-        protected string productName = "";
-        protected Guid productGUID;
-        protected Guid instanceGUID;
+        protected string productName = null;
+        protected Guid productGUID = Guid.Empty;
+        protected Guid instanceGUID = Guid.Empty;
 
         // Method
-        public string GetProductName() { return productName; }
-        public string GetProductFileName() { return productName.Replace("/", "-"); }
+        public string GetProductName() { return productName ?? throw new NullReferenceException(); }
+        public string GetProductFileName() { return GetProductName().Replace("/", "-"); }
         public Guid GetProductGUID() { return productGUID; }
         public Guid GetInstanceGUID() { return instanceGUID; }
 
@@ -47,7 +47,7 @@ namespace FalconBMS.Launcher.Input
         /// [2]=POV3
         /// [3]=POV4
         /// </summary>
-        public PovAssgn[] pov = new PovAssgn[4];
+        public PovAssgn[] pov = new PovAssgn[CommonConstants.DX_MAX_HATS];
 
         /// <summary>
         /// [N] = DX[N]
@@ -63,101 +63,118 @@ namespace FalconBMS.Launcher.Input
         // None:            Not used: 0x0 ALWAYS
         // SoundID:         Sound ID: -1 Or 0
         // Description:     The description
-        public DxAssgn[] dx = new DxAssgn[CommonConstants.DX128];
+        public DxAssgn[] dx = new DxAssgn[CommonConstants.DX_MAX_BUTTONS];
 
-        /// <summary>
-        /// Make new instance.
-        /// </summary>
+        // Support secondary "profile" for F-15 (buttons and pov only; no axes) but keep existing xml seri structure intact, for backward-compatibility.
+        //HACK: this will double the size of the XML serializtion footprint, but retain back-compat with existing users' XML datafiles
+        public struct ProfileContainer
+        {
+            public PovAssgn[] pov;
+            public DxAssgn[] dx;
+        }
+        public ProfileContainer profileDefaultF16;
+        public ProfileContainer profileF15ABCD;
+
         public JoyAssgn()
         {
-            for (int i = 0; i < axis.Length; i++)
-                axis[i] = new AxAssgn();
-            for (int i = 0; i < pov.Length; i++)
-                pov[i] = new PovAssgn();
-            for (int i = 0; i < dx.Length; i++)
-                dx[i] = new DxAssgn();
-        }
-        public JoyAssgn(Device device)
+            Console.WriteLine();
+        } //parameterless ctor needed for XML deserialization
+
+        public JoyAssgn(bool allocStorage)
         {
-            this.device = device;
+            if (!allocStorage) return;
 
             for (int i = 0; i < axis.Length; i++)
                 axis[i] = new AxAssgn();
-            for (int i = 0; i < pov.Length; i++)
-                pov[i] = new PovAssgn();
+
             for (int i = 0; i < dx.Length; i++)
                 dx[i] = new DxAssgn();
-        }
-        public JoyAssgn(JoyAssgn otherInstance)
-        {
-            device = otherInstance.device;
-
-            productGUID = otherInstance.productGUID;
-            productName = otherInstance.productName;
-            instanceGUID = otherInstance.instanceGUID;
-
-            detentPosition = otherInstance.detentPosition;
-
-            productName = Regex.Replace(productName, "[^A-Z|a-z|0-9|~|`|\\[|\\]|\\{|\\}|\\-|_|\\=|\\'|\\s]", String.Empty);
-
-            for (int i = 0; i < axis.Length; i++)
-                axis[i] = otherInstance.axis[i].Clone();
             for (int i = 0; i < pov.Length; i++)
-                pov[i] = otherInstance.pov[i].Clone();
-            for (int i = 0; i < dx.Length; i++)
-                dx[i] = otherInstance.dx[i].Clone();
+                pov[i] = new PovAssgn();
+
+            // Use ref-copy for the default profile.
+            profileDefaultF16.dx = dx;//ref-copy
+            profileDefaultF16.pov = pov;//ref-copy
+
+            // But allocate new storage for the secondary profiles.
+            profileF15ABCD.dx = new DxAssgn[CommonConstants.DX_MAX_BUTTONS];
+            profileF15ABCD.pov = new PovAssgn[CommonConstants.DX_MAX_HATS];
+
+            for (int i = 0; i < CommonConstants.DX_MAX_BUTTONS; i++)
+                profileF15ABCD.dx[i] = new DxAssgn();
+            for (int i = 0; i < 4; i++)
+                profileF15ABCD.pov[i] = new PovAssgn();
         }
 
-        /// <summary>
-        /// Make new instance.
-        /// </summary>
-        public void SetDeviceInstance(DeviceInstance deviceInstance)
+        public JoyAssgn(Device device) : this(allocStorage:true)
         {
-            productGUID = deviceInstance.ProductGuid;
+            this.hwDevice = device;
+            this.SetDeviceInstance(device.DeviceInformation);
+        }
+        void SetDeviceInstance(DeviceInstance deviceInstance)
+        {
             productName = deviceInstance.ProductName;
-            instanceGUID = deviceInstance.InstanceGuid;
-
             productName = Regex.Replace(productName, "[^A-Z|a-z|0-9|~|`|\\[|\\]|\\{|\\}|\\-|_|\\=|\\'|\\s]", String.Empty);
+
+            productGUID = deviceInstance.ProductGuid;
+            instanceGUID = deviceInstance.InstanceGuid;
+        }
+
+        public void SelectAvionicsProfile(string avionicsProfile = null)
+        {
+            // A little shell-game with pointers, to avoid changing existing logic in 100 places..
+            if (avionicsProfile == null)
+            {
+                this.dx = profileDefaultF16.dx;
+                this.pov = profileDefaultF16.pov;
+            }
+            else if (avionicsProfile == CommonConstants.F15_TAG)
+            {
+                this.dx = profileF15ABCD.dx;
+                this.pov = profileF15ABCD.pov;
+            }
+            return;
         }
 
         public int JoyAxisState(int joyAxisNumber)
         {
             int input = 0;
-            if (device == null)
+            if (hwDevice == null)
                 return 0;
             try
             {
                 switch (joyAxisNumber)
                 {
                     case 0:
-                        input = device.CurrentJoystickState.X;
+                        input = hwDevice.CurrentJoystickState.X;
                         break;
                     case 1:
-                        input = device.CurrentJoystickState.Y;
+                        input = hwDevice.CurrentJoystickState.Y;
                         break;
                     case 2:
-                        input = device.CurrentJoystickState.Z;
+                        input = hwDevice.CurrentJoystickState.Z;
                         break;
                     case 3:
-                        input = device.CurrentJoystickState.Rx;
+                        input = hwDevice.CurrentJoystickState.Rx;
                         break;
                     case 4:
-                        input = device.CurrentJoystickState.Ry;
+                        input = hwDevice.CurrentJoystickState.Ry;
                         break;
                     case 5:
-                        input = device.CurrentJoystickState.Rz;
+                        input = hwDevice.CurrentJoystickState.Rz;
                         break;
                     case 6:
-                        input = device.CurrentJoystickState.GetSlider()[0];
+                        input = hwDevice.CurrentJoystickState.GetSlider()[0];
                         break;
                     case 7:
-                        input = device.CurrentJoystickState.GetSlider()[1];
+                        input = hwDevice.CurrentJoystickState.GetSlider()[1];
                         break;
                 }
                 return input;
             }
             catch
             {
+                System.Diagnostics.Debug.WriteLine("(Catching exception from hwDevice.CurrentJoystickState.)");
                 return 0;
             }
         }
@@ -181,7 +198,6 @@ namespace FalconBMS.Launcher.Input
                         pov[i].direction[ii].UnAssign(Pinky.Shift);
                 }
             }
-
         }
 
         /// <summary>
@@ -199,8 +215,10 @@ namespace FalconBMS.Launcher.Input
         /// Get whole DX button assignment line to write a key file.
         /// DXnumber: total DXnumber per device BMS can handle.
         /// </summary>
-        public string GetKeyLineDX(int joynum, int numOfDevices, int DXnumber) 
+        public string GetKeyLineDX(int indexInDeviceSortingOrder, int countDevices) //TODO: avionicsProfile??
         {
+            const int DXnumber = CommonConstants.DX_MAX_BUTTONS;
+
             string assign = "";
             assign += "\n#======== " + GetProductName() + " ========\n";
             for (int i = 0; i < dx.Length; i++)
@@ -214,7 +232,7 @@ namespace FalconBMS.Launcher.Input
                         if (ii != 0)
                             continue;
                         assign += dx[i].assign[ii].GetCallback();
-                        assign += " " + (joynum * DXnumber + i);
+                        assign += " " + (indexInDeviceSortingOrder * DXnumber + i);
                         assign += " " + (int)Invoke.Default;
                         assign += " " + "-2";
                         assign += " " + "0";
@@ -222,7 +240,7 @@ namespace FalconBMS.Launcher.Input
                         assign += " " + dx[i].assign[ii].GetSoundID();
                         assign += "\n";
                         assign += dx[i].assign[ii].GetCallback();
-                        assign += " " + (numOfDevices * DXnumber + joynum * DXnumber + i);
+                        assign += " " + (countDevices * DXnumber + indexInDeviceSortingOrder * DXnumber + i);
                         assign += " " + (int)Invoke.Default;
                         assign += " " + "-2";
                         assign += " " + "0";
@@ -235,9 +253,9 @@ namespace FalconBMS.Launcher.Input
                     assign += dx[i].assign[ii].GetCallback();
 
                     if (ii == CommonConstants.DX_PRESS | ii == CommonConstants.DX_RELEASE)
-                        assign += " " + (joynum * DXnumber + i);
+                        assign += " " + (indexInDeviceSortingOrder * DXnumber + i);
                     if (ii == CommonConstants.DX_PRESS_SHIFT | ii == CommonConstants.DX_RELEASE_SHIFT)
-                        assign += " " + (numOfDevices * DXnumber + joynum * DXnumber + i);
+                        assign += " " + (countDevices * DXnumber + indexInDeviceSortingOrder * DXnumber + i);
 
                     assign += " " + (int)dx[i].assign[ii].GetInvoke();
                     assign += " " + "-2";
@@ -258,7 +276,7 @@ namespace FalconBMS.Launcher.Input
         /// <summary>
         /// Serialize the POV hat assignments to key file.
         /// </summary>
-        public string GetKeyLinePOV(int povBase, int hatId)
+        public string GetKeyLinePOV(int povBase, int hatId) //TODO: avionicsProfile??
         {
             StringBuilder povBlock = new StringBuilder(2000);
             povBlock.AppendLine("\n");
@@ -352,63 +370,110 @@ namespace FalconBMS.Launcher.Input
             }
             return result;
         }
-        public void Load(JoyAssgn j)
+
+        public void LoadAxesButtonsAndHatsFrom(JoyAssgn otherJoy)
         {
-            detentPosition = j.detentPosition;
+            axis = otherJoy.axis;
+            detentPosition = otherJoy.detentPosition;
 
-            axis = j.axis;
-            pov = j.pov;
+            for (int i = 0; i < otherJoy.dx.Length; i++)
+                if (i < dx.Length)
+                    dx[i] = otherJoy.dx[i];
 
-            for (int i = 0; i < j.dx.Length; i++)
+            for (int i = 0; i < otherJoy.pov.Length; i++)
+                if (i < pov.Length)
+                    pov[i] = otherJoy.pov[i];
+            return;
+        }
+
+        public void LoadAxesButtonsAndHatsFrom(string xmlPath)
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(JoyAssgn));
+
+            using (StreamReader sr = File.OpenText(xmlPath))
             {
-                if (i >= dx.Length)
-                    return;
-                dx[i] = j.dx[i];
+                JoyAssgn xmlJoy = (JoyAssgn)serializer.Deserialize(sr);
+
+                if (xmlJoy.profileDefaultF16.dx == null)
+                {
+                    // Copy default profile by-ref (because it's currently selected, at load-time).
+                    xmlJoy.profileDefaultF16.dx = xmlJoy.dx;
+                    xmlJoy.profileDefaultF16.pov = xmlJoy.pov;
+
+                    // But allocate new storage for the secondary profiles.
+                    xmlJoy.profileF15ABCD.dx = new DxAssgn[CommonConstants.DX_MAX_BUTTONS];
+                    for (int i = 0; i < CommonConstants.DX_MAX_BUTTONS; i++)
+                        xmlJoy.profileF15ABCD.dx[i] = new DxAssgn();
+
+                    xmlJoy.profileF15ABCD.pov = new PovAssgn[CommonConstants.DX_MAX_HATS];
+                    for (int i = 0; i < CommonConstants.DX_MAX_HATS; i++)
+                        xmlJoy.profileF15ABCD.pov[i] = new PovAssgn();
+                }
+
+                this.axis = xmlJoy.axis;
+                this.detentPosition = xmlJoy.detentPosition;
+
+                this.dx = xmlJoy.dx;
+                this.pov = xmlJoy.pov;
+
+                this.profileDefaultF16.dx = xmlJoy.profileDefaultF16.dx;
+                this.profileDefaultF16.pov = xmlJoy.profileDefaultF16.pov;
+
+                this.profileF15ABCD.dx = xmlJoy.profileF15ABCD.dx;
+                this.profileF15ABCD.pov = xmlJoy.profileF15ABCD.pov;
             }
+
+            return;
         }
-        public void LoadAx(AxAssgn a)
+
+
+        public JoyAssgn CloneByValue()
         {
-            axis[0] = a;
+            JoyAssgn joy = new JoyAssgn();
+            joy.LoadAxesButtonsAndHatsFrom(this);
+            return joy;
         }
-        public AxAssgn GetMouseAxis()
-        {
-            return axis[0];
-        }
-        public int GetAssignedNumber()
-        {
-            return dx.Sum(d => d.GetAssignedNumber());
-        }
+
+        //REVIEW: dead code?
+        //public void LoadSingleAxisMousewheel(AxAssgn a)
+        //{
+        //    axis[0] = a;
+        //}
+
         public Device GetDevice()
         {
-            return device;
+            return hwDevice;
         }
+
         public JoystickState GetDeviceState()
         {
             try
             {
-                return device.CurrentJoystickState;
+                return hwDevice.CurrentJoystickState;
             }
             catch 
             {
                 return new JoystickState();
             }
         }
+
         public byte[] GetButtons()
         {
             try
             {
-                return device.CurrentJoystickState.GetButtons();
+                return hwDevice.CurrentJoystickState.GetButtons();
             }
             catch 
             {
                 return new byte[128];
             }
         }
+
         public int[] GetPointOfView()
         {
             try
             {
-                return device.CurrentJoystickState.GetPointOfView();
+                return hwDevice.CurrentJoystickState.GetPointOfView();
             }
             catch
             {
@@ -416,11 +481,5 @@ namespace FalconBMS.Launcher.Input
             }
         }
 
-        object ICloneable.Clone() => Clone();
-
-        public JoyAssgn Clone()
-        {
-            return new JoyAssgn(this);
-        }
     }
 }

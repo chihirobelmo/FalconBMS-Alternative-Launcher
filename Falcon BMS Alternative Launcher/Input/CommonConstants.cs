@@ -9,11 +9,10 @@ namespace FalconBMS.Launcher.Input
 {
     public static class CommonConstants
     {
-        public static readonly int DEVICE16 = 16;
-
-        public static readonly int DX0      = 0;
-        public static readonly int DX32     = 32;
-        public static readonly int DX128    = 128;
+        public const int DX_MAX_HATS = 4;//number of pov-hats supported by DirectInput, per device
+        public const int DX_MAX_AXES = 8;//number of analog axes supported by DirectInput, per device
+        public const int DX_MAX_BUTTONS_LEGACY = 32;
+        public const int DX_MAX_BUTTONS = 128;//number of buttons supported by DirectInput, per device
 
         public static readonly int PRS0     = 0;
         public static readonly int PRS128   = 128;
@@ -37,12 +36,12 @@ namespace FalconBMS.Launcher.Input
         public static readonly int BINAXISMIN = 0;
         public static readonly int BINAXISMAX = 15000;
 
-        public static readonly string DEFAULTKEY = "BMS - Full";
-        public static readonly string USERKEY    = "BMS - Auto";
+        public static readonly string BMS_FULL = "BMS - Full";
+        public static readonly string BMS_AUTO = "BMS - Auto";
 
         public static readonly int JOYNUMOFFSET = 2;
         public static readonly int JOYNUMUNASSIGNED = -1;
-        public static readonly int JOYNUMMOUSEWHEEL = -2;
+//        public static readonly int JOYNUMMOUSEWHEEL = -2;
 
         public static readonly string CFGOVERRIDECOMMENT = "// SETUP OVERRIDE";
 
@@ -51,7 +50,7 @@ namespace FalconBMS.Launcher.Input
 
         public static readonly string SETUPV100 = "Setup.v100.";
         public static readonly string STOCKXML = " {Stock}.xml";
-        public static readonly string MOUSEXML = " Mousewheel.xml";
+//REVIEW: dead code? //public static readonly string MOUSEXML = " Mousewheel.xml";
         public static readonly string LOGCAT = "bms-logcat.exe";
         public static readonly string CFGFILE = "Falcon BMS.cfg";
         public static readonly string USERCFGFILE = "Falcon BMS User.cfg";
@@ -61,6 +60,8 @@ namespace FalconBMS.Launcher.Input
         public static readonly string BACKUPFOLDER = "/User/Config/Backup/";
         public static readonly string LAUNCHERFOLDER = "/Launcher";
         public static readonly string CONFIGFOLDERBACKSLASH = "\\User\\Config\\";
+
+        public const string F15_TAG = "F15ABCD";
 
         public static readonly string SIMDONOTHING = "SimDoNothing";
 

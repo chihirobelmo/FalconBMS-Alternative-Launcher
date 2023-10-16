@@ -1,112 +1,216 @@
-﻿using System.IO;
-using System.Linq;
-using FalconBMS.Launcher.Windows;
+﻿using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Xml.Serialization;
+
 using Microsoft.DirectX.DirectInput;
 
 namespace FalconBMS.Launcher.Input
 {
     public class DeviceControl
     {
-        // Member
-        public DeviceList devList;
-        public Device[] joyStick;
-        public JoyAssgn[] joyAssign;
-        //public AxAssgn mouseWheelAssign = new AxAssgn();
-        public JoyAssgn mouse = new JoyAssgn();
+        // For keys, hats and buttons, this field tracks which airframe/avionics-profile we're viewing and modifying.
+        internal static string avionicsProfile = null; // null => F16 (default); or "F15ABCD"
 
-        /// <summary>
-        /// Get Devices.
-        /// </summary>
-        public DeviceControl()
-        { }
+        // Members
+        private AppRegInfo appReg;
 
-        /// <summary>
-        /// Get Devices.
-        /// </summary>
-        public DeviceControl(AppRegInfo appReg)
+        private KeyFile keyFileDefaultF16;
+        private KeyFile keyFileF15ABCD;
+
+        private Device[] hwDevices;
+        private JoyAssgn[] joyAssign;
+
+        public static DeviceControl EnumerateAttachedDevicesAndLoadXml(AppRegInfo appReg)
         {
+            return new DeviceControl(appReg);
+        }
+        private DeviceControl(AppRegInfo appReg)
+        {
+            this.appReg = appReg;
+
             // Make Joystick Instances.
-            devList = Manager.GetDevices(DeviceClass.GameControl, EnumDevicesFlags.AttachedOnly);
-            joyStick = new Device[devList.Count];
+            DeviceList devList = Manager.GetDevices(DeviceClass.GameControl, EnumDevicesFlags.AttachedOnly);
+            hwDevices = new Device[devList.Count];
             joyAssign = new JoyAssgn[devList.Count];
+            
+            string pathToUserXml;
+            string pathToStockXml;
 
-            System.Xml.Serialization.XmlSerializer serializer;
-            StreamReader sr;
-            string fileName;
-            string stockFileName;
             int i = 0;
-
             foreach (DeviceInstance dev in devList)
             {
-                joyStick[i] = new Device(dev.InstanceGuid);
-                joyAssign[i] = new JoyAssgn(joyStick[i]);
+                hwDevices[i] = new Device(dev.InstanceGuid);
+                joyAssign[i] = new JoyAssgn(hwDevices[i]);//sites product info, guids etc
 
-                joyAssign[i].SetDeviceInstance(dev);
-
-                fileName = appReg.GetInstallDir() + CommonConstants.CONFIGFOLDER + CommonConstants.SETUPV100 + joyAssign[i].GetProductFileName()
+                pathToUserXml = appReg.GetInstallDir() + CommonConstants.CONFIGFOLDER + CommonConstants.SETUPV100 + joyAssign[i].GetProductFileName()
                 + " {" + joyAssign[i].GetInstanceGUID().ToString().ToUpper() + "}.xml";
 
                 // Load existing .xml files.
-                if (File.Exists(fileName))
+                if (File.Exists(pathToUserXml))
                 {
-                    serializer = new System.Xml.Serialization.XmlSerializer(typeof(JoyAssgn));
-                    sr = new StreamReader(fileName, new System.Text.UTF8Encoding(false));
-                    joyAssign[i].Load((JoyAssgn)serializer.Deserialize(sr));
-                    sr.Close();
+                    joyAssign[i].LoadAxesButtonsAndHatsFrom(pathToUserXml);
                 }
                 else
                 {
-                    stockFileName = Directory.GetCurrentDirectory() 
+                    pathToStockXml = Directory.GetCurrentDirectory() 
                         + CommonConstants.STOCKFOLDER + CommonConstants.SETUPV100
                         + joyAssign[i].GetProductFileName()
                         + CommonConstants.STOCKXML;
-                    if (!File.Exists(stockFileName))
+                    if (!File.Exists(pathToStockXml))
                     {
-                        stockFileName = appReg.GetInstallDir() + CommonConstants.LAUNCHERFOLDER
+                        pathToStockXml = appReg.GetInstallDir() + CommonConstants.LAUNCHERFOLDER
                             + CommonConstants.STOCKFOLDER + CommonConstants.SETUPV100
                             + joyAssign[i].GetProductFileName()
                             + CommonConstants.STOCKXML;
                     }
-                    if (File.Exists(stockFileName))
+                    if (File.Exists(pathToStockXml))
                     {
-                        File.Copy(stockFileName, fileName);
-
-                        serializer = new System.Xml.Serialization.XmlSerializer(typeof(JoyAssgn));
-                        sr = new StreamReader(fileName, new System.Text.UTF8Encoding(false));
-                        joyAssign[i].Load((JoyAssgn)serializer.Deserialize(sr));
-                        sr.Close();
+                        File.Copy(pathToStockXml, pathToUserXml);
+                        joyAssign[i].LoadAxesButtonsAndHatsFrom(pathToUserXml);
                     }
                 }
-                joyAssign[i].SetDeviceInstance(dev);
+
                 i += 1;
             }
             
-            // Load MouseWheel .xml file.
-            serializer = new System.Xml.Serialization.XmlSerializer(typeof(AxAssgn));
-            fileName = appReg.GetInstallDir() + CommonConstants.CONFIGFOLDER + CommonConstants.SETUPV100 + CommonConstants.MOUSEXML;
-            if (File.Exists(fileName))
+            // Load key bindings from keyfiles.
+            LoadKeyBindingsFromUserOrStockKeyfiles(appReg);
+        }
+
+        public void LoadKeyBindingsFromUserOrStockKeyfiles(AppRegInfo appReg)
+        {
+            // First load Auto keys, then fail over to Full keys.
+            string filename = appReg.GetInstallDir() + CommonConstants.CONFIGFOLDERBACKSLASH + CommonConstants.BMS_AUTO + ".key";
+            if (!File.Exists (filename))
+                filename = appReg.GetInstallDir() + CommonConstants.CONFIGFOLDERBACKSLASH + CommonConstants.BMS_FULL + ".key"; //initial load/fallback
+            if (!File.Exists(filename))
+                filename = CommonConstants.BMS_FULL + ".key"; //fallback to cwd
+
+            string filenameF15 = appReg.GetInstallDir() + CommonConstants.CONFIGFOLDERBACKSLASH + CommonConstants.BMS_AUTO + "-F15ABCD.key";
+            if (!File.Exists(filenameF15))
+                filenameF15 = appReg.GetInstallDir() + CommonConstants.CONFIGFOLDERBACKSLASH + CommonConstants.BMS_FULL + "-F15ABCD.key"; //initial load/fallback
+            if (!File.Exists(filenameF15))
+                filenameF15 = CommonConstants.BMS_FULL + "-F15ABCD.key"; //fallback to cwd
+
+            this.keyFileDefaultF16 = new KeyFile(filename);
+            this.keyFileF15ABCD = new KeyFile(filenameF15);
+        }
+
+        public void ImportKeyfileIntoCurrentProfile(string filename)
+        {
+            if (string.IsNullOrEmpty(avionicsProfile))
             {
-                sr = new StreamReader(fileName, new System.Text.UTF8Encoding(false));
-                mouse.LoadAx((AxAssgn)serializer.Deserialize(sr));
-                sr.Close();
+                this.keyFileDefaultF16 = new KeyFile(filename);
+                return;
+            }
+
+            switch (avionicsProfile)
+            {
+                case CommonConstants.F15_TAG:
+                    this.keyFileF15ABCD = new KeyFile(filename);
+                    return;
+            }
+            throw new System.ArgumentException("avionicsProfile");
+        }
+
+        public Device[] GetHwDeviceList()
+        {
+            return this.hwDevices;
+        }
+
+        public Device GetHwDevice(int i)
+        {
+            return this.hwDevices[i];
+        }
+
+        public KeyFile GetKeyBindings()
+        {
+            if (string.IsNullOrEmpty(avionicsProfile))
+                return keyFileDefaultF16;
+
+            switch (avionicsProfile)
+            {
+                case CommonConstants.F15_TAG:
+                    return keyFileF15ABCD;
+            }
+            throw new System.ArgumentException("avionicsProfile");
+        }
+        public KeyFile GetKeyBindingsForProfile(string profile)
+        {
+            if (string.IsNullOrEmpty(profile))
+                return keyFileDefaultF16;
+
+            switch (profile)
+            {
+                case CommonConstants.F15_TAG:
+                    return keyFileF15ABCD;
+            }
+            throw new System.ArgumentException("profile");
+        }
+
+        public JoyAssgn[] GetJoystickMappingsForAxes()
+        {
+            return joyAssign;
+        }
+
+        public JoyAssgn[] GetJoystickMappingsForButtonsAndHats()
+        {
+            return joyAssign;
+        }
+        //public JoyAssgn[] GetJoystickMappingsForProfile(string profile)
+        //{
+        //    switch (profile)
+        //    {
+        //        case null:
+        //            return joyAssign;
+        //        case CommonConstants.F15_TAG:
+        //            List<JoyAssgn> list = new List<JoyAssgn>();
+        //            foreach (JoyAssgn joy in joyAssign)
+        //                list.Add(joy);
+        //            return list.ToArray();
+        //    }
+        //    throw new System.ArgumentException("avionicsProfile");
+        //}
+
+        public void UpdateAvionicsProfile(string profile)
+        {
+            DeviceControl.avionicsProfile = profile;
+
+            foreach (JoyAssgn joy in joyAssign)
+                joy.SelectAvionicsProfile(profile);
+
+            return;
+        }
+
+        public void SaveXml()
+        {
+            //HACK: Ensure generic F16 bindings are saved at the root level, for back-compat.
+            string currentProfile = DeviceControl.avionicsProfile;
+            try
+            {
+                this.UpdateAvionicsProfile(null);//generic F16
+
+                for (int i = 0; i < this.joyAssign.Length; i++)
+                {
+                    string fileName = this.appReg.GetInstallDir() + CommonConstants.CONFIGFOLDER + CommonConstants.SETUPV100 + this.joyAssign[i].GetProductFileName()
+                    + " {" + this.joyAssign[i].GetInstanceGUID().ToString().ToUpper() + "}.xml";
+
+
+                    XmlSerializer serializer = new XmlSerializer(typeof(JoyAssgn));
+                    using (StreamWriter sw = Utils.CreateUtf8TextWihoutBom(fileName))
+                        serializer.Serialize(sw, this.joyAssign[i]);
+                }
+            }
+            catch (Exception ex)
+            {
+                Diagnostics.WriteLogFile(ex);
+            }
+            finally
+            {
+                this.UpdateAvionicsProfile(currentProfile);
             }
         }
 
-        public void SortDevice()
-        {
-            joyAssign = joyAssign.OrderByDescending(j => j.GetAssignedNumber()).ToArray();
-        }
-
-        public int GetAB(AxisName name)
-        {
-            InGameAxAssgn axis = (InGameAxAssgn)MainWindow.inGameAxis[name.ToString()];
-            return joyAssign[axis.GetDeviceNumber()].detentPosition.GetAB();
-        }
-
-        public int GetIDLE(AxisName name)
-        {
-            InGameAxAssgn axis = (InGameAxAssgn)MainWindow.inGameAxis[name.ToString()];
-            return joyAssign[axis.GetDeviceNumber()].detentPosition.GetIDLE();
-        }
     }
 }

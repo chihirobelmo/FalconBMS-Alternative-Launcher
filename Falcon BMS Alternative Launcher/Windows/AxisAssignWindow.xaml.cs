@@ -21,8 +21,6 @@ namespace FalconBMS.Launcher.Windows
             this.axisAssign = axisAssign;
 
             whoCalledWindow = ((System.Windows.Controls.Button)sender).Name;
-
-            MouseWheel += Detect_MouseWheel;
         }
 
         public static InGameAxAssgn ShowAxisAssignWindow(MainWindow mainWindow, InGameAxAssgn axisAssign, object sender)
@@ -50,7 +48,6 @@ namespace FalconBMS.Launcher.Windows
         private int devNumTmp = -1;
         private int phyAxNumTmp = -1;
         private int invertNum;
-        private int wheelValue;
 
         private int AB   = CommonConstants.AXISMAX;
         private int IDLE = CommonConstants.AXISMIN;
@@ -176,7 +173,7 @@ namespace FalconBMS.Launcher.Windows
             Reset();
 
             AxisDetectionTimer.Tick += AxisDetectionTimerCode;
-            AxisDetectionTimer.Interval = new TimeSpan(0, 0, 0, 0, 16);
+            AxisDetectionTimer.Interval = TimeSpan.FromMilliseconds(100);
             AxisDetectionTimer.Start();
             
         }
@@ -199,8 +196,8 @@ namespace FalconBMS.Launcher.Windows
 
                     if (axisAssign.GetDeviceNumber() >= 0)
                     {
-                        AB = MainWindow.deviceControl.joyAssign[axisAssign.GetDeviceNumber()].detentPosition.GetAB();
-                        IDLE = MainWindow.deviceControl.joyAssign[axisAssign.GetDeviceNumber()].detentPosition.GetIDLE();
+                        AB = MainWindow.deviceControl.GetJoystickMappingsForAxes()[axisAssign.GetDeviceNumber()].detentPosition.GetAB();
+                        IDLE = MainWindow.deviceControl.GetJoystickMappingsForAxes()[axisAssign.GetDeviceNumber()].detentPosition.GetIDLE();
                     }
                 }
             }
@@ -212,13 +209,13 @@ namespace FalconBMS.Launcher.Windows
             devNumTmp = axisAssign.GetDeviceNumber();
             phyAxNumTmp = axisAssign.GetPhysicalNumber();
 
-            Joynum = new JoyAxisNeutralValue[MainWindow.deviceControl.joyAssign.Length];
-            for (int i = 0; i < MainWindow.deviceControl.joyAssign.Length; i++)
+            Joynum = new JoyAxisNeutralValue[MainWindow.deviceControl.GetJoystickMappingsForAxes().Length];
+            for (int i = 0; i < MainWindow.deviceControl.GetJoystickMappingsForAxes().Length; i++)
                 Joynum[i] = new JoyAxisNeutralValue();
 
-            for (int i = 0; i < MainWindow.deviceControl.joyAssign.Length; i++)
+            for (int i = 0; i < MainWindow.deviceControl.GetJoystickMappingsForAxes().Length; i++)
                 for (int ii = 0; ii < 8; ii++)
-                    Joynum[i].NeutralValue[ii] = MainWindow.deviceControl.joyAssign[i].JoyAxisState(ii);
+                    Joynum[i].NeutralValue[ii] = MainWindow.deviceControl.GetJoystickMappingsForAxes()[i].JoyAxisState(ii);
         }
 
         private void GetNeutralPosition()
@@ -232,12 +229,12 @@ namespace FalconBMS.Launcher.Windows
 
         private void WaitInput()
         {
-            for (int i = 0; i < MainWindow.deviceControl.joyAssign.Length; i++)
+            for (int i = 0; i < MainWindow.deviceControl.GetJoystickMappingsForAxes().Length; i++)
             {
                 for (int ii = 0; ii < 8; ii++)
                 {
-                    if (MainWindow.deviceControl.joyAssign[i].JoyAxisState(ii) < Joynum[i].NeutralValue[ii] + CommonConstants.AXISMAX / 4 &
-                        MainWindow.deviceControl.joyAssign[i].JoyAxisState(ii) > Joynum[i].NeutralValue[ii] - CommonConstants.AXISMAX / 4)
+                    if (MainWindow.deviceControl.GetJoystickMappingsForAxes()[i].JoyAxisState(ii) < Joynum[i].NeutralValue[ii] + CommonConstants.AXISMAX / 4 &
+                        MainWindow.deviceControl.GetJoystickMappingsForAxes()[i].JoyAxisState(ii) > Joynum[i].NeutralValue[ii] - CommonConstants.AXISMAX / 4)
                         continue;
                     devNumTmp = i;
                     phyAxNumTmp = ii;
@@ -253,8 +250,8 @@ namespace FalconBMS.Launcher.Windows
                     InGameAxAssgn axis = (InGameAxAssgn)MainWindow.inGameAxis[whoCalledWindow];
                     if (axis.GetDeviceNumber() >= 0)
                     {
-                        AB = MainWindow.deviceControl.joyAssign[axis.GetDeviceNumber()].detentPosition.GetAB();
-                        IDLE = MainWindow.deviceControl.joyAssign[axis.GetDeviceNumber()].detentPosition.GetIDLE();
+                        AB = MainWindow.deviceControl.GetJoystickMappingsForAxes()[axis.GetDeviceNumber()].detentPosition.GetAB();
+                        IDLE = MainWindow.deviceControl.GetJoystickMappingsForAxes()[axis.GetDeviceNumber()].detentPosition.GetIDLE();
                     }
                 }
             }
@@ -310,24 +307,16 @@ namespace FalconBMS.Launcher.Windows
 
             InvertAxisDisp();
 
-            // mouse wheel assigned
-            if (devNumTmp == -2)
-            {
-                AxisValueProgress.Value = (32768 + wheelValue * 1024 / 120) * invertNum;
-                AssignedJoystick.Content = "   MouseWheel";
-                return;
-            }
-
             int output = MainWindow.ApplyDeadZone
                             (
-                                MainWindow.deviceControl.joyAssign[devNumTmp].JoyAxisState(phyAxNumTmp),
+                                MainWindow.deviceControl.GetJoystickMappingsForAxes()[devNumTmp].JoyAxisState(phyAxNumTmp),
                                 (AxCurve)DeadZone.SelectedIndex,
                                 (AxCurve)Saturation.SelectedIndex
                             );
             AxisValueProgress.Value = output * invertNum;
             AssignedJoystick.Content = "   "
                 + ((AxisNumName)phyAxNumTmp).ToString().Replace('_', ' ') + " : "
-                + MainWindow.deviceControl.joyStick[devNumTmp].DeviceInformation.ProductName;
+                + MainWindow.deviceControl.GetHwDevice(devNumTmp).DeviceInformation.ProductName;
 
             if (whoCalledWindow != AxisName.Throttle.ToString() & whoCalledWindow != AxisName.Throttle_Right.ToString())
                 return;
@@ -366,7 +355,7 @@ namespace FalconBMS.Launcher.Windows
                     Microsoft.DirectX.DirectInput.EnumDevicesFlags.AttachedOnly
                     );
 
-                    if (devList.Count != MainWindow.deviceControl.joyAssign.Length)
+                    if (devList.Count != MainWindow.deviceControl.GetJoystickMappingsForAxes().Length)
                     {
                         mainWindow.ReloadDevices();
                         Reset();
@@ -419,8 +408,6 @@ namespace FalconBMS.Launcher.Windows
             Retry.Visibility = Visibility.Hidden;
             SetAB.Visibility = Visibility.Hidden;
             Idle.Visibility  = Visibility.Hidden;
-
-            wheelValue = 0;
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)
@@ -435,26 +422,14 @@ namespace FalconBMS.Launcher.Windows
                 if (devNumTmp > CommonConstants.JOYNUMUNASSIGNED)
                 {
                     axisAssign = new InGameAxAssgn(
-                            MainWindow.deviceControl.joyAssign[devNumTmp],
+                            MainWindow.deviceControl.GetJoystickMappingsForAxes()[devNumTmp],
                             phyAxNumTmp,
                             (bool)Invert.IsChecked,
                             (AxCurve)DeadZone.SelectedIndex,
                             (AxCurve)Saturation.SelectedIndex
                         );
                     if (whoCalledWindow == AxisName.Throttle.ToString())
-                        MainWindow.deviceControl.joyAssign[devNumTmp].detentPosition = new DetentPosition(AB, IDLE);
-                }
-                else if (devNumTmp == CommonConstants.JOYNUMMOUSEWHEEL)
-                {
-                    axisAssign = new InGameAxAssgn(
-                            MainWindow.deviceControl.mouse,
-                            0,
-                            (bool)Invert.IsChecked,
-                            (AxCurve)DeadZone.SelectedIndex,
-                            (AxCurve)Saturation.SelectedIndex
-                        );
-                    if (whoCalledWindow == AxisName.Throttle.ToString())
-                        MainWindow.deviceControl.mouse.detentPosition = new DetentPosition(AB, IDLE);
+                        MainWindow.deviceControl.GetJoystickMappingsForAxes()[devNumTmp].detentPosition = new DetentPosition(AB, IDLE);
                 }
             }
             AxisDetectionTimer.Stop();
@@ -468,37 +443,37 @@ namespace FalconBMS.Launcher.Windows
             sw.Stop();
         }
 
-        private void Detect_MouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            if (status == Status.WaitInput)
-            {
-                switch (whoCalledWindow)
-                {
-                    case "Roll":
-                    case "Pitch":
-                    case "Yaw":
-                    case "Throttle":
-                    case "Throttle_Right":
-                        return;
-                }
-                devNumTmp = -2;
-                status = Status.ShowAxisStatus;
-                Retry.Content = "RETRY";
-                Retry.Visibility = Visibility.Visible;
-            }
-            if (status == Status.ShowAxisStatus)
-            {
-                if (devNumTmp == -2)
-                {
-                    wheelValue += e.Delta;
-                    // (32768 * 120 / 1240 ) = 3840 
-                    if (wheelValue < -3840)
-                        wheelValue = -3840;
-                    if (wheelValue > 3840)
-                        wheelValue = 3840;
-                }
-            }
-        }
+        //private void Detect_MouseWheel(object sender, MouseWheelEventArgs e)
+        //{
+        //    if (status == Status.WaitInput)
+        //    {
+        //        switch (whoCalledWindow)
+        //        {
+        //            case "Roll":
+        //            case "Pitch":
+        //            case "Yaw":
+        //            case "Throttle":
+        //            case "Throttle_Right":
+        //                return;
+        //        }
+        //        devNumTmp = -2;
+        //        status = Status.ShowAxisStatus;
+        //        Retry.Content = "RETRY";
+        //        Retry.Visibility = Visibility.Visible;
+        //    }
+        //    if (status == Status.ShowAxisStatus)
+        //    {
+        //        if (devNumTmp == -2)
+        //        {
+        //            wheelValue += e.Delta;
+        //            // (32768 * 120 / 1240 ) = 3840 
+        //            if (wheelValue < -3840)
+        //                wheelValue = -3840;
+        //            if (wheelValue > 3840)
+        //                wheelValue = 3840;
+        //        }
+        //    }
+        //}
         
         private void Saturation_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -514,9 +489,9 @@ namespace FalconBMS.Launcher.Windows
                 return;
             
             if (Invert.IsChecked == true)
-                AB = CommonConstants.AXISMIN + MainWindow.deviceControl.joyAssign[devNumTmp].JoyAxisState(phyAxNumTmp);
+                AB = CommonConstants.AXISMIN + MainWindow.deviceControl.GetJoystickMappingsForAxes()[devNumTmp].JoyAxisState(phyAxNumTmp);
             else
-                AB = CommonConstants.AXISMAX - MainWindow.deviceControl.joyAssign[devNumTmp].JoyAxisState(phyAxNumTmp);
+                AB = CommonConstants.AXISMAX - MainWindow.deviceControl.GetJoystickMappingsForAxes()[devNumTmp].JoyAxisState(phyAxNumTmp);
 
             if (AB > CommonConstants.AXISMAX)
                 AB = CommonConstants.AXISMAX;
@@ -530,9 +505,9 @@ namespace FalconBMS.Launcher.Windows
                 return;
 
             if (Invert.IsChecked == true)
-                IDLE = CommonConstants.AXISMIN + MainWindow.deviceControl.joyAssign[devNumTmp].JoyAxisState(phyAxNumTmp);
+                IDLE = CommonConstants.AXISMIN + MainWindow.deviceControl.GetJoystickMappingsForAxes()[devNumTmp].JoyAxisState(phyAxNumTmp);
             else
-                IDLE = CommonConstants.AXISMAX - MainWindow.deviceControl.joyAssign[devNumTmp].JoyAxisState(phyAxNumTmp);
+                IDLE = CommonConstants.AXISMAX - MainWindow.deviceControl.GetJoystickMappingsForAxes()[devNumTmp].JoyAxisState(phyAxNumTmp);
 
             if (IDLE > CommonConstants.AXISMAX)
                 IDLE = CommonConstants.AXISMAX;

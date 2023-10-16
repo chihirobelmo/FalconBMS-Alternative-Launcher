@@ -25,15 +25,12 @@ namespace FalconBMS.Launcher
             bandWidthDefault                               = Properties.Settings.Default.CMD_BW;
             mainWindow.ApplicationOverride.IsChecked       = Properties.Settings.Default.NoOverride;
             mainWindow.Misc_RollLinkedNWS.IsChecked        = Properties.Settings.Default.Misc_RLNWS;
-            mainWindow.Misc_MouseCursorAnchor.IsChecked    = Properties.Settings.Default.Misc_MouseCursorAnchor;
             mainWindow.Misc_TrackIRZ.IsChecked             = Properties.Settings.Default.Misc_TrackIRZ;
             mainWindow.Misc_ExMouseLook.IsChecked          = Properties.Settings.Default.Misc_ExMouseLook;
-            mainWindow.Misc_OverrideSelfCancel.IsChecked   = Properties.Settings.Default.Misc_OverrideSelfCancel;
             mainWindow.Misc_SmartScalingOverride.IsChecked = Properties.Settings.Default.Misc_SmartScalingOverride;
             mainWindow.Misc_NaturalHeadMovement.IsChecked  = Properties.Settings.Default.Misc_NaturalHeadMovement;
             mainWindow.Misc_PilotModel.IsChecked           = Properties.Settings.Default.Misc_PilotModel;
             mainWindow.Misc_VR.IsChecked                   = Properties.Settings.Default.Misc_VR;
-            mainWindow.Misc_3DClickableCursorFixToCenter.IsChecked = Properties.Settings.Default.Misc_3DClickableCursorFixToCenter;
 
             // Button Status Default
             mainWindow.Select_DX_Release.IsChecked  = true;
@@ -56,16 +53,12 @@ namespace FalconBMS.Launcher
             Properties.Settings.Default.CMD_BW                    = bandWidthDefault;
             Properties.Settings.Default.NoOverride                = (bool)mainWindow.ApplicationOverride.IsChecked;
             Properties.Settings.Default.Misc_RLNWS                = (bool)mainWindow.Misc_RollLinkedNWS.IsChecked;
-            Properties.Settings.Default.Misc_MouseCursorAnchor    = (bool)mainWindow.Misc_MouseCursorAnchor.IsChecked;
             Properties.Settings.Default.Misc_TrackIRZ             = (bool)mainWindow.Misc_TrackIRZ.IsChecked;
             Properties.Settings.Default.Misc_ExMouseLook          = (bool)mainWindow.Misc_ExMouseLook.IsChecked;
-            Properties.Settings.Default.Misc_OverrideSelfCancel   = (bool)mainWindow.Misc_OverrideSelfCancel.IsChecked;
             Properties.Settings.Default.Misc_SmartScalingOverride = (bool)mainWindow.Misc_SmartScalingOverride.IsChecked;
             Properties.Settings.Default.Misc_NaturalHeadMovement  = (bool)mainWindow.Misc_NaturalHeadMovement.IsChecked;
             Properties.Settings.Default.Misc_PilotModel           = (bool)mainWindow.Misc_PilotModel.IsChecked;
             Properties.Settings.Default.Misc_VR                   = (bool)mainWindow.Misc_VR.IsChecked;
-            Properties.Settings.Default.SelectedKeyFileName       = (string)mainWindow.KeyFileSelect.SelectedItem;
-            Properties.Settings.Default.Misc_3DClickableCursorFixToCenter = (bool)mainWindow.Misc_3DClickableCursorFixToCenter.IsChecked;
             Properties.Settings.Default.Save();
         }
 

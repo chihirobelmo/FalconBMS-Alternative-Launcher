@@ -29,12 +29,15 @@ namespace FalconBMS.Launcher
 
             else
             {
+                Debug.WriteLine(e.ToString());
+
                 // Skip this step if debugging so the debugger can catch errors.
                 if (Debugger.IsAttached) return;
 
                 MessageBox.Show("An unknown error has occured. Contact support if this problem persists.", "Error",
                     MessageBoxButton.OK, MessageBoxImage.Error);
-                Diagnostics.Log(e.Exception);
+
+                Diagnostics.Log(e.ToString());
                 Diagnostics.WriteLogFile();
 
                 e.Handled = true;

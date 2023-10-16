@@ -21,7 +21,7 @@ namespace FalconBMS.Launcher.Windows
         {
             Read(url, null);
         }
-        public static async Task Read(string url, string top)
+        public static void Read(string url, string top)
         {
             try
             {

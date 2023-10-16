@@ -36,7 +36,7 @@ namespace FalconBMS.Launcher.Override
         /// <param name="deviceControl"></param>
         /// <param name="keyFile"></param>
         /// <param name="visualAcuity"></param>
-        public void Execute(Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile)
+        public void Execute(Hashtable inGameAxis, DeviceControl deviceControl)
         {
             if (!Directory.Exists(appReg.GetInstallDir() + CommonConstants.BACKUPFOLDER))
                 Directory.CreateDirectory(appReg.GetInstallDir() + CommonConstants.BACKUPFOLDER);
@@ -45,11 +45,10 @@ namespace FalconBMS.Launcher.Override
             SaveJoystickCal(inGameAxis, deviceControl);
             SaveDeviceSorting(deviceControl);
             SaveConfigfile(inGameAxis, deviceControl);
-            SaveKeyMapping(inGameAxis, deviceControl, keyFile);
+            SaveKeyMapping(inGameAxis, deviceControl);
             //SavePlcLbk();
             SavePop();
             SaveWindowConfig();
-            SaveJoyAssignStatus(deviceControl);
         }
 
         protected void SaveWindowConfig()
@@ -103,45 +102,6 @@ namespace FalconBMS.Launcher.Override
         /// <summary>
         /// As the name implies...
         /// </summary>
-        public void SaveJoyAssignStatus(DeviceControl deviceControl)
-        {
-            string fileName;
-            XmlSerializer serializer;
-            StreamWriter sw;
-
-            for (int i = 0; i < deviceControl.joyAssign.Length; i++)
-            {
-                fileName = appReg.GetInstallDir() + CommonConstants.CONFIGFOLDER + CommonConstants.SETUPV100 + deviceControl.joyAssign[i].GetProductFileName()
-                + " {" + deviceControl.joyAssign[i].GetInstanceGUID().ToString().ToUpper() + "}.xml";
-
-                try
-                {
-                    serializer = new XmlSerializer(typeof(JoyAssgn));
-                    sw = new StreamWriter(fileName, false, new UTF8Encoding(false));
-                    serializer.Serialize(sw, deviceControl.joyAssign[i]);
-
-                    sw.Close();
-                }
-                catch (Exception ex)
-                {
-                    Diagnostics.WriteLogFile(ex);
-
-                    continue;
-                }
-
-            }
-            fileName = appReg.GetInstallDir() + CommonConstants.CONFIGFOLDER + CommonConstants.SETUPV100 + CommonConstants.MOUSEXML;
-
-            serializer = new XmlSerializer(typeof(AxAssgn));
-            sw = new StreamWriter(fileName, false, new UTF8Encoding(false));
-            serializer.Serialize(sw, deviceControl.mouse.GetMouseAxis());
-
-            sw.Close();
-        }
-
-        /// <summary>
-        /// As the name implies...
-        /// </summary>
         protected virtual void SaveConfigfile(Hashtable inGameAxis, DeviceControl deviceControl)
         {
             StreamWriter cfgo = OverwriteCfg(CommonConstants.CFGFILE);
@@ -152,11 +112,6 @@ namespace FalconBMS.Launcher.Override
             OverrideButtonsPerDevice(cfg, deviceControl);
             OverrideHotasPinkyShiftMagnitude(cfg, deviceControl);
             OverrideVRHMD(cfg);
-
-            cfg.Write("set g_b3DClickableCursorFixToCenter " + Convert.ToInt32(mainWindow.Misc_3DClickableCursorFixToCenter.IsChecked)
-                + CommonConstants.CFGOVERRIDECOMMENT + "\r\n");
-            cfg.Write("set g_b3DClickableCursorAnchored " + Convert.ToInt32(mainWindow.Misc_MouseCursorAnchor.IsChecked)
-                + CommonConstants.CFGOVERRIDECOMMENT + "\r\n");
 
             OverridePovDeviceIDs(cfg, inGameAxis);
 
@@ -200,7 +155,7 @@ namespace FalconBMS.Launcher.Override
         {
             cfg.Write(
                 "set g_nButtonsPerDevice "
-                + CommonConstants.DX32
+                + CommonConstants.DX_MAX_BUTTONS_LEGACY
                 + CommonConstants.CFGOVERRIDECOMMENT + "\r\n");
         }
 
@@ -211,9 +166,9 @@ namespace FalconBMS.Launcher.Override
         /// </summary>
         protected void SaveDeviceSorting(DeviceControl deviceControl)
         {
-            string deviceSort = "";
-            for (int i = 0; i < deviceControl.joyAssign.Length; i++)
-                deviceSort += deviceControl.joyAssign[i].GetDeviceSortingLine();
+            StringBuilder sb = new StringBuilder(2000);
+            foreach (JoyAssgn joy in deviceControl.GetJoystickMappingsForButtonsAndHats())
+                sb.AppendLine(joy.GetDeviceSortingLine());
 
             // BMS overwrites DeviceSorting.txt if was written in UTF-8.
             string filename = appReg.GetInstallDir() + "/User/Config/DeviceSorting.txt";
@@ -224,49 +179,59 @@ namespace FalconBMS.Launcher.Override
             if (File.Exists(filename))
                 File.SetAttributes(filename, File.GetAttributes(filename) & ~FileAttributes.ReadOnly);
 
-            StreamWriter ds = new StreamWriter
-                (filename, false, Encoding.GetEncoding("shift_jis"));
-            ds.Write(deviceSort);
-            ds.Close();
+            using (StreamWriter sw = Utils.CreateUtf8TextWihoutBom(filename))
+                sw.Write(sb.ToString());
         }
 
-        public virtual void SaveKeyMapping(Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile, int DXnumber)
+        public virtual void SaveKeyMapping(Hashtable inGameAxis, DeviceControl deviceControl)
         {
-            string filename = appReg.GetInstallDir() + CommonConstants.CONFIGFOLDER + appReg.getKeyUserFileName();
-
-            // Save To BMS - AUTO.key
-            appReg.SetUserKeyFileName(CommonConstants.USERKEY);
-
-            // Set BMS - AUTO.key default for the next launch
-            mainWindow.SetDefaultKeyFile(CommonConstants.USERKEY);
+            string filename = appReg.GetInstallDir() + CommonConstants.CONFIGFOLDER + CommonConstants.BMS_AUTO + ".key";
+            string filenameF15 = appReg.GetInstallDir() + CommonConstants.CONFIGFOLDER + CommonConstants.BMS_AUTO + "-F15ABCD.key";
 
             if (File.Exists(filename))
                 File.SetAttributes(filename, File.GetAttributes(filename) & ~FileAttributes.ReadOnly);
 
-            WriteKeyLines(filename, inGameAxis, deviceControl, keyFile, DXnumber);
-        }
+            if (File.Exists(filenameF15))
+                File.SetAttributes(filenameF15, File.GetAttributes(filenameF15) & ~FileAttributes.ReadOnly);
 
-        protected virtual void WriteKeyLines(string filename, Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile, int DXnumber)
-        {
-            StreamWriter sw = new StreamWriter
-                (filename, false, Encoding.GetEncoding("utf-8"));
-            for (int i = 0; i < keyFile.keyAssign.Length; i++)
-                sw.Write(keyFile.keyAssign[i].GetKeyLine());
-            for (int i = 0; i < deviceControl.joyAssign.Length; i++)
+            //HACK: Fetch F16 and F15 profile separately, explicitly
+            string temp = DeviceControl.avionicsProfile;
+            try
             {
-                InGameAxAssgn rollAxis = (InGameAxAssgn)inGameAxis[AxisName.Roll.ToString()];
-
-                sw.Write(deviceControl.joyAssign[i].GetKeyLineDX(i, deviceControl.joyAssign.Length, DXnumber));
-                // PRIMARY DEVICE POV
-                if (rollAxis.GetDeviceNumber() == i)
-                    sw.Write(deviceControl.joyAssign[i].GetKeyLinePOV(0, 0));
+                deviceControl.UpdateAvionicsProfile(null);
+                WriteKeyLines(filename, inGameAxis,
+                    deviceControl.GetKeyBindings(),
+                    deviceControl.GetJoystickMappingsForButtonsAndHats());
+                deviceControl.UpdateAvionicsProfile(CommonConstants.F15_TAG);
+                WriteKeyLines(filenameF15, inGameAxis,
+                    deviceControl.GetKeyBindings(),
+                    deviceControl.GetJoystickMappingsForButtonsAndHats());
             }
-            sw.Close();
+            finally
+            {
+                deviceControl.UpdateAvionicsProfile(temp);
+            }
         }
 
-        public virtual void SaveKeyMapping(Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile)
+        protected virtual void WriteKeyLines(string filename, Hashtable inGameAxis, KeyFile keyFile, JoyAssgn[] joyAssgns)
         {
-            SaveKeyMapping(inGameAxis, deviceControl, keyFile, CommonConstants.DX32);
+            using (StreamWriter sw = Utils.CreateUtf8TextWihoutBom(filename))
+            {
+                sw.NewLine = "\n"; // probably not necessary, but for consistency with existing keyfile serialization code that hardcodes "\n" everywhere
+
+                for (int i = 0; i < keyFile.keyAssign.Length; i++)
+                    sw.Write(keyFile.keyAssign[i].GetKeyLine());
+
+                for (int i = 0; i < joyAssgns.Length; i++)
+                {
+                    InGameAxAssgn rollAxis = (InGameAxAssgn)inGameAxis[AxisName.Roll.ToString()];
+
+                    sw.Write(joyAssgns[i].GetKeyLineDX(i, joyAssgns.Length));
+                    // PRIMARY DEVICE POV
+                    if (rollAxis.GetDeviceNumber() == i)
+                        sw.Write(joyAssgns[i].GetKeyLinePOV(0, 0));
+                }
+            }
         }
 
         /// <summary>
@@ -306,10 +271,10 @@ namespace FalconBMS.Launcher.Override
                 };
                 fs.Write(bs, 0, bs.Length);
 
-                bs = deviceControl.joyAssign[pitchAxis.GetDeviceNumber()].GetInstanceGUID().ToByteArray();
+                bs = deviceControl.GetJoystickMappingsForAxes()[pitchAxis.GetDeviceNumber()].GetInstanceGUID().ToByteArray();
                 fs.Write(bs, 0, bs.Length);
 
-                bs = new byte[] { (byte)deviceControl.joyAssign.Length, 0x00, 0x00, 0x00 };
+                bs = new byte[] { (byte)deviceControl.GetJoystickMappingsForAxes().Length, 0x00, 0x00, 0x00 };
                 fs.Write(bs, 0, bs.Length);
             }
             else
@@ -320,7 +285,7 @@ namespace FalconBMS.Launcher.Override
                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
                 };
-                bs[20] = (byte)deviceControl.joyAssign.Length;
+                bs[20] = (byte)deviceControl.GetJoystickMappingsForAxes().Length;
                 fs.Write(bs, 0, bs.Length);
             }
 
@@ -356,11 +321,6 @@ namespace FalconBMS.Launcher.Override
                         (byte)currentAxis.GetPhysicalNumber(),
                         0x00, 0x00, 0x00
                     };
-                    fs.Write(bs, 0, bs.Length);
-                }
-                if (currentAxis.IsMoushWheelAssigned())
-                {
-                    bs = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
                     fs.Write(bs, 0, bs.Length);
                 }
 
@@ -454,8 +414,8 @@ namespace FalconBMS.Launcher.Override
 
                     if (nme == AxisName.Throttle && currentAxis.IsJoyAssigned())
                     {
-                        double iAB = deviceControl.joyAssign[currentAxis.GetDeviceNumber()].detentPosition.GetAB();
-                        double iIdle = deviceControl.joyAssign[currentAxis.GetDeviceNumber()].detentPosition.GetIDLE();
+                        double iAB = deviceControl.GetJoystickMappingsForAxes()[currentAxis.GetDeviceNumber()].detentPosition.GetAB();
+                        double iIdle = deviceControl.GetJoystickMappingsForAxes()[currentAxis.GetDeviceNumber()].detentPosition.GetIDLE();
 
                         iAB = iAB * CommonConstants.BINAXISMAX / CommonConstants.AXISMAX;
                         iIdle = iIdle * CommonConstants.BINAXISMAX / CommonConstants.AXISMAX;
