@@ -27,6 +27,7 @@ namespace FalconBMS.Launcher.Windows
     public partial class MainWindow
     {
         static SteamVR steamVR = new SteamVR();
+
         public MainWindow()
         {
             try
@@ -34,7 +35,7 @@ namespace FalconBMS.Launcher.Windows
                 RenderOptions.ProcessRenderMode = System.Windows.Interop.RenderMode.SoftwareOnly;
                 InitializeComponent();
 
-                MouseWheel += Detect_MouseWheel;
+                //MouseWheel += Detect_MouseWheel;
             }
             catch (Exception ex)
             {
@@ -45,7 +46,6 @@ namespace FalconBMS.Launcher.Windows
         public static DeviceControl deviceControl;
 
         public AppRegInfo appReg;
-        private KeyFile keyFile;
 
         private AppProperties appProperties;
 
@@ -95,7 +95,7 @@ namespace FalconBMS.Launcher.Windows
             {
                 appProperties = new AppProperties(this);
                 appReg = new AppRegInfo(this);
-                InitDeveices();
+                InitDevices();
 
                 if (appReg.getBMSVersion() == BMS_Version.UNDEFINED)
                 {
@@ -151,13 +151,13 @@ namespace FalconBMS.Launcher.Windows
 
             // Set Timer
             AxisMovingTimer.Tick += AxisMovingTimer_Tick;
-            AxisMovingTimer.Interval = new TimeSpan(0, 0, 0, 0, 16);
+            AxisMovingTimer.Interval = TimeSpan.FromMilliseconds(30);
 
             KeyMappingTimer.Tick += KeyMappingTimer_Tick;
-            KeyMappingTimer.Interval = new TimeSpan(0, 0, 0, 0, 32);
+            KeyMappingTimer.Interval = TimeSpan.FromMilliseconds(50);
 
             NewDeviceDetectTimer.Tick += NewDeviceDetectTimer_Tick;
-            NewDeviceDetectTimer.Interval = new TimeSpan(0, 0, 0, 1, 0);
+            NewDeviceDetectTimer.Interval = TimeSpan.FromSeconds(3);
 
             NewDeviceDetectTimer.Start();
 
@@ -175,13 +175,12 @@ namespace FalconBMS.Launcher.Windows
             Diagnostics.Log("Finished VR Check.");
         }
 
-        private void InitDeveices()
+        private void InitDevices()
         {
             Diagnostics.Log("Start Init Devices.");
 
-            FillKeyFileList();
-            BMSChanged();
             ReloadDevices();
+            BMSChanged();
 
             Diagnostics.Log("Finished Init Devices.");
         }
@@ -198,7 +197,7 @@ namespace FalconBMS.Launcher.Windows
 
                 try
                 {
-                    if (deviceControl.devList.Count != devList.Count)
+                    if (deviceControl.GetHwDeviceList().Length != devList.Count)
                     {
                         AxisMovingTimer.Stop();
                         KeyMappingTimer.Stop();
@@ -241,8 +240,8 @@ namespace FalconBMS.Launcher.Windows
 
                 appReg.ChangeCfgPath();
 
-                // Read BMS-FULL.key
-                ReloadKeyFile();
+                // Read BMS-FULL.key file(s)
+                deviceControl.LoadKeyBindingsFromUserOrStockKeyfiles(appReg);
 
                 // Write Data Grid
                 WriteDataGrid();
@@ -254,23 +253,17 @@ namespace FalconBMS.Launcher.Windows
             }
         }
 
-        private void ReloadKeyFile()
-        {
-            string fname = appReg.GetInstallDir() + "\\User\\Config\\" + appReg.getKeyFileName();
-            keyFile = new KeyFile(fname, appReg);
-        }
-
         public void ReloadDevices()
         {
             try
             {
-                // Get Devices
-                deviceControl = new DeviceControl(appReg);
+                // Get Devices //REVIEW: doesn't this throw away unsaved changes / risk data loss?
+                deviceControl = DeviceControl.EnumerateAttachedDevicesAndLoadXml(appReg);
 
-                neutralButtons = new NeutralButtons[deviceControl.joyAssign.Length];
+                neutralButtons = new NeutralButtons[deviceControl.GetJoystickMappingsForButtonsAndHats().Length];
 
                 // Aquire joySticks
-                AquireAll(true);
+                AquireAll();
 
                 ResortDevices();
             }
@@ -335,8 +328,12 @@ namespace FalconBMS.Launcher.Windows
 
                 // Save UI Properties(Like Button Status).
                 appProperties.SaveUISetup();
-                appReg.getOverrideWriter().SaveKeyMapping(inGameAxis, deviceControl, keyFile);
-                appReg.getOverrideWriter().SaveJoyAssignStatus(deviceControl);
+
+                // Save axes, buttons and hats.
+                deviceControl.SaveXml();
+
+                //appReg.getOverrideWriter().SaveKeyMapping(inGameAxis, deviceControl);
+
             }
             catch (Exception ex)
             {
@@ -506,7 +503,7 @@ namespace FalconBMS.Launcher.Windows
                 }
                 else
                 {
-                    appReg.getOverrideWriter().Execute(inGameAxis, deviceControl, keyFile);
+                    appReg.getOverrideWriter().Execute(inGameAxis, deviceControl);
                 }
             }
             catch (Exception ex)
@@ -818,8 +815,8 @@ namespace FalconBMS.Launcher.Windows
                 Properties.Settings.Default.BMS_Version = this.ListBox_BMS.SelectedItem.ToString();
                 appReg.Init(this, this.ListBox_BMS.SelectedItem.ToString());
 
-                BMSChanged();
                 ReloadDevices();
+                BMSChanged();
             }
             catch (Exception ex)
             {
@@ -835,5 +832,30 @@ namespace FalconBMS.Launcher.Windows
             else
                 steamVR.Stop();
         }
+
+        private void ImportKeyfile_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult ans1 = MessageBox.Show(this, 
+                "WARNING -- selecting a new key file will erase and replace all your key and button " +
+                "bindings, in the currently selected profile.\r\n\r\nProceed with caution!", 
+                "Import Key File - WARNING", 
+                MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+
+            if (ans1 != MessageBoxResult.OK) return;
+
+            Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog();
+            ofd.InitialDirectory = appReg.GetInstallDir() + CommonConstants.CONFIGFOLDERBACKSLASH;
+            ofd.Filter = "Key files (*.key)|*.key|All files (*.*)|*.*";
+
+            bool? ans2 = ofd.ShowDialog(this);
+            if (ans2 != true) return;
+
+            string newKeyfilePath = ofd.FileName;
+
+            deviceControl.ImportKeyfileIntoCurrentProfile(newKeyfilePath);
+            WriteDataGrid();
+            return;
+        }
+
     }
 }

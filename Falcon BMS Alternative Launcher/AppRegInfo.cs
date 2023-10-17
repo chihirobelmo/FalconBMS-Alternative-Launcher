@@ -6,10 +6,12 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Diagnostics;
 
+using Microsoft.Win32;
+
 using FalconBMS.Launcher.Windows;
 using FalconBMS.Launcher.Override;
 using FalconBMS.Launcher.Starter;
-using Microsoft.Win32;
+
 using FalconBMS.Launcher.Input;
 
 namespace FalconBMS.Launcher
@@ -17,9 +19,9 @@ namespace FalconBMS.Launcher
     public class AppRegInfo
     {
         // Member
-        private Microsoft.Win32.RegistryKey regkey;
+        private RegistryKey regkey;
 
-        private string regName = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.35";
+        private string regName = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.37";
 
         private Platform platform = Platform.OS_64bit;
 
@@ -37,22 +39,12 @@ namespace FalconBMS.Launcher
 
         private MainWindow mainWindow;
 
-        public string keyFileName     = CommonConstants.DEFAULTKEY + ".key";
-        public string keyUserFileName = CommonConstants.USERKEY + ".key";
-
         public string theaterOwnConfig = "";
 
         // Method
         public string GetInstallDir() { return installDir; }
         public string GetCurrentTheater() { return currentTheater; }
         public string GetPilotCallsign() { return pilotCallsign; }
-        public string getKeyFileName() { return keyFileName; }
-        public string getKeyUserFileName() { return keyUserFileName; }
-
-        public void SetUserKeyFileName(string newkey) 
-        { 
-            keyFileName = newkey + ".key";
-        }
 
         public OverrideSetting getOverrideWriter() { return overRideSetting; }
         public BMS_Version getBMSVersion() { return bms_Version; }
@@ -84,7 +76,7 @@ namespace FalconBMS.Launcher
 
             foreach (string version in availableBMSVersions)
             {
-                if (Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\Wow6432Node\\Benchmark Sims\\" + version, false) == null)
+                if (Registry.LocalMachine.OpenSubKey("SOFTWARE\\Wow6432Node\\Benchmark Sims\\" + version, false) == null)
                     continue;
 
                 if (BMSExists(version)) 
@@ -213,62 +205,52 @@ namespace FalconBMS.Launcher
             {
                 case "Falcon BMS 4.38 (Internal)":
                     bms_Version     = BMS_Version.BMS438I;
-                    keyFileName     = CommonConstants.DEFAULTKEY + ".key";
                     overRideSetting = new OverrideSettingFor438(this.mainWindow, this);
                     starter         = new Starter438Internal(this, this.mainWindow);
                     break;
                 case "Falcon BMS 4.37 U1 (internal)":
                 case "Falcon BMS 4.37 (Internal)":
                     bms_Version     = BMS_Version.BMS437I;
-                    keyFileName     = CommonConstants.DEFAULTKEY + ".key";
                     overRideSetting = new OverrideSettingFor437(this.mainWindow, this);
                     starter         = new Starter437Internal(this, this.mainWindow);
                     break;
                 case "Falcon BMS 4.36 (Internal)":
                     bms_Version     = BMS_Version.BMS436I;
-                    keyFileName     = CommonConstants.DEFAULTKEY + ".key";
                     overRideSetting = new OverrideSettingFor437(this.mainWindow, this);
                     starter         = new Starter436Internal(this, this.mainWindow);
                     break;
                 case "Falcon BMS 4.37":
                     bms_Version     = BMS_Version.BMS437;
-                    keyFileName     = CommonConstants.DEFAULTKEY + ".key";
                     overRideSetting = new OverrideSettingFor437(this.mainWindow, this);
                     starter         = new Starter437(this, this.mainWindow);
                     break;
                 case "Falcon BMS 4.36":
                     bms_Version     = BMS_Version.BMS436;
-                    keyFileName     = CommonConstants.DEFAULTKEY + ".key";
                     overRideSetting = new OverrideSettingFor436(this.mainWindow, this);
                     starter         = new Starter436(this, this.mainWindow);
                     break;
                 case "Falcon BMS 4.35":
                     bms_Version     = BMS_Version.BMS435;
-                    keyFileName = CommonConstants.DEFAULTKEY + ".key";
                     overRideSetting = new OverrideSettingFor435(this.mainWindow, this);
                     starter         = new Starter435(this, this.mainWindow);
                     break;
                 case "Falcon BMS 4.34":
                     bms_Version     = BMS_Version.BMS434U1;
-                    keyFileName     = CommonConstants.DEFAULTKEY + ".key";
                     overRideSetting = new OverrideSettingFor434U1(this.mainWindow, this);
                     starter         = new Starter434(this, this.mainWindow);
                     break;
                 case "Falcon BMS 4.33 U1":
                     bms_Version     = BMS_Version.BMS433U1;
-                    keyFileName     = CommonConstants.DEFAULTKEY + ".key";
                     overRideSetting = new OverrideSettingFor433(this.mainWindow, this);
                     starter         = new Starter433(this, this.mainWindow);
                     break;
                 case "Falcon BMS 4.33":
                     bms_Version     = BMS_Version.BMS433;
-                    keyFileName     = CommonConstants.DEFAULTKEY + ".key";
                     overRideSetting = new OverrideSettingFor433(this.mainWindow, this);
                     starter         = new Starter433(this, this.mainWindow);
                     break;
                 case "Falcon BMS 4.32":
                     bms_Version     = BMS_Version.BMS432;
-                    keyFileName     = "BMS.key";
                     overRideSetting = new OverrideSettingFor432(this.mainWindow, this);
                     starter         = new Starter432(this, this.mainWindow);
                     break;

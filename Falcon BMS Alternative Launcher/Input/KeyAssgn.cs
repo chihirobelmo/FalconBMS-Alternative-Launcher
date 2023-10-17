@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Text;
 using FalconBMS.Launcher.Windows;
 
 using Microsoft.DirectX.DirectInput;
@@ -33,21 +33,18 @@ namespace FalconBMS.Launcher.Input
         public string GetKeyDescription() { return description; }
         public int GetSoundID() { return Int32.Parse(soundID); }
 
-        /// <summary>
-        /// Save given key file code line in "BMS - FULL.key" and split them to parts.
-        /// </summary>
-        public KeyAssgn(string stBuffer)
-        {
-            string[] stArrayData = stBuffer.Split(' ');
+        public KeyAssgn() { }
 
-            callback = stArrayData[0];
-            soundID = stArrayData[1];
-            none = stArrayData[2];
-            keyboard = stArrayData[3];
-            modifier = stArrayData[4];
-            keycombo = stArrayData[5];
-            keycomboMod = stArrayData[6];
-            visibility = stArrayData[7];
+        public KeyAssgn(params string[] stringParams)
+        {
+            callback = stringParams[0];
+            soundID = stringParams[1];
+            none = stringParams[2];
+            keyboard = stringParams[3];
+            modifier = stringParams[4];
+            keycombo = stringParams[5];
+            keycomboMod = stringParams[6];
+            visibility = stringParams[7];
             if (visibility == "-2")
                 visibility = "Hidden";
             else if (visibility == "-1")
@@ -63,19 +60,17 @@ namespace FalconBMS.Launcher.Input
             }
             description = "";
 
-            if (stArrayData.Length >= 9)
-                description = stArrayData[8];
-            if (stArrayData.Length > 9)
-                for (int i = 9; i < stArrayData.Length; i++)
-                    description += " " + stArrayData[i];
+            if (stringParams.Length >= 9)
+                description = stringParams[8];
+            if (stringParams.Length > 9)
+                for (int i = 9; i < stringParams.Length; i++)
+                    description += " " + stringParams[i];
 
             if (callback == "SimHotasPinkyShift" || callback == "SimHotasShift")
                 visibility = "White";
             if (description == "\"======== 2.19     THROTTLE QUADRANT SYSTEM ==\"")
                 description = "\"======== 2.19     THROTTLE QUADRANT SYSTEM ========\"";
         }
-
-        public KeyAssgn() { }
 
         public void getOtherKeyInstance(KeyAssgn otherInstance)
         {
@@ -190,16 +185,6 @@ namespace FalconBMS.Launcher.Input
         }
 
         /// <summary>
-        /// Return TRUE is the line has been broken.
-        /// </summary>
-        /// <returns></returns>
-        public bool CheckFileCollapsing()
-        {
-            bool shutdown = false;
-            return shutdown;
-        }
-
-        /// <summary>
         /// Return overall key assignment status (ex: Alt c : Shift g)
         /// </summary>
         public string GetKeyAssignmentStatus()
@@ -311,49 +296,49 @@ namespace FalconBMS.Launcher.Input
         public string Z_Joy_14 => ReadJoyAssignment(14);
         public string Z_Joy_15 => ReadJoyAssignment(15);
 
-        public string ReadJoyAssignment(int joynum)
+        public string ReadJoyAssignment(int joyId)
         {
-            string ans = "";
-            if (MainWindow.deviceControl.joyAssign.Length <= joynum)
+            JoyAssgn[] joyAssgns = MainWindow.deviceControl.GetJoystickMappingsForButtonsAndHats();
+
+            if (joyId >= joyAssgns.Length)
                 return "";
-            ans = MainWindow.deviceControl.joyAssign[joynum].KeyMappingPreviewDX(this);
+
+            StringBuilder sb = new StringBuilder();
+            sb.Append(joyAssgns[joyId].KeyMappingPreviewDX(this));
+
             // PRIMARY DEVICE POV
             InGameAxAssgn rollAxis = (InGameAxAssgn)MainWindow.inGameAxis[AxisName.Roll.ToString()];
             InGameAxAssgn throttleAxis = (InGameAxAssgn)MainWindow.inGameAxis[AxisName.Throttle.ToString()];
-            if (rollAxis.GetDeviceNumber() == joynum || throttleAxis.GetDeviceNumber() == joynum)
+            if (rollAxis.GetDeviceNumber() == joyId || throttleAxis.GetDeviceNumber() == joyId)
             {
-                string tmp = MainWindow.deviceControl.joyAssign[joynum].KeyMappingPreviewPOV(this);
-                if (ans != "" & tmp != "")
-                    ans += "\n";
-                ans += tmp;
+                string tmp = joyAssgns[joyId].KeyMappingPreviewPOV(this);
+                if (!string.IsNullOrEmpty(tmp))
+                    sb.Append("\n"+tmp);
             }
-            return ans;
+            return sb.ToString();
         }
 
-        public string ReadJoyAssignment(int joynum, JoyAssgn[] joyAssign)
+        public string ReadJoyAssignment(int joyId, JoyAssgn[] joyAssgns)
         {
-            string ans = "";
-            if (joyAssign.Length <= joynum)
+            if (joyId >= joyAssgns.Length)
                 return "";
-            ans = joyAssign[joynum].KeyMappingPreviewDX(this);
-            if(ans != "")
-                ans = "JOY " + joynum + " " + joyAssign[joynum].KeyMappingPreviewDX(this).Replace("\n", ", ");
+
+            StringBuilder sb = new StringBuilder();
+
+            string tmp1 = joyAssgns[joyId].KeyMappingPreviewDX(this);
+            if (!string.IsNullOrEmpty(tmp1))
+                sb.Append("JOY " + joyId + " " + tmp1.Replace("\n", ", "));
+
             // PRIMARY DEVICE POV
             InGameAxAssgn rollAxis = (InGameAxAssgn)MainWindow.inGameAxis[AxisName.Roll.ToString()];
             InGameAxAssgn throttleAxis = (InGameAxAssgn)MainWindow.inGameAxis[AxisName.Throttle.ToString()];
-            if (rollAxis.GetDeviceNumber() == joynum || throttleAxis.GetDeviceNumber() == joynum) 
+            if (rollAxis.GetDeviceNumber() == joyId || throttleAxis.GetDeviceNumber() == joyId) 
             {
-                string tmp = "";
-                tmp = joyAssign[joynum].KeyMappingPreviewPOV(this);
-                if (tmp != "")
-                    tmp = "JOY " + joynum + " " + joyAssign[joynum].KeyMappingPreviewPOV(this).Replace("\n", ", ");
-                if (ans != "" & tmp != "")
-                    ans += "; ";
-                ans += tmp;
+                string tmp2 = joyAssgns[joyId].KeyMappingPreviewPOV(this);
+                if (!string.IsNullOrEmpty(tmp2))
+                    sb.Append("; " + "JOY " + joyId + " " + tmp2.Replace("\n", ", "));
             }
-            if (ans != "")
-                ans += "; ";
-            return ans;
+            return sb.ToString();
         }
 
         object ICloneable.Clone() => Clone();

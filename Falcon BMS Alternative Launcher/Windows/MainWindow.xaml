@@ -547,8 +547,11 @@
                         <ColumnDefinition Width="334*"/>
                         <ColumnDefinition Width="677*"/>
                     </Grid.ColumnDefinitions>
-                    <Label Content="KeyFile:" HorizontalAlignment="Left" Margin="16,-43,0,0" VerticalAlignment="Top" Height="26" HorizontalContentAlignment="Right" Foreground="White"/>
-                    <ComboBox x:Name="KeyFileSelect" HorizontalAlignment="Left" Margin="80,-41,0,0" VerticalAlignment="Top" Width="128" BorderBrush="Black" Background="#80F0F0F0" Foreground="#FF191919" SelectionChanged="KeyFileSelect_SelectionChanged"  Height="26"/>
+                    <Label Content="Profile:" HorizontalAlignment="Left" Margin="16,-43,0,0" VerticalAlignment="Top" Height="26" HorizontalContentAlignment="Right" Foreground="White"/>
+                    <ComboBox x:Name="ProfileSelect" HorizontalAlignment="Left" Margin="80,-41,0,0" VerticalAlignment="Top" Width="128" BorderBrush="Black" Background="#80F0F0F0" Foreground="#FF191919" SelectionChanged="ProfileSelect_SelectionChanged"  Height="26" SelectedIndex="0">
+                        <ComboBoxItem Content="F-16 (Default)" Tag="F16" />
+                        <ComboBoxItem Content="F-15" Tag="F15" />
+                    </ComboBox>
                     <Label Content="Category:" HorizontalAlignment="Left" Margin="223,-43,0,0" VerticalAlignment="Top" Height="26" Width="64" HorizontalContentAlignment="Right" Foreground="White"/>
                     <ComboBox x:Name="Category" HorizontalAlignment="Left" Margin="300,-41,0,0" VerticalAlignment="Top" Width="256" BorderBrush="Black" Background="#80F0F0F0" Foreground="#FF191919" SelectionChanged="Category_SelectionChanged" Height="26" Grid.ColumnSpan="2">
                         <TextBlock Text=" TOP" FontWeight="Bold" Foreground="#FF000000"/>
@@ -591,10 +594,7 @@
 
                     <ToggleButton x:Name="Select_PinkyShift" Visibility="Hidden" Content="KEYCOMBO / PINKYSHIFT" HorizontalAlignment="Right" Margin="0,12,252.666,0" VerticalAlignment="Top" Width="160" Height="27" Click="Select_PinkyShift_Click" Grid.Column="1"/>
                     <ToggleButton x:Name="Select_DX_Release" Visibility="Hidden" Content="RELEASE" HorizontalAlignment="Right" Margin="0,12,163.666,0" VerticalAlignment="Top" Width="64" Height="27" Grid.Column="1"/>
-                    <Button x:Name="Select_Invoke" Visibility="Hidden" Content="Invoke Both" HorizontalAlignment="Right" Margin="0,12,9.666,0" VerticalAlignment="Top" Width="129" Click="Select_Invoke_Click" Height="27" Grid.Column="1"/>
-                    <CheckBox x:Name="Misc_OverrideSelfCancel" Content="Use 3-Way ON-OFF-ON Switch for TQS: DOGFIGHT" FontSize="11" HorizontalAlignment="Left" Margin="10,0,0,9.334" VerticalAlignment="Bottom" Height="18" Width="272" Visibility="Hidden"/>
-                    <CheckBox x:Name="Misc_3DClickableCursorFixToCenter" Content="Center Cursor to the screen." FontSize="11" HorizontalAlignment="Left" Margin="10,0,0,9.334" VerticalAlignment="Bottom" Height="18" Width="272"/>
-                    <CheckBox x:Name="Misc_MouseCursorAnchor" Content="Anchor the Mouse Cursor to Clickable Switches or Dials." HorizontalAlignment="Left" Margin="300,0,0,9.334" VerticalAlignment="Bottom" Height="18" Width="318" Grid.ColumnSpan="2"/>
+                    <Button x:Name="ImportButton" Content="Import Key File..." Margin="285,612,268,18" Width="129" Click="ImportKeyfile_Click" Height="27" Grid.Column="1"/>
 
                     <Label Content="Filter:" HorizontalAlignment="Left" Margin="227.167,-43,0,0" VerticalAlignment="Top" Width="43" HorizontalContentAlignment="Right" Foreground="White" Grid.Column="1"/>
                     <TextBox x:Name="SearchBox" HorizontalAlignment="Left" Height="23" Margin="282.167,-41,0,0" VerticalAlignment="Top" Width="384" Background="#80F0F0F0" Foreground="#FF191919" Controls:TextBoxHelper.ClearTextButton="True" TextChanged="SearchBox_TextChanged" Grid.Column="1"/>

@@ -43,26 +43,19 @@ namespace FalconBMS.Launcher.Input
         {
             return GetDeviceNumber() > CommonConstants.JOYNUMUNASSIGNED;
         }
-        public bool IsMoushWheelAssigned()
-        {
-            return GetDeviceNumber() == CommonConstants.JOYNUMMOUSEWHEEL;
-        }
 
         public int GetDeviceNumber() 
         {
-            for (int i = 0; i < MainWindow.deviceControl.joyAssign.Length; i++)
-                if (MainWindow.deviceControl.joyAssign[i] == joy)
+            for (int i = 0; i < MainWindow.deviceControl.GetJoystickMappingsForAxes().Length; i++)
+                if (MainWindow.deviceControl.GetJoystickMappingsForAxes()[i] == joy)
                     return i;
-
-            if (MainWindow.deviceControl.mouse == joy)
-                return CommonConstants.JOYNUMMOUSEWHEEL;
 
             return CommonConstants.JOYNUMUNASSIGNED;
         }
         public Device GetDevice()
         {
-            for (int i = 0; i < MainWindow.deviceControl.joyAssign.Length; i++)
-                if (MainWindow.deviceControl.joyAssign[i] == joy)
+            for (int i = 0; i < MainWindow.deviceControl.GetJoystickMappingsForAxes().Length; i++)
+                if (MainWindow.deviceControl.GetJoystickMappingsForAxes()[i] == joy)
                     return joy.GetDevice();
             return null;
         }

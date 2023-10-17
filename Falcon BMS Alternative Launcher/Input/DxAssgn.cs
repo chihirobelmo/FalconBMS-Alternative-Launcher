@@ -14,7 +14,7 @@ namespace FalconBMS.Launcher.Input
         /// [2]=RELEASE
         /// [3]=RELEASE + SHIFT
         /// </summary>
-        public Assgn[] assign = new Assgn[4];
+        public Assgn[] assign = new Assgn[CommonConstants.DX_MAX_HATS];
 
         // Constructor
         public DxAssgn()
@@ -37,11 +37,6 @@ namespace FalconBMS.Launcher.Input
         public DxAssgn Clone()
         {
             return new DxAssgn(this);
-        }
-
-        public int GetAssignedNumber()
-        {
-            return assign.Count(a => a.Callback != CommonConstants.SIMDONOTHING);
         }
     }
 

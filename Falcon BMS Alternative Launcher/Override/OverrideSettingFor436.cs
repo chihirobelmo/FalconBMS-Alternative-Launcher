@@ -19,7 +19,7 @@ namespace FalconBMS.Launcher.Override
         {
             cfg.Write(
                 "set g_nHotasPinkyShiftMagnitude "
-                + deviceControl.joyAssign.Length * CommonConstants.DX128
+                + deviceControl.GetJoystickMappingsForButtonsAndHats().Length * CommonConstants.DX_MAX_BUTTONS
                 + CommonConstants.CFGOVERRIDECOMMENT + "\r\n");
         }
 
@@ -27,13 +27,8 @@ namespace FalconBMS.Launcher.Override
         {
             cfg.Write(
                 "set g_nButtonsPerDevice "
-                + CommonConstants.DX128
+                + CommonConstants.DX_MAX_BUTTONS
                 + CommonConstants.CFGOVERRIDECOMMENT + "\r\n");
-        }
-
-        public override void SaveKeyMapping(Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile)
-        {
-            SaveKeyMapping(inGameAxis, deviceControl, keyFile, CommonConstants.DX128);
         }
     }
 }

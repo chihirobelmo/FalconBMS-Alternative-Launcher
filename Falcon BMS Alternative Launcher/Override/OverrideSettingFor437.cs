@@ -78,7 +78,7 @@ namespace FalconBMS.Launcher.Override
             fs.Close();
 
             // Set Keyfile selected.
-            byte[] keyFileName = Encoding.ASCII.GetBytes(appReg.getKeyUserFileName().Replace(".key", ""));
+            byte[] keyFileName = Encoding.ASCII.GetBytes(CommonConstants.BMS_AUTO);
             for (int i = 0; i <= 15; i++)
             {
                 if (i >= keyFileName.Length)

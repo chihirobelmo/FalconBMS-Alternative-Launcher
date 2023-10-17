@@ -18,6 +18,12 @@ namespace FalconBMS.Launcher
         [STAThread]
         public static void Main()
         {
+            // Set cwd to the EXE location.
+            string thisExe = Assembly.GetExecutingAssembly().Location;
+            string thisExeDir = Path.GetDirectoryName(thisExe);
+            Environment.CurrentDirectory = thisExeDir;
+
+            // Launch the WPF app.
             AppDomain.CurrentDomain.AssemblyResolve += OnResolveAssembly;
             App.Main();
         }
