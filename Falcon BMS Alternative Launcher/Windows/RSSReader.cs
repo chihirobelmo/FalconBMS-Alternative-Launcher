@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.ServiceModel.Syndication;
 using System.Xml;
 
-using FalconBMS.Launcher.Input;
 using System.Windows.Documents;
 using System.Windows;
 using System.Windows.Media;
@@ -16,11 +13,13 @@ namespace FalconBMS.Launcher.Windows
 {
     public class RSSReader
     {
-        private static Article[] article = new Article[0];
+        static List<Article> s_articles = new List<Article>(10);
+
         public static void Read(string url)
         {
             Read(url, null);
         }
+
         public static void Read(string url, string top)
         {
             try
@@ -30,8 +29,8 @@ namespace FalconBMS.Launcher.Windows
 
                 foreach (SyndicationItem item in feed.Items)
                 {
-                    Array.Resize(ref article, article.Length + 1);
-                    article[article.Length - 1] = new Article(item, top);
+                    Article article = new Article(item, top);
+                    s_articles.Add(article);
                 }
             }
             catch (Exception ex)
@@ -41,15 +40,21 @@ namespace FalconBMS.Launcher.Windows
             }
         }
 
-
         public static void Write(System.Windows.Controls.TextBlock textblock)
         {
+            //Self-test to assert we're running on the correct UI thread.
+            int currentThreadId = Thread.CurrentThread.ManagedThreadId;
+            int textblockThreadId = textblock.Dispatcher.Thread.ManagedThreadId;
+            System.Diagnostics.Debug.Assert(currentThreadId == textblockThreadId);
+            
             try
             {
-                article = article.OrderByDescending(a => a.dateTime).ToArray();
+                s_articles.Sort();
 
-                for (int i = 0; i < 10; i++)
-                    article[i].Write(textblock);
+                foreach (Article article in s_articles)
+                {
+                    article.Write(textblock);
+                }
             }
             catch (Exception ex)
             {
@@ -59,7 +64,7 @@ namespace FalconBMS.Launcher.Windows
             }
         }
 
-        private class Article
+        private class Article : IComparable<Article>
         {
             private string webSite;
             private string title;
@@ -124,6 +129,12 @@ namespace FalconBMS.Launcher.Windows
             private void Try_RequestNavigateTop(object sender, RequestNavigateEventArgs e)
             {
                 System.Diagnostics.Process.Start(webSite);
+            }
+
+            int IComparable<Article>.CompareTo(Article other)
+            {
+                // Default sort-order by date, descending.
+                return (-1 * DateTime.Compare(this.dateTime, other.dateTime));
             }
         }
     }
