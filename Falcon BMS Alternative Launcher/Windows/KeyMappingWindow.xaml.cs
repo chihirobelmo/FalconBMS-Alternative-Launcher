@@ -85,7 +85,7 @@ namespace FalconBMS.Launcher.Windows
             tmpJoyStick = new JoyAssgn[joyAssgns.Length];
             for (int i = 0; i < joyAssgns.Length; i++)
             {
-                tmpJoyStick[i] = joyAssgns[i].CloneByValue();
+                tmpJoyStick[i] = joyAssgns[i].MakeTempCloneForKeyMappingDialog();
             }
             tmpCallback = SelectedCallback.Clone();
         }
@@ -225,8 +225,8 @@ namespace FalconBMS.Launcher.Windows
                     getNeutralPosition();
                     return;
                 }
+
                 povs = joyAssgns[i].GetPointOfView();
-                buttons = joyAssgns[i].GetButtons();
                 for (int ii = 0; ii < tmpJoyStick[i].pov.Length; ii++)
                 {
                     if (povs[ii] == neutralButtons[i].povs[ii])
@@ -351,7 +351,7 @@ namespace FalconBMS.Launcher.Windows
 
             for (int i = 0; i < joyAssgns.Length; i++)
             {
-                tmpJoyStick[i] = joyAssgns[i].CloneByValue();
+                tmpJoyStick[i] = joyAssgns[i].MakeTempCloneForKeyMappingDialog();
             }
             string target = tmpCallback.GetCallback();
             foreach (JoyAssgn joy in tmpJoyStick)
@@ -408,7 +408,7 @@ namespace FalconBMS.Launcher.Windows
 
             for (int i = 0; i < tmpJoyStick.Length; i++)
             {
-                joyAssgns[i].LoadAxesButtonsAndHatsFrom(tmpJoyStick[i]);
+                joyAssgns[i].CopyButtonsAndHatsFromCurrentProfile(tmpJoyStick[i]);
             }
             SelectedCallback.getOtherKeyInstance(tmpCallback);
 

@@ -386,6 +386,9 @@ namespace FalconBMS.Launcher.Windows
         /// <param name="e"></param>
         private void Category_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (KeyMappingGrid.Items == null || KeyMappingGrid.Items.Count == 0)
+                return;
+
             string target = "";
             switch (Category.SelectedIndex)
             {
@@ -442,6 +445,8 @@ namespace FalconBMS.Launcher.Windows
                 }
                 i += 1;
             }
+
+            return;
         }
 
         /// <summary>

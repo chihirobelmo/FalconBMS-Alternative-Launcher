@@ -6,6 +6,7 @@ using System.Xml.Serialization;
 using System.Text.RegularExpressions;
 
 using Microsoft.DirectX.DirectInput;
+using System.Diagnostics;
 
 namespace FalconBMS.Launcher.Input
 {
@@ -75,6 +76,8 @@ namespace FalconBMS.Launcher.Input
         public ProfileContainer profileDefaultF16;
         public ProfileContainer profileF15ABCD;
 
+        private string currentProfile = null;
+
         public JoyAssgn()
         {
             Console.WriteLine();
@@ -104,6 +107,8 @@ namespace FalconBMS.Launcher.Input
                 profileF15ABCD.dx[i] = new DxAssgn();
             for (int i = 0; i < 4; i++)
                 profileF15ABCD.pov[i] = new PovAssgn();
+
+            _Debug_ValidateCurrentProfile();
         }
 
         public JoyAssgn(Device device) : this(allocStorage:true)
@@ -122,17 +127,34 @@ namespace FalconBMS.Launcher.Input
 
         public void SelectAvionicsProfile(string avionicsProfile = null)
         {
+            _Debug_ValidateCurrentProfile();
+
+            if (currentProfile == avionicsProfile)
+                return;
+
             // A little shell-game with pointers, to avoid changing existing logic in 100 places..
-            if (avionicsProfile == null)
+            if (currentProfile == null && avionicsProfile == CommonConstants.F15_TAG)
             {
-                this.dx = profileDefaultF16.dx;
-                this.pov = profileDefaultF16.pov;
-            }
-            else if (avionicsProfile == CommonConstants.F15_TAG)
-            {
+                // Swap from F-16 to F-15.
+                this.profileDefaultF16.dx = this.dx;
+                this.profileDefaultF16.pov = this.pov;
+
                 this.dx = profileF15ABCD.dx;
                 this.pov = profileF15ABCD.pov;
             }
+            else if (currentProfile == CommonConstants.F15_TAG && avionicsProfile == null)
+            {
+                // Swap from F-15 to F-16.
+                this.profileF15ABCD.dx = this.dx;
+                this.profileF15ABCD.pov = this.pov;
+
+                this.dx = profileDefaultF16.dx;
+                this.pov = profileDefaultF16.pov;
+            }
+            else throw new InvalidProgramException();
+
+            currentProfile = avionicsProfile;
+            _Debug_ValidateCurrentProfile();
             return;
         }
 
@@ -184,6 +206,8 @@ namespace FalconBMS.Launcher.Input
         /// </summary>
         public void UnassigntargetCallback(string callbackname)
         {
+            _Debug_ValidateCurrentProfile();
+
             for (int i = 0; i < dx.Length; i++)
                 for (int ii = 0; ii < dx[i].assign.Length; ii++)
                     if (dx[i].assign[ii].GetCallback() == callbackname)
@@ -215,8 +239,10 @@ namespace FalconBMS.Launcher.Input
         /// Get whole DX button assignment line to write a key file.
         /// DXnumber: total DXnumber per device BMS can handle.
         /// </summary>
-        public string GetKeyLineDX(int indexInDeviceSortingOrder, int countDevices) //TODO: avionicsProfile??
+        public string GetKeyLineDX(int indexInDeviceSortingOrder, int countDevices)
         {
+            _Debug_ValidateCurrentProfile();
+
             const int DXnumber = CommonConstants.DX_MAX_BUTTONS;
 
             string assign = "";
@@ -276,8 +302,10 @@ namespace FalconBMS.Launcher.Input
         /// <summary>
         /// Serialize the POV hat assignments to key file.
         /// </summary>
-        public string GetKeyLinePOV(int povBase, int hatId) //TODO: avionicsProfile??
+        public string GetKeyLinePOV(int povBase, int hatId)
         {
+            _Debug_ValidateCurrentProfile();
+
             StringBuilder povBlock = new StringBuilder(2000);
             povBlock.AppendLine("\n");
             povBlock.AppendLine($"#======== {GetProductName()} : POV #{povBase} ========");
@@ -312,6 +340,8 @@ namespace FalconBMS.Launcher.Input
         /// </summary>
         public string KeyMappingPreviewDX(KeyAssgn keyAssign)
         {
+            _Debug_ValidateCurrentProfile();
+
             string result;
             result = "";
 
@@ -347,6 +377,8 @@ namespace FalconBMS.Launcher.Input
         /// </summary>
         public string KeyMappingPreviewPOV(KeyAssgn keyAssign)
         {
+            _Debug_ValidateCurrentProfile();
+
             string result = "";
             
             for (int i = 0; i < pov.Length; i++)
@@ -371,18 +403,16 @@ namespace FalconBMS.Launcher.Input
             return result;
         }
 
-        public void LoadAxesButtonsAndHatsFrom(JoyAssgn otherJoy)
+        public void CopyButtonsAndHatsFromCurrentProfile(JoyAssgn otherJoy)
         {
-            axis = otherJoy.axis;
-            detentPosition = otherJoy.detentPosition;
+            //axis = otherJoy.axis;
+            //detentPosition = otherJoy.detentPosition;
 
-            for (int i = 0; i < otherJoy.dx.Length; i++)
-                if (i < dx.Length)
-                    dx[i] = otherJoy.dx[i];
+            Debug.Assert(otherJoy.dx.Length == this.dx.Length);
+            Debug.Assert(otherJoy.pov.Length == this.pov.Length);
 
-            for (int i = 0; i < otherJoy.pov.Length; i++)
-                if (i < pov.Length)
-                    pov[i] = otherJoy.pov[i];
+            Array.Copy(otherJoy.dx, this.dx, this.dx.Length);
+            Array.Copy(otherJoy.pov, this.pov, this.pov.Length);
             return;
         }
 
@@ -394,13 +424,25 @@ namespace FalconBMS.Launcher.Input
             {
                 JoyAssgn xmlJoy = (JoyAssgn)serializer.Deserialize(sr);
 
+                this.axis = xmlJoy.axis;
+                this.detentPosition = xmlJoy.detentPosition;
+
+                // Upgrade-path: these profile* subnodes will be null, when loading an older XML file.
                 if (xmlJoy.profileDefaultF16.dx == null)
                 {
-                    // Copy default profile by-ref (because it's currently selected, at load-time).
-                    xmlJoy.profileDefaultF16.dx = xmlJoy.dx;
-                    xmlJoy.profileDefaultF16.pov = xmlJoy.pov;
+                    Debug.Assert(xmlJoy.profileDefaultF16.dx == null);
+                    Debug.Assert(xmlJoy.profileDefaultF16.pov == null);
+                    Debug.Assert(xmlJoy.profileF15ABCD.dx == null);
+                    Debug.Assert(xmlJoy.profileF15ABCD.pov == null);
 
-                    // But allocate new storage for the secondary profiles.
+                    this.dx = xmlJoy.dx;
+                    this.pov = xmlJoy.pov;
+
+                    // Wire up profileDefaultF16 subnodes to be by-ref copies of the default profile (because it's the one currently selected, at inital startup-time).
+                    this.profileDefaultF16.dx = xmlJoy.dx;
+                    this.profileDefaultF16.pov = xmlJoy.pov;
+
+                    // But allocate new storage for the secondary (F15) profile.
                     xmlJoy.profileF15ABCD.dx = new DxAssgn[CommonConstants.DX_MAX_BUTTONS];
                     for (int i = 0; i < CommonConstants.DX_MAX_BUTTONS; i++)
                         xmlJoy.profileF15ABCD.dx[i] = new DxAssgn();
@@ -408,37 +450,42 @@ namespace FalconBMS.Launcher.Input
                     xmlJoy.profileF15ABCD.pov = new PovAssgn[CommonConstants.DX_MAX_HATS];
                     for (int i = 0; i < CommonConstants.DX_MAX_HATS; i++)
                         xmlJoy.profileF15ABCD.pov[i] = new PovAssgn();
+
+                    this.profileF15ABCD.dx = xmlJoy.profileF15ABCD.dx;
+                    this.profileF15ABCD.pov = xmlJoy.profileF15ABCD.pov;
                 }
+                else
+                {
+                    Debug.Assert(xmlJoy.profileDefaultF16.dx != null);
+                    Debug.Assert(xmlJoy.profileDefaultF16.pov != null);
+                    Debug.Assert(xmlJoy.profileF15ABCD.dx != null);
+                    Debug.Assert(xmlJoy.profileF15ABCD.pov != null);
 
-                this.axis = xmlJoy.axis;
-                this.detentPosition = xmlJoy.detentPosition;
+                    // Not upgrade-path: wire up this.dx/pov to point to profileDefaultF16 subnodes (because it's the one currently selected, at inital startup-time).
+                    this.dx = xmlJoy.profileDefaultF16.dx;
+                    this.pov = xmlJoy.profileDefaultF16.pov;
 
-                this.dx = xmlJoy.dx;
-                this.pov = xmlJoy.pov;
+                    this.profileDefaultF16.dx = xmlJoy.profileDefaultF16.dx;
+                    this.profileDefaultF16.pov = xmlJoy.profileDefaultF16.pov;
 
-                this.profileDefaultF16.dx = xmlJoy.profileDefaultF16.dx;
-                this.profileDefaultF16.pov = xmlJoy.profileDefaultF16.pov;
-
-                this.profileF15ABCD.dx = xmlJoy.profileF15ABCD.dx;
-                this.profileF15ABCD.pov = xmlJoy.profileF15ABCD.pov;
+                    this.profileF15ABCD.dx = xmlJoy.profileF15ABCD.dx;
+                    this.profileF15ABCD.pov = xmlJoy.profileF15ABCD.pov;
+                }
             }
-
+            _Debug_ValidateCurrentProfile();
             return;
         }
 
 
-        public JoyAssgn CloneByValue()
+        public JoyAssgn MakeTempCloneForKeyMappingDialog()
         {
+            _Debug_ValidateCurrentProfile();
+
             JoyAssgn joy = new JoyAssgn();
-            joy.LoadAxesButtonsAndHatsFrom(this);
+            joy.CopyButtonsAndHatsFromCurrentProfile(this);
+            joy.currentProfile = "temp";
             return joy;
         }
-
-        //REVIEW: dead code?
-        //public void LoadSingleAxisMousewheel(AxAssgn a)
-        //{
-        //    axis[0] = a;
-        //}
 
         public Device GetDevice()
         {
@@ -479,6 +526,26 @@ namespace FalconBMS.Launcher.Input
             {
                 return new int[8];
             }
+        }
+
+        private void _Debug_ValidateCurrentProfile()
+        {
+#if DEBUG
+            if (currentProfile == "temp")
+                return;
+
+            if (currentProfile == null)
+            {
+                Debug.Assert(ReferenceEquals(this.dx, this.profileDefaultF16.dx));
+                Debug.Assert(ReferenceEquals(this.pov, this.profileDefaultF16.pov));
+            }
+            else if (currentProfile == CommonConstants.F15_TAG)
+            {
+                Debug.Assert(ReferenceEquals(this.dx, this.profileF15ABCD.dx));
+                Debug.Assert(ReferenceEquals(this.pov, this.profileF15ABCD.pov));
+            }
+            else throw new InvalidProgramException();
+#endif
         }
 
     }
