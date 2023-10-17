@@ -332,7 +332,7 @@ namespace FalconBMS.Launcher.Windows
                 // Save axes, buttons and hats.
                 deviceControl.SaveXml();
 
-                appReg.getOverrideWriter().SaveKeyMapping(inGameAxis, deviceControl);
+                //appReg.getOverrideWriter().SaveKeyMapping(inGameAxis, deviceControl);
 
             }
             catch (Exception ex)
