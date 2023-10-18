@@ -68,8 +68,6 @@ namespace FalconBMS.Launcher.Input
 
             if (callback == "SimHotasPinkyShift" || callback == "SimHotasShift")
                 visibility = "White";
-            if (description == "\"======== 2.19     THROTTLE QUADRANT SYSTEM ==\"")
-                description = "\"======== 2.19     THROTTLE QUADRANT SYSTEM ========\"";
         }
 
         public void getOtherKeyInstance(KeyAssgn otherInstance)

@@ -245,6 +245,9 @@ namespace FalconBMS.Launcher.Windows
 
                 // Write Data Grid
                 WriteDataGrid();
+
+                // Update category headers.
+                UpdateCategoryHeaders();
             }
             catch (Exception ex)
             {
@@ -853,6 +856,7 @@ namespace FalconBMS.Launcher.Windows
             string newKeyfilePath = ofd.FileName;
 
             deviceControl.ImportKeyfileIntoCurrentProfile(newKeyfilePath);
+            UpdateCategoryHeaders();
             WriteDataGrid();
             return;
         }

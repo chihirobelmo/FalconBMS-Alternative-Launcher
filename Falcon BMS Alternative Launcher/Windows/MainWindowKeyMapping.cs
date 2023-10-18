@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -18,6 +20,16 @@ namespace FalconBMS.Launcher.Windows
     /// </summary>
     public partial class MainWindow
     {
+        public void UpdateCategoryHeaders()
+        {
+            List<string> categoryHeaders = new List<string>(12) { "TOP" };
+            foreach (string s in deviceControl.GetKeyBindings().categoryHeaderLabels)
+                categoryHeaders.Add(s.TrimStart('\x22').TrimEnd('\x22')); // trim off leading/trailing doublequotes
+
+            this.Category.ItemsSource = categoryHeaders.ToArray();
+            return;
+        }
+
         /// <summary>
         /// Let's write DataGrid cells at KeyMapping page a keyfile informarion.
         /// </summary>
@@ -389,63 +401,40 @@ namespace FalconBMS.Launcher.Windows
             if (KeyMappingGrid.Items == null || KeyMappingGrid.Items.Count == 0)
                 return;
 
-            string target = "";
-            switch (Category.SelectedIndex)
+            int selectedIndex = Category.SelectedIndex;
+
+            if (selectedIndex <= 0)
             {
-                case 0:
-                    KeyMappingGrid.ScrollIntoView(KeyMappingGrid.Items[0]);
-                    KeyMappingGrid.UpdateLayout();
-                    break;
-                case 1:
-                    target = "1. UI & 3RD PARTY SOFTWARE";
-                    break;
-                case 2:
-                    target = "2. LEFT CONSOLE";
-                    break;
-                case 3:
-                    target = "======== 2.19     THROTTLE QUADRANT SYSTEM ========";
-                    break;
-                case 4:
-                    target = "3. LEFT AUX CONSOLE";
-                    break;
-                case 5:
-                    target = "4. CENTER CONSOLE";
-                    break;
-                case 6:
-                    target = "======== 4.05     LEFT MFD ========";
-                    break;
-                case 7:
-                    target = "======== 4.10     RIGHT MFD ========";
-                    break;
-                case 8:
-                    target = "5. RIGHT CONSOLE";
-                    break;
-                case 9:
-                    target = "======== 5.11     FLIGHT STICK  ========";
-                    break;
-                case 10:
-                    target = "6. MISCELLANEOUS";
-                    break;
-                case 11:
-                    target = "7. VIEWS";
-                    break;
-                case 12:
-                    target = "8. RADIO COMMS";
-                    break;
+                // Go to top.
+                KeyMappingGrid.ScrollIntoView(KeyMappingGrid.Items[0]);
+                KeyMappingGrid.UpdateLayout();
+                return;
             }
+            --selectedIndex; //nb: offset for "TOP" element zero
+
+            string[] catLabels = deviceControl.GetKeyBindings().categoryHeaderLabels;
+            if (selectedIndex >= catLabels.Length)
+                return;
+
+            string cat = catLabels[selectedIndex];
+            Debug.WriteLine($"cat: {cat}");
 
             int i = 0;
             foreach (KeyAssgn keys in deviceControl.GetKeyBindings().keyAssign)
             {
-                if (keys.Mapping.Trim() == target)
+                if (i >= KeyMappingGrid.Items.Count)
+                    break;
+
+                if (0 == String.CompareOrdinal(keys.GetKeyDescription(), cat))
                 {
                     KeyMappingGrid.ScrollIntoView(KeyMappingGrid.Items[KeyMappingGrid.Items.Count - 1]);
                     KeyMappingGrid.UpdateLayout();
                     KeyMappingGrid.ScrollIntoView(KeyMappingGrid.Items[i]);
+                    return;
                 }
-                i += 1;
+                i++;
             }
-
+            Diagnostics.Log("Unable to locate selected category in keyfile: " + cat);
             return;
         }
 
@@ -489,6 +478,8 @@ namespace FalconBMS.Launcher.Windows
                     deviceControl.UpdateAvionicsProfile(CommonConstants.F15_TAG);
                     break;
             }
+
+            UpdateCategoryHeaders();
 
             WriteDataGrid();
             return;

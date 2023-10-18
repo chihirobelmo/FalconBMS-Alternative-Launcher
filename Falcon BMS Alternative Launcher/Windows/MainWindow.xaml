@@ -553,8 +553,8 @@
                         <ComboBoxItem Content="F-15" Tag="F15" />
                     </ComboBox>
                     <Label Content="Category:" HorizontalAlignment="Left" Margin="223,-43,0,0" VerticalAlignment="Top" Height="26" Width="64" HorizontalContentAlignment="Right" Foreground="White"/>
-                    <ComboBox x:Name="Category" HorizontalAlignment="Left" Margin="300,-41,0,0" VerticalAlignment="Top" Width="256" BorderBrush="Black" Background="#80F0F0F0" Foreground="#FF191919" SelectionChanged="Category_SelectionChanged" Height="26" Grid.ColumnSpan="2">
-                        <TextBlock Text=" TOP" FontWeight="Bold" Foreground="#FF000000"/>
+                    <ComboBox x:Name="Category" ItemsSource="{Binding}" HorizontalAlignment="Left" Margin="300,-41,0,0" VerticalAlignment="Top" Width="256" BorderBrush="Black" Background="#80F0F0F0" Foreground="#FF191919" SelectionChanged="Category_SelectionChanged" Height="26" Grid.ColumnSpan="2">
+                        <!--<TextBlock Text=" TOP" FontWeight="Bold" Foreground="#FF000000"/>
                         <TextBlock Text=" UI &amp; 3RD PARTY SOFTWARE" Foreground="#FF00C001"/>
                         <TextBlock Text=" LEFT CONSOLE" Foreground="#FF000000"/>
                         <TextBlock Text=" HOTAS: THROTTLE" Foreground="#FF40C0F0"/>
@@ -566,7 +566,7 @@
                         <TextBlock Text=" HOTAS: STICK" Foreground="#FF40C0F0"/>
                         <TextBlock Text=" MISCELLANEOUS" Foreground="#FF000000"/>
                         <TextBlock Text=" VIEWS" Foreground="#FF000000"/>
-                        <TextBlock Text=" RADIO COMMS" Foreground="#FF000000"/>
+                        <TextBlock Text=" RADIO COMMS" Foreground="#FF000000"/>-->
                     </ComboBox>
                     <DataGrid x:Name="KeyMappingGrid" HorizontalAlignment="Stretch" Height="auto" Margin="10,10,9.666,64.334" 
                               EnableColumnVirtualization="True" EnableRowVirtualization="True" VirtualizingPanel.IsVirtualizingWhenGrouping="True"

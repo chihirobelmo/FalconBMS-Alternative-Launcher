@@ -12,9 +12,11 @@ namespace FalconBMS.Launcher.Input
     {
         public KeyAssgn[] keyAssign;
 
+        public string[] categoryHeaderLabels;
+
         public KeyFile(string filename)
         {
-            // Verify "BMS - FULL.key" file exists.
+            // Verify file exists.
             if (File.Exists(filename) == false)
             {
                 MessageBoxResult result = MessageBox.Show
@@ -22,8 +24,10 @@ namespace FalconBMS.Launcher.Input
                 return;
             }
 
-            // Build table of { callbackName, keyBinding, descriptionString }.
+            // Build table of { callbackName, keyBinding, descriptionString }.  Also build up list of category-header labels.
             List<KeyAssgn> records = new List<KeyAssgn>(2000);
+
+            List<string> cats = new List<string>(12);
 
             using (StreamReader reader = File.OpenText(filename))
             {
@@ -42,6 +46,9 @@ namespace FalconBMS.Launcher.Input
                     if (RegexFactory.ButtonOrHatBindingLine.IsMatch(line))
                         continue;
 
+                    if (RegexFactory.CategoryHeaderLine.IsMatch(line))
+                        cats.Add(ParseCategoryHeaderLabel(line)); //nb: also fall-through to add it to KeyAssgn
+
                     // Parse the key-binding line.
                     KeyAssgn keyAssgn = ParseKeyfileLine(line);
                     records.Add(keyAssgn);
@@ -49,10 +56,20 @@ namespace FalconBMS.Launcher.Input
             }
 
             keyAssign = records.ToArray();
+            categoryHeaderLabels = cats.ToArray();
             return;
         }
 
-        public static KeyAssgn ParseKeyfileLine(string line)
+        private static string ParseCategoryHeaderLabel(string line)
+        {
+            Match m = RegexFactory.CategoryHeaderLine.Match(line);
+            Debug.Assert(m.Success);
+
+            string cat = m.Groups["categoryHeaderDQ"].Value;
+            return cat;
+        }
+
+        internal static KeyAssgn ParseKeyfileLine(string line)
         {
             // Ignore any DX button/hat bindings -- we're only interested in keyboard bindings, here.
             if (RegexFactory.ButtonOrHatBindingLine.IsMatch(line))
@@ -82,9 +99,7 @@ namespace FalconBMS.Launcher.Input
         {
             this.keyAssign = new KeyAssgn[keyAssign.Count];
             for (int i = 0; i < keyAssign.Count; i++)
-            {
                 this.keyAssign[i] = keyAssign[i].Clone();
-            }
         }
 
         object ICloneable.Clone() => Clone();
@@ -107,6 +122,12 @@ namespace FalconBMS.Launcher.Input
                 ^
                     \s* \x23 .* # \x23: number symbol
                 $"
+            );
+
+            public static Regex CategoryHeaderLine = Create(@"(?nsx) #ExplicitCapture, Singleline, IgnorePatternWhitespace
+                ^\s*
+                    SimDoNothing \s+ -1 \s+ 0 \s+ 0[xX]FFFFFFFF \s+ 0 \s+ 0 \s+ 0 \s+ -1 \s+ (?<categoryHeaderDQ>\x22 \d+\.\s [^\x22]+ \x22)
+                \s*$"
             );
 
             public static Regex KeyBindingLine = Create(@"(?nsx) #ExplicitCapture, Singleline, IgnorePatternWhitespace
@@ -174,6 +195,9 @@ namespace FalconBMS.Launcher.Input
 #if DEBUG
                 Debug.Assert(LineComment.IsMatch(@"# foo"));
                 Debug.Assert(LineComment.IsMatch(@"  ## foo  "));
+
+                Debug.Assert(CategoryHeaderLine.IsMatch(@"SimDoNothing -1 0 0XFFFFFFFF 0 0 0 -1 ""1. UI & 3RD PARTY SOFTWARE"""));
+                Debug.Assert(false == CategoryHeaderLine.IsMatch(@"SimDoNothing -1 0 0XFFFFFFFF 0 0 0 -1 ""======== 1.02     3RD PARTY SOFTWARE ========"""));
 
                 Debug.Assert(KeyBindingLine.IsMatch(@"SimDoNothing -1 0 0xFFFFFFFF 0 0 0 -0 ""REM: party keys. Avoid them in your key file"""));
                 Debug.Assert(KeyBindingLine.IsMatch(@"SimAltFlaps 311 0 0x3C 6 0 0 1 ""FLT: ALT FLAPS Switch - Toggle"""));
