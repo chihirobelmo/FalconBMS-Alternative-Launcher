@@ -111,7 +111,7 @@ namespace FalconBMS.Launcher.Input
                     this.keyFileF15ABCD = new KeyFile(filename);
                     return;
             }
-            throw new System.ArgumentException("avionicsProfile");
+            throw new ArgumentException("avionicsProfile");
         }
 
         public Device[] GetHwDeviceList()
@@ -134,19 +134,7 @@ namespace FalconBMS.Launcher.Input
                 case CommonConstants.F15_TAG:
                     return keyFileF15ABCD;
             }
-            throw new System.ArgumentException("avionicsProfile");
-        }
-        public KeyFile GetKeyBindingsForProfile(string profile)
-        {
-            if (string.IsNullOrEmpty(profile))
-                return keyFileDefaultF16;
-
-            switch (profile)
-            {
-                case CommonConstants.F15_TAG:
-                    return keyFileF15ABCD;
-            }
-            throw new System.ArgumentException("profile");
+            throw new ArgumentException("avionicsProfile");
         }
 
         public JoyAssgn[] GetJoystickMappingsForAxes()
