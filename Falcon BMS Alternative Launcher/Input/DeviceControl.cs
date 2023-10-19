@@ -184,7 +184,6 @@ namespace FalconBMS.Launcher.Input
                     string fileName = this.appReg.GetInstallDir() + CommonConstants.CONFIGFOLDER + CommonConstants.SETUPV100 + this.joyAssign[i].GetProductFileName()
                     + " {" + this.joyAssign[i].GetInstanceGUID().ToString().ToUpper() + "}.xml";
 
-
                     XmlSerializer serializer = new XmlSerializer(typeof(JoyAssgn));
                     using (StreamWriter sw = Utils.CreateUtf8TextWihoutBom(fileName))
                         serializer.Serialize(sw, this.joyAssign[i]);

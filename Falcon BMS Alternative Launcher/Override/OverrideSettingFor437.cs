@@ -20,7 +20,7 @@ namespace FalconBMS.Launcher.Override
             cfg.Write(
                 "set g_nVRHMD "
                 + Convert.ToInt32(mainWindow.Misc_VR.IsChecked)
-                + CommonConstants.CFGOVERRIDECOMMENT + "\r\n");
+                + " " + CommonConstants.CFGOVERRIDECOMMENT + "\r\n");
         }
 
         protected override void SavePop()

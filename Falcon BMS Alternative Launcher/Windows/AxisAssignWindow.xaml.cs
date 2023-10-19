@@ -357,7 +357,7 @@ namespace FalconBMS.Launcher.Windows
 
                     if (devList.Count != MainWindow.deviceControl.GetJoystickMappingsForAxes().Length)
                     {
-                        mainWindow.ReloadDevices();
+                        mainWindow.ReloadDevicesAndXmlMappings();
                         Reset();
                         mainWindow.UpdateAxisStatus();
                     }
