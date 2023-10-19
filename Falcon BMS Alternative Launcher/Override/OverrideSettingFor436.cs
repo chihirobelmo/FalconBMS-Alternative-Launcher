@@ -20,7 +20,7 @@ namespace FalconBMS.Launcher.Override
             cfg.Write(
                 "set g_nHotasPinkyShiftMagnitude "
                 + deviceControl.GetJoystickMappingsForButtonsAndHats().Length * CommonConstants.DX_MAX_BUTTONS
-                + CommonConstants.CFGOVERRIDECOMMENT + "\r\n");
+                + " " + CommonConstants.CFGOVERRIDECOMMENT + "\r\n");
         }
 
         protected override void OverrideButtonsPerDevice(StreamWriter cfg, DeviceControl deviceControl)
@@ -28,7 +28,7 @@ namespace FalconBMS.Launcher.Override
             cfg.Write(
                 "set g_nButtonsPerDevice "
                 + CommonConstants.DX_MAX_BUTTONS
-                + CommonConstants.CFGOVERRIDECOMMENT + "\r\n");
+                + " " + CommonConstants.CFGOVERRIDECOMMENT + "\r\n");
         }
     }
 }

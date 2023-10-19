@@ -19,8 +19,6 @@ namespace FalconBMS.Launcher
     public class AppRegInfo
     {
         // Member
-        private RegistryKey regkey;
-
         private string regName = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.37";
 
         private Platform platform = Platform.OS_64bit;
@@ -55,51 +53,78 @@ namespace FalconBMS.Launcher
         public string[] availableBMSVersions =
         {
             "Falcon BMS 4.38 (Internal)",
-            "Falcon BMS 4.37 U1 (internal)",
             "Falcon BMS 4.37 (Internal)",
             "Falcon BMS 4.37",
-            "Falcon BMS 4.36 (Internal)",
             "Falcon BMS 4.36",
             "Falcon BMS 4.35",
             "Falcon BMS 4.34",
-            "Falcon BMS 4.33 U1",
             "Falcon BMS 4.33",
             "Falcon BMS 4.32"
         };
 
-        public AppRegInfo(MainWindow mainWindow)
+        public AppRegInfo(MainWindow window)
         {
+            this.mainWindow = window;
+
             Diagnostics.Log("Start Reading Registry.");
 
-            bool flg = true;
-            string selectedVersion = "Falcon4.0";
-
+            // Enumerate the available versions, and populate the listbox in a more deterministic, reliable sort-order.
+            var foundVersions = new List<string>(10);
             foreach (string version in availableBMSVersions)
             {
                 if (Registry.LocalMachine.OpenSubKey("SOFTWARE\\Wow6432Node\\Benchmark Sims\\" + version, false) == null)
                     continue;
 
-                if (BMSExists(version)) 
-                    mainWindow.ListBox_BMS.Items.Add(version); 
-                else 
-                    continue; 
+                if (BMSExists(version))
+                    foundVersions.Add(version); //mainWindow.ListBox_BMS.Items.Add(version); 
+            }
+            if (foundVersions.Count == 0)
+                return;
 
-                if (flg)
-                {
-                    selectedVersion = version;
-                    flg = false;
-                }
+            // Sort order: most recent releases on top.
+            foundVersions.Sort((a, b) => { return -1 * String.CompareOrdinal(a, b); });
 
-                if (version == Properties.Settings.Default.BMS_Version)
+            // Data-bind the list to the UI control.
+            mainWindow.ListBox_BMS.ItemsSource = foundVersions;
+
+            string selectedVersion = null;
+
+            // If we have a saved pref, and it's available, select it.
+            if (!string.IsNullOrEmpty(Properties.Settings.Default.BMS_Version))
+            {
+                int idx = foundVersions.IndexOf(Properties.Settings.Default.BMS_Version);
+                if (idx >= 0)
                 {
-                    selectedVersion = version;
-                    mainWindow.ListBox_BMS.SelectedIndex = mainWindow.ListBox_BMS.Items.Count - 1;
+                    selectedVersion = Properties.Settings.Default.BMS_Version;
+                    mainWindow.ListBox_BMS.SelectedIndex = idx;
                 }
             }
 
-            Init(mainWindow, selectedVersion);
+            // If no previously saved pref is found, select the latest and greatest.
+            if (string.IsNullOrEmpty(selectedVersion))
+            {
+                selectedVersion = foundVersions[0];
+                mainWindow.ListBox_BMS.SelectedIndex = 0;
+            }
+
+            UpdateSelectedBMSVersion(selectedVersion);
 
             Diagnostics.Log("Finished Reading Registry.");
+            return;
+        }
+
+        public void UpdateSelectedBMSVersion(string version)
+        {
+            // Don't lose user's recent changes!
+            if (MainWindow.deviceControl != null)
+                MainWindow.deviceControl.SaveXml();
+
+            InitOverriderAndStarterFor(version);
+
+            //TODO: refactor this innocent-looking boolean getter, which has side-effects to init many member fields for
+            // the currently selected version.. in the meantime, we must call it again now that we have selectedVersion.
+            BMSExists(version);
+            return;
         }
 
         public bool BMSExists(string version)
@@ -107,6 +132,7 @@ namespace FalconBMS.Launcher
             string regName64 = "SOFTWARE\\Wow6432Node\\Benchmark Sims\\" + version;
             string regName32 = "SOFTWARE\\Benchmark Sims\\" + version;
 
+            RegistryKey regkey = null;
             try
             {
                 RegistryKey regkey64 = Registry.LocalMachine.OpenSubKey(regName64, true);
@@ -179,6 +205,8 @@ namespace FalconBMS.Launcher
             if (platform == Platform.OS_32bit)
                 exeDir = installDir + "\\bin\\x86\\Falcon BMS.exe";
 
+            updateVersion = CheckUpdateVersion();
+
             return File.Exists(exeDir);
         }
 
@@ -197,10 +225,8 @@ namespace FalconBMS.Launcher
             }
         }
 
-        public void Init(MainWindow mainWindow, string version)
+        public void InitOverriderAndStarterFor(string version)
         {
-            this.mainWindow = mainWindow;
-
             switch (version)
             {
                 case "Falcon BMS 4.38 (Internal)":
@@ -208,16 +234,10 @@ namespace FalconBMS.Launcher
                     overRideSetting = new OverrideSettingFor438(this.mainWindow, this);
                     starter         = new Starter438Internal(this, this.mainWindow);
                     break;
-                case "Falcon BMS 4.37 U1 (internal)":
                 case "Falcon BMS 4.37 (Internal)":
                     bms_Version     = BMS_Version.BMS437I;
                     overRideSetting = new OverrideSettingFor437(this.mainWindow, this);
                     starter         = new Starter437Internal(this, this.mainWindow);
-                    break;
-                case "Falcon BMS 4.36 (Internal)":
-                    bms_Version     = BMS_Version.BMS436I;
-                    overRideSetting = new OverrideSettingFor437(this.mainWindow, this);
-                    starter         = new Starter436Internal(this, this.mainWindow);
                     break;
                 case "Falcon BMS 4.37":
                     bms_Version     = BMS_Version.BMS437;
@@ -239,11 +259,6 @@ namespace FalconBMS.Launcher
                     overRideSetting = new OverrideSettingFor434U1(this.mainWindow, this);
                     starter         = new Starter434(this, this.mainWindow);
                     break;
-                case "Falcon BMS 4.33 U1":
-                    bms_Version     = BMS_Version.BMS433U1;
-                    overRideSetting = new OverrideSettingFor433(this.mainWindow, this);
-                    starter         = new Starter433(this, this.mainWindow);
-                    break;
                 case "Falcon BMS 4.33":
                     bms_Version     = BMS_Version.BMS433;
                     overRideSetting = new OverrideSettingFor433(this.mainWindow, this);
@@ -256,16 +271,10 @@ namespace FalconBMS.Launcher
                     break;
                 default:
                     bms_Version = BMS_Version.UNDEFINED;
-                    Properties.Settings.Default.BMS_Version = "Falcon4.0";
+                    Properties.Settings.Default.BMS_Version = null;
                     throw new ArgumentOutOfRangeException(); // Just to be explicit.
                     break;
             }
-
-            BMSExists(version);
-
-            updateVersion = CheckUpdateVersion();
-
-            regkey.Close();
         }
 
         public int CheckUpdateVersion()
@@ -296,22 +305,20 @@ namespace FalconBMS.Launcher
             return Encoding.UTF8.GetString(bts);
         }
 
-        public void setDPIOverride(string auth)
-        {
-            string regName = "Software\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\Layers";
-            RegistryKey regkey = Registry.LocalMachine.OpenSubKey(regName, true);
-            regkey.SetValue(auth, "~HIGHDPIAWARE");
-            regkey.Close();
-        }
+        //public void setDPIOverride(string auth)
+        //{
+        //    string regName = "Software\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\Layers";
+        //    RegistryKey regkey = Registry.LocalMachine.OpenSubKey(regName, true);
+        //    regkey.SetValue(auth, "~HIGHDPIAWARE");
+        //    regkey.Close();
+        //}
 
-        public bool isNameDefined()
+        public bool IsUniqueNameDefined()
         {
-            regkey = Registry.LocalMachine.OpenSubKey(regName, false);
+            RegistryKey regkey = Registry.LocalMachine.OpenSubKey(regName, false);
             if (regkey == null)
-            {
-                regkey.Close();
-                return true;
-            }
+                return false;
+
             if (regkey.GetValue("PilotCallsign") == null)
                 return false;
             if (regkey.GetValue("PilotName") == null)
@@ -320,6 +327,7 @@ namespace FalconBMS.Launcher
                 return false;
             if (ReadPilotCallsign((byte[])regkey.GetValue("PilotName")) == "Joe Pilot")
                 return false;
+
             return true;
         }
 
@@ -327,12 +335,9 @@ namespace FalconBMS.Launcher
         {
             pilotCallsign = callSign;
 
-            regkey = Registry.LocalMachine.OpenSubKey(regName, true);
+            RegistryKey regkey = Registry.LocalMachine.OpenSubKey(regName, true);
             if (regkey == null)
-            {
-                regkey.Close();
                 return;
-            }
 
             byte[] bs = new byte[12];
             byte[] bCallsign = Encoding.ASCII.GetBytes(callSign);
@@ -365,7 +370,7 @@ namespace FalconBMS.Launcher
 
         public void GetTheater()
         {
-            regkey = Registry.LocalMachine.OpenSubKey(regName, false);
+            RegistryKey regkey = Registry.LocalMachine.OpenSubKey(regName, false);
             currentTheater = (string)regkey.GetValue("curTheater");
             regkey.Close();
         }
@@ -375,7 +380,7 @@ namespace FalconBMS.Launcher
             if (combobox.SelectedIndex == -1)
                 return;
 
-            regkey = Registry.LocalMachine.OpenSubKey(regName, true);
+            RegistryKey regkey = Registry.LocalMachine.OpenSubKey(regName, true);
             regkey.SetValue("curTheater", combobox.Items[combobox.SelectedIndex].ToString());
             regkey.Close();
 

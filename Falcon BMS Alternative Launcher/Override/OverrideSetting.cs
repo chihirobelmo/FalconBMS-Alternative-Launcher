@@ -156,7 +156,7 @@ namespace FalconBMS.Launcher.Override
             cfg.Write(
                 "set g_nButtonsPerDevice "
                 + CommonConstants.DX_MAX_BUTTONS_LEGACY
-                + CommonConstants.CFGOVERRIDECOMMENT + "\r\n");
+                + " " + CommonConstants.CFGOVERRIDECOMMENT + "\r\n");
         }
 
         protected virtual void OverrideVRHMD(StreamWriter cfg) { }

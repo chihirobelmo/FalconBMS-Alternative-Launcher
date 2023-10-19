@@ -179,8 +179,8 @@ namespace FalconBMS.Launcher.Windows
         {
             Diagnostics.Log("Start Init Devices.");
 
-            ReloadDevices();
-            BMSChanged();
+            ReloadDevicesAndXmlMappings();
+            ReloadKeyfilesTheatersAndUpdateUI();
 
             Diagnostics.Log("Finished Init Devices.");
         }
@@ -202,7 +202,7 @@ namespace FalconBMS.Launcher.Windows
                         AxisMovingTimer.Stop();
                         KeyMappingTimer.Stop();
 
-                        ReloadDevices();
+                        ReloadDevicesAndXmlMappings();
 
                         int value = LargeTab.SelectedIndex;
                         if (value == 1)
@@ -227,7 +227,7 @@ namespace FalconBMS.Launcher.Windows
             }
         }
 
-        private void BMSChanged()
+        private void ReloadKeyfilesTheatersAndUpdateUI()
         {
             try
             {
@@ -256,7 +256,7 @@ namespace FalconBMS.Launcher.Windows
             }
         }
 
-        public void ReloadDevices()
+        public void ReloadDevicesAndXmlMappings()
         {
             try
             {
@@ -459,7 +459,7 @@ namespace FalconBMS.Launcher.Windows
         {
             try
             {
-                if (!appReg.isNameDefined())
+                if (!appReg.IsUniqueNameDefined())
                 {
                     if (!CallsignWindow.ShowCallsignWindow(appReg))
                     {
@@ -815,11 +815,16 @@ namespace FalconBMS.Launcher.Windows
                 if (appReg == null)
                     return;
 
-                Properties.Settings.Default.BMS_Version = this.ListBox_BMS.SelectedItem.ToString();
-                appReg.Init(this, this.ListBox_BMS.SelectedItem.ToString());
+                if (this.ListBox_BMS.SelectedIndex < 0)
+                    return;
 
-                ReloadDevices();
-                BMSChanged();
+                string newVersion = this.ListBox_BMS.SelectedItem.ToString();
+                Properties.Settings.Default.BMS_Version = newVersion;
+
+                appReg.UpdateSelectedBMSVersion(newVersion);
+
+                ReloadDevicesAndXmlMappings();
+                ReloadKeyfilesTheatersAndUpdateUI();
             }
             catch (Exception ex)
             {
