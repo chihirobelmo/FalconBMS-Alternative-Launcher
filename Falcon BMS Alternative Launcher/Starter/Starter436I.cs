@@ -23,7 +23,7 @@ namespace FalconBMS.Launcher.Starter
             mainWindow.Version_Number.Content = "4.36 I";
         }
 
-        public override void execute(object sender, bool flg)
+        public override void execute(object sender)
         {
             System.Diagnostics.Process process;
             switch (((System.Windows.Controls.Button)sender).Name)
@@ -40,6 +40,7 @@ namespace FalconBMS.Launcher.Starter
 
                     string appPlatform = appReg.GetInstallDir() + "/Bin/x86//Hub.exe";
                     process = System.Diagnostics.Process.Start(appPlatform, strCmdText);
+                    MainWindow.bmsHasBeenLaunched = true;
                     mainWindow.Close();
                     break;
                 case "Launch_CFG":

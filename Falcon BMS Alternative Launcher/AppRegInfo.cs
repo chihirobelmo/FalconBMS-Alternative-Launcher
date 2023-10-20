@@ -115,10 +115,6 @@ namespace FalconBMS.Launcher
 
         public void UpdateSelectedBMSVersion(string version)
         {
-            // Don't lose user's recent changes!
-            if (MainWindow.deviceControl != null)
-                MainWindow.deviceControl.SaveXml();
-
             InitOverriderAndStarterFor(version);
 
             //TODO: refactor this innocent-looking boolean getter, which has side-effects to init many member fields for

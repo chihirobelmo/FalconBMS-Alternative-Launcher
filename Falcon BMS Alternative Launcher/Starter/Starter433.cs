@@ -23,7 +23,7 @@ namespace FalconBMS.Launcher.Starter
             mainWindow.Version_Number.Content = "4.33";
         }
 
-        public override void execute(object sender, bool flg)
+        public override void execute(object sender)
         {
             System.Diagnostics.Process process;
             switch (((System.Windows.Controls.Button)sender).Name)
@@ -52,10 +52,8 @@ namespace FalconBMS.Launcher.Starter
                     if (File.Exists(appPlatform) == false)
                         return;
                     process = System.Diagnostics.Process.Start(appPlatform, strCmdText);
-                    if (flg)
-                        mainWindow.minimizeWindowUntilProcessEnds(process);
-                    else
-                        mainWindow.Close();
+                    MainWindow.bmsHasBeenLaunched = true;
+                    mainWindow.Close();
                     break;
                 case "Launch_CFG":
                     process = System.Diagnostics.Process.Start(appReg.GetInstallDir() + "/Config.exe");

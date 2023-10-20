@@ -48,7 +48,7 @@ using System.Windows;
 //
 // すべての値を指定するか、次を使用してビルド番号とリビジョン番号を既定に設定できます
 // 既定値にすることができます:
-//[assembly: AssemblyVersion("2023.10.19.2")]
-//[assembly: AssemblyFileVersion("2023.10.19.2")]
-[assembly: AssemblyVersion("2.4.0.4")]
-[assembly: AssemblyFileVersion("2.4.0.4")]
+//[assembly: AssemblyVersion("2023.10.19.3")]
+//[assembly: AssemblyFileVersion("2023.10.19.3")]
+[assembly: AssemblyVersion("2.4.0.5")]
+[assembly: AssemblyFileVersion("2.4.0.5")]

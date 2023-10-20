@@ -7,7 +7,7 @@ using FalconBMS.Launcher.Windows;
 
 namespace FalconBMS.Launcher.Starter
 {
-    public class AbstractStarter
+    public abstract class AbstractStarter
     {
         protected AppRegInfo appReg;
         protected MainWindow mainWindow;
@@ -20,11 +20,7 @@ namespace FalconBMS.Launcher.Starter
             this.mainWindow = mainWindow;
         }
 
-        public virtual void execute(object sender) 
-        {
-            execute(sender, false);
-        }
-        public virtual void execute(object sender, bool flg) { }
+        public abstract void execute(object sender);
 
         public virtual string getCommandLine()
         {
