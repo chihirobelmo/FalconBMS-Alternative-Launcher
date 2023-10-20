@@ -23,7 +23,7 @@ namespace FalconBMS.Launcher.Starter
             mainWindow.Version_Number.Content = "4.35";
         }
 
-        public override void execute(object sender, bool flg)
+        public override void execute(object sender)
         {
             System.Diagnostics.Process process;
             switch (((System.Windows.Controls.Button)sender).Name)
@@ -42,11 +42,13 @@ namespace FalconBMS.Launcher.Starter
                     if (File.Exists(testPlatform) && MessageBox.Show("Start Test Exe?", "Launcher", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     {
                         process = System.Diagnostics.Process.Start(testPlatform, strCmdText);
+                        MainWindow.bmsHasBeenLaunched = true;
                     }
                     else
                     {
                         string appPlatform = appReg.GetInstallDir() + "/Bin/x64/Falcon BMS.exe";
                         process = System.Diagnostics.Process.Start(appPlatform, strCmdText);
+                        MainWindow.bmsHasBeenLaunched = true;
                     }
                     mainWindow.Close();
                     break;

@@ -49,6 +49,8 @@ namespace FalconBMS.Launcher.Windows
 
         private AppProperties appProperties;
 
+        internal static bool bmsHasBeenLaunched = false;
+
         private DispatcherTimer AxisMovingTimer = new DispatcherTimer();
         private DispatcherTimer KeyMappingTimer = new DispatcherTimer();
         private DispatcherTimer NewDeviceDetectTimer = new DispatcherTimer();
@@ -332,11 +334,15 @@ namespace FalconBMS.Launcher.Windows
                 // Save UI Properties(Like Button Status).
                 appProperties.SaveUISetup();
 
-                // Save axes, buttons and hats.
+                // Save axes, buttons and hats, and key mapping.
                 deviceControl.SaveXml();
 
-                //appReg.getOverrideWriter().SaveKeyMapping(inGameAxis, deviceControl);
-
+                //HACK: This is necessary to avoid the double-write race condition (viz. overwriting the keyfile twice 
+                //in quick succession, while BMS process is starting up and reading it).  We don't have a single
+                //"Document" class to encapsulate a conventional "dirty" flag, to know when we need to save user's
+                //work.  So for now, this ugly hackery.
+                if (bmsHasBeenLaunched == false)
+                    appReg.getOverrideWriter().SaveKeyMapping(inGameAxis, deviceControl);
             }
             catch (Exception ex)
             {
@@ -459,17 +465,15 @@ namespace FalconBMS.Launcher.Windows
         {
             try
             {
-                if (!appReg.IsUniqueNameDefined())
+                if (appReg.IsUniqueNameDefined() == false)
                 {
-                    if (!CallsignWindow.ShowCallsignWindow(appReg))
-                    {
-                        appReg.getLauncher().execute(sender, true);
-                    }
+                    CallsignWindow.ShowCallsignWindow(appReg);
+
+                    if (appReg.IsUniqueNameDefined() == false)
+                        return;
                 }
-                else
-                {
-                    appReg.getLauncher().execute(sender);
-                }
+
+                appReg.getLauncher().execute(sender);
             }
             catch (FileNotFoundException ex)
             {
@@ -820,6 +824,13 @@ namespace FalconBMS.Launcher.Windows
 
                 string newVersion = this.ListBox_BMS.SelectedItem.ToString();
                 Properties.Settings.Default.BMS_Version = newVersion;
+
+                // Don't lose user's recent changes!
+                if (deviceControl != null)
+                {
+                    deviceControl.SaveXml();
+                    appReg.getOverrideWriter().SaveKeyMapping(inGameAxis, deviceControl);
+                }
 
                 appReg.UpdateSelectedBMSVersion(newVersion);
 

@@ -61,7 +61,7 @@ namespace FalconBMS.Launcher.Override
                     sw.Write(joy.GetKeyLineDX(i, joyAssgns.Length));
                 }
 
-                //TEST plan:
+                // Test plan:
                 // [pass] 2 devices 2 hats - stick first in DeviceSorting.txt order
                 // [pass] 2 devices 2 hats - throttle first in DeviceSorting.txt order
                 // [pass] 2 devices w hats, but roll+throttle on primary (only 1 hat should work)
