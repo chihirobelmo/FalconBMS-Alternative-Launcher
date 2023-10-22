@@ -191,7 +191,8 @@ namespace FalconBMS.Launcher.Input
             }
             catch (Exception ex)
             {
-                Diagnostics.WriteLogFile(ex);
+                Diagnostics.Log(ex);
+                Diagnostics.ShowErrorMsgbox(ex);
             }
             finally
             {

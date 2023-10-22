@@ -18,46 +18,28 @@ namespace FalconBMS.Launcher
         [STAThread]
         public static void Main()
         {
-            // Set cwd to the EXE location.
-            string thisExe = Assembly.GetExecutingAssembly().Location;
-            string thisExeDir = Path.GetDirectoryName(thisExe);
-            Environment.CurrentDirectory = thisExeDir;
-
-            // Launch the WPF app.
-            AppDomain.CurrentDomain.AssemblyResolve += OnResolveAssembly;
-            App.Main();
-        }
-
-        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            if (e.ExceptionObject is NotImplementedException)
+            try
             {
-                Exception ex = e.ExceptionObject as Exception;
+                // Set cwd to the EXE location.
+                string thisExe = Assembly.GetExecutingAssembly().Location;
+                string thisExeDir = Path.GetDirectoryName(thisExe);
+                Environment.CurrentDirectory = thisExeDir;
 
-                MessageBox.Show("This feature has not yet been implemented.", "Feature not Implemented",
-                    MessageBoxButton.OK, MessageBoxImage.Information);
-               
-                
-                //ex.Handled = true;
+                // Launch the WPF app.
+                AppDomain.CurrentDomain.AssemblyResolve += OnResolveAssembly;
+                App.Main();
             }
-
-            else
+            catch (Exception ex)
             {
-                // Skip this step if debugging so the debugger can catch errors.
-                if (Debugger.IsAttached) return;
-
-                MessageBox.Show("An unknown error has occured. Contact support if this problem persists.", "Error",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
-                Diagnostics.Log(e.ExceptionObject.ToString());
-                Diagnostics.WriteLogFile();
-
-                //e.Handled = true;
+                Diagnostics.Log(ex);
+                Diagnostics.ShowErrorMsgbox(ex);
             }
-        }
-
-        private static void Current_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
-        {
-            
+            finally
+            {
+                Diagnostics.Log("Process exiting - closing logfile.");
+                Diagnostics.FinalizeLogfile();
+            }
+            return;
         }
 
         private static Assembly OnResolveAssembly(object sender, ResolveEventArgs args)

@@ -60,6 +60,41 @@ namespace FalconBMS.Launcher.Input
             return;
         }
 
+        public static bool ValidateKeyfileLines(string filename)
+        {
+            if (false == File.Exists(filename)) return false;
+
+            List<string> errors = new List<string>(50);
+
+            using (StreamReader reader = File.OpenText(filename))
+            {
+                int lineNum = 0;
+                while (true)
+                {
+                    ++lineNum;
+
+                    string line = reader.ReadLine();
+                    if (line == null) break;
+
+                    if (string.IsNullOrWhiteSpace(line))
+                        continue;
+                    if (RegexFactory.LineComment.IsMatch(line))
+                        continue;
+                    if (RegexFactory.ButtonOrHatBindingLine.IsMatch(line))
+                        continue;
+                    if (RegexFactory.KeyBindingLine.IsMatch(line))
+                        continue;
+
+                    // Unrecognized line.
+                    string err = $"Unrecognized line #{lineNum}: " + line;
+                    Diagnostics.Log(err, Diagnostics.LogLevels.Warning);
+
+                    errors.Add(err);
+                }
+            }
+            return (errors.Count == 0);
+        }
+
         private static string ParseCategoryHeaderLabel(string line)
         {
             Match m = RegexFactory.CategoryHeaderLine.Match(line);

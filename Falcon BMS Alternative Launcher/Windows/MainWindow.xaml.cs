@@ -18,6 +18,7 @@ using System.Reflection;
 using System.Xml;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace FalconBMS.Launcher.Windows
 {
@@ -39,7 +40,7 @@ namespace FalconBMS.Launcher.Windows
             }
             catch (Exception ex)
             {
-                Diagnostics.WriteLogFile(ex);
+                Diagnostics.Log(ex);
             }
         }
 
@@ -90,7 +91,7 @@ namespace FalconBMS.Launcher.Windows
             }
             catch (Exception expass)
             {
-                Diagnostics.WriteLogFile(expass);
+                Diagnostics.Log(expass);
             }
 
             try
@@ -101,8 +102,8 @@ namespace FalconBMS.Launcher.Windows
 
                 if (appReg.getBMSVersion() == BMS_Version.UNDEFINED)
                 {
-                    MessageBox.Show("Could Not Find BMS");
-                    Diagnostics.WriteLogFile();
+                    Diagnostics.Log("Failed to find BMS installation.");
+                    Diagnostics.ShowErrorMsgbox("Could Not Find BMS!");
                     Close();
                     return;
                 }
@@ -112,7 +113,8 @@ namespace FalconBMS.Launcher.Windows
             }
             catch (Exception exclose)
             {
-                Diagnostics.WriteLogFile(exclose);
+                Diagnostics.Log(exclose);
+                Diagnostics.ShowErrorMsgbox(exclose);
                 Close();
                 return;
             }
@@ -189,44 +191,48 @@ namespace FalconBMS.Launcher.Windows
 
         private void NewDeviceDetectTimer_Tick(object sender, EventArgs e)
         {
+            Microsoft.DirectX.DirectInput.DeviceList devList = null;
             try
             {
-                Microsoft.DirectX.DirectInput.DeviceList devList =
-                    Microsoft.DirectX.DirectInput.Manager.GetDevices(
+                devList = Microsoft.DirectX.DirectInput.Manager.GetDevices(
                         Microsoft.DirectX.DirectInput.DeviceClass.GameControl,
                         Microsoft.DirectX.DirectInput.EnumDevicesFlags.AttachedOnly
                         );
+            }
+            catch (Exception ex)
+            {
+                // need this as sometimes error might happen when detected a new device.
+                Diagnostics.Log(ex);
+                return;
+            }
 
-                try
+            try
+            {
+                if (deviceControl.GetHwDeviceList().Length != devList.Count)
                 {
-                    if (deviceControl.GetHwDeviceList().Length != devList.Count)
+                    AxisMovingTimer.Stop();
+                    KeyMappingTimer.Stop();
+
+                    ReloadDevicesAndXmlMappings();
+
+                    int value = LargeTab.SelectedIndex;
+                    if (value == 1)
+                        AxisMovingTimer.Start();
+                    if (value == 2)
                     {
-                        AxisMovingTimer.Stop();
-                        KeyMappingTimer.Stop();
-
-                        ReloadDevicesAndXmlMappings();
-
-                        int value = LargeTab.SelectedIndex;
-                        if (value == 1)
-                            AxisMovingTimer.Start();
-                        if (value == 2)
-                        {
-                            KeyMappingTimer.Start();
-                            KeyMappingGrid.Items.Refresh();
-                        }
+                        KeyMappingTimer.Start();
+                        KeyMappingGrid.Items.Refresh();
                     }
-                }
-                catch (Exception ex001)
-                {
-                    Diagnostics.WriteLogFile(ex001);
-                    Close();
                 }
             }
             catch (Exception ex)
             {
-                // need this as some error might happen when detected a new device.
                 Diagnostics.Log(ex);
+                Diagnostics.ShowErrorMsgbox(ex);
+                Close();
             }
+
+            return;
         }
 
         private void ReloadKeyfilesTheatersAndUpdateUI()
@@ -253,7 +259,8 @@ namespace FalconBMS.Launcher.Windows
             }
             catch (Exception ex)
             {
-                Diagnostics.WriteLogFile(ex);
+                Diagnostics.Log(ex);
+                Diagnostics.ShowErrorMsgbox(ex);
                 Close();
             }
         }
@@ -274,7 +281,8 @@ namespace FalconBMS.Launcher.Windows
             }
             catch (Exception ex)
             {
-                Diagnostics.WriteLogFile(ex);
+                Diagnostics.Log(ex);
+                Diagnostics.ShowErrorMsgbox(ex);
                 Close();
             }
         }
@@ -293,7 +301,8 @@ namespace FalconBMS.Launcher.Windows
             }
             catch (Exception ex)
             {
-                Diagnostics.WriteLogFile(ex);
+                Diagnostics.Log(ex);
+                Diagnostics.ShowErrorMsgbox(ex);
                 Close();
             }
         }
@@ -312,7 +321,8 @@ namespace FalconBMS.Launcher.Windows
             }
             catch (Exception ex)
             {
-                Diagnostics.WriteLogFile(ex);
+                Diagnostics.Log(ex);
+                Diagnostics.ShowErrorMsgbox(ex);
                 Close();
             }
         }
@@ -324,8 +334,6 @@ namespace FalconBMS.Launcher.Windows
         /// <param name="e"></param>
         private void Window_Closed(object sender, EventArgs e)
         {
-            Diagnostics.WriteLogFile();
-
             try
             {
                 if (appReg == null)
@@ -379,7 +387,8 @@ namespace FalconBMS.Launcher.Windows
             }
             catch (Exception ex)
             {
-                Diagnostics.WriteLogFile(ex);
+                Diagnostics.Log(ex);
+                Diagnostics.ShowErrorMsgbox(ex);
                 Close();
             }
         }
@@ -397,7 +406,8 @@ namespace FalconBMS.Launcher.Windows
             }
             catch (Exception ex)
             {
-                Diagnostics.WriteLogFile(ex);
+                Diagnostics.Log(ex);
+                Diagnostics.ShowErrorMsgbox(ex);
                 Close();
             }
         }
@@ -415,7 +425,8 @@ namespace FalconBMS.Launcher.Windows
             }
             catch (Exception ex)
             {
-                Diagnostics.WriteLogFile(ex);
+                Diagnostics.Log(ex);
+                Diagnostics.ShowErrorMsgbox(ex);
                 Close();
             }
         }
@@ -433,7 +444,8 @@ namespace FalconBMS.Launcher.Windows
             }
             catch (Exception ex)
             {
-                Diagnostics.WriteLogFile(ex);
+                Diagnostics.Log(ex);
+                Diagnostics.ShowErrorMsgbox(ex);
                 Close();
             }
         }
@@ -451,7 +463,8 @@ namespace FalconBMS.Launcher.Windows
             }
             catch (Exception ex)
             {
-                Diagnostics.WriteLogFile(ex);
+                Diagnostics.Log(ex);
+                Diagnostics.ShowErrorMsgbox(ex);
                 Close();
             }
         }
@@ -477,7 +490,8 @@ namespace FalconBMS.Launcher.Windows
             }
             catch (FileNotFoundException ex)
             {
-                Diagnostics.WriteLogFile(ex);
+                Diagnostics.Log(ex);
+                Diagnostics.ShowErrorMsgbox(ex);
                 Close();
             }
         }
@@ -515,7 +529,8 @@ namespace FalconBMS.Launcher.Windows
             }
             catch (Exception ex)
             {
-                Diagnostics.WriteLogFile(ex);
+                Diagnostics.Log(ex);
+                Diagnostics.ShowErrorMsgbox(ex);
                 Close();
             }
         }
@@ -673,7 +688,8 @@ namespace FalconBMS.Launcher.Windows
             }
             catch (Exception ex)
             {
-                Diagnostics.WriteLogFile(ex);
+                Diagnostics.Log(ex);
+                Diagnostics.ShowErrorMsgbox(ex);
                 Close();
             }
         }
@@ -839,7 +855,8 @@ namespace FalconBMS.Launcher.Windows
             }
             catch (Exception ex)
             {
-                Diagnostics.WriteLogFile(ex);
+                Diagnostics.Log(ex);
+                Diagnostics.ShowErrorMsgbox(ex);
                 Close();
             }
         }
@@ -855,7 +872,7 @@ namespace FalconBMS.Launcher.Windows
         private void ImportKeyfile_Click(object sender, RoutedEventArgs e)
         {
             MessageBoxResult ans1 = MessageBox.Show(this, 
-                "WARNING -- selecting a new key file will erase and replace all your key and button " +
+                "WARNING -- selecting a new key file will erase and replace all keyboard " +
                 "bindings, in the currently selected profile.\r\n\r\nProceed with caution!", 
                 "Import Key File - WARNING", 
                 MessageBoxButton.OKCancel, MessageBoxImage.Warning);
@@ -870,6 +887,22 @@ namespace FalconBMS.Launcher.Windows
             if (ans2 != true) return;
 
             string newKeyfilePath = ofd.FileName;
+
+            if (false == File.Exists(newKeyfilePath))
+            {
+                MessageBox.Show(this, "File not found.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (false == KeyFile.ValidateKeyfileLines(newKeyfilePath))
+            {
+                MessageBox.Show(this,
+                    "Key file contains one or more incorrectly formed lines -- please see error log at \n\n" +
+                    "\"%LocalAppData%\\Benchmark_Sims\\Launcher_Log.txt\" \n\n" +
+                    "for a complete list.", 
+                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
             deviceControl.ImportKeyfileIntoCurrentProfile(newKeyfilePath);
             UpdateCategoryHeaders();
