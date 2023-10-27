@@ -417,7 +417,6 @@ namespace FalconBMS.Launcher.Windows
                 return;
 
             string cat = catLabels[selectedIndex];
-            Debug.WriteLine($"cat: {cat}");
 
             int i = 0;
             foreach (KeyAssgn keys in deviceControl.GetKeyBindings().keyAssign)

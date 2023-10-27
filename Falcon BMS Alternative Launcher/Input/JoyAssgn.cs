@@ -196,7 +196,7 @@ namespace FalconBMS.Launcher.Input
             }
             catch
             {
-                System.Diagnostics.Debug.WriteLine("(Catching exception from hwDevice.CurrentJoystickState.)");
+                Diagnostics.Log("JoyAssgn: catching exception from hwDevice.CurrentJoystickState.");
                 return 0;
             }
         }

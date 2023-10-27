@@ -13,8 +13,7 @@ namespace FalconBMS.Launcher
         public App()
         {
             Current.DispatcherUnhandledException += App_DispatcherUnhandledException;
-            Diagnostics.WriteLogFile(false, "Log Start");
-            Diagnostics.Log("Application Initialization completed successfully.", Diagnostics.LogLevels.Info);
+            Diagnostics.Log("Application Initialization starting.");
         }
 
         private static void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
@@ -25,23 +24,20 @@ namespace FalconBMS.Launcher
                     MessageBoxButton.OK, MessageBoxImage.Information);
 
                 e.Handled = true;
+                return;
             }
 
-            else
+            if (Debugger.IsAttached)
             {
-                Debug.WriteLine(e.ToString());
-
-                // Skip this step if debugging so the debugger can catch errors.
-                if (Debugger.IsAttached) return;
-
-                MessageBox.Show("An unknown error has occured. Contact support if this problem persists.", "Error",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
-
-                Diagnostics.Log(e.ToString());
-                Diagnostics.WriteLogFile();
-
-                e.Handled = true;
+                Debug.WriteLine(e.Exception.ToString());
+                Debugger.Break();
             }
+
+            Diagnostics.Log(e.Exception);
+            Diagnostics.ShowErrorMsgbox(e.Exception);
+
+            e.Handled = true;
+            return;
         }
     }
 }

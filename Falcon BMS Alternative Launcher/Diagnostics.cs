@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
-using System.Windows.Forms;
+using System.Windows;
 
 namespace FalconBMS.Launcher
 {
@@ -15,94 +16,68 @@ namespace FalconBMS.Launcher
             Exception,
         }
 
-        #region Fields
+        static StreamWriter logWriter;
 
-        internal static string logData;
+        static Diagnostics()
+        {
+            string appDataPath = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData, Environment.SpecialFolderOption.Create)}";
+            string logFileDirectory = Path.Combine(appDataPath, @"Benchmark_Sims");
 
-        public static readonly string AppDataPath = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData, Environment.SpecialFolderOption.Create)}" + "\\Benchmark_Sims";
+            if (false == Directory.Exists(logFileDirectory))
+                Directory.CreateDirectory(logFileDirectory);
 
-        public static readonly string LogFilePath = $"{AppDataPath}" + "\\Launcher_Log.txt";
+            string logFilePath = Path.Combine(logFileDirectory, @"Launcher_Log.txt");
 
-        #endregion
-
-        #region Methods
+            logWriter = Utils.CreateUtf8TextWihoutBom(logFilePath, append:false);
+            logWriter.AutoFlush = true;
+        }
 
         public static void Log(string message)
         {
-            string message2 = $"[{DateTime.Now}] [INFO] :: {message}";
-            logData = logData + message2 + "\r\n";
-            //WriteLogFile(logData);
+            Log(message, LogLevels.Info);
         }
 
         public static void Log(string message, LogLevels logLevel)
         {
-            string message2 = $"[{DateTime.Now}] [{GetLogLevelText(logLevel)}] :: {message}";
-            logData = logData + message2 + "\r\n";
-            //WriteLogFile(logData);
+            string level = GetLogLevelText(logLevel);
+
+            Debug.WriteLine($"LOG_{level}: " + message);
+
+            string message2 = $"[{DateTime.Now}] [{level}] :: {message}";
+            logWriter.WriteLine(message2);
         }
 
         public static void Log(Exception exception)
         {
+            Debug.WriteLine("LOG_EXCEPTION: " + exception.Message);
+
             string message2 = $"[{DateTime.Now}] [EXCEPTION] {exception.Message}:: \r\n \r\n Source: {exception.Source} \r\n Target Site: {exception.TargetSite} \r\n Message: {exception.Message} \r\n Details: {exception.InnerException} \r\n \r\n Exception Data: {exception.Data} \r\n \r\n Stack Trace: {exception.StackTrace} \r\n ============ \r\n";
-            logData = logData + message2 + "\r\n";
-            //WriteLogFile(logData);
+            logWriter.WriteLine(message2);
         }
 
-        public static void Log(Exception exception, string message)
+        public static void ShowErrorMsgbox(Exception ex)
         {
-            string message2 = $"[{DateTime.Now}] [EXCEPTION] {exception.Message} \r\n {message} \r\n Source: {exception.Source} \r\n Target Site: {exception.TargetSite} \r\n Message: {exception.Message} \r\n Details: {exception.InnerException} \r\n \r\n Exception Data: {exception.Data} \r\n \r\n Stack Trace: {exception.StackTrace} \r\n ============ \r\n";
-            logData = logData + message2 + "\r\n";
-            //WriteLogFile(logData);
+            ShowErrorMsgbox(
+                "An unknown problem occurred, check error log for details:\r\n\r\n"+
+                "%LocalAppData%\\Benchmark_Sims\\Launcher_Log.txt", ex);
         }
 
-        public static void WriteLogFile()
+        public static void ShowErrorMsgbox(string message, Exception ex = null)
         {
-            WriteLogFile(false, logData);
+            if (ex != null)
+                message += "\r\n\r\n" + ex.GetType() + "\r\n" + ex.Message;
+
+            MessageBox.Show(message, "Error",
+                MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
-        public static void WriteLogFile(Exception e)
+        public static void FinalizeLogfile()
         {
-            WriteLogFile(false, logData + $"{e}");
-            MessageBox.Show("Error Log Saved to " + LogFilePath);
+            logWriter.Close();
+            logWriter = null;
         }
 
-        public static void WriteLogFile(bool append, Exception e)
-        {
-            WriteLogFile(append, $"{e}");
-            MessageBox.Show("Error Log Saved to " + LogFilePath);
-        }
-
-        public static void WriteLogFile(bool append, string args)
-        {
-            try
-            {
-                if (!Directory.Exists(AppDataPath))
-                {
-                    Directory.CreateDirectory(AppDataPath);
-                }
-
-                DirectoryInfo dirInfo = new DirectoryInfo(AppDataPath);
-                dirInfo.Attributes = dirInfo.Attributes & ~FileAttributes.ReadOnly;
-
-                if (!File.Exists(LogFilePath))
-                {
-                    FileStream fs = File.Create(LogFilePath);
-                    fs.Close();
-                    File.SetCreationTimeUtc(LogFilePath, DateTime.UtcNow);
-                }
-
-                StreamWriter file = new StreamWriter(LogFilePath, append, Encoding.Default);
-
-                file.Write(args);
-                file.Close(); 
-            }
-            catch
-            {
-                MessageBox.Show(args);
-            }
-        }
-
-        internal static string GetLogLevelText(LogLevels logLevel)
+        private static string GetLogLevelText(LogLevels logLevel)
         {
             switch (logLevel)
             {
@@ -115,10 +90,9 @@ namespace FalconBMS.Launcher
                 case LogLevels.Exception:
                     return "EXCEPTION";
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(logLevel), logLevel, null);
+                    throw new InvalidProgramException("GetLogLevelText");
             }
         }
 
-        #endregion
     }
 }
