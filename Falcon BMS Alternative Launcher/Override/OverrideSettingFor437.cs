@@ -120,7 +120,9 @@ namespace FalconBMS.Launcher.Override
             bs[0] &= 0b01110011; //turn off bits 3,4 and 8.. maybe necessary if older pop file is ported forward from older BMS? not sure
             bs[0] |= 0b00010011; //turn on bits 1,2 and 5
             if (mainWindow.Misc_PilotModel.IsChecked == true)
-                bs[0] |= 0b00100000; //turn on bit 6
+                bs[0] |= 0b00100000; //mask-on bit 6
+            else
+                bs[0] &= 0b11011111; //mask-off bit 6
 
             fs = new FileStream
                 (filename, FileMode.Create, FileAccess.Write);

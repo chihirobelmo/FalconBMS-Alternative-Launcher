@@ -116,7 +116,9 @@ namespace FalconBMS.Launcher.Override
             // Pilot Model
             bs[0] = 0x13;
             if (mainWindow.Misc_PilotModel.IsChecked == true)
-                bs[0] |= 0b00100000; //turn on bit 6
+                bs[0] |= 0b00100000; //mask-on bit 6
+            else
+                bs[0] &= 0b11011111; //mask-off bit 6
 
             fs = new FileStream
                 (filename, FileMode.Create, FileAccess.Write);
