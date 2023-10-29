@@ -119,6 +119,11 @@ namespace FalconBMS.Launcher.Windows
             string lbkPath = System.IO.Path.Combine(configFolder, pilotCallsign + ".lbk");
             string lbkPathDQ = $"{dq}{lbkPath}{dq}";
 
+            // Bugfix: don't overwrite existing lbk! This situation can happen for variety of reasons.. after changing
+            // current pilot callsign in-game.. or after a fresh reinstall, and copying over Callsign.pop, ini and lbk
+            if (File.Exists(lbkPath))
+                return;
+
             string command = $"-o {lbkPathDQ} write-default --name {pilotNameDQ} --callsign {pilotCallsignDQ}";
             //string command = 
             //    "-o \"" 
