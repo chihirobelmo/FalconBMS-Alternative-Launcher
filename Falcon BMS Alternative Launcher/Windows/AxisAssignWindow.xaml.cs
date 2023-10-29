@@ -347,24 +347,25 @@ namespace FalconBMS.Launcher.Windows
 
             try
             {
-                if (sw.ElapsedMilliseconds > CommonConstants.FLUSHTIME2)
-                {
-                    Microsoft.DirectX.DirectInput.DeviceList devList =
-                    Microsoft.DirectX.DirectInput.Manager.GetDevices(
-                    Microsoft.DirectX.DirectInput.DeviceClass.GameControl,
-                    Microsoft.DirectX.DirectInput.EnumDevicesFlags.AttachedOnly
-                    );
+                //REVIEW: data-loss when device list changes
+                //if (sw.ElapsedMilliseconds > CommonConstants.FLUSHTIME2)
+                //{
+                //    Microsoft.DirectX.DirectInput.DeviceList devList =
+                //    Microsoft.DirectX.DirectInput.Manager.GetDevices(
+                //    Microsoft.DirectX.DirectInput.DeviceClass.GameControl,
+                //    Microsoft.DirectX.DirectInput.EnumDevicesFlags.AttachedOnly
+                //    );
 
-                    if (devList.Count != MainWindow.deviceControl.GetJoystickMappingsForAxes().Length)
-                    {
-                        mainWindow.ReloadDevicesAndXmlMappings();
-                        Reset();
-                        mainWindow.UpdateAxisStatus();
-                    }
+                //    if (devList.Count != MainWindow.deviceControl.GetJoystickMappingsForAxes().Length)
+                //    {
+                //        mainWindow.ReloadDevicesAndXmlMappings();
+                //        Reset();
+                //        mainWindow.UpdateAxisStatus();
+                //    }
 
-                    sw.Reset();
-                    sw.Start();
-                }
+                //    sw.Reset();
+                //    sw.Start();
+                //}
 
                 switch (status)
                 {
