@@ -39,7 +39,7 @@ namespace FalconBMS.Launcher.Starter
                     mainWindow.executeOverride();
 
                     string testPlatform = appReg.GetInstallDir() + "/Bin/x64/Falcon BMS Test.exe";
-                    if (File.Exists(testPlatform) && MessageBox.Show("Start Test Exe?", "Launcher", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    if (File.Exists(testPlatform) && MessageBox.Show(Program.mainWin, "Start Test Exe?", "Launcher", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     {
                         process = System.Diagnostics.Process.Start(testPlatform, strCmdText);
                         MainWindow.bmsHasBeenLaunched = true;

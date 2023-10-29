@@ -129,6 +129,7 @@
     <Compile Include="Diagnostics.cs" />
     <Compile Include="Input\DxAssgn.cs" />
     <Compile Include="Input\InGameAxAssgn.cs" />
+    <None Include="Input\CmdLineArgs.md" />
     <Compile Include="Input\KeyFile.cs" />
     <Compile Include="Override\OverrideSettingFor438.cs" />
     <Compile Include="Starter\Starter436I.cs" />

@@ -240,14 +240,7 @@ namespace FalconBMS.Launcher.Windows
             }
             catch (FileNotFoundException ex)
             {
-                Console.WriteLine(ex.Message);
-
-                StreamWriter sw = new StreamWriter(appReg.GetInstallDir() + "\\Error.txt", false, Encoding.GetEncoding("shift_jis"));
-                sw.Write(ex.Message);
-                sw.Close();
-
-                MessageBox.Show("Error Log Saved To " + appReg.GetInstallDir() + "\\Error.txt", "WARNING", MessageBoxButton.OK, MessageBoxImage.Information);
-
+                Diagnostics.Log(ex);
                 Close();
             }
         }

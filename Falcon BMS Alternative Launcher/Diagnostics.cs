@@ -67,7 +67,7 @@ namespace FalconBMS.Launcher
             if (ex != null)
                 message += "\r\n\r\n" + ex.GetType() + "\r\n" + ex.Message;
 
-            MessageBox.Show(message, "Error",
+            MessageBox.Show(Program.mainWin, message, "Error",
                 MessageBoxButton.OK, MessageBoxImage.Error);
         }
 

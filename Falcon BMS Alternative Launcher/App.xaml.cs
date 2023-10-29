@@ -20,7 +20,7 @@ namespace FalconBMS.Launcher
         {
             if (e.Exception is NotImplementedException)
             {
-                MessageBox.Show("This feature has not yet been implemented.", "Feature not Implemented",
+                MessageBox.Show(Program.mainWin, "This feature has not yet been implemented.", "Feature not Implemented",
                     MessageBoxButton.OK, MessageBoxImage.Information);
 
                 e.Handled = true;
