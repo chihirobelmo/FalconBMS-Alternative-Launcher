@@ -19,8 +19,9 @@ namespace FalconBMS.Launcher.Input
             // Verify file exists.
             if (File.Exists(filename) == false)
             {
+                Diagnostics.Log("Unable to find key file: " + filename, Diagnostics.LogLevels.Warning);
                 MessageBoxResult result = MessageBox.Show
-                    ("App could not find " + filename, "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    (Program.mainWin, "App could not find " + filename, "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 return;
             }
 
@@ -153,53 +154,63 @@ namespace FalconBMS.Launcher.Input
 #endif
             }
 
+            private readonly static Dictionary<string, string> _patternMap = new Dictionary<string, string>() {
+                { "@DoubleQuote", @"\x22" },
+                { "@NumberSign", @"\x23" },
+                { "@MinusSymbol", @"\x2D" },
+                { "@CallbackIdentifier", "[A-Za-z0-9_]+" },
+                { "@HexIdentifier", "0([xX][0-9A-Fa-f]{1,8})?" },
+                { "@DQDelimitedText", "bar" },
+                { "@TrailingComment", "bar" },
+            };
+
             public static Regex LineComment = Create(@"(?nsx) #ExplicitCapture, Singleline, IgnorePatternWhitespace
                 ^
-                    \s* \x23 .* # \x23: number symbol
+                    \s* @NumberSign .*
                 $"
             );
 
             public static Regex CategoryHeaderLine = Create(@"(?nsx) #ExplicitCapture, Singleline, IgnorePatternWhitespace
                 ^\s*
-                    SimDoNothing \s+ -1 \s+ 0 \s+ 0[xX]FFFFFFFF \s+ 0 \s+ 0 \s+ 0 \s+ -1 \s+ (?<categoryHeaderDQ>\x22 \d+\.\s [^\x22]+ \x22)
+                    SimDoNothing \s+ -1 \s+ 0 \s+ 0[xX]FFFFFFFF \s+ 0 \s+ 0 \s+ 0 \s+ -1 \s+ (?<categoryHeaderDQ> @DoubleQuote \d+\. \s [^@DoubleQuote]+ @DoubleQuote)
                 \s*$"
             );
 
             public static Regex KeyBindingLine = Create(@"(?nsx) #ExplicitCapture, Singleline, IgnorePatternWhitespace
                 ^\s*
-                    (?<callbackName> [A-Za-z0-9_]+ )
+                    (?<callbackName> @CallbackIdentifier )
                 \s+
-                    (?<soundId> \x2D?\d+ ) # \x2D: minus symbol
+                    (?<soundId> @MinusSymbol?\d+ )
                 \s+
-                    (?<unused0> 0 )
+                    (?<unused> \d+ ) #note: typically 0 but some older keyfiles have digits here
                 \s+
-                    (?<keyScancodeHex> 0([xX][0-9A-Fa-f]{1,8})? )
+                    (?<keyScancodeHex> @HexIdentifier )
                 \s+
                     (?<keyModifierFlags> [0-7] )
                 \s+
-                    (?<chordScancodeHex> 0([xX][0-9A-Fa-f]{1,8})? )
+                    (?<chordScancodeHex> @HexIdentifier )
                 \s+
                     (?<chordModifierFlags> [0-7] )
                 \s+
-                    (?<displayFlags> \x2D?\d ) # \x2D: minus symbol
+                    (?<displayFlags> @MinusSymbol?\d )
                 \s+
-                    (?<descriptionStringDQ> \x22.*\x22 ) # \x22: doublequote char
+                    (?<descriptionStringDQ> @DoubleQuote [^@DoubleQuote]* @DoubleQuote )
                     (
                         \s*
-                        (?<trailingComment> \x23 .* ) # optional trailing comment
+                        (?<trailingComment> @NumberSign .* ) # optional trailing comment
                     )?
                 \s*$"
             );
 
             public static Regex ButtonOrHatBindingLine = Create(@"(?nsx) #ExplicitCapture, Singleline, IgnorePatternWhitespace
                 ^\s*
-                    (?<callbackName> [A-Za-z0-9_]+ )
+                    (?<callbackName> @CallbackIdentifier )
                 \s+
                     (?<bmsButtonId> \d+ )
                 \s+
-                    (?<invocatonBehavior> (\x2D[124])|8 ) # -1, -2, -4, or 8
+                    (?<invocatonBehavior> ( 8 | @MinusSymbol[124] )) # 8 or -1, -2, -4
                 \s+
-                    (?<buttonOrHat> \x2D[23] ) # -2: button, -3: pov-hat
+                    (?<buttonOrHat> @MinusSymbol[23] ) # -2: button, -3: pov-hat
                 \s+
                     (?<pressOrRelease> (0|0x42|[0-7]) ) # 0: press, 0x42: release (or [0-7] for 8-way hat direction)
                 \s+
@@ -210,17 +221,26 @@ namespace FalconBMS.Launcher.Input
                     )?
                     (
                         \s+
-                        (?<descriptionStringDQ> \x22.*\x22 ) # optional, \x22: doublequote char
+                        (?<descriptionStringDQ> @DoubleQuote [^@DoubleQuote]* @DoubleQuote ) # optional
                     )?
                     (
                         \s*
-                        (?<trailingComment> \x23 .* ) # optional trailing comment
+                        (?<trailingComment> @NumberSign .* ) # optional trailing comment
                     )?
                 \s*$"
             );
 
             private static Regex Create(string pattern)
             {
+                // Replace canned subpatterns eg. @CallbackIdentifier expands to "[A-Za-z0-9_]+".
+                foreach (string atkey in _patternMap.Keys)
+                {
+                    string subpatt = _patternMap[atkey];
+                    if (pattern.Contains(atkey))
+                        pattern = pattern.Replace(atkey, subpatt);
+                }
+                Debug.Assert(false == pattern.Contains("@"));
+
                 RegexOptions defaultOpts = RegexOptions.CultureInvariant | RegexOptions.Compiled;
                 return new Regex(pattern, defaultOpts);
             }
@@ -241,16 +261,18 @@ namespace FalconBMS.Launcher.Input
                 Debug.Assert(KeyBindingLine.IsMatch(@"SimIFFBackupM1Digit1_0 312 0 0XFFFFFFFF 0 0 0 1 ""AUX: IFF MODE I - 0* **"""));
                 Debug.Assert(KeyBindingLine.IsMatch(@"SimDoNothing -1 0 0xFFFFFFFF 0 0 0 -0 ""Test: optional trailing comment""#foo"));
                 Debug.Assert(KeyBindingLine.IsMatch(@"SimDoNothing -1 0 0xFFFFFFFF 0 0 0 -0 ""Test: optional trailing comment"" # foo "));
+                Debug.Assert(KeyBindingLine.IsMatch(@"SimDoNothing -1 99 0xFFFFFFFF 0 0 0 -0 ""Test: nonzero unused number field"""));
 
                 Debug.Assert(ButtonOrHatBindingLine.IsMatch(@"SimHookToggle 123 -1 -2 0 0x0 0"));
                 Debug.Assert(ButtonOrHatBindingLine.IsMatch(@"SimTrimAPDisc 42 -2 -2 0 0x0 0"));
                 Debug.Assert(ButtonOrHatBindingLine.IsMatch(@"SimTrimAPDisc 42 -2 -2 0x42 0x0 0"));
                 Debug.Assert(ButtonOrHatBindingLine.IsMatch(@"AFElevatorTrimUp 2 -1 -3 0 0x0"));
-                Debug.Assert(ButtonOrHatBindingLine.IsMatch(@"AFElevatorTrimUp 2 -1 -3 0 0x0 0"));
+                Debug.Assert(ButtonOrHatBindingLine.IsMatch(@"AFElevatorTrimDown 2 -1 -3 4 0x0 0"));
                 Debug.Assert(ButtonOrHatBindingLine.IsMatch(@"AFElevatorTrimUp 2 -1 -3 0 0x0 -1"));
                 Debug.Assert(ButtonOrHatBindingLine.IsMatch(@"AFElevatorTrimUp 2 -1 -3 0 0x0 -1 ""optional description"""));
                 Debug.Assert(ButtonOrHatBindingLine.IsMatch(@"SimDoNothing 1 -1 -2 0 0x0 0#foo"));
                 Debug.Assert(ButtonOrHatBindingLine.IsMatch(@"SimDoNothing 1 -1 -2 0 0x0 0 # foo "));
+                Debug.Assert(ButtonOrHatBindingLine.IsMatch(@"SimDoNothing 1 -1 -2 0 0x8 0 # Test: nonzero unused number field "));
 #endif
             }
         }
