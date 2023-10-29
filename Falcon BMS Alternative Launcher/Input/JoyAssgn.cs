@@ -411,8 +411,14 @@ namespace FalconBMS.Launcher.Input
             Debug.Assert(otherJoy.dx.Length == this.dx.Length);
             Debug.Assert(otherJoy.pov.Length == this.pov.Length);
 
-            Array.Copy(otherJoy.dx, this.dx, this.dx.Length);
-            Array.Copy(otherJoy.pov, this.pov, this.pov.Length);
+            int ndx = Math.Min(this.dx.Length, otherJoy.dx.Length);
+            for (int i = 0; i < ndx; i++)
+                this.dx[i] = otherJoy.dx[i].Clone();
+
+            int npov = Math.Min(this.pov.Length, otherJoy.pov.Length);
+            for (int i = 0; i < npov; i++)
+                this.pov[i] = otherJoy.pov[i].Clone();
+
             return;
         }
 
