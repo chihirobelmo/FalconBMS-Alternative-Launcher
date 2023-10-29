@@ -279,7 +279,7 @@ namespace FalconBMS.Launcher.Windows
 
                             target = joyAssgns[i].pov[ii].direction[povs[ii] / CommonConstants.POV45].GetCallback(pinkyStatus);
 
-                            string direction = joyAssgns[i].pov[ii].GetDirection(povs[ii]);
+                            string direction = joyAssgns[i].pov[ii].GetDirectionLabel(povs[ii]);
                             Label_AssgnStatus.Content = "POV" + (ii + 1) + "." + direction + "\t: " + joyAssgns[i].GetProductName();
                         }
                     }

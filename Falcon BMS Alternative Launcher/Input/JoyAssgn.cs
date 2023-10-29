@@ -385,7 +385,7 @@ namespace FalconBMS.Launcher.Input
             {
                 for (int ii = 0; ii < pov[i].direction.Length; ii++)
                 {
-                    string direction = pov[i].GetDirection(ii);
+                    string direction = pov[i].GetDirectionLabel(ii);
                     for (int iii = 0; iii < 2; iii++)
                     {
                         if (pov[i].direction[ii].GetCallback((Pinky)iii) == CommonConstants.SIMDONOTHING)

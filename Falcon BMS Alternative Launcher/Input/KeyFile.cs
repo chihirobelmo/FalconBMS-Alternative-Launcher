@@ -131,6 +131,24 @@ namespace FalconBMS.Launcher.Input
             );
         }
 
+        public KeyAssgn LookupCallback(string callbackName)
+        {
+            foreach (KeyAssgn ka in this.keyAssign)
+                if (ka.GetCallback() == callbackName) return ka;
+            return null;
+        }
+
+        public KeyAssgn ReverseLookupKeyboardInput(int catchedScanCode, bool shift, bool ctrl, bool alt)
+        {
+            int modflags = 0 + ( shift ? 1 : 0 ) + ( ctrl ? 2 : 0 ) + ( alt ? 4 : 0 );
+
+            foreach (KeyAssgn ka in this.keyAssign)
+                if (ka.GetScancode() == catchedScanCode && ka.GetModFlags() == modflags && ka.GetKeycombo() == "0")
+                    return ka;
+
+            return null;
+        }
+
         public KeyFile(IReadOnlyList<KeyAssgn> keyAssign)
         {
             this.keyAssign = new KeyAssgn[keyAssign.Count];

@@ -146,20 +146,6 @@ namespace FalconBMS.Launcher.Input
         {
             return joyAssign;
         }
-        //public JoyAssgn[] GetJoystickMappingsForProfile(string profile)
-        //{
-        //    switch (profile)
-        //    {
-        //        case null:
-        //            return joyAssign;
-        //        case CommonConstants.F15_TAG:
-        //            List<JoyAssgn> list = new List<JoyAssgn>();
-        //            foreach (JoyAssgn joy in joyAssign)
-        //                list.Add(joy);
-        //            return list.ToArray();
-        //    }
-        //    throw new System.ArgumentException("avionicsProfile");
-        //}
 
         public void UpdateAvionicsProfile(string profile)
         {
