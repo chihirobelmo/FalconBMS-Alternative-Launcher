@@ -14,7 +14,7 @@ namespace FalconBMS.Launcher.Input
         /// [2]=RELEASE
         /// [3]=RELEASE + SHIFT
         /// </summary>
-        public Assgn[] assign = new Assgn[CommonConstants.DX_MAX_HATS];
+        public Assgn[] assign = new Assgn[4];
 
         // Constructor
         public DxAssgn()
@@ -32,6 +32,11 @@ namespace FalconBMS.Launcher.Input
         public void Assign(string callback, Pinky pinky, Behaviour behaviour, Invoke invoke, int soundID)
         {
             assign[(int)pinky + (int)behaviour] = new Assgn(callback, invoke, soundID);
+        }
+
+        public string GetCurrentCallback(Pinky pinky, Behaviour behaviour)
+        {
+            return assign[(int)pinky + (int)behaviour].GetCallback();
         }
 
         public DxAssgn Clone()

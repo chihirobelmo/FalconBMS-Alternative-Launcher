@@ -18,13 +18,15 @@ namespace FalconBMS.Launcher.Input
         protected string visibility = "-0";                    // 8th: 1=Visible -1=Headline -0=Locked -2=hidden
         protected string description = "!Alt Launcher ERROR!"; // 9th: The description
 
+        protected int numericScancode;
+        protected int numericModFlags;
+
         // for Datagrid Display //
         public string Visibility { get; set; }
         public string Mapping => " " + description.Replace("\"","");
 
         public string Key {
             get => GetKeyAssignmentStatus();
-            set => keyboard = value;
         }
 
         public string GetCallback() { return callback; }
@@ -32,6 +34,9 @@ namespace FalconBMS.Launcher.Input
         public string GetKeycomboMod() { return keycomboMod; }
         public string GetKeyDescription() { return description; }
         public int GetSoundID() { return Int32.Parse(soundID); }
+
+        public int GetScancode() { return numericScancode; }
+        public int GetModFlags() { return numericModFlags; }
 
         public KeyAssgn() { }
 
@@ -41,7 +46,9 @@ namespace FalconBMS.Launcher.Input
             soundID = stringParams[1];
             none = stringParams[2];
             keyboard = stringParams[3];
+            numericScancode = Convert.ToInt32(keyboard, fromBase:16);
             modifier = stringParams[4];
+            numericModFlags = Convert.ToInt32(modifier, fromBase:10);
             keycombo = stringParams[5];
             keycomboMod = stringParams[6];
             visibility = stringParams[7];
@@ -70,13 +77,15 @@ namespace FalconBMS.Launcher.Input
                 visibility = "White";
         }
 
-        public void getOtherKeyInstance(KeyAssgn otherInstance)
+        public void CopyOtherKeyAssgn(KeyAssgn otherInstance)
         {
             callback    = otherInstance.callback;
             soundID     = otherInstance.soundID;
             none        = otherInstance.none;
             keyboard    = otherInstance.keyboard;
+            numericScancode = otherInstance.numericScancode;
             modifier    = otherInstance.modifier;
+            numericModFlags = otherInstance.numericModFlags;
             keycombo    = otherInstance.keycombo;
             keycomboMod = otherInstance.keycomboMod;
             visibility  = otherInstance.visibility;
@@ -145,6 +154,9 @@ namespace FalconBMS.Launcher.Input
             modifier = code.ToString();
 
             keyboard = "0x" + scancode10.ToString("X");
+
+            numericScancode = scancode10;
+            numericModFlags = code;
         }
 
         /// <summary>
@@ -180,6 +192,9 @@ namespace FalconBMS.Launcher.Input
             modifier = "0";
             keycombo = "0";
             keycomboMod = "0";
+
+            numericScancode = 0;
+            numericModFlags = 0;
         }
 
         /// <summary>
@@ -221,8 +236,7 @@ namespace FalconBMS.Launcher.Input
                         break;
                 }
 
-                string scancodestr = keycombo.Remove(0, 2);
-                int scancode10 = Convert.ToInt32(scancodestr, 16);
+                int scancode10 = Convert.ToInt32(keycombo, fromBase:16);
 
                 // int -> enum
                 Key int2enum = (Key)scancode10;
@@ -261,8 +275,7 @@ namespace FalconBMS.Launcher.Input
                         break;
                 }
 
-                string scancodestr = keyboard.Replace("0x","");
-                int scancode10 = Convert.ToInt32(scancodestr, 16);
+                int scancode10 = Convert.ToInt32(keyboard, fromBase:16);
 
                 // int -> enum
                 Key int2enum = (Key)scancode10;

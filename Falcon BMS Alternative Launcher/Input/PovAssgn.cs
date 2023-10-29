@@ -23,19 +23,26 @@
         }
 
         // Method
-        public void Assign(int GetPointofView, string callback, Pinky pinky, int soundID)
+        public void Assign(int povDir, string callback, Pinky pinky, int soundID)
         {
-            if (GetPointofView > 7)
-                GetPointofView /= 4500;
-            direction[GetPointofView].Assign(callback, pinky, soundID);
+            if (povDir > 7)
+                povDir /= 4500;
+            direction[povDir].Assign(callback, pinky, soundID);
         }
 
-        public string GetDirection(int GetPointOfView)
+        public string GetCurrentCallback(int povDir, Pinky pinky)
+        {
+            if (povDir > 7)
+                povDir /= 4500;
+            return this.direction[povDir].GetCallback(pinky);
+        }
+
+        public string GetDirectionLabel(int povDir)
         {
             string direction = "";
-            if (GetPointOfView > 7)
-                GetPointOfView /= 4500;
-            switch (GetPointOfView)
+            if (povDir > 7)
+                povDir /= 4500;
+            switch (povDir)
             {
                 case 0:
                     direction = "UP";

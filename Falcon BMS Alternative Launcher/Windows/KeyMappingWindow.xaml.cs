@@ -51,6 +51,8 @@ namespace FalconBMS.Launcher.Windows
             Select_PinkyShift.IsChecked = true;
             Select_DX_Release.IsChecked = true;
 
+            CurrentlyMapped.Visibility = Visibility.Hidden;
+
             Reset();
         }
 
@@ -211,6 +213,21 @@ namespace FalconBMS.Launcher.Windows
                     if (Select_DX_Release.IsChecked == false)
                         behaviourStatus = Behaviour.Release;
 
+                    // Determine if this input is already mapped to another callback, and display warning/hint if so.
+                    string currCallbackAssgn = joyAssgns[i].dx[ii].GetCurrentCallback(pinkyStatus, behaviourStatus);
+                    if (String.IsNullOrEmpty(currCallbackAssgn) || currCallbackAssgn == "SimDoNothing")
+                    {
+                        this.CurrentlyMapped.Visibility = Visibility.Hidden;
+                    }
+                    else
+                    {
+                        KeyAssgn currCallback = keyFile.LookupCallback(currCallbackAssgn);
+                        string currCallbackDescr = "Button currently bound to:\r\n" + currCallback.GetKeyDescription();
+
+                        this.CurrentlyMapped.Text = currCallbackDescr;
+                        this.CurrentlyMapped.Visibility = Visibility.Visible;
+                    }
+
                     // Construct DX button instance.
                     if (tmpKeyboard.GetCallback() == "SimHotasPinkyShift" || tmpKeyboard.GetCallback() == "SimHotasShift")
                     {
@@ -241,6 +258,21 @@ namespace FalconBMS.Launcher.Windows
                     if (Select_PinkyShift.IsChecked == false)
                         pinkyStatus = Pinky.Shift;
 
+                    // Determine if this input is already mapped to another callback, and display warning/hint if so.
+                    string currCallbackAssgn = joyAssgns[i].pov[ii].GetCurrentCallback(povs[ii], pinkyStatus);
+                    if (String.IsNullOrEmpty(currCallbackAssgn) || currCallbackAssgn == "SimDoNothing")
+                    {
+                        this.CurrentlyMapped.Visibility = Visibility.Hidden;
+                    }
+                    else
+                    {
+                        KeyAssgn currCallback = keyFile.LookupCallback(currCallbackAssgn);
+                        string currCallbackDescr = "POV-hat input currently bound to:\r\n" + currCallback.GetKeyDescription();
+
+                        this.CurrentlyMapped.Text = currCallbackDescr;
+                        this.CurrentlyMapped.Visibility = Visibility.Visible;
+                    }
+
                     // Construct POV button instance.
                     tmpJoyStick[i].pov[ii].Assign(povs[ii], tmpKeyboard.GetCallback(), pinkyStatus, 0);
 
@@ -255,10 +287,10 @@ namespace FalconBMS.Launcher.Windows
             directInputDevice.GetCurrentKeyboardState();
             for (int i = 1; i < CommonConstants.KEYBOARD_KEYLENGTH; i++)
                 if (directInputDevice.KeyboardState[(Microsoft.DirectX.DirectInput.Key)i])
-                    KeyMappingGrid_KeyDown();
+                    HandleKeyDown();
         }
 
-        private void KeyMappingGrid_KeyDown()
+        private void HandleKeyDown()
         {
             bool Shift = false;
             bool Ctrl = false;
@@ -311,6 +343,21 @@ namespace FalconBMS.Launcher.Windows
             if (Select_PinkyShift.IsChecked == false)
                 pinkyStatus = Pinky.Shift;
 
+            // Determine if this input is already mapped to another callback, and display warning/hint if so.
+            KeyAssgn currCallbackAssgn = keyFile.ReverseLookupKeyboardInput(catchedScanCode, Shift, Ctrl, Alt);
+            if (currCallbackAssgn == null || currCallbackAssgn.GetCallback() == "SimDoNothing")
+            {
+                this.CurrentlyMapped.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                string currCallbackDescr = "Keyboard input currently bound to:\r\n" + currCallbackAssgn.GetKeyDescription();
+
+                this.CurrentlyMapped.Text = currCallbackDescr;
+                this.CurrentlyMapped.Visibility = Visibility.Visible;
+            }
+
+            // Assign to temp model.
             if (pinkyStatus == Pinky.UnShift)
                 tmpKeyboard.SetKeyboard(catchedScanCode, Shift, Ctrl, Alt);
             if (pinkyStatus == Pinky.Shift)
@@ -412,7 +459,7 @@ namespace FalconBMS.Launcher.Windows
             {
                 joyAssgns[i].CopyButtonsAndHatsFromCurrentProfile(tmpJoyStick[i]);
             }
-            selectedCallback.getOtherKeyInstance(tmpKeyboard);
+            selectedCallback.CopyOtherKeyAssgn(tmpKeyboard);
 
             // Unassign the previous mapping that was assigned to this key/key combo.
             KeyAssgn oldKey = keyFile.keyAssign.FirstOrDefault(x => x != selectedCallback && x.GetKeyAssignmentStatus() == selectedCallback.GetKeyAssignmentStatus());
