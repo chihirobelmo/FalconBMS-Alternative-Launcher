@@ -21,10 +21,10 @@ namespace FalconBMS.Launcher.Windows
         private DeviceControl deviceControlRef;
 
         private KeyFile       keyFile;
-        private KeyAssgn      SelectedCallback;
+        private KeyAssgn      selectedCallback;
 
         private JoyAssgn[] tmpJoyStick;
-        private KeyAssgn   tmpCallback;
+        private KeyAssgn   tmpKeyboard;
 
         private DirectInputKeyboard directInputDevice = new DirectInputKeyboard();
         private DispatcherTimer     KeyMappingTimer   = new DispatcherTimer();
@@ -37,16 +37,16 @@ namespace FalconBMS.Launcher.Windows
 
         private bool pressedByHand;
 
-        public KeyMappingWindow(DeviceControl deviceControl, KeyAssgn SelectedCallback)
+        public KeyMappingWindow(DeviceControl deviceControl, KeyAssgn selectedCallback)
         {
             InitializeComponent();
 
-            this.SelectedCallback = SelectedCallback;
+            this.selectedCallback = selectedCallback;
 
             this.deviceControlRef = deviceControl;
             this.keyFile = deviceControl.GetKeyBindings();
 
-            CallbackName.Content = SelectedCallback.GetKeyDescription();
+            CallbackName.Content = selectedCallback.GetKeyDescription();
 
             Select_PinkyShift.IsChecked = true;
             Select_DX_Release.IsChecked = true;
@@ -54,9 +54,9 @@ namespace FalconBMS.Launcher.Windows
             Reset();
         }
 
-        public static void ShowKeyMappingWindow(Window owner, DeviceControl deviceControl, KeyAssgn SelectedCallback)
+        public static void ShowKeyMappingWindow(Window owner, DeviceControl deviceControl, KeyAssgn selectedCallback)
         {
-            KeyMappingWindow ownWindow = new KeyMappingWindow(deviceControl, SelectedCallback);
+            KeyMappingWindow ownWindow = new KeyMappingWindow(deviceControl, selectedCallback);
             ownWindow.Owner = owner;
             ownWindow.ShowDialog();
         }
@@ -65,7 +65,7 @@ namespace FalconBMS.Launcher.Windows
         {
             getNeutralPosition();
             KeyMappingTimer.Tick += KeyMappingtimerCode;
-            KeyMappingTimer.Interval = TimeSpan.FromMilliseconds(50);
+            KeyMappingTimer.Interval = TimeSpan.FromMilliseconds(30);
             KeyMappingTimer.Start();
         }
 
@@ -87,7 +87,7 @@ namespace FalconBMS.Launcher.Windows
             {
                 tmpJoyStick[i] = joyAssgns[i].MakeTempCloneForKeyMappingDialog();
             }
-            tmpCallback = SelectedCallback.Clone();
+            tmpKeyboard = selectedCallback.Clone();
         }
 
         private void KeyMappingtimerCode(object sender, EventArgs e)
@@ -134,11 +134,11 @@ namespace FalconBMS.Launcher.Windows
             JoyAssgn[] joyAssgns = deviceControlRef.GetJoystickMappingsForButtonsAndHats();
 
             string str = "";
-            str += tmpCallback.GetKeyAssignmentStatus() + "; ";
+            str += tmpKeyboard.GetKeyAssignmentStatus() + "; ";
             if (str == "; ")
                 str = "";
             for (int i = 0; i < joyAssgns.Length; i++)
-                str += tmpCallback.ReadJoyAssignment(i, tmpJoyStick);
+                str += tmpKeyboard.ReadJoyAssignment(i, tmpJoyStick);
             MappedButton.Content = str;
 
             if (str != "")
@@ -212,14 +212,14 @@ namespace FalconBMS.Launcher.Windows
                         behaviourStatus = Behaviour.Release;
 
                     // Construct DX button instance.
-                    if (tmpCallback.GetCallback() == "SimHotasPinkyShift" || tmpCallback.GetCallback() == "SimHotasShift")
+                    if (tmpKeyboard.GetCallback() == "SimHotasPinkyShift" || tmpKeyboard.GetCallback() == "SimHotasShift")
                     {
-                        tmpJoyStick[i].dx[ii].Assign(tmpCallback.GetCallback(), Pinky.UnShift, Behaviour.Press, Invoke.Default, tmpCallback.GetSoundID());
-                        tmpJoyStick[i].dx[ii].Assign(tmpCallback.GetCallback(), Pinky.Shift, Behaviour.Press, Invoke.Default, tmpCallback.GetSoundID());
+                        tmpJoyStick[i].dx[ii].Assign(tmpKeyboard.GetCallback(), Pinky.UnShift, Behaviour.Press, Invoke.Default, tmpKeyboard.GetSoundID());
+                        tmpJoyStick[i].dx[ii].Assign(tmpKeyboard.GetCallback(), Pinky.Shift, Behaviour.Press, Invoke.Default, tmpKeyboard.GetSoundID());
                     }
                     else
                     {
-                        tmpJoyStick[i].dx[ii].Assign(tmpCallback.GetCallback(), pinkyStatus, behaviourStatus, invokeStatus, tmpCallback.GetSoundID());
+                        tmpJoyStick[i].dx[ii].Assign(tmpKeyboard.GetCallback(), pinkyStatus, behaviourStatus, invokeStatus, tmpKeyboard.GetSoundID());
                     }
 
                     getNeutralPosition();
@@ -242,7 +242,7 @@ namespace FalconBMS.Launcher.Windows
                         pinkyStatus = Pinky.Shift;
 
                     // Construct POV button instance.
-                    tmpJoyStick[i].pov[ii].Assign(povs[ii], tmpCallback.GetCallback(), pinkyStatus, 0);
+                    tmpJoyStick[i].pov[ii].Assign(povs[ii], tmpKeyboard.GetCallback(), pinkyStatus, 0);
 
                     getNeutralPosition();
                     return;
@@ -312,9 +312,9 @@ namespace FalconBMS.Launcher.Windows
                 pinkyStatus = Pinky.Shift;
 
             if (pinkyStatus == Pinky.UnShift)
-                tmpCallback.SetKeyboard(catchedScanCode, Shift, Ctrl, Alt);
+                tmpKeyboard.SetKeyboard(catchedScanCode, Shift, Ctrl, Alt);
             if (pinkyStatus == Pinky.Shift)
-                tmpCallback.Setkeycombo(catchedScanCode, Shift, Ctrl, Alt);
+                tmpKeyboard.Setkeycombo(catchedScanCode, Shift, Ctrl, Alt);
         }
 
         private class NeutralButtons
@@ -338,11 +338,13 @@ namespace FalconBMS.Launcher.Windows
         {
             try
             {
-                if (e.ChangedButton == MouseButton.Left)
+                if (e.ChangedButton == MouseButton.Left && System.Windows.Input.Mouse.LeftButton == MouseButtonState.Pressed)
                     DragMove();
             }
-            catch
-            { }
+            catch (Exception ex)
+            {
+                Diagnostics.Log("DragMove call failed.", Diagnostics.LogLevels.Exception);
+            }
         }
 
         private void ClearDX_Click(object sender, RoutedEventArgs e)
@@ -353,14 +355,14 @@ namespace FalconBMS.Launcher.Windows
             {
                 tmpJoyStick[i] = joyAssgns[i].MakeTempCloneForKeyMappingDialog();
             }
-            string target = tmpCallback.GetCallback();
+            string target = tmpKeyboard.GetCallback();
             foreach (JoyAssgn joy in tmpJoyStick)
                 joy.UnassigntargetCallback(target);
         }
 
         private void ClearKey_Click(object sender, RoutedEventArgs e)
         {
-            tmpCallback.UnassignKeyboard();
+            tmpKeyboard.UnassignKeyboard();
         }
 
         private void Select_Invoke_Click(object sender, RoutedEventArgs e)
@@ -410,14 +412,16 @@ namespace FalconBMS.Launcher.Windows
             {
                 joyAssgns[i].CopyButtonsAndHatsFromCurrentProfile(tmpJoyStick[i]);
             }
-            SelectedCallback.getOtherKeyInstance(tmpCallback);
+            selectedCallback.getOtherKeyInstance(tmpKeyboard);
 
             // Unassign the previous mapping that was assigned to this key/key combo.
-            KeyAssgn oldKey = keyFile.keyAssign.FirstOrDefault(x => x != SelectedCallback && x.GetKeyAssignmentStatus() == SelectedCallback.GetKeyAssignmentStatus());
+            KeyAssgn oldKey = keyFile.keyAssign.FirstOrDefault(x => x != selectedCallback && x.GetKeyAssignmentStatus() == selectedCallback.GetKeyAssignmentStatus());
             if (oldKey != null)
             {
                 oldKey.UnassignKeyboard();
             }
+
+            //TODO: consider saving the XML and Key files, every time, at this point? (also AxisAssignWindow.Save)  no dirty-bit needed!
 
             Close();
         }
