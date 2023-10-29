@@ -427,7 +427,11 @@ namespace FalconBMS.Launcher.Input
                 this.axis = xmlJoy.axis;
                 this.detentPosition = xmlJoy.detentPosition;
 
-                // Upgrade-path: these profile* subnodes will be null, when loading an older XML file.
+                // Bugfix: Pad-up any downlevel XML files from the DX32 era (32 button-slots per device) to avoid index-out-of-bounds exceptions later.
+                // This can happen when user forward-ports an older xml file.. or, loads a Stock template that was crafted with 32 button slots.
+                xmlJoy.PatchDX32ButtonArray();
+
+                // Upgrade-path from pre-F15 (BMS 4.37.3) era: these profile* subnodes will be null, when loading an older XML file.
                 if (xmlJoy.profileDefaultF16.dx == null)
                 {
                     Debug.Assert(xmlJoy.profileDefaultF16.dx == null);
@@ -475,7 +479,6 @@ namespace FalconBMS.Launcher.Input
             _Debug_ValidateCurrentProfile();
             return;
         }
-
 
         public JoyAssgn MakeTempCloneForKeyMappingDialog()
         {
@@ -526,6 +529,29 @@ namespace FalconBMS.Launcher.Input
             {
                 return new int[8];
             }
+        }
+
+        private void PatchDX32ButtonArray()
+        {
+            if (this.dx.Length < CommonConstants.DX_MAX_BUTTONS)
+            {
+                DxAssgn[] newArray = new DxAssgn[CommonConstants.DX_MAX_BUTTONS];
+                for (int i = 0; i < CommonConstants.DX_MAX_BUTTONS; i++)
+                    newArray[i] = (i < dx.Length ? dx[i] : new DxAssgn());
+
+                this.dx = newArray;
+            }
+
+            if (this.pov.Length < CommonConstants.DX_MAX_HATS)
+            {
+                PovAssgn[] newArray = new PovAssgn[CommonConstants.DX_MAX_HATS];
+                for (int i = 0; i < CommonConstants.DX_MAX_HATS; i++)
+                    newArray[i] = (i < pov.Length ? pov[i] : new PovAssgn());
+
+                this.pov = newArray;
+            }
+
+            return;
         }
 
         private void _Debug_ValidateCurrentProfile()
