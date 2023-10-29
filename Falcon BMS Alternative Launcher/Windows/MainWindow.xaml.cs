@@ -35,8 +35,6 @@ namespace FalconBMS.Launcher.Windows
             {
                 RenderOptions.ProcessRenderMode = System.Windows.Interop.RenderMode.SoftwareOnly;
                 InitializeComponent();
-
-                //MouseWheel += Detect_MouseWheel;
             }
             catch (Exception ex)
             {
@@ -61,13 +59,9 @@ namespace FalconBMS.Launcher.Windows
             // Ensure base window object is fully initialized, before proceeding.
             base.OnInitialized(e);
 
-            // Schedule remaining work via PostMessage to UI thread message queue, to ensure initialization is complete
-            // for our window and for all children, before proceeding.
-            Dispatcher.BeginInvoke((Action) delegate { _Post_OnInitialized(); });
-        }
+            // Site ourselves as the app's main window.. this is a bit of a codesmell but necessary for more determinstic use of MessageBox and other dialogs.
+            Program.mainWin = this;
 
-        private void _Post_OnInitialized()
-        {
             Diagnostics.Log("Post_OnInitialized.");
 
             try
@@ -158,7 +152,7 @@ namespace FalconBMS.Launcher.Windows
             AxisMovingTimer.Interval = TimeSpan.FromMilliseconds(30);
 
             KeyMappingTimer.Tick += KeyMappingTimer_Tick;
-            KeyMappingTimer.Interval = TimeSpan.FromMilliseconds(50);
+            KeyMappingTimer.Interval = TimeSpan.FromMilliseconds(30);
 
             NewDeviceDetectTimer.Tick += NewDeviceDetectTimer_Tick;
             NewDeviceDetectTimer.Interval = TimeSpan.FromSeconds(3);
@@ -343,6 +337,9 @@ namespace FalconBMS.Launcher.Windows
                 appProperties.SaveUISetup();
 
                 // Save axes, buttons and hats, and key mapping.
+                if (deviceControl == null)
+                    return;
+
                 deviceControl.SaveXml();
 
                 //HACK: This is necessary to avoid the double-write race condition (viz. overwriting the keyfile twice 
@@ -354,7 +351,8 @@ namespace FalconBMS.Launcher.Windows
             }
             catch (Exception ex)
             {
-                Close();
+                Diagnostics.Log(ex);
+                return;
             }
         }
         
@@ -517,8 +515,10 @@ namespace FalconBMS.Launcher.Windows
                 {
                     if (Properties.Settings.Default.FirstTimeNonOverride)
                     {
-                        string textMessage = "You are going to launch BMS without any setup override from AxisAssign and KeyMapping section.";
-                        MessageBox.Show(textMessage, "WARNING", MessageBoxButton.OK, MessageBoxImage.Information);
+                        string textMessage = "You are about to launch BMS without applying setup-overrides from AxisAssign and KeyMapping section.";
+                        MessageBoxResult mbr = MessageBox.Show(Program.mainWin, textMessage, "WARNING", MessageBoxButton.YesNo, MessageBoxImage.Information);
+                        if (mbr != MessageBoxResult.Yes) return;
+
                         Properties.Settings.Default.FirstTimeNonOverride = false;
                     }
                 }
@@ -813,7 +813,7 @@ namespace FalconBMS.Launcher.Windows
         {
             return;
             if (CMD_WINDOW.IsChecked == true)
-                MessageBox.Show("FalconBMS crashes when Alt+TAB in FullScreen Mode. Recommend Enabling Window Mode.\n(WINDOW button turning on light)", "WARNING", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(Program.mainWin, "Falcon BMS crashes when using Alt+Tab in FullScreen Mode. Recommend Enabling Window Mode.\n(WINDOW button turning on light)", "WARNING", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private bool pressedByHand;
@@ -871,13 +871,13 @@ namespace FalconBMS.Launcher.Windows
 
         private void ImportKeyfile_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult ans1 = MessageBox.Show(this, 
+            MessageBoxResult mbr = MessageBox.Show(this, 
                 "WARNING -- selecting a new key file will erase and replace all keyboard " +
                 "bindings, in the currently selected profile.\r\n\r\nProceed with caution!", 
                 "Import Key File - WARNING", 
                 MessageBoxButton.OKCancel, MessageBoxImage.Warning);
 
-            if (ans1 != MessageBoxResult.OK) return;
+            if (mbr != MessageBoxResult.OK) return;
 
             Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog();
             ofd.InitialDirectory = appReg.GetInstallDir() + CommonConstants.CONFIGFOLDERBACKSLASH;
@@ -890,7 +890,7 @@ namespace FalconBMS.Launcher.Windows
 
             if (false == File.Exists(newKeyfilePath))
             {
-                MessageBox.Show(this, "File not found.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(this, "File not found: "+newKeyfilePath, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 

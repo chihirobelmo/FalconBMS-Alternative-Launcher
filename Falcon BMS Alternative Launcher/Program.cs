@@ -7,14 +7,15 @@ using System.Windows;
 using System.Windows.Threading;
 
 using System.Runtime.InteropServices;
+using FalconBMS.Launcher.Windows;
 
 namespace FalconBMS.Launcher
 {
     public class Program
     {
-        /// <summary>
-        ///     Main
-        /// </summary>
+        internal static string thisExeDir = null;
+        internal static MainWindow mainWin = null;
+
         [STAThread]
         public static void Main()
         {
@@ -22,7 +23,8 @@ namespace FalconBMS.Launcher
             {
                 // Set cwd to the EXE location.
                 string thisExe = Assembly.GetExecutingAssembly().Location;
-                string thisExeDir = Path.GetDirectoryName(thisExe);
+                thisExeDir = Path.GetDirectoryName(thisExe);
+
                 Environment.CurrentDirectory = thisExeDir;
 
                 // Launch the WPF app.
