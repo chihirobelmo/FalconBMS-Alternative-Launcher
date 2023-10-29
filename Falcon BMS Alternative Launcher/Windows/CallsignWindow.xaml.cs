@@ -37,13 +37,6 @@ namespace FalconBMS.Launcher.Windows
     /// </summary>
     public partial class CallsignWindow
     {
-        //TODO: remove dead code?
-        //[DllImport("Falcon BMS Logbook Generator x86.dll", EntryPoint = "CreateLbk", CallingConvention = CallingConvention.Cdecl)]
-        //public static extern void CreateLbk_32(string fname, string callsign, string pilotname, string date);
-
-        //[DllImport("Falcon BMS Logbook Generator x64.dll", EntryPoint = "CreateLbk", CallingConvention = CallingConvention.Cdecl)]
-        //public static extern void CreateLbk_64(string fname, string callsign, string pilotname, string date);
-
         private AppRegInfo appReg;
         public CallsignWindow(AppRegInfo appReg)
         {
@@ -51,12 +44,11 @@ namespace FalconBMS.Launcher.Windows
             InitializeComponent();
         }
 
-        public static bool ShowCallsignWindow(AppRegInfo appReg)
+        public static void ShowCallsignWindow(AppRegInfo appReg)
         {
             CallsignWindow ownWindow = new CallsignWindow(appReg);
             ownWindow.ShowDialog();
-            return ownWindow.TextBox_Callsign.Text == CommonConstants.DEFAULTCALLSIGN || 
-                   ownWindow.TextBox_PilotName.Text == CommonConstants.DEFAULTPILOTNAME;
+            return;
         }
 
         private void Callsign_Changed(object sender, TextChangedEventArgs e)

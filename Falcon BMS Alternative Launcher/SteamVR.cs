@@ -19,16 +19,13 @@ namespace FalconBMS.Launcher
         public SteamVR()
         {
             string regName = "SOFTWARE\\WOW6432Node\\Valve\\Steam";
-            RegistryKey regkey = Registry.LocalMachine.OpenSubKey(regName, false);
-            if (regkey == null)
-            {
+            RegistryKey rk = Registry.LocalMachine.OpenSubKey(regName, writable:false);
+            if (rk == null)
                 return;
-            }
-            installPath = (string)regkey.GetValue("InstallPath");
-            if (installPath == null)
-            {
+
+            installPath = (string)rk.GetValue("InstallPath");
+            if (String.IsNullOrEmpty(installPath))
                 return;
-            }
 
             string vrstartpath = installPath + "\\steamapps\\common\\SteamVR\\bin\\win64\\vrstartup.exe";
 
@@ -39,7 +36,7 @@ namespace FalconBMS.Launcher
             // https://github.com/ValveSoftware/openvr/wiki/Local-Driver-Registration
             if (HasSteamVR == false)
             {
-                RegistryKey steamVRUninstallKey = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Steam App 250820", false);
+                RegistryKey steamVRUninstallKey = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Steam App 250820", writable:false);
                 if (steamVRUninstallKey != null)
                 {
                     string regUninstallLocation = (string)steamVRUninstallKey.GetValue("InstallLocation");
@@ -80,7 +77,7 @@ namespace FalconBMS.Launcher
                 installPath = vrstartpath;
             }
 
-            regkey.Close();
+            rk.Close();
         }
 
         private class OpenVRJson

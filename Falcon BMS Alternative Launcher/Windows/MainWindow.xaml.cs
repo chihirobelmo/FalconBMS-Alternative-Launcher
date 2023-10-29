@@ -76,7 +76,7 @@ namespace FalconBMS.Launcher.Windows
                 
                 Diagnostics.Log("AutoUpdate-check initiated.");
 
-                string BMS_Launcher_version = "FalconBMS Launcher v" + ver.Major + "." + ver.Minor + "." + ver.Build;
+                string BMS_Launcher_version = "FalconBMS Launcher v" + ver.Major + "." + ver.Minor + "." + ver.Build + "." + ver.Revision;
                 AL_Version_Number.Content = BMS_Launcher_version;
 
                 Diagnostics.Log(BMS_Launcher_version);
