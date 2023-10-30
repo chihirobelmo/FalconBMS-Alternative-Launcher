@@ -445,6 +445,7 @@ namespace FalconBMS.Launcher.Override
 
         protected virtual void SetJoyCalDefaultByte(ref byte[] bs)
         {
+            //NB: this is overridden to return 24 bytes, in OverrideSettingsFor435 and later.
             bs = new byte[]
             {
                 0x00, 0x00, 0x00, 0x00, 0x98, 0x3A, 0x00, 0x00,
@@ -456,6 +457,7 @@ namespace FalconBMS.Launcher.Override
 
         protected virtual void SetJoyCalInvertByte(ref byte[] bs)
         {
+            //NB: this is overridden to write byte offset [21], in OverrideSettingsFor435 and later.
             bs[20] = 0x01;
         }
 

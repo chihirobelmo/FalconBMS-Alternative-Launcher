@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Xml.Serialization;
@@ -21,6 +22,82 @@ namespace FalconBMS.Launcher.Override
                 "set g_nVRHMD "
                 + Convert.ToInt32(mainWindow.Misc_VR.IsChecked)
                 + " " + CommonConstants.CFGOVERRIDECOMMENT + "\r\n");
+        }
+
+        protected override void SaveJoystickCal(Hashtable inGameAxis, DeviceControl deviceControl)
+        {
+            string filename = appReg.GetInstallDir() + CommonConstants.CONFIGFOLDER + "joystick.cal";
+            string fbackupname = appReg.GetInstallDir() + CommonConstants.BACKUPFOLDER + "joystick.cal";
+
+            if (!File.Exists(fbackupname) & File.Exists(filename))
+                File.Copy(filename, fbackupname, true);
+
+            if (File.Exists(filename))
+                File.SetAttributes(filename, File.GetAttributes(filename) & ~FileAttributes.ReadOnly);
+
+            FileStream fs = File.Create(filename);
+
+            AxisName[] localJoystickCalList = appReg.getOverrideWriter().getJoystickCalList();
+            foreach (AxisName nme in localJoystickCalList)
+            {
+                InGameAxAssgn currentAxis = (InGameAxAssgn)inGameAxis[nme.ToString()];
+
+                byte[] bs = { 
+                    0x00, 0x00, 0x00, 0x00, 0x98, 0x3A, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+                };
+
+                if (currentAxis.IsAssigned() && !isRollLinkedNWSEnabled(nme))
+                {
+                    bs[12] = 0x01;
+                    bs[20] = 0x01;
+                    bs[21] = (byte)(currentAxis.GetInvert() ? 0x01 : 0x00);
+
+                    //NOTE: as of 4.37.3, BMS seems to behave badly if 
+                    if (nme == AxisName.Throttle && currentAxis.IsJoyAssigned())
+                    {
+                        // Scale: [0,65535] logical (0==fully-idle; 65536==max-burner; regardless of normal vs reverse)
+                        double fAB = deviceControl.GetJoystickMappingsForAxes()[currentAxis.GetDeviceNumber()].detentPosition.GetAB();
+                        double fIdle = deviceControl.GetJoystickMappingsForAxes()[currentAxis.GetDeviceNumber()].detentPosition.GetIDLE();
+
+                        // Adjust logical scale to [0,15000]
+                        fAB = fAB * CommonConstants.BINAXISMAX / CommonConstants.AXISMAX;
+                        fIdle = fIdle * CommonConstants.BINAXISMAX / CommonConstants.AXISMAX;
+
+                        InGameAxAssgn axis = (InGameAxAssgn)MainWindow.inGameAxis[nme.ToString()];
+
+                        //NB: as of 4.37.3, the detent values in joystick.cal are logical-scale -- they don't vary normal vs reverse.
+                        //But, weirdly, they are still recorded in inverse-scale.. [0,65536] => [15000,0]
+                        fAB = CommonConstants.BINAXISMAX - fAB;
+                        fIdle = CommonConstants.BINAXISMAX - fIdle;
+
+                        // Ensure detents are firmly gated within [0,15000].
+                        int iAB = (int)Math.Round(fAB);
+                        int iIdle = (int)Math.Round(fIdle);
+
+                        iAB = Math.Min(Math.Max(0, iAB), 15000);
+                        iIdle = Math.Min(Math.Max(0, iIdle), 15000);
+
+                        // Little-endian byte-order encoding: first dword is AB-detent; second dword is Idle-detent.
+                        byte iAB0 = (byte)(iAB & 0x00FF);
+                        byte iAB1 = (byte)((iAB & 0xFF00) >> 8);
+
+                        byte iIdle0 = (byte)(iIdle & 0x00FF);
+                        byte iIdle1 = (byte)((iIdle & 0xFF00) >> 8);
+
+                        bs[0] = iAB0;
+                        bs[1] = iAB1;
+                        bs[2] = 0;
+                        bs[3] = 0;
+
+                        bs[4] = iIdle0;
+                        bs[5] = iIdle1;
+                        bs[6] = 0;
+                        bs[7] = 0;
+                    }
+                }
+                fs.Write(bs, 0, bs.Length);
+            }
+            fs.Close();
         }
 
         protected override void SavePop()
