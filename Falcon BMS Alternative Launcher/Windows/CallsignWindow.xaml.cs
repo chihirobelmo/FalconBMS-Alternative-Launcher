@@ -122,7 +122,11 @@ namespace FalconBMS.Launcher.Windows
             // Bugfix: don't overwrite existing lbk! This situation can happen for variety of reasons.. after changing
             // current pilot callsign in-game.. or after a fresh reinstall, and copying over Callsign.pop, ini and lbk
             if (File.Exists(lbkPath))
+            {
+                Diagnostics.Log("Logbook file already exists - avoiding overwrite!", Diagnostics.LogLevels.Warning);
+                Close();
                 return;
+            }
 
             string command = $"-o {lbkPathDQ} write-default --name {pilotNameDQ} --callsign {pilotCallsignDQ}";
             //string command = 
