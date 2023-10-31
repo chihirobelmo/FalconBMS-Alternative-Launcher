@@ -437,6 +437,15 @@ namespace FalconBMS.Launcher.Input
                 // This can happen when user forward-ports an older xml file.. or, loads a Stock template that was crafted with 32 button slots.
                 xmlJoy.PatchDX32ButtonArray();
 
+                // Bugfix: Due to the bug above, some beta-testers are left with XML files in a borken state.. discard the profile nodes.
+                if (xmlJoy.profileDefaultF16.dx != null && xmlJoy.profileDefaultF16.dx.Length < CommonConstants.DX_MAX_BUTTONS)
+                {
+                    xmlJoy.profileDefaultF16.dx = null;
+                    xmlJoy.profileDefaultF16.pov = null;
+                    xmlJoy.profileF15ABCD.dx = null;
+                    xmlJoy.profileF15ABCD.pov = null;
+                }
+
                 // Upgrade-path from pre-F15 (BMS 4.37.3) era: these profile* subnodes will be null, when loading an older XML file.
                 if (xmlJoy.profileDefaultF16.dx == null)
                 {
@@ -517,7 +526,12 @@ namespace FalconBMS.Launcher.Input
         {
             try
             {
-                return hwDevice.CurrentJoystickState.GetButtons();
+                byte[] buttonStates = hwDevice.CurrentJoystickState.GetButtons();
+                if (buttonStates.Length == CommonConstants.DX_MAX_BUTTONS) return buttonStates;
+
+                byte[] buttonStates128 = new byte[CommonConstants.DX_MAX_BUTTONS];
+                Array.Copy(buttonStates, buttonStates128, Math.Min(buttonStates.Length, buttonStates128.Length));
+                return buttonStates128;
             }
             catch 
             {
@@ -529,7 +543,12 @@ namespace FalconBMS.Launcher.Input
         {
             try
             {
-                return hwDevice.CurrentJoystickState.GetPointOfView();
+                int[] hatStates = hwDevice.CurrentJoystickState.GetPointOfView();
+                if (hatStates.Length == CommonConstants.DX_MAX_HATS) return hatStates;
+
+                int[] hatStates8 = new int[CommonConstants.DX_MAX_HATS];
+                Array.Copy(hatStates, hatStates8, Math.Min(hatStates.Length, hatStates8.Length));
+                return hatStates8;
             }
             catch
             {
