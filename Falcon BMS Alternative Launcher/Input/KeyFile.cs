@@ -25,6 +25,8 @@ namespace FalconBMS.Launcher.Input
                 return;
             }
 
+            ValidateKeyfileLines(filename);
+
             // Build table of { callbackName, keyBinding, descriptionString }.  Also build up list of category-header labels.
             List<KeyAssgn> records = new List<KeyAssgn>(2000);
 
@@ -51,8 +53,15 @@ namespace FalconBMS.Launcher.Input
                         cats.Add(ParseCategoryHeaderLabel(line)); //nb: also fall-through to add it to KeyAssgn
 
                     // Parse the key-binding line.
-                    KeyAssgn keyAssgn = ParseKeyfileLine(line);
-                    records.Add(keyAssgn);
+                    if (RegexFactory.KeyBindingLine.IsMatch(line))
+                    {
+                        KeyAssgn keyAssgn = ParseKeyfileLine(line);
+                        records.Add(keyAssgn);
+                    }
+                    else
+                    {
+                        Diagnostics.Log("Skipping malformed keyfile line: " + line, Diagnostics.LogLevels.Warning);
+                    }
                 }
             }
 
