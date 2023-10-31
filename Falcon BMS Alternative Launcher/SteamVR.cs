@@ -115,7 +115,8 @@ namespace FalconBMS.Launcher
         }
         public void Stop()
         {
-            process.Close();
+            if (process != null)
+                process.Close();
         }
     }
 }
