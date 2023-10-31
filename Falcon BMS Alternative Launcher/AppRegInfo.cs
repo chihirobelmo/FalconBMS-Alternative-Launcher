@@ -212,9 +212,13 @@ namespace FalconBMS.Launcher
             using (RegistryKey rk = Registry.LocalMachine.OpenSubKey(regName, writable: false))
             {
                 byte[] bits = (byte[])(rk.GetValue("PilotCallsign"));
-                if (bits == null) return "Viper";
+                if (bits == null || bits[0] == 0x00) return "Viper";
 
-                return Encoding.ASCII.GetString(bits).TrimEnd('\0');
+                // Guard against possibility of embedded nullchars, and missing nullterm.
+                int n = Array.IndexOf<byte>(bits, 0x00);
+                if (n == -1) n = bits.Length;
+
+                return Encoding.ASCII.GetString(bits, 0, n);
             }
         }
 
@@ -223,9 +227,13 @@ namespace FalconBMS.Launcher
             using (RegistryKey rk = Registry.LocalMachine.OpenSubKey(regName, writable: false))
             {
                 byte[] bits = (byte[])(rk.GetValue("PilotName"));
-                if (bits == null) return "Joe Pilot";
+                if (bits == null || bits[0] == 0x00) return "Joe Pilot";
 
-                return Encoding.ASCII.GetString(bits).TrimEnd('\0');
+                // Guard against possibility of embedded nullchars, and missing nullterm.
+                int n = Array.IndexOf<byte>(bits, 0x00);
+                if (n == -1) n = bits.Length;
+
+                return Encoding.ASCII.GetString(bits, 0, n);
             }
         }
 
@@ -252,37 +260,33 @@ namespace FalconBMS.Launcher
         {
             pilotCallsign = callSign;
 
-            RegistryKey rk = Registry.LocalMachine.OpenSubKey(regName, writable:true);
-            if (rk == null)
-                return;
-
-            byte[] bs = new byte[12];
-            byte[] bCallsign = Encoding.ASCII.GetBytes(callSign);
-            for (int i = 0; i < bs.Length; i++)
+            using (RegistryKey rk = Registry.LocalMachine.OpenSubKey(regName, writable: true))
             {
-                if (i >= bCallsign.Length)
-                {
-                    bs[i] = 0x00;
-                    continue;
-                }
-                bs[i] = bCallsign[i];
-            }
-            rk.SetValue("PilotCallsign", bs);
+                if (rk == null)
+                    return;
 
-            byte[] bs2 = new byte[20];
-            byte[] bPilotName = Encoding.ASCII.GetBytes(pilotName);
-            for (int i = 0; i < bs2.Length; i++)
+                byte[] buffer = new byte[12];
+                byte[] callsignBytes = Encoding.ASCII.GetBytes(callSign);
+
+                int n = Math.Min(callsignBytes.Length, buffer.Length);
+                Array.Copy(callsignBytes, buffer, n);
+
+                rk.SetValue("PilotCallsign", _AllocZeroPaddedBuffer(callSign, 12));
+
+                rk.SetValue("PilotName", _AllocZeroPaddedBuffer(pilotName, 20));
+            }
+
+            byte[] _AllocZeroPaddedBuffer(string _s, int _len)
             {
-                if (i >= bPilotName.Length)
-                {
-                    bs2[i] = 0x00;
-                    continue;
-                }
-                bs2[i] = bPilotName[i];
-            }
-            rk.SetValue("PilotName", bs2);
+                byte[] buffer = new byte[_len];
+                byte[] ascii = Encoding.ASCII.GetBytes(_s);
 
-            rk.Close();
+                int n = Math.Min(ascii.Length, buffer.Length);
+                Array.Copy(ascii, buffer, n);
+                return buffer;
+            }
+
+            return;
         }
 
         public string ReadCurrentTheater()
