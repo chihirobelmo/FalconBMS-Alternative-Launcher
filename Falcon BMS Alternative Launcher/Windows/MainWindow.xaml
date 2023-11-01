@@ -554,19 +554,6 @@
                     </ComboBox>
                     <Label Content="Category:" HorizontalAlignment="Left" Margin="223,-43,0,0" VerticalAlignment="Top" Height="26" Width="64" HorizontalContentAlignment="Right" Foreground="White"/>
                     <ComboBox x:Name="Category" ItemsSource="{Binding}" HorizontalAlignment="Left" Margin="300,-41,0,0" VerticalAlignment="Top" Width="256" BorderBrush="Black" Background="#80F0F0F0" Foreground="#FF191919" SelectionChanged="Category_SelectionChanged" Height="26" Grid.ColumnSpan="2">
-                        <!--<TextBlock Text=" TOP" FontWeight="Bold" Foreground="#FF000000"/>
-                        <TextBlock Text=" UI &amp; 3RD PARTY SOFTWARE" Foreground="#FF00C001"/>
-                        <TextBlock Text=" LEFT CONSOLE" Foreground="#FF000000"/>
-                        <TextBlock Text=" HOTAS: THROTTLE" Foreground="#FF40C0F0"/>
-                        <TextBlock Text=" LEFT AUX CONSOLE" Foreground="#FF000000"/>
-                        <TextBlock Text=" CENTER CONSOLE" Foreground="#FF000000"/>
-                        <TextBlock Text=" MFD: LEFT" Foreground="#FF40C0F0"/>
-                        <TextBlock Text=" MFD: RIGHT" Foreground="#FF40C0F0"/>
-                        <TextBlock Text=" RIGHT CONSOLE" Foreground="#FF000000"/>
-                        <TextBlock Text=" HOTAS: STICK" Foreground="#FF40C0F0"/>
-                        <TextBlock Text=" MISCELLANEOUS" Foreground="#FF000000"/>
-                        <TextBlock Text=" VIEWS" Foreground="#FF000000"/>
-                        <TextBlock Text=" RADIO COMMS" Foreground="#FF000000"/>-->
                     </ComboBox>
                     <DataGrid x:Name="KeyMappingGrid" HorizontalAlignment="Stretch" Height="auto" Margin="10,10,9.666,64.334" 
                               EnableColumnVirtualization="True" EnableRowVirtualization="True" VirtualizingPanel.IsVirtualizingWhenGrouping="True"
@@ -594,7 +581,7 @@
 
                     <ToggleButton x:Name="Select_PinkyShift" Visibility="Hidden" Content="KEYCOMBO / PINKYSHIFT" HorizontalAlignment="Right" Margin="0,12,252.666,0" VerticalAlignment="Top" Width="160" Height="27" Click="Select_PinkyShift_Click" Grid.Column="1"/>
                     <ToggleButton x:Name="Select_DX_Release" Visibility="Hidden" Content="RELEASE" HorizontalAlignment="Right" Margin="0,12,163.666,0" VerticalAlignment="Top" Width="64" Height="27" Grid.Column="1"/>
-                    <Button x:Name="ImportButton" Content="Import Key File..." Margin="285,612,268,18" Width="129" Click="ImportKeyfile_Click" Height="27" Grid.Column="1"/>
+                    <Button x:Name="ImportButton" Content="Import Key File..." HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="20,20,240,20" Width="129" Click="ImportKeyfile_Click" Height="27" Grid.Column="1"/>
 
                     <Label Content="Filter:" HorizontalAlignment="Left" Margin="227.167,-43,0,0" VerticalAlignment="Top" Width="43" HorizontalContentAlignment="Right" Foreground="White" Grid.Column="1"/>
                     <TextBox x:Name="SearchBox" HorizontalAlignment="Left" Height="23" Margin="282.167,-41,0,0" VerticalAlignment="Top" Width="384" Background="#80F0F0F0" Foreground="#FF191919" Controls:TextBoxHelper.ClearTextButton="True" TextChanged="SearchBox_TextChanged" Grid.Column="1"/>
@@ -602,15 +589,10 @@
                     <Label Content="* Double Click a cell to Assign keys." HorizontalContentAlignment="Right" HorizontalAlignment="Right" Margin="0,0,9.666,30.334" VerticalAlignment="Bottom" Width="596" Height="29" Grid.Column="1"/>
                 </Grid>
             </TabItem>
-            <TextBox Height="23" TextWrapping="Wrap" Text="TextBox" Width="120"/>
         </TabControl>
         <Image x:Name="LOGO000" HorizontalAlignment="Left" VerticalAlignment="Top" Height="49" Source="/Resources/web_banner.png" Stretch="Uniform" Width="363" Margin="24,10,0,0"/>
         <Label x:Name="Version_Number" Content="4.37" HorizontalAlignment="Left" Margin="392,0,0,0" VerticalAlignment="Top" Foreground="#FFC4C4C4" FontSize="36"/>
         <Label x:Name="AL_Version_Number" Content="FalconBMS Launcher vX.X.X" HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontWeight="Bold" Margin="0,0,10.333,0.334" Grid.Row="1"/>
-
-        <Button x:Name="Button_Apply_YAME64" Visibility="Hidden" Content="Apply" HorizontalAlignment="Right" Margin="0,31,10.333,0" VerticalAlignment="top" Width="128" Style="{StaticResource AccentedSquareButtonStyle}" Controls:ControlsHelper.ContentCharacterCasing="Normal" Click="Apply_YAME64"/>
-
-
 
     </Grid>
 </Controls:MetroWindow>
