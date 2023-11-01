@@ -468,7 +468,9 @@ namespace FalconBMS.Launcher.Windows
                 oldKey.UnassignKeyboard();
             }
 
-            //TODO: consider saving the XML and Key files, every time, at this point? (also AxisAssignWindow.Save)  no dirty-bit needed!
+            // Save the XML and Key files, after each change user makes.
+            deviceControlRef.SaveXml();
+            Program.mainWin.appReg.getOverrideWriter().SaveKeyMapping(MainWindow.inGameAxis, deviceControlRef);
 
             Close();
         }
