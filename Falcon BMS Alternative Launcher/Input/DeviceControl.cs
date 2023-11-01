@@ -165,14 +165,24 @@ namespace FalconBMS.Launcher.Input
             {
                 this.UpdateAvionicsProfile(null);//generic F16
 
+                XmlSerializer serializer = new XmlSerializer(typeof(JoyAssgn));
                 for (int i = 0; i < this.joyAssign.Length; i++)
                 {
                     string fileName = this.appReg.GetInstallDir() + CommonConstants.CONFIGFOLDER + CommonConstants.SETUPV100 + this.joyAssign[i].GetProductFileName()
                     + " {" + this.joyAssign[i].GetInstanceGUID().ToString().ToUpper() + "}.xml";
 
-                    XmlSerializer serializer = new XmlSerializer(typeof(JoyAssgn));
                     using (StreamWriter sw = Utils.CreateUtf8TextWihoutBom(fileName))
                         serializer.Serialize(sw, this.joyAssign[i]);
+
+                    // QUICKFIX: Save a duplicate copy in a safe space, to guard against possibility of user (accidentally or
+                    // purposefully) running an older AL against 4.37.3 or later install -- this will silently delete the
+                    // user's F-15 profile from the XML files!
+                    if (!Directory.Exists(this.appReg.GetInstallDir() + CommonConstants.BACKUPFOLDER))
+                        Directory.CreateDirectory(this.appReg.GetInstallDir() + CommonConstants.BACKUPFOLDER);
+
+                    string backupPath = this.appReg.GetInstallDir() + CommonConstants.BACKUPFOLDER + 
+                        CommonConstants.SETUPV100 + this.joyAssign[i].GetProductFileName() + " {" + this.joyAssign[i].GetInstanceGUID().ToString().ToUpper() + "}.xml";
+                    File.Copy(fileName, backupPath, overwrite: true);
                 }
             }
             catch (Exception ex)
