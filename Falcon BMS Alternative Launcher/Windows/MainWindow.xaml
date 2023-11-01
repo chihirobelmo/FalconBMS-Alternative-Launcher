@@ -269,7 +269,7 @@
                         <Label x:Name="Label_Platform" Content="Platform :" HorizontalAlignment="Left" Margin="0,64,0,0" VerticalAlignment="Top" FontWeight="Bold" RenderTransformOrigin="0.672,0.628" />
 
                         <Label x:Name="Label_VR" Content="Virtual Reality:" HorizontalAlignment="Left" Margin="0,64,0,0" VerticalAlignment="Top" FontWeight="Bold" />
-                        <Controls:ToggleSwitch x:Name="Misc_VR" OnLabel="Enable" OffLabel="Disable" HorizontalAlignment="Left" Margin="179,60,0,0" VerticalAlignment="Top" Background="#80FFFFFF" FontSize="12" Click="Misc_VR_Click"/>
+                        <Controls:ToggleSwitch x:Name="Misc_VR" OnLabel="Enabled" OffLabel="Disabled" HorizontalAlignment="Left" Margin="179,60,0,0" VerticalAlignment="Top" Background="#80FFFFFF" FontSize="12" Click="Misc_VR_Click"/>
                         <Label Content="Documentation and Manuals :" HorizontalAlignment="Left" Margin="0,32,0,0" VerticalAlignment="Top" FontWeight="Bold" />
                         <Button x:Name="OpenDocs" Content="Open Docs Folder" Style="{StaticResource AccentedSquareButtonStyle}" Controls:ControlsHelper.ContentCharacterCasing="Normal" HorizontalAlignment="Left" Margin="179,34,0,0" VerticalAlignment="Top" Width="141" Click="OpenDocs_Click" FontSize="10" Height="10"/>
 
