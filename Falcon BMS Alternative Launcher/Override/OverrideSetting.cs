@@ -211,6 +211,21 @@ namespace FalconBMS.Launcher.Override
             {
                 deviceControl.UpdateAvionicsProfile(temp);
             }
+
+            // QUICKFIX: Save a duplicate copy in a safe space, to guard against possibility of user (accidentally or
+            // purposefully) running an older AL against 4.37.3 or later install.
+            if (!Directory.Exists(this.appReg.GetInstallDir() + CommonConstants.BACKUPFOLDER))
+                Directory.CreateDirectory(this.appReg.GetInstallDir() + CommonConstants.BACKUPFOLDER);
+
+            string backupPath = this.appReg.GetInstallDir() + CommonConstants.BACKUPFOLDER +
+                CommonConstants.BMS_AUTO + ".key";
+            File.Copy(filename, backupPath, overwrite: true);
+
+            string backupPathF15 = this.appReg.GetInstallDir() + CommonConstants.BACKUPFOLDER +
+                CommonConstants.BMS_AUTO + "-F15ABCD.key";
+            File.Copy(filenameF15, backupPathF15, overwrite: true);
+
+            return;
         }
 
         protected virtual void WriteKeyLines(string filename, Hashtable inGameAxis, KeyFile keyFile, JoyAssgn[] joyAssgns)
