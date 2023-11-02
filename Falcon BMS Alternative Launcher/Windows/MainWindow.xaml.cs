@@ -69,17 +69,24 @@ namespace FalconBMS.Launcher.Windows
                 System.Reflection.Assembly asm = System.Reflection.Assembly.GetExecutingAssembly();
                 System.Version ver = asm.GetName().Version;
 
-                // NB: the AutoUpdaterDotNET library will create its own background (UI) thread, to do network I/O and display UI if necessary.
-                AutoUpdater.Mandatory = true;
-                AutoUpdater.Synchronous = false;
-                AutoUpdater.Start("https://raw.githubusercontent.com/chihirobelmo/FalconBMS-Alternative-Launcher/master/Falcon%20BMS%20Alternative%20Launcher/AutoUpdate.xml", asm);
-                
-                Diagnostics.Log("AutoUpdate-check initiated.");
+                // Defer auto-update check until after main window UI finishes initial layout and render.
+                this.Dispatcher.BeginInvoke(new Action(() => {
 
-                string BMS_Launcher_version = "FalconBMS Launcher v" + ver.Major + "." + ver.Minor + "." + ver.Build + "." + ver.Revision;
-                AL_Version_Number.Content = BMS_Launcher_version;
+                    // NB: the AutoUpdaterDotNET library will create its own background (UI) thread, to do network I/O and display UI if necessary.
+                    string autoUpdateManifestUrl = $"https://cdn.falcon-bits.net/AutoUpdate/AL/v{ver}/AutoUpdate.xml";
 
-                Diagnostics.Log(BMS_Launcher_version);
+                    AutoUpdater.Mandatory = true;
+                    AutoUpdater.Synchronous = false;
+                    //AutoUpdater.Start("https://raw.githubusercontent.com/chihirobelmo/FalconBMS-Alternative-Launcher/master/Falcon%20BMS%20Alternative%20Launcher/AutoUpdate.xml", asm);
+                    AutoUpdater.Start(autoUpdateManifestUrl, asm);
+
+                    Diagnostics.Log("AutoUpdate-check initiated.");
+                }));
+
+                string versionLabel = "FalconBMS Launcher v" + ver.ToString();
+                AL_Version_Number.Content = versionLabel;
+
+                Diagnostics.Log(versionLabel);
 
                 System.Threading.ThreadPool.QueueUserWorkItem(_ThreadPool_UpdateRss, this.Dispatcher);
             }
