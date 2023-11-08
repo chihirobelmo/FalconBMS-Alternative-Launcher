@@ -17,6 +17,8 @@ namespace FalconBMS.Launcher.Windows
         {
             InitializeComponent();
 
+            this.Owner = mainWindow;
+
             this.mainWindow = mainWindow;
             this.axisAssign = axisAssign;
 
@@ -435,10 +437,6 @@ namespace FalconBMS.Launcher.Windows
             }
             AxisDetectionTimer.Stop();
             sw.Stop();
-
-            // Save the XML and Key files, after each change user makes.
-            MainWindow.deviceControl.SaveXml();
-            Program.mainWin.appReg.getOverrideWriter().SaveKeyMapping(MainWindow.inGameAxis, MainWindow.deviceControl);
 
             Close();
         }
