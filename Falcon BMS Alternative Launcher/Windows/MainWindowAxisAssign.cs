@@ -360,6 +360,10 @@ namespace FalconBMS.Launcher.Windows
             joyAssign_2_inGameAxis();
             ResetAssgnWindow();
 
+            // Save the XML and Key files, after each change user makes.
+            MainWindow.deviceControl.SaveXml();
+            this.appReg.getOverrideWriter().SaveKeyMapping(MainWindow.inGameAxis, MainWindow.deviceControl);
+
             NewDeviceDetectTimer.Start();
             AxisMovingTimer.Start();
         }
