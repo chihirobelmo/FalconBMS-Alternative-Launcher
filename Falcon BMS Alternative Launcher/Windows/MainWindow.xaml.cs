@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.InteropServices;
+//using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -13,12 +13,12 @@ using FalconBMS.Launcher.Input;
 
 using MahApps.Metro.Controls;
 
-using AutoUpdaterDotNET;
-using System.Reflection;
-using System.Xml;
-using System.Threading.Tasks;
-using System.Collections.ObjectModel;
-using System.Linq;
+//using AutoUpdaterDotNET;
+//using System.Reflection;
+//using System.Xml;
+//using System.Threading.Tasks;
+//using System.Collections.ObjectModel;
+//using System.Linq;
 
 namespace FalconBMS.Launcher.Windows
 {
@@ -69,19 +69,19 @@ namespace FalconBMS.Launcher.Windows
                 System.Reflection.Assembly asm = System.Reflection.Assembly.GetExecutingAssembly();
                 System.Version ver = asm.GetName().Version;
 
-                // Defer auto-update check until after main window UI finishes initial layout and render.
-                this.Dispatcher.BeginInvoke(new Action(() => {
+                //// Defer auto-update check until after main window UI finishes initial layout and render.
+                //this.Dispatcher.BeginInvoke(new Action(() => {
 
-                    // NB: the AutoUpdaterDotNET library will create its own background (UI) thread, to do network I/O and display UI if necessary.
-                    string autoUpdateManifestUrl = $"https://cdn.falcon-bits.net/AutoUpdate/AL/v{ver}/AutoUpdate.xml";
+                //    // NB: the AutoUpdaterDotNET library will create its own background (UI) thread, to do network I/O and display UI if necessary.
+                //    string autoUpdateManifestUrl = $"https://cdn.falcon-bits.net/AutoUpdate/AL/v{ver}/AutoUpdate.xml";
 
-                    AutoUpdater.Mandatory = true;
-                    AutoUpdater.Synchronous = false;
-                    //AutoUpdater.Start("https://raw.githubusercontent.com/chihirobelmo/FalconBMS-Alternative-Launcher/master/Falcon%20BMS%20Alternative%20Launcher/AutoUpdate.xml", asm);
-                    AutoUpdater.Start(autoUpdateManifestUrl, asm);
+                //    AutoUpdater.Mandatory = true;
+                //    AutoUpdater.Synchronous = false;
+                //    //AutoUpdater.Start("https://raw.githubusercontent.com/chihirobelmo/FalconBMS-Alternative-Launcher/master/Falcon%20BMS%20Alternative%20Launcher/AutoUpdate.xml", asm);
+                //    AutoUpdater.Start(autoUpdateManifestUrl, asm);
 
-                    Diagnostics.Log("AutoUpdate-check initiated.");
-                }));
+                //    Diagnostics.Log("AutoUpdate-check initiated.");
+                //}));
 
                 string versionLabel = "FalconBMS Launcher v" + ver.ToString();
                 AL_Version_Number.Content = versionLabel;
