@@ -48,16 +48,23 @@ namespace FalconBMS.Launcher.Override
 
                 if (currentAxis.IsAssigned() && !isRollLinkedNWSEnabled(nme))
                 {
-                    bs[12] = 0x01;
                     bs[20] = 0x01;
                     bs[21] = (byte)(currentAxis.GetInvert() ? 0x01 : 0x00);
 
-                    //NOTE: as of 4.37.3, BMS seems to behave badly if 
-                    if (nme == AxisName.Throttle && currentAxis.IsJoyAssigned())
+                    if ((nme == AxisName.Throttle || nme == AxisName.Throttle_Right) && currentAxis.IsJoyAssigned())
                     {
                         // Scale: [0,65535] logical (0==fully-idle; 65536==max-burner; regardless of normal vs reverse)
                         double fAB = deviceControl.GetJoystickMappingsForAxes()[currentAxis.GetDeviceNumber()].detentPosition.GetAB();
                         double fIdle = deviceControl.GetJoystickMappingsForAxes()[currentAxis.GetDeviceNumber()].detentPosition.GetIDLE();
+
+                        //BUGFIX: right-throttle needs to mirror the identical idle/ab detents, from primary throttle.
+                        if (nme == AxisName.Throttle_Right)
+                        {
+                            InGameAxAssgn leftThrottleAxis = (InGameAxAssgn)MainWindow.inGameAxis[AxisName.Throttle.ToString()];
+
+                            fAB = deviceControl.GetJoystickMappingsForAxes()[leftThrottleAxis.GetDeviceNumber()].detentPosition.GetAB();
+                            fIdle = deviceControl.GetJoystickMappingsForAxes()[leftThrottleAxis.GetDeviceNumber()].detentPosition.GetIDLE();
+                        }
 
                         // Adjust logical scale to [0,15000]
                         fAB = fAB * CommonConstants.BINAXISMAX / CommonConstants.AXISMAX;
@@ -66,7 +73,7 @@ namespace FalconBMS.Launcher.Override
                         InGameAxAssgn axis = (InGameAxAssgn)MainWindow.inGameAxis[nme.ToString()];
 
                         //NB: as of 4.37.3, the detent values in joystick.cal are logical-scale -- they don't vary normal vs reverse.
-                        //But, weirdly, they are still recorded in inverse-scale.. [0,65536] => [15000,0]
+                        //But, notably, they are still recorded in inverse-scale.. [0,65536] => [15000,0]
                         fAB = CommonConstants.BINAXISMAX - fAB;
                         fIdle = CommonConstants.BINAXISMAX - fIdle;
 
