@@ -319,6 +319,9 @@ namespace FalconBMS.Launcher.Input
                     int povDir = dirId;
                     int soundId = pov[hatId].direction[dirId].GetSoundID((Pinky)shiftState);
 
+                    if (0 == String.CompareOrdinal(callback, "SimDoNothing"))
+                        povBlock.Append("# "); //NB: don't mask the code-default behavior which is thumblook
+
                     povBlock.AppendLine($"{callback} {povNumShifted} -1 -3 {povDir} 0x0 {soundId}");
                 }
             }
