@@ -150,6 +150,7 @@
     <Compile Include="Windows\CallsignWindow.xaml.cs">
       <DependentUpon>CallsignWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\ITimerSink.cs" />
     <Compile Include="Windows\KeyMappingWindow.xaml.cs">
       <DependentUpon>KeyMappingWindow.xaml</DependentUpon>
     </Compile>

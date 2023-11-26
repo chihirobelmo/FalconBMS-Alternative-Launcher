@@ -8,7 +8,7 @@
         GlowBrush="Black" BorderThickness="0"
         Title="Axis Assign" Height="236" Width="512" 
         WindowStartupLocation="CenterScreen"
-        Loaded="WindowLoaded" Closed="WindowClosed" MouseDown="WindowMouseDown"
+        Loaded="WindowLoaded" MouseDown="WindowMouseDown"
         ResizeMode="NoResize" SizeToContent="Width" Topmost="True" 
         AllowDrop="False" ShowTitleBar="False" IsWindowDraggable="False" WindowStyle="None" Background="#bfc7cf">
     <Window.Resources>

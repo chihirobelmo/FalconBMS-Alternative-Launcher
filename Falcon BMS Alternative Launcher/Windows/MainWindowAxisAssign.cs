@@ -75,17 +75,8 @@ namespace FalconBMS.Launcher.Windows
 
         private ProgressBar tbprogressbar;
 
-        /// <summary>
-        /// Checks and shows each device each axis inputs 60 times per seconds.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void AxisMovingTimer_Tick(object sender, EventArgs e)
-        {
-            UpdateAxisStatus();
-        }
-
-        public void UpdateAxisStatus()
+        // Checks and shows each device each axis inputs 30 times per seconds.
+        internal void MainWindowAxisAssign_HandleTimerTick()
         {
             try
             {
@@ -333,9 +324,6 @@ namespace FalconBMS.Launcher.Windows
         /// <param name="e"></param>
         private void Assign_Click(object sender, RoutedEventArgs e)
         {
-            AxisMovingTimer.Stop();
-            NewDeviceDetectTimer.Stop();
-
             string whocalledwindow = ((System.Windows.Controls.Button)sender).Name;
 
             InGameAxAssgn axisAssign = AxisAssignWindow.ShowAxisAssignWindow(this, (InGameAxAssgn)inGameAxis[whocalledwindow], sender);
@@ -363,9 +351,6 @@ namespace FalconBMS.Launcher.Windows
             // Save the XML and Key files, after each change user makes.
             MainWindow.deviceControl.SaveXml();
             this.appReg.getOverrideWriter().SaveKeyMapping(MainWindow.inGameAxis, MainWindow.deviceControl);
-
-            NewDeviceDetectTimer.Start();
-            AxisMovingTimer.Start();
         }
         
         /// <summary>

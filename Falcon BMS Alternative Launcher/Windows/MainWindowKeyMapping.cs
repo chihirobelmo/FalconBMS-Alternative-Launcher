@@ -116,9 +116,6 @@ namespace FalconBMS.Launcher.Windows
         /// <param name="e"></param>
         private void DataGrid_MouseButtonDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            KeyMappingTimer.Stop();
-            NewDeviceDetectTimer.Stop();
-
             KeyAssgn selectedItem = (KeyAssgn)KeyMappingGrid.SelectedItem;
             if (selectedItem == null)
                 return;
@@ -134,9 +131,6 @@ namespace FalconBMS.Launcher.Windows
 
             KeyMappingGrid.Items.Refresh();
             KeyMappingGrid.UnselectAllCells();
-
-            NewDeviceDetectTimer.Start();
-            KeyMappingTimer.Start();
         }
 
         private byte[] buttons;
@@ -173,11 +167,8 @@ namespace FalconBMS.Launcher.Windows
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void KeyMappingTimer_Tick(object sender, EventArgs e)
+        internal void MainWindowKeyMapping_HandleTimerTick()
         {
-            if (!this.IsActive)
-                return;
-
             try
             {
                 directInputDevice.GetCurrentKeyboardState();

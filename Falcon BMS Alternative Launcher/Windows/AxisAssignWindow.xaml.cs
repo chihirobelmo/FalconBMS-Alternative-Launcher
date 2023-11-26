@@ -11,7 +11,7 @@ namespace FalconBMS.Launcher.Windows
     /// <summary>
     /// Interaction logic for AxisAssignWindow.xaml
     /// </summary>
-    public partial class AxisAssignWindow
+    public partial class AxisAssignWindow : ITimerSink
     {
         public AxisAssignWindow(MainWindow mainWindow, InGameAxAssgn axisAssign, object sender)
         {
@@ -28,13 +28,11 @@ namespace FalconBMS.Launcher.Windows
         public static InGameAxAssgn ShowAxisAssignWindow(MainWindow mainWindow, InGameAxAssgn axisAssign, object sender)
         {
             AxisAssignWindow ownWindow = new AxisAssignWindow(mainWindow, axisAssign, sender);
-            ownWindow.ShowDialog();
+            Program.ShowDialogAndMakeActive(ownWindow);
+
             axisAssign = ownWindow.axisAssign;
             return axisAssign;
         }
-
-        System.Windows.Threading.DispatcherTimer AxisDetectionTimer = new System.Windows.Threading.DispatcherTimer();
-        System.Diagnostics.Stopwatch sw = System.Diagnostics.Stopwatch.StartNew();
 
         private JoyAxisNeutralValue[] Joynum;
         public class JoyAxisNeutralValue
@@ -55,6 +53,9 @@ namespace FalconBMS.Launcher.Windows
         private int IDLE = CommonConstants.AXISMIN;
 
         private Status status = Status.GetNeutralPosition;
+
+        private int TickCount_NextUIFlush1;
+        private int TickCount_NextUIFlush2;
 
         private enum Status
         {
@@ -173,11 +174,7 @@ namespace FalconBMS.Launcher.Windows
             AxisValueProgress.Maximum = CommonConstants.AXISMAX;
 
             Reset();
-
-            AxisDetectionTimer.Tick += AxisDetectionTimerCode;
-            AxisDetectionTimer.Interval = TimeSpan.FromMilliseconds(100);
-            AxisDetectionTimer.Start();
-            
+            return;
         }
 
         public void Reset()
@@ -226,11 +223,20 @@ namespace FalconBMS.Launcher.Windows
 
             status = Status.WaitInput;
             AssignedJoystick.Content = "   AWAITING INPUTS";
-            sw.Start();
         }
 
         private void WaitInput()
         {
+            if (Environment.TickCount > TickCount_NextUIFlush1)
+                AssignedJoystick.Content = "";
+            if (Environment.TickCount > TickCount_NextUIFlush2)
+            {
+                AssignedJoystick.Content = "   AWAITING INPUTS";
+
+                TickCount_NextUIFlush1 = Environment.TickCount + CommonConstants.FLUSHTIME1;
+                TickCount_NextUIFlush2 = Environment.TickCount + CommonConstants.FLUSHTIME2;
+            }
+
             for (int i = 0; i < MainWindow.deviceControl.GetJoystickMappingsForAxes().Length; i++)
             {
                 for (int ii = 0; ii < 8; ii++)
@@ -338,65 +344,33 @@ namespace FalconBMS.Launcher.Windows
             }
         }
 
-        private void AxisDetectionTimerCode(object sender, EventArgs e)
+        void ITimerSink.HandleTimerTick()
         {
-            if (sw.ElapsedMilliseconds > CommonConstants.FLUSHTIME1)
-                AssignedJoystick.Content = "";
-            if (sw.ElapsedMilliseconds > CommonConstants.FLUSHTIME2)
-            {
-                AssignedJoystick.Content = "   AWAITING INPUTS";
-            }
-
             try
             {
-                //REVIEW: data-loss when device list changes
-                //if (sw.ElapsedMilliseconds > CommonConstants.FLUSHTIME2)
-                //{
-                //    Microsoft.DirectX.DirectInput.DeviceList devList =
-                //    Microsoft.DirectX.DirectInput.Manager.GetDevices(
-                //    Microsoft.DirectX.DirectInput.DeviceClass.GameControl,
-                //    Microsoft.DirectX.DirectInput.EnumDevicesFlags.AttachedOnly
-                //    );
-
-                //    if (devList.Count != MainWindow.deviceControl.GetJoystickMappingsForAxes().Length)
-                //    {
-                //        mainWindow.ReloadDevicesAndXmlMappings();
-                //        Reset();
-                //        mainWindow.UpdateAxisStatus();
-                //    }
-
-                //    sw.Reset();
-                //    sw.Start();
-                //}
-
                 switch (status)
                 {
                     case Status.GetNeutralPosition:
-
                         GetNeutralPosition();
-
                         break;
 
                     case Status.WaitInput:
-
                         WaitInput();
-
                         break;
 
                     case Status.ShowAxisStatus:
-
                         ShowAxisStatus();
-
                         break;
 
                     default:
                         break;
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                Console.WriteLine("Error on Axis Moving Timer");
+                Diagnostics.Log(ex);
             }
+            return;
         }
         
         private void Retry_Click(object sender, RoutedEventArgs e)
@@ -435,16 +409,8 @@ namespace FalconBMS.Launcher.Windows
                         MainWindow.deviceControl.GetJoystickMappingsForAxes()[devNumTmp].detentPosition = new DetentPosition(AB, IDLE);
                 }
             }
-            AxisDetectionTimer.Stop();
-            sw.Stop();
 
             Close();
-        }
-
-        private void AssignWindow_Closed(object sender, EventArgs e)
-        {
-            AxisDetectionTimer.Stop();
-            sw.Stop();
         }
 
         //private void Detect_MouseWheel(object sender, MouseWheelEventArgs e)

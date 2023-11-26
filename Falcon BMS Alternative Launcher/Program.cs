@@ -15,6 +15,7 @@ namespace FalconBMS.Launcher
     {
         internal static string thisExeDir = null;
         internal static MainWindow mainWin = null;
+        internal static Window activeWin = null;
 
         [STAThread]
         public static void Main()
@@ -42,6 +43,22 @@ namespace FalconBMS.Launcher
                 Diagnostics.FinalizeLogfile();
             }
             return;
+        }
+
+        internal static bool? ShowDialogAndMakeActive(Window dialog)
+        {
+            Window prevActive = Program.activeWin;
+            dialog.Owner = prevActive;
+            try
+            {
+                Program.activeWin = dialog;
+                bool? result = dialog.ShowDialog();
+                return result;
+            }
+            finally
+            {
+                Program.activeWin = prevActive;
+            }
         }
 
         private static Assembly OnResolveAssembly(object sender, ResolveEventArgs args)
