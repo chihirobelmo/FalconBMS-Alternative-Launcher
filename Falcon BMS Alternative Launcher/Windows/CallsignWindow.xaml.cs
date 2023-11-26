@@ -47,7 +47,7 @@ namespace FalconBMS.Launcher.Windows
         public static void ShowCallsignWindow(AppRegInfo appReg)
         {
             CallsignWindow ownWindow = new CallsignWindow(appReg);
-            ownWindow.ShowDialog();
+            Program.ShowDialogAndMakeActive(ownWindow);
             return;
         }
 

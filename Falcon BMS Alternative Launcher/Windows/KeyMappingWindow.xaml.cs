@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -16,7 +17,7 @@ namespace FalconBMS.Launcher.Windows
     /// <summary>
     /// Interaction logic for KeyMappingWindow.xaml
     /// </summary>
-    public partial class KeyMappingWindow
+    public partial class KeyMappingWindow : ITimerSink
     {
         private DeviceControl deviceControlRef;
 
@@ -27,9 +28,9 @@ namespace FalconBMS.Launcher.Windows
         private KeyAssgn   tmpKeyboard;
 
         private DirectInputKeyboard directInputDevice = new DirectInputKeyboard();
-        private DispatcherTimer     KeyMappingTimer   = new DispatcherTimer();
 
-        private Stopwatch sw = Stopwatch.StartNew();
+        private int TickCount_NextUIFlush1;
+        private int TickCount_NextUIFlush2;
 
         private NeutralButtons[] neutralButtons;
 
@@ -59,16 +60,12 @@ namespace FalconBMS.Launcher.Windows
         public static void ShowKeyMappingWindow(Window owner, DeviceControl deviceControl, KeyAssgn selectedCallback)
         {
             KeyMappingWindow ownWindow = new KeyMappingWindow(deviceControl, selectedCallback);
-            ownWindow.Owner = owner;
-            ownWindow.ShowDialog();
+            Program.ShowDialogAndMakeActive(ownWindow);
         }
 
         private void WindowLoaded(object sender, RoutedEventArgs e)
         {
             getNeutralPosition();
-            KeyMappingTimer.Tick += KeyMappingtimerCode;
-            KeyMappingTimer.Interval = TimeSpan.FromMilliseconds(30);
-            KeyMappingTimer.Start();
         }
 
         private void getNeutralPosition()
@@ -92,35 +89,10 @@ namespace FalconBMS.Launcher.Windows
             tmpKeyboard = selectedCallback.Clone();
         }
 
-        private void KeyMappingtimerCode(object sender, EventArgs e)
+        void ITimerSink.HandleTimerTick()
         {
-            if (sw.ElapsedMilliseconds > CommonConstants.FLUSHTIME1)
-                AwaitingInputs.Content = "";
-            if (sw.ElapsedMilliseconds > CommonConstants.FLUSHTIME2)
-                AwaitingInputs.Content = "   AWAITING INPUTS";
-
             try
             {
-                if (sw.ElapsedMilliseconds > CommonConstants.FLUSHTIME2)
-                {
-                    //REVIEW: risk of losing unsaved changes, if this happens?
-                    //Microsoft.DirectX.DirectInput.DeviceList devList =
-                    //Microsoft.DirectX.DirectInput.Manager.GetDevices(
-                    //Microsoft.DirectX.DirectInput.DeviceClass.GameControl,
-                    //Microsoft.DirectX.DirectInput.EnumDevicesFlags.AttachedOnly
-                    //);
-                    //
-                    //if (devList.Count != MainWindow.deviceControl.joyAssign.Length)
-                    //{
-                    //    mainWindow.ReloadDevices();
-                    //    Reset();
-                    //    getNeutralPosition();
-                    //}
-
-                    sw.Reset();
-                    sw.Start();
-                }
-
                 KeyboardButtonMonitor();
                 JoystickButtonMonitor();
                 ShowAssignedStatus();
@@ -135,19 +107,34 @@ namespace FalconBMS.Launcher.Windows
         {
             JoyAssgn[] joyAssgns = deviceControlRef.GetJoystickMappingsForButtonsAndHats();
 
-            string str = "";
-            str += tmpKeyboard.GetKeyAssignmentStatus() + "; ";
-            if (str == "; ")
-                str = "";
-            for (int i = 0; i < joyAssgns.Length; i++)
-                str += tmpKeyboard.ReadJoyAssignment(i, tmpJoyStick);
-            MappedButton.Content = str;
+            var sb = new StringBuilder(500);
+            sb.Append(tmpKeyboard.GetKeyAssignmentStatus());
+            if (sb.Length > 0) sb.Append("; ");
 
-            if (str != "")
+            for (int i = 0; i < joyAssgns.Length; i++)
+                sb.Append(tmpKeyboard.ReadJoyAssignment(i, tmpJoyStick));
+
+            string currentKeyAndButtons = sb.ToString();
+            MappedButton.Content = currentKeyAndButtons;
+
+            if (currentKeyAndButtons.Length == 0)
+            {
+                if (Environment.TickCount > TickCount_NextUIFlush1)
+                    AwaitingInputs.Content = "";
+                if (Environment.TickCount > TickCount_NextUIFlush2)
+                {
+                    AwaitingInputs.Content = "   AWAITING INPUTS";
+
+                    TickCount_NextUIFlush1 = Environment.TickCount + CommonConstants.FLUSHTIME1;
+                    TickCount_NextUIFlush2 = Environment.TickCount + CommonConstants.FLUSHTIME2;
+                }
+            }
+            else
             {
                 AwaitingInputs.Content = "";
-                return;
             }
+
+            return;
         }
 
         private void JoystickButtonMonitor()
@@ -374,11 +361,6 @@ namespace FalconBMS.Launcher.Windows
                 buttons = joyStick.GetButtons();
                 povs = joyStick.GetPointOfView();
             }
-        }
-
-        private void WindowClosed(object sender, EventArgs e)
-        {
-            KeyMappingTimer.Stop();
         }
 
         private void WindowMouseDown(object sender, MouseButtonEventArgs e)

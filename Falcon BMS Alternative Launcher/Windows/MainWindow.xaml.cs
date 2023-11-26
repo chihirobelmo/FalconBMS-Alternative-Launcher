@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-//using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -25,7 +24,7 @@ namespace FalconBMS.Launcher.Windows
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow
+    public partial class MainWindow : ITimerSink
     {
         static SteamVR steamVR = new SteamVR();
 
@@ -50,9 +49,8 @@ namespace FalconBMS.Launcher.Windows
 
         internal static bool bmsHasBeenLaunched = false;
 
-        private DispatcherTimer AxisMovingTimer = new DispatcherTimer();
-        private DispatcherTimer KeyMappingTimer = new DispatcherTimer();
-        private DispatcherTimer NewDeviceDetectTimer = new DispatcherTimer();
+        private DispatcherTimer MainTimer;
+        private int TickCount_NextScanForNewDevices;
 
         protected override void OnInitialized(EventArgs e)
         {
@@ -152,21 +150,12 @@ namespace FalconBMS.Launcher.Windows
 
         private void StartTimers()
         {
-            Diagnostics.Log("Start Timers.");
+            Diagnostics.Log("Starting timer.");
 
-            // Set Timer
-            AxisMovingTimer.Tick += AxisMovingTimer_Tick;
-            AxisMovingTimer.Interval = TimeSpan.FromMilliseconds(30);
+            TickCount_NextScanForNewDevices = Environment.TickCount + 5000;
 
-            KeyMappingTimer.Tick += KeyMappingTimer_Tick;
-            KeyMappingTimer.Interval = TimeSpan.FromMilliseconds(30);
-
-            NewDeviceDetectTimer.Tick += NewDeviceDetectTimer_Tick;
-            NewDeviceDetectTimer.Interval = TimeSpan.FromSeconds(3);
-
-            NewDeviceDetectTimer.Start();
-
-            Diagnostics.Log("Timers Started.");
+            MainTimer = new DispatcherTimer(TimeSpan.FromMilliseconds(20), DispatcherPriority.Input, MainTimer_Tick, this.Dispatcher);
+            MainTimer.Start();
         }
 
         private void StartVR()
@@ -190,50 +179,11 @@ namespace FalconBMS.Launcher.Windows
             Diagnostics.Log("Finished Init Devices.");
         }
 
-        private void NewDeviceDetectTimer_Tick(object sender, EventArgs e)
+        protected override void OnActivated(EventArgs e)
         {
-            Microsoft.DirectX.DirectInput.DeviceList devList = null;
-            try
-            {
-                devList = Microsoft.DirectX.DirectInput.Manager.GetDevices(
-                        Microsoft.DirectX.DirectInput.DeviceClass.GameControl,
-                        Microsoft.DirectX.DirectInput.EnumDevicesFlags.AttachedOnly
-                        );
-            }
-            catch (Exception ex)
-            {
-                // need this as sometimes error might happen when detected a new device.
-                Diagnostics.Log(ex);
-                return;
-            }
+            base.OnActivated(e);
 
-            try
-            {
-                if (deviceControl.GetHwDeviceList().Length != devList.Count)
-                {
-                    AxisMovingTimer.Stop();
-                    KeyMappingTimer.Stop();
-
-                    ReloadDevicesAndXmlMappings();
-
-                    int value = LargeTab.SelectedIndex;
-                    if (value == 1)
-                        AxisMovingTimer.Start();
-                    if (value == 2)
-                    {
-                        KeyMappingTimer.Start();
-                        KeyMappingGrid.Items.Refresh();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Diagnostics.Log(ex);
-                Diagnostics.ShowErrorMsgbox(ex);
-                Close();
-            }
-
-            return;
+            Program.activeWin = this;
         }
 
         private void ReloadKeyfilesTheatersAndUpdateUI()
@@ -328,6 +278,84 @@ namespace FalconBMS.Launcher.Windows
             }
         }
 
+        private void MainTimer_Tick(object sender, EventArgs e)
+        {
+            // Don't burn CPU displaying input events, if our window is inactive.
+            Window activeWin = Program.activeWin;
+            if (!activeWin.IsActive) return;
+
+            // Route event to the currently active window (dialog/popups).
+            ITimerSink timerSink = activeWin as ITimerSink;
+            if (timerSink == null) return;
+
+            timerSink.HandleTimerTick();
+
+            return;
+        }
+
+        void ITimerSink.HandleTimerTick()
+        {
+            if (Environment.TickCount > TickCount_NextScanForNewDevices)
+            {
+                // Scan for newly connected devices, every few seconds.
+                TickCount_NextScanForNewDevices = Environment.TickCount + 3000;
+
+                ScanForNewDevices();
+                return;
+            }
+
+            switch (LargeTab.SelectedIndex)
+            {
+                case 0:
+                    return;
+                case 1:
+                    MainWindowAxisAssign_HandleTimerTick();
+                    return;
+                case 2:
+                    MainWindowKeyMapping_HandleTimerTick();
+                    return;
+            }
+
+            throw new InvalidProgramException();
+        }
+
+        void ScanForNewDevices()
+        {
+            Microsoft.DirectX.DirectInput.DeviceList devList = null;
+            try
+            {
+                devList = Microsoft.DirectX.DirectInput.Manager.GetDevices(
+                        Microsoft.DirectX.DirectInput.DeviceClass.GameControl,
+                        Microsoft.DirectX.DirectInput.EnumDevicesFlags.AttachedOnly
+                        );
+            }
+            catch (Exception ex)
+            {
+                // need this as sometimes error might happen when detected a new device.
+                Diagnostics.Log(ex);
+                return;
+            }
+
+            try
+            {
+                if (deviceControl.GetHwDeviceList().Length != devList.Count)
+                {
+                    ReloadDevicesAndXmlMappings();
+
+                    if (LargeTab.SelectedIndex == 2)
+                        KeyMappingGrid.Items.Refresh();
+                }
+            }
+            catch (Exception ex)
+            {
+                Diagnostics.Log(ex);
+                Diagnostics.ShowErrorMsgbox(ex);
+                Close();
+            }
+
+            return;
+        }
+
         /// <summary>
         /// Execute when quiting this app.
         /// </summary>
@@ -335,6 +363,8 @@ namespace FalconBMS.Launcher.Windows
         /// <param name="e"></param>
         private void Window_Closed(object sender, EventArgs e)
         {
+            MainTimer.Stop();
+
             try
             {
                 if (appReg == null)
@@ -375,20 +405,10 @@ namespace FalconBMS.Launcher.Windows
                 if (!e.Source.Equals(LargeTab))
                     return;
 
-                int value = LargeTab.SelectedIndex;
-
-                if (value == 1)
-                    AxisMovingTimer.Start();
-                else
-                    AxisMovingTimer.Stop();
-
-                if (value == 2)
+                if (LargeTab.SelectedIndex == 2)
                 {
-                    KeyMappingTimer.Start();
                     KeyMappingGrid.Items.Refresh();
                 }
-                else
-                    KeyMappingTimer.Stop();
             }
             catch (Exception ex)
             {
