@@ -17,10 +17,19 @@ namespace FalconBMS.Launcher.Override
 
         protected override void OverrideVRHMD(StreamWriter cfg)
         {
-            cfg.Write(
-                "set g_nVRHMD "
-                + Convert.ToInt32(mainWindow.Misc_VR.IsChecked)
-                + CommonConstants.CFGOVERRIDECOMMENT + "\r\n");
+            if((bool)mainWindow.VR_SteamVR.IsChecked)
+            {
+                cfg.Write(
+                    "set g_nVRHMD 1"
+                    + CommonConstants.CFGOVERRIDECOMMENT + "\r\n");
+            }
+
+            if ((bool)mainWindow.VR_OpenXR.IsChecked)
+            {
+                cfg.Write(
+                    "set g_nVRHMD 2"
+                    + CommonConstants.CFGOVERRIDECOMMENT + "\r\n");
+            }
         }
     }
 }

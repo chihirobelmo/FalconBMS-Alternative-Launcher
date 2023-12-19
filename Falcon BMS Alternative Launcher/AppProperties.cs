@@ -32,11 +32,30 @@ namespace FalconBMS.Launcher
             mainWindow.Misc_SmartScalingOverride.IsChecked = Properties.Settings.Default.Misc_SmartScalingOverride;
             mainWindow.Misc_NaturalHeadMovement.IsChecked  = Properties.Settings.Default.Misc_NaturalHeadMovement;
             mainWindow.Misc_PilotModel.IsChecked           = Properties.Settings.Default.Misc_PilotModel;
-            mainWindow.Misc_VR.IsChecked                   = Properties.Settings.Default.Misc_VR;
             mainWindow.Misc_3DClickableCursorFixToCenter.IsChecked = Properties.Settings.Default.Misc_3DClickableCursorFixToCenter;
 
-            // Button Status Default
-            mainWindow.Select_DX_Release.IsChecked  = true;
+            if (Properties.Settings.Default.VR_Option == "SteamVR")
+            {
+                mainWindow.VR_NoVR.IsChecked = false;
+                mainWindow.VR_SteamVR.IsChecked = true;
+                mainWindow.VR_OpenXR.IsChecked = false;
+            }
+            else
+            if (Properties.Settings.Default.VR_Option == "OpenXR")
+            {
+                mainWindow.VR_NoVR.IsChecked = false;
+                mainWindow.VR_SteamVR.IsChecked = false;
+                mainWindow.VR_OpenXR.IsChecked = true;
+            }
+            else
+            {
+                mainWindow.VR_NoVR.IsChecked = true;
+                mainWindow.VR_SteamVR.IsChecked = false;
+                mainWindow.VR_OpenXR.IsChecked = false;
+            }
+
+                // Button Status Default
+                mainWindow.Select_DX_Release.IsChecked  = true;
             mainWindow.Select_PinkyShift.IsChecked  = true;
             mainWindow.CMD_BW.Content               = "BW : " + bandWidthDefault;
             mainWindow.AB_Throttle.Visibility       = Visibility.Hidden;
@@ -63,9 +82,11 @@ namespace FalconBMS.Launcher
             Properties.Settings.Default.Misc_SmartScalingOverride = (bool)mainWindow.Misc_SmartScalingOverride.IsChecked;
             Properties.Settings.Default.Misc_NaturalHeadMovement  = (bool)mainWindow.Misc_NaturalHeadMovement.IsChecked;
             Properties.Settings.Default.Misc_PilotModel           = (bool)mainWindow.Misc_PilotModel.IsChecked;
-            Properties.Settings.Default.Misc_VR                   = (bool)mainWindow.Misc_VR.IsChecked;
             Properties.Settings.Default.SelectedKeyFileName       = (string)mainWindow.KeyFileSelect.SelectedItem;
             Properties.Settings.Default.Misc_3DClickableCursorFixToCenter = (bool)mainWindow.Misc_3DClickableCursorFixToCenter.IsChecked;
+
+            Properties.Settings.Default.VR_Option = (bool)mainWindow.VR_SteamVR.IsChecked ? "SteamVR" : (bool)mainWindow.VR_OpenXR.IsChecked ? "OpenXR" : "NoVR";
+
             Properties.Settings.Default.Save();
         }
 

@@ -289,13 +289,13 @@ namespace FalconBMS.Launcher.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool Misc_VR {
+        [global::System.Configuration.DefaultSettingValueAttribute("NoVR")]
+        public string VR_Option {
             get {
-                return ((bool)(this["Misc_VR"]));
+                return ((string)(this["VR_Option"]));
             }
             set {
-                this["Misc_VR"] = value;
+                this["VR_Option"] = value;
             }
         }
         
