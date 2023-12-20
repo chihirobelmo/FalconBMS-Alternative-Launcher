@@ -34,14 +34,14 @@ namespace FalconBMS.Launcher
             mainWindow.Misc_PilotModel.IsChecked           = Properties.Settings.Default.Misc_PilotModel;
             mainWindow.Misc_3DClickableCursorFixToCenter.IsChecked = Properties.Settings.Default.Misc_3DClickableCursorFixToCenter;
 
-            if (Properties.Settings.Default.VR_Option == "SteamVR")
+            if (Properties.Settings.Default.VR_Option.Equals("SteamVR"))
             {
                 mainWindow.VR_NoVR.IsChecked = false;
                 mainWindow.VR_SteamVR.IsChecked = true;
                 mainWindow.VR_OpenXR.IsChecked = false;
             }
             else
-            if (Properties.Settings.Default.VR_Option == "OpenXR")
+            if (Properties.Settings.Default.VR_Option.Equals("OpenXR"))
             {
                 mainWindow.VR_NoVR.IsChecked = false;
                 mainWindow.VR_SteamVR.IsChecked = false;
@@ -54,8 +54,8 @@ namespace FalconBMS.Launcher
                 mainWindow.VR_OpenXR.IsChecked = false;
             }
 
-                // Button Status Default
-                mainWindow.Select_DX_Release.IsChecked  = true;
+            // Button Status Default
+            mainWindow.Select_DX_Release.IsChecked  = true;
             mainWindow.Select_PinkyShift.IsChecked  = true;
             mainWindow.CMD_BW.Content               = "BW : " + bandWidthDefault;
             mainWindow.AB_Throttle.Visibility       = Visibility.Hidden;
