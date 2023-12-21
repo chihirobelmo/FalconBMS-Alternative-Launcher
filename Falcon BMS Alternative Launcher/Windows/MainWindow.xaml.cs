@@ -173,8 +173,8 @@ namespace FalconBMS.Launcher.Windows
         {
             Diagnostics.Log("Start VR Check.");
 
-            if ((bool)Misc_VR.IsVisible)
-                if ((bool)Misc_VR.IsChecked)
+            if ((bool)VR_SteamVR.IsVisible)
+                if ((bool)VR_SteamVR.IsChecked)
                     steamVR.Start();
 
             Diagnostics.Log("Finished VR Check.");
@@ -870,7 +870,7 @@ namespace FalconBMS.Launcher.Windows
 
         private void Misc_VR_Click(object sender, RoutedEventArgs e)
         {
-            if ((bool)Misc_VR.IsChecked)
+            if ((bool)VR_SteamVR.IsChecked)
                 steamVR.Start();
             else
                 steamVR.Stop();
