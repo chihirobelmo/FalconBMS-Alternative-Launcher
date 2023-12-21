@@ -68,7 +68,7 @@
     <Setting Name="BMS_Version" Type="System.String" Scope="User">
       <Value Profile="(Default)">Falcon4.0</Value>
     </Setting>
-    <Setting Name="Misc_VR" Type="System.Boolean" Scope="User">
+    <Setting Name="VR_Option" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="SelectedKeyFileName" Type="System.String" Scope="User">
