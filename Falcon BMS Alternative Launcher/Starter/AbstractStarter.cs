@@ -35,10 +35,14 @@ namespace FalconBMS.Launcher.Starter
                 strCmdText += "-ef ";
             if (mainWindow.CMD_MONO.IsChecked == false)
                 strCmdText += "-mono ";
-            if (mainWindow.Misc_VR.IsVisible == true && mainWindow.Misc_VR.IsChecked == true)
+
+            if (mainWindow.VR_SteamVR.IsVisible && mainWindow.VR_SteamVR.IsChecked == true)
                 strCmdText += "-vr ";
+            else if (mainWindow.VR_OpenXR.IsVisible && mainWindow.VR_OpenXR.IsChecked == true)
+                strCmdText += "-xr ";
             else
                 strCmdText += "-novr ";
+
             return strCmdText;
         }
 
@@ -94,24 +98,22 @@ namespace FalconBMS.Launcher.Starter
 
         public void VRsince437(bool flg)
         {
-            if (flg && SteamVR.HasSteamVR)
+            if (flg)
             {
-                if (SteamVR.HasSteamVR)
-                {
-                    mainWindow.Label_VR.Visibility = Visibility.Visible;
-                    mainWindow.Misc_VR.Visibility = Visibility.Visible;
-                }
-                else
-                {
-                    mainWindow.Label_VR.Visibility = Visibility.Hidden;
-                    mainWindow.Misc_VR.Visibility = Visibility.Hidden;
-                    mainWindow.Misc_VR.IsChecked = false;
-                }
+                mainWindow.Label_VR.Visibility = Visibility.Visible;
+                mainWindow.VR_SteamVR.Visibility = Visibility.Visible;
+                mainWindow.VR_OpenXR.Visibility = Visibility.Visible;
+                mainWindow.VR_NoVR.Visibility = Visibility.Visible;
             }
             else
             {
                 mainWindow.Label_VR.Visibility = Visibility.Hidden;
-                mainWindow.Misc_VR.Visibility  = Visibility.Hidden;
+                mainWindow.VR_SteamVR.Visibility = Visibility.Hidden;
+                mainWindow.VR_OpenXR.Visibility = Visibility.Hidden;
+                mainWindow.VR_NoVR.Visibility = Visibility.Hidden;
+                mainWindow.VR_NoVR.IsChecked = true;
+                mainWindow.VR_SteamVR.IsChecked = false;
+                mainWindow.VR_OpenXR.IsChecked = false;
             }
         }
 
