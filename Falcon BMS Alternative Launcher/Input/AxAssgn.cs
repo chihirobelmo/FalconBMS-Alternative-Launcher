@@ -9,7 +9,7 @@ namespace FalconBMS.Launcher.Input
     {
         // Member
         protected string axisName = "";     // ex:Roll, Pitch, Yaw etc...
-        protected DateTime assgnDate = DateTime.Parse("12/12/1998 12:00:00");
+        protected DateTime assgnDate = new DateTime(1998, 12, 12, 12, 0, 0);
         protected bool invert;
         protected AxCurve saturation = 0;
         protected AxCurve deadzone = 0;
