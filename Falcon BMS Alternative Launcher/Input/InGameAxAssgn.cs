@@ -12,7 +12,7 @@ namespace FalconBMS.Launcher.Input
         protected bool invert;
         protected AxCurve saturation = AxCurve.None;
         protected AxCurve deadzone = AxCurve.None;
-        protected DateTime assgnDate = DateTime.Parse("12/12/1998 12:00:00");
+        protected DateTime assgnDate = new DateTime(1998, 12, 12, 12, 0, 0);
 
         public InGameAxAssgn() { }
 
