@@ -129,6 +129,8 @@ namespace FalconBMS.Launcher
             RegistryKey rk = Registry.LocalMachine.OpenSubKey(regName64, writable:false);
             if (rk == null) return false;
 
+            this.regName = regName64;
+
             this.installDir = (string)rk.GetValue("baseDir");
             if (String.IsNullOrEmpty(installDir)) return false;
 
