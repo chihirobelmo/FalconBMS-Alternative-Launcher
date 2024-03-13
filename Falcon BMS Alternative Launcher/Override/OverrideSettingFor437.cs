@@ -22,5 +22,19 @@ namespace FalconBMS.Launcher.Override
                 + Convert.ToInt32(mainWindow.Misc_VR.IsChecked)
                 + CommonConstants.CFGOVERRIDECOMMENT + "\r\n");
         }
+
+        protected override void WriteKeyLines(string filename, Hashtable inGameAxis, DeviceControl deviceControl, KeyFile keyFile, int DXnumber)
+        {
+            StreamWriter sw = new StreamWriter
+                (filename, false, Encoding.GetEncoding("utf-8"));
+            for (int i = 0; i < keyFile.keyAssign.Length; i++)
+                sw.Write(keyFile.keyAssign[i].GetKeyLine());
+            for (int i = 0; i < deviceControl.joyAssign.Length; i++)
+            {
+                sw.Write(deviceControl.joyAssign[i].GetKeyLineDX(i, deviceControl.joyAssign.Length, DXnumber));
+                sw.Write(deviceControl.joyAssign[i].GetKeyLinePOV());
+            }
+            sw.Close();
+        }
     }
 }
